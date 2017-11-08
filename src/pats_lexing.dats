@@ -151,8 +151,10 @@ datatype lexsym =
 *)
 //
   | LS_PROP of () // for prop+ and prop-
-  | LS_TYPE of () // for type+ and type-
   | LS_VIEW of () // for view+ and view- and view@
+//
+  | LS_TYPE of () // for type+ and type-
+  | LS_TYPES of () // for types+ and types-
   | LS_VIEWTYPE of () // for viewtype+ and viewtype-
 //
   | LS_T of () // for t@ype
@@ -280,8 +282,9 @@ val () = insert (ptbl, "ref", LS_REF) // 'ref@' removed
 *)
 //
 val () = insert (ptbl, "prop", LS_PROP)
-val () = insert (ptbl, "type", LS_TYPE)
 val () = insert (ptbl, "view", LS_VIEW)
+val () = insert (ptbl, "type", LS_TYPE)
+val () = insert (ptbl, "types", LS_TYPES)
 val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
 //
 val () = insert (ptbl, "t", LS_T)
@@ -2190,6 +2193,19 @@ lexing_T0YPE
 ) : token =
   lexing_polarity (buf, pos, T0YPE, T0YPE_pos, T0YPE_neg)
 // end of [lexing_T0YPE]
+//
+(*
+fun
+lexing_TYPES
+(
+  buf: &lexbuf, pos: &position
+) : token =
+  lexing_polarity (buf, pos, TYPES, TYPES_pos, TYPES_neg)
+// end of [lexing_TYPES]
+*)
+//
+(* ****** ****** *)
+
 fun
 lexing_PROP
 (
@@ -2366,13 +2382,19 @@ case+ sym of
 | LS_T () when
     testing_literal (buf, pos, "@ype") >= 0 => let
     val () = strptr_free (mystr) in lexing_T0YPE (buf, pos)
-  end
+  end // end of [LS_T]
+//
 | LS_TYPE () => let
     val () = strptr_free (mystr) in lexing_TYPE (buf, pos)
-  end
+  end // end of [LS_TYPE]
 | LS_T0YPE () => let
     val () = strptr_free (mystr) in lexing_T0YPE (buf, pos)
-  end
+  end // end of [LS_T0YPE]
+(*
+| LS_TYPES () => let
+    val () = strptr_free (mystr) in lexing_TYPES (buf, pos)
+  end // end of [LS_TYPES]
+*)
 //
 | LS_VT () when
     testing_literal (buf, pos, "@ype") >= 0 => let

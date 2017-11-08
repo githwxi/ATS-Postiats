@@ -1439,67 +1439,77 @@ val d1cs2cs2vsslst = let
     d1c: d1atdec, res: &List (T)
   ) :<cloref1> void = let
     val argvar =
-    list_of_list_vt (
-      list_map_fun (d1c.d1atdec_arg, a1msrt_tr_symsrt)
+    list_of_list_vt
+    (
+    list_map_fun
+      (d1c.d1atdec_arg, a1msrt_tr_symsrt)
+    // list_map_fun
     ) : List (syms2rtlst)
     val s2vss = let
       fun f (
         xs: syms2rtlst
       ) : s2varlst =
         case+ xs of
-        | list_cons (x, xs) => let
-            val isnamed = (x.0 != $SYM.symbol_empty)
+        | list_nil() =>
+          list_nil()
+        | list_cons
+            (x, xs) => let
+            val isnamed =
+            (x.0 != $SYM.symbol_empty)
           in
             if isnamed then let
-              val s2v = s2var_make_id_srt (x.0, x.1) in list_cons (s2v, f (xs))
+              val s2v =
+              s2var_make_id_srt(x.0, x.1) in list_cons(s2v, f(xs))
             end else f (xs) // end of [if]
           end // end of [list_cons]
-        | list_nil () => list_nil ()
       // end of [f]
       fun ff (
         xss: List (syms2rtlst)
       ) : s2varlstlst =
         case+ xss of
-        | list_cons (xs, xss) => let
-             val s2vs = f (xs) and s2vss = ff (xss)
+        | list_nil() => list_nil()
+        | list_cons(xs, xss) => let
+             val s2vs = f(xs) and s2vss = ff(xss)
            in
-             if list_is_cons (s2vs) then list_cons (s2vs, s2vss) else s2vss
+             if list_is_cons(s2vs) then list_cons(s2vs, s2vss) else s2vss
            end // end of [list_vt_cons]
-        | list_nil () => list_nil ()
       // end of [ff]
     in
       ff (argvar)
     end : s2varlstlst
 //
     val s2tss_arg = let
-      fun f
+      fun fopr
         (xs: syms2rtlst): s2rtlst =
         case+ xs of
-        | list_cons (x, xs) => list_cons (x.1, f (xs))
-        | list_nil () => list_nil ()
+        | list_nil() => list_nil()
+        | list_cons(x, xs) => list_cons(x.1, fopr(xs))
       // end of []
     in
-      l2l (list_map_fun (argvar, f))
+      l2l(list_map_fun(argvar, fopr))
     end : s2rtlstlst
 //
     val s2c =
-    s2cst_make_dat (
+    s2cst_make_dat
+    (
       d1c.d1atdec_sym, d1c.d1atdec_loc, s2tss_arg, s2t_res, argvar
-    ) // end of [val]
+    ) (* end of [val] *)
     val () = the_s2expenv_add_scst (s2c)
 //
   in
-    res := list_cons ((d1c, s2c, s2vss), res)
+    res := list_cons((d1c, s2c, s2vss), res)
   end // end of [val]
 //
   fun auxlst (
     d1cs: d1atdeclst, res: &List(T)
-  ) :<cloref1> void = case+ d1cs of
+  ) :<cloref1> void =
+  (
+    case+ d1cs of
+    | list_nil () => ()
     | list_cons (d1c, d1cs) => let
         val () = aux (d1c, res) in auxlst (d1cs, res)
       end // end of [list_cons]
-    | list_nil () => ()
-  // end of [auxlst]
+  ) (* end of [auxlst] *)
 //
 in
   auxlst (d1cs_dat, res); res

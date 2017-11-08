@@ -402,6 +402,8 @@ and d3exp_node =
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
+  | D3Evararg of (d3explst) // $vararg: variadicity
+//
   | D3Evcopyenv of (int(*knd*), d2var) // $vcopyenv_v/vcopyenv_vt
 //
   | D3Etempenver of (d2varlst) // $tempenver for environvars
@@ -578,14 +580,19 @@ and prv3ardeclst = List (prv3ardec)
 //
 fun
 d3exp_get_type (d3e: d3exp): s2exp
-fun
-d3explst_get_type (d3es: d3explst): s2explst
 //
 fun
 d3exp_set_type
   (d3e: d3exp, s2f: s2exp): void = "ext#patsopt_d3exp_set_type"
 // end of [d3exp_set_type]
-
+//
+(* ****** ****** *)
+//
+fun
+d3explst_get_type (d3es: d3explst): s2explst
+fun
+d3explst_get_labtype (d3es: d3explst): labs2explst
+//
 (* ****** ****** *)
 
 fun d3exp_is_prf (d3e: d3exp): bool
@@ -928,6 +935,14 @@ fun
 d3exp_effmask
   (loc: location, s2fe: s2eff, d3e: d3exp): d3exp
 // end of [d3exp_effmask]
+
+(* ****** ****** *)
+
+fun
+d3exp_vararg
+(
+  loc: location, s2f: s2exp, d3es: d3explst
+) : d3exp // end of [d3exp_vararg]
 
 (* ****** ****** *)
 //

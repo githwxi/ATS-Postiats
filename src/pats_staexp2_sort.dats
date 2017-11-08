@@ -829,8 +829,8 @@ case+
 of // case+
 | (S2RTBASpre id1,
    S2RTBASpre id2) => (id1 = id2)
-| (S2RTBASimp (knd1, id1),
-   S2RTBASimp (knd2, id2)) => lte_impkind_impkind (knd1, knd2)
+| (S2RTBASimp(knd1, id1),
+   S2RTBASimp(knd2, id2)) => lte_impkind_impkind(knd1, knd2)
 | (S2RTBASdef s2td1,
    S2RTBASdef s2td2) => (s2td1 = s2td2)
 | (_, _) => false
@@ -842,9 +842,11 @@ of // case+
 ** HX: knd=0/1: dry-run / real-run
 *)
 extern
-fun s2rt_ltmat (knd: int, s2t1: s2rt, s2t2: s2rt): bool
+fun
+s2rt_ltmat (knd: int, s2t1: s2rt, s2t2: s2rt): bool
 extern
-fun s2rtlst_ltmat (knd: int, xs1: s2rtlst, xs2: s2rtlst): bool
+fun
+s2rtlst_ltmat (knd: int, xs1: s2rtlst, xs2: s2rtlst): bool
 //
 implement
 s2rt_ltmat

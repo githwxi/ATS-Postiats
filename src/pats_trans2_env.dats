@@ -1388,18 +1388,18 @@ the_s2rtenv_initialize
 //
   val () = the_s2rtenv_add ($SYM.symbol_PROP, S2TEsrt s2rt_prop)
 //
+  val () = the_s2rtenv_add ($SYM.symbol_VIEW, S2TEsrt s2rt_view)
+//
   val () = the_s2rtenv_add ($SYM.symbol_TYPE, S2TEsrt s2rt_type)
   val () = the_s2rtenv_add ($SYM.symbol_T0YPE, S2TEsrt s2rt_t0ype)
 //
-  val () = the_s2rtenv_add ($SYM.symbol_VIEW, S2TEsrt s2rt_view)
+  val () = the_s2rtenv_add ($SYM.symbol_TYPES, S2TEsrt s2rt_types)
 //
   val () = the_s2rtenv_add ($SYM.symbol_VTYPE, S2TEsrt s2rt_vtype)
   val () = the_s2rtenv_add ($SYM.symbol_VT0YPE, S2TEsrt s2rt_vt0ype)
 //
   val () = the_s2rtenv_add ($SYM.symbol_VIEWTYPE, S2TEsrt s2rt_vtype)
   val () = the_s2rtenv_add ($SYM.symbol_VIEWT0YPE, S2TEsrt s2rt_vt0ype)
-//
-  val () = the_s2rtenv_add ($SYM.symbol_TYPES, S2TEsrt s2rt_types)
 //
   val map = the_s2rtenv_pop (pfenv | (*none*))
   val ((*void*)) = the_s2rtenv_pervasive_joinwth0 (map)

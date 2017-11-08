@@ -1113,13 +1113,16 @@ case+ x.d0exp_node of
     val () = prstr "D0Eeffmask_arg(...)"
   }
 //
-| D0Eshowtype (d0e) => {
-    val () = prstr "D0Eshowtype("
-    val () = fprint_d0exp (out, d0e)
-    val () = prstr ")"
+| D0Evararg(d0es) =>
+  {
+    val () = prstr "D0Evararg("
+    val () = fprint_d0explst (out, d0es)
+    val ((*closing*)) = prstr ")"
   }
 //
-| D0Evcopyenv (knd, d0e) => {
+| D0Evcopyenv
+    (knd, d0e) =>
+  {
     val () = prstr "D0Evcopyenv("
     val () = fprint_int (out, knd)
     val () = prstr ", "
@@ -1127,7 +1130,13 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| D0Etempenver (d0e) => {
+| D0Eshowtype(d0e) => {
+    val () = prstr "D0Eshowtype("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+//
+| D0Etempenver(d0e) => {
     val () = prstr "D0Etempenver("
     val () = fprint_d0exp (out, d0e)
     val () = prstr ")"

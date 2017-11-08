@@ -11,9 +11,9 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-stacst tnil : () -> types
-stacst tcons : (t@ype+, types) -> types
+//
+stadef tnil = types_nil
+stadef tcons = types_cons
 //
 (* ****** ****** *)
 //
@@ -30,7 +30,7 @@ ints(types) = int
 extern
 fun
 ints_nil:
-((*void*)) -> ints(tnil()) = "mac#ints_nil"
+((*void*)) -> ints(tnil) = "mac#ints_nil"
 extern
 fun
 ints_cons:
@@ -46,7 +46,7 @@ val SSZ = ints_cons(SZ)
 val SSSZ = ints_cons(SSZ)
 *)
 //
-stadef z = tnil()
+stadef z = tnil
 stadef sz = tcons(int, z)
 stadef ssz = tcons(int, sz)
 stadef sssz = tcons(int, ssz)

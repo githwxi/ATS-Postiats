@@ -1615,9 +1615,11 @@ and d0exp_node =
   | D0Eeffmask of (e0fftaglst, d0exp)
   | D0Eeffmask_arg of (int(*knd*), d0exp)
 //
-  | D0Eshowtype of (d0exp) // $showtype for static debugging
+  | D0Evararg of (d0explst) // $vararg for variadicity
 //
   | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
+//
+  | D0Eshowtype of (d0exp) // $showtype for static debugging
 //
   | D0Etempenver of (d0exp) // $tempenver for adding environvar
 //
@@ -1967,8 +1969,8 @@ d0exp_scasehead
 (* ****** ****** *)
 
 fun
-d0exp_lst (
-  lin: int
+d0exp_lst
+( lin: int
 , t_beg: token
 , elt: s0expopt
 , t_lp: token
@@ -1976,19 +1978,25 @@ d0exp_lst (
 , t_rp: token
 ) : d0exp // end of [d0exp_lst]
 
-fun d0exp_lst_quote
+fun
+d0exp_lst_quote
   (t_beg: token, elts: d0explst, t_end: token): d0exp
 // end of [d0exp_lst_quote]
 
 (* ****** ****** *)
-
-fun d0exp_tup (
+//
+fun
+d0exp_tup
+(
   knd: int, t_beg: token, npf: int, xs: d0explst, t_end: token
 ) : d0exp // end of [d0exp_tup]
-fun d0exp_rec (
+//
+fun
+d0exp_rec
+(
   knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
 ) : d0exp // end of [d0exp_rec]
-
+//
 (* ****** ****** *)
 
 fun d0exp_seq
@@ -1997,13 +2005,18 @@ fun d0exp_seq
 
 (* ****** ****** *)
 
-fun d0exp_arrsub (qid: dqi0de, ind: d0arrind): d0exp
+fun
+d0exp_arrsub(qid: dqi0de, ind: d0arrind): d0exp
 
-fun d0exp_arrinit (
+fun
+d0exp_arrinit
+(
   t_beg: token, elt: s0exp, dim: d0expopt, ini: d0explst, t_end: token
 ) : d0exp // end of [d0exp_arrinit]
 
-fun d0exp_arrpsz (
+fun
+d0exp_arrpsz
+(
   t_beg: token, elt: s0expopt, t_lp: token, elts: d0explst, t_rp: token
 ) : d0exp // end of [d0exp_arrpsz]
 
@@ -2014,26 +2027,37 @@ fun d0exp_viewat (t_viewat: token): d0exp // view@
 
 (* ****** ****** *)
 //
-fun d0exp_sel_lab (sel: s0elop, lab: l0ab): d0exp
-fun d0exp_sel_ind (sel: s0elop, ind: d0arrind): d0exp
+fun
+d0exp_sel_lab (sel: s0elop, lab: l0ab): d0exp
+fun
+d0exp_sel_ind (sel: s0elop, ind: d0arrind): d0exp
 //
-fun d0exp_sel_int (tok: token): d0exp // tok=T_DOTINT(...)
+fun
+d0exp_sel_int (tok: token): d0exp // tok=T_DOTINT(...)
 //
 (* ****** ****** *)
 //
-fun d0exp_raise (tok: token, d0e: d0exp): d0exp
+fun
+d0exp_raise(tok: token, d0e: d0exp): d0exp
+//
+(* ****** ****** *)
 //
 fun
 d0exp_effmask
   (tok: token, eff: e0fftaglst, d0e: d0exp): d0exp
 //
 fun
-d0exp_effmask_arg(knd: int, tok: token, d0e: d0exp): d0exp
+d0exp_effmask_arg
+  (knd: int, tok: token, d0e: d0exp): d0exp
 //
 (* ****** ****** *)
-
-fun d0exp_showtype (tok: token, d0e: d0exp): d0exp
-
+//
+fun
+d0exp_vararg
+(
+  t_beg: token, d0es: d0explst, t_end: token
+) : d0exp // end of [d0exp_vararg]
+//
 (* ****** ****** *)
 //
 fun
@@ -2042,7 +2066,11 @@ d0exp_vcopyenv
 //
 (* ****** ****** *)
 
-fun d0exp_tempenver (tok: token, d0e: d0exp): d0exp
+fun d0exp_showtype(tok: token, d0e: d0exp): d0exp
+
+(* ****** ****** *)
+
+fun d0exp_tempenver(tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 

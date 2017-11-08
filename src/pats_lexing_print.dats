@@ -190,9 +190,11 @@ fprint_token
 //
   | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
 //
-  | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
+  | T_DLRVARARG () => fprintf (out, "DLRVARARG()", @())
 //
   | T_DLRVCOPYENV (x) => fprintf (out, "DLRVCOPYENV(%i)", @(x))
+//
+  | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
 //
   | T_DLRTEMPENVER () => fprintf (out, "DLRTEMPENVER()", @())
 //

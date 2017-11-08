@@ -815,25 +815,37 @@ case+ d2en0 of
 | D2Exchng(d2e_l, d2e_r) =>
     d2exp_xchng(loc0, eval1dexp(d2e_l), eval1dexp(d2e_r))
 //
-| D2Earrsub (
+| D2Earrsub
+  (
     d2s, d2e, locind, ind
-  ) => d2exp_arrsub (
-    loc0, d2s, eval1dexp (d2e), loc0, eval1dexplst (ind)
+  ) => d2exp_arrsub
+  (
+    loc0, d2s, eval1dexp(d2e), loc0, eval1dexplst(ind)
   ) // end of [D2Earrsub]
 | D2Earrinit
     (elt, asz, ini) => d2exp_arrinit
   (
     loc0
-  , eval1sexp (elt), eval1dexpopt (asz), eval1dexplst (ini)
+  , eval1sexp(elt), eval1dexpopt (asz), eval1dexplst(ini)
   ) // end of [D2Earrinit]
+//
 | D2Earrpsz (opt, d2es) =>
-    d2exp_arrpsz (loc0, eval1sexpopt (opt), eval1dexplst (d2es))
+    d2exp_arrpsz(loc0, eval1sexpopt(opt), eval1dexplst(d2es))
   // end of [D2Earrpsz]
 //
-| D2Eraise (d2e) => d2exp_raise (loc0, eval1dexp (d2e))
-| D2Eshowtype (d2e) => d2exp_showtype (loc0, eval1dexp (d2e))
+| D2Eraise(d2e) => d2exp_raise(loc0, eval1dexp(d2e))
 //
-| D2Eexist (s2a, d2e) =>
+| D2Evararg
+    (d2es) => d2exp_vararg(loc0, eval1dexplst(d2es))
+  // end of [D2Evararg]
+//
+| D2Evcopyenv
+    (knd, d2e) => d2exp_vcopyenv(loc0, knd, eval1dexp(d2e))
+  // end of [D2Evcopyenv]
+//
+| D2Eshowtype(d2e) => d2exp_showtype(loc0, eval1dexp(d2e))
+//
+| D2Eexist(s2a, d2e) =>
     d2exp_exist (loc0, eval1sexparg (s2a), eval1dexp (d2e))
   // end of [D2Eexist]
 //

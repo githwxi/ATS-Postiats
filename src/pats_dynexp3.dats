@@ -185,7 +185,7 @@ p3at_get_type_left (p3t) = p3t.p3at_type_left
 
 implement
 p3at_is_prf (p3t) = let
-  val s2e = p3at_get_type (p3t) in s2exp_is_prf (s2e)
+  val s2e = p3at_get_type(p3t) in s2exp_is_prf(s2e)
 end // end of [p3at_is_prf]
 
 (* ****** ****** *)
@@ -267,22 +267,55 @@ end // end of [local]
 implement
 d3exp_get_type(d3e) = d3e.d3exp_type
 //
+(* ****** ****** *)
+//
 implement
 d3explst_get_type
   (d3es) = let
-  val s2es =
-    list_map_fun (d3es, d3exp_get_type)
-  // end of [val]
+//
+val
+s2es = list_map_fun(d3es, d3exp_get_type)
+//
 in
-  list_of_list_vt (s2es)
+  list_of_list_vt(s2es)
 end // end of [d3explst_get_type]
+//
+(* ****** ****** *)
+//
+implement
+d3explst_get_labtype
+(
+  d3es
+) = auxlst(d3es, 0) where
+{
+//
+fun auxlst
+(
+  d3es: d3explst, i: int
+) : labs2explst =
+(
+  case+ d3es of
+  | list_nil() =>
+    list_nil((*void*))
+  | list_cons(d3e, d3es) => let
+      val l =
+        $LAB.label_make_int(i)
+      // end of [val]
+      val s2e = d3e.d3exp_type
+      val ls2e = SLABELED(l, None, s2e)
+    in
+      list_cons (ls2e, auxlst(d3es, i+1))
+    end
+) (* end of [aux] *)
+//
+} (* end of [d3explst_get_labtype] *)
 //
 (* ****** ****** *)
 //
 implement
 d3exp_is_prf (d3e) = let
   val s2e =
-    d3exp_get_type(d3e) in s2exp_is_prf(s2e)
+  d3exp_get_type(d3e) in s2exp_is_prf(s2e)
   // end of [val]
 end // end of [d3exp_is_prf]
 //
@@ -927,6 +960,18 @@ in '{
 , d3exp_type= s2f
 , d3exp_node= D3Eeffmask (s2fe, d3e)
 } end // end of [d3exp_effmask]
+
+(* ****** ****** *)
+
+implement
+d3exp_vararg
+(
+  loc, s2f, d3es
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Evararg(d3es)
+} // end of [d3exp_vararg]
 
 (* ****** ****** *)
 

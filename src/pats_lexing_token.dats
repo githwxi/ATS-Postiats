@@ -114,9 +114,13 @@ REFAT = T_REFAT // HX: flattened ref
 *)
 
 (* ****** ****** *)
-
-implement TKINDEF = T_TKINDEF () // for introducing tkinds
-
+//
+// HX: for introducing tkinds
+//
+implement TKINDEF = T_TKINDEF ()
+//
+(* ****** ****** *)
+//
 (*
 implement TYPE = T_TYPE (TYPE_int)
 *)
@@ -128,6 +132,16 @@ implement T0YPE = T_TYPE (T0YPE_int)
 implement T0YPE_pos = T_TYPE (T0YPE_pos_int)
 implement T0YPE_neg = T_TYPE (T0YPE_neg_int)
 //
+(* ****** ****** *)
+//
+(*
+implement TYPES = T_IDENT_alp "types" 
+implement TYPES_pos = T_TYPE (TYPES_pos_int)
+implement TYPES_neg = T_TYPE (TYPES_neg_int)
+*)
+//
+(* ****** ****** *)
+//
 (*
 implement PROP = T_TYPE (PROP_int)
 *)
@@ -135,6 +149,7 @@ implement PROP = T_IDENT_alp "prop"
 implement PROP_pos = T_TYPE (PROP_pos_int)
 implement PROP_neg = T_TYPE (PROP_neg_int)
 //
+(* ****** ****** *)
 (*
 implement VIEW = T_TYPE (VIEW_int)
 *)
@@ -143,6 +158,7 @@ implement VIEWAT = T_VIEWAT () // view@
 implement VIEW_pos = T_TYPE (VIEW_pos_int)
 implement VIEW_neg = T_TYPE (VIEW_neg_int)
 //
+(* ****** ****** *)
 (*
 implement VIEWTYPE = T_TYPE (VIEWTYPE_int)
 *)
@@ -154,10 +170,15 @@ implement VIEWT0YPE = T_TYPE (VIEWT0YPE_int)
 implement VIEWT0YPE_pos = T_TYPE (VIEWT0YPE_pos_int)
 implement VIEWT0YPE_neg = T_TYPE (VIEWT0YPE_neg_int)
 
-implement TYPEDEF = T_TYPEDEF (T0YPE_int)
+(* ****** ****** *)
+
 implement PROPDEF = T_TYPEDEF (PROP_int)
 implement VIEWDEF = T_TYPEDEF (VIEW_int)
+
+implement TYPEDEF = T_TYPEDEF (T0YPE_int)
 implement VIEWTYPEDEF = T_TYPEDEF (VIEWT0YPE_int)
+
+(* ****** ****** *)
 
 implement VAL = T_VAL (VK_val)
 implement VAL_pos = T_VAL (VK_val_pos)
@@ -606,10 +627,12 @@ val () = ins ("$continue", T_DLRCONTINUE)
 //
 val () = ins ("$raise", T_DLRRAISE)
 //
-val () = ins ("$showtype", T_DLRSHOWTYPE)
+val () = ins ("$vararg", T_DLRVARARG)
 //
 val () = ins ("$vcopyenv_v", DLRVCOPYENV_V)
 val () = ins ("$vcopyenv_vt", DLRVCOPYENV_VT)
+//
+val () = ins ("$showtype", T_DLRSHOWTYPE)
 //
 val () = ins ("$tempenver", T_DLRTEMPENVER)
 //

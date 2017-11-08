@@ -2137,21 +2137,23 @@ d0exp_lst_quote
 (* ****** ****** *)
 
 implement
-d0exp_tup (
+d0exp_tup
+(
   knd, t_beg, npf, xs, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  d0exp_loc= loc, d0exp_node= D0Etup (knd, npf, xs)
+  d0exp_loc= loc, d0exp_node= D0Etup(knd, npf, xs)
 } end // end of [d0exp_tup]
 
 implement
-d0exp_rec (
+d0exp_rec
+(
   knd, t_beg, npf, xs, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  d0exp_loc= loc, d0exp_node= D0Erec (knd, npf, xs)
+  d0exp_loc= loc, d0exp_node= D0Erec(knd, npf, xs)
 } end // end of [d0exp_rec]
 
 (* ****** ****** *)
@@ -2271,12 +2273,14 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_showtype
-  (tok, ent2) = let
-  val loc = tok.token_loc + ent2.d0exp_loc
+d0exp_vararg
+  (t_beg, d0es, t_end) = let
+//
+val loc = t_beg.token_loc + t_end.token_loc
+//
 in '{
-  d0exp_loc= loc, d0exp_node= D0Eshowtype (ent2)
-} end // end of [d0exp_showtype]
+  d0exp_loc= loc, d0exp_node= D0Evararg(d0es)
+} end // end of [d0exp_vararg]
 
 (* ****** ****** *)
 
@@ -2287,6 +2291,16 @@ d0exp_vcopyenv
 in '{
   d0exp_loc= loc, d0exp_node= D0Evcopyenv (knd, ent2)
 } end // end of [d0exp_vcopyenv]
+
+(* ****** ****** *)
+
+implement
+d0exp_showtype
+  (tok, ent2) = let
+  val loc = tok.token_loc + ent2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eshowtype (ent2)
+} end // end of [d0exp_showtype]
 
 (* ****** ****** *)
 

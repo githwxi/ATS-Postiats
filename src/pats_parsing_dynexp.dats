@@ -1162,10 +1162,11 @@ case+ tok.token_node of
 //
 | T_DLRLST(lin) => let
     val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0expelt (buf, bt, err)
-    val ent3 = pif_fun (buf, bt, err, p_LPAREN, err0)
-    val ent4 = (
+    val () = incby1()
+    val ent2 = p_s0expelt(buf, bt, err)
+    val ent3 = pif_fun(buf, bt, err, p_LPAREN, err0)
+    val ent4 =
+    (
       if err = err0
         then pstar_fun0_COMMA{d0exp}(buf, bt, p_d0exp)
         else list_vt_nil((*void*))
@@ -1177,10 +1178,10 @@ case+ tok.token_node of
       then let
         val ent4 = (l2l)ent4
       in
-        d0exp_lst (lin, tok, ent2, ent3, ent4, ent5)
+        d0exp_lst(lin, tok, ent2, ent3, ent4, ent5)
       end // end of [then]
       else let
-        val () = list_vt_free (ent4) in synent_null ()
+        val () = list_vt_free(ent4) in synent_null()
       end (* end of [else] *)
     // end of [if]
   end
@@ -1347,22 +1348,28 @@ of // case+
     buf, p_atmd0exp, ent
   ) => let
     val bt = 0
-    val ent1 = synent_decode {d0exp} (ent)
-    val ent2 = pstar_fun {d0exp} (buf, bt, p_argd0exp)
-    val ent3 = p_colons0expopt (buf, bt, err) // err = err0
-    fun loop (
+    val ent1 =
+      synent_decode{d0exp}(ent)
+    // end of [val]
+    val ent2 =
+      pstar_fun{d0exp}(buf, bt, p_argd0exp)
+    // end of [val]
+    val ent3 = p_colons0expopt(buf, bt, err) // err = err0
+//
+    fun loop
+    (
       x0: d0exp, xs: d0explst_vt
     ) : d0exp =
       case+ xs of
-      | ~list_vt_cons (x, xs) => let
-          val x0 = d0exp_app (x0, x) in loop (x0, xs)
-        end
-      | ~list_vt_nil () => x0
+      | ~list_vt_nil() => x0
+      | ~list_vt_cons(x, xs) => let
+          val x0 = d0exp_app(x0, x) in loop(x0, xs)
+        end // end of [list_vt_cons]
     // end of [loop]
     val d0e = loop (ent1, ent2)
   in
     case+ ent3 of
-    | Some s0e => d0exp_ann (d0e, s0e) | None () => d0e
+    | Some s0e => d0exp_ann(d0e, s0e) | None() => d0e
   end
 //
 | T_DLRBREAK() => let
@@ -1372,13 +1379,28 @@ of // case+
     val () = incby1 () in d0exp_loopexn (1(*knd*), tok)
   end // end of [T_DLRCONTINUE]
 //
-| T_DLRSHOWTYPE() => let
+| T_DLRVARARG() => let
+//
     val bt = 0
-    val () = incby1 ()
-    val ent2 = p_d0exp0 (buf, bt, err)
+    val () = incby1()
+//
+    val ent2 =
+      p_LPAREN(buf, bt, err) // err = err0
+    val ent3 =
+      pstar_fun0_COMMA{d0exp}(buf, bt, p_d0exp)
+//
+    val ent4 = pif_fun(buf, bt, err, p_RPAREN, err0)
+//
   in
-    if err = err0 then
-      d0exp_showtype (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    if err = err0
+      then let
+        val ent3 = (l2l)ent3
+      in
+        d0exp_vararg(tok, ent3, ent4)
+      end // end of [then]
+      else let
+        val () = list_vt_free(ent3) in tokbuf_set_ntok_null(buf, n0)
+      end // end of [else]
     (* end of [if] *)
   end
 //
@@ -1390,6 +1412,16 @@ of // case+
     if err = err0
       then d0exp_vcopyenv (knd, tok, ent2)
       else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+//
+| T_DLRSHOWTYPE() => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0exp0 (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_showtype (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //

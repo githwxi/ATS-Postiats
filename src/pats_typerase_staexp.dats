@@ -238,55 +238,56 @@ in
 case+
   s2e0.s2exp_node of
 //
-| S2Ecst (s2c) =>
-    s2cst_tyer (loc0, flag, s2c)
+| S2Ecst(s2c) =>
+    s2cst_tyer(loc0, flag, s2c)
 //
-| S2Evar (s2v) => hisexp_tyvar (s2v)
+| S2Evar(s2v) => hisexp_tyvar(s2v)
 //
-| S2EVar (s2V) => // HX: use type-size
-  s2zexp_tyer (loc0, s2Var_get_szexp (s2V))
+| S2EVar(s2V) => // HX: use type-size
+  s2zexp_tyer(loc0, s2Var_get_szexp(s2V))
   (* end of [S2EVar] *)
 //
 | S2Edatconptr _ =>
-    s2exp_tyer_datconptr (loc0, flag, s2e0)
+    s2exp_tyer_datconptr(loc0, flag, s2e0)
 | S2Edatcontyp _ =>
-    s2exp_tyer_datcontyp (loc0, flag, s2e0)
+    s2exp_tyer_datcontyp(loc0, flag, s2e0)
 //
-| S2Eapp (
+| S2Eapp
+  (
     s2e_fun, s2es_arg
   ) => let
     val s2t0 = s2e0.s2exp_srt
   in
-    s2exp_tyer_app (loc0, flag, s2t0, s2e_fun, s2es_arg)
+    s2exp_tyer_app(loc0, flag, s2t0, s2e_fun, s2es_arg)
   end // end of [S2Eapp]
-| S2Elam (_, s2e_body) => s2exp_tyer (loc0, flag, s2e_body)
+| S2Elam(_, s2e_body) => s2exp_tyer(loc0, flag, s2e_body)
 //
-| S2Efun _ => s2exp_tyer_fun (loc0, flag, s2e0)
-| S2Emetfun (_, _, s2e_body) => s2exp_tyer (loc0, flag, s2e_body)
+| S2Efun _ => s2exp_tyer_fun(loc0, flag, s2e0)
+| S2Emetfun(_, _, s2e_body) => s2exp_tyer (loc0, flag, s2e_body)
 //
-| S2Etop (_, s2e) => s2exp_tyer (loc0, flag, s2e)
-| S2Ewithout (s2e) => s2exp_tyer (loc0, flag, s2e)
+| S2Etop(_, s2e) => s2exp_tyer(loc0, flag, s2e)
+| S2Ewithout (s2e) => s2exp_tyer(loc0, flag, s2e)
 //
-| S2Etyarr _ => s2exp_tyer_tyarr (loc0, flag, s2e0)
-| S2Etyrec _ => s2exp_tyer_tyrec (loc0, flag, s2e0)
+| S2Etyarr _ => s2exp_tyer_tyarr(loc0, flag, s2e0)
+| S2Etyrec _ => s2exp_tyer_tyrec(loc0, flag, s2e0)
 //
-| S2Einvar (s2e) => s2exp_tyer (loc0, flag, s2e)
+| S2Einvar (s2e) => s2exp_tyer(loc0, flag, s2e)
 //
-| S2Eexi (_, _, s2e) => s2exp_tyer (loc0, flag, s2e)
-| S2Euni (_, _, s2e) => s2exp_tyer (loc0, flag, s2e)
+| S2Eexi(_, _, s2e) => s2exp_tyer(loc0, flag, s2e)
+| S2Euni(_, _, s2e) => s2exp_tyer(loc0, flag, s2e)
 //
 | S2Erefarg
     (knd, s2e) => let
-    val hse = s2exp_tyer_shallow (loc0, s2e)
-  in
-    hisexp_refarg (knd, hse)
+    val
+    hse =
+    s2exp_tyer_shallow(loc0, s2e) in hisexp_refarg(knd, hse)
   end // end of [S2Erefarg]
 //
-| S2Evararg (s2e) => hisexp_vararg (s2e)
+| S2Evararg(s2e) => hisexp_vararg(s2e)
 //
-| S2Ewthtype (s2e, _(*ws2es*)) => s2exp_tyer (loc0, flag, s2e)
+| S2Ewthtype(s2e, _(*ws2es*)) => s2exp_tyer(loc0, flag, s2e)
 //
-| _ (* rest-of-s2exp *) => hisexp_s2exp (s2e0)
+| _ (* rest-of-s2exp *) => hisexp_s2exp(s2e0)
 //
 end // end of [s2hnf_tyer]
 

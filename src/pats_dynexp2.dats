@@ -831,31 +831,38 @@ d2exp_effmask
 (* ****** ****** *)
 //
 implement
-d2exp_showtype
-  (loc, d2e) =
-  d2exp_make_node (loc, D2Eshowtype (d2e))
+d2exp_vararg
+  (loc, d2es) =
+  d2exp_make_node(loc, D2Evararg(d2es))
 //
 (* ****** ****** *)
 
 implement
 d2exp_vcopyenv
   (loc, knd, d2e) =
-  d2exp_make_node(loc, D2Evcopyenv (knd, d2e))
+  d2exp_make_node(loc, D2Evcopyenv(knd, d2e))
 // end of [d2exp_vcopyenv]
 
 (* ****** ****** *)
 //
 implement
+d2exp_showtype
+  (loc, d2e) =
+  d2exp_make_node(loc, D2Eshowtype(d2e))
+//
+(* ****** ****** *)
+//
+implement
 d2exp_tempenver
   (loc, d2vs) =
-  d2exp_make_node(loc, D2Etempenver (d2vs))
+  d2exp_make_node(loc, D2Etempenver(d2vs))
 //
 (* ****** ****** *)
 
 implement
 d2exp_exist
   (loc, s2a, d2e) =
-  d2exp_make_node(loc, D2Eexist (s2a, d2e))
+  d2exp_make_node(loc, D2Eexist(s2a, d2e))
 // end of [d2exp_exist]
 
 (* ****** ****** *)
@@ -865,55 +872,61 @@ d2exp_lam_dyn
 (
   loc, knd, npf, arg, body
 ) = d2exp_make_node
-    (loc, D2Elam_dyn (knd, npf, arg, body))
+    (loc, D2Elam_dyn(knd, npf, arg, body))
 //
 implement
 d2exp_laminit_dyn
 (
   loc, knd, npf, arg, body
 ) = d2exp_make_node
-    (loc, D2Elaminit_dyn (knd, npf, arg, body))
+    (loc, D2Elaminit_dyn(knd, npf, arg, body))
 //
 implement
 d2exp_lam_sta
   (loc, s2vs, s2ps, body) =
-  d2exp_make_node (loc, D2Elam_sta (s2vs, s2ps, body))
+  d2exp_make_node(loc, D2Elam_sta(s2vs, s2ps, body))
 // end of [d2exp_lam_sta]
 //
 implement
 d2exp_lam_met
   (loc, ref, met, body) =
-  d2exp_make_node (loc, D2Elam_met (ref, met, body))
+  d2exp_make_node(loc, D2Elam_met(ref, met, body))
 // end of [d2exp_lam_met]
 //
 implement
 d2exp_lam_met_new
   (loc, met, body) = let
-  val ref = ref<d2varlst> (list_nil) in d2exp_lam_met (loc, ref, met, body)
+//
+val
+ref = ref<d2varlst>(list_nil())
+//
+in
+  d2exp_lam_met(loc, ref, met, body)
 end // end of [d2exp_lam_met_new]
 //
 implement
 d2exp_fix (
   loc, knd, d2v_fun, d2e_body
-) = d2exp_make_node (loc, D2Efix (knd, d2v_fun, d2e_body))
+) = d2exp_make_node
+    (loc, D2Efix(knd, d2v_fun, d2e_body))
 //
 (* ****** ****** *)
 
 implement
 d2exp_delay
   (loc, d2e) =
-  d2exp_make_node (loc, D2Edelay (d2e))
+  d2exp_make_node (loc, D2Edelay(d2e))
 // end of [d2exp_delay]
 
 implement
 d2exp_ldelay
   (loc, _eval, _free) =
-  d2exp_make_node (loc, D2Eldelay (_eval, _free))
+  d2exp_make_node(loc, D2Eldelay(_eval, _free))
 // end of [d2exp_ldelay]
 
 implement
 d2exp_ldelay_none
-  (loc, d2e) = d2exp_ldelay (loc, d2e, None)
+  (loc, d2e) = d2exp_ldelay(loc, d2e, None(*void*))
 // end of [d2exp_ldelay_none]
 
 (* ****** ****** *)

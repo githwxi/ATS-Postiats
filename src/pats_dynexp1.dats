@@ -761,34 +761,41 @@ end // end of [d1exp_effmask_arg]
 (* ****** ****** *)
 //
 implement
-d1exp_showtype
-  (loc, d1e) =
-  d1exp_make (loc, D1Eshowtype(d1e))
+d1exp_vararg
+  (loc, d1es) =
+  d1exp_make(loc, D1Evararg(d1es))
 //
 (* ****** ****** *)
 //
 implement
 d1exp_vcopyenv
   (loc, knd, d1e) =
-  d1exp_make (loc, D1Evcopyenv(knd, d1e))
+  d1exp_make(loc, D1Evcopyenv(knd, d1e))
+//
+(* ****** ****** *)
+//
+implement
+d1exp_showtype
+  (loc, d1e) =
+  d1exp_make(loc, D1Eshowtype(d1e))
 //
 (* ****** ****** *)
 //
 implement
 d1exp_tempenver
   (loc, d1e) =
-  d1exp_make (loc, D1Etempenver(d1e))
+  d1exp_make(loc, D1Etempenver(d1e))
 //
 (* ****** ****** *)
 
 implement
 d1exp_sexparg
-  (loc, s1a) = d1exp_make (loc, D1Esexparg (s1a))
+  (loc, s1a) = d1exp_make(loc, D1Esexparg(s1a))
 // end of [d1exp_sexparg]
 
 implement
 d1exp_exist
-  (loc, s1a, d1e) = d1exp_make (loc, D1Eexist (s1a, d1e))
+  (loc, s1a, d1e) = d1exp_make(loc, D1Eexist(s1a, d1e))
 // end of [d1exp_exist]
 
 (* ****** ****** *)

@@ -226,9 +226,11 @@ token_node =
 //
   | T_DLRRAISE of () // $raise // raising exceptions
 //
-  | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
+  | T_DLRVARARG of () // $vararg // variadicity support
 //
   | T_DLRVCOPYENV of (int) // $vcopyenv_v(v)/$vcopyenv_vt(vt)
+//
+  | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
 //
   | T_DLRTEMPENVER of () // $tempenver // for adding environvar
 //
@@ -422,6 +424,13 @@ val TYPE_neg : tnode
 val T0YPE : tnode
 val T0YPE_pos : tnode
 val T0YPE_neg : tnode
+
+(*
+val TYPES : tnode
+val TYPES_pos : tnode
+val TYPES_neg : tnode
+*)
+
 val PROP : tnode
 val PROP_pos : tnode
 val PROP_neg : tnode

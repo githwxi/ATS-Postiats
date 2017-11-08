@@ -1915,12 +1915,9 @@ d1e0.d1exp_node of
     d2exp_effmask (loc0, s2fe, d2e_body)
   end // end of [D1Eeffmask]
 //
-| D1Eshowtype
-    (d1e) => let
-    val d1e = un_d1exp_sing(d1e)
-  in
-    d2exp_showtype (loc0, d1exp_tr(d1e))
-  end // end of [D1Eshowtype]
+| D1Evararg
+    (d1es) =>
+    d2exp_vararg(loc0, d1explst_tr(d1es))
 //
 | D1Evcopyenv
     (knd, d1e) => let
@@ -1928,6 +1925,13 @@ d1e0.d1exp_node of
   in
     d2exp_vcopyenv (loc0, knd, d1exp_tr d1e)
   end // end of [D1Evcopyenv]
+//
+| D1Eshowtype
+    (d1e) => let
+    val d1e = un_d1exp_sing(d1e)
+  in
+    d2exp_showtype (loc0, d1exp_tr(d1e))
+  end // end of [D1Eshowtype]
 //
 | D1Etempenver
     (d1e) => let

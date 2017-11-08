@@ -741,17 +741,19 @@ d2e0.d2exp_node of
     d2expopt_app (asz, env); d2explst_app (d2es_ini, env)
   ) (* end of [D2Earrinit] *)
 //
-| D2Eraise (d2e) => d2exp_app (d2e, env)
+| D2Eraise(d2e) => d2exp_app(d2e, env)
 //
-| D2Eeffmask (s2fe, d2e) => d2exp_app (d2e, env)
+| D2Eeffmask(s2fe, d2e) => d2exp_app(d2e, env)
 //
-| D2Eshowtype (d2e) => d2exp_app (d2e, env)
+| D2Evararg(d2es) => d2explst_app(d2es, env)
 //
-| D2Evcopyenv (knd, d2e) => d2exp_app (d2e, env)
+| D2Evcopyenv(knd, d2e) => d2exp_app(d2e, env)
 //
-| D2Etempenver (d2vs) => d2varlst_app (d2vs, env)
+| D2Eshowtype(d2e) => d2exp_app(d2e, env)
 //
-| D2Eexist (s2a, d2e) =>
+| D2Etempenver(d2vs) => d2varlst_app(d2vs, env)
+//
+| D2Eexist(s2a, d2e) =>
   (
     s2exparg_app (s2a, env); d2exp_app (d2e, env)
   ) (* end of [D2Eexist] *)

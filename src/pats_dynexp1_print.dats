@@ -589,10 +589,11 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eshowtype (d1e) => {
-    val () = prstr "D1Eshowtype("
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr ")"
+| D1Evararg(d1es) =>
+  {
+    val () = prstr "D1Evararg("
+    val () = fprint_d1explst (out, d1es)
+    val ((*closing*)) = prstr ")"
   }
 //
 | D1Evcopyenv
@@ -600,6 +601,12 @@ case+ d1e0.d1exp_node of
     val () = prstr "D1Evcopyenv("
     val () = fprint_int (out, knd)
     val () = prstr ", "
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+//
+| D1Eshowtype (d1e) => {
+    val () = prstr "D1Eshowtype("
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }

@@ -25,8 +25,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Adding libatscc/ML/option0
-2. Minorly improving libatscc/ML/list0 and libatscc/ML/array0
-3. Adding libatscc/ML/matrix0
+2. Adding libatscc/ML/matrix0
+3. Minorly improving libatscc/ML/list0 and libatscc/ML/array0
 4. Fixing missing cases in eval1_p2at (pats_dmacro2_eval1.dats)
 5. Fixing and improving libats/funarray
 6. Adding calls to the_dynconlst_add to ensure that every exception

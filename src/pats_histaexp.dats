@@ -67,42 +67,42 @@ staload "./pats_histaexp.sats"
 //
 val
 HITNAM_BOXED =
-  HITNAM (1(*ptr*), 1(*fin*), ATSTYPE_BOXED)
+  HITNAM(1(*ptr*), 1(*fin*), ATSTYPE_BOXED)
 //
 val
 HITNAM_UNBOXED =
-  HITNAM (0(*non*), 1(*fin*), ATSTYPE_UNBOXED)
+  HITNAM(0(*non*), 1(*fin*), ATSTYPE_UNBOXED)
 //
 val
 HITNAM_UNDEFINED =
-  HITNAM (0(*non*), 1(*fin*), ATSTYPE_UNDEFINED)
+  HITNAM(0(*non*), 1(*fin*), ATSTYPE_UNDEFINED)
 //
 (* ****** ****** *)
 //
 val
 HITNAM_FUNPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_funptr")
+  HITNAM(1(*ptr*), 1(*fin*), "atstype_funptr")
 val
 HITNAM_CLOPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_cloptr")
+  HITNAM(1(*ptr*), 1(*fin*), "atstype_cloptr")
 val
 HITNAM_CLOTYP =
-  HITNAM (0(*non*), 1(*fin*), "atstype_clotyp")
+  HITNAM(0(*non*), 1(*fin*), "atstype_clotyp")
 //
 val
 HITNAM_ARRPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_arrptr")
+  HITNAM(1(*ptr*), 1(*fin*), "atstype_arrptr")
 //
 val
 HITNAM_DATCONPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_datconptr")
+  HITNAM(1(*ptr*), 1(*fin*), "atstype_datconptr")
 val
 HITNAM_DATCONTYP =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_datcontyp")
+  HITNAM(1(*ptr*), 1(*fin*), "atstype_datcontyp")
 //
 val
 HITNAM_EXNCONPTR =
-  HITNAM (1(*ptr*), 1(*fin*), "atstype_exnconptr")
+  HITNAM(1(*ptr*), 1(*fin*), "atstype_exnconptr")
 //
 (* ****** ****** *)
 //
@@ -111,47 +111,47 @@ HITNAM_EXNCONPTR =
 //
 val
 HITNAM_TYABS =
-  HITNAM (0(*non*), 0(*fin*), POSTIATS_TYABS)
+  HITNAM(0(*non*), 0(*fin*), POSTIATS_TYABS)
 val
 HITNAM_TYPTR =
-  HITNAM (1(*ptr*), 1(*fin*), POSTIATS_TYPTR)
+  HITNAM(1(*ptr*), 1(*fin*), POSTIATS_TYPTR)
 //
 val
 HITNAM_TYAPP =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyapp")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyapp")
 val
 HITNAM_TYCLO =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyclo")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyclo")
 //
 val
 HITNAM_TYARR =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyarr")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyarr")
 val
 HITNAM_TYREC =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyrec")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyrec")
 val
 HITNAM_TYRECSIN =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyrecsin")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyrecsin")
 val
 HITNAM_TYSUM =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tysum")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tysum")
 //
 val
 HITNAM_TYVAR =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyvar")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyvar")
 val
 HITNAM_TYVARET =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_tyvaret")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_tyvaret")
 //
 val
 HITNAM_VARARG =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_vararg")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_vararg")
 //
 val
 HITNAM_S2EXP =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_s2exp")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_s2exp")
 val HITNAM_S2ZEXP =
-  HITNAM (0(*non*), 0(*tmp*), "postiats_s2zexp")
+  HITNAM(0(*non*), 0(*tmp*), "postiats_s2zexp")
 //
 (* ****** ****** *)
 

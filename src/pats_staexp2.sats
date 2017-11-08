@@ -294,7 +294,8 @@ val s2rt_eff : s2rt (* sets of effects *)
 val s2rt_tkind : s2rt // for template arguments
 //
 // HX:
-// pre-defined impredicative sorts
+// pre-defined
+// impredicative sorts
 //
 val s2rt_prop : s2rt
 val s2rt_prop_pos : s2rt
@@ -321,6 +322,10 @@ val s2rt_vt0ype_pos : s2rt
 val s2rt_vt0ype_neg : s2rt
 //
 val s2rt_types : s2rt
+(*
+val s2rt_types_pos : s2rt
+val s2rt_types_neg : s2rt
+*)
 //
 (* ****** ****** *)
 //
@@ -498,6 +503,7 @@ s2exp_node =
 //
   | S2Eat of
       (s2exp, s2exp) // for at-views
+    // end of [S2Eat]
 //
   | S2Esizeof of (s2exp) // for sizes of types
 //
@@ -511,7 +517,8 @@ s2exp_node =
 //
   | S2Efun of
     ( // function type
-      funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
+      funclo
+    , int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) (* end of S2Efun *)
 //
   | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
@@ -521,6 +528,7 @@ s2exp_node =
 //
   | S2Etop of
       (int(*knd*), s2exp) // knd: 0/1: topization/typization
+    // end of [S2Etop]
 //
   | S2Ewithout of (s2exp) // for a component taken out by the [view@] operation
 //
@@ -1233,7 +1241,7 @@ fun s2exp_tyrec_srt (
 
 (* ****** ****** *)
 
-fun s2exp_invar (s2e: s2exp): s2exp
+fun s2exp_invar(s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
@@ -1241,7 +1249,9 @@ fun s2exp_refarg
   (refval: int, s2e: s2exp): s2exp
 // end of [s2exp_refarg]
 
-fun s2exp_vararg (s2e: s2exp): s2exp
+(* ****** ****** *)
+
+fun s2exp_vararg(s2e: s2exp): s2exp
 
 (* ****** ****** *)
 

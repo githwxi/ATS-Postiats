@@ -46,7 +46,7 @@ implement VIEWT0YPE_knd = VIEWT0YPE_int
 (* ****** ****** *)
 
 implement
-test_fltkind (knd) = let
+test_fltkind(knd) = let
   val knd = uint_of (knd)
   val fltflag = uint_of (FLTFLAG)
 in
@@ -54,12 +54,12 @@ in
 end // end of [test_fltkind]
 
 implement
-test_boxkind (knd) =
+test_boxkind(knd) =
   if test_fltkind (knd) then false else true
 // end of [test_boxkind]
 
 implement
-test_linkind (knd) = let
+test_linkind(knd) = let
   val knd = uint_of (knd)
   val linflag = uint_of (LINFLAG)
 in
@@ -67,7 +67,7 @@ in
 end // end of [test_linkind]
 
 implement
-test_prfkind (knd) = let
+test_prfkind(knd) = let
   val knd = uint_of (knd)
   val prfflag = uint_of (PRFFLAG)
 in
@@ -75,7 +75,7 @@ in
 end // end of [test_prfkind]
 
 implement
-test_prgmkind (knd) = let
+test_prgmkind(knd) = let
   val knd = uint_of (knd)
   val prfflag = uint_of (PRFFLAG)
 in
@@ -94,17 +94,17 @@ end // end of [test_polkind]
 (* ****** ****** *)
 
 implement
-impkind_linearize (knd) = let
-  val linflag = uint_of (LINFLAG)
-  val knd = uint_of (knd) \lor_uint_uint linflag
+impkind_linearize(knd) = let
+  val linflag = uint_of(LINFLAG)
+  val knd = uint_of(knd) \lor_uint_uint linflag
 in
   int_of (knd)
 end // end of [impkind_linearize]
 
 implement
-impkind_neutralize (knd) = let
-  val polflag = uint_of (POLFLAG)
-  val knd = uint_of (knd) \land_uint_uint ~polflag
+impkind_neutralize(knd) = let
+  val polflag = uint_of(POLFLAG)
+  val knd = uint_of(knd) \land_uint_uint ~polflag
 in
   int_of (knd)
 end // end of [impkind_neutralize]
@@ -112,11 +112,17 @@ end // end of [impkind_neutralize]
 (* ****** ****** *)
 
 implement
-lte_impkind_impkind (k1, k2) = let
-  val polflag = uint_of (POLFLAG)
-  val polmask = ~polflag
+lte_impkind_impkind(k1, k2) = let
+//
+  val
+  polflag =
+  uint_of (POLFLAG)
+  val
+  polmask = ~polflag
+//
   val k1 = uint_of (k1) \land_uint_uint polmask
   val k2 = uint_of (k2) \land_uint_uint polmask
+//
 in
   (k1 \land_uint_uint ~k2) = 0u
 end // end of [lte_impkind_impkind]

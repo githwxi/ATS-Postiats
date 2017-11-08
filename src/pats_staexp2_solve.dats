@@ -886,23 +886,38 @@ val () = case+
     end // end of [S2Etyarr]
   | _ => (err := err + 1)
   )
-| (S2Etyrec (knd1, npf1, ls2es1), _) =>
+| (S2Etyrec
+   (knd1, npf1, ls2es1), _) =>
   (
   case+ s2en20 of
   | S2Etyrec (knd2, npf2, ls2es2) => let
-      val (
-      ) = tyreckind_equal_solve_err (loc0, knd1, knd2, err)
-      val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
-      val isless = tyreckind_is_nameless (knd1)
+      val () =
+      tyreckind_equal_solve_err(loc0, knd1, knd2, err)
+      val () =
+        pfarity_equal_solve_err(loc0, npf1, npf2, err)
+      // end of [val]
+      val isless = tyreckind_is_nameless(knd1)
     in
-      if isless then
-        labs2explst_equal_solve_err (loc0, ls2es1, ls2es2, err)
+      if
+      isless
+      then
+      labs2explst_equal_solve_err(loc0, ls2es1, ls2es2, err)
       // end of [if]
     end // end of [S2Etyrec]
-  | _ => (err := err + 1)
+  | _ (*non-S2Etyrec*) => (err := err + 1)
   ) (* end of [S2Etyrec, _] *)
 //
-| (S2Ewthtype (s2e1, ws2es1), _) =>
+| (S2Evararg(s2e1), _) =>
+  (
+  case+ s2en20 of
+  | S2Evararg(s2e2) => () where
+    {
+      val () = s2exp_equal_solve_err(loc0, s2e1, s2e2, err)
+    }
+  | _(*non-S2Evararg*) => (err := err + 1)
+  ) (* end of [S2Evararg, _] *)
+//
+| (S2Ewthtype(s2e1, ws2es1), _) =>
   (
   case+ s2en20 of
   | S2Ewthtype (s2e2, ws2es2) => let
@@ -1317,21 +1332,25 @@ s2en10, s2en20
       if (
         knd1 < knd2
       ) then (err := err + 1)
-        else s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
+        else (
+        s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
+      ) (* end of [if] *)
     ) (* end of [S2Etop] *)
   | _ (* non-S2Etop *) => (err := err + 1)
   ) (* end of [S2Etop, _] *)
+//
 | (_, S2Etop(knd2, s2e2)) =>
   (
   case+ 0 of
   | _ when knd2 = 0 => let
-      // [s2e0] is topized version of some type
+      // [s2e0] is topized
     in
       if
       s2exp_is_nonlin(s2e10)
-      then (
+      then
+      (
         if s2exp_tszeq(s2e10, s2e20) then () else (err := err + 1)
-      ) else (err := err + 1) // end of [if]
+      ) else (err := err + 1) // end of [else]
     end // end of [knd2 = 0]
   | _ (* when knd2 > 0 *) => (err := err + 1)
   ) (* end of [_, S2Etop] *)
@@ -1354,6 +1373,7 @@ s2en10, s2en20
   in
     trans3_env_pop_and_add_main(pfpush | loc0)
   end // end of [S2Euni, _]
+//
 | (_, S2Eexi _) => let
 //
     val (pfpush | ()) = trans3_env_push()
@@ -1379,7 +1399,8 @@ s2en10, s2en20
 //
     val
     s2e2 = s2hnf_absuni_and_add(loc0, s2f20)
-    val () = s2exp_tyleq_solve_err(loc0, s2e10, s2e2, err)
+    val () =
+    s2exp_tyleq_solve_err(loc0, s2e10, s2e2, err)
   in
     trans3_env_pop_and_add_main(pfpush | loc0)
   end // end of [_, S2Euni]
@@ -1389,7 +1410,8 @@ s2en10, s2en20
 //
     val
     s2e1 = s2hnf_opnexi_and_add(loc0, s2f10)
-    val () = s2exp_tyleq_solve_err(loc0, s2e1, s2e20, err)
+    val () =
+    s2exp_tyleq_solve_err(loc0, s2e1, s2e20, err)
   in
     trans3_env_pop_and_add_main(pfpush | loc0)
   end // end of [S2Eexi, _]
@@ -1397,22 +1419,29 @@ s2en10, s2en20
 | (S2Ecst s2c1, _) =>
   (
   case+ s2en20 of
-  | S2Ecst s2c2 =>
-      if s2cst_subeq(s2c1, s2c2) then () else (err := err + 1)
-    // end of [S2Ecst]
+  | S2Ecst s2c2 => let
+      val subeq =
+      s2cst_subeq(s2c1, s2c2)
+    in
+      if ~subeq then (err := err + 1)
+    end // end of [S2Ecst]
   | _ => (err := err + 1)
   ) // end of [S2Ecst, _]
 //
-| (S2Eapp(s2e1_fun, s2es1_arg), _) =>
+| (S2Eapp
+   (s2e1_fun, s2es1_arg), _) =>
   (
   case+ s2en20 of
   | S2Ecst s2c2 => (
     case+ (
       s2e1_fun.s2exp_node
     ) of // [case]
-    | S2Ecst s2c1 =>
-        if s2cst_subeq(s2c1, s2c2) then () else (err := err + 1)
-      // end of [S2Ecst]
+    | S2Ecst s2c1 => let
+        val subeq =
+        s2cst_subeq(s2c1, s2c2)
+      in
+        if ~(subeq) then (err := err + 1)
+      end // end of [S2Ecst]
     | _ (* non-S2Ecst *) => (err := err + 1)
     ) // end of [S2Ecst]
   | S2Eapp(s2e2_fun, s2es2_arg) =>
@@ -1422,9 +1451,21 @@ s2en10, s2en20
       s2e1_fun.s2exp_node
     , s2e2_fun.s2exp_node
     ) of (* case+ *)
-    | (S2Ecst s2c1, S2Ecst s2c2) => let
+    | ( S2Ecst s2c1
+      , S2Ecst s2c2 ) => let
         val
         subeq = s2cst_subeq(s2c1, s2c2)
+(*
+        val () =
+        println!
+        ("s2hnf_tyleq_solve_err: S2Eapp: s2c1 = ", s2c1)
+        val () =
+        println!
+        ("s2hnf_tyleq_solve_err: S2Eapp: s2c2 = ", s2c2)
+        val () =
+        println!
+        ("s2hnf_tyleq_solve_err: S2Eapp: subeq = ", subeq)
+*)
       in
         if
         (subeq)
@@ -1543,6 +1584,18 @@ s2en10, s2en20
     end // end of [S2Erefarg]
   | _ (* non-S2Erefarg *) => (err := err + 1)
   )
+//
+| (S2Evararg(s2e1), _) =>
+  (
+  case+ s2en20 of
+  | S2Evararg(s2e2) => () where
+    {
+      val () =
+      s2exp_tyleq_solve_err(loc0, s2e1, s2e2, err)
+    }
+  | _(* non-S2Evararg *) => (err := err + 1)
+  ) (* end of [S2Evararg, _] *)
+//
 | (S2Ewthtype(s2e1, ws2es1), _) =>
   (
   case+ s2en20 of
@@ -1874,7 +1927,7 @@ case+ s2es1 of
       val-list_cons
         (argsrt, argsrts) = argsrts
       // end of [val]
-      val pol = s2rt_get_pol (argsrt.1)
+      val pol = s2rt_get_pol(argsrt.1)
       val () = (
         if pol = 0 then
           s2exp_equal_solve_err(loc0, s2e1, s2e2, err)

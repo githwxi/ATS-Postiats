@@ -52,6 +52,8 @@ staload
 FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
+(* ****** ****** *)
+
 staload
 LOC = "./pats_location.sats"
 typedef loc_t = $LOC.location
@@ -192,7 +194,7 @@ vtypedef d2itmopt_vt = Option_vt (d2itm)
 //
 typedef
 d2sym = '{
-  d2sym_loc= location
+  d2sym_loc= loc_t
 , d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
 , d2sym_pitmlst= d2pitmlst
 } (* end of [d2sym] *)
@@ -212,7 +214,7 @@ fun
 d2cst_make
 (
   id: symbol
-, loc: location // location of declaration
+, loc: loc_t // location of declaration
 , fil: filename // filename of declaration
 , dck: dcstkind
 , decarg: s2qualst
@@ -236,8 +238,8 @@ overload fprint with fprint_d2cstlst
 
 (* ****** ****** *)
 
+fun d2cst_get_loc (x: d2cst): loc_t
 fun d2cst_get_sym (x: d2cst): symbol
-fun d2cst_get_loc (x: d2cst): location
 fun d2cst_get_fil (x: d2cst): filename
 //
 fun d2cst_get_name (x: d2cst): string
@@ -321,8 +323,8 @@ d2cstmap_insert
 (* ****** ****** *)
 //
 fun d2var_make
-  (loc: location, id: symbol): d2var
-fun d2var_make_any (loc: location): d2var
+  (loc: loc_t, id: symbol): d2var
+fun d2var_make_any (loc: loc_t): d2var
 //
 fun d2var_ptr_viewat_make
   (ptr: d2var, opt: d2varopt): d2var
@@ -355,9 +357,9 @@ fun fprint_d2vfin : fprint_type (d2vfin)
 
 (* ****** ****** *)
 
-fun d2var_get_sym (x: d2var):<> symbol
+fun d2var_get_loc (x: d2var):<> loc_t
 
-fun d2var_get_loc (x: d2var):<> location
+fun d2var_get_sym (x: d2var):<> symbol
 
 fun d2var_get_isfix (x: d2var):<> bool
 fun d2var_set_isfix (x: d2var, isfix: bool): void
@@ -494,30 +496,41 @@ fun fprint_m2acarglst : fprint_type (m2acarglst)
 
 (* ****** ****** *)
 
+fun d2mac_get_loc (x: d2mac): loc_t
+
 fun d2mac_get_sym (x: d2mac): symbol
 
-fun d2mac_get_loc (x: d2mac): location
-
-fun d2mac_get_kind (x: d2mac): int (* 1/0: long/short form *)
-
-fun d2mac_get_arglst (x: d2mac): m2acarglst
+fun d2mac_get_kind
+  (x: d2mac): int (* 1/0: long/short form *)
 
 fun d2mac_get_stamp (x: d2mac): stamp
 
-fun print_d2mac (x: d2mac): void
-overload print with print_d2mac
-fun prerr_d2mac (x: d2mac): void
-overload prerr with prerr_d2mac
-fun fprint_d2mac : fprint_type (d2mac)
+fun d2mac_get_arglst (x: d2mac): m2acarglst
 
 (* ****** ****** *)
 
+fun print_d2mac (x: d2mac): void
+fun prerr_d2mac (x: d2mac): void
+fun fprint_d2mac : fprint_type (d2mac)
+//
+overload print with print_d2mac
+overload prerr with prerr_d2mac
+overload fprint with fprint_d2mac
+//
+(* ****** ****** *)
+//
 fun print_d2itm (x: d2itm): void
-overload print with print_d2itm
 fun prerr_d2itm (x: d2itm): void
-overload prerr with prerr_d2itm
+//
 fun fprint_d2itm : fprint_type (d2itm)
 fun fprint_d2itmlst : fprint_type (d2itmlst)
+//
+overload print with print_d2itm
+overload prerr with prerr_d2itm
+overload fprint with fprint_d2itm
+overload fprint with fprint_d2itmlst
+//
+(* ****** ****** *)
 
 fun fprint_d2pitm : fprint_type (d2pitm)
 fun fprint_d2pitmlst : fprint_type (d2pitmlst)
@@ -527,7 +540,7 @@ fun fprint_d2pitmlst : fprint_type (d2pitmlst)
 fun
 d2sym_make
 (
-  loc: location
+  loc: loc_t
 , dq0: $SYN.d0ynq, id0: symbol, d2pis: d2pitmlst
 ) : d2sym // end of [d2sym_make]
 //
@@ -621,8 +634,8 @@ p2at_node =
 // end of [p2at_node]
 
 and labp2at =
-  | LABP2ATnorm of (l0ab, p2at)
-  | LABP2ATomit of ( location ) // for [...]
+  | LABP2ATomit of (loc_t) // for [...]
+  | LABP2ATnorm of (l0ab, p2at) // for lab=pat
 // end of [labp2at]
 
 where
@@ -661,9 +674,9 @@ p2at_make_node
 , node: p2at_node
 ) : p2at // end of [p2at_make_node]
 
-fun p2at_any (loc: location): p2at
+fun p2at_any (loc: loc_t): p2at
 
-fun p2at_var (loc: location, d2v: d2var): p2at
+fun p2at_var (loc: loc_t, d2v: d2var): p2at
 
 fun
 p2at_con
@@ -679,18 +692,22 @@ p2at_con
 
 (* ****** ****** *)
 //
-fun p2at_int (loc: loc_t, i: int): p2at
-fun p2at_intrep (loc: loc_t, rep: string): p2at
+fun
+p2at_int(loc: loc_t, i: int): p2at
+fun
+p2at_intrep(loc: loc_t, rep: string): p2at
 //
-fun p2at_bool (loc: location, b: bool): p2at
-fun p2at_char (loc: location, c: char): p2at
-fun p2at_float (loc: location, rep: string): p2at
-fun p2at_string (loc: location, str: string): p2at
+fun p2at_bool(loc: loc_t, b: bool): p2at
+fun p2at_char(loc: loc_t, c: char): p2at
+fun p2at_float(loc: loc_t, rep: string): p2at
+fun p2at_string(loc: loc_t, str: string): p2at
 //
-fun p2at_i0nt (loc: location, x: i0nt): p2at
-fun p2at_f0loat (loc: location, x: f0loat): p2at
+fun p2at_i0nt(loc: loc_t, x: i0nt): p2at
+fun p2at_f0loat(loc: loc_t, x: f0loat): p2at
 //
-fun p2at_empty (loc: location): p2at
+(* ****** ****** *)
+
+fun p2at_empty(loc: loc_t): p2at
 
 (* ****** ****** *)
 
@@ -701,17 +718,20 @@ p2at_list // HX: flat tuple
 
 (* ****** ****** *)
 
-fun p2at_rec
-(
-  loc: loc_t, knd: int, npf: int, lp2ts: labp2atlst
+fun
+p2at_lst
+(loc: loc_t, lin: int, p2ts: p2atlst): p2at
+// end of [p2at_lst]
+fun
+p2at_rec
+( loc: loc_t
+, knd: int(*boxity*), npf: int, lp2ts: labp2atlst
 ) : p2at // end of [p2at_tup]
 
-fun p2at_lst
-  (loc: loc_t, lin: int, p2ts: p2atlst): p2at
-// end of [p2at_lst]
+(* ****** ****** *)
 
 fun p2at_refas
-  (loc: location, d2v: d2var, p2t: p2at): p2at
+  (loc: loc_t, d2v: d2var, p2t: p2at): p2at
 // end of [p2at_refas]
 
 fun p2at_exist
@@ -720,11 +740,16 @@ fun p2at_exist
 
 fun p2at_vbox(loc: loc_t, d2v: d2var): p2at
 
-fun p2at_ann
-  (loc: location, p2t: p2at, ann: s2exp): p2at
+(* ****** ****** *)
+//
+fun
+p2at_ann
+  (loc: loc_t, p2t: p2at, ann: s2exp): p2at
 // end of [p2at_ann]
+//
+(* ****** ****** *)
 
-fun p2at_errpat (loc: location): p2at
+fun p2at_errpat (loc: loc_t): p2at // end-of-fun
 
 (* ****** ****** *)
 //
@@ -862,8 +887,8 @@ and d2exp_node =
 // HX: data-constructor
 //
   | D2Econ of (
-      d2con, location(*fun*)
-    , s2exparglst(*sarg*), int(*npf*), location(*arg*), d2explst(*darg*)
+      d2con, loc_t(*fun*)
+    , s2exparglst(*sarg*), int(*npf*), loc_t(*arg*), d2explst(*darg*)
     ) (* end of [D2Econ] *)
 //
   | D2Esym of d2sym // overloaded dynamic symbol
@@ -918,7 +943,7 @@ and d2exp_node =
   | D2Exchng of (d2exp(*left*), d2exp(*right*))
 //
   | D2Earrsub of (* array subscription *)
-      (d2sym, d2exp, location(*ind*), d2explst(*ind*))
+      (d2sym, d2exp, loc_t(*ind*), d2explst(*ind*))
   | D2Earrpsz of (* $arrpsz expression *)
       (s2expopt(*eltype*), d2explst(*elements*))
   | D2Earrinit of (* array initialization *)
@@ -928,9 +953,11 @@ and d2exp_node =
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
 //
-  | D2Eshowtype of (d2exp) // $showtype: for debugging
+  | D2Evararg of (d2explst) // $vararg: variadicity
 //
   | D2Evcopyenv of (int(*knd*), d2exp) // $vcopyenv_v/$vcopyenv_vt
+//
+  | D2Eshowtype of (d2exp) // $showtype: for debugging
 //
   | D2Etempenver of (d2varlst) // $tempenver: for environvars
 //
@@ -977,8 +1004,8 @@ and d2exp_node =
 // end of [d2exp_node]
 
 and d2exparg =
-  | D2EXPARGsta of (location(*arg*), s2exparglst)
-  | D2EXPARGdyn of (int(*npf*), location(*arg*), d2explst)
+  | D2EXPARGsta of (loc_t(*arg*), s2exparglst)
+  | D2EXPARGdyn of (int(*npf*), loc_t(*arg*), d2explst)
 // end of [d2exparg]
 
 and d2lab_node =
@@ -987,14 +1014,14 @@ and d2lab_node =
 
 where
 d2ecl = '{
-  d2ecl_loc= location, d2ecl_node= d2ecl_node
+  d2ecl_loc= loc_t, d2ecl_node= d2ecl_node
 } // end of [d2ecl]
 
 and d2eclist = List (d2ecl)
 
 and
 d2exp = '{
-  d2exp_loc= location
+  d2exp_loc= loc_t
 , d2exp_node= d2exp_node, d2exp_type= s2expopt
 } (* end of [d2exp] *)
 
@@ -1010,7 +1037,7 @@ and d2exparglst = List (d2exparg)
 
 and
 d2lab = '{
-  d2lab_loc= location
+  d2lab_loc= loc_t
 , d2lab_node= d2lab_node
 , d2lab_overld= d2symopt
 } // end of [d2lab]
@@ -1037,7 +1064,7 @@ i2nvresstate = '{
 
 and
 loopi2nv = '{
-  loopi2nv_loc= location
+  loopi2nv_loc= loc_t
 , loopi2nv_svs= s2varlst
 , loopi2nv_gua= s2explst
 , loopi2nv_arg= i2nvarglst (* argument *)
@@ -1050,7 +1077,7 @@ loopi2nv = '{
 and
 i2fcl = '{
 //
-  i2fcl_loc= location
+  i2fcl_loc= loc_t
 , i2fcl_test= d2exp, i2fcl_body= d2exp
 //
 } (* end of [i2fcl] *)
@@ -1061,7 +1088,7 @@ and i2fclist = List(i2fcl)
 
 and
 gm2at = '{
-  gm2at_loc= location
+  gm2at_loc= loc_t
 , gm2at_exp= d2exp, gm2at_pat= p2atopt
 } // end of [gm2at]
 
@@ -1071,18 +1098,17 @@ and gm2atlst = List (gm2at)
 
 and
 c2lau = '{
-  c2lau_loc= location
+  c2lau_loc= loc_t
 , c2lau_pat= p2atlst
 , c2lau_gua= gm2atlst
-, c2lau_seq= int
-, c2lau_neg= int
+, c2lau_seq= int, c2lau_neg= int
 , c2lau_body= d2exp
 } // end of [c2lau]
 
 and c2laulst = List (c2lau)
 
 and sc2lau = '{
-  sc2lau_loc= location
+  sc2lau_loc= loc_t
 , sc2lau_pat= sp2at
 , sc2lau_body= d2exp
 } // end of [sc2lau]
@@ -1092,7 +1118,7 @@ and sc2laulst = List (sc2lau)
 (* ****** ****** *)
 
 and f2undec = '{
-  f2undec_loc= location
+  f2undec_loc= loc_t
 , f2undec_var= d2var
 , f2undec_def= d2exp
 , f2undec_ann= s2expopt
@@ -1103,7 +1129,7 @@ and f2undeclst = List f2undec
 (* ****** ****** *)
 
 and v2aldec = '{
-  v2aldec_loc= location
+  v2aldec_loc= loc_t
 , v2aldec_pat= p2at
 , v2aldec_def= d2exp
 , v2aldec_ann= s2expopt // [withtype] annotation
@@ -1114,7 +1140,7 @@ and v2aldeclst = List (v2aldec)
 (* ****** ****** *)
 
 and v2ardec = '{
-  v2ardec_loc= location
+  v2ardec_loc= loc_t
 , v2ardec_knd= int (* knd=0/1:var/ptr *)
 , v2ardec_svar= s2var // static address
 , v2ardec_dvar= d2var // dynamic variable
@@ -1129,7 +1155,7 @@ and v2ardeclst = List (v2ardec)
 (* ****** ****** *)
 
 and prv2ardec = '{
-  prv2ardec_loc= location
+  prv2ardec_loc= loc_t
 , prv2ardec_dvar= d2var // dynamic address
 , prv2ardec_type= s2expopt (* optional type anno *)
 , prv2ardec_init= d2expopt // initial value (optional)
@@ -1140,8 +1166,8 @@ and prv2ardeclst = List (prv2ardec)
 (* ****** ****** *)
 
 and i2mpdec = '{
-  i2mpdec_loc= location
-, i2mpdec_locid= location
+  i2mpdec_loc= loc_t
+, i2mpdec_locid= loc_t
 , i2mpdec_cst= d2cst
 , i2mpdec_imparg= s2varlst // static variables
 , i2mpdec_tmparg= s2explstlst // static args
@@ -1158,7 +1184,7 @@ d2lval = // type for left-values
   | D2LVALvar_lin of (d2var, d2lablst) // linear d2var
   | D2LVALvar_mut of (d2var, d2lablst) // mutable d2var
   | D2LVALarrsub of (* array subscription *)
-      (d2sym(*brackets*), d2exp, location(*ind*), d2explst)
+      (d2sym(*brackets*), d2exp, loc_t(*ind*), d2explst)
   | D2LVALviewat of (d2exp(*lval*)) // [lval] is 'addresssed'
   | D2LVALnone of d2exp (* non-left-values *)
 // end of [d2lval]
@@ -1528,7 +1554,7 @@ d2exp_sel_ptr
 (* ****** ****** *)
 //
 fun
-d2exp_raise (loc: location, d2e: d2exp): d2exp
+d2exp_raise(loc: location, d2e: d2exp): d2exp
 //
 (* ****** ****** *)
 //
@@ -1539,7 +1565,7 @@ d2exp_effmask
 (* ****** ****** *)
 //
 fun
-d2exp_showtype (loc: location, d2e: d2exp): d2exp
+d2exp_vararg(loc: location, d2es: d2explst): d2exp
 //
 (* ****** ****** *)
 //
@@ -1548,6 +1574,9 @@ d2exp_vcopyenv
   (loc: location, knd(*v/vt*): int, d2e: d2exp): d2exp
 //
 (* ****** ****** *)
+//
+fun
+d2exp_showtype (loc: location, d2e: d2exp): d2exp
 //
 fun
 d2exp_tempenver (loc: location, d2vs: d2varlst): d2exp
