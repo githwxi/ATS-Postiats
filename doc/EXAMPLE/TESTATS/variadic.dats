@@ -70,7 +70,7 @@ SSSZ = $extval(ints_sssz, "3")
 extern
 fun
 tally_ints
-{ts:types}(ints(ts), ts): int
+{ts:types}(ints(ts), ts): int = "ext#"
 //
 (* ****** ****** *)
 //

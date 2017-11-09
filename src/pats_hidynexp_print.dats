@@ -665,17 +665,23 @@ case+
     val () = prstr ")"
   }
 //
-| HDEraise (hde) => {
+| HDEraise(hde) => {
     val () = prstr "HDEraise("
     val () = fprint_hidexp (out, hde)
     val () = prstr ")"
+  }
+//
+| HDEvararg(hdes) => {
+    val () = prstr "HDEvararg("
+    val () = fprint_hidexplst (out, hdes)
+    val ((*closing*)) = prstr ")"
   }
 //
 (*
 | HDEvcopyenv (d2v) => HX: HDEvar(d2v)
 *)
 //
-| HDEtempenver (d2vs) =>
+| HDEtempenver(d2vs) =>
   {
     val () = prstr "HDEtempenver("
     val () = fprint_d2varlst (out, d2vs)

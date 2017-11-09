@@ -1022,12 +1022,12 @@ d0: s1aspdec, s2t1: s2rt, s2t2: s2rt
   filprerr_ifdebug("s1aspdec_tr_res")
 //
   val () =
-  prerr ": the static assumption is given the sort ["
-  val () = prerr_s2rt (s2t1)
+  prerr(": the static assumption is given the sort [")
+  val () = prerr_s2rt(s2t1)
   val () = prerr "] but it is expected to be of the sort ["
-  val () = prerr_s2rt (s2t2)
+  val () = prerr_s2rt(s2t2)
   val () = prerr "]."
-  val () = prerr_newline ((*void*))
+  val () = prerr_newline((*void*))
 //
   val () = the_trans2errlst_add(T2E_s1aspdec_tr_res(d0, s2t1, s2t2))
 } // end of [auxerr]

@@ -249,6 +249,7 @@ else let
   val () =
   the_staerrlst_add
     (STAERR_pfarity_equal(loc0, npf1, npf2))
+  // end of [val]
 in
   // nothing
 end // end of [if]

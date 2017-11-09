@@ -697,23 +697,30 @@ hidexp_arrinit
 
 implement
 hidexp_raise
-  (loc, hse, hde_exn) =
-  hidexp_make_node (loc, hse, HDEraise (hde_exn))
+(loc, hse, hde_exn) =
+hidexp_make_node(loc, hse, HDEraise(hde_exn))
 // end of [hidexp_raise]
 
 (* ****** ****** *)
 //
 implement
+hidexp_vararg
+(loc, hse, hdes_arg) =
+hidexp_make_node(loc, hse, HDEvararg(hdes_arg))
+//
+(* ****** ****** *)
+//
+implement
 hidexp_vcopyenv
   (loc, hse, d2v) =
-  hidexp_make_node (loc, hse, HDEvar (d2v))
+  hidexp_make_node(loc, hse, HDEvar(d2v))
 //
 (* ****** ****** *)
 //
 implement
 hidexp_tempenver
   (loc, hse, d2vs) =
-  hidexp_make_node (loc, hse, HDEtempenver (d2vs))
+  hidexp_make_node(loc, hse, HDEtempenver(d2vs))
 //
 (* ****** ****** *)
 

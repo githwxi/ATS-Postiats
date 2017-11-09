@@ -404,6 +404,8 @@ and hidexp_node =
 //
   | HDEraise of (hidexp(*exn*))
 //
+  | HDEvararg of (hidexplst(*arg*)) // $vararg for variadicity
+//
 (*
   | HDEvcopyenv of (d2var) // HX: HDEvar
 *)
@@ -795,8 +797,7 @@ hidexp_ptrofvar
   (loc: loc_t, hse: hisexp, d2v: d2var): hidexp
 fun
 hidexp_ptrofsel
-(
-  loc: loc_t
+( loc: loc_t
 , hse: hisexp, hde: hidexp, hse_rt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_ptrofsel]
 
@@ -804,8 +805,8 @@ hidexp_ptrofsel
 
 fun
 hidexp_refarg
-(
-  loc: loc_t, hse: hisexp, refval: int, freeknd: int, hde: hidexp
+( loc: loc_t
+, hse: hisexp, refval: int, freeknd: int, hde: hidexp
 ) : hidexp // end of [hidexp_refarg]
 
 (* ****** ****** *)
@@ -819,8 +820,7 @@ hidexp_selvar
 
 fun
 hidexp_selptr
-(
-  loc: loc_t
+( loc: loc_t
 , hse: hisexp, hde: hidexp, hse_rt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_selptr]
 
@@ -828,31 +828,31 @@ hidexp_selptr
 
 fun
 hidexp_assgn_var
-(
-  loc: loc_t
-, hse: hisexp, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
+( loc: loc_t
+, hse: hisexp
+, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_var]
 
 fun
 hidexp_assgn_ptr
-(
-  loc: loc_t
-, hse: hisexp, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
+( loc: loc_t
+, hse: hisexp
+, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_ptr]
 
 (* ****** ****** *)
 
 fun
 hidexp_xchng_var
-(
-  loc: loc_t, hse: hisexp
+( loc: loc_t
+, hse: hisexp
 , d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_var]
 
 fun
 hidexp_xchng_ptr
-(
-  loc: loc_t, hse: hisexp
+( loc: loc_t
+, hse: hisexp
 , hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_ptr]
 
@@ -860,25 +860,34 @@ hidexp_xchng_ptr
 
 fun
 hidexp_arrpsz
-(
-  loc: loc_t, hse: hisexp
+( loc: loc_t
+, hse: hisexp
 , hse_elt: hisexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrpsz]
 
 fun
 hidexp_arrinit
-(
-  loc: loc_t, hse: hisexp
-, hse_elt: hisexp, hde_asz: hidexp, hdes_elt: hidexplst, asz: int
+( loc: loc_t
+, hse: hisexp
+, hse_elt: hisexp
+, hde_asz: hidexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrinit]
 
 (* ****** ****** *)
-
+//
 fun
 hidexp_raise
-  (loc: loc_t, hse: hisexp, hde_exn: hidexp): hidexp
+( loc: loc_t
+, hse: hisexp, hde_exn: hidexp): hidexp
 // end of [hidexp_raise]
-
+//
+(* ****** ****** *)
+//
+fun
+hidexp_vararg
+( loc: loc_t
+, hse: hisexp, hdes: hidexplst): hidexp
+//
 (* ****** ****** *)
 //
 fun

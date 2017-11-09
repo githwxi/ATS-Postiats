@@ -1060,22 +1060,30 @@ d3e0.d3exp_node of
     val s2e_asz = d3exp_get_type (d3e_asz)
     val s2f_asz = $S2UT.s2exp2hnf (s2e_asz)
 (*
-    val () = println! ("d3exp_tyer: s2e_asz = ", s2e_asz)
-    val () = println! ("d3exp_tyer: s2f_asz = ", s2f_asz)
+    val () =
+    println!("d3exp_tyer: s2e_asz = ", s2e_asz)
+    val () =
+    println!("d3exp_tyer: s2f_asz = ", s2f_asz)
 *)
-    val-~Some_vt(s2i) = un_s2exp_g1size_index_t0ype (s2f_asz)
+    val-
+    ~Some_vt(s2i) =
+      un_s2exp_g1size_index_t0ype(s2f_asz)
+    // end of [val]
 //
     val opt =
-      un_s2exp_intconst (s2i)
+      un_s2exp_intconst(s2i)
     // end of [opt]
-    val asz = (
-      case+ opt of | ~Some_vt (n) => n | ~None_vt () => ~1
+    val asz =
+    (
+      case+ opt of
+      | ~Some_vt(n) => n | ~None_vt() => ~1
     ) : int // end of [val]
 //
-    val hdes_elt =
-      list_map_fun (d3es_elt, d3exp_tyer)
-    // end of [val]
-    val hdes_elt = list_of_list_vt (hdes_elt)
+    val
+    hdes_elt =
+    list_map_fun(d3es_elt, d3exp_tyer)
+    val
+    hdes_elt = list_of_list_vt(hdes_elt)
 //
   in
     hidexp_arrinit
@@ -1083,10 +1091,19 @@ d3e0.d3exp_node of
     // end of [hidexp_arrinit]
   end // end of [D3Earrinit]
 //
-| D3Eraise (d3e) =>
-  hidexp_raise(loc0, hse0, d3exp_tyer(d3e))
+| D3Eraise(d3e) => let
+    val hde = d3exp_tyer(d3e)
+  in
+    hidexp_raise(loc0, hse0, hde)
+  end // end of [D3Eraise]
 //
-| D3Eeffmask (s2fe, d3e) => d3exp_tyer (d3e)
+| D3Eeffmask(s2fe, d3e) => d3exp_tyer(d3e)
+//
+| D3Evararg(d3es) => let
+    val hdes = d3explst_tyer(d3es)
+  in
+    hidexp_vararg(loc0, hse0, hdes)
+  end // end of [D3Evararg]
 //
 | D3Evcopyenv
     (knd, d2v) => let

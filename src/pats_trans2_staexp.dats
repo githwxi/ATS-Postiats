@@ -270,17 +270,20 @@ fprintln!
 fun
 auxerr
 (
-  s1a: s1arg, s2t: s2rt, s2t0: s2rt
+s1a: s1arg, s2t: s2rt, s2t0: s2rt
 ) : void = let
 //
 val () =
-  prerr_error2_loc (s1a.s1arg_loc)
+prerr_error2_loc(s1a.s1arg_loc)
 //
 val () =
-filprerr_ifdebug "s1arg_trdn"
+filprerr_ifdebug ("s1arg_trdn")
 //
-val () = prerr! (": the argument is assigned the sort [", s2t)
-val () = prerrln! ("] but it is expected to accept a static term of the sort [", s2t0, "].")
+val () =
+prerr!(": the argument is assigned the sort [", s2t)
+val () =
+prerrln!
+("] but it is expected to accept a static term of the sort [", s2t0, "].")
 //
 in
   the_trans2errlst_add (T2E_s1arg_trdn (s1a, s2t0))

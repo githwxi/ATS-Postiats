@@ -75,9 +75,15 @@ VIEW-       = 11111 // 31
 #define T0YPE_pos_int 9		// 01001
 #define T0YPE_neg_int 25	// 11001
 //
+#define TYPES_int 0             // 00000
+//
 #define PROP_int 5		// 00101
 #define PROP_pos_int 13		// 01101
 #define PROP_neg_int 29		// 11101
+//
+#define VIEW_int 7		// 00111
+#define VIEW_pos_int 15		// 01111
+#define VIEW_neg_int 31		// 11111
 //
 #define VIEWTYPE_int 2		// 00010
 #define VIEWTYPE_pos_int 10	// 01010
@@ -87,10 +93,6 @@ VIEW-       = 11111 // 31
 #define VIEWT0YPE_pos_int 11	// 01011
 #define VIEWT0YPE_neg_int 27	// 11011
 //
-#define VIEW_int 7		// 00111
-#define VIEW_pos_int 15		// 01111
-#define VIEW_neg_int 31		// 11111
-
 (* ****** ****** *)
 //
 #define TYTUPKIND_flt 0

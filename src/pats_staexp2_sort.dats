@@ -154,27 +154,27 @@ $effmask_all
 
 local
 //
-val s2tb_int: s2rtbas = S2RTBASpre ($SYM.symbol_INT)
-val s2tb_addr: s2rtbas = S2RTBASpre ($SYM.symbol_ADDR)
-val s2tb_bool: s2rtbas = S2RTBASpre ($SYM.symbol_BOOL)
+val s2tb_int: s2rtbas = S2RTBASpre($SYM.symbol_INT)
+val s2tb_addr: s2rtbas = S2RTBASpre($SYM.symbol_ADDR)
+val s2tb_bool: s2rtbas = S2RTBASpre($SYM.symbol_BOOL)
 //
 (*
 val s2tb_char: s2rtbas = S2RTBASpre ($SYM.symbol_CHAR)
 *)
 //
-val s2tb_real: s2rtbas = S2RTBASpre ($SYM.symbol_REAL)
+val s2tb_real: s2rtbas = S2RTBASpre($SYM.symbol_REAL)
 //
-val s2tb_float: s2rtbas = S2RTBASpre ($SYM.symbol_FLOAT)
-val s2tb_string: s2rtbas = S2RTBASpre ($SYM.symbol_STRING)
+val s2tb_float: s2rtbas = S2RTBASpre($SYM.symbol_FLOAT)
+val s2tb_string: s2rtbas = S2RTBASpre($SYM.symbol_STRING)
 //
 val s2tb_cls
-  : s2rtbas = S2RTBASpre ($SYM.symbol_CLS) // for nominal classes
+  : s2rtbas = S2RTBASpre($SYM.symbol_CLS) // for nominal classes
 //
 val s2tb_eff
-  : s2rtbas = S2RTBASpre ($SYM.symbol_EFF) // for sets of effects
+  : s2rtbas = S2RTBASpre($SYM.symbol_EFF) // for sets of effects
 //
 val s2tb_tkind
-  : s2rtbas = S2RTBASpre ($SYM.symbol_TKIND) // for template arguments
+  : s2rtbas = S2RTBASpre($SYM.symbol_TKIND) // for template arguments
 //
 in // in of [local]
 //
@@ -205,59 +205,59 @@ local
 //
 #include "./pats_basics.hats"
 //
-val s2tb_prop: s2rtbas = S2RTBASimp (PROP_int, $SYM.symbol_PROP)
-val s2tb_prop_pos: s2rtbas = S2RTBASimp (PROP_pos_int, $SYM.symbol_PROP)
-val s2tb_prop_neg: s2rtbas = S2RTBASimp (PROP_neg_int, $SYM.symbol_PROP)
+val s2tb_prop: s2rtbas = S2RTBASimp(PROP_int, $SYM.symbol_PROP)
+val s2tb_prop_pos: s2rtbas = S2RTBASimp(PROP_pos_int, $SYM.symbol_PROP)
+val s2tb_prop_neg: s2rtbas = S2RTBASimp(PROP_neg_int, $SYM.symbol_PROP)
 //
-val s2tb_type: s2rtbas = S2RTBASimp (TYPE_int, $SYM.symbol_TYPE)
-val s2tb_type_pos: s2rtbas = S2RTBASimp (TYPE_pos_int, $SYM.symbol_TYPE)
-val s2tb_type_neg: s2rtbas = S2RTBASimp (TYPE_neg_int, $SYM.symbol_TYPE)
+val s2tb_type: s2rtbas = S2RTBASimp(TYPE_int, $SYM.symbol_TYPE)
+val s2tb_type_pos: s2rtbas = S2RTBASimp(TYPE_pos_int, $SYM.symbol_TYPE)
+val s2tb_type_neg: s2rtbas = S2RTBASimp(TYPE_neg_int, $SYM.symbol_TYPE)
 //
-val s2tb_t0ype: s2rtbas = S2RTBASimp (T0YPE_int, $SYM.symbol_T0YPE)
-val s2tb_t0ype_pos: s2rtbas = S2RTBASimp (T0YPE_pos_int, $SYM.symbol_T0YPE)
-val s2tb_t0ype_neg: s2rtbas = S2RTBASimp (T0YPE_neg_int, $SYM.symbol_T0YPE)
+val s2tb_t0ype: s2rtbas = S2RTBASimp(T0YPE_int, $SYM.symbol_T0YPE)
+val s2tb_t0ype_pos: s2rtbas = S2RTBASimp(T0YPE_pos_int, $SYM.symbol_T0YPE)
+val s2tb_t0ype_neg: s2rtbas = S2RTBASimp(T0YPE_neg_int, $SYM.symbol_T0YPE)
 //
-val s2tb_view: s2rtbas = S2RTBASimp (VIEW_int, $SYM.symbol_VIEW)
-val s2tb_view_pos: s2rtbas = S2RTBASimp (VIEW_pos_int, $SYM.symbol_VIEW)
-val s2tb_view_neg: s2rtbas = S2RTBASimp (VIEW_neg_int, $SYM.symbol_VIEW)
+val s2tb_types: s2rtbas = S2RTBASimp(TYPES_int, $SYM.symbol_TYPES)
 //
-val s2tb_vtype: s2rtbas = S2RTBASimp (VIEWTYPE_int, $SYM.symbol_VIEWTYPE)
-val s2tb_vtype_pos: s2rtbas = S2RTBASimp (VIEWTYPE_pos_int, $SYM.symbol_VIEWTYPE)
-val s2tb_vtype_neg: s2rtbas = S2RTBASimp (VIEWTYPE_neg_int, $SYM.symbol_VIEWTYPE)
+val s2tb_view: s2rtbas = S2RTBASimp(VIEW_int, $SYM.symbol_VIEW)
+val s2tb_view_pos: s2rtbas = S2RTBASimp(VIEW_pos_int, $SYM.symbol_VIEW)
+val s2tb_view_neg: s2rtbas = S2RTBASimp(VIEW_neg_int, $SYM.symbol_VIEW)
 //
-val s2tb_vt0ype: s2rtbas = S2RTBASimp (VIEWT0YPE_int, $SYM.symbol_VIEWT0YPE)
-val s2tb_vt0ype_pos: s2rtbas = S2RTBASimp (VIEWT0YPE_pos_int, $SYM.symbol_VIEWT0YPE)
-val s2tb_vt0ype_neg: s2rtbas = S2RTBASimp (VIEWT0YPE_neg_int, $SYM.symbol_VIEWT0YPE)
+val s2tb_vtype: s2rtbas = S2RTBASimp(VIEWTYPE_int, $SYM.symbol_VIEWTYPE)
+val s2tb_vtype_pos: s2rtbas = S2RTBASimp(VIEWTYPE_pos_int, $SYM.symbol_VIEWTYPE)
+val s2tb_vtype_neg: s2rtbas = S2RTBASimp(VIEWTYPE_neg_int, $SYM.symbol_VIEWTYPE)
 //
-val s2tb_types: s2rtbas = S2RTBASimp (T0YPE_int, $SYM.symbol_TYPES)
+val s2tb_vt0ype: s2rtbas = S2RTBASimp(VIEWT0YPE_int, $SYM.symbol_VIEWT0YPE)
+val s2tb_vt0ype_pos: s2rtbas = S2RTBASimp(VIEWT0YPE_pos_int, $SYM.symbol_VIEWT0YPE)
+val s2tb_vt0ype_neg: s2rtbas = S2RTBASimp(VIEWT0YPE_neg_int, $SYM.symbol_VIEWT0YPE)
 //
 in // in of [local]
 
-implement s2rt_prop = S2RTbas (s2tb_prop)
-implement s2rt_prop_pos = S2RTbas (s2tb_prop_pos)
-implement s2rt_prop_neg = S2RTbas (s2tb_prop_neg)
+implement s2rt_prop = S2RTbas(s2tb_prop)
+implement s2rt_prop_pos = S2RTbas(s2tb_prop_pos)
+implement s2rt_prop_neg = S2RTbas(s2tb_prop_neg)
 
-implement s2rt_type = S2RTbas (s2tb_type)
-implement s2rt_type_pos = S2RTbas (s2tb_type_pos)
-implement s2rt_type_neg = S2RTbas (s2tb_type_neg)
+implement s2rt_type = S2RTbas(s2tb_type)
+implement s2rt_type_pos = S2RTbas(s2tb_type_pos)
+implement s2rt_type_neg = S2RTbas(s2tb_type_neg)
 
-implement s2rt_t0ype = S2RTbas (s2tb_t0ype)
-implement s2rt_t0ype_pos = S2RTbas (s2tb_t0ype_pos)
-implement s2rt_t0ype_neg = S2RTbas (s2tb_t0ype_neg)
+implement s2rt_t0ype = S2RTbas(s2tb_t0ype)
+implement s2rt_t0ype_pos = S2RTbas(s2tb_t0ype_pos)
+implement s2rt_t0ype_neg = S2RTbas(s2tb_t0ype_neg)
 
-implement s2rt_view = S2RTbas (s2tb_view)
-implement s2rt_view_pos = S2RTbas (s2tb_view_pos)
-implement s2rt_view_neg = S2RTbas (s2tb_view_neg)
+implement s2rt_types = S2RTbas(s2tb_types)
 
-implement s2rt_vtype = S2RTbas (s2tb_vtype)
-implement s2rt_vtype_pos = S2RTbas (s2tb_vtype_pos)
-implement s2rt_vtype_neg = S2RTbas (s2tb_vtype_neg)
+implement s2rt_view = S2RTbas(s2tb_view)
+implement s2rt_view_pos = S2RTbas(s2tb_view_pos)
+implement s2rt_view_neg = S2RTbas(s2tb_view_neg)
 
-implement s2rt_vt0ype = S2RTbas (s2tb_vt0ype)
-implement s2rt_vt0ype_pos = S2RTbas (s2tb_vt0ype_pos)
-implement s2rt_vt0ype_neg = S2RTbas (s2tb_vt0ype_neg)
+implement s2rt_vtype = S2RTbas(s2tb_vtype)
+implement s2rt_vtype_pos = S2RTbas(s2tb_vtype_pos)
+implement s2rt_vtype_neg = S2RTbas(s2tb_vtype_neg)
 
-implement s2rt_types = S2RTbas s2tb_types
+implement s2rt_vt0ype = S2RTbas(s2tb_vt0ype)
+implement s2rt_vt0ype_pos = S2RTbas(s2tb_vt0ype_pos)
+implement s2rt_vt0ype_neg = S2RTbas(s2tb_vt0ype_neg)
 
 implement
 s2rt_impred (knd) = let
@@ -858,18 +858,22 @@ auxVar
   knd: int
 , s2tV: s2rtVar, s2t: s2rt
 ) : bool =
-  if knd > 0 then let
-    val
-    test =
-    s2rtVar_occurcheck(s2tV, s2t)
-  in
-    if test
-      then false else let
-      val () = s2rtVar_set_s2rt(s2tV, s2t) in true
-    end (* end of [if] *)
-  end else
-    true // HX: a dry run always succeeds
-  // end of [auxVar]
+(
+//
+if
+(knd > 0)
+then let
+  val
+  test =
+  s2rtVar_occurcheck(s2tV, s2t)
+in
+  if test
+    then false else let
+    val () = s2rtVar_set_s2rt(s2tV, s2t) in true
+  end (* end of [if] *)
+end else true // HX: a dry run always succeeds
+//
+) (* end of [auxVar] *)
 //
 val s2t1 = s2rt_delink(s2t1)
 and s2t2 = s2rt_delink(s2t2)
@@ -881,7 +885,7 @@ case+ s2t1 of
     (s2tb1) =>
   (
   case+ s2t2 of
-  | S2RTbas (s2tb2) => s2tb1 <= s2tb2 | _ => false
+  | S2RTbas(s2tb2) => s2tb1 <= s2tb2 | _ => false
   )
 | S2RTfun
   (

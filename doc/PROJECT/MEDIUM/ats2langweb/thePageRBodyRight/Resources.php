@@ -8,17 +8,19 @@ style="margin-top:8px;padding:8px;"
 
 <b>
 <a
- href="https://hub.docker.com/r/dockerhwxi/ats2/">dockerhwxi/ats2
+ href="https://github.com/bbarker/IntelliJATS">IntelliJATS
 </a></b><br>
-Please find docker images for various versions of ATS/Postiats.
+ATS plugin for
+<a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a><br>
+by Brandon Barker
 <hr></hr>
 
 <b>
 <a
- href="https://github.com/bbarker/IntelliJATS">IntelliJATS
+ href="https://hub.docker.com/r/dockerhwxi/ats2/">Dockerhwxi/ats2
 </a></b><br>
-An ATS plugin for <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a><br>
-by Brandon Barker
+Docker images for various versions of ATS/Postiats<br>
+prepared by Hongwei Xi
 <hr></hr>
 
 <b>
@@ -26,7 +28,8 @@ by Brandon Barker
  href="https://github.com/steinwaywhw/ats-mode-sublimetext">Ats-mode-sublimetext
 </a>
 </b><br>
-An ATS syntax highlighter for <a href="http://www.sublimetext.com">SublimeText 2/3</a><br>
+ATS syntax highlighter for
+<a href="http://www.sublimetext.com">SublimeText 2/3</a><br>
 by Hanwen (Steinway) Wu
 <hr></hr>
 
