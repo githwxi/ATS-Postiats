@@ -158,17 +158,17 @@ ATSloop_close(init, fini, cont) \
 
 /* ****** ****** */
 
+#define ATSPMVvararg0() 0
+#define ATSPMVvararg1(...) __VA_ARGS__
+  
+/* ****** ****** */
+
+#define ATSPMVtyrep(rep) (rep)
+
+/* ****** ****** */
+
 #define ATSPMVsizeof(hit) (sizeof(hit))
 
-/* ****** ****** */
-
-#define ATSPMVtyrep(tyrep) (tyrep)
-
-/* ****** ****** */
-
-#define ATSPMVvararg0() 0
-#define ATSPMVvararg1(vargs) vargs
-  
 /* ****** ****** */
 //
 #define ATSPMVfunlab(flab) (flab)

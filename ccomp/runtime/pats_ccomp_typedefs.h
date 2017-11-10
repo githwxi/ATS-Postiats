@@ -209,6 +209,10 @@ struct{char _[_ATSTYPE_VAR_SIZE_];} atstype_var[0] ;
 
 /* ****** ****** */
 
+#define atsvararg_type(hit) ...
+
+/* ****** ****** */
+
 #define atsrefarg0_type(hit) hit
 #define atsrefarg1_type(hit) atstype_ref
 

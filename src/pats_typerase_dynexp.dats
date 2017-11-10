@@ -1117,15 +1117,16 @@ d3e0.d3exp_node of
     hidexp_vcopyenv (loc0, hse0, d2v)
   end // end of [D3Evcopyenv]
 //
-| D3Etempenver (d2vs) => let
+| D3Etempenver(d2vs) => let
     val () =
     list_app_fun
       (d2vs, d2var_inc_utimes)
+    // end of [val]
   in
     hidexp_tempenver (loc0, hse0, d2vs)
   end // end of [D3Etempenver]
 //
-| D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
+| D3Eann_type(d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
 | D3Elam_dyn
   (

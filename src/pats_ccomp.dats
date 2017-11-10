@@ -395,6 +395,14 @@ primval_ptrofsel
 (* ****** ****** *)
 
 implement
+primval_vararg
+  (loc, hse, pmvs) =
+  primval_make_node(loc, hse, PMVvararg(pmvs))
+// end of [primval_refarg]
+
+(* ****** ****** *)
+
+implement
 primval_refarg
   (loc, hse, knd, freeknd, pmv) =
   primval_make_node(loc, hse, PMVrefarg(knd, freeknd, pmv))

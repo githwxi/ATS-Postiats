@@ -636,6 +636,8 @@ and primval_node =
       (primval, hisexp(*tyroot*), primlablst)
     // end of [PMVptrofsel]
 //
+  | PMVvararg of (primvalist)
+//
   | PMVrefarg of (int(*knd*), int(*freeknd*), primval)
 //
   | PMVfunlab of (funlab)
@@ -667,6 +669,7 @@ and primval_node =
     // end of [PMVtempenver]
 //
 *)
+//
   | PMVerror of ((*indication-of-erroneous-values*))
 //
 // end of [primval_node]
@@ -936,73 +939,92 @@ primval_sizeof
 // end of [primval_sizeof]
 //
 (* ****** ****** *)
-
-fun primval_top (loc: loc_t, hse: hisexp): primval
-fun primval_empty (loc: loc_t, hse: hisexp): primval
-
+//
+fun
+primval_top(loc: loc_t, hse: hisexp): primval
+fun
+primval_empty(loc: loc_t, hse: hisexp): primval
+//
 (* ****** ****** *)
-
-fun primval_extval
+//
+fun
+primval_extval
   (loc: loc_t, hse: hisexp, name: string): primval
 // end of [primval_extval]
-
+//
 (* ****** ****** *)
-
-fun primval_castfn
+//
+fun
+primval_castfn
 (
   loc: loc_t, hse: hisexp, d2c: d2cst, arg: primval
 ) : primval // end of [primval_castfn]
-
+//
 (* ****** ****** *)
-
-fun primval_selcon
+//
+fun
+primval_selcon
 (
   loc: loc_t
 , hse: hisexp, pmv: primval, hse_sum: hisexp, lab: label
 ) : primval // end of [primval_selcon]
-fun primval_select
+fun
+primval_select
 (
   loc: loc_t
 , hse: hisexp, pmv: primval, hse_rt: hisexp, pml: primlab
 ) : primval // end of [primval_select]
-fun primval_select2
+fun
+primval_select2
 (
   loc: loc_t
 , hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : primval // end of [primval_select2]
-
+//
 (* ****** ****** *)
-
-fun primval_selptr
+//
+fun
+primval_selptr
 (
   loc: loc_t
 , hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : primval // end of [primval_selptr]
-
-(* ****** ****** *)
-
-fun primval_ptrof
-  (loc: loc_t, hse: hisexp, pmv: primval): primval
-// end of [primval_ptrof]
-
-fun primval_ptrofsel (
-  loc: loc_t
-, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
-) : primval // end of [primval_ptrofsel]
-
-(* ****** ****** *)
-
-fun primval_refarg
-(
-  loc: loc_t
-, hse: hisexp, knd: int, freeknd: int, pmv: primval
-) : primval // end of [primval_refarg]
-
+//
 (* ****** ****** *)
 //
-fun primval_funlab
+fun
+primval_ptrof
+  (loc: loc_t, hse: hisexp, pmv: primval): primval
+// end of [primval_ptrof]
+//
+fun
+primval_ptrofsel
+( loc: loc_t
+, hse: hisexp, pmv: primval, hse_rt: hisexp, pmls: primlablst
+) : primval // end of [primval_ptrofsel]
+//
+(* ****** ****** *)
+//
+fun
+primval_vararg
+( loc: loc_t
+, hse: hisexp, pmvs: primvalist): primval
+//
+(* ****** ****** *)
+//
+fun
+primval_refarg
+( loc: loc_t
+, hse: hisexp, knd: int, freeknd: int, pmv: primval
+) : primval // end of [primval_refarg]
+//
+(* ****** ****** *)
+//
+fun
+primval_funlab
   (loc: loc_t, hse: hisexp, flab: funlab): primval
-fun primval_cfunlab
+fun
+primval_cfunlab
   (loc: loc_t, hse: hisexp, knd: int, flab: funlab): primval
 //
 (* ****** ****** *)

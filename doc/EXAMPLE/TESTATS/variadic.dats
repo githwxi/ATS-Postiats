@@ -61,6 +61,10 @@ typedef
 ints_sssz = ints(sssz)
 //
 val
+Z = $extval(ints_z, "0")
+val
+SZ = $extval(ints_sz, "1")
+val
 SSZ = $extval(ints_ssz, "2")
 val
 SSSZ = $extval(ints_sssz, "3")
@@ -72,8 +76,33 @@ fun
 tally_ints
 {ts:types}(ints(ts), ts): int = "ext#"
 //
+%{^
+//
+#include <stdarg.h>
+//
+int
+tally_ints(int narg, ...)
+{
+   int i;
+   int sum = 0;
+   va_list args;
+   va_start(args, narg);
+   for(i = 0; i < narg; i += 1) sum += va_arg(args, int);
+   va_end(args); return sum;
+}
+//
+%} (* end of %{^ *)
+//
 (* ****** ****** *)
 //
+fun
+tally_int0
+((*nil*)): int =
+tally_ints(Z, $vararg())
+fun
+tally_int1
+(i0: int): int =
+tally_ints(SZ, $vararg(i0))
 fun
 tally_int2
 (i0: int, i1: int): int =
@@ -83,6 +112,24 @@ tally_int3
 (i0: int, i1: int, i2: int): int =
 tally_ints(SSSZ, $vararg(i0, i1, i2))
 //
+(* ****** ****** *)
+
+implement
+main0() =
+{
+//
+val sum0 = tally_int0()
+val sum1 = tally_int1(1)
+val sum12 = tally_int2(1, 2)
+val sum123 = tally_int3(1, 2, 3)
+//
+val ((*void*)) = println! ("sum0 = ", sum0)
+val ((*void*)) = println! ("sum1 = ", sum1)
+val ((*void*)) = println! ("sum12 = ", sum12)
+val ((*void*)) = println! ("sum123 = ", sum123)
+//
+} (* end of [main0] *)
+
 (* ****** ****** *)
 
 (* end of [variadic.dats] *)

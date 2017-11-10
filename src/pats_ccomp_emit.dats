@@ -1122,6 +1122,7 @@ extern fun emit_primval_ptrof2 : emit_primval_type
 //
 extern fun emit_primval_ptrofsel : emit_primval_type
 //
+extern fun emit_primval_vararg : emit_primval_type
 extern fun emit_primval_refarg : emit_primval_type
 //
 extern fun emit_primval_funlab : emit_primval_type
@@ -1183,6 +1184,8 @@ case+ pmv0.primval_node of
 //
 | PMVptrof _ => emit_primval_ptrof (out, pmv0)
 | PMVptrofsel _ => emit_primval_ptrofsel (out, pmv0)
+//
+| PMVvararg _ => emit_primval_vararg (out, pmv0)
 //
 | PMVrefarg _ => emit_primval_refarg (out, pmv0)
 //
@@ -1478,19 +1481,47 @@ end // end of [emit_primval_ptrof2]
 (* ****** ****** *)
 
 implement
+emit_primval_vararg
+  (out, pmv0) = () where
+{
+//
+val-
+PMVvararg(pmvs) = pmv0.primval_node
+//
+//
+val () =
+if
+list_is_nil(pmvs)
+then emit_text(out, "ATSPMVvararg0(")
+else emit_text(out, "ATSPMVvararg1(")
+//
+val () = emit_primvalist(out, pmvs)
+//
+val ((*closing*)) = emit_RPAREN(out)
+  
+} (* end of [emit_primval_vararg] *)
+
+(* ****** ****** *)
+
+implement
 emit_primval_refarg
   (out, pmv0) = let
 //
-val-PMVrefarg
-  (knd, freeknd, pmv) = pmv0.primval_node
+val-
+PMVrefarg
+(knd, freeknd, pmv) = pmv0.primval_node
 //
 val () =
-if (knd = 0)
-  then emit_text (out, "ATSPMVrefarg0(")
+if
+(knd = 0)
+then
+emit_text (out, "ATSPMVrefarg0(")
 //
 val () =
-if (knd > 0)
-  then emit_text (out, "ATSPMVrefarg1(")
+if
+(knd > 0)
+then
+emit_text (out, "ATSPMVrefarg1(")
 //
 val () =
   if (knd = 0) then emit_primval (out, pmv)
