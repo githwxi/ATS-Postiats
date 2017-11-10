@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.3.8</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.3.8:
+</H2>
+
+<pre>
+This is the 45th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Adding libatscc/ML/option0
+2. Adding libatscc/ML/matrix0
+3. Minorly improving libatscc/ML/list0 and libatscc/ML/array0
+4. Fixing missing cases in eval1_p2at (pats_dmacro2_eval1.dats)
+5. Fixing and improving libats/funarray
+6. Adding calls to the_dynconlst_add to ensure that every exception
+   constructor is declared in the generated C code.
+7. Initiating building the "compiled" library libats/ML/COMPILE
+8. Fixing a glitch in compiling polymorphic functions that call
+   function templates (auxmat_env in [pats_ccomp_template.dats])
+   A simple use case is found in doc/EXAMPLE/TESTATS/tempboxed.dats
+9. Adding support for calling variadic functions in a type-safe way.
+   There is no attempt to add support for type-safe implementation of
+   variadic functions yet.
+</pre>
+
+</body><!--body-->
+</html><!--html-->

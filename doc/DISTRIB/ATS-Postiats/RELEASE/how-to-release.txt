@@ -55,7 +55,7 @@ make atspackaging
 make atspacktarzvcf # for ATS2-Postiats-xxx.tgz
 #
 make atscontribing
-make atscntrbtarzvcf # for ATS2-Postiats-contrib-xxx.tgz
+make atscontribtarzvcf # for ATS2-Postiats-contrib-xxx.tgz
 #
 # Update [Makefile_inclats] with
 # the current version number of ATS
