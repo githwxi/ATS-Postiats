@@ -201,6 +201,15 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("COMPILE/mylibies.hats")
+#packfilename("COMPILE/DATS/array0.dats")
+#packfilename("COMPILE/DATS/string.dats")
+#packfilename("COMPILE/DATS/funmap.dats")
+#packfilename("COMPILE/DATS/funarray.dats")
+#packfilename("COMPILE/DATS/hashtblref.dats")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

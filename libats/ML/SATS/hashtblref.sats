@@ -79,13 +79,13 @@ hashtbl_get_capacity
 fun{
 key,itm:t0p
 } hashtbl_search
-  (hashtbl(key, itm), key): Option_vt(itm)
+  (hashtbl(key, INV(itm)), key): Option_vt(itm)
 // end of [hashtbl_search]
 
 fun{
 key,itm:t0p
 } hashtbl_search_ref
-  (tbl: hashtbl(key, itm), k: key): cPtr0(itm)
+  (tbl: hashtbl(key, INV(itm)), k: key): cPtr0(itm)
 // end of [hashtbl_search_ref]
 
 (* ****** ****** *)
@@ -93,19 +93,20 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } hashtbl_insert
-  (hashtbl(key, itm), key, itm): Option_vt(itm)
+  (hashtbl(key, INV(itm)), key, itm): Option_vt(itm)
 // end of [hashtbl_insert]
 
 fun{
 key,itm:t0p
-} hashtbl_insert_any(hashtbl(key, itm), key, itm): void
+} hashtbl_insert_any
+  (hashtbl(key, INV(itm)), key, itm): void(*inserted*)
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } hashtbl_takeout
-  (kxs: hashtbl(key, itm), k0: key): Option_vt(itm)
+  (kxs: hashtbl(key, INV(itm)), k0: key): Option_vt(itm)
 // end of [hashtbl_takeout]
 
 (* ****** ****** *)
@@ -113,14 +114,14 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } hashtbl_remove
-  (kxs: hashtbl(key, itm), key): bool
+  (kxs: hashtbl(key, INV(itm)), key): bool
 
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } hashtbl_takeout_all
-  (kxs: hashtbl(key, itm)): list0(@(key, itm))
+  (kxs: hashtbl(key, INV(itm))): list0(@(key, itm))
 // end of [hashtbl_takeout_all]
 
 (* ****** ****** *)
@@ -142,8 +143,8 @@ fprint_hashtbl$mapto (out: FILEref): void // default: fprint("->")
 fun{
 key,itm:t@ype
 } fprint_hashtbl_sep_mapto
-(
-  out: FILEref, tbl: hashtbl(key, itm), sep: string, mapto: string
+( out: FILEref
+, tbl: hashtbl(key, itm), sep: string, mapto: string
 ) : void // end of [fprint_hashtbl_sep_mapto]
 //
 (* ****** ****** *)
@@ -157,7 +158,7 @@ fun
 ;itm:t0p}
 {env:vt0p}
 hashtbl_foreach_env
-  (tbl: hashtbl(key, itm), env: &(env) >> _): void
+  (hashtbl(key, INV(itm)), env: &(env) >> _): void
 //
 fun
 {key:t0p
@@ -172,17 +173,19 @@ fun{
 key,itm:t0p
 } hashtbl_foreach_cloref
 (
-  tbl: hashtbl(key, itm), fwork: (key, &itm >> _) -<cloref1> void
+  hashtbl(key, INV(itm)), fwork: (key, &itm >> _) -<cloref1> void
 ) : void // end of [hashtbl_foreach_cloref]
 //
 (* ****** ****** *)
 //
 fun{
 key,itm:t0p
-} hashtbl_listize0(hashtbl(key, itm)): list0(@(key, itm))
+} hashtbl_listize0
+  (kxs: hashtbl(key, INV(itm))): list0(@(key, itm))
 fun{
 key,itm:t0p
-} hashtbl_listize1(hashtbl(key, itm)): list0(@(key, itm))
+} hashtbl_listize1
+  (kxs: hashtbl(key, INV(itm))): list0(@(key, itm))
 //
 (* ****** ****** *)
 

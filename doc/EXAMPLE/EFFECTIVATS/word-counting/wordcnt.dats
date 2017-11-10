@@ -114,8 +114,10 @@ and loop2
 ) : charlst = let
   val i = char_get ()
 in
-  if isalpha (i) then
-    loop2 (cons0{char}(int2char0(i), res)) else res
+  if isalpha(i)
+    then
+    loop2 (cons0{char}(int2char0(i), res))
+    else res
   // end of [if]
 end // end of [loop2]
 //
@@ -125,7 +127,7 @@ in
 //
 case+ cs of
 | nil0 () => stropt_none ((*void*))
-| cons0 _ => stropt_some (string_make_rlist (cs))
+| cons0 _ => stropt_some (string_make_rlist(cs))
 //
 end // end of [word_get]
 
@@ -145,24 +147,26 @@ wcmap_type = hashtbl(string, int)
 in (* in of [local] *)
 
 implement
-wcmap_create () =
-  $HT.hashtbl_make_nil (i2sz(1024))
+wcmap_create() =
+  $HT.hashtbl_make_nil(i2sz(1024))
 // end of [wcmap_create]
 
 implement
 wcmap_incby1
   (map, w) = let
 //
-val opt = $HT.hashtbl_search (map, w)
+val
+opt =
+$HT.hashtbl_search<string,int>(map, w)
 //
 in
 //
 case+ opt of
-| ~Some_vt (n) =>
+| ~Some_vt(n) =>
   {
-    val-~Some_vt _ = $HT.hashtbl_insert (map, w, n+1)
+    val-~Some_vt _ = $HT.hashtbl_insert(map, w, n+1)
   }
-| ~None_vt ((*void*)) => $HT.hashtbl_insert_any (map, w, 1)
+| ~None_vt ((*void*)) => $HT.hashtbl_insert_any(map, w, 1)
 //
 end // end of [wcmap_incby1]
 
