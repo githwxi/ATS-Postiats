@@ -410,14 +410,26 @@ cleanall:: ; $(RMF) codegen2_out.dats
 #
 all:: \
 s2rt_float
-s2rt_float: s2rt_float.dats; $(PATSOPT) --typecheck -d $<
+s2rt_float: \
+s2rt_float.dats; $(PATSCC) -tcats -d $<
+#
+######
+#
+all:: \
+variadic
+variadic: variadic.dats; $(PATSCC2) -o $@ $<
+#
+regress:: variadic ; ./$<
+#
+cleanall:: ; $(RMF) variadic
+cleanall:: ; $(RMF) variadic_dats.c
 #
 ######
 
 all:: \
 wherecls
 wherecls: wherecls_dats.c ; \
-  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+$(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 wherecls_dats.c: wherecls.dats ; $(PATSCC2) -ccats $<
 #
 # regress:: wherecls ; ./$<
@@ -430,7 +442,7 @@ cleanall:: ; $(RMF) wherecls_dats.c
 all:: \
 undefined
 undefined: undefined_dats.c ; \
-  $(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
+$(PATSCC2) -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $<
 undefined_dats.c: undefined.dats ; $(PATSCC2) -ccats $<
 #
 # regress:: undefined ; ./$<

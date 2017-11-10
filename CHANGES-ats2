@@ -35,7 +35,10 @@ Here is a list of major additions and changes since the last release:
 8. Fixing a glitch in compiling polymorphic functions that call
    function templates (auxmat_env in [pats_ccomp_template.dats])
    A simple use case is found in doc/EXAMPLE/TESTATS/tempboxed.dats
-
+9. Adding support for calling variadic functions in a type-safe way.
+   There is no attempt to add support for type-safe implementation of
+   variadic functions yet.
+  
 ######
 
 0.3.7
