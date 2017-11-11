@@ -2,10 +2,12 @@
 //
 // HX-2017-10-30:
 // For dynloading
-// ATSLIB/libats/ML/BOXED
+// ATSLIB/libats/ML/COMPILE
 //
 (* ****** ****** *)
 //
+#dynload
+"libats/ML/COMPILE/DATS/array0.dats"
 #dynload
 "libats/ML/COMPILE/DATS/string.dats"
 //

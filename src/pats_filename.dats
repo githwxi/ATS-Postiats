@@ -60,7 +60,10 @@ print_stropt with $UTL.print_stropt
 staload
 LOC = "./pats_location.sats"
 //
+(* ****** ****** *)
+//
 staload SYM = "./pats_symbol.sats"
+//
 typedef symbol = $SYM.symbol
 overload = with $SYM.eq_symbol_symbol
 //
@@ -624,13 +627,13 @@ then let
   val fname =
     filename_append((p2s)cwd, pname)
   // end of [val]
-  val () = strptr_free(cwd)
+  val _freed_ = strptr_free(cwd)
   val fname_nf = path_normalize((p2s)fname)
-  val () = strptr_free(fname)
+  val _freed_ = strptr_free(fname)
 in
   fname_nf
 end // end of [then]
-else pname // HX: the path [pname] is absolute
+else pname // HX: [pname] is absolute
 //
 end // end of [partname_fullize]
 
@@ -643,7 +646,7 @@ local
 assume
 the_filenamelst_push_v = unit_v
 //
-vtypedef filenamelst = List_vt filename
+vtypedef filenamelst = List_vt(filename)
 //
 val
 the_filename =
@@ -1127,15 +1130,33 @@ val paths = the_pathlst_get()
 //
 val (ans) =
 //
-// HX: search the current directory first
+// HX:
+// search the current directory first
 //
 (
-  aux2_try
-  (
-    path, $UN.castvwtp1{pathlst}(paths), given
-  ) (* aux2_try *)
+aux2_try
+( path
+, $UN.castvwtp1{pathlst}(paths), given
+) (* aux2_try *)
 )
 // end of [val]
+//
+// HX-2018-11-11:
+// calling the_pathlst_set is
+// needed for the_pathlst being linear
+//
+(*
+//
+val () =
+println!
+("aux_try_pathlst: given = ", given)
+val () =
+(
+print("aux_try_pathlst: ans = "); print_stropt(ans); println!()
+)
+//
+*)
+//
 val ((*void*)) = the_pathlst_set(paths)
 //
 } (* end of [aux_try_pathlst] *)
@@ -1146,10 +1167,30 @@ aux_try_prepathlst
   given: string
 ) : Stropt = ans where
 {
-  val paths = the_prepathlst_get()
-  val ans =
-    aux_try($UN.castvwtp1{pathlst}(paths), given)
-  val () = the_prepathlst_set (paths)
+//
+val
+paths = the_prepathlst_get()
+//
+val
+(ans) =
+aux_try
+($UN.castvwtp1{pathlst}(paths), given)
+// end of [val]
+//
+(*
+//
+val () =
+println!
+("aux_try_prepathlst: given = ", given)
+val () =
+(
+print("aux_try_prepathlst: ans = "); print_stropt(ans); println!()
+)
+//
+*)
+//
+val () = the_prepathlst_set(paths) // HX: linearity
+//
 } (* end of [aux_try_prepathlst] *)
 
 (* ****** ****** *)
@@ -1311,7 +1352,11 @@ case+ knd of
 //
 | _ (*external*) => let
     val
+    opt = stropt_none(*void*)
+(*
+    val
     opt = aux_try_pathlst(given)
+*)
   in
     if stropt_is_some(opt) then opt else aux_try_prepathlst(given)
   end // end of [_]

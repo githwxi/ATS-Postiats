@@ -1,6 +1,9 @@
+######
 #
-# A Makefile for processing [Makefile.atxt]
-# to generate Makefiles that do the actual work
+# A Makefile
+# for processing [Makefile.atxt]
+# to generate Makefiles that are
+# supposed to do the actual work
 #
 ######
 #

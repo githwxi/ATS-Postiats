@@ -1,5 +1,7 @@
+(* ****** ****** *)
 //
-// Test code for stack allocation
+// Test code
+// for stack allocation
 //
 (* ****** ****** *)
 

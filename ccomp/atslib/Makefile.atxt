@@ -72,7 +72,7 @@ val ent = sprintf
 ("\
 atslib_%s:: atslib_%s\n\
 atslib_%s: output/atslib_%s.o ; $(ARR) lib/libatslib.a $<\n\
-output/atslib_%s.c: ../../%s/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
+output/atslib_%s.c: $(PATSHOME0)/%s/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
 output/atslib_%s.o: output/atslib_%s.c ; \\\n\
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
 clean:: ; $(RMF) output/atslib_%s.c\n\
@@ -100,6 +100,7 @@ end // end of [make_entry]
 #
 ######
 
+PATSHOME0=$(PATSHOME)
 PATSHOMEQ="$(PATSHOME)"
 
 ######
