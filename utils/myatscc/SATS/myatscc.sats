@@ -52,6 +52,17 @@ MYATSCCDEF_def
 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC \
 -I${PATSHOME}/contrib -o $fname($1)_$fname_ext($1) $1 -latslib"
 //
+#define
+MYATSCCDEF_GC_def
+"patscc -cleanaft \
+-D_GNU_SOURCE -DATS_MEMALLOC_GCBDW \
+-I${PATSHOME}/contrib -o $fname($1)_$fname_ext($1) $1 -latslib -lgc"
+//
+(* ****** ****** *)
+//
+fun
+MYATSCCDEF_def_get((*global*)): string
+//
 (* ****** ****** *)
 //
 abstype loc_type = ptr

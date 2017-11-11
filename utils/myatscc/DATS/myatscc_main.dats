@@ -165,6 +165,39 @@ myatscc_get_def
 *)
 //
 (* ****** ****** *)
+
+local
+
+val
+the_gcflag = ref<int>(0)
+
+in (* in-of-local *)
+
+fun
+the_gcflag_set
+  (gcflag: int) =
+(
+  the_gcflag[] := gcflag
+)
+
+implement
+MYATSCCDEF_def_get
+  ((*void*)) = let
+//
+val gcflag = the_gcflag[]
+//
+in
+//
+ifcase
+| gcflag = 0 => MYATSCCDEF_def
+| gcflag > 0 => MYATSCCDEF_GC_def
+| _(* else *) => MYATSCCDEF_def
+//
+end // end of [MYATSCCDEF_def_get]
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 implement
 myatscc_evaldef
@@ -189,7 +222,7 @@ exps.foreach()
 //
 in
   myexpseq_stringize(g0ofg1(exps))
-end // end of [myatscc_get_def]
+end // end of [myatscc_evaldef]
 //
 (* ****** ****** *)
 //
@@ -280,6 +313,8 @@ typedef
 state = @{
 //
 dryrun= int
+,
+gcflag= int
 //
 } (* state *)
 //
@@ -303,9 +338,18 @@ then let
 //
 val () =
 if
+(
+"--gc" = argv[i]
+)
+then
+(state.gcflag := state.gcflag + 1)
+//
+val () =
+if
 string_is_prefix
-  ("--dry", argv[i])
-then (state.dryrun := state.dryrun + 1)
+("--dry", argv[i])
+then
+(state.dryrun := state.dryrun + 1)
 //
 in
   state_initset(i+1, argc, argv, state)
@@ -324,14 +368,22 @@ myatscc_main
 var
 state: state
 val () =
+state.gcflag := 0
+val () =
 state.dryrun := 0
 //
 var res: int = 0
 //
+var gcflag: bool = false
 var dryrun: bool = false
 //
 val ((*void*)) =
 state_initset(1, argc, argv, state)
+//
+val ((*void*)) =
+(
+the_gcflag_set(state.gcflag)
+)
 //
 val ((*void*)) =
 (

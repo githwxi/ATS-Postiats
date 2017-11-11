@@ -53,7 +53,7 @@ in
 //
 case+ opt of
 | ~Some_vt(def) => def
-| ~None_vt((*void*)) => MYATSCCDEF_def
+| ~None_vt((*void*)) => MYATSCCDEF_def_get()
 //
 end // end of [myatscc_getdef]
 
