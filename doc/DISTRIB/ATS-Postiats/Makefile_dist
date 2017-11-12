@@ -183,6 +183,13 @@ install_files_50: ; \
 
 ######
 #
+# HX-2018-11-11:
+# Please execute the following
+# command-lines before reinstall
+#
+# make -C ccomp/atslib clean
+# make -C ccomp/atslib atslib
+#
 reinstall_atslib: install_files_50  
 #
 ######
