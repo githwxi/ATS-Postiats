@@ -95,9 +95,15 @@ val (
 typedef charNZ = [c:int | c != '\000'] char (c)
 //
 extern
-fun string_get_at
+fun
+string_get_at
   {n:int} {i:nat | i < n} (str: string n, i: size_t i): charNZ
+and
+string_set_at
+  {n:int}{i:nat | i < n}(str: string n, i: size_t i, c: charNZ): void
+//
 overload [] with string_get_at
+overload [] with string_set_at
 //
 (* ****** ****** *)
 
@@ -276,7 +282,7 @@ implement{a,b}{c} app2 (f, x, y) = f (x, y)
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0((*void*)) = ()
 
 (* ****** ****** *)
 

@@ -573,9 +573,9 @@ string_get_at
 overload [] with string_get_at
 //
 fun
-string_set_char_at
+string_set_at
   {n:int}{i:nat | i < n}(str: string n, i: size_t i, c: charNZ): void
-overload [] with string_set_char_at
+overload [] with string_set_at
 //
 ")
 

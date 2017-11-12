@@ -123,7 +123,7 @@ staload "libats/libc/SATS/stdlib.sats"
 ATSCNTRB_sourceloc
 "http://www.ats-lang.org/LIBRARY/contrib"
 #define
-ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+ATSCNTRB_targetloc "./../.INT2PROGINATS-atscntrb"
 //
 staload RG =
 "{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"
