@@ -273,6 +273,8 @@ println!("The following options are supported:")
 val () =
 println!("  -h/--help: for printing the help message")
 val () =
+println!("  --gc/--gcbdw: for malloc/free via Boehm-GC")
+val () =
 println!("  --dry/--dryrun: for command generation only")
 }
 //
@@ -338,9 +340,8 @@ then let
 //
 val () =
 if
-(
-"--gc" = argv[i]
-)
+string_is_prefix
+("--gc", argv[i])
 then
 (state.gcflag := state.gcflag + 1)
 //

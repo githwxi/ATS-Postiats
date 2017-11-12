@@ -183,6 +183,18 @@ install_files_50: ; \
 
 ######
 #
+install_atslib: install_files_50  
+#
+######
+#
+reinstall_atslib:: ; \
+$(MAKE) -C ccomp/atslib clean
+reinstall_atslib:: ; \
+$(MAKE) -C ccomp/atslib clean
+reinstall_atslib:: install_atslib
+#
+######
+#
 uninstall:: uninstall_bin
 uninstall:: uninstall_home
 #
