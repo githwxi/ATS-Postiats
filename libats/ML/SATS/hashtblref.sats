@@ -129,7 +129,7 @@ key,itm:t0p
 fun{
 key,itm:t@ype
 } fprint_hashtbl
-  (out: FILEref, tbl: hashtbl(key, itm)): void
+  (out: FILEref, tbl: hashtbl(key, INV(itm))): void
 //
 overload fprint with fprint_hashtbl
 //
@@ -144,7 +144,7 @@ fun{
 key,itm:t@ype
 } fprint_hashtbl_sep_mapto
 ( out: FILEref
-, tbl: hashtbl(key, itm), sep: string, mapto: string
+, tbl: hashtbl(key, INV(itm)), sep: string, mapto: string
 ) : void // end of [fprint_hashtbl_sep_mapto]
 //
 (* ****** ****** *)
@@ -152,7 +152,7 @@ key,itm:t@ype
 fun{
 key,itm:t0p
 } hashtbl_foreach
-  (tbl: hashtbl(key, itm)): void
+  (tbl: hashtbl(key, INV(itm))): void
 fun
 {key:t0p
 ;itm:t0p}

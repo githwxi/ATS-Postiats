@@ -199,7 +199,7 @@ fprint_hashtbl$mapto (out: FILEref): void // default: fprint("->")
 fun
 {key:t0p
 ;itm:vt0p}
-hashtbl_foreach (tbl: !hashtbl(key, INV(itm))): void
+hashtbl_foreach(tbl: !hashtbl(key, INV(itm))): void
 fun
 {key:t0p
 ;itm:vt0p}
@@ -211,7 +211,7 @@ fun
 {key:t0p
 ;itm:vt0p}
 {env:vt0p}
-hashtbl_foreach$fwork (k: key, x: &itm >> _, &env >> _): void
+hashtbl_foreach$fwork(k: key, x: &itm >> _, &env >> _): void
 //
 (* ****** ****** *)
 //
@@ -236,7 +236,7 @@ fun
 {key:t0p
 ;itm:vt0p}
 {ki2:vt0p}
-hashtbl_flistize$fopr (k: key, x: itm): ki2
+hashtbl_flistize$fopr(k: key, x: itm): ki2
 fun
 {key:t0p
 ;itm:vt0p}
