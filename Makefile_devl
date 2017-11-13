@@ -30,6 +30,7 @@ MAKE=make
 ######
 #
 all:: bin_patscc
+all:: bin_myatscc
 all:: lib_patsopt
 all:: atslib_update
 #
@@ -39,6 +40,8 @@ all:: atslib_update
 #
 src_depend: ; touch src/.depend
 src_cleanall: ; make -C src cleanall
+#
+######
 #
 bin_patscc: \
 src_patscc; \
@@ -52,6 +55,14 @@ make -C utils/atscc -f Makefile copy build clean
 bin_patsopt: \
 src_patsopt; $(CPF) src/patsopt bin/patsopt
 src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
+#
+######
+#
+bin_myatscc: \
+src_myatscc; \
+$(MVF) utils/myatscc/BUILD/myatscc bin/myatscc
+src_myatscc: ; \
+make -C utils/myatscc -f Makefile copy build clean
 #
 ######
 #
