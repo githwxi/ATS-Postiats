@@ -69,6 +69,30 @@ matrixref_foreach_cloref
 //
 (* ****** ****** *)
 //
+fun
+matrixref_tabulate_cloref
+  {a:vt@ype}{m,n:nat}
+(
+  int(m), int(n), fopr: (natLt(m), natLt(n)) -<cloref1> a
+) : matrixref(a, m, n) = "mac#%" // end-of-fun
+//
+(* ****** ****** *)
+//
+fun
+cbind_matrixref_matrixref
+  {a:t@ype}{m0,n1,n2:int}
+( M1: matrixref(a, m0, n1)
+, M2: matrixref(a, m0, n2)
+, m0: int(m0), n1: int(n1), n2: int(n2)): matrixref(a, m0, n1+n2)
+fun
+rbind_matrixref_matrixref
+  {a:t@ype}{m1,m2,n0:int}
+( M1: matrixref(a, m1, n0)
+, M2: matrixref(a, m2, n0)
+, m1: int(m1), m2: int(m2), n0: int(n0)): matrixref(a, m1+m2, n0)
+//
+(* ****** ****** *)
+//
 // HX: matrix-with-size
 //
 (* ****** ****** *)
@@ -80,7 +104,7 @@ mtrxszref_make_elt
 //
 fun
 mtrxszref_make_matrixref
-  {a:vt0p}{m,n:int}
+  {a:t0p}{m,n:int}
   (matrixref(a, m, n), int(m), int(n)): mtrxszref(a) = "mac#%"
 // end of [mtrxszref_make_matrixref]
 //
@@ -138,8 +162,10 @@ mtrxszref_forall_method
   mtrxszref(a))(ftest: (Nat, Nat) -<cloref1> bool
 ) : bool = "mac#%" // end-of-function
 //
-overload .exists with mtrxszref_exists_method
-overload .forall with mtrxszref_forall_method
+overload
+.exists with mtrxszref_exists_method of 100
+overload
+.forall with mtrxszref_forall_method of 100
 //
 (* ****** ****** *)
 //
@@ -156,7 +182,8 @@ mtrxszref_foreach_method
  M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
-overload .foreach with mtrxszref_foreach_method
+overload
+.foreach with mtrxszref_foreach_method of 100
 //
 (* ****** ****** *)
 //
@@ -173,7 +200,8 @@ mtrxszref_foreach_row_method
  M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
-overload .foreach_row with mtrxszref_foreach_row_method
+overload
+.foreach_row with mtrxszref_foreach_row_method of 100
 //
 (* ****** ****** *)
 //
@@ -190,7 +218,17 @@ mtrxszref_foreach_col_method
  M: mtrxszref(a))(fwork: (Nat, Nat) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
-overload .foreach_col with mtrxszref_foreach_col_method
+overload
+.foreach_col with mtrxszref_foreach_col_method of 100
+//
+(* ****** ****** *)
+//
+fun
+mtrxszref_tabulate_cloref
+  {a:vt0p}{m,n:nat}
+(
+  int(m), int(n), fopr: (natLt(m), natLt(n)) -<cloref1> a
+) : mtrxszref(a) = "mac#%" // end-of-function
 //
 (* ****** ****** *)
 

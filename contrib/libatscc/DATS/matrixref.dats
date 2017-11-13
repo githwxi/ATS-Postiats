@@ -47,6 +47,42 @@ int2_foreach_cloref
 //
 (* ****** ****** *)
 //
+implement
+cbind_matrixref_matrixref
+  (M1, M2, m0, n1, n2) = let
+//
+prval () = lemma_matrixref_param(M1)
+prval () = lemma_matrixref_param(M2)
+//
+in
+//
+matrixref_tabulate_cloref
+( m0(*nrow*), n1+n2(*ncol*)
+, lam(i, j) =>
+  if j < n1 then M1[i,n1,j] else M2[i,n2,j-n1])
+//
+end (* end of [cbind_matrixref_matrixref] *)
+//
+(* ****** ****** *)
+//
+implement
+rbind_matrixref_matrixref
+  (M1, M2, m1, m2, n0) = let
+//
+prval () = lemma_matrixref_param(M1)
+prval () = lemma_matrixref_param(M2)
+//
+in
+//
+matrixref_tabulate_cloref
+( m1+m2(*nrow*), n0(*ncol*)
+, lam(i, j) =>
+  if i < m1 then M1[i,n0,j] else M2[i-m1,n0,j])
+//
+end (* end of [cbind_matrixref_matrixref] *)
+//
+(* ****** ****** *)
+//
 // HX: matrix-with-size
 //
 (* ****** ****** *)
@@ -146,7 +182,9 @@ implement
 mtrxszref_foreach_row_method
   {a}(MSZ) =
 (
-  lam(fwork) => mtrxszref_foreach_row_cloref{a}(MSZ, fwork)
+  lam(fwork) =>
+    mtrxszref_foreach_row_cloref{a}(MSZ, fwork)
+  // end of [lam]
 ) (* end of [mtrxszref_foreach_row_method] *)
 //
 (* ****** ****** *)
@@ -170,8 +208,28 @@ implement
 mtrxszref_foreach_col_method
   {a}(MSZ) =
 (
-  lam(fwork) => mtrxszref_foreach_col_cloref{a}(MSZ, fwork)
+  lam(fwork) =>
+    mtrxszref_foreach_col_cloref{a}(MSZ, fwork)
+  // end of [lam]
 ) (* end of [mtrxszref_foreach_col_method] *)
+//
+(* ****** ****** *)
+//
+implement
+mtrxszref_tabulate_cloref
+{a}(m, n, fopr) = let
+//
+val
+fopr = $UN.cast(fopr)
+//
+in
+//
+$UN.cast
+(
+mtrxszref_make_matrixref
+  (matrixref_tabulate_cloref{a?}(m, n, fopr), m, n)
+)
+end (* end of [mtrxszref_tabulate] *)
 //
 (* ****** ****** *)
 

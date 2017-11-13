@@ -115,5 +115,15 @@ overload
 .foreach_col with matrix0_foreach_col_method of 100
 //
 (* ****** ****** *)
+//
+fun
+matrix0_tabulate
+  {a:vt0p}
+  {m,n:nat}
+(
+  int(m), int(n), fopr: (natLt(m), natLt(n)) -<cloref1> a
+) : matrix0(a) = "mac#%" // end-of-function
+//
+(* ****** ****** *)
 
 (* end of [matrix0.sats] *)

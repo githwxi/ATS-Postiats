@@ -72,5 +72,13 @@ matrix0_foreach_col_method
 lam(fwork) => matrix0_foreach_col{a}(M0, fwork)
 //
 (* ****** ****** *)
+//
+implement
+matrix0_tabulate
+{a}{m,n}
+(nrow, ncol, fopr) =
+mtrxszref_tabulate_cloref{a}(nrow, ncol, fopr)
+//
+(* ****** ****** *)
 
 (* end of [matrix0.dats] *)
