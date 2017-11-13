@@ -146,8 +146,7 @@ Here is a list of major additions and changes since the last release:
    source. For instance, a file of C code generated as such can serve as
    a script of some sort.
 4. Adding support for -dd/--dynamics, which compiles a list of given files
-   in a combined manner.
-   For instance, the following command-line:
+   in a combined manner. For instance, the following command-line:
 //
    patsopt -dd foo.dats bar1.dats bar2.dats bar3.dats
 //

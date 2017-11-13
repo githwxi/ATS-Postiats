@@ -104,7 +104,14 @@ Bacon_repeat
   {a:t0p}
 (
   fopr: cfun(intGte(0), EStream(a))
-) : EStream(a) = "mac#%" // end-of-fun
+) : EStream(a) = "mac#%" // end of [Bacon_repeat]
+//
+(* ****** ****** *)
+//
+fun
+Bacon_fromPoll
+  {a:t0p}
+  (ms: intGte(0), fopr: cfun(a)): EStream(a) = "mac#%"
 //
 (* ****** ****** *)
 //

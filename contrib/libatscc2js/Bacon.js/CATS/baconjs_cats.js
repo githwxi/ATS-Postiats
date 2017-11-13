@@ -28,8 +28,13 @@ ats2js_baconjs_Bacon_once(x) { return Bacon.once(x); }
 function
 ats2js_baconjs_Bacon_never() { return Bacon.never(); }
 //
+/* ****** ****** */
+//
 function
-ats2js_baconjs_Bacon_later(delay, x) { return Bacon.later(delay, x); }
+ats2js_baconjs_Bacon_later
+  (delay, x) { return Bacon.later(delay, x); }
+//
+/* ****** ****** */
 //
 function
 ats2js_baconjs_Bacon_interval
@@ -43,14 +48,31 @@ function
 ats2js_baconjs_Bacon_sequentially
   (int, xs) { return Bacon.sequentially(int, xs); }
 //
+/* ****** ****** */
+//
 function
-ats2js_baconjs_Bacon_repeat(fopr)
+ats2js_baconjs_Bacon_repeat
+  (fopr)
 {
   return Bacon.repeat(
-    function(i){return ats2jspre_cloref1_app(fopr, i);}
-  ); // end of [return]
+    function(i)
+      {return ats2jspre_cloref1_app(fopr, i);}
+    // end of [function]
+  ); // end of [Bacon.repeat]
 }
 //
+/* ****** ****** */
+
+function
+ats2js_bacon_Bacon_fromPoll
+  (int, fopr)
+{
+  return Bacon.fromPoll(
+    int
+  , function(){return ats2jspre_cloref0_app(fopr);}
+  ); // end of [Bacon.fromPoll]
+} // ats2js_bacon_Bacon_fromPoll
+
 /* ****** ****** */
 //
 function

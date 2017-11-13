@@ -102,6 +102,13 @@ Bacon_repeat{a:t0p}
 (* ****** ****** *)
 //
 fun
+Bacon_fromPoll
+  {a:t0p}
+  (ms: intGte(0), fopr: cfun(a)): EStream(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 EStream_map
   {a:t0p}{b:t0p}
 (
