@@ -12,21 +12,22 @@ staload "./../basics.sats"
 //
 fun
 matrixref_make_elt
-  {a:t@ype}{m,n:nat}
-  (int(m), int(n), a): matrixref(a, m, n) = "mac#%"
+{a:t@ype}{m,n:nat}
+( nrow: int(m)
+, ncol: int(n), x0: a): matrixref(a, m, n) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 matrixref_get_at
-  {a:t@ype}{m,n:int}
+{a:t@ype}{m,n:int}
 (
   matrixref(a, m, n), natLt(m), int(n), natLt(n)
 ) : a = "mac#%" // end-of-function
 //
 fun
 matrixref_set_at
-  {a:t@ype}{m,n:int}
+{a:t@ype}{m,n:int}
 (
   matrixref(a, m, n), natLt(m), int(n), natLt(n), a
 ) : void = "mac#%" // end-of-function
@@ -237,11 +238,10 @@ overload
 //
 fun
 mtrxszref_tabulate_cloref
-  {a:vt0p}{m,n:nat}
-( nrow: int(m)
-, ncol: int(n)
-, fopr: (natLt(m), natLt(n)) -<cloref1> (a)
-) : mtrxszref(a) = "mac#%" // end-of-function
+  {a:vt0p}
+  {m,n:nat}
+( nrow: int(m), ncol: int(n)
+, fopr: (natLt(m), natLt(n)) -<cloref1> a): mtrxszref(a) = "mac#%"
 //
 (* ****** ****** *)
 

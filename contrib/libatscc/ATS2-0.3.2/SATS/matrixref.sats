@@ -258,10 +258,8 @@ overload
 fun
 mtrxszref_tabulate_cloref
   {a:vt0p}{m,n:nat}
-( nrow: int(m)
-, ncol: int(n)
-, fopr: (natLt(m), natLt(n)) -<cloref1> (a)
-) : mtrxszref(a) = "mac#%" // end-of-function
+( nrow: int(m), ncol: int(n)
+, fopr: (natLt(m), natLt(n)) -<cloref1> (a)): mtrxszref(a) = "mac#%"
 //
 (* ****** ****** *)
 

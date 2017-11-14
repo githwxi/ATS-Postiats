@@ -78,26 +78,35 @@ arrayref_tabulate_cloref
 (* ****** ****** *)
 //
 fun
-arrszref_make_elt
-  {a:t0p}{n:nat}
-(
-  asz: int(n), x0: (a)
-) : arrszref(a) = "mac#%" // end-of-function
+arrszref_size
+  {a:vt0p}
+  (A: arrszref(a)): intGte(0) = "mac#%"
+fun
+arrszref_get_size
+  {a:vt0p}
+  (A: arrszref(a)): intGte(0) = "mac#%"
+//
+overload size with arrszref_size
+overload .size with arrszref_get_size
 //
 (* ****** ****** *)
+//
+fun
+arrszref_make_elt
+  {a:t0p}{n:nat}
+  (asz: int(n), a): arrszref(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+arrszref_get_arrayref
+  {a:t0p}
+  (arrszref(a)): [n:nat] arrayref(a,n) = "mac#%"
 //
 fun
 arrszref_make_arrayref
   {a:t0p}{n:int}
-(
-A0: arrayref(a, n), asz: int(n)
-) : arrszref(a) = "mac#%" // end-of-function
-//
-(* ****** ****** *)
-//
-fun
-arrszref_size
-  {a:vt0p}(A: arrszref(a)): intGte(0) = "mac#%"
+  (arrayref(a, n), int(n)) : arrszref(a) = "mac#%"
 //
 (* ****** ****** *)
 //

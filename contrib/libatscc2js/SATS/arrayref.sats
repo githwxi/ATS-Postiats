@@ -22,5 +22,12 @@ LIBATSCC_targetloc
 #include "{$LIBATSCC}/SATS/arrayref.sats"
 //
 (* ****** ****** *)
+//
+fun
+arrayref_uninitized
+{a:vt0p}{n:nat}
+  (asz: int(n)): arrayref(a?, n) = "mac#%"
+//
+(* ****** ****** *)
 
 (* end of [arrayref.sats] *)

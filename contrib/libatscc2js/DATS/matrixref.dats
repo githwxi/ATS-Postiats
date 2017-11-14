@@ -68,8 +68,14 @@ ats2jspre_matrixref_make_elt
   for (i = 0; i < m; i += 1)
   {
     for (j = 0; j < n; j += 1) A[i*n+j] = x;
-  }
-  return A;
+  } ; return A; // initized
+}
+//
+function
+ats2jspre_matrixref_uninitized
+  (nrow, ncol)
+{
+  var A = new Array(nrow*ncol); return A;
 }
 //
 %} // end of [%{^]

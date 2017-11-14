@@ -23,5 +23,14 @@ LIBATSCC_targetloc
 #include "{$LIBATSCC}/SATS/matrixref.sats"
 //
 (* ****** ****** *)
+//
+fun
+matrixref_uninitized
+  {a:vt0p}
+  {m,n:nat}
+  ( nrow: int(m)
+  , ncol: int(n) ) : matrixref(a?, m, n) = "mac#%"
+//
+(* ****** ****** *)
 
 (* end of [matrixref.sats] *)
