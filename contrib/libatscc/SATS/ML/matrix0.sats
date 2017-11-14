@@ -91,7 +91,8 @@ matrix0_foreach_row_method
 ) : void = "mac#%" // end-of-function
 //
 overload
-.foreach_row with matrix0_foreach_row_method of 100
+.foreach_row
+with matrix0_foreach_row_method of 100
 //
 (* ****** ****** *)
 //
@@ -112,7 +113,8 @@ matrix0_foreach_col_method
 ) : void = "mac#%" // end-of-function
 //
 overload
-.foreach_col with matrix0_foreach_col_method of 100
+.foreach_col
+with matrix0_foreach_col_method of 100
 //
 (* ****** ****** *)
 //
@@ -120,9 +122,17 @@ fun
 matrix0_tabulate
   {a:vt0p}
   {m,n:nat}
-(
-  int(m), int(n), fopr: (natLt(m), natLt(n)) -<cloref1> a
+( nrow: int(m)
+, ncol: int(n)
+, fopr: (natLt(m), natLt(n)) -<cloref1> (a)
 ) : matrix0(a) = "mac#%" // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+cbind_matrix0_matrix0
+  {a:t@ype}
+  (matrix0(a), matrix0(a)): matrix0(a) = "mac#%"
 //
 (* ****** ****** *)
 

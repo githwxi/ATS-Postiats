@@ -123,5 +123,23 @@ arrszref_foreach_method
 ) (* end of [mtrxszref_foreach_method] *)
 //
 (* ****** ****** *)
+//
+implement
+arrszref_tabulate_cloref
+  {a}(asz, fopr) = let
+//
+val fopr = $UN.cast(fopr)
+//
+in
+//
+$UN.cast (
+//
+arrszref_make_arrayref
+  (arrayref_tabulate_cloref{a?}(asz, fopr), asz)
+//
+)
+end (* end of [arrszref_tabulate] *)
+//
+(* ****** ****** *)
 
 (* end of [arrayref.dats] *)

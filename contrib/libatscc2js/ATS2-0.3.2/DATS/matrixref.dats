@@ -88,7 +88,9 @@ ats2jspre_matrixref_tabulate_cloref
   for (i = 0; i < m; i += 1)
   {
     for (j = 0; j < n; j += 1)
-    A[i*n+j] = ats2jspre_cloref2_app(fopr, i, j);
+    {
+      A[i*n+j] = ats2jspre_cloref2_app(fopr, i, j);
+    }
   }
   return A;
 }
@@ -116,16 +118,22 @@ end // end of [matrixref_set_at]
 %{^
 //
 function
+ats2jspre_mtrxszref_get_nrow
+  (MSZ) { return (MSZ.nrow); }
+function
+ats2jspre_mtrxszref_get_ncol
+  (MSZ) { return (MSZ.ncol); }
+//
+function
+ats2jspre_mtrxszref_get_matrixref
+  (MSZ) { return (MSZ.matrix); }
+//
+function
 ats2jspre_mtrxszref_make_matrixref
   (M, m, n)
 {
   return { matrix: M, nrow: m, ncol: n };
 }
-//
-function
-ats2jspre_mtrxszref_get_nrow(MSZ) { return MSZ.nrow; }
-function
-ats2jspre_mtrxszref_get_ncol(MSZ) { return MSZ.ncol; }
 //
 function
 ats2jspre_mtrxszref_get_at

@@ -80,11 +80,11 @@ overload length with list_length of 100
 fun
 list_length_gte
   {x:t0p}{n1,n2:int}
-  (xs: list(INV(x), n1), n2: int(n2)): bool(n1 >= n2)
+  (list(INV(x), n1), int(n2)): bool(n1 >= n2) = "mac#"
 fun
 list_length_compare
   {x:t0p}{n1,n2:int}
-  (xs: list(INV(x), n1), n2: int(n2)): int(sgn(n1-n2))
+  (list(INV(x), n1), int(n2)): int(sgn(n1-n2)) = "mac#"
 //
 overload >= with list_length_gte of 100
 overload compare with list_length_compare of 100
@@ -355,8 +355,8 @@ overload .filter with list_filter_method
 //
 fun
 list_labelize
-  {x:t0p}{n:int}
-  (xs: list(INV(x), n)): list($tup(int, x), n)
+{x:t0p}{n:int}
+(list(INV(x), n)): list($tup(int, x), n) = "mac#%"
 // end of [list_labelize]
 //
 (* ****** ****** *)

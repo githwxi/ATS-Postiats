@@ -324,7 +324,7 @@ overload .filter with list0_filter_method
 fun
 list0_labelize
   {x:t0p}
-  (xs: list0(INV(x))): list0($tup(int, x))
+  (list0(INV(x))): list0($tup(int, x)) = "mac#%"
 // end of [list0_labelize]
 //
 (* ****** ****** *)

@@ -80,5 +80,30 @@ matrix0_tabulate
 mtrxszref_tabulate_cloref{a}(nrow, ncol, fopr)
 //
 (* ****** ****** *)
+//
+implement
+cbind_matrix0_matrix0
+{a}(M0, M1) = let
+//
+val m0 = M0.nrow()
+val m1 = M1.nrow()
+val n0 = M0.ncol()
+val n1 = M1.ncol()
+val () = assertloc(m0 = m1)
+//
+val M0 = mtrxszref_get_matrixref(M0)
+val M1 = mtrxszref_get_matrixref(M1)
+//
+in (* in-of-let *)
+//
+mtrxszref_make_matrixref
+(
+cbind_matrixref_matrixref{a}
+($UN.cast(M0), $UN.cast(M1), m0, n0, n1), m0, n0+n1
+) (* mtrxszref_make_matrixref *)
+//
+end // end of [cbind_matrix0_matrix0]
+//
+(* ****** ****** *)
 
 (* end of [matrix0.dats] *)

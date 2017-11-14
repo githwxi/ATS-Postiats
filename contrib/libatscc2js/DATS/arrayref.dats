@@ -74,6 +74,25 @@ ats2jspre_arrayref_make_elt
 
 (* ****** ****** *)
 
+%{^
+//
+function
+ats2jspre_arrayref_tabulate_cloref
+  (n, fopr)
+{
+  var A, i;
+  A = new Array(n);
+  for (i = 0; i < n; i += 1)
+  {
+    A[i] = ats2jspre_cloref1_app(fopr, i);
+  }
+  return A;
+}
+//
+%} // end of [%{^]
+
+(* ****** ****** *)
+
 implement
 arrayref_get_at
   {a}(A, i) = let

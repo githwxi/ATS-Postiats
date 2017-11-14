@@ -108,16 +108,14 @@ JSarray_takeout_at
 //
 fun
 JSarray_remove_at
-  {a:t@ype}(A: JSarray(a), ofs: int): void = "mac#%"
+  {a:t@ype}(JSarray(a), ofs: int): void = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 JSarray_tabulate_cloref
-  {a:t0p}{n:nat}
-(
-  asz: int(n)
-, fopr: cfun(natLt(n), a)): JSarray(a) // end-of-fun
+  {a:vt0p}{n:nat}
+  (int(n), cfun(natLt(n), a)): JSarray(a) = "mac#%"
 //
 (* ****** ****** *)
 //

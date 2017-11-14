@@ -115,16 +115,22 @@ end // end of [matrixref_set_at]
 %{^
 //
 function
+ats2jspre_mtrxszref_get_nrow
+  (MSZ) { return (MSZ.nrow); }
+function
+ats2jspre_mtrxszref_get_ncol
+  (MSZ) { return (MSZ.ncol); }
+//
+function
+ats2jspre_mtrxszref_get_matrixref
+  (MSZ) { return (MSZ.matrix); }
+//
+function
 ats2jspre_mtrxszref_make_matrixref
   (M, m, n)
 {
   return { matrix: M, nrow: m, ncol: n };
 }
-//
-function
-ats2jspre_mtrxszref_get_nrow(MSZ) { return MSZ.nrow; }
-function
-ats2jspre_mtrxszref_get_ncol(MSZ) { return MSZ.ncol; }
 //
 function
 ats2jspre_mtrxszref_get_at

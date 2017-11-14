@@ -171,6 +171,40 @@ end // end of [list_length]
 (* ****** ****** *)
 //
 implement
+list_length_gte
+{x}(xs, n2) =
+  (list_length_compare{x}(xs, n2) >= 0)
+//
+implement
+list_length_compare
+{x}(xs, n2) =
+  loop(xs, n2) where
+{
+//
+fun
+loop
+{i:nat;j:int} .<i>.
+(xs: list(x, i), j: int j) :<> int(sgn(i-j)) =
+(
+if
+(j < 0)
+then 1 else
+(
+case+ xs of
+| list_cons
+    (_, xs) => loop(xs, j-1)
+  // list_cons
+| _ (*list_nil*) =>> (if j = 0 then 0 else ~1)
+)
+) (* end of [loop] *)
+//
+prval() = lemma_list_param(xs)
+//
+} (* end of [list_length_compare] *)
+
+(* ****** ****** *)
+//
+implement
 list_head(xs) =
 let val+list_cons(x, _) = xs in x end
 implement

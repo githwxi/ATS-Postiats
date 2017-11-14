@@ -208,14 +208,14 @@ stream_merge_cloref
 (
   xs1: stream(INV(a))
 , xs2: stream(a), cmp: (a, a) -<cloref1> (int)
-) : stream(a) // end of [stream_merge_cloref]
+) : stream(a) = "mac#%" // end-of-function
 fun
 stream_merge_method
   {a:t0p}
 (
   xs1: stream(INV(a))
 , xs2: stream(a))(cmp: (a, a) -<cloref1> (int)
-) : stream(a) // end of [stream_merge_method]
+) : stream(a) = "mac#%" // end-of-function
 //
 (* ****** ****** *)
 //
