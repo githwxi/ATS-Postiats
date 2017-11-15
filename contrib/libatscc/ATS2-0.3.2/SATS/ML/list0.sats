@@ -366,8 +366,8 @@ overload .imap with list0_imap_method
 fun
 list0_map2
 {a1,a2:t0p}{b:t0p}
-(
-  list0(INV(a1)), list0(INV(a2)), fopr: cfun(a1, a2, b)
+( xs1: list0(INV(a1))
+, xs2: list0(INV(a2)), fopr: cfun(a1, a2, b)
 ) : list0(b) = "mac#%" // end of [list0_map2]
 //
 (* ****** ****** *)
@@ -375,7 +375,15 @@ list0_map2
 fun
 list0_mapcons
   {a:t0p}
-  (x0: a, xss: list0(list0(INV(a)))): list0(list0(a)) = "mac#%"
+( x0: (a)
+, xss: list0(list0(INV(a)))) : list0(list0(a)) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+list0_tabulate
+  {a:t0p}
+  (n0: int, fopr: (int) -<cloref1> a): list0(a) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -383,13 +391,13 @@ fun
 list0_find_opt
   {a:t0p}
 (
-  xs: list0(INV(a)), pred: cfun(a, bool)
+xs: list0(INV(a)), pred: cfun(a, bool)
 ) : Option_vt(a) = "mac#%" // end-of-fun
 fun
 list0_find_opt_method
   {a:t0p}
 (
-  xs: list0(INV(a)))(pred: cfun(a, bool)
+xs: list0(INV(a)))(pred: cfun(a, bool)
 ) : Option_vt(a) = "mac#%" // end-of-fun
 //
 overload .find_opt with list0_find_opt_method

@@ -462,7 +462,9 @@ implement
 list0_map2
   {a1,a2}{b}
   (xs1, xs2, fopr) =
-  g0ofg1(list_map2(g1ofg0(xs1), g1ofg0(xs2), fopr))
+  g0ofg1 (
+    list_map2(g1ofg0(xs1), g1ofg0(xs2), fopr)
+  ) (*g0ofg1*)
 //
 (* ****** ****** *)
 //
@@ -474,9 +476,31 @@ case+ xss of
 | list0_nil() =>
   list0_nil()
 | list0_cons(xs, xss) =>
-  list0_cons(list0_cons(x0, xs), list0_mapcons(x0, xss))
+  list0_cons
+  (list0_cons(x0, xs), list0_mapcons(x0, xss))
 )
 //
+(* ****** ****** *)
+
+implement
+list0_tabulate
+  {a}(n0, fopr) =
+  auxmain(0) where
+{
+//
+fun
+auxmain
+(i: int): list0(a) =
+(
+if
+(i < n0)
+then
+list0_cons
+(fopr(i), auxmain(i+1)) else list0_nil((*void*))
+)
+//
+} (* end of [list0_tabulate] *)
+
 (* ****** ****** *)
 
 implement

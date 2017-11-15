@@ -389,16 +389,24 @@ list0_mapcons
 (* ****** ****** *)
 //
 fun
+list0_tabulate
+  {a:t0p}
+( n0: int
+, f0: cfun(int,a)): list0(a) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 list0_find_opt
   {a:t0p}
 (
-  xs: list0(INV(a)), pred: cfun(a, bool)
+xs: list0(INV(a)), pred: cfun(a, bool)
 ) : Option_vt(a) = "mac#%" // end-of-fun
 fun
 list0_find_opt_method
   {a:t0p}
 (
-  xs: list0(INV(a)))(pred: cfun(a, bool)
+xs: list0(INV(a)))(pred: cfun(a, bool)
 ) : Option_vt(a) = "mac#%" // end-of-fun
 //
 overload
