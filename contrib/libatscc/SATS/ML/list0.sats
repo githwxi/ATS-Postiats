@@ -325,13 +325,13 @@ fun
 list0_filter
   {a:t0p}
 (
-  xs: list0(INV(a)), pred: cfun(a, bool)
+xs: list0(INV(a)), pred: cfun(a, bool)
 ) : list0(a) = "mac#%" // end-of-function
 fun
 list0_filter_method
   {a:t0p}
 (
-  xs: list0(INV(a)))(pred: cfun(a, bool)
+xs: list0(INV(a)))(pred: cfun(a, bool)
 ) : list0(a) = "mac#%" // end-of-function
 //
 overload .filter with list0_filter_method of 100

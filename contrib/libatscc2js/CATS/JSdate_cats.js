@@ -26,7 +26,7 @@ function
 ats2jspre_Date_new_1_string
   (date) { return new Date(date); }
 function
-ats2jspre_Date_new_7
+ats2jspre_Date_new_7_all
   (year, mon, day, hour, min, sec, ms)
 {
   return new Date(year, mon, day, hour, min, sec, ms);
