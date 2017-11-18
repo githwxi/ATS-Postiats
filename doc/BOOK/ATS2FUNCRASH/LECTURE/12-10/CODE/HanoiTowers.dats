@@ -195,6 +195,9 @@ val
 theButton_pause =
 document_getElementById("button_pause")
 val
+theButton_step1 =
+document_getElementById("button_step1")
+val
 theButton_resume =
 document_getElementById("button_resume")
 //
@@ -223,8 +226,9 @@ button_disable(button)
 //
 (* ****** ****** *)
 
-val () = button_enable(theButton_start)
 val () = button_enable(theButton_reset)
+val () = button_disable(theButton_start)
+val () = button_disable(theButton_step1)
 val () = button_disable(theButton_pause)
 val () = button_disable(theButton_resume)
 
@@ -443,6 +447,11 @@ end // end of [HanoiTowersShow_init]
 //
 extern
 fun
+HanoiTowersShow_step
+  ((*void*)): void
+//
+extern
+fun
 HanoiTowersShow_loop
   ((*void*)): void
 extern
@@ -453,7 +462,7 @@ HanoiTowersShow_loop_delay
 (* ****** ****** *)
 //
 implement
-HanoiTowersShow_loop
+HanoiTowersShow_step
   ((*void*)) = let
 //
 val
@@ -481,8 +490,41 @@ in
        , "getElementById", "theStage")
      in
        xmldoc_set_innerHTML(theStage, res)
-     end;
-     HanoiTowersShow_loop_delay()
+     end
+    )
+end // end of [HanoiTowersShow_step]
+//
+(* ****** ****** *)
+//
+implement
+HanoiTowersShow_loop
+  ((*void*)) = let
+//
+val
+opt = theHanoiTowersCont1[]
+//
+val () =
+theHanoiTowersCont1[] := None0()
+//
+in
+  case+ opt of
+  | None0() =>
+    ((*void*))
+  | Some0(k0) =>
+    (k0(); let
+       val () =
+       the_print_store_clear()
+       val () = thePoles_show()
+       val res = the_print_store_join()
+       val
+       theStage =
+       $extmcall
+       ( xmldoc
+       , theDocument
+       , "getElementById", "theStage")
+     in
+       xmldoc_set_innerHTML(theStage, res)
+     end; HanoiTowersShow_loop_delay((*void*))
     )
 end // end of [HanoiTowersShow_loop]
 //
@@ -524,6 +566,8 @@ button_enable(theButton_pause)
 val () =
 button_disable(theButton_start)
 val () =
+button_disable(theButton_step1)
+val () =
 button_disable(theButton_resume)
 //
 val () =
@@ -535,23 +579,15 @@ thePoles_init()
 val N = N_get()
 val src = 0 and dst = 1 and tmp = 2
 //
+local
+val
+opt = theHanoiTowersCont0[]
+in
 val () =
-theHanoiTowersCont1[] :=
-Some0
-(
-lam
-(
-// argless
-) =<cloref1>
-k_nmove
-( N, src, dst, tmp
-, lam() =>
-  let val () =
-    alert("HanoiTowers: Done!") in HanoiTowersControl_reset()
-  end // end of [let]
-)
-// end of [lam]
-)
+theHanoiTowersCont1[] := opt
+val () =
+theHanoiTowersCont0[] := None0()
+end // end of [local]
 //
 in
   HanoiTowersShow_loop()
@@ -573,6 +609,8 @@ param_initize()
 //
 val () =
 button_enable(theButton_start)
+val () =
+button_enable(theButton_step1)
 //
 val () =
 button_disable(theButton_pause)
@@ -582,8 +620,28 @@ button_disable(theButton_resume)
 val () =
 thePoles_init()
 //
+val N = N_get()
+//
+val src = 0
+and dst = 1 and tmp = 2
+//
 val () =
-theHanoiTowersCont0[] := None0()
+theHanoiTowersCont0[] :=
+Some0
+(
+lam
+(
+// argless
+) =<cloref1>
+k_nmove
+( N, src, dst, tmp
+, lam() =>
+  let val () =
+    alert("HanoiTowers: Done!") in HanoiTowersControl_reset()
+  end // end of [let]
+)
+// end of [lam]
+)
 val () =
 theHanoiTowersCont1[] := None0()
 //
@@ -607,6 +665,8 @@ val () =
 alert("HanoiTowersControl_pause!")
 *)
 //
+val () =
+button_enable(theButton_step1)
 val () =
 button_enable(theButton_resume)
 //
@@ -635,6 +695,52 @@ end // end of [HanoiTowersControl_pause]
 //
 extern
 fun
+HanoiTowersControl_step1
+  ((*void*)): void = "mac#"
+//
+implement
+HanoiTowersControl_step1
+  ((*void*)) = let
+//
+(*
+val () =
+alert("HanoiTowersControl_step1!")
+*)
+//
+val () =
+button_enable(theButton_resume)
+val () =
+button_disable(theButton_start)
+//
+val opt =
+theHanoiTowersCont0[]
+//
+in
+//
+case+ opt of
+| None0 _ =>
+  (
+  // nothing
+  )
+| Some0 _ =>
+  (
+    theHanoiTowersCont1[] := opt;
+    theHanoiTowersCont0[] := None0();
+    HanoiTowersShow_step((*void*));
+    let
+      val
+      opt = theHanoiTowersCont1[]
+    in
+      theHanoiTowersCont0[] := opt
+    end
+  )
+//
+end // end of [HanoiTowersControl_step1]
+
+(* ****** ****** *)
+//
+extern
+fun
 HanoiTowersControl_resume
   ((*void*)): void = "mac#"
 //
@@ -651,6 +757,8 @@ val () =
 button_enable(theButton_pause)
 //
 val () =
+button_disable(theButton_step1)
+val () =
 button_disable(theButton_resume)
 //
 val opt =
@@ -664,7 +772,7 @@ case+ opt of
   (
     theHanoiTowersCont1[] := opt;
     theHanoiTowersCont0[] := None0();
-    HanoiTowersShow_loop();
+    HanoiTowersShow_loop((*void*));
   )
 //
 end // end of [HanoiTowersControl_resume]

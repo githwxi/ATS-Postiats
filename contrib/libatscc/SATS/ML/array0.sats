@@ -86,19 +86,29 @@ fun
 array0_app
   {a:t0p}
 (
-  xs: array0(a), fwork: cfun(Nat, void)
+xs: array0(a), fwork: cfun(Nat, void)
 ) : void = "mac#%" // end-of-function
 fun
 array0_foreach
   {a:vt0p}
-  (A: array0(a), fwork: Nat -<cloref1> void): void = "mac#%"
+( A: array0(a)
+, fwork: cfun(Nat, void)): void = "mac#%"
 fun
 array0_foreach_method
   {a:vt0p}
-  (A: array0(a))(fwork: Nat -<cloref1> void): void = "mac#%"
+  (A: array0(a))
+  (fwork: cfun(Nat, void)): void = "mac#%"
 //
 overload
 .foreach with array0_foreach_method of 100
+//
+(* ****** ****** *)
+//
+fun
+array0_tabulate
+  {a:vt0p}
+  ( asz: int
+  , fopr: cfun(Nat, a)): array0(a) = "mac#%"
 //
 (* ****** ****** *)
 

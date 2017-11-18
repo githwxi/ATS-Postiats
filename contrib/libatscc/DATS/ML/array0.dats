@@ -79,4 +79,20 @@ array0_foreach_method
 //
 (* ****** ****** *)
 
+implement
+array0_tabulate
+{a}(asz, fopr) = let
+//
+val
+asz = g1ofg0(asz)
+val
+asz =
+(if asz >= 0 then asz else 0): Nat
+//
+in
+  arrszref_tabulate_cloref{a}(asz, fopr)
+end // end of [array0_tabulate]
+
+(* ****** ****** *)
+
 (* end of [array0.dats] *)
