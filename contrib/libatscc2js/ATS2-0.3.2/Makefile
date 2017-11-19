@@ -81,6 +81,9 @@ $(ATSCC2JS) -o ./output/DATS/gmatrixref_dats.js -i
 ######
 #
 all:: ; \
+$(PATSOPT) -d ./DATS/funarray.dats | \
+$(ATSCC2JS) -o ./output/DATS/funarray_dats.js -i
+all:: ; \
 $(PATSOPT) -d ./DATS/slistref.dats | \
 $(ATSCC2JS) -o ./output/DATS/slistref_dats.js -i
 all:: ; \
@@ -192,8 +195,9 @@ output/DATS/reference_dats.js \
 output/DATS/arrayref_dats.js \
 output/DATS/matrixref_dats.js \
 output/DATS/gmatrixref_dats.js \
-output/DATS/qlistref_dats.js \
+output/DATS/funarray_dats.js \
 output/DATS/slistref_dats.js \
+output/DATS/qlistref_dats.js \
 output/DATS/ML/list0_dats.js \
 output/DATS/ML/array0_dats.js \
 output/DATS/ML/option0_dats.js \

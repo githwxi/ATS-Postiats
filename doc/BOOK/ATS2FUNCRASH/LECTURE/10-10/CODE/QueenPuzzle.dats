@@ -73,7 +73,7 @@ xmldoc_set_innerHTML
 (xmldoc, text: string): void = "mac#"
 //
 (* ****** ****** *)
-
+//
 (*
 #define N 8
 *)
@@ -90,15 +90,15 @@ fun theDelayTime_set(int): void
 (* ****** ****** *)
 
 local
-
+//
 val N = ref{int}(8)
 val theDelayTime = ref{int}(500)
-
+//
 in (* in-of-local *)
 //
 implement N_get() = N[]
 implement N_set(n) = (N[] := n)
-
+//
 implement theDelayTime_get() = theDelayTime[]
 implement theDelayTime_set(n) = (theDelayTime[] := n)
 //
@@ -195,7 +195,11 @@ xs: list0(int)
 (
 //
 list0_iforall<int> // abs: absolute value
-  (xs, lam(i, x) => (x0 != x && abs(x0-x) != (i+1)))
+( xs
+, lam(i, x) =>
+    (x0 != x && abs(x0-x) != (i+1))
+  // end of [lam]
+)
 //
 ) // end of [test_safety]
 
@@ -268,6 +272,7 @@ xmldoc_set_innerHTML
 (xmldoc, text: string): void = "mac#"
 //
 (* ****** ****** *)
+//
 val
 theDocument =
 $extval(xmldoc, "document")
@@ -324,9 +329,11 @@ param_initize(): void = "mac#"
 implement
 param_initize() =
 {
+//
 val () = N_set(board_size_get())
 val () = theDelayTime_set(delay_time_get())
-}
+//
+} (* end of [param_initize] *)
 //
 (* ****** ****** *)
 //
