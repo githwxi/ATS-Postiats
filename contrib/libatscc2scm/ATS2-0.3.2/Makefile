@@ -52,6 +52,10 @@ $(ATSCC2SCM) -o ./output/DATS/reference_dats.scm -i
 ######
 #
 all:: ; \
+$(PATSOPT) -d ./DATS/funarray.dats | \
+$(ATSCC2SCM) -o ./output/DATS/funarray_dats.scm -i
+#
+all:: ; \
 $(PATSOPT) -d ./DATS/slistref.dats | \
 $(ATSCC2SCM) -o ./output/DATS/slistref_dats.scm -i
 #
@@ -132,6 +136,7 @@ output/DATS/stream_dats.scm \
 output/DATS/stream_vt_dats.scm \
 output/DATS/intrange_dats.scm \
 output/DATS/reference_dats.scm \
+output/DATS/funarray_dats.scm \
 output/DATS/slistref_dats.scm \
 output/DATS/qlistref_dats.scm \
 output/DATS/ML/list0_dats.scm \
