@@ -39,6 +39,11 @@ all:: ; \
 $(PATSOPT) -d ./DATS/reference.dats | \
 $(ATSCC2PL) -o ./output/DATS/reference_dats.pl -i
 #
+######
+#
+all:: ; \
+$(PATSOPT) -d ./DATS/funarray.dats | \
+$(ATSCC2PL) -o ./output/DATS/funarray_dats.pl -i
 all:: ; \
 $(PATSOPT) -d ./DATS/slistref.dats | \
 $(ATSCC2PL) -o ./output/DATS/slistref_dats.pl -i
@@ -114,6 +119,7 @@ output/DATS/stream_dats.pl \
 output/DATS/stream_vt_dats.pl \
 output/DATS/intrange_dats.pl \
 output/DATS/reference_dats.pl \
+output/DATS/funarray_dats.pl \
 output/DATS/slistref_dats.pl \
 output/DATS/qlistref_dats.pl \
 output/DATS/ML/list0_dats.pl \

@@ -61,6 +61,9 @@ $(ATSCC2PY) -o ./output/DATS/matrixref_dats.py -i
 ######
 #
 all:: ; \
+$(PATSOPT) -d ./DATS/funarray.dats | \
+$(ATSCC2PY) -o ./output/DATS/funarray_dats.py -i
+all:: ; \
 $(PATSOPT) -d ./DATS/slistref.dats | \
 $(ATSCC2PY) -o ./output/DATS/slistref_dats.py -i
 all:: ; \
@@ -151,6 +154,7 @@ output/DATS/stream_vt_dats.py \
 output/DATS/intrange_dats.py \
 output/DATS/arrayref_dats.py \
 output/DATS/matrixref_dats.py \
+output/DATS/funarray_dats.py \
 output/DATS/slistref_dats.py \
 output/DATS/qlistref_dats.py \
 output/DATS/ML/list0_dats.py \

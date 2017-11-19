@@ -50,4 +50,4 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 
-(* end of [list.dats] *)
+(* end of [funarray.dats] *)
