@@ -55,6 +55,9 @@ $(ATSCC2PHP) -o ./output/DATS/reference_dats.php -i
 ######
 
 all:: ; \
+$(PATSOPT) -d ./DATS/funarray.dats | \
+$(ATSCC2PHP) -o ./output/DATS/funarray_dats.php -i
+all:: ; \
 $(PATSOPT) -d ./DATS/slistref.dats | \
 $(ATSCC2PHP) -o ./output/DATS/slistref_dats.php -i
 all:: ; \
@@ -138,6 +141,7 @@ output/DATS/PHParref_dats.php \
 output/DATS/arrayref_dats.php \
 output/DATS/matrixref_dats.php \
 output/DATS/reference_dats.php \
+output/DATS/funarray_dats.php \
 output/DATS/slistref_dats.php \
 output/DATS/qlistref_dats.php \
 output/DATS/ML/list0_dats.php \

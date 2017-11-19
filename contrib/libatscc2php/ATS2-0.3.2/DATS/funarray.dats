@@ -13,9 +13,9 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2jspre_"
+ATS_EXTERN_PREFIX "ats2phppre_"
 #define
-ATS_STATIC_PREFIX "_ats2jspre_funarray_"
+ATS_STATIC_PREFIX "_ats2phppre_funarray_"
 //
 (* ****** ****** *)
 //
