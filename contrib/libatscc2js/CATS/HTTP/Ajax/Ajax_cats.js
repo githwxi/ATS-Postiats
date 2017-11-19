@@ -71,7 +71,7 @@ function
 ats2js_Ajax_XMLHttpRequest_set_onreadystatechange
   (xmlhttp, f_action)
 {
-  xmlhttp.onreadystatechange = function() { f_action[0](f_action); };
+  xmlhttp.onreadystatechange = function(){ f_action[0](f_action); };
 }
 //
 /* ****** ****** */

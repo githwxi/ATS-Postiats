@@ -13,7 +13,7 @@ ATS_EXTERN_PREFIX "ats2jspre_"
 //
 (* ****** ****** *)
 
-#staload "./../basics_js.sats"
+#staload "./../../basics_js.sats"
 
 (* ****** ****** *)
 

@@ -48,15 +48,17 @@ UN =
 //
 (* ****** ****** *)
 //
-#staload "./../SATS/stream.sats"
-#staload _ = "./../DATS/stream.dats"
-//
-#staload "./../SATS/stream_vt.sats"
-#staload _ = "./../DATS/stream_vt.dats"
+#staload "./../SATS/JSarray.sats"
 //
 (* ****** ****** *)
 //
-#staload "./../SATS/JSarray.sats"
+#staload "./../SATS/stream.sats"
+#staload
+_(*anon*) = "./../DATS/stream.dats"
+//
+#staload "./../SATS/stream_vt.sats"
+#staload
+_(*anon*) = "./../DATS/stream_vt.dats"
 //
 (* ****** ****** *)
 
@@ -76,7 +78,7 @@ print_list$sep(): void
 implement
 {}(*tmp*)
 print_list$sep
-  ((*void*)) = print_string (", ")
+  ((*void*)) = print_string(", ")
 //
 implement
 {a}(*tmp*)
@@ -85,12 +87,12 @@ print_list
 //
 implement
 fprint_val<a>
-  (out, x) = print_val<a> (x)
+  (out, x) = print_val<a>(x)
 implement
-fprint_list$sep<> (out) = print_list$sep<> ()
+fprint_list$sep<>(out) = print_list$sep<>()
 //
 in
-  fprint_list<a> (STDOUT, xs)
+  fprint_list<a>(STDOUT, xs)
 end // end of [print_list]
 //
 (* ****** ****** *)
@@ -101,12 +103,12 @@ print_list_sep
   (xs, sep) = let
 //
 implement
-fprint_val<a> (out, x) = print_val<a> (x)
+fprint_val<a>(out, x) = print_val<a>(x)
 implement
-fprint_list$sep<> (out) = print_string (sep)
+fprint_list$sep<>(out) = print_string(sep)
 //
 in
-  fprint_list<a> (STDOUT, xs)
+  fprint_list<a>(STDOUT, xs)
 end // end of [print_list_sep]
 //
 (* ****** ****** *)

@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 //
 // HX-2014-09:
@@ -13,26 +13,26 @@ ATS_EXTERN_PREFIX "ats2jspre_"
 //
 (* ****** ****** *)
 
-#staload "./../basics_js.sats"
+#staload "./../../basics_js.sats"
 
 (* ****** ****** *)
 
 fun
-eval(code: string): JSobj = "mac#%"
+eval (code: string): JSobj = "mac#%"
 
 (* ****** ****** *)
-//
+
 fun
 Number{a:t0p}(obj: a): double = "mac#%"
 fun
 String{a:t0p}(obj: a): string = "mac#%"
-//
+
 (* ****** ****** *)
 //
 fun
-isFinite_int(int): bool = "mac#%"
+isFinite_int (int): bool = "mac#%"
 fun
-isFinite_double(double): bool = "mac#%"
+isFinite_double (double): bool = "mac#%"
 //
 symintr isFinite
 overload isFinite with isFinite_int
@@ -40,8 +40,8 @@ overload isFinite with isFinite_double
 //
 (* ****** ****** *)
 //
-fun isNaN_int(int): bool = "mac#%"
-fun isNaN_double(double): bool = "mac#%"
+fun isNaN_int (int): bool = "mac#%"
+fun isNaN_double (double): bool = "mac#%"
 //
 symintr isNaN
 overload isNaN with isNaN_int

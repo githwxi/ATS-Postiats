@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 #define ATS_DYNLOADFLAG 0
@@ -24,13 +24,17 @@ ATS_STATIC_PREFIX "_ats2jspre_JSmath_"
 //
 (* ****** ****** *)
 //
-#staload "./../basics_js.sats"
-#staload "./../SATS/float.sats"
-#staload "./../SATS/integer.sats"
+#staload
+"./../../basics_js.sats"
+#staload
+"./../../SATS/float.sats"
+#staload
+"./../../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-#staload "./../SATS/JSmath.sats"
+#staload
+"./../../SATS/JSLIBC/JSmath.sats"
 //
 (* ****** ****** *)
 
@@ -50,4 +54,4 @@ end // end of [JSmath_randint]
 
 (* ****** ****** *)
 
-(* end of [intrange.dats] *)
+(* end of [JSmath.dats] *)

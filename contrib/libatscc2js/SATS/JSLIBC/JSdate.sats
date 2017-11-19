@@ -9,11 +9,11 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2jspre_"
+ATS_EXTERN_PREFIX "ats2js_libc_"
 //
 (* ****** ****** *)
 
-#staload "./../basics_js.sats"
+#staload "./../../basics_js.sats"
 
 (* ****** ****** *)
 //

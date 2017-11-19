@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -41,13 +41,13 @@ ATS_EXTERN_PREFIX
 (* ****** ****** *)
 //
 staload
-"./../../basics_js.sats"
+"./../../../basics_js.sats"
 //
 (* ****** ****** *)
 //
 staload
 XMLDOC =
-"./../XMLDOC/XMLDOC.sats"
+"./../../XMLDOC/XMLDOC.sats"
 //
 typedef
 XMLDOC = $XMLDOC.XMLDOC_type
