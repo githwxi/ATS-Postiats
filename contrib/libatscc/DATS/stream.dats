@@ -277,6 +277,36 @@ stream_map_method
 (* ****** ****** *)
 //
 implement
+stream_scan_cloref
+{res}{a}
+(xs, r0, fopr) = $delay
+(
+//
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons
+  ( r0
+  , stream_scan_cloref
+      {res}{a}(xs, fopr(r0, x), fopr)
+    // stream_scan_cloref
+  ) (* end of [stream_cons] *)
+//
+) (* end of [stream_scan_cloref] *)
+//
+implement
+stream_scan_method
+{res}{a}(xs, _) =
+(
+lam(r0, fopr) =>
+  stream_scan_cloref{res}{a}(xs, r0, fopr)
+// end of [lam]
+) (* stream_scan_method *)
+//
+(* ****** ****** *)
+//
+implement
 stream_filter_cloref
   {a}(xs, pred) = $delay
 (

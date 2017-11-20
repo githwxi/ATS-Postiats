@@ -121,6 +121,18 @@ stream_map_method
 (* ****** ****** *)
 //
 fun
+stream_scan_cloref
+  {res:t0p}{a:t0p}
+  ( xs: stream(INV(a))
+  , r0: res, fopr: cfun(res, a, res)): stream(res) = "mac#%"
+fun
+stream_scan_method
+  {res:t0p}{a:t0p}
+  (stream(INV(a)), TYPE(res))(res, cfun(res, a, res)): stream(res) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 stream_filter_cloref
   {a:t0p}
 (

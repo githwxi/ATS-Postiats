@@ -254,7 +254,7 @@ case+ !xss of
   stream_nil((*void*))
 | stream_cons(xs, xss) =>
   (
-    !(stream_append(xs, stream_concat(xss)))
+  !(stream_append(xs, stream_concat(xss)))
   )
 //
 ) (* end of [stream_concat] *)
@@ -267,9 +267,11 @@ stream_map_cloref
 (
 //
 case+ !xs of
-| stream_nil() => stream_nil()
+| stream_nil() =>
+  stream_nil((*void*))
 | stream_cons(x, xs) =>
-    stream_cons(fopr(x), stream_map_cloref(xs, fopr))
+  stream_cons
+    (fopr(x), stream_map_cloref(xs, fopr))
   // end of [stream_cons]
 //
 ) (* end of [stream_map_cloref] *)
@@ -278,8 +280,38 @@ implement
 stream_map_method
   {a}(xs, _) =
 (
-  lam(fopr) => stream_map_cloref{a}(xs, fopr)
-)
+lam(fopr) => stream_map_cloref{a}(xs, fopr)
+) (* stream_map_method *)
+//
+(* ****** ****** *)
+//
+implement
+stream_scan_cloref
+{res}{a}
+(xs, r0, fopr) = $delay
+(
+//
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons
+  ( r0
+  , stream_scan_cloref
+      {res}{a}(xs, fopr(r0, x), fopr)
+    // stream_scan_cloref
+  ) (* end of [stream_cons] *)
+//
+) (* end of [stream_scan_cloref] *)
+//
+implement
+stream_scan_method
+{res}{a}(xs, _) =
+(
+lam(r0, fopr) =>
+  stream_scan_cloref{res}{a}(xs, r0, fopr)
+// end of [lam]
+) (* stream_scan_method *)
 //
 (* ****** ****** *)
 //

@@ -69,43 +69,33 @@ stream2list_rev
 fun
 stream_takeLte
   {a:t0p}
-(
-  xs: stream(INV(a)), n0: intGte(0)
-) : stream_vt(a) = "mac#%" // end-of-fun
+  (stream(INV(a)), n0: Nat): stream_vt(a) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 stream_take_opt
   {a:t0p}{n:nat}
-(
-xs: stream(INV(a)), n: int(n)
-) : Option_vt(list(a,n)) = "mac#%" // end-of-fun
+  (stream(INV(a)), n: int(n)): Option_vt(list(a,n)) = "mac#%"
 //
 fun
 stream_drop_opt
   {a:t0p}{n:nat}
-(
-xs: stream(INV(a)), n: int(n)
-) : Option_vt(stream(a)) = "mac#%" // end-of-fun
+  (stream(INV(a)), n: int(n)): Option_vt(stream(a)) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 stream_append
   {a:t0p}
-(
-  stream(INV(a)), stream(a)
-) : stream(a) = "mac#%" // end-of-function
+  (stream(INV(a)), stream(a)): stream(a) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 stream_concat
   {a:t0p}
-(
-  xss: stream(stream(INV(a)))
-) : stream(a) = "mac#%" // end-of-function
+  (xss: stream(stream(INV(a)))): stream(a) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -113,30 +103,38 @@ fun
 stream_map_cloref
   {a:t0p}{b:t0p}
 (
-  xs: stream(INV(a)), fopr: (a) -<cloref1> b
+xs: stream(INV(a)), fopr: (a) -<cloref1> b
 ) : stream(b) = "mac#%" // end-of-function
 //
 fun
 stream_map_method
   {a:t0p}{b:t0p}
 (
-  xs: stream(INV(a)), TYPE(b))(fopr: (a) -<cloref1> b
+xs: stream(INV(a)), TYPE(b))(fopr: (a) -<cloref1> b
 ) : stream(b) = "mac#%" // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+stream_scan_cloref
+  {res:t0p}{a:t0p}
+  ( xs: stream(INV(a))
+  , r0: res, fopr: cfun(res, a, res)): stream(res) = "mac#%"
+fun
+stream_scan_method
+  {res:t0p}{a:t0p}
+  (stream(INV(a)), TYPE(res))(res, cfun(res, a, res)): stream(res) = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 stream_filter_cloref
   {a:t0p}
-(
-  xs: stream(INV(a)), pred: (a) -<cloref1> bool
-) : stream(a) = "mac#%" // end-of-function
+  (stream(INV(a)), pred: cfun(a, bool)): stream(a) = "mac#%"
 fun
 stream_filter_method
   {a:t0p}
-(
-  xs: stream(INV(a)))(pred: (a) -<cloref1> bool
-) : stream(a) = "mac#%" // end-of-function
+  (stream(INV(a)))(pred: cfun(a, bool)): stream(a) = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -144,13 +142,13 @@ fun
 stream_forall_cloref
   {a:t0p}
 (
-  xs: stream(INV(a)), pred: (a) -<cloref1> bool
+xs: stream(INV(a)), pred: cfun(a, bool)
 ) : bool = "mac#%" // end-of-function
 fun
 stream_forall_method
   {a:t0p}
 (
-  xs: stream(INV(a)))(pred: (a) -<cloref1> bool
+xs: stream(INV(a)))(pred: cfun(a, bool)
 ) : bool = "mac#%" // end-of-function
 //
 (* ****** ****** *)
@@ -159,13 +157,13 @@ fun
 stream_exists_cloref
   {a:t0p}
 (
-  xs: stream(INV(a)), pred: (a) -<cloref1> bool
+xs: stream(INV(a)), pred: cfun(a, bool)
 ) : bool = "mac#%" // end-of-function
 fun
 stream_exists_method
   {a:t0p}
 (
-  xs: stream(INV(a)))(pred: (a) -<cloref1> bool
+xs: stream(INV(a)))(pred: cfun(a, bool)
 ) : bool = "mac#%" // end-of-function
 //
 (* ****** ****** *)
@@ -173,15 +171,14 @@ stream_exists_method
 fun
 stream_foreach_cloref
   {a:t0p}
-(
-  xs: stream(INV(a))
+( xs: stream(INV(a))
 , fwork: (a) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 fun
 stream_foreach_method
   {a:t0p}
 (
-  xs: stream(INV(a)))(fwork: (a) -<cloref1> void
+xs: stream(INV(a)))(fwork: (a) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 (* ****** ****** *)
@@ -189,15 +186,14 @@ stream_foreach_method
 fun
 stream_iforeach_cloref
   {a:t0p}
-(
-  xs: stream(INV(a))
+( xs: stream(INV(a))
 , fwork: (Nat, a) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 fun
 stream_iforeach_method
   {a:t0p}
 (
-  xs: stream(INV(a)))(fwork: (Nat, a) -<cloref1> void
+xs: stream(INV(a)))(fwork: (Nat, a) -<cloref1> void
 ) : void = "mac#%" // end-of-function
 //
 (* ****** ****** *)
@@ -205,16 +201,14 @@ stream_iforeach_method
 fun
 stream_merge_cloref
   {a:t0p}
-(
-  xs1: stream(INV(a))
-, xs2: stream(a), cmp: (a, a) -<cloref1> (int)
+( xs1: stream(INV(a))
+, xs2: stream(INV(a)), cmp: (a, a) -<cloref1> (int)
 ) : stream(a) = "mac#%" // end-of-function
 fun
 stream_merge_method
   {a:t0p}
-(
-  xs1: stream(INV(a))
-, xs2: stream(a))(cmp: (a, a) -<cloref1> (int)
+( xs1: stream(INV(a))
+, xs2: stream(INV(a)))(cmp: (a, a) -<cloref1> (int)
 ) : stream(a) = "mac#%" // end-of-function
 //
 (* ****** ****** *)
@@ -230,13 +224,13 @@ fun
 cross_stream_list
   {a,b:t0p}{res:t0p}
 (
-  xs: stream(INV(a)), ys: List0(INV(b))
+xs: stream(INV(a)), ys: List0(INV(b))
 ) : stream($tup(a, b)) = "mac#%" // end-of-fun
 fun
 cross_stream_list0
   {a,b:t0p}{res:t0p}
 (
-  xs: stream(INV(a)), ys: list0(INV(b))
+xs: stream(INV(a)), ys: list0(INV(b))
 ) : stream($tup(a, b)) = "mac#%" // end-of-fun
 //
 (* ****** ****** *)

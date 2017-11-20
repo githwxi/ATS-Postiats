@@ -170,7 +170,7 @@ overload .iforeach with stream_iforeach_method
 fun{
 res:vt0p}{a:t0p
 } stream_foldleft
-  (xs: stream(a), ini: res, fopr: (res, a) -<cloref1> res): res
+  (stream(INV(a)), ini: res, fopr: (res, a) -<cloref1> res): res
 fun{
 res:vt0p}{a:t0p
 } stream_foldleft_method
