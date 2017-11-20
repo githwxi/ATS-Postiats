@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into Erlang
 *)
-
 (* ****** ****** *)
 //
 // HX-2015-06:
