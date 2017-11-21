@@ -146,7 +146,27 @@ case+ !xs of
 //
 implement
 stream_takeLte
-  (xs, n) = $ldelay
+{a}(xs, n) = $delay
+(
+//
+if
+(n > 0)
+then (
+case+ !xs of
+| stream_nil() =>
+    stream_nil(*void*)
+  // end of [stream_nil]
+| stream_cons(x, xs) =>
+    stream_cons(x, stream_takeLte{a}(xs, n-1))
+  // end of [stream_cons]
+) (* end of [then] *)
+else stream_nil(*void*) // else
+//
+) (* end of [stream_takeLte] *)
+//
+implement
+stream_takeLte_vt
+{a}(xs, n) = $ldelay
 (
 //
 if
@@ -157,12 +177,12 @@ case+ !xs of
     stream_vt_nil(*void*)
   // end of [stream_nil]
 | stream_cons(x, xs) =>
-    stream_vt_cons(x, stream_takeLte(xs, n-1))
+    stream_vt_cons(x, stream_takeLte_vt{a}(xs, n-1))
   // end of [stream_cons]
 ) (* end of [then] *)
-else stream_vt_nil() // else
+else stream_vt_nil(*void*) // else
 //
-) (* end of [stream_takeLte] *)
+) (* end of [stream_takeLte_vt] *)
 //
 (* ****** ****** *)
 

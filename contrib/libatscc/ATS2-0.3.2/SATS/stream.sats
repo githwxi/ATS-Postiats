@@ -64,9 +64,11 @@ stream2list_rev
 fun
 stream_takeLte
   {a:t0p}
-(
-  xs: stream(INV(a)), n0: intGte(0)
-) : stream_vt(a) = "mac#%" // end-of-fun
+  (stream(INV(a)), n0: Nat): stream(a) = "mac#%"
+fun
+stream_takeLte_vt
+  {a:t0p}
+  (stream(INV(a)), n0: Nat): stream_vt(a) = "mac#%"
 //
 (* ****** ****** *)
 //
