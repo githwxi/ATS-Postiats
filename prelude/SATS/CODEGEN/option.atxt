@@ -147,13 +147,26 @@ option_equal$eqfn(x1: a, x2: a):<> bool
 //
 #atscode_separator()
 //
-fun{a:t0p}
+fun
+{a:t0p}
 print_option(opt: Option(INV(a))): void
-fun{a:t0p}
+fun
+{a:t0p}
 prerr_option(opt: Option(INV(a))): void
-fun{a:t0p}
+fun
+{a:t0p}
 fprint_option(FILEref, Option(INV(a))): void
 //
+#atscode_separator()
+
+fun
+{x:t0p}
+{y:vt0p}
+option_map_cloref
+  {b:bool}
+( opt: option(INV(x), b)
+, fopr: (x) -<cloref1> y): option_vt(y, b)
+
 #atscode_separator()
 //
 // overloading for certain symbols

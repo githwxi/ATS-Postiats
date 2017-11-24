@@ -157,5 +157,18 @@ option0_filter_method
 overload .filter with option0_filter_method
 //
 (* ****** ****** *)
+//
+fun
+{a:t0p}
+option0_foreach
+(opt: option0(INV(a)), fwork: cfun(a, void)): void
+fun
+{a:t0p}
+option0_foreach_method
+(opt: option0(INV(a)))(fwork: cfun(a, void)): void
+//
+overload .foreach with option0_foreach_method
+//
+(* ****** ****** *)
 
 (* end of [option0.sats] *)
