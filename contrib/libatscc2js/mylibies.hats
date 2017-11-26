@@ -33,10 +33,12 @@
 (* ****** ****** *)
 //
 #staload "./SATS/list.sats"
-#staload _ = "./DATS/list.dats"
-//
 #staload "./SATS/list_vt.sats"
-#staload _ = "./DATS/list_vt.dats"
+//
+#staload
+_(*anon*) = "./DATS/list.dats"
+#staload
+_(*anon*) = "./DATS/list_vt.dats"
 //
 (* ****** ****** *)
 //
@@ -46,10 +48,12 @@
 (* ****** ****** *)
 //
 #staload "./SATS/stream.sats"
-#staload _ = "./DATS/stream.dats"
-//
 #staload "./SATS/stream_vt.sats"
-#staload _ = "./DATS/stream_vt.dats"
+//
+#staload
+_(*anon*) = "./DATS/stream.dats"
+#staload
+_(*anon*) = "./DATS/stream_vt.dats"
 //
 (* ****** ****** *)
 //
@@ -61,6 +65,13 @@
 #staload "./SATS/arrayref.sats"
 #staload "./SATS/matrixref.sats"
 #staload "./SATS/reference.sats"
+//
+(* ****** ****** *)
+//
+// HX-2017-11-26
+//
+#staload // for xmldocs
+"./SATS/xmldoc.sats" // used by Ajax
 //
 (* ****** ****** *)
 //

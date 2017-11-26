@@ -24,16 +24,15 @@ ATS_STATIC_PREFIX "atslangweb_"
 
 (* ****** ****** *)
 //
-staload
-UN =
-"prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
 #define
 LIBATSCC2JS_targetloc
 "$PATSHOME\
 /contrib/libatscc2js/ATS2-0.3.2"
+//
+(* ****** ****** *)
+//
+#staload
+UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
@@ -42,12 +41,12 @@ LIBATSCC2JS_targetloc
 //
 (* ****** ****** *)
 //
-staload "./../SATS/atslangweb.sats"
+#staload "./../SATS/atslangweb.sats"
 //
 (* ****** ****** *)
 //
-staload _(*anon*) = "./patsopt_tcats.dats"
-staload _(*anon*) = "./patsopt_atscc2js.dats"
+#staload _(*anon*) = "./patsopt_tcats.dats"
+#staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
 (* ****** ****** *)
 //

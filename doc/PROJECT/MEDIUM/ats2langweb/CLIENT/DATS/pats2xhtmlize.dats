@@ -16,8 +16,8 @@ LIBATSCC2JS_targetloc
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
 //
-staload
-"{$LIBATSCC2JS}/SATS/Ajax/Ajax.sats"
+#staload
+"{$LIBATSCC2JS}/SATS/HTTP/Ajax/Ajax.sats"
 //
 (* ****** ****** *)
 //
@@ -38,12 +38,12 @@ pats2xhtmlize_srcdoc_update
 extern
 fun
 pats2xhtmlize_srcdoc_getsrc
-  (srcdoc: XMLDOC): string(*code*) = "mac#"
+  (srcdoc: Xmldoc): string(*code*) = "mac#"
 //
 extern
 fun
 pats2xhtmlize_srcdoc_update
-  (srcdoc: XMLDOC, resp: string): void = "mac#"
+  (srcdoc: Xmldoc, resp: string): void = "mac#"
 //
 (* ****** ****** *)
 //
@@ -90,14 +90,14 @@ extern
 fun
 pats2xhtmlize_waiting
 (
-  srcdoc: XMLDOC, msg: string
+  srcdoc: Xmldoc, msg: string
 ) : void = "mac#" // end-of-fun
 //
 extern
 fun
 pats2xhtmlize_do_response
 (
-  srcdoc: XMLDOC, mycode: string, resp: string
+  srcdoc: Xmldoc, mycode: string, resp: string
 ) : void = "mac#" // end-of-fun
 //
 (* ****** ****** *)
@@ -106,7 +106,7 @@ extern
 fun
 pats2xhtmlize_eval
 (
-  stadyn: int, srcdoc: XMLDOC, code: string
+  stadyn: int, srcdoc: Xmldoc, code: string
 ) : void = "mac#" // end-of-function
 //
 (* ****** ****** *)
@@ -177,7 +177,7 @@ extern
 fun
 pats2xhtmlize_process_one
 (
-  stadyn: int, srcdoc: XMLDOC
+  stadyn: int, srcdoc: Xmldoc
 ) : void = "mac#" // end-of-fun
 //
 implement

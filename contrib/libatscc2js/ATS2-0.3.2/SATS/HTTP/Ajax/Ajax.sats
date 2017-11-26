@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -40,17 +40,17 @@ ATS_EXTERN_PREFIX
 //
 (* ****** ****** *)
 //
-staload
-"./../../basics_js.sats"
+#staload
+"./../../../basics_js.sats"
 //
 (* ****** ****** *)
 //
-staload
-XMLDOC =
-"./../XMLDOC/XMLDOC.sats"
+#staload
+"./../../XMLDOC/XMLDOC.sats"
 //
-typedef
-XMLDOC = $XMLDOC.XMLDOC_type
+typedef Xmldoc = Xmldoc
+typedef Xmldoclst = Xmldoclst
+typedef Xmldocopt = Xmldocopt
 //
 (* ****** ****** *)
 //
@@ -97,7 +97,7 @@ overload .setRequestHeader with XMLHttpRequest_setRequestHeader
 //
 fun
 XMLHttpRequest_get_responseXML
-  (XMLHttpRequest): XMLDOC = "mac#%"
+  (XMLHttpRequest): Xmldoc = "mac#%"
 //
 overload .responseXML with XMLHttpRequest_get_responseXML
 //

@@ -15,11 +15,6 @@
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
 
 #define
 ATS_EXTERN_PREFIX "Patsoptaas_"
@@ -33,12 +28,19 @@ LIBATSCC2JS_targetloc
 "$PATSHOME\
 /contrib/libatscc2js/ATS2-0.3.2"
 //
+(* ****** ****** *)
+//
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/atslangweb.sats"
+#staload "./../SATS/atslangweb.sats"
 //
 (* ****** ****** *)
 //
@@ -70,11 +72,11 @@ return msg;
 //
 (* ****** ****** *)
 //
-staload _(*anon*) = "./patsopt_tcats.dats"
-staload _(*anon*) = "./patsopt_ccats.dats"
-staload _(*anon*) = "./patsopt_atscc2js.dats"
+#staload _(*anon*) = "./patsopt_tcats.dats"
+#staload _(*anon*) = "./patsopt_ccats.dats"
+#staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
-staload _(*anon*) = "./file_get_contents.dats"
+#staload _(*anon*) = "./file_get_contents.dats"
 //
 (* ****** ****** *)
 //

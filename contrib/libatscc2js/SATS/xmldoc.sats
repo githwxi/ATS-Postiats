@@ -39,16 +39,14 @@ ATS_EXTERN_PREFIX "ats2js_XMLDOC_"
 //
 (* ****** ****** *)
 //
-abstype XMLDOC_type
-//
-typedef xmldoc = XMLDOC_type
-typedef XMLDOC = XMLDOC_type
+abstype Xmldoc_type
 //
 (* ****** ****** *)
 //
-typedef xmldoclst = List0(xmldoc)
-typedef xmldocopt = Option(xmldoc)
+typedef Xmldoc = Xmldoc_type
+typedef Xmldoclst = List0(Xmldoc)
+typedef Xmldocopt = Option(Xmldoc)
 //
 (* ****** ****** *)
 
-(* end of [XMLDOC.sats] *)
+(* end of [xmldoc.sats] *)

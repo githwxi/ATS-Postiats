@@ -48,14 +48,14 @@ LIBATSCC2JS_targetloc
 #staload
 "{$LIBATSCC2JS}/basics_js.sats"
 #staload
-XMLDOC =
-"{$LIBATSCC2JS}/SATS/XMLDOC/XMLDOC.sats"
+"{$LIBATSCC2JS}/SATS/xmldoc.sats"
 //
 (* ****** ****** *)
-//
-typedef xmldoc = $XMLDOC.XMLDOC_type
-typedef XMLDOC = $XMLDOC.XMLDOC_type
-//
+
+typedef Xmldoc = Xmldoc
+typedef Xmldoclst = Xmldoclst
+typedef Xmldocopt = Xmldocopt
+
 (* ****** ****** *)
 //
 abstype
@@ -101,7 +101,7 @@ overload .setRequestHeader with XMLHttpRequest_setRequestHeader
 //
 fun
 XMLHttpRequest_get_responseXML
-  (XMLHttpRequest): XMLDOC = "mac#%"
+  (XMLHttpRequest): Xmldoc = "mac#%"
 //
 overload .responseXML with XMLHttpRequest_get_responseXML
 //

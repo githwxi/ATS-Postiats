@@ -15,7 +15,7 @@
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
@@ -41,7 +41,7 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -98,7 +98,7 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -156,7 +156,7 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -230,7 +230,7 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -327,7 +327,7 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -411,9 +411,9 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 //\n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
-staload _(*anon*) =\n\
+#staload _(*anon*) =\n\
 \"{$LIBATSCC2JS}/DATS/print.dats\"\n\
 //\n\
 (* ****** ****** *)\n\
@@ -498,9 +498,9 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 //\n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
-staload _(*anon*) =\n\
+#staload _(*anon*) =\n\
 \"{$LIBATSCC2JS}/DATS/print.dats\"\n\
 //\n\
 (* ****** ****** *)\n\
@@ -589,9 +589,9 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
-staload _(*anon*) =\n\
+#staload _(*anon*) =\n\
 \"{$LIBATSCC2JS}/DATS/print.dats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -724,9 +724,9 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
-staload _(*anon*) =\n\
+#staload _(*anon*) =\n\
 \"{$LIBATSCC2JS}/DATS/print.dats\"\n\
 \n\
 (* ****** ****** *)\n\
@@ -864,7 +864,7 @@ LIBATSCC2JS_targetloc\n\
 //\n\
 (* ****** ****** *)\n\
 \n\
-staload\n\
+#staload\n\
 \"{$LIBATSCC2JS}/SATS/print.sats\"\n\
 \n\
 (* ****** ****** *)\n\

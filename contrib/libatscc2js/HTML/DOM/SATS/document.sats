@@ -37,8 +37,6 @@ LIBATSCC2JS_targetloc
 "$PATSHOME/contrib/libatscc2js"
 #staload
 "{$LIBATSCC2JS}/basics_js.sats"
-#staload
-"{$LIBATSCC2JS}/SATS/XMLDOC/xmldoc.sats"
 //
 (* ****** ****** *)
 //
@@ -52,27 +50,45 @@ theDocument =
 $extval(theDocument, "document")
 //
 (* ****** ****** *)
-//
-fun
-document_getById_exn
-  (name: string): xmldoc = "mac#%"
-fun
-document_getById_opt
-  (name: string): xmldocopt = "mac#%"
-//
+
+abstype Element_type
+typedef Element = Element_type
+typedef Elemopt = Option(Element)
+
 (* ****** ****** *)
 //
 fun
+document_getById_exn
+  (name: string): Element = "mac#%"
+fun
+document_getById_opt
+  (name: string): Elemopt = "mac#%"
+//
+fun
 theDocument_getById_exn
-(_: theDocument, name: string): xmldoc = "mac#%"
+(_: theDocument, name: string): Element = "mac#%"
 fun
 theDocument_getById_opt
-(_: theDocument, name: string): xmldocopt = "mac#%"
+(_: theDocument, name: string): Elemopt = "mac#%"
 //
 overload
 .getById with theDocument_getById_exn
 overload
 .getById_opt with theDocument_getById_opt
+//
+(* ****** ****** *)
+//
+fun
+Element_get_innerHTML
+  (Element): string = "mac#%"
+fun
+Element_set_innerHTML
+  (Element, text: string): void = "mac#%"
+//
+overload
+.innerHTML with Element_get_innerHTML
+overload
+.innerHTML with Element_set_innerHTML
 //
 (* ****** ****** *)
 
