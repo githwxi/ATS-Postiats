@@ -17,10 +17,16 @@ ATS_EXTERN_PREFIX
 #define
 LIBATSCC_targetloc
 "$PATSHOME/contrib/libatscc"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
 //
 (* ****** ****** *)
 //
-#staload"./../../../basics_js.sats"
+#staload
+"{$LIBATSCC2JS}/basics_js.sats"
+//
+(* ****** ****** *)
 //
 #include
 "{$LIBATSCC}/BUCS320/parcomb/SATS/parcomb.sats"

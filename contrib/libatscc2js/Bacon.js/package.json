@@ -2,7 +2,7 @@
 "name":
 "libatscc2js-baconjs"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "The package implements a partial API in ATS for Bacon.js."
@@ -12,7 +12,7 @@
 "scripts": {}
 ,
 "repository": {
-  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/libatscc/libatscc2js/Bacon.js"
+"url": "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/libatscc/libatscc2js/Bacon.js"
 }
 ,
 "keywords": [

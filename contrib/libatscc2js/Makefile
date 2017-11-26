@@ -107,15 +107,6 @@ $(ATSCC2JS) -o ./output/DATS/ML/option0_dats.js -i
 #
 ######
 #
-all:: ; \
-$(PATSOPT) -d ./Bacon.js/DATS/baconjs.dats | \
-$(ATSCC2JS) -o ./output/Bacon.js/DATS/baconjs_dats.js -i
-all:: ; \
-$(PATSOPT) -d ./Bacon.js/DATS/baconjs_ext.dats | \
-$(ATSCC2JS) -o ./output/Bacon.js/DATS/baconjs_ext_dats.js -i
-#
-######
-#
 LIBATSCC2JS_ALL_JS=\
 output/libatscc2js_all.js
 #
@@ -128,7 +119,7 @@ all_in_one:: libatscc2js_all
 DATE=/bin/date
 ECHO=/bin/echo -en
 #
-PRINTF=printf
+PRINTF=/usr/bin/printf
 #
 ######
 #

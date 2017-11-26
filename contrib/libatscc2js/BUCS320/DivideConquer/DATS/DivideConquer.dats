@@ -31,17 +31,14 @@ ATS_STATIC_PREFIX
 #define
 LIBATSCC_targetloc
 "$PATSHOME/contrib/libatscc"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
 //
 (* ****** ****** *)
 //
-#staload "./../../../basics_js.sats"
-//
-(* ****** ****** *)
-//
-#staload "./../../../SATS/bool.sats"
-#staload "./../../../SATS/integer.sats"
-//
-#staload "./../../../SATS/ML/list0.sats"
+#include
+  "{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //
