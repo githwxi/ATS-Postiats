@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -29,18 +29,23 @@
 
 (* ****** ****** *)
 //
+(*
 #define
 ATS_STALOADFLAG 0 // no staloading at run-time
+*)
+//
 #define
 ATS_EXTERN_PREFIX
 "ats2js_workersession_" // prefix for external names
 //
 (* ****** ****** *)
 //
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
 #include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/mylibies.hats"
+  "{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //
