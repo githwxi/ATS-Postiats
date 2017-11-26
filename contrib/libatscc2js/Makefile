@@ -160,8 +160,6 @@ CATS/JSarray_cats.js \
 CATS/JSLIBC/JSdate_cats.js \
 CATS/JSLIBC/JSmath_cats.js \
 CATS/JSLIBC/JSglobal_cats.js \
-CATS/HTTP/Ajax/Ajax_cats.js \
-CATS/HTML/canvas-2d/canvas2d_cats.js \
 
 libatscc2js_all:: ; \
 $(CAT) >>$(LIBATSCC2JS_ALL_JS) \

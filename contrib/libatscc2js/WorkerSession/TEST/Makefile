@@ -7,7 +7,7 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
-LIBATCC2JS=$(PATSCONTRIB)/contrib/libatscc/libatscc2js
+LIBATCC2JS=$(PATSHOME)/contrib/libatscc2js
 #
 ######
 #
