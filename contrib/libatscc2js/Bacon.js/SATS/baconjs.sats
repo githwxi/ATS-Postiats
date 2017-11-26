@@ -23,27 +23,33 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: April, 2015
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
 //
-// no staloading at run-time
-//
-#define
-ATS_STALOADFLAG 0
+// HX:
+// prefix for
+// external names
 //
 #define
 ATS_EXTERN_PREFIX
-"ats2js_baconjs_" // prefix for extern names
+"ats2js_baconjs_"
+//
+(*
+#define // no staloading at
+ATS_STALOADFLAG 0 // run-time
+*)
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/mylibies.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
+#staload
+"{$LIBATSCC2JS}/basics_js.sats"
 //
 (* ****** ****** *)
 //

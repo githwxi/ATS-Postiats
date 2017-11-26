@@ -119,13 +119,9 @@ $(ATSCC2JS) -o ./output/Bacon.js/DATS/baconjs_ext_dats.js -i
 LIBATSCC2JS_ALL_JS=\
 output/libatscc2js_all.js
 #
-LIBATSCC2JS_BACONJS_ALL_JS=\
-output/libatscc2js_baconjs_all.js
-#
 ######
 
 all_in_one:: libatscc2js_all
-all_in_one:: libatscc2js_baconjs_all
 
 ######
 #
@@ -200,15 +196,6 @@ libatscc2js_all:: ; \
 $(PRINTF) '\n/* end of [libatscc2js_all.js] */\n' | $(CAT) - >>$(LIBATSCC2JS_ALL_JS)
 #
 ######
-#
-libatscc2js_baconjs_all:: ; \
-$(CAT) \
->$(LIBATSCC2JS_BACONJS_ALL_JS) \
-Bacon.js/CATS/baconjs_cats.js \
-output/Bacon.js/DATS/baconjs_dats.js \
-output/Bacon.js/DATS/baconjs_ext_dats.js
-#
-######
 
 clean:: ; $(RMF) *~ */*~
 
@@ -216,7 +203,6 @@ clean:: ; $(RMF) *~ */*~
 
 cleanall:: clean
 cleanall:: ; $(RMF) $(LIBATSCC2JS_ALL_JS)
-cleanall:: ; $(RMF) $(LIBATSCC2JS_BACONJS_ALL_JS)
 
 ######
 

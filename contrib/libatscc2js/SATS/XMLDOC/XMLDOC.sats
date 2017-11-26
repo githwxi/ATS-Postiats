@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -23,8 +23,8 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: September, 2014
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)

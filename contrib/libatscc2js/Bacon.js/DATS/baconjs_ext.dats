@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -47,10 +47,12 @@ UN =
 //
 (* ****** ****** *)
 //
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
 #include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/mylibies.hats"
+  "{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //

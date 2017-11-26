@@ -40,17 +40,21 @@ ATS_EXTERN_PREFIX
 //
 (* ****** ****** *)
 //
-staload
-"./../../../basics_js.sats"
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
+#staload
+"{$LIBATSCC2JS}/basics_js.sats"
+#staload
+XMLDOC =
+"{$LIBATSCC2JS}/SATS/XMLDOC/XMLDOC.sats"
 //
 (* ****** ****** *)
 //
-staload
-XMLDOC =
-"./../../XMLDOC/XMLDOC.sats"
-//
-typedef
-XMLDOC = $XMLDOC.XMLDOC_type
+typedef xmldoc = $XMLDOC.XMLDOC_type
+typedef XMLDOC = $XMLDOC.XMLDOC_type
 //
 (* ****** ****** *)
 //

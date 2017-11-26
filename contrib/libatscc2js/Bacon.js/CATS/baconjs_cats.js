@@ -64,14 +64,14 @@ ats2js_baconjs_Bacon_repeat
 /* ****** ****** */
 
 function
-ats2js_bacon_Bacon_fromPoll
+ats2js_baconjs_Bacon_fromPoll
   (int, fopr)
 {
   return Bacon.fromPoll(
     int
   , function(){return ats2jspre_cloref0_app(fopr);}
   ); // end of [Bacon.fromPoll]
-} // ats2js_bacon_Bacon_fromPoll
+} // ats2js_baconjs_Bacon_fromPoll
 
 /* ****** ****** */
 //

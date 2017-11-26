@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -23,28 +23,37 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: October, 2015
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
 //
-#define
-ATS_STALOADFLAG 0 // no staloading at run-time
+// HX:
+// for external names
+//
 #define
 ATS_EXTERN_PREFIX
-"ats2js_baconjs_ext_" // prefix for external names
+"ats2js_baconjs_ext_"
+//
+(*
+#define // no staloading at
+ATS_STALOADFLAG 0 // run-time
+*)
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/mylibies.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+//
+#staload
+"{$LIBATSCC2JS}/basics_js.sats"
 //
 (* ****** ****** *)
 //
-staload "./baconjs.sats"
+#staload
+"./baconjs.sats" // basics for Bacon.js
 //
 (* ****** ****** *)
 //
