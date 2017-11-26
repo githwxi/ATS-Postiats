@@ -1,23 +1,25 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
-(* ****** ****** *)
-
-#define ATS_DYNLOADFLAG 0
-
 (* ****** ****** *)
 //
-// HX-2014-08:
-// prefix for external names
+#define
+ATS_DYNLOADFLAG 0
+//
+(* ****** ****** *)
+//
+(*
+HX-2014-08:
+*)
 //
 #define
 ATS_EXTERN_PREFIX
-"ats2jspre_BUCS320_"
+"ats2js_bucs320_"
 #define
 ATS_STATIC_PREFIX
-"_ats2jspre_BUCS320_parcomb_"
+"_ats2js_bucs320_parcomb_"
 //
 (* ****** ****** *)
 //

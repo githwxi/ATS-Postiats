@@ -5,7 +5,8 @@
 
 (* ****** ****** *)
 
-#define ATS_DYNLOADFLAG 0
+#define
+ATS_DYNLOADFLAG 0
 
 (* ****** ****** *)
 //
@@ -13,9 +14,11 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2jspre_BUCS320_"
+ATS_EXTERN_PREFIX
+"ats2js_bucs320_"
 #define
-ATS_STATIC_PREFIX "_ats2jspre_BUCS320_GraphStreamize_dfs_"
+ATS_STATIC_PREFIX
+"_ats2js_bucs320_graphstreamize_dfs_"
 //
 (* ****** ****** *)
 //

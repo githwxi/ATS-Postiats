@@ -23,8 +23,8 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: October, 2015
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
@@ -33,8 +33,10 @@
 //
 (* ****** ****** *)
 //
+(*
 #define
 ATS_STALOADFLAG 0 // no staloading at run-time
+*)
 //
 #define
 ATS_EXTERN_PREFIX

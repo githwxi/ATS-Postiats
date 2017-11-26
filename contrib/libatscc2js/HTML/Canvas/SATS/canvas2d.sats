@@ -46,11 +46,12 @@ ATS_STALOADFLAG 0
 //
 *)
 //
-// HX:
-// prefix for external names
+// HX-2017-11:
 //
 #define
-ATS_EXTERN_PREFIX "ats2js_HTML_"
+ATS_EXTERN_PREFIX
+"ats2js_html_" //
+// prefix for external names
 //
 (* ****** ****** *)
 //

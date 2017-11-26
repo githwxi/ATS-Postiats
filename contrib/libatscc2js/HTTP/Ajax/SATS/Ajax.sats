@@ -36,7 +36,8 @@ ATS_STALOADFLAG 0
 //
 #define
 ATS_EXTERN_PREFIX
-"ats2js_Ajax_" // prefix for external names
+"ats2js_http_" //
+// prefix for external names
 //
 (* ****** ****** *)
 //

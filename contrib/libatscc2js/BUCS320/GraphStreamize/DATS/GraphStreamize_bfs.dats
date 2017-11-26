@@ -13,9 +13,11 @@
 // prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2jspre_BUCS320_"
+ATS_EXTERN_PREFIX
+"ats2js_bucs320_"
 #define
-ATS_STATIC_PREFIX "_ats2jspre_BUCS320_GraphStreamize_bfs_"
+ATS_STATIC_PREFIX
+"_ats2js_bucs320_graphstreamize_bfs_"
 //
 (* ****** ****** *)
 //
