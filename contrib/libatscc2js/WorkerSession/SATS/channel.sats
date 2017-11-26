@@ -42,10 +42,11 @@ ATS_EXTERN_PREFIX
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-#include
-"{$LIBATSCC2JS}/mylibies.hats"
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+#staload
+"{$LIBATSCC2JS}/basics_js.sats"
 //
 (* ****** ****** *)
 //

@@ -20,47 +20,53 @@
 *)
 
 (* ****** ****** *)
-(*
-** API in ATS for HTML5/WebGL
-*)
-(* ****** ****** *)
+
 (*
 ** Author: Hongwei Xi
-** Start Time: November, 2014
+** Start Time: November, 2017
 ** Authoremail: gmhwxiATgmailDOTcom
 *)
+
 (* ****** ****** *)
-(*
-#define
-ATS_STALOADFLAG 0
-*)
-//
-// prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "ats2js_HTML5_"
+ATS_DYNLOADFLAG 0 // no run-time dynloading
+//
+#define
+ATS_EXTERN_PREFIX
+"ats2js_HTML_document_" // prefix for extern names
+#define
+ATS_STATIC_PREFIX
+"_ats2js_HTML_document_" // prefix for static names
 //
 (* ****** ****** *)
 //
-abstype canvas_type
-typedef canvas = canvas_type
-//
-abstype canvasgl_type
-typedef canvasgl = canvasgl_type
+staload
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-// HX:
-// This one is also declared in Canvas
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
 //
-fun
-canvas_getById(id: string): canvas = "mac#%"
+#include
+  "{$LIBATSCC2JS}/mylibies.hats"
 //
 (* ****** ****** *)
 //
-fun
-canvasgl_getById(id: string): canvasgl = "mac#%"
+staload "./../SATS/document.sats"
+//
+(* ****** ****** *)
+//
+implement
+theDocument_getById_exn
+  (_, name) = document_getById_exn(name)
+implement
+theDocument_getById_opt
+  (_, name) = document_getById_opt(name)
 //
 (* ****** ****** *)
 
-(* end of [WebGL.sats] *)
+(* end of [document.dats] *)

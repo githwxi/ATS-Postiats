@@ -7,7 +7,7 @@ PATSCC=$(PATSHOME)/bin/patscc
 PATSOPT=$(PATSHOME)/bin/patsopt
 #
 ATSCC2JS=$(PATSHOME)/bin/atscc2js
-LIBATCC2JS=$(PATSCONTRIB)/contrib/libatscc/libatscc2js
+LIBATCC2JS=$(PATSHOME)/contrib/libatscc2js
 #
 ######
 #
@@ -59,6 +59,11 @@ test3_server_dats_.js: test3_server_dats.js; $(CAT) $(LIBATCC2JS)/output/libatsc
 
 CAT=cat
 RMF=rm -f
+
+######
+
+testall:: all
+testall:: cleanall
 
 ######
 

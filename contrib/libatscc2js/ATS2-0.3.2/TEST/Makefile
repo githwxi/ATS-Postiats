@@ -9,6 +9,7 @@ ATSCC2JS=${PATSHOME}/bin/atscc2js
 
 ######
 
+MAKE=make
 NODEJS=nodejs
 
 ######
@@ -55,6 +56,11 @@ test_test04: test04_dats.js; $(NODEJS) $<
 testall:: all
 testall:: regress
 testall:: cleanall
+
+######
+
+testall:: ; $(MAKE) -C Worker testall
+testall:: ; $(MAKE) -C BUCS320/GraphSearch testall
 
 ######
 

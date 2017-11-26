@@ -20,37 +20,60 @@
 *)
 
 (* ****** ****** *)
-(*
-** API in ATS for HTML5/WebGL
-*)
-(* ****** ****** *)
-(*
-** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
-** Start Time: November, 2014
-*)
-(* ****** ****** *)
-
-#define
-ATS_STALOADFLAG 0 // no staloading at run-time
-#define
-ATS_EXTERN_PREFIX "ats2js_HTML5_" // prefix for external names
-
+//
+// HX-2017-11-25:
+// Common functions
+// for manipulating DOM objects
+//
 (* ****** ****** *)
 //
-abstype canvas_type
-typedef canvas = canvas_type
+#define
+ATS_EXTERN_PREFIX "ats2js_HTML_"
 //
-abstype canvasgl_type
-typedef canvasgl = canvasgl_type
+(* ****** ****** *)
+//
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME/contrib/libatscc2js"
+#staload
+"{$LIBATSCC2JS}/basics_js.sats"
+#staload
+"{$LIBATSCC2JS}/SATS/XMLDOC/xmldoc.sats"
+//
+(* ****** ****** *)
+//
+abstype
+theDocument_type
+typedef
+theDocument = theDocument_type
+//
+macdef
+theDocument =
+$extval(theDocument, "document")
 //
 (* ****** ****** *)
 //
 fun
-canvas_getById(id: string): canvas = "mac#%"
+document_getById_exn
+  (name: string): xmldoc = "mac#%"
 fun
-canvasgl_getById(id: string): canvasgl = "mac#%"
+document_getById_opt
+  (name: string): xmldocopt = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+theDocument_getById_exn
+(_: theDocument, name: string): xmldoc = "mac#%"
+fun
+theDocument_getById_opt
+(_: theDocument, name: string): xmldocopt = "mac#%"
+//
+overload
+.getById with theDocument_getById_exn
+overload
+.getById_opt with theDocument_getById_opt
 //
 (* ****** ****** *)
 
-(* end of [WebGL.sats] *)
+(* end of [document.sats] *)
