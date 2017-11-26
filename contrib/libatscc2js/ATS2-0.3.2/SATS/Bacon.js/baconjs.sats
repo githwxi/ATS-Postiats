@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -23,17 +23,23 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: April, 2015
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
-
+(*
 #define
-ATS_STALOADFLAG 0 // no staloading at run-time
+ATS_STALOADFLAG 0
+// no staloading at run-time
+*)
+//
+// prefix for external names
+//
 #define
-ATS_EXTERN_PREFIX "ats2js_bacon_" // prefix for external names
-
+ATS_EXTERN_PREFIX
+"ats2js_bacon_"
+//
 (* ****** ****** *)
 //
 staload
@@ -42,11 +48,18 @@ staload
 (* ****** ****** *)
 //
 (*
-For Opaque values
+** For Opaque values
 *)
-abstype Value = ptr
 //
-abstype Event = ptr
+abstype Value_type = ptr
+typedef Value = Value_type
+//
+(* ****** ****** *)
+//
+abstype Event_type = ptr
+typedef Event = Event_type
+//
+(* ****** ****** *)
 //
 abstype
 EStream(a:t@ype) = ptr // invariant!

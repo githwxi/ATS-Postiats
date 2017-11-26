@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -23,8 +23,8 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: December, 2015
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
@@ -32,26 +32,26 @@
 // HX-2015-12-05:
 //
 (* ****** ****** *)
-
+//
+(*
 #define
 ATS_STALOADFLAG 0 // no staloading at run-time
+*)
 #define
 ATS_EXTERN_PREFIX "ats2js_bacon_" // prefix for external names
-
+//
 (* ****** ****** *)
 //
 staload
-"libats/ML/SATS/basis.sats"
+"./../../basics_js.sats"
 //
 (* ****** ****** *)
-
-stadef cfun0 = cfun0
-stadef cfun1 = cfun1
-
-(* ****** ****** *)
 //
-abstype chanpos()
-abstype channeg()
+abstype chanpos_type
+abstype channeg_type
+//
+typedef chanpos() = chanpos_type
+typedef channeg() = channeg_type
 //
 (* ****** ****** *)
 //
@@ -100,14 +100,14 @@ channeg0_send
 abstype chsnd(a:vt@ype)
 abstype chrcv(a:vt@ype)
 //
-abstype chnil
+abstype chnil()
 abstype chcons(a:type, ss:type)
 //
 stadef :: = chcons
 //
 (* ****** ****** *)
 
-stadef chsing(x:type) = chcons(x, chnil)
+stadef chsing(x:type) = chcons(x, chnil())
 
 (* ****** ****** *)
 

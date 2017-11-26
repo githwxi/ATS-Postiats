@@ -172,9 +172,9 @@ CATS/float_cats.js \
 CATS/string_cats.js \
 CATS/gvalue_cats.js \
 CATS/JSarray_cats.js \
+CATS/JSLIBC/JSmisc_cats.js \
 CATS/JSLIBC/JSmath_cats.js \
 CATS/JSLIBC/JSdate_cats.js \
-CATS/JSLIBC/JSglobal_cats.js \
 CATS/HTTP/Ajax/Ajax_cats.js \
 CATS/HTML/canvas-2d/canvas2d_cats.js \
 

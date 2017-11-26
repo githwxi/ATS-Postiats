@@ -62,10 +62,16 @@ staload "./../SATS/document.sats"
 //
 implement
 theDocument_getById_exn
-  (_, name) = document_getById_exn(name)
+  (_, id) = document_getById_exn(id)
 implement
 theDocument_getById_opt
-  (_, name) = document_getById_opt(name)
+  (_, id) = document_getById_opt(id)
+//
+(* ****** ****** *)
+//
+implement
+theDocument_createElement
+  (_, tag) = document_createElement(tag)
 //
 (* ****** ****** *)
 

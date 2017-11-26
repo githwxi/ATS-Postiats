@@ -157,9 +157,9 @@ CATS/float_cats.js \
 CATS/string_cats.js \
 CATS/gvalue_cats.js \
 CATS/JSarray_cats.js \
-CATS/JSLIBC/JSdate_cats.js \
+CATS/JSLIBC/JSmisc_cats.js \
 CATS/JSLIBC/JSmath_cats.js \
-CATS/JSLIBC/JSglobal_cats.js \
+CATS/JSLIBC/JSdate_cats.js \
 
 libatscc2js_all:: ; \
 $(CAT) >>$(LIBATSCC2JS_ALL_JS) \

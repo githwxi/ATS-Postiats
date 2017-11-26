@@ -65,6 +65,9 @@
 (* ****** ****** *)
 //
 #staload
+"./SATS/JSLIBC/JSmisc.sats" // JS library
+//
+#staload
 "./SATS/JSLIBC/JSmath.sats" // JS library
 #staload
 _(*anon*) =
@@ -72,8 +75,6 @@ _(*anon*) =
 //
 #staload
 "./SATS/JSLIBC/JSdate.sats" // JS library
-#staload
-"./SATS/JSLIBC/JSglobal.sats" // JS library
 //
 (* ****** ****** *)
 

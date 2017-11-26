@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into JavaScript
 *)
-
 (* ****** ****** *)
 
 (*
@@ -23,17 +23,24 @@
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
 ** Start Time: October, 2015
+** Authoremail: gmhwxiATgmailDOTcom
 *)
 
 (* ****** ****** *)
-
+//
+(*
 #define
-ATS_STALOADFLAG 0 // no staloading at run-time
+ATS_STALOADFLAG 0
+// no staloading at run-time
+*)
+//
+// HX:
+// prefix for external names
+//
 #define
-ATS_EXTERN_PREFIX "ats2js_bacon_ext_" // prefix for external names
-
+ATS_EXTERN_PREFIX "ats2js_bacon_ext_"
+//
 (* ****** ****** *)
 //
 staload
@@ -45,8 +52,12 @@ staload "./baconjs.sats"
 //
 (* ****** ****** *)
 //
+// HX:
+// EValue is
+// updated by EStream
+//
 abstype
-EValue(a:t@ype) = ptr // updated by EStream
+EValue(a:t@ype) = ptr // invariant!
 //
 (* ****** ****** *)
 //
@@ -78,7 +89,7 @@ fun
 EValue_make_estream_scan
   {a,b:t0p}
 (
-  x0: a, ys: EStream(b), fopr: cfun(a, b, a)
+x0: a, ys: EStream(b), fopr: cfun(a, b, a)
 ) : EValue(a) = "mac#%" // EValue_make_estream_scan
 //
 (* ****** ****** *)

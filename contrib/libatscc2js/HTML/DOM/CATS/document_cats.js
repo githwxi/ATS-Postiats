@@ -26,7 +26,7 @@ ats2js_HTML_document_getById_exn
   document.getElementById(id);
   if(!elem)
   {
-    throw "ats2js_HTML_document_getById: [" + id + "]: not found";
+    throw "ats2js_HTML_document_getById: [" + id + "]: failed";
   } else {
     return elem;
   } // end of [if]
@@ -39,11 +39,30 @@ ats2js_HTML_document_getById_opt
   var
   elem =
   document.getElementById(id);
-  if(!elem)
+  if
+  (!elem)
   {
     return ats2jspre_option_none();
   } else {
     return ats2jspre_option_some(elem);
+  } // end of [if]
+}
+
+/* ****** ****** */
+
+function
+ats2js_HTML_document_createElement
+  (tag)
+{
+  var
+  elem =
+  document.createElement(tag);
+  if
+  (!elem)
+  {
+    throw "ats2js_HTML_document_createElement: [" + tag+ "]: failed";
+  } else {
+    return elem;
   } // end of [if]
 }
 
@@ -56,7 +75,29 @@ ats2js_HTML_Element_get_innerHTML
 function
 ats2js_HTML_Element_set_innerHTML
   (elem, text)
-  { elem.innerHTML = text; return; }
+  { return (elem.innerHTML = text); }
+//
+/* ****** ****** */
+//
+function
+ats2js_HTML_Element_get_childNodes
+  (elem)
+  { return ( elem.childNodes ); }
+function
+ats2js_HTML_Element_set_childNodes
+  (elem, nodes)
+  { return (elem.childNodes = nodes); }
+//
+/* ****** ****** */
+//
+function
+ats2js_HTML_Element_get_childNode_at
+  (elem, index)
+  { return ( elem.childNode[index] ); }
+function
+ats2js_HTML_Element_set_childNode_at
+  (elem, index, node)
+  { return (elem.childNode[index] = node); }
 //
 /* ****** ****** */
 

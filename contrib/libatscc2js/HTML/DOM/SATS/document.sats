@@ -59,22 +59,34 @@ typedef Elemopt = Option(Element)
 //
 fun
 document_getById_exn
-  (name: string): Element = "mac#%"
+  (id: string): Element = "mac#%"
 fun
 document_getById_opt
-  (name: string): Elemopt = "mac#%"
+  (id: string): Elemopt = "mac#%"
 //
 fun
 theDocument_getById_exn
-(_: theDocument, name: string): Element = "mac#%"
+(_: theDocument, id: string): Element = "mac#%"
 fun
 theDocument_getById_opt
-(_: theDocument, name: string): Elemopt = "mac#%"
+(_: theDocument, id: string): Elemopt = "mac#%"
 //
 overload
 .getById with theDocument_getById_exn
 overload
 .getById_opt with theDocument_getById_opt
+//
+(* ****** ****** *)
+//
+fun
+document_createElement
+  (tag: string): Element = "mac#%"
+fun
+theDocument_createElement
+  (_: theDocument, tag: string): Element = "mac#%"
+//
+overload
+.createElement with theDocument_createElement
 //
 (* ****** ****** *)
 //
@@ -89,6 +101,28 @@ overload
 .innerHTML with Element_get_innerHTML
 overload
 .innerHTML with Element_set_innerHTML
+//
+(* ****** ****** *)
+//
+fun
+Element_get_childNodes
+  (Element): JSarray(Element) = "mac#%"
+fun
+Element_set_childNodes
+  (Element, nodes: JSarray(Element)): void = "mac#%"
+//
+overload .childNodes with Element_get_childNodes
+overload .childNodes with Element_set_childNodes
+//
+fun
+Element_get_childNode_at
+  (Element, index: int): Element = "mac#%"
+fun
+Element_set_childNode_at
+  (Element, index: int, node: Element): void = "mac#%"
+//
+overload .childNode_at with Element_get_childNode_at
+overload .childNode_at with Element_set_childNode_at
 //
 (* ****** ****** *)
 

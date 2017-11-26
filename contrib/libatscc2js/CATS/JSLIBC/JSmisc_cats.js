@@ -10,7 +10,7 @@
 
 /*
 ******
-* beg of [JSglobal_cats.js]
+* beg of [JSmisc_cats.js]
 ******
 */
 
@@ -68,4 +68,4 @@ ats2js_libc_decodeURIComponent(uri) { return decodeURIComponent(uri); }
 
 /* ****** ****** */
 
-/* end of [JSglobal_cats.js] */
+/* end of [JSmisc_cats.js] */

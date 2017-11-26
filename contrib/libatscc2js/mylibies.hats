@@ -76,7 +76,7 @@ _(*anon*) = "./DATS/stream_vt.dats"
 (* ****** ****** *)
 //
 #staload
-"./SATS/JSLIBC/JSdate.sats" // JS library
+"./SATS/JSLIBC/JSmisc.sats" // JS library
 //
 #staload
 "./SATS/JSLIBC/JSmath.sats" // JS library
@@ -85,13 +85,13 @@ _(*anon*) =
 "./DATS/JSLIBC/JSmath.dats" // JS library
 //
 #staload
-"./SATS/JSLIBC/JSglobal.sats" // JS library
+"./SATS/JSLIBC/JSdate.sats" // JS library
 //
 (* ****** ****** *)
-
+//
 #staload "./SATS/slistref.sats" // list-based stack
 #staload "./SATS/qlistref.sats" // list-based queue
-
+//
 (* ****** ****** *)
 //
 #staload
