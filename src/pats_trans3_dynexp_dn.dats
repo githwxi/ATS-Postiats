@@ -1040,9 +1040,9 @@ val () =
 prerr_error3_loc(loc0)
 //
 val () =
-if serr < 0 then prerrln! ": more record field expected."
+if serr < 0 then prerrln! ": more record fields than expected."
 val () =
-if serr > 0 then prerrln! ": fewer record field expected."
+if serr > 0 then prerrln! ": fewer record fields than expected."
 //
 } // end if [auxerrlen]
 
