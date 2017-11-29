@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+2017-11-12:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/0r00LfWvx1I"
+>ATS2-0.3.8 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 2017-10-12:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/99sEc-JQjlA"
