@@ -734,7 +734,7 @@ if test
     val () = filprerr_ifdebug "s1exp_app_wind"
     val () = prerr ": the static expression is of the sort ["
     val () = prerr_s2rt (s2e.s2exp_srt)
-    val () = prerrln! ("] but it is expectecd to be of the sort [", s2t, "].")
+    val () = prerrln! ("] but it is expected to be of the sort [", s2t, "].")
     val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
   in
     s2exp_errexp(s2t)
@@ -2254,7 +2254,7 @@ if test
     // end of [val]
     val () = prerr ": the static expression is of the sort ["
     val () = prerr_s2rt (s2t_new)
-    val () = prerrln! ("] but it is expectecd to be of the sort [", s2t, "].")
+    val () = prerrln! ("] but it is expected to be of the sort [", s2t, "].")
     val () = the_trans2errlst_add (T2E_s2exp_trdn (loc0, s2e, s2t))
   in
     s2exp_errexp(s2t)
