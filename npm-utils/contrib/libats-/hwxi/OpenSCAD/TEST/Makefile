@@ -24,7 +24,7 @@ test00
 test00: \
 test00.dats ; \
 $(PATSCC) \
--DATS_MEMALLOC_LIBC -o $@ $< -latslib
+-DATS_MEMALLOC_LIBC -o $@ $< -latslib -lm
 #
 regress:: test00; ./$<
 cleanall:: ; $(RMF) test00
