@@ -183,13 +183,68 @@ end // end of [mount_base]
                         
 (* ****** ****** *)
 
+fun
+module_camera_femit
+(out: FILEref): void =
+fprint_string(out, "\
+module
+camera() {
+  d = 6.8;
+  thickness = 1.63;
+
+  d_ = 8.5;
+  thickness_ = 4.3;
+
+  depth = 12;
+  width = 11;
+  height = 11;
+  lens = [4, 10];
+
+  union () {
+    difference() {
+      union() {
+        translate([d/2, -d/2, 0]) rotate([0, 0, 30])   cube([thickness, 10, thickness], center=true);
+        translate([-d/2, -d/2, 0]) rotate([0, 0, -30]) cube([thickness, 10, thickness], center=true);
+        translate([0, -d/2 -thickness/2, 0]) cube([d,d/2, thickness/2], center=true);
+        translate([0, -d/2 -thickness, 0]) cube([d+thickness, d/2, thickness/2], center=true);
+       }
+          cylinder(h=thickness * 2, r=d/2, center=true);
+          translate([0, -d/2-6, 0]) cube([d*2, thickness*2, thickness*2], center=true);
+        }
+        difference() {
+          cylinder(thickness_, r=d_/2, center=true);
+          cylinder(2*thickness_, r=d_/2-1, center=true);
+          translate([0, d_/2, 0]) cube([d_/1.5, d_/2, thickness_*4], center=true);
+        }
+        translate([-sqrt(2)/2*d_/2.30, sqrt(2)/2*d_/2.25, 0]) cylinder(h=thickness_, r=thickness_/7.5, center=true);
+        translate([sqrt(2)/2*d_/2.30, sqrt(2)/2*d_/2.25, 0])  cylinder(h=thickness_, r=thickness_/7.5, center=true);
+    }
+
+  }
+")
+
+(* ****** ****** *)
+
+val
+theCameraMount = let
+//
+val obj1 = mount_base()
+//
+val env0 = scadenv_nil()
+val obj2 = scadobj_fapp("camera", env0, nil())
+val obj2 = rotate(58, 0, 45, translate(0.0, 7.8, 6.8, obj2))
+//
+in
+  union2(obj1, obj2)
+end // end of [theCameraMount]
+
+(* ****** ****** *)
+
 implement
 main0() = () where
 {
 //
 val out = stdout_ref
-//
-val obj = mount_base()
 //
 val () =
 fprintln!
@@ -203,8 +258,10 @@ val () =
 fprintln!
 (out, "$fa=1.0; $fs=1.0;\n")
 //
+val () = module_camera_femit(out)
+//
 val () =
-scadobj_femit(out, 0(*nsp*), obj)
+scadobj_femit(out, 0(*nsp*), theCameraMount)
 //
 val () =
 fprint! (out, "\n")
