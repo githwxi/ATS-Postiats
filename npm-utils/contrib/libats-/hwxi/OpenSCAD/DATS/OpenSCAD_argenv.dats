@@ -16,6 +16,34 @@
 //
 (* ****** ****** *)
 //
+implement
+scadexp_int
+  (i0) = SCADEXPint(i0)
+implement
+scadexp_bool
+  (b0) = SCADEXPbool(b0)
+implement
+scadexp_float
+  (f0) = SCADEXPfloat(f0)
+implement
+scadexp_string
+  (s0) = SCADEXPstring(s0)
+//
+implement
+scadarg_int(i0) =
+SCADARGexp(SCADEXPint(i0))
+implement
+scadarg_bool(b0) =
+SCADARGexp(SCADEXPbool(b0))
+implement
+scadarg_float(f0) =
+SCADARGexp(SCADEXPfloat(f0))
+implement
+scadarg_string(s0) =
+SCADARGexp(SCADEXPstring(s0))
+//
+(* ****** ****** *)
+//
 assume
 scadenv_type = List0(@(label, scadexp))
 //

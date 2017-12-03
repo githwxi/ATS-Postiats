@@ -18,20 +18,18 @@
 (* ****** ****** *)
 //
 implement
-scadexp_int
-  (int) = SCADEXPint(int)
-//
-implement
-scadarg_int(int) =
-SCADARGexp(SCADEXPint(int))
-//
-(* ****** ****** *)
-
-implement
 scadobj_fapp
 (fopr, env0, args) =
-SCADOBJfapp(fopr, env0, args) 
-
+SCADOBJfapp(fopr, env0, args)
+//
+implement
+scadobj_fapp_enil
+  (fopr, args) = let
+  val env0 = scadenv_nil()
+in
+  scadobj_fapp(fopr, env0, args)
+end // scadobj_fapp_enil
+//
 (* ****** ****** *)
 
 implement
@@ -73,7 +71,6 @@ val x =
   SCADEXPfloat(x)
 //
 val x = SCADARGexp(x)
-//
 //
 val env = scadenv_nil((*void*))
 //

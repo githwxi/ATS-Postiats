@@ -158,11 +158,10 @@ val h = 5.0
 (*
 val sds = sides(2, 2)
 *)
-val env = scadenv_nil()
 val arg1 = scadarg_int(2)
 val arg2 = scadarg_int(2)
 val args = arg1 :: arg2 :: nil()
-val sds0 = scadobj_fapp("sides", env, args)
+val sds0 = scadobj_fapp_enil("sides", args)
 *)
 //
 val sds0 = sides(2.0, 2.0)
@@ -230,8 +229,7 @@ theCameraMount = let
 //
 val obj1 = mount_base()
 //
-val env0 = scadenv_nil()
-val obj2 = scadobj_fapp("camera", env0, nil())
+val obj2 = scadobj_fapp_enil("camera", nil())
 val obj2 = rotate(58, 0, 45, translate(0.0, 7.8, 6.8, obj2))
 //
 in
