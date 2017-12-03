@@ -120,6 +120,13 @@ and
 scadarglst = List0(scadarg)
 
 (* ****** ****** *)
+//
+fun
+scadexp_int(int): scadexp
+fun
+scadarg_int(int): scadarg
+//
+(* ****** ****** *)
 (*
 //
 datatype
@@ -185,6 +192,20 @@ fun
 scadenv_is_nil(scadenv): bool
 fun
 scadenv_is_cons(scadenv): bool
+//
+(* ****** ****** *)
+//
+fun
+scadobj_fapp
+( fopr: string
+, env0: scadenv, args: scadarglst): scadobj
+//
+(* ****** ****** *)
+//
+fun
+scadtfm_extmcall
+( fmod: string
+, env0: scadenv, args: scadarglst): scadtfm
 //
 (* ****** ****** *)
 //

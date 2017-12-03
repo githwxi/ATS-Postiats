@@ -90,6 +90,18 @@ regress:: test05; ./$<
 cleanall:: ; $(RMF) test05
 #
 ######
+#
+all:: \
+pepperfish-camera
+pepperfish-camera: \
+pepperfish-camera.dats ; \
+$(PATSCC) \
+-DATS_MEMALLOC_LIBC -o $@ $< -latslib -lm
+#
+regress:: pepperfish-camera; ./$<
+cleanall:: ; $(RMF) pepperfish-camera
+#
+######
 
 RMF=rm -f
 
@@ -113,5 +125,6 @@ cleanall:: ; $(RMF) test02_dats.scad
 cleanall:: ; $(RMF) test03_dats.scad
 cleanall:: ; $(RMF) test04_dats.scad
 cleanall:: ; $(RMF) test05_dats.scad
+cleanall:: ; $(RMF) pepperfish-camera_dats.scad
 
 ###### end of [Makefile] ######

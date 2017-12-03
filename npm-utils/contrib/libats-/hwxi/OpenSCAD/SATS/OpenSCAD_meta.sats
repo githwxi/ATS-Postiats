@@ -210,16 +210,28 @@ scadobj_cylinder1 with scadobj_cylinder1_float2_bool
 (* ****** ****** *)
 //
 fun
+scadobj_unionlst
+  (objs: scadobjlst): scadobj
+fun
+scadobj_interlst
+  (objs: scadobjlst): scadobj
+fun
+scadobj_differlst
+  (objs: scadobjlst): scadobj
+//
+(* ****** ****** *)
+//
+fun
 scadobj_union2
-  (obj1: scadobj, obj1: scadobj): scadobj
+  (obj1: scadobj, obj2: scadobj): scadobj
 //
 fun
 scadobj_inter2
-  (obj1: scadobj, obj1: scadobj): scadobj
+  (obj1: scadobj, obj2: scadobj): scadobj
 //
 fun
 scadobj_differ
-  (obj1: scadobj, obj1: scadobj): scadobj
+  (obj1: scadobj, obj2: scadobj): scadobj
 //
 (* ****** ****** *)
 //
