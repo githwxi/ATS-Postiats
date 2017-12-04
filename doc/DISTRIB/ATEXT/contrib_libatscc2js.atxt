@@ -159,7 +159,7 @@ ATS/contrib/libatscc2js
 #packfilename("basics_js.sats")
 #packfilename_r("SATS")
 #packfilename_r("DATS")
-#packfilename_r("HTML5")
+#packfilename_r("HTML")
 #packfilename_r("BUCS320")
 #packfilename_r("Bacon.js")
 #packfilename_r("WorkerSession")
