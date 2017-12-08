@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-DivideConquer</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Divide-and-Conquer in Parallel
+</h1>
+
+##para('\
+
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. In this article, I intend to present a template-based
+approach to facilitating parallel computation. More specifically, I
+would like to demonstrate how a template-based package (of the name
+##emphasis("atscntrb-bucs320-divideconquerpar")) can be readily
+employed to parallelize a program that one constructs based on the
+so-called divide-and-conquer problem-solving strategy.
+
+')##comment("para")
+
+<h2>Divide-and-Conquer</h2>
+
+##para('\
+
+In problem-solving, divide-and-conquer (D&amp;C) is a strategy that
+divides a given problem of certain size into a collection of
+subproblems of less size and then solves the subproblems (recursively)
+and then combines the obtained solutions to the subproblems to form a
+solution to the original given problem. Please find a template-based
+approach to (D&amp;C) <a href="./../DivideConquer/index.html">on-line</a>.
+
+')##comment("para")
+
+<h2>D&amp;C Parallelization</h2>
+
+##para('\
+
+For parallelizing D&amp;C, we are to make use of a
+##emphasis("workshop"), which can be thought of as a collection of
+workers (where each worker is just a running thread). For example, we
+may create a workshop of 4 workers on a machine of 4 cores so that
+each worker can run as a thread on one distinct core.
+
+')##comment("para")
+
+##para('\
+
+As D&amp;C is inherently recursive, we must address the potential
+issue of a worker becoming blocked when waiting for a recursive call
+to return if we implement D&amp;C in the direct style (in contrast to
+the continuation-passing style (CPS)).  In addition, using the direct
+style means that we have to insert code to perform synchronization
+explicitly (for instance, to notify a blocked worker to continue once
+all of the recursive calls made by it have returned). On the other
+hand, the issue of a worker becomming blocked can be completely
+avoided if we are to implement D&amp;C in the CPS-style. Without
+blocking, the need for explicit synchronization is also gone.
+
+')##comment("para")
+
+##para('\
+
+Please find the entirety of the code for the template-based package
+##emphasis("atscntrb-bucs320-divideconquerpar") plus some examples
+<a href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquerPar/.">on-line</a>,
+where an implementation of D&amp;C in parallel is given in the
+CPS-style.  And the rest of this article focuses on demonstrating a
+typical use of this package in the construction of certain parallel
+recursive programs.
+
+')##comment("para")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+DirWalk/Makefile
+DirWalk/package.json
+DirWalk/DirWalk.dats
+</pre>
+
+Note that the file ##filename("Makefile") can be used for compiling
+and testing the code (via the make utility).\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

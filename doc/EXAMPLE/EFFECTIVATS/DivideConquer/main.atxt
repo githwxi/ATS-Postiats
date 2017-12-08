@@ -424,7 +424,7 @@ where ##dyncode("PATSHOMELOCS") is an evironmental variable
 whose value is set to be a string representing colon-separated
 path names. For instance, following is a typical setup for using npm:
 <pre>
-##command("PATSHOMELOCS=./node_modules:./../../node_modules:./../../../../node_modules")
+##command("PATSHOMELOCS=./node_modules:./../node_modules:./../../node_modules")
 </pre>
 which reflects the way in which npm stores downloaded packages.
 

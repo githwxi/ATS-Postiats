@@ -18,7 +18,7 @@ $(PATSCC) -O2 \
 #
 export \
 PATSHOMELOCS=\
-./node_modules:./../../node_modules
+./node_modules:./../node_modules:./../../node_modules
 #
 ######
 
@@ -34,9 +34,6 @@ test01: \
 test01.dats; \
 $(PATSCC2) -o $@ $< -lgc -lpthread
 #
-regress:: test01; ./$<
-cleanall:: ; $(RMF) test01
-#
 ######
 #
 all:: \
@@ -45,9 +42,6 @@ test02: \
 test02.dats; \
 $(PATSCC2) -o $@ $< -lgc -lpthread
 #
-regress:: test02; ./$<
-cleanall:: ; $(RMF) test02
-#
 ######
 #
 all:: \
@@ -55,6 +49,14 @@ test03
 test03: \
 test03.dats; \
 $(PATSCC2) -o $@ $< -lgc -lpthread
+#
+######
+#
+regress:: test01; ./$<
+cleanall:: ; $(RMF) test01
+#
+regress:: test02; ./$<
+cleanall:: ; $(RMF) test02
 #
 regress:: test03; ./$<
 cleanall:: ; $(RMF) test03

@@ -1,40 +1,25 @@
 {
-"name":
-"atscntrb-bucs320-mergesortpar"
-,
-"version": "1.0.5"
-,
-"description":
-"Merge-sort for lists and arrays based on generic divide-and-conquer in parallel"
-,
-"main": "N/A"
-,
-"scripts": {}
-,
-"repository": {
-  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/MergeSortPar"
-}
-,
-"keywords": [
-  "ATS",
-  "BUCS",
-  "sort",
-  "parallel",
-  "mergesort"
-]
-,
-"dependencies": {
-  "atscntrb-hx-fworkshop": ">=1.0.0"
-,
-  "atscntrb-bucs320-mergesort": ">=1.0.0"
-,
-  "atscntrb-bucs320-divideconquerpar": ">=1.0.0"
-}
-,
-"author":
-"Hongwei Xi <gmhwxi@gmail.com>"
-,
-"license": "MIT"
-,
-"note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/MergeSortPar"
+  "name": "atscntrb-bucs320-mergesortpar",
+  "version": "1.0.5",
+  "description": "Merge-sort for lists and arrays based on generic divide-and-conquer in parallel",
+  "main": "N/A",
+  "scripts": {},
+  "repository": {
+    "url": "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/MergeSortPar"
+  },
+  "keywords": [
+    "ATS",
+    "BUCS",
+    "sort",
+    "parallel",
+    "mergesort"
+  ],
+  "dependencies": {
+    "atscntrb-hx-fworkshop": ">=1.0.0",
+    "atscntrb-bucs320-mergesort": ">=1.0.0",
+    "atscntrb-bucs320-divideconquerpar": ">=1.0.0"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/MergeSortPar"
 }

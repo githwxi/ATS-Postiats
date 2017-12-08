@@ -131,6 +131,18 @@ the_atextmap_insert
 
 val () =
 the_atextmap_insert
+( "emphasis"
+, TEXTDEFfun
+  (
+    lam(loc, xs) =>
+    __tagging__(loc, "<em>", "</em>", xs)
+  ) (* TEXTDEFfun *)
+) (* the_atextmap_insert *)
+
+(* ****** ****** *)
+
+val () =
+the_atextmap_insert
 ( "sub"
 , TEXTDEFfun
   (

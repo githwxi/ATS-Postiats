@@ -75,10 +75,13 @@ PATSLIBATS_targetloc "$PATSHOME/libats"
 //
 #staload
 "{$PATSLIBATS}/ML/SATS/filebas.sats"
-#staload
-"{$PATSLIBATS}/ML/SATS/intrange.sats"
 #staload _ =
 "{$PATSLIBATS}/ML/DATS/filebas.dats"
+#staload _ =
+"{$PATSLIBATS}/ML/DATS/filebas_dirent.dats"
+//
+#staload
+"{$PATSLIBATS}/ML/SATS/intrange.sats"
 #staload _ =
 "{$PATSLIBATS}/ML/DATS/intrange.dats"
 //

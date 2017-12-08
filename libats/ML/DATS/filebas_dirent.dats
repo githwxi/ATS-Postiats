@@ -175,7 +175,8 @@ if
 $DIR.DIRptr2ptr(dirp) > 0
 then $DIR.streamize_DIRptr_dirent<>(dirp)
 else let
-  prval() = $DIR.DIRptr_free_null(dirp) in stream_vt_make_nil()
+  prval() =
+  $DIR.DIRptr_free_null(dirp) in stream_vt_make_nil()
 end // end of [else]
 ) : stream_vt(dirent)
 //
