@@ -1,7 +1,7 @@
+######
 #
 # A simple Makefile
 #
-
 ######
 
 PATSCC=$(PATSHOME)/bin/patscc

@@ -1,5 +1,5 @@
 {
-  "name": "effectivats-divideconquerpar-dirwalk",
+  "name": "effectivats-divideconquerpar",
   "version": "1.0.0",
   "description": "A case of divide-and-conquer in parallel in the Effective-ATS series",
   "main": "N/A",
@@ -8,6 +8,7 @@
   "keywords": [
     "EFFECTIVATS",
     "parallel",
+    "parallelization",
     "divide-and-conquer",
     "divide-and-conquer-par"
   ],
@@ -19,5 +20,5 @@
   },
   "author": "Hongwei Xi <gmhwxi@gmail.com>",
   "license": "MIT",
-  "note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquerPar/DirWalk/."
+  "note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquerPar/."
 }

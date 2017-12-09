@@ -47,16 +47,34 @@ output_t0ype = (int)
 //
 (* ****** ****** *)
 //
-typedef fws = $FWS.fworkshop
+typedef
+fworkshop = $FWS.fworkshop
+//
+(* ****** ****** *)
 //
 extern
 fun
 DirWalk
-( fws: fws
+( fws: fworkshop
 , fname: string, fopr: cfun(string, int)
 ) : int // end of [DirWalk]
 //
 (* ****** ****** *)
+//
+fun
+dir_skipped(dir: string): bool =
+  if (dir = "." || dir = "..") then true else false
+//
+(* ****** ****** *)
+
+implement
+DirWalk
+(fws, fname, fopr) =
+let
+//
+val () = $tempenver(fws)
+val () = $tempenver(fopr)
+//
 //
 implement
 DivideConquer$base_test<>
@@ -71,13 +89,10 @@ in
   test_file_isdir(fname) <= 0
 end // end of [DivideConquer$base_test<>]
 //
-(* ****** ****** *)
+implement
+DivideConquer$base_solve<>
+  (fname) = fopr(fname)
 //
-fun
-dir_skipped(dir: string): bool =
-  if (dir = "." || dir = "..") then true else false
-//
-(* ****** ****** *)
 //
 implement
 DivideConquer$divide<>
@@ -103,8 +118,6 @@ end // end of [let]
 //
 ) (* end of [DivideConquer$divide<>] *)
 //
-(* ****** ****** *)
-//
 implement
 DivideConquer$conquer$combine<>
   (_, rs) =
@@ -112,24 +125,8 @@ DivideConquer$conquer$combine<>
   list0_foldleft<int><int>(rs, 0, lam(res, r) => res + r)
 )
 //
-(* ****** ****** *)
-
 implement
-DirWalk
-(fws, fname, fopr) =
-let
-//
-val () = $tempenver(fws)
-val () = $tempenver(fopr)
-//
-implement
-DivideConquer$base_solve<>
-  (fname) = fopr(fname)
-//
-implement
-{}(*tmp*)
-DivideConquerPar$fworkshop
-  ((*void*)) = FWORKSHOP_chanlst(fws)
+DivideConquerPar$fworkshop<>((*void*)) = FWORKSHOP_chanlst(fws)
 //
 in
   DivideConquer$solve<>( fname )

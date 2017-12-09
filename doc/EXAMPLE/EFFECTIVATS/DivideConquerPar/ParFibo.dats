@@ -41,26 +41,32 @@
 //
 (* ****** ****** *)
 //
-assume input_t0ype = int
-assume output_t0ype = int
+fun
+Fibo(n: int): int =
+if
+(n >= 2)
+then Fibo(n-1)+Fibo(n-2) else (n)
 //
 (* ****** ****** *)
 //
-typedef fws = $FWS.fworkshop
-//
-extern
-fun
-ParFibo(fws: fws, n: int): int
+assume input_t0ype = int
+assume output_t0ype = int
 //
 (* ****** ****** *)
 //
 #define CUTOFF 20
 //
 (* ****** ****** *)
-
+//
+typedef
+fworkshop = $FWS.fworkshop
+//
+extern
 fun
-Fibo(n: int): int =
-  if n >= 2 then Fibo(n-1)+Fibo(n-2) else n
+ParFibo
+(fws: fworkshop, n: int): int
+//
+(* ****** ****** *)
 
 implement
 ParFibo
@@ -80,11 +86,10 @@ DivideConquer$base_solve<>(n) =
 implement
 DivideConquer$divide<>(n) = g0ofg1($list{int}(n-1, n-2))
 implement
-DivideConquer$conquer$combine<>(_, rs) = rs[0] + rs[1]
+DivideConquer$conquer$combine<>(_(*n*), rs) = rs[0] + rs[1]
 //
 implement
-{}(*tmp*)
-DivideConquerPar$fworkshop((*void*)) = FWORKSHOP_chanlst(fws)
+DivideConquerPar$fworkshop<>((*void*)) = FWORKSHOP_chanlst(fws)
 //
 } (* end of [ParFibo] *)
 

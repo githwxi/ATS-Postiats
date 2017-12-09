@@ -131,7 +131,7 @@ obtained outputs corresponding to the list of inputs.
 
 """)##comment("para")
 
-<h2>Example: Computing Fibonacci Numbers</h2>
+<h2>Example: Fibonacci Numbers</h2>
 
 ##para("""\
 
@@ -232,11 +232,11 @@ concerns.
 
 """)
 
-<h2>Building a Package for D&amp;C</h2>
+<h2>Assembling a Package for D&amp;C</h2>
 
 ##para("""\
 
-I hereby outline some key steps involved in building a package for
+I hereby outline some key steps involved in assembling a package for
 D&amp;C that can be published
 via <a href="https://www.npmjs.com">npm</a>. Some basic knowledge of
 npm is assumed in the following presentation.\
