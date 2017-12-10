@@ -128,16 +128,41 @@ prerr_ref (x: &INV(a)): void // = fprint_ref (stderr_ref, x)
 (* ****** ****** *)
 //
 fun{a:t0p}
-fprint_val (out: FILEref, x: a): void
+fprint_val(out: FILEref, x: a): void
 fun{a:vt0p}
-fprint_ref (out: FILEref, x: &INV(a)): void
+fprint_ref(out: FILEref, x: &INV(a)): void
 //
 (* ****** ****** *)
 //
 fun
 {src:vt0p}
 {elt:vt0p}
-streamize_val (source: src): stream_vt(elt)
+streamize_val(source: src): stream_vt(elt)
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+print_stamped_t(stamped_t(a)): void
+fun
+{a:t0p}
+prerr_stamped_t(stamped_t(a)): void
+fun
+{a:t0p}
+fprint_stamped_t(out: FILEref, x: stamped_t(a)): void
+(*
+//
+// HX-2017-12-09:
+// This one does not seem to be so useful
+//
+fun
+{a:vt0p}
+fprint_stamped_vt(out: FILEref, x: &stamped_vt(a)): void
+*)
+//
+overload print with print_stamped_t
+overload prerr with prerr_stamped_t
+overload fprint with fprint_stamped_t
 //
 (* ****** ****** *)
 

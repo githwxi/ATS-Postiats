@@ -117,6 +117,42 @@ authoritative information on npm packages if needed.
 
 ##para('\
 
+The following lines are typically included in a setting for gaining
+access to functions declared in the packages
+##emphasis("atscntrb-bucs320-divideconquer") and
+##emphasis("atscntrb-bucs320-divideconquerpar"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+(* ****** ****** *)
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-bucs320-divideconquerpar/mydepies.hats"
+#include
+"$PATSHOMELOCS\
+/atscntrb-bucs320-divideconquerpar/mylibies.hats"
+//
+(* ****** ****** *)
+//
+#staload $DivideConquer // opening namespace
+#staload $DivideConquerPar // opening namespace
+//
+(* ****** ****** *)\
+')
+</pre>
+
+Conventionally, the file ##filename("mydepies.hats") in a package is
+for statically loading namespaces in various packages the current
+package depends on, which may not be present, and the file
+##filename("mylibies.hats") for namespaces the current package provides,
+which should always be present.
+
+')##comment("para")
+
+##para('\
+
 Let us choose the name ##dyncode("ParFibo") for the parallelized
 version of ##dyncode("Fibo"), which is given the following interface:
 
@@ -358,6 +394,15 @@ The implementation of
 ##dyncode("DivideConquer$conquer$combine") simply returns
 the tally of all of the int-values obtained from solving subproblems
 (by recursively calling ##dyncode("DirWalk") on them).
+
+')##comment("para")
+
+##para('\
+
+The testing code for ##dyncode("DirWalk") returns the number of
+(non-directory) files in a given directory while printing (onto the
+stdout) the path to each file followed by the number of lines in the
+file.
 
 ')##comment("para")
 

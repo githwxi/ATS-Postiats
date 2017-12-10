@@ -79,13 +79,14 @@ implement
 QuickSortPar_array
   (fws, A, n) = let
 //
+val () = $tempenver(fws)
+//
 // HX:
 // for bug circumvention
 val fws_spn =
   $FWS.fworkshop_get_spin<>(fws)
 // end of [val]
 //
-val () = $tempenver(fws)
 val () = $tempenver(fws_spn)
 //
 implement

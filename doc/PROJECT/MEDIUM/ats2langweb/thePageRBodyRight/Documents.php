@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+2017-12-09:<br>Effective ATS:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/9mQyxYDWgnc"
+>Doing Divide-and-Conquer in Parallel</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 2017-02-23:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/r26e_gp8I48"

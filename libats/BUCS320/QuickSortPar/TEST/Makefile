@@ -17,12 +17,6 @@ $(PATSCC) \
 -D_ATS_CCOMP_ASSUME_CHECK_NONE_
 #
 ######
-#
-export \
-PATSHOMELOCS=\
-./node_modules:./../../node_modules
-#
-######
 
 all::
 regress::
@@ -75,6 +69,12 @@ clean:: ; $(RMF) *_?ats.o
 ######
 #
 cleanall:: clean
+#
+######
+#
+export \
+PATSHOMELOCS=\
+./node_modules:./../node_modules:./../../node_modules
 #
 ######
 

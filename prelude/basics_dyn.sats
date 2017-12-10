@@ -307,12 +307,16 @@ read_unsplit // HX: there is no need to check
 (* ****** ****** *)
 //
 castfn
-stamp_t{a:t@ype}(x: a):<> stamped_t(a)
+stamp_t
+  {a:t@ype}(x: INV(a)):<> stamped_t(a)
+// end of [stamp_t]
 castfn
-stamp_vt{a:vt@ype}(x: a):<> stamped_vt(a)
+stamp_vt
+  {a:vt@ype}(x: INV(a)):<> stamped_vt(a)
+// end of [stamp_vt]
 //
 (* ****** ****** *)
-
+//
 castfn
 unstamp_t
   {a:t@ype}{x:int}(x: stamped_t(INV(a), x)):<> a
@@ -321,7 +325,7 @@ castfn
 unstamp_vt
   {a:vt@ype}{x:int}(x: stamped_vt(INV(a), x)):<> a
 // end of [unstamp_vt]
-
+//
 (* ****** ****** *)
 //
 castfn

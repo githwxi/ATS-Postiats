@@ -86,7 +86,7 @@ style="margin-bottom:0px">
 <p>
 ATS/Postiats is the currently released implementation of ATS.  It is often
 referred to as ATS2, the second generation of ATS.  ATS/Postiats is nearly
-entirely implemented in ATS1, consisting of 170K+ lines of source code. Its
+entirely implemented in ATS1, consisting of 180K+ lines of source code. Its
 major improvement over ATS1 lies in a highly versatile template system that
 aims at maximally facilitating code reuse. Note that ATS/Postiats is in general
 unable to compile code written in ATS1. However, turning ATS1 code into legal

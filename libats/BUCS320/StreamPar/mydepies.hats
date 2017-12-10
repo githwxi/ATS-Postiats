@@ -1,9 +1,8 @@
 (* ****** ****** *)
 //
-// HX-2017-02-05:
+// HX-2017-12-10:
 //
-// Generic
-// Divide-Conquer in parallel
+// Stream-Processing in Parallel 
 //
 (* ****** ****** *)
 //
@@ -16,17 +15,6 @@
 #include
 "$PATSHOMELOCS\
 /atscntrb-hx-fworkshop/mylibies.hats"
-//
-(* ****** ****** *)
-//
-local
-#define
-DIVIDECONQUER_CONT 1
-in (* in-of-local *)
-#include
-"$PATSHOMELOCS\
-/atscntrb-bucs320-divideconquer/mylibies.hats"
-end // end of [local]
 //
 (* ****** ****** *)
 

@@ -34,10 +34,12 @@
 //
 (* ****** ****** *)
 //
-#staload $DivideConquer
-#staload $DivideConquerPar
+#staload $DivideConquer // for opening namespace
+#staload $DivideConquerPar // for opening namespace
 //
-#staload FWS = $FWORKSHOP_chanlst
+(* ****** ****** *)
+//
+#staload FWS = $FWORKSHOP_chanlst // for list-based channels
 //
 (* ****** ****** *)
 //
