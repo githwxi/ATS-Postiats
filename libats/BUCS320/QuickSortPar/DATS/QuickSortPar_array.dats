@@ -41,7 +41,7 @@
 //
 (* ****** ****** *)
 //
-staload
+#staload
 AT = "libats/SATS/athread.sats"
 //
 (* ****** ****** *)
