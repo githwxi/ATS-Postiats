@@ -57,7 +57,7 @@ DivideConquerLazy$divide<>
 fun
 aux
 (
-  i: int
+ i: int
 ) : stream_vt(input) = let
 //
 fun
@@ -83,7 +83,10 @@ then
 (
 if
 test(xs, 1)
-then stream_vt_cons(list0_cons(i, xs), aux(i+1))
+then
+stream_vt_cons
+  (list0_cons(i, xs), aux(i+1))
+// end-of-then
 else !(aux(i+1))
 )
 else stream_vt_nil(*void*)
