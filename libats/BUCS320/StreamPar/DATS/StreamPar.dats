@@ -63,7 +63,7 @@ fun
 {a:t@ype}
 streampar_foreach
 ( fws: fworkshop
-, xs0: stream(a), fwork: cfun(a, void)): void
+, xs0: stream(INV(a)), fwork: cfun(a, void)): void
 //
 (* ****** ****** *)
 
