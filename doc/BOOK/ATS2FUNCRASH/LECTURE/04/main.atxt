@@ -32,7 +32,7 @@ square = lam(x: int): int => x * x
 
 where the keyword #keycode("lam") is for constructing a
 lambda-abstraction.  For defining a recursive anonymous function, the
-keyword #keycode("fix") needed. For instance, the factorial function
+keyword #keycode("fix") is needed. For instance, the factorial function
 can also be implemented as follows:
 
 #dats2xhtml('\
