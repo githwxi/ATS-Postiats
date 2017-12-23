@@ -1,7 +1,7 @@
+(* ****** ****** *)
 (*
 ** Some testing code for [json_ML]
 *)
-
 (* ****** ****** *)
 
 (*
@@ -35,21 +35,22 @@ staload _(*anon*) = "./../DATS/json_ML.dats"
 fun
 json_object2val0_list
 (
-  xs: List_vt (json_object0)
-) : List0_vt (jsonval) = let
+xs:
+List_vt(json_object0)
+) : List0_vt(jsonval) = let
 in
 //
 case+ xs of
 | ~list_vt_cons
     (x, xs) => let
     val v =
-      json_object2val0 (x)
+      json_object2val0(x)
     val vs =
-      json_object2val0_list (xs)
+      json_object2val0_list(xs)
   in
-    list_vt_cons{jsonval} (v, vs)
+    list_vt_cons{jsonval}(v, vs)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => list_vt_nil ()
+| ~list_vt_nil() => list_vt_nil()
 //
 end // end of [json_object2val0_list]
 
@@ -92,10 +93,10 @@ json_tokener_parse_list ("\
 //
 val vs = json_object2val0_list (xs)
 //
-val (
-) = fprint_list_vt_sep<jsonval> (out, vs, "\n")
-val () = list_vt_free (vs)
-val () = fprint_newline (out)
+val () =
+fprint_list_vt_sep<jsonval>(out, vs, "\n")
+val () = list_vt_free(vs)
+val () = fprint_newline(out)
 //
 } // end of [val]
 

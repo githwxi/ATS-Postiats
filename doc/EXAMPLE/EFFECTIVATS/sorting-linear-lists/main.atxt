@@ -94,7 +94,7 @@ mylist_cons
 It is clear that #dyncode("mylist_cons") needs to perform some assignments so as to
 connect a given node (its first argument) to a given list (its second
 argument). Sometimes, a given node and a given list are already connected,
-requiring no assignments to be performed.  The following proof funtion
+requiring no assignments to be performed.  The following proof function
 #dyncode("_mylist_cons") is introduced precisely for handling such a case:
 
 <pre
