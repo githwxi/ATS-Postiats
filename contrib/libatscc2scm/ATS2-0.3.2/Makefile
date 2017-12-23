@@ -171,6 +171,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_?ats.scm
+cleanall:: ; $(RMF) output/DATS/ML/*_?ats.scm
 cleanall:: ; $(RMF) $(LIBATSCC2SCM_ALL_SCM)
 
 ######

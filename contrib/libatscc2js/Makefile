@@ -191,6 +191,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_dats.js
+cleanall:: ; $(RMF) output/DATS/ML/*_dats.js
 cleanall:: ; $(RMF) $(LIBATSCC2JS_ALL_JS)
 
 ######

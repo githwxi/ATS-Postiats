@@ -165,6 +165,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_?ats.clj
+cleanall:: ; $(RMF) output/DATS/ML/*_?ats.clj
 cleanall:: ; $(RMF) $(LIBATSCC2CLJ_ALL_CLJ)
 
 ######

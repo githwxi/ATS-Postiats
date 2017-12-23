@@ -142,6 +142,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_dats.pl
+cleanall:: ; $(RMF) output/DATS/ML/*_dats.pl
 cleanall:: ; $(RMF) $(LIBATSCC2PL_ALL_PL)
 
 ######

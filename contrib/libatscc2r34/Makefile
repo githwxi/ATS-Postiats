@@ -146,6 +146,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_dats.R
+cleanall:: ; $(RMF) output/DATS/ML/*_dats.R
 cleanall:: ; $(RMF) $(LIBATSCC2R34_ALL_R34)
 
 ######

@@ -254,12 +254,20 @@ $(CAT) \
 clean:: ; $(RMF) *~ */*~
 
 ######
-
+#
 cleanall:: clean
+#
+cleanall:: ; $(RMF) output/DATS/*_dats.js
+cleanall:: ; $(RMF) output/DATS/ML/*_dats.js
+cleanall:: ; $(RMF) output/DATS/BUCS320/*_dats.js
+cleanall:: ; $(RMF) output/DATS/Bacon.js/*_dats.js
+#
 cleanall:: ; $(RMF) $(LIBATSCC2JS_ALL_JS)
 cleanall:: ; $(RMF) $(LIBATSCC2JS_BACONJS_ALL_JS)
 cleanall:: ; $(RMF) $(LIBATSCC2JS_BUCS320_PARCOMB_JS)
-
+#
+cleanall:: ; $(RMF) output/libatscc2js_print_store_cats.js
+#
 ######
 
 ###### end of [Makefile] ######
