@@ -191,9 +191,8 @@ end // end of [else]
 in
 //
 stream_vt_map_cloptr<dirent><string>
-(
-  ents
-, lam(ent) => strptr2string($DIR.dirent_get_d_name_gc(ent))
+( ents
+, lam(ent) =>strptr2string($DIR.dirent_get_d_name_gc<>(ent))
 ) (* end of [stream_vt_map_cloptr] *)
 //
 end // end of [streamize_dirname_fname]

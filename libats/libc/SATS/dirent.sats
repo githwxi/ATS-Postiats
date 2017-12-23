@@ -152,21 +152,23 @@ fun direntp_free(x: Direntp0): void = "mac#%"
 (* ****** ****** *)
 //
 fun
-dirent_get_d_ino (ent: &RD(dirent)):<> ino_t = "mac#%"
+dirent_get_d_ino(ent: &RD(dirent)):<> ino_t = "mac#%"
 //
 (* ****** ****** *)
 //
 fun
 dirent_get_d_name
   (ent: &RD(dirent)):<> vStrptr1 = "mac#%"
+//
 fun{}
-dirent_get_d_name_gc (ent: &RD(dirent)):<!wrt> Strptr1
+dirent_get_d_name_gc(ent: &RD(dirent)):<!wrt> Strptr1
 //
 (* ****** ****** *)
 //
 fun
 direntp_get_d_name
   (entp: !Direntp1):<> vStrptr1 = "mac#%"
+//
 fun{}
 direntp_get_d_name_gc (entp: !Direntp1):<!wrt> Strptr1
 //
@@ -192,7 +194,8 @@ fun closedir{l:agz}
   option_v (DIR_v (l), i < 0) | int i
 ) = "mac#%" // end of [closedir]
 //
-fun closedir_exn (dirp: DIRptr1):<!exnwrt> void = "ext#%"
+fun
+closedir_exn(dirp: DIRptr1):<!exnwrt> void = "ext#%"
 //
 (* ****** ****** *)
 

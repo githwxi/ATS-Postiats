@@ -77,7 +77,7 @@ end // end of [else]
 in
 //
 stream_vt_map_cloptr<dirent><Strptr1>
-  (ents, lam(ent) => $DIR.dirent_get_d_name_gc(ent))
+  (ents, lam(ent) => $DIR.dirent_get_d_name_gc<>(ent))
 //
 end // end of [streamize_dirname_fname]
 
