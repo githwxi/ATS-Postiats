@@ -79,7 +79,10 @@ function(lazyval) {
   {
     lazyval[[1]] = 1;
     mythunk = lazyval[[2]];
-    lazyval[[2]] = mythunk[[1]](mythunk);
+##
+## HX-2017-12-22: nightmare!!!
+##
+    lazyval[ 2 ] = list(mythunk[[1]](mythunk));
   } else {
     lazyval[[1]] = flag + 1;
   } ## end of [if]
