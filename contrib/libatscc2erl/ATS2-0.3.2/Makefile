@@ -115,6 +115,8 @@ clean:: ; $(RMF) *~ */*~
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) output/DATS/*_?ats.hrl
+cleanall:: ; $(RMF) output/DATS/ML/*_?ats.hrl
 cleanall:: ; $(RMF) $(LIBATSCC2ERL_ALL_HRL)
 
 ######
