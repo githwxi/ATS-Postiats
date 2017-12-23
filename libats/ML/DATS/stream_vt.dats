@@ -55,6 +55,29 @@ stream2list0_vt
   g0ofg1(stream2list_vt<a>(xs))
 //
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+stream_vt_make_list0
+  (xs) =
+  auxmain(xs) where
+{
+//
+fun
+auxmain:
+$d2ctype
+(
+stream_vt_make_list0<a>
+) = lam(xs) => $ldelay
+(
+case+ xs of
+| list0_nil() => stream_vt_nil()
+| list0_cons(x, xs) => stream_vt_cons(x, auxmain(xs))
+)
+//
+} (* end of [stream_vt_make_list0] *)
+
+(* ****** ****** *)
 //
 implement
 {a}{b}

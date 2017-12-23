@@ -14,7 +14,7 @@ PATSOPT=${PATSHOME}/bin/patsopt
 all:: 
 
 ######
-
+#
 all:: \
 tokenizer
 tokenizer: \
@@ -22,11 +22,21 @@ tokenizer.dats; \
 $(PATSCC) \
   -D_GNU_SOURCE \
   -DATS_MEMALLOC_GCBDW -O2 -o $@ $< ./../mylibies.dats -latslib -lgc
+#
+######
+
+regress:: tokenizer; ./tokenizer < tokenizer.dats
 
 ######
 
 CAT=cat
 RMF=rm -f
+
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
 
 ######
 

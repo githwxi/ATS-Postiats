@@ -52,6 +52,13 @@ stream2list0_vt
 //
 (* ****** ****** *)
 //
+fun
+{a:t0p}
+stream_vt_make_list0
+  (xs: list0(a)):<!laz> stream_vt(a)
+//
+(* ****** ****** *)
+//
 fun{
 a:vt0p}{b:vt0p
 } stream_vt_map_method
