@@ -180,7 +180,9 @@ case+ t0 of
 | tree_cons(tl, _, tr) => let
     val hl = aux(tl) and hr = aux(tr)
   in
-    if hl = hr then 1+max(hl, hr) else $raise NotPerfect
+    if hl = hr
+      then 1+max(hl, hr) else $raise NotPerfect()
+    // end of [if]
   end
 //
 in

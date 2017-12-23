@@ -76,7 +76,7 @@ loop
 (x0: a, xs: list0(a)): a =
 (
 case+ xs of
-list0_nil() => x0
+| list0_nil() => x0
 | list0_cons(x1, xs) => loop(x1, xs)
 )
 //
@@ -125,7 +125,7 @@ case+ xs of
 ')
 
 For instance, given the list #dyncode("(1,10,100)") and the index
-#dyncode("1"), #dyncode("list0_get_at") return the element
+#dyncode("1"), #dyncode("list0_get_at") returns the element
 #dyncode("10").  Another common name for #dyncode("list0_get_at") is
 #dyncode("list0_nth"). Clearly, the time-complexity of
 #dyncode("list0_get_at") is O(n) (while array-subscripting is
@@ -175,7 +175,7 @@ typical use of list-processing functions.
 A commonly used (higher-order) function is often referred to as
 list-map, which takes a list and a function and returns a newly
 constructed list consisting of all of the elements obtained from
-applying the function to each element in the given list:
+applying the given function to each element in the given list:
 
 #dats2xhtml('\
 //
@@ -380,7 +380,7 @@ element in its list argument and so does #dyncode("list0_filter").
 Sometimes, we need a list-processing function that stops immediately
 after certain condition is met. For instance, we may want to locate
 the index of the first element in a given list that satisfies some test,
-which can done by calling the following function #dyncode("list0_find_index"):
+which can be done by calling the following function #dyncode("list0_find_index"):
 
 #dats2xhtml('\
 //
@@ -590,7 +590,7 @@ list0_filter<node>(node_dfsenum(node_init()), lam(nx) => node_length(nx) = N)
 
 where #dyncode("node_init") returns the initial node and
 #dyncode("node_length") returns the length of a node (that is, the
-number queen pieces in the partial solution represented by the node).
+number of queen pieces in the partial solution represented by the node).
 By treating #stacode("node") as #stacode("list0(int)"), we
 can implement #dyncode("node_init") and #dyncode("node_length")
 as follows:
@@ -609,8 +609,8 @@ node_length(nx) = list0_length(nx)
 
 A node is represented as a list of integers; the length of the list
 refers to the number of queen pieces on the chess board; the integers
-(between 0 and N-1) in the list refer to the reversely listed column
-positions of the queen pieces. The function #dyncode("node_get_children")
+(between 0 and N-1, inclusive) in the list refer to the reversely listed
+column positions of the queen pieces. The function #dyncode("node_get_children")
 is implemented as follows:
 
 #dats2xhtml('\

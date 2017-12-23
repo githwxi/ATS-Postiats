@@ -66,7 +66,7 @@ returns the list consisting of #dyncode("$tup(1, 2)") and
 (for constructing tuples). For a list-processing function handling one
 list, there is often a meaningful variant that essentially acts like
 passing to the list-processing function a list of pairs obtained from
-applying #dyncode("list0_zip") to two given lists. For instance,
+applying #dyncode("list0_zip") to two given lists. As an example,
 the following function #dyncode("list0_map2") is such a variant
 of #dyncode("list0_map"):
 
@@ -227,12 +227,6 @@ chosen from a given list, then one may want to implement the following
 function #dyncode("list0_choose2"):
 
 #dats2xhtml('\
-//
-extern
-fun
-{a:t@ype}
-list0_choose2
-(xs: list0(a)): list0($tup(a, a))
 //
 extern
 fun

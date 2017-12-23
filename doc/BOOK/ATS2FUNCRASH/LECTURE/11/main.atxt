@@ -97,7 +97,7 @@ The implementation of #dyncode("ftally2") is combinator-based.  In
 general, such an implementation makes it easier for the code to
 evolve. Let us imagine a scenario where the passed function f needs to
 perform computation at a remote site (because it needs to access a
-database) and the bottleneck for calling f lies in communicating the
+database) and the bottleneck of calling f lies in communicating the
 input and output over some network. A common approach to addressing
 this bottleneck issue is to provide a vectorial variant of f that can
 handle multiple inputs and outputs in one call. Assume that such a
@@ -121,7 +121,7 @@ programming features, a constant question is whether one needs to pay
 for this feature even if one makes no use of it. In the case of
 automatic caching associated with (non-linear) streams, one clearly
 pays dearly for the time and memory spent on caching when the elements
-in such a stream need to be processed only once. In stream-based
+in such a stream need only to be processed only once. In stream-based
 programming, most streams created to support intermediate computation
 are processed only once. For instance, the three streams in the body
 of #dyncode("ftally2") are all processed once and only once.
@@ -135,7 +135,7 @@ generate code (e.g., based on some deforestation heuristics) that
 completely eliminates caching in the case of #dyncode("ftally2"), the
 very problem with such an argument is that the optimizing compiler
 also may not. This is a bit like trying to control a puppet with a
-string of one hundred meter long: the consequence of such a practice is
+string of one hundred meter long: The consequence of such a practice is
 difficult to predict if not unpredictable.
 
 ")
