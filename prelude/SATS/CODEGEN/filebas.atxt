@@ -338,6 +338,11 @@ fun{}
 streamize_fileptr_line(inp: FILEptr1): stream_vt(Strptr1)
 //
 #atscode_separator()
+//
+fun{}
+streamize_dirname_fname(dir: NSH(string)): stream_vt(Strptr1)
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

@@ -34,12 +34,14 @@
 #staload FWS = $FWORKSHOP_chanlst
 
 (* ****** ****** *)
-
-#staload "libats/libc/SATS/unistd.sats"
-
+//
+#staload
+"libats/libc/SATS/unistd.sats"
+//
 fun
-sleep(n: int): void = $extfcall(void, "sleep", n)
-
+sleep
+(n: int): void = $extfcall(void, "sleep", n)
+//
 (* ****** ****** *)
 
 implement

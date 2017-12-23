@@ -87,9 +87,11 @@ all::
 #make_entry("unsafe")
 #make_entry("checkast")
 
+#make_entry("intrange")
+
 #make_entry("filebas")
 #make_entry("filebas_prf")
-#make_entry("intrange")
+#make_entry("filebas_dirent")
 
 #make_entry("basics")
 

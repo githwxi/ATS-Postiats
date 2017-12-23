@@ -37,21 +37,29 @@
   
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*UN*) = "prelude/DATS/unsafe.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*UN*) = "prelude/DATS/unsafe.dats"
 
 
 (* ****** ****** *)
 
-staload _(*INT*) = "prelude/DATS/integer.dats"
-staload _(*INT*) = "prelude/DATS/integer_size.dats"
+staload
+_(*INT*) = "prelude/DATS/integer.dats"
+staload
+_(*INT*) = "prelude/DATS/integer_size.dats"
 
 (* ****** ****** *)
 
-staload _(*STRING*) = "prelude/DATS/string.dats"
-staload _(*STRING*) = "prelude/DATS/strptr.dats"
-staload _(*STREAM*) = "prelude/DATS/stream.dats"
-staload _(*STREAM*) = "prelude/DATS/stream_vt.dats"
+staload
+_(*STRING*) = "prelude/DATS/string.dats"
+staload
+_(*STRPTR*) = "prelude/DATS/strptr.dats"
+staload
+_(*STREAM*) = "prelude/DATS/stream.dats"
+staload
+_(*STREAM_VT*) = "prelude/DATS/stream_vt.dats"
 
 (* ****** ****** *)
 //
@@ -182,7 +190,7 @@ end // end of [else]
 //
 in
 //
-stream_vt_map_cloptr
+stream_vt_map_cloptr<dirent><string>
 (
   ents
 , lam(ent) => strptr2string($DIR.dirent_get_d_name_gc(ent))

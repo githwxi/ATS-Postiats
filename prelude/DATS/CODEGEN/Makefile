@@ -192,6 +192,16 @@ clean:: ; $(RMF) checkast_atxt.exe
 cleanall:: ; $(RMF) checkast.dats
 
 
+all:: intrange.dats
+intrange.dats: intrange_atxt.exe ; ./$< > $@
+intrange_atxt.exe: intrange_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ intrange_atxt.dats -latsdoc
+intrange_atxt.dats: intrange.atxt
+	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
+clean:: ; $(RMF) intrange_atxt.exe
+cleanall:: ; $(RMF) intrange.dats
+
+
 all:: filebas.dats
 filebas.dats: filebas_atxt.exe ; ./$< > $@
 filebas_atxt.exe: filebas_atxt.dats
@@ -210,14 +220,14 @@ filebas_prf_atxt.dats: filebas_prf.atxt
 clean:: ; $(RMF) filebas_prf_atxt.exe
 cleanall:: ; $(RMF) filebas_prf.dats
 
-all:: intrange.dats
-intrange.dats: intrange_atxt.exe ; ./$< > $@
-intrange_atxt.exe: intrange_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ intrange_atxt.dats -latsdoc
-intrange_atxt.dats: intrange.atxt
-	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
-clean:: ; $(RMF) intrange_atxt.exe
-cleanall:: ; $(RMF) intrange.dats
+all:: filebas_dirent.dats
+filebas_dirent.dats: filebas_dirent_atxt.exe ; ./$< > $@
+filebas_dirent_atxt.exe: filebas_dirent_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ filebas_dirent_atxt.dats -latsdoc
+filebas_dirent_atxt.dats: filebas_dirent.atxt
+	$(ATSDOC) --outcode $@ -i filebas_dirent.atxt > filebas_dirent_atxt.txt
+clean:: ; $(RMF) filebas_dirent_atxt.exe
+cleanall:: ; $(RMF) filebas_dirent.dats
 
 
 all:: basics.dats
