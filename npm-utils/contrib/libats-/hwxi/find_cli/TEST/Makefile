@@ -25,7 +25,8 @@ cleanall::
 all:: \
 test01
 test01: \
-test01.dats; $(PATSCC2) -o $@ $^ -lpthread
+test01.dats; \
+$(PATSCC2) -o $@ $^ -latslib -lpthread
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01

@@ -11,10 +11,8 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 ######
 #
 PATSCC2=\
-$(PATSCC) \
--O2 \
--D_GNU_SOURCE \
--DATS_MEMALLOC_LIBC
+$(PATSCC) -O2 \
+-D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 #
 ######
 
@@ -27,8 +25,7 @@ cleanall::
 all:: \
 test01
 test01: \
-test01.dats; \
-$(PATSCC2) -o $@ $^ -lgc -lpthread
+test01.dats; $(PATSCC2) -o $@ $^ -lpthread
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
@@ -38,8 +35,7 @@ cleanall:: ; $(RMF) test01
 all:: \
 DirWalk
 DirWalk: \
-DirWalk.dats; \
-$(PATSCC2) -o $@ $^ -latslib -lgc -lpthread
+DirWalk.dats; $(PATSCC2) -o $@ $^ -latslib -lpthread
 #
 regress:: DirWalk; ./$<
 cleanall:: ; $(RMF) DirWalk
