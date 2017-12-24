@@ -21,138 +21,203 @@
 #include
 "share/atspre_staload.hats"
 //
-#include
+#staload
 "libats/libc/DATS/dirent.dats"
+//
+#staload
+"prelude/DATS/filebas_dirent.dats"
 //
 (* ****** ****** *)
 //
 #include "./../mydepies.hats"
 #include "./../mylibies.hats"
 //
+#staload FWS = $FWORKSHOP_chanlst
+//
 (* ****** ****** *)
 //
 extern
 fun{}
-DirWalk(dir: string): int(*status*)
-//
-extern
-fun{}
-DirWalk$skipped(dir: string): bool
-//
-(* ****** ****** *)
-//
-implement
-DirWalk$skipped<>(dir) =
-if
-(dir = "." || dir = "..") then true else false
-//
-(* ****** ****** *)
-////
-implement
 DirWalk
-(fws, fname, fopr) =
-let
+( fws:
+  $FWS.fworkshop
+, dirpath: string): int(*status*)
 //
-val () = $tempenver(fws)
-val () = $tempenver(fopr)
+extern
+fun{}
+DirWalk$skipped_test
+( l0: int
+, dir: string, fname: string): bool
 //
+extern
+fun{}
+DirWalk$recurse_test
+( l0: int
+, dir: string, fname: string): bool
 //
-implement
-DivideConquer$base_test<>
-
+extern
+fun{}
+DirWalk$process_test
+( l0: int
+, dir: string, fname: string): bool
 //
-(*
-val () =
-println!("fname = ", fname)
-*)
+extern
+fun{}
+DirWalk$process_fwork(fname: string): void
 //
-in
-  test_file_isdir(fname) <= 0
-end // end of [DivideConquer$base_test<>]
-//
-implement
-DivideConquer$base_solve<>
-  (fname) = fopr(fname)
-//
-//
-implement
-DivideConquer$divide<>
-  (dir) = (
-//
-let
-//
-val
-files =
-streamize_dirname_fname(dir)
-val
-files =
-stream_vt_filter_cloptr<string>
-  (files, lam(x) => ~dir_skipped(x))
-val
-files =
-stream_vt_map_cloptr<string><string>
-  (files, lam(file) => string_append3(dir, "/", file))
-//
-in
-  list0_of_list_vt(stream2list_vt(files))
-end // end of [let]
-//
-) (* end of [DivideConquer$divide<>] *)
+(* ****** ****** *)
 //
 implement
-DivideConquer$conquer$combine<>
-  (_, rs) =
+DirWalk$skipped_test<>
+  (l0, dir, fname) =
 (
-  list0_foldleft<int><int>(rs, 0, lam(res, r) => res + r)
+if
+(
+fname="."
+||
+fname=".."
+) then true else false
 )
 //
 implement
-DivideConquerPar$fworkshop<>((*void*)) = FWORKSHOP_chanlst(fws)
+DirWalk$recurse_test<>
+  (l0, dir, fname) = let
+  val
+  sep = dirsep_gets<>()
+  val
+  fpath =
+  string0_append3(dir, sep, fname)
+  val isdir =
+  test_file_isdir($UN.strptr2string(fpath))
+  val ((*freed*)) = strptr_free(fpath)
+in
+//
+  if isdir > 0 then true else false
+//
+end // end of [DirWalk$recurse_test<>]
+//
+implement
+DirWalk$process_test<>
+  (l0, dir, fname) = true
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+DirWalk
+(fws, dir) =
+let
+//
+vtypedef
+fname = Strptr1
+//
+val
+isdir =
+test_file_isdir(dir)
+//
+fun
+add_dir_fname
+(
+  x0: !fname, x1: fname
+) : fname = res where
+{
+  val sep = dirsep_gets<>()
+  val x0_ = $UN.strptr2string(x0)
+  val x1_ = $UN.strptr2string(x1)
+  val res = string0_append3(x0_, sep, x1_)
+  val ((*freed*)) = strptr_free(x1)
+}
+//
+overload + with add_dir_fname
+//
+fun
+auxmain0
+(
+dir: string
+) : int = 0 where
+{
+//
+val
+dir = string0_copy(dir)
+//
+val
+fwork =
+lam(x0: fname): void =<cloref1>
+let
+val () =
+DirWalk$process_fwork<>($UN.strptr2string(x0)) in free(x0)
+end // end of [val]
+//
+val () =
+$StreamPar.streampar_foreach<fname>(fws, auxmain1(0, dir), fwork)
+//
+} (* end of [auxmain] *)
+//
+and
+auxmain1
+(
+l0: int, x0: fname
+) : stream_vt(fname) = let
+//
+val x0_ =
+$UN.strptr2string(x0)
+val
+fnames =
+streamize_dirname_fname<>(x0_)
 //
 in
-  DivideConquer$solve<>( fname )
+  auxmain2(l0, x0, fnames)
+end // end of [auxmain1]
+//
+and
+auxmain2
+(
+l0: int, x0: fname,
+xs: stream_vt(fname)
+) : stream_vt(fname) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+  (
+    free(x0); stream_vt_nil()
+  )
+| ~stream_vt_cons(x1, xs) => let
+    val x0_ = $UN.strptr2string(x0)
+    val x1_ = $UN.strptr2string(x1)
+  in
+    ifcase
+    | DirWalk$skipped_test
+        (l0, x0_, x1_) =>
+      (
+        free(x1); !(auxmain2(l0, x0, xs))
+      )
+    | DirWalk$recurse_test
+        (l0, x0_, x1_) => !
+      (
+        stream_vt_append<fname>
+          (auxmain1(l0+1, x0+x1), auxmain2(l0, x0, xs))
+        // end of [stream_vt_append]
+      )
+    | DirWalk$process_test
+        (l0, x0_, x1_) =>
+        stream_vt_cons{fname}(x0+x1, auxmain2(l0, x0, xs))
+    | _ (* not-to-be-processed *) =>
+      (
+        free(x1); !(auxmain2(l0, x0, xs))
+      )
+  end // end of [stream_vt_cons]
+, (strptr_free(x0); lazy_vt_free(xs))
+)
+//
+in
+//
+  if isdir > 0 then auxmain0(dir) else 1(*error*)
+//
 end // end of [DirWalk]
 
 (* ****** ****** *)
 
-fun
-wc_line
-(fname: string): int = let
-//
-val EOL = char2int0('\n')
-//
-fun
-loop
-( inp: FILEref
-, r1: int, r2: int): int = let
-//
-val c0 = fileref_getc(inp)
-//
-in
-  if
-  (c0 >= 0)
-  then (
-  if c0 = EOL
-    then loop(inp, 0, r2+1)
-    else loop(inp, r1+1, r2)
-  ) else (if r1 = 0 then r2 else r2 + 1)
-end // end of [loop]
-//
-val
-opt =
-fileref_open_opt(fname, file_mode_r)
-//
-in
-//
-case+ opt of
-| ~None_vt() =>
-    (prerrln!("Cannot open the file: ", fname); 0)
-| ~Some_vt(inp) =>
-    let val nline =
-      loop(inp, 0, 0) in fileref_close(inp); nline end
-    // end of [let]
-//
-end // end of [wc_line]
+#staload FWS = $FWORKSHOP_chanlst
 
 (* ****** ****** *)
 
@@ -160,31 +225,31 @@ implement
 main0(argc, argv) =
 {
 //
-#define N 2
+#define N 4
 //
 val
 fws =
 $FWS.fworkshop_create_exn()
 //
 val
-added = $FWS.fworkshop_add_nworker(fws, N)
+nadded =
+$FWS.fworkshop_add_nworker(fws, N)
 val () =
-prerrln!("the number of workers = ", added)
+prerrln!
+("the number of workers = ", nadded)
 //
 val
-root = (if argc >= 2 then argv[1] else "."): string
+dirname =
+(
+if
+argc >= 2 then argv[1] else "."
+) : string
 //
-val nfile =
-DirWalk
-( fws, root
-, lam(fname) => let
-    val nline =
-    wc_line(fname) in println!(fname, ": ", nline); 1
-    // end of [val]
-  end // end of [lam]
-)
+implement
+DirWalk$process_fwork<>
+  (fname) = println! (fname)
 //
-val () = println!("The total number of files: ", nfile)
+val status = DirWalk<>(fws, dirname)
 //
 } (* end of [main0] *)
 

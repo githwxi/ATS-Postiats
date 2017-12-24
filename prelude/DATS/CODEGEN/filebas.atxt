@@ -61,6 +61,7 @@ staload STAT = "libats/libc/SATS/sys/stat.sats"
 // this is just Unix convention
 //
 implement{} dirsep_get () = '/'
+implement{} dirsep_gets () = "/"
 implement{} dirname_self () = "."
 implement{} dirname_parent () = ".."
 //

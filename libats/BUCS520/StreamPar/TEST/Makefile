@@ -27,10 +27,22 @@ cleanall::
 all:: \
 test01
 test01: \
-test01.dats; $(PATSCC2) -o $@ $^ -lgc -lpthread
+test01.dats; \
+$(PATSCC2) -o $@ $^ -lgc -lpthread
 #
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
+#
+######
+#
+all:: \
+DirWalk
+DirWalk: \
+DirWalk.dats; \
+$(PATSCC2) -o $@ $^ -latslib -lgc -lpthread
+#
+regress:: DirWalk; ./$<
+cleanall:: ; $(RMF) DirWalk
 #
 ######
 
