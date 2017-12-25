@@ -1,9 +1,9 @@
 (* ****** ****** *)
 (*
 ** HX-2017-12-24:
-** Programming support
-** for directory traversal
-** recursively and in parallel
+** Programming support for
+** recursive directory-traversal,
+** which can be done in parallel
 *)
 (* ****** ****** *)
 //
@@ -150,7 +150,7 @@ case+ !xs of
       )
   end // end of [stream_vt_cons]
 , (strptr_free(x0); lazy_vt_free(xs))
-)
+) (* end of [$ldelay] *) // end of [auxmain2]
 //
 in
 //
@@ -164,9 +164,7 @@ in
   (isdir > 0)
   then let
     val
-    dir = string0_copy(dir)
-  in
-    Some_vt(auxmain1(0, dir))
+    dir = string0_copy(dir) in Some_vt(auxmain1(0, dir))
   end else None_vt((*void*))
 end // end of [let]
 //

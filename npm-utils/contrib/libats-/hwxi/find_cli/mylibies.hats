@@ -1,9 +1,9 @@
 (* ****** ****** *)
 (*
 ** HX-2017-12-24:
-** Programming support
-** for directory traversal
-** recursively and in parallel
+** Programming support for
+** recursive directory-traversal,
+** which can be done in parallel
 *)
 (* ****** ****** *)
 //

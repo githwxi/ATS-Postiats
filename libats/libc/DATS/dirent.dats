@@ -223,14 +223,15 @@ end // end of [then]
 else let
   prval() = opt_unnone(ent)
 in
-  free@(x0_con); closedir_exn(dirp); stream_vt_nil((*void*))
+  free@(x0_con);
+  closedir_exn(dirp); stream_vt_nil((*void*))
 end // end of [else]
 //
 end : stream_vt_con(dirent) // end of [let]
 //
 ,
 //
-closedir_exn(dirp)
+let val () = closedir_exn(dirp) in (*closing*) end
 //
 ) (* end of [auxmain] *)
 //
