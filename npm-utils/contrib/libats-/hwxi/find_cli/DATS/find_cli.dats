@@ -60,19 +60,34 @@ streamize_dirname_fname$select
 implement
 {}(*tmp*)
 streamize_dirname_fname$recurse
-  (l0, dir, fname) = let
+(
+l0, dir, fname
+) = (
+//
+if
+(
+fname=
+dirname_self<>()
+)
+then false else let
 //
   val sep =
   dirsep_gets<>()
   val fpath =
-  string0_append3(dir, sep, fname)
+  string0_append3<>
+    (dir, sep, fname)
+  // end of [val]
   val isdir =
-  test_file_isdir($UN.strptr2string(fpath))
+  test_file_isdir
+    ($UN.strptr2string(fpath))
+  // end of [val]
   val ((*freed*)) = strptr_free(fpath)
 //
 in
   if isdir > 0 then true else false
-end // end of [streamize_dirname_fname$recurse]
+end // end of [else]
+//
+) // end of [streamize_dirname_fname$recurse]
 //
 (* ****** ****** *)
 

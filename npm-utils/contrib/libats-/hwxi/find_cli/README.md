@@ -2,5 +2,5 @@
 
 ## Project Description
 
-A template-base implementation for traversing a given
-diretory recursively and possibly in parallel.
+A template-based implementation for recursive
+directory-traversal in parallel.

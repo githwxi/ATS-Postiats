@@ -18,7 +18,7 @@
 ,
 "keywords": [
   "ATS",
-  "dirwalk"
+  "dirwalk", "find"
 ]
 ,
 "dependencies": {}

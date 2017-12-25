@@ -25,9 +25,14 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Improving libatscc/libatscc2js regarding matrixref and matrix0
-2. Adding some examples in ATS-Tutoriats demonstrating ATS+ReactJS
+2. Improving doc/BOOK/ATS2FUNCRASH by tidying-up and fixing errors
+3. Adding some examples in ATS-Tutoriats demonstrating ATS+ReactJS
    and ATS+React-Native
-3. Improving doc/BOOK/ATS2FUNCRASH by tidying-up and fixing errors
+4. Adding basic programming support for parallelized stream-foreach:
+   ${PATSHOME}/libats/BUCS320/StreamPar (stream-processing)
+   ${PATSHOME}/libats/BUCS520/StreamPar (linear-stream-processing)
+5. Adding basic programming support for recursive directory-traversal:
+   ${PATSHOME}/npm-utils/contrib/libats-hwxi/find_cli
   
 ######
 
