@@ -45,6 +45,11 @@ _(*anon*) = "prelude/DATS/filebas_dirent.dats"
 //
 (* ****** ****** *)
 
+#staload
+"libats/libc/SATS/fnmatch.sats"
+
+(* ****** ****** *)
+
 implement
 main0(argc, argv) = () where
 {
@@ -59,7 +64,20 @@ if argc >= 2 then argv[1] else "."
 //
 val-
 ~Some_vt(fnames) =
-$FindCli.streamize_dirname_fname(dir)
+$FindCli.streamize_dirname_fname<>
+(
+  dir
+) where
+{
+//
+implement
+$FindCli.streamize_dirname_fname$ignore<>
+  (l0, dir, fname) =
+(
+  fnmatch_null(".*", fname) = 0
+)
+//
+} // $FindCli.streamize_dirname_fname
 //
 val
 theFCS =

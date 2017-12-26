@@ -69,6 +69,11 @@ FWS = $FWORKSHOP_chanlst
 
 (* ****** ****** *)
 
+#staload
+"libats/libc/SATS/fnmatch.sats"
+
+(* ****** ****** *)
+
 implement
 main0(argc, argv) = () where
 {
@@ -88,16 +93,31 @@ fcountlst_make_nil(1024)
 //
 val-
 ~Some_vt(fnames) =
-$FindCli.streamize_dirname_fname(dir)
+$FindCli.streamize_dirname_fname<>
+(
+  dir
+) where
+{
+//
+implement
+$FindCli.streamize_dirname_fname$ignore<>
+  (l0, dir, fname) =
+(
+  fnmatch_null(".*", fname) = 0
+)
+//
+} // $FindCli.streamize_dirname_fname
 //
 val
-fws =
+fws = fws where
+{
+val fws =
 $FWS.fworkshop_create_exn()
-//
 val err =
-  $FWS.fworkshop_add_worker(fws)
+$FWS.fworkshop_add_worker(fws)
 val err =
-  $FWS.fworkshop_add_worker(fws)
+$FWS.fworkshop_add_worker(fws)
+} (* end of [val] *)
 //
 vtypedef
 a = fname
