@@ -18,8 +18,11 @@ UN = "prelude/SATS/unsafe.sats"
 //
 #staload
 HT = "libats/SATS/hashtbl_chain.sats"
+//
 #staload
-_(*HT*) = "libats/DATS/linmap_list.dats"
+_(*HF*) = "libats/DATS/hashfun.dats"
+#staload
+_(*LM*) = "libats/DATS/linmap_list.dats"
 #staload
 _(*HT*) = "libats/DATS/hashtbl_chain.dats"
 //
@@ -200,9 +203,9 @@ case+ !xs of
     FCOUNT(@{
       type=type
     , nfile=1u
-    , nline=g0uint2uint(nline)
-    , nblnk=g0uint2uint(nblnk)
-    , ncmnt=g0uint2uint(ncmnt)
+    , nline=$UN.cast{uint64}(nline)
+    , nblnk=$UN.cast{uint64}(nblnk)
+    , ncmnt=$UN.cast{uint64}(ncmnt)
     }) (* FCOUNT *)
   )
 | ~stream_vt_cons(x0, xs) =>
@@ -217,17 +220,234 @@ in
 end // end of [fline_stream_count]
 //
 (* ****** ****** *)
+//
+extern
+fun
+fname_get_type
+  (fname: string): Option_vt(string)
+//
+implement
+fname_get_type(fname) = let
+//
+val
+(fstr | str) = filename_get_ext(fname)
+//
+in
+//
+if
+isneqz(str)
+then
+Some_vt(type) where
+{
+//
+val
+str1 = $UN.strptr2string(str)
+val
+type =
+(
+//
+// HX:
+// Hashtable should be much better!!!
+//
+case+ str1 of
+//
+| "hs" => "Haskell"
+//
+| "js" => "Javascript"
+//
+| "pl" => "Perl"
+//
+| "py" => "Python"
+//
+| "php" => "PHP"
+//
+| "c" => "C"
+| "c++" => "C++" | "cpp" => "C++"
+//
+| "sats" => "ATS" | "dats" => "ATS" | "cats" => "ATS" | "hats" => "ATS"
+//
+| _(*else*) => "(UNKNOWN)"
+) : string // end of [val]
+//
+prval ((*returned*)) = fstr(str)
+//
+} (* end of [then] *)
+else None_vt() where
+{
+prval ((*returned*)) = fstr(str)
+} (* end of [else] *)
+//
+end // end of [fname_get_type]
+//
+(* ****** ****** *)
+//
+#staload
+_(*anon*) =
+"libats/libc/DATS/dirent.dats"
+#staload
+_(*anon*) =
+"prelude/DATS/filebas_dirent.dats"
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-hx-find-cli/mylibies.hats"
+//
+(* ****** ****** *)
 
+vtypedef fname = $FindCli.fname
+vtypedef fnames = stream_vt(fname)
 
+(* ****** ****** *)
+//
+extern
+fun
+fcountlst_add_fname
+  (fcs: !fcountlst, x0: fname): void
+extern
+fun
+fcountlst_add_fnames
+  (fcs: !fcountlst, xs: fnames): void
+//
+(* ****** ****** *)
+
+implement
+fcountlst_add_fname
+  (fcs, x0) = let
+//
+val x0_ =
+(
+  $UN.strptr2string(x0)
+)
+//
+val opt = fname_get_type(x0_)
+//
+val type =
+(
+case+ opt of
+| ~None_vt() => "(EXTLESS)"
+| ~Some_vt(type) => type
+) : string // end of [val]
+//
+(*
+val () = println! ("fcountlst_add_fname: x0 = ", x0_)
+val () = println! ("fcountlst_add_fname: type = ", type)
+*)
+//
+val
+opt =
+fileref_open_opt(x0_, file_mode_r)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+  (
+    prerrln!
+    ("Warning: Cannot open the file: ", x0_);
+    strptr_free(x0)
+  )
+| ~Some_vt(inp) => let
+    val inp =
+    $UN.castvwtp0{FILEptr1}(inp)
+    val fc0 =
+    fline_stream_count
+      (type, streamize_fileptr_line(inp))
+    // end of [val]
+  in
+    strptr_free(x0); fcountlst_add_fcount(fcs, fc0)
+  end // end of [then]
+//
+end // end of [fcountlst_add_fname]
 
 (* ****** ****** *)
 
 implement
-main0() = () where
+fcountlst_add_fnames
+  (fcs, xs) =
+(
+case+ !xs of
+| ~stream_vt_nil() => ()
+| ~stream_vt_cons(x0, xs) =>
+  (
+    fcountlst_add_fname(fcs, x0); 
+    fcountlst_add_fnames(fcs, xs);
+  )
+)
+
+(* ****** ****** *)
+//
+extern
+fun
+fprintfree_fcount
+(out: FILEref, fc0: fcount): void
+extern
+fun
+fprintfree_fcountlst
+(out: FILEref, fcs: List0_vt(fcount)): void
+//
+(* ****** ****** *)
+
+implement
+fprintfree_fcount
+  (out, fc0) = let
+//
+val+~FCOUNT(rec0) = fc0
+//
+in
+//
+fprintln!(out, rec0.type, ": ", "nfile(", rec0.nfile, ")");
+fprintln!(out, rec0.type, ": ", "nline(", rec0.nline, ")");
+//
+end // end of [fprintfree_fcount]
+
+implement
+fprintfree_fcountlst
+  (out, fcs) =
+  loop(out, fcs) where
+{
+fun
+loop
+( out: FILEref,
+  fcs: List0_vt(fcount)): void =
+(
+case+ fcs of
+| ~list_vt_nil() => ()
+| ~list_vt_cons(fc0, fcs) =>
+  (
+    fprintfree_fcount(out, fc0); loop(out, fcs)
+  )
+)
+} (* end of [fprintfree_fcountlst] *)
+
+(* ****** ****** *)
+
+implement
+main0(argc, argv) = () where
 {
 //
 val () =
 println! ("Hello from [polyglot]!")
+//
+val dir =
+(
+if argc >= 2 then argv[1] else "."
+) : string // end of [val]
+//
+val-
+~Some_vt(fnames) =
+$FindCli.streamize_dirname_fname(dir)
+//
+val
+theFCS =
+fcountlst_make_nil(1024)
+val
+((*void*)) =
+fcountlst_add_fnames(theFCS, fnames)
+//
+val theFCS = fcountlst_listize0(theFCS)
+//
+val out = stdout_ref
+val ((*void*)) = fprintfree_fcountlst(out, theFCS)
 //
 } (* end of [main0] *)
 

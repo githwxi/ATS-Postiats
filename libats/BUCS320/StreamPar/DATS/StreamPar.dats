@@ -63,6 +63,19 @@ fun
 {a:t@ype}
 streampar_foreach
 ( fws: fworkshop
+, xs0: stream(INV(a))): void
+extern
+fun
+{a:t@ype}
+streampar_foreach$fwork(x0: a): void
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+streampar_foreach_cloref
+( fws: fworkshop
 , xs0: stream(INV(a)), fwork: cfun(a, void)): void
 //
 (* ****** ****** *)
@@ -70,7 +83,7 @@ streampar_foreach
 implement
 {a}(*tmp*)
 streampar_foreach
-  (fws, xs0, fwork) = let
+  (fws, xs0) = let
 //
 #staload $NWAITER
 //
@@ -131,7 +144,8 @@ case+ !xs of
     ) (* end of [val] *)
   in
     let
-    val () = fwork(x0)
+    val () =
+    streampar_foreach$fwork<a>(x0)
     val
     (locked | ()) =
     $AT.spin_lock(fws_spn)
@@ -151,6 +165,20 @@ in
   val () = nwaiter_destroy(NW)
 }
 end // end of [streampar_foreach]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+streampar_foreach_cloref
+(
+fws, xs0, fwork
+) =
+streampar_foreach<a>(fws, xs0) where
+{
+implement
+streampar_foreach$fwork<a>(x0) = fwork(x0)
+} (* end of [streampar_foreach_cloref] *)
 
 (* ****** ****** *)
 

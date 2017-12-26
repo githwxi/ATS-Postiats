@@ -149,7 +149,7 @@ DirWalk$process_fwork<>($UN.strptr2string(x0)) in free(x0)
 end // end of [val]
 //
 val () =
-$StreamPar.streampar_foreach<fname>(fws, auxmain1(0, dir), fwork)
+$StreamPar.streampar_foreach_cloref<fname>(fws, auxmain1(0, dir), fwork)
 //
 } (* end of [auxmain] *)
 //

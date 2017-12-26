@@ -49,6 +49,13 @@ perror (const char* str) ; // in [stdio.h]
 extern void exit (int status) ; // in [stdlib.h]
 
 /* ****** ****** */
+//
+#define \
+atslib_libats_libc_FILEptr_is_null(p) (p == 0)
+#define \
+atslib_libats_libc_FILEptr_isnot_null(p) (p != 0)
+//
+/* ****** ****** */
 
 #define \
 atslib_libats_libc_clearerr(p) clearerr(((FILE*)p))

@@ -63,14 +63,47 @@ fun
 {a:vt@ype}
 streampar_foreach
 ( fws: fworkshop
+, xs0: stream_vt(INV(a))): void
+extern
+fun
+{a:vt@ype}
+streampar_foreach$fwork(x0: a): void
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:vt@ype}
+streampar_foreach_cloref
+( fws: fworkshop
 , xs0: stream_vt(INV(a)), fwork: cfun(a, void)): void
+//
+(* ****** ****** *)
+//
+extern
+fun
+{r:vt@ype}
+{a:vt@ype}
+{b:vt@ype}
+streampar_mapfold
+( fws: fworkshop
+, xs0: stream_vt(INV(a)), r0: r): (r)
+//
+extern
+fun
+{a:vt@ype}
+{b:vt@ype} streampar_mapfold$map(a): b
+extern
+fun
+{r:vt@ype}
+{b:vt@ype} streampar_mapfold$fold(r, b): r
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 streampar_foreach
-  (fws, xs0, fwork) = let
+  (fws, xs0) = let
 //
 #staload $NWAITER
 //
@@ -131,7 +164,8 @@ case+ !xs of
     ) (* end of [val] *)
   in
     let
-    val () = fwork(x0)
+    val () =
+    streampar_foreach$fwork<a>(x0)
     val
     (locked | ()) =
     $AT.spin_lock(fws_spn)
@@ -151,6 +185,118 @@ in
   val () = nwaiter_destroy(NW)
 }
 end // end of [streampar_foreach]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+streampar_foreach_cloref
+(
+fws, xs0, fwork
+) =
+streampar_foreach<a>(fws, xs0) where
+{
+implement
+streampar_foreach$fwork<a>(x0) = fwork(x0)
+} (* end of [streampar_foreach_cloref] *)
+
+(* ****** ****** *)
+
+implement
+{r}{a}{b}
+streampar_mapfold
+  (fws, xs0, r0) = let
+//
+#staload $NWAITER
+//
+val NW =
+  nwaiter_create_exn()
+val NWT =
+  nwaiter_initiate(NW)
+val NWT =
+  $UN.castvwtp0{ptr}(NWT)
+//
+var r0: r = r0
+val p_r0 = addr@r0
+//
+var nwork: int = 1
+val p_nwork = addr@nwork
+//
+stadef spin = $AT.spin
+stadef locked_v = $AT.locked_v
+//
+fun
+freturn_spin_unlock
+{l:agz}
+( pf: locked_v(l)
+| fws_spn: spin(l)): void = let
+  val nwork = $UN.ptr0_get<int>(p_nwork)
+  val ((*returned*)) = $AT.spin_unlock(pf | fws_spn)
+in
+  if nwork <= 0 then nwaiter_ticket_put($UN.castvwtp0(NWT))
+end // end of [freturn_spin_unlock]
+//
+val fws_spn =
+  $FWS.fworkshop_get_spin<>(fws)
+//
+fun
+fwork2
+(
+xs: stream_vt(a)
+) : void = let
+//
+val
+(locked|()) = $AT.spin_lock(fws_spn)
+//
+in
+//
+case+ !xs of
+| ~stream_vt_nil() => let
+    val () =
+    $UN.ptr0_subby<int>(p_nwork, 1)
+  in
+    freturn_spin_unlock(locked|fws_spn)
+  end // end of [stream_nil]
+| ~stream_vt_cons(x0, xs) => let
+    val () =
+    $UN.ptr0_addby<int>(p_nwork, 1)
+    val () =
+    $AT.spin_unlock(locked | fws_spn)
+    val () =
+    $FWS.fworkshop_insert_lincloptr<>
+    ( fws
+    , lam() =<lincloptr1> 0 where {val()=fwork2(xs)}
+    ) (* end of [val] *)
+  in
+    let
+    val y0 =
+    streampar_mapfold$map<a><b>(x0)
+    val
+    (locked | ()) =
+    $AT.spin_lock(fws_spn)
+//
+    val r0 = $UN.ptr0_get<r>(p_r0)
+    val ((*void*)) =
+    $UN.ptr0_set<r>(p_r0, streampar_mapfold$fold<r><b>(r0, y0))
+//
+    val ((*void*)) =
+    $UN.ptr0_subby<int>(p_nwork, 1) in freturn_spin_unlock(locked|fws_spn)
+    end // end of [let]
+  end // end of [stream_cons]
+//
+end // end of [fwork2]
+//
+val () =
+$FWS.fworkshop_insert_lincloptr<>(fws, lam() =<lincloptr1> (fwork2(xs0); 0))
+//
+in
+//
+r0 where
+{
+  val () = nwaiter_waitfor(NW)
+  val () = nwaiter_destroy(NW)
+}
+end // end of [streampar_mapfold]
 
 (* ****** ****** *)
 

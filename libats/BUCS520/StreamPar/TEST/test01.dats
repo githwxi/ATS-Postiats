@@ -73,7 +73,8 @@ val
 ys0 = stream_vt_make_list0<int>(xs0)
 //
 val () =
-$StreamPar.streampar_foreach(fws, ys0, lam(y) => (println!("y = ", y); sleep(y)))
+$StreamPar.streampar_foreach_cloref<int>
+(fws, ys0, lam(y) => (println!("y = ", y); sleep(y)))
 //
 } (* end of [main0] *)
 

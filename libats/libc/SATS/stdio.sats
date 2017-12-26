@@ -117,6 +117,20 @@ FILEptr2ptr
 overload ptrcast with FILEptr2ptr
 //
 (* ****** ****** *)
+//
+fun // macro
+FILEptr_is_null
+  {l:addr}{m:fm}
+  (filp: !FILEptr(l, m)):<> bool(l == null) = "mac#%"
+fun // macro
+FILEptr_isnot_null
+  {l:addr}{m:fm}
+  (filp: !FILEptr(l, m)):<> bool(l != null) = "mac#%"
+//
+overload iseqz with FILEptr_is_null
+overload isneqz with FILEptr_isnot_null
+//
+(* ****** ****** *)
 
 castfn
 FILEptr_encode
