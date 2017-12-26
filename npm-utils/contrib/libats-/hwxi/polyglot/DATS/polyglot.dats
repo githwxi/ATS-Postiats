@@ -327,8 +327,7 @@ $FT.theExtMap_search
   $UN.strptr2string(str)
 )
 //
-prval
-((*returned*)) = fstr(str)
+prval ((*returned*)) = fstr(str)
 //
 } (* end of [then] *)
 else None_vt() where
