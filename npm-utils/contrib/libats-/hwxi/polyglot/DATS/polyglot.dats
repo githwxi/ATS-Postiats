@@ -6,6 +6,12 @@
 *)
 (* ****** ****** *)
 //
+#define
+ATS_PACKNAME
+"ATSCNTRB.HX.polyglot"
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
@@ -18,13 +24,6 @@ UN = "prelude/SATS/unsafe.sats"
 //
 #staload
 HT = "libats/SATS/hashtbl_chain.sats"
-//
-#staload
-_(*HF*) = "libats/DATS/hashfun.dats"
-#staload
-_(*LM*) = "libats/DATS/linmap_list.dats"
-#staload
-_(*HT*) = "libats/DATS/hashtbl_chain.dats"
 //
 (* ****** ****** *)
 
@@ -42,6 +41,69 @@ fcount = FCOUNT of @{
 }
 
 vtypedef fcountopt = Option_vt(fcount)
+
+(* ****** ****** *)
+//
+extern
+fun
+fcount_get_type(!fcount):<> string
+//
+overload .type with fcount_get_type
+//
+(* ****** ****** *)
+
+implement
+fcount_get_type
+  (fc0) = type where
+{
+  val+FCOUNT(@{type=type, ...}) = fc0
+} (* end of [fcount_get_type] *)
+
+(* ****** ****** *)
+//
+extern
+fun
+fprintfree_fcount
+(out: FILEref, fc0: fcount): void
+extern
+fun
+fprintfree_fcountlst
+(out: FILEref, fcs: List0_vt(fcount)): void
+//
+(* ****** ****** *)
+
+implement
+fprintfree_fcount
+  (out, fc0) = let
+//
+val+~FCOUNT(rec0) = fc0
+//
+in
+//
+fprintln!(out, rec0.type, ": ", "nfile(", rec0.nfile, ")");
+fprintln!(out, rec0.type, ": ", "nline(", rec0.nline, ")");
+fprintln!(out, rec0.type, ": ", "nblnk(", rec0.nblnk, ")");
+//
+end // end of [fprintfree_fcount]
+
+implement
+fprintfree_fcountlst
+  (out, fcs) =
+  loop(out, fcs) where
+{
+fun
+loop
+( out: FILEref,
+  fcs: List0_vt(fcount)): void =
+(
+case+ fcs of
+| ~list_vt_nil() => ()
+| ~list_vt_cons(fc0, fcs) =>
+  (
+    fprintfree_fcount(out, fc0); loop(out, fcs)
+  )
+)
+} (* end of [fprintfree_fcountlst] *)
 
 (* ****** ****** *)
 //
@@ -87,7 +149,7 @@ fcountlst_make_nil
 extern
 fun
 fcountlst_listize0
-  (fcountlst): List0_vt(fcount)
+  (fcs: fcountlst): List0_vt(fcount)
 //
 (* ****** ****** *)
 //
@@ -208,11 +270,20 @@ case+ !xs of
     , ncmnt=$UN.cast{uint64}(ncmnt)
     }) (* FCOUNT *)
   )
-| ~stream_vt_cons(x0, xs) =>
-  (
+| ~stream_vt_cons(x0, xs) => let
+    val
+    nline = succ(nline)
+    val
+    nblnk = (
+      if
+      iseqz
+      ($UN.strptr2string(x0))
+      then succ(nblnk) else nblnk
+    ) : uint // end of [val]
+  in
     free(x0);
-    loop(xs, succ(nline), nblnk, ncmnt)
-  )
+    loop(xs, nline, nblnk, ncmnt)
+  end // end of [val]
 )
 //
 in
@@ -224,13 +295,22 @@ end // end of [fline_stream_count]
 extern
 fun
 fname_get_type
-  (fname: string): Option_vt(string)
+(fname: string): Option_vt(string)
 //
+local
+//
+#staload
+FT = "./filetype.dats"
+//
+in (* in-of-local *)
+
 implement
-fname_get_type(fname) = let
+fname_get_type
+  (fname) = let
 //
 val
-(fstr | str) = filename_get_ext(fname)
+(fstr|str) =
+filename_get_ext(fname)
 //
 in
 //
@@ -241,35 +321,14 @@ Some_vt(type) where
 {
 //
 val
-str1 = $UN.strptr2string(str)
-val
 type =
+$FT.theExtMap_search
 (
+  $UN.strptr2string(str)
+)
 //
-// HX:
-// Hashtable should be much better!!!
-//
-case+ str1 of
-//
-| "hs" => "Haskell"
-//
-| "js" => "Javascript"
-//
-| "pl" => "Perl"
-//
-| "py" => "Python"
-//
-| "php" => "PHP"
-//
-| "c" => "C"
-| "c++" => "C++" | "cpp" => "C++"
-//
-| "sats" => "ATS" | "dats" => "ATS" | "cats" => "ATS" | "hats" => "ATS"
-//
-| _(*else*) => "(UNKNOWN)"
-) : string // end of [val]
-//
-prval ((*returned*)) = fstr(str)
+prval
+((*returned*)) = fstr(str)
 //
 } (* end of [then] *)
 else None_vt() where
@@ -278,23 +337,12 @@ prval ((*returned*)) = fstr(str)
 } (* end of [else] *)
 //
 end // end of [fname_get_type]
-//
-(* ****** ****** *)
-//
-#staload
-_(*anon*) =
-"libats/libc/DATS/dirent.dats"
-#staload
-_(*anon*) =
-"prelude/DATS/filebas_dirent.dats"
-//
-#include
-"$PATSHOMELOCS\
-/atscntrb-hx-find-cli/mylibies.hats"
-//
+
+end // end of [local]
+
 (* ****** ****** *)
 
-vtypedef fname = $FindCli.fname
+vtypedef fname = Strptr1
 vtypedef fnames = stream_vt(fname)
 
 (* ****** ****** *)
@@ -324,8 +372,8 @@ val opt = fname_get_type(x0_)
 val type =
 (
 case+ opt of
-| ~None_vt() => "(EXTLESS)"
 | ~Some_vt(type) => type
+| ~None_vt((*void*)) => "(EXTLESS)"
 ) : string // end of [val]
 //
 (*
@@ -373,83 +421,6 @@ case+ !xs of
     fcountlst_add_fnames(fcs, xs);
   )
 )
-
-(* ****** ****** *)
-//
-extern
-fun
-fprintfree_fcount
-(out: FILEref, fc0: fcount): void
-extern
-fun
-fprintfree_fcountlst
-(out: FILEref, fcs: List0_vt(fcount)): void
-//
-(* ****** ****** *)
-
-implement
-fprintfree_fcount
-  (out, fc0) = let
-//
-val+~FCOUNT(rec0) = fc0
-//
-in
-//
-fprintln!(out, rec0.type, ": ", "nfile(", rec0.nfile, ")");
-fprintln!(out, rec0.type, ": ", "nline(", rec0.nline, ")");
-//
-end // end of [fprintfree_fcount]
-
-implement
-fprintfree_fcountlst
-  (out, fcs) =
-  loop(out, fcs) where
-{
-fun
-loop
-( out: FILEref,
-  fcs: List0_vt(fcount)): void =
-(
-case+ fcs of
-| ~list_vt_nil() => ()
-| ~list_vt_cons(fc0, fcs) =>
-  (
-    fprintfree_fcount(out, fc0); loop(out, fcs)
-  )
-)
-} (* end of [fprintfree_fcountlst] *)
-
-(* ****** ****** *)
-
-implement
-main0(argc, argv) = () where
-{
-//
-val () =
-println! ("Hello from [polyglot]!")
-//
-val dir =
-(
-if argc >= 2 then argv[1] else "."
-) : string // end of [val]
-//
-val-
-~Some_vt(fnames) =
-$FindCli.streamize_dirname_fname(dir)
-//
-val
-theFCS =
-fcountlst_make_nil(1024)
-val
-((*void*)) =
-fcountlst_add_fnames(theFCS, fnames)
-//
-val theFCS = fcountlst_listize0(theFCS)
-//
-val out = stdout_ref
-val ((*void*)) = fprintfree_fcountlst(out, theFCS)
-//
-} (* end of [main0] *)
 
 (* ****** ****** *)
 

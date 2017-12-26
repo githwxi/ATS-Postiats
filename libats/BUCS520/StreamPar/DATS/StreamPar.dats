@@ -99,6 +99,18 @@ fun
 {b:vt@ype} streampar_mapfold$fold(r, b): r
 //
 (* ****** ****** *)
+//
+extern
+fun
+{r:vt@ype}
+{a:vt@ype}
+{b:vt@ype}
+streampar_mapfold_cloref
+( fws: fworkshop
+, xs0: stream_vt(INV(a))
+, res: r, map: cfun(a, b), fold: cfun(r, b, r)): (r)
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
@@ -297,6 +309,22 @@ r0 where
   val () = nwaiter_destroy(NW)
 }
 end // end of [streampar_mapfold]
+
+(* ****** ****** *)
+
+implement
+{r}{a}{b}
+streampar_mapfold_cloref
+  (fws, xs0, r0, map, fold) = let
+//
+implement
+streampar_mapfold$map<a><b>(x) = map(x)
+implement
+streampar_mapfold$fold<r><b>(r, y) = fold(r, y)
+//
+in
+  streampar_mapfold<r><a><b>(fws, xs0, r0)
+end // end of [streampar_mapfold_cloref]
 
 (* ****** ****** *)
 

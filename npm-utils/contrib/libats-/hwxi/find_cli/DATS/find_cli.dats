@@ -7,6 +7,12 @@
 *)
 (* ****** ****** *)
 //
+#define
+ATS_PACKNAME
+"ATSCNTRB.HX.find_cli"
+//
+(* ****** ****** *)
+//
 vtypedef fname = Strptr1
 //
 (* ****** ****** *)
