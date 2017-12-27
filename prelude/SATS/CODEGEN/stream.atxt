@@ -474,6 +474,10 @@ overload .head with stream_head_exn
 overload .tail with stream_tail_exn
 //
 #atscode_separator()
+//
+overload .takeLte with stream_takeLte
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

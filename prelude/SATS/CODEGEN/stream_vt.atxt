@@ -137,8 +137,6 @@ stream_vt_takeLte
   (xs: stream_vt(INV(a)), n: intGte(0)): stream_vt(a)
 // end of [stream_vt_takeLte]
 //
-overload .takeLte with stream_vt_takeLte
-//
 #atscode_separator()
 //
 fun{a:t0p}
@@ -520,6 +518,10 @@ overload length with stream_vt_length
 overload .head with stream_vt_head_exn
 overload .tail with stream_vt_tail_exn
 
+#atscode_separator()
+//
+overload .takeLte with stream_vt_takeLte
+//
 #atscode_separator()
 //
 overload .eval with streamer_vt_eval_exn

@@ -62,6 +62,28 @@ stream_make_list0
 //
 (* ****** ****** *)
 //
+fun{}
+intgte_stream
+  (start: int):<!laz> stream(int)
+//
+(* ****** ****** *)
+//
+fun{}
+stream_make_intrange_lr
+  (l: int, r: int):<!laz> stream(int)
+fun{}
+stream_make_intrange_lrd
+  (l: int, r: int, d: int):<!laz> stream(int)
+//
+(* ****** ****** *)
+//
+overload
+intrange_stream with stream_make_intrange_lr
+overload
+intrange_stream with stream_make_intrange_lrd
+//
+(* ****** ****** *)
+//
 fun{
 a:t0p}{b:t0p
 } stream_map

@@ -55,6 +55,17 @@ stream2list0_vt
   g0ofg1(stream2list_vt<a>(xs))
 //
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+intgte_stream_vt(n) = f(n) where
+{
+fun
+f(n:int):<!laz> stream_vt(int) =
+ $ldelay(stream_vt_cons(n, f(n+1)))
+}
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
@@ -71,12 +82,47 @@ stream_vt_make_list0<a>
 ) = lam(xs) => $ldelay
 (
 case+ xs of
-| list0_nil() => stream_vt_nil()
-| list0_cons(x, xs) => stream_vt_cons(x, auxmain(xs))
+| list0_nil() =>
+  stream_vt_nil()
+| list0_cons(x, xs) =>
+  stream_vt_cons(x, auxmain(xs))
 )
 //
 } (* end of [stream_vt_make_list0] *)
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+stream_vt_make_intrange_lr
+  (l, r) =
+(
+stream_vt_make_intrange_lrd<>(l, r, 1)
+)
+//
+implement
+{}(*tmp*)
+stream_vt_make_intrange_lrd
+  (l, r, d) = let
+//
+fun
+auxmain
+(
+  l: int
+, r: int
+, d: int
+) :<!laz> stream_vt(int) = $ldelay
+(
+if
+(l >= r)
+then stream_vt_nil()
+else stream_vt_cons(l, auxmain(l+d, r, d))
+)
+//
+in
+  auxmain(l, r, d)
+end // end of [stream_vt_make_intrange_lrd]
+//
 (* ****** ****** *)
 //
 implement
