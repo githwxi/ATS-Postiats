@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-StreamPar</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Stream-Processing in Parallel
+</h1>
+
+##para('\
+
+ATS is a feature-rich language, and dependent types, linear types
+and embeddable templates can be seen as three of its most prominent
+features. In this article, I intend to present a template-based
+approach to stream-processing in parallel.
+
+')##comment("para")
+
+<h2>Streams and Linear Streams</h2>
+
+##para('\
+
+In ATS, a stream refers to a lazy-list and a linear stream to a linear lazy-list.
+The fundmental difference between a stream, which is non-linear, and a linear stream
+is that the former is cached while the latter is not.
+
+')
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

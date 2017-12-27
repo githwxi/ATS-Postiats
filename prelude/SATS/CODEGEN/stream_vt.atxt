@@ -478,13 +478,14 @@ streamer_vt_free{a:vt0p}(streamer_vt(INV(a))): void
 fun{
 a:vt@ype
 } streamer_vt_eval_exn(xser: !streamer_vt(INV(a))): (a)
+fun{
+a:vt@ype
+} streamer_vt_eval_opt(xser: !streamer_vt(INV(a))): Option_vt(a)
 //
 #atscode_separator()
 //
 // overloading for certain symbols
 //
-#atscode_separator()
-
 #atscode_separator()
 
 overload ~ with streamer_vt_free

@@ -1915,52 +1915,94 @@ stream_vt_fprint$sep(out) = fprint_string(out, ", ")
 
 local
 //
-datavtype streamer
-  (a:vt@ype+) = STREAMER of (stream_vt(a))
+datavtype
+streamer(a:vt@ype+) =
+  STREAMER of (streamopt_vt(a))
 //
-assume streamer_vtype (a:vt0p) = streamer (a)
+assume
+streamer_vtype(a:vt0p) = streamer(a)
 //
 in (* in-of-local *)
 
 implement
 {}(*tmp*)
-streamer_vt_make (xs) = STREAMER (xs)
+streamer_vt_make(xs) = STREAMER(Some_vt(xs))
 
 implement
 {}(*tmp*)
 streamer_vt_free
-  (xser) = let val+~STREAMER(xs) = xser in ~xs end
-// end of [streamer_free]
+  (xser) = let
+//
+val+~STREAMER(opt) = xser
+//
+in
+  case+ opt of
+  | ~None_vt() => () | ~Some_vt(xs) => ~(xs)
+end // end of [streamer_vt_free]
 
 implement
 {a}(*tmp*)
 streamer_vt_eval_exn
   (xser) = let
 //
-val+@STREAMER(xs) = xser
+val+@STREAMER(opt) = xser
 //
 in
 //
-case+ !xs of
-| ~stream_vt_cons
-    (x, xs2) =>
-  (
-    xs := xs2; fold@(xser); x
-  ) (* end of [stream_vt_cons] *)
-| ~stream_vt_nil
-    ((*void*)) => let
-    prval () =
-     __assert (view@xs) where
-    {
-      extern
-      praxi __assert{l:addr}(!ptr@l >> stream_vt(a)@l): void
-    } (* end of [prval] *)
+case+ opt of
+| None_vt() => let
     prval () = fold@(xser)
   in
     $raise StreamSubscriptExn()
-  end (* end of [stream_vt_nil] *)
+  end (* end of [None_vt] *)
+| @Some_vt(xs) =>
+  (
+    case+ !xs of
+    | ~stream_vt_nil() =>
+      (
+        free@(opt);
+        opt := None_vt();
+        fold@(xser);
+        $raise StreamSubscriptExn()
+      )
+    | ~stream_vt_cons(x0, xs1) =>
+      (
+        xs := xs1; fold@(opt); fold@(xser); x0
+      )
+  ) (* end of [Some_vt] *)
+end // end of [streamer_vt_eval_exn]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+streamer_vt_eval_opt
+  (xser) = let
 //
-end // end of [stream_eval_exn]
+val+@STREAMER(opt) = xser
+//
+in
+//
+case+ opt of
+| None_vt() =>
+  None_vt() where
+  {
+    prval () = fold@(xser)
+  } (* end of [None_vt] *)
+| @Some_vt(xs) =>
+  (
+    case+ !xs of
+    | ~stream_vt_nil() =>
+      (
+        free@(opt);
+        opt := None_vt(); fold@(xser); None_vt()
+      )
+    | ~stream_vt_cons(x0, xs1) =>
+      (
+        xs := xs1; fold@(opt); fold@(xser); Some_vt(x0)
+      )
+  ) (* end of [Some_vt] *)
+end // end of [streamer_vt_eval_opt]
 
 end // end of [local]
 
