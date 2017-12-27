@@ -89,6 +89,27 @@ $ldelay
 ) (* end of [stream_vt_make_con] *)
 //
 #atscode_separator()
+
+implement
+{a}(*tmp*)
+stream_t2vt(xs) = let
+//
+fun
+auxmain:
+$d2ctype
+(stream_t2vt<a>) =
+lam(xs) => $ldelay
+(
+case+ !xs of
+| stream_nil() => stream_vt_nil()
+| stream_cons(x0, xs) => stream_vt_cons(x0, auxmain(xs))
+)
+//
+in
+  auxmain(xs)
+end (* end of [stream_t2vt] *)
+
+#atscode_separator()
 //
 // HX-2014-04-07:
 // This is a wild implementation!
@@ -98,7 +119,8 @@ implement
 stream_vt2t(xs) = let
 //
 fun
-aux (
+auxmain
+(
   xs: stream_vt(a)
 ) :<!laz> stream(a) = let
 //
@@ -120,16 +142,16 @@ in
   | @stream_vt_cons
       (x, xs1) => let
       val xs1_val = xs1
-      val ((*void*)) = (xs1 := aux (xs1_val))
+      val ((*void*)) = (xs1 := auxmain(xs1_val))
     in
       $UN.castvwtp0{stream_con(a)}((view@x, view@xs1 | xs_con))
     end // end of [stream_cons]
 end
 )
-end // end of [aux]
+end // end of [auxmain]
 //
 in
-  aux (xs)
+  auxmain(xs)
 end // end of [stream_vt2t]
 
 #atscode_separator()
