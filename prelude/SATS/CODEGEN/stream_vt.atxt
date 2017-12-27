@@ -509,6 +509,10 @@ overload isneqz with stream_vt_is_cons
 
 #atscode_separator()
 //
+overload free with streamer_vt_free
+//
+#atscode_separator()
+//
 overload length with stream_vt_length
 //
 #atscode_separator()
@@ -516,6 +520,11 @@ overload length with stream_vt_length
 overload .head with stream_vt_head_exn
 overload .tail with stream_vt_tail_exn
 
+#atscode_separator()
+//
+overload .eval with streamer_vt_eval_exn
+overload .eval_opt with streamer_vt_eval_opt
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

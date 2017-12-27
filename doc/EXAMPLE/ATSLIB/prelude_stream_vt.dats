@@ -66,6 +66,34 @@ val () = assertloc (nn = 101 * 102)
 } (* end of [val] *)
 
 (* ****** ****** *)
+overload ! with streamer_vt_eval_exn
+overload .eval with streamer_vt_eval_exn
+overload .eval_opt with streamer_vt_eval_opt
+
+val () =
+{
+//
+fun
+int_from
+(
+n : int
+) : stream_vt(int) = $ldelay
+  (stream_vt_cons(n, int_from(n+1)))
+//
+val xser =
+  streamer_vt_make(int_from(0))
+//
+val () = println! (xser[])
+val () = println! (xser[])
+val () = println! (xser.eval())
+val () = println! (xser.eval())
+val () = println! (xser.eval())
+//
+val ((*freed*)) = streamer_vt_free(xser)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
 
 implement main0 () = ()
 
