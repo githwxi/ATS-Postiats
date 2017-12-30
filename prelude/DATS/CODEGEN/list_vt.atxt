@@ -1120,65 +1120,6 @@ end // end of [list_vt_map]
 #atscode_separator()
 
 implement
-{x}{y}(*tmp*)
-list_vt_map_fun
-  (xs, f0) = let
-//
-implement
-{x2}{y2}
-list_vt_map$fopr(x2) = let
-//
-val f0 =
-$UN.cast{(&x2)->y}(f0) in $UN.castvwtp0{y2}(f0(x2))
-//
-end // end of [list_vt_map$fopr]
-//
-in
-  list_vt_map<x><y>(xs)
-end // end of [list_vt_map_fun]
-
-implement
-{x}{y}(*tmp*)
-list_vt_map_clo
-  (xs, f0) = let
-//
-val f0 =
-$UN.cast{(&x) -<cloref1> y}(addr@f0)
-//
-implement
-{x2}{y2}
-list_vt_map$fopr(x2) = let
-//
-val f0 =
-$UN.cast{(&x2)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
-//
-end // end of [list_vt_map$fopr]
-//
-in
-  list_vt_map<x><y>(xs)
-end // end of [list_vt_map_clo]
-
-implement
-{x}{y}(*tmp*)
-list_vt_map_cloref
-  (xs, f0) = let
-//
-implement
-{x2}{y2}
-list_vt_map$fopr(x2) = let
-//
-val f0 =
-$UN.cast{(&x2)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
-//
-end // end of [list_vt_map$fopr]
-//
-in
-  list_vt_map<x><y>(xs)
-end // end of [list_vt_map_cloref]
-
-#atscode_separator()
-
-implement
 {a}{b}
 list_vt_mapfree
   (xs) = let
@@ -1215,66 +1156,6 @@ end // end of [loop]
 in
   let var res: ptr in loop(xs, res); res end
 end // end of [list_vt_mapfree]
-
-#atscode_separator()
-
-implement
-{x}{y}(*tmp*)
-list_vt_mapfree_fun
-  (xs, f0) = let
-//
-implement
-{x2}{y2}
-list_vt_mapfree$fopr
-  (x2) = let
-//
-val f0 =
-$UN.cast{(&x2>>_?)->y}(f0) in $UN.castvwtp0{y2}(f0(x2))
-//
-end // end of [list_vt_mapfree$fopr]
-//
-in
-  list_vt_mapfree<x><y>(xs)
-end // end of [list_vt_mapfree_fun]
-
-implement
-{x}{y}(*tmp*)
-list_vt_mapfree_clo
-  (xs, f0) = let
-//
-val f0 =
-$UN.cast{(&x>>_?) -<cloref1> y}(addr@f0)
-//
-implement
-{x2}{y2}
-list_vt_mapfree$fopr(x2) = let
-//
-val f0 =
-$UN.cast{(&x2>>_?)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
-//
-end // end of [list_vt_mapfree$fopr]
-//
-in
-  list_vt_mapfree<x><y>(xs)
-end // end of [list_vt_mapfree_clo]
-
-implement
-{x}{y}(*tmp*)
-list_vt_mapfree_cloref
-  (xs, f0) = let
-//
-implement
-{x2}{y2}
-list_vt_mapfree$fopr(x2) = let
-//
-val f0 =
-$UN.cast{(&x2>>_?)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
-//
-end // end of [list_vt_mapfree$fopr]
-//
-in
-  list_vt_mapfree<x><y>(xs)
-end // end of [list_vt_mapfree_cloref]
 
 #atscode_separator()
 
@@ -1333,64 +1214,6 @@ end // end of [list_vt_foreach_env]
 implement
 {x}{env}
 list_vt_foreach$cont(x, env) = true
-
-#atscode_separator()
-
-implement
-{a}(*tmp*)
-list_vt_foreach_fun
-  {fe}(xs, f0) = let
-//
-prval() = lemma_list_vt_param(xs)
-//
-fun
-loop
-{n:nat} .<n>.
-(
-xs: !list_vt(a, n), f0: (&a) -<fe> void
-) :<fe> void =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val () = f0(x)
-      val () = loop(xs1, f0)
-    in
-      fold@ (xs)
-    end // end of [cons]
-  | list_vt_nil((*void*)) => ()
-// end of [loop]
-in
-  loop(xs, f0)
-end // end of [list_vt_foreach_fun]
-
-#atscode_separator()
-
-implement
-{a}(*tmp*)
-list_vt_foreach_cloref
-  {fe}(xs, f0) = let
-//
-prval() = lemma_list_vt_param(xs)
-//
-fun
-loop
-{n:nat} .<n>.
-(
-xs: !list_vt(a, n), f0: (&a) -<cloref,fe> void
-) :<fe> void =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val () = f0(x)
-      val () = loop(xs1, f0)
-    in
-      fold@ (xs)
-    end // end of [cons]
-  | list_vt_nil ((*void*)) => ()
-// end of [loop]
-in
-  loop(xs, f0)
-end // end of [list_vt_foreach_cloref]
 
 #atscode_separator()
 

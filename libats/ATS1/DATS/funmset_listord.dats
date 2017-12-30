@@ -43,19 +43,24 @@
 #define ATS_DYNLOADFLAG 0 // no dynloading
 
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/list.dats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+//
 (* ****** ****** *)
-
-staload "libats/ATS1/SATS/funmset_listord.sats"
-
+//
+staload
+"libats/ML/SATS/list.sats"
+//
+staload
+"libats/ATS1/SATS/funmset_listord.sats"
+//
 (* ****** ****** *)
 //
 implement
 {a}(*tmp*)
-compare_elt_elt(x1, x2, cmp) = cmp (x1, x2)
+compare_elt_elt(x1, x2, cmp) = cmp(x1, x2)
 //
 (* ****** ****** *)
 
@@ -64,7 +69,7 @@ typedef intGt0 = intGt(0)
 (* ****** ****** *)
 
 assume
-mset_t0ype_type (a: t@ype) = List0 @(intGt0, a)
+mset_t0ype_type(a: t@ype) = List0(@(intGt0, a))
 
 (* ****** ****** *)
 //
@@ -505,6 +510,7 @@ in
 end // end of [funmset_intersect]
 
 (* ****** ****** *)
+//
 (*
 ** HX: the returned list is in descending order
 *)
@@ -515,7 +521,7 @@ funmset_listize (nxs) = let
 in
   list_map_fun<nx><a> (nxs, lam (nx) =<0> nx.1)
 end // end of [funmset_listize]
-
+//
 (* ****** ****** *)
 //
 (*

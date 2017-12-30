@@ -489,16 +489,6 @@ list_exists$pred(x: x):<> bool
 fun{x:t0p}
 list_exists(xs: List(INV(x))):<> bool
 //
-fun{x:t0p}
-list_exists_cloref
-  (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
-fun{x:t0p}
-list_iexists_cloref
-  {n:int}
-(
-  xs: list(INV(x), n), pred: (natLt(n), x) -<cloref> bool
-) :<> bool // end of [list_iexists_cloref]
-//
 #atscode_separator()
 //
 fun{x:t0p}
@@ -506,25 +496,12 @@ list_forall$pred(x: x):<> bool
 fun{x:t0p}
 list_forall(xs: List(INV(x))):<> bool
 //
-fun{x:t0p}
-list_forall_cloref
-  (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
-fun{x:t0p}
-list_iforall_cloref
-  {n:int}
-(
-  xs: list(INV(x), n), pred: (natLt(n), x) -<cloref> bool
-) :<> bool // end of [list_iforall_cloref]
-//
 #atscode_separator()
 //
 fun{x:t0p}
 list_equal$eqfn(x1: x, x2: x):<> bool
 fun{x:t0p}
 list_equal(xs1: List(INV(x)), xs2: List(x)):<> bool
-fun{x:t0p}
-list_equal_cloref
-  (List(INV(x)), List(x), eqfn: (x, x) -<cloref> bool):<> bool
 //
 #atscode_separator()
 //
@@ -532,9 +509,6 @@ fun{x:t0p}
 list_compare$cmpfn(x1: x, x2: x):<> int
 fun{x:t0p}
 list_compare(xs1: List(INV(x)), xs2: List(x)):<> int
-fun{x:t0p}
-list_compare_cloref
-  (List(INV(x)), List(x), cmpfn: (x, x) -<cloref> int):<> int
 //
 #atscode_separator()
 //
@@ -609,18 +583,6 @@ fun{x:t0p} list_app$fwork (x): void
 //
 #atscode_separator()
 //
-fun{x:t0p}
-list_app_fun
-  (xs: List(INV(x)), fwork: (x) -<fun1> void): void
-fun{x:t0p}
-list_app_clo
-  (xs: List(INV(x)), fwork: (x) -<clo1> void): void
-fun{x:t0p}
-list_app_cloref
-  (xs: List(INV(x)), fwork: (x) -<cloref1> void): void
-//
-#atscode_separator()
-//
 (*
 fun{
 x:t0p
@@ -643,24 +605,7 @@ x:t0p}{y:vt0p
 fun{x:t0p}{y:vt0p} list_map$fopr(x: x): (y)
 //
 #atscode_separator()
-
-fun{
-x:t0p}{y:vt0p
-} list_map_fun{n:int}
-  (xs: list(INV(x), n), f: (x) -<fun1> y): list_vt(y, n)
-
-fun{
-x:t0p}{y:vt0p
-} list_map_clo{n:int}
-  (xs: list(INV(x), n), f: &(x) -<clo1> y): list_vt(y, n)
-
-fun{
-x:t0p}{y:vt0p
-} list_map_cloref{n:int}
-  (xs: list(INV(x), n), f: (x) -<cloref1> y): list_vt(y, n)
-
-#atscode_separator()
-
+//
 (*
 fun{
 x:t0p}{y:vt0p
@@ -671,7 +616,7 @@ x:t0p}{y:vt0p
 , fopr: (!v | x, !vt) -<fun,fe> y, env: !vt
 ) :<fe,!wrt> list_vt(y, n) // end of [list_map_funenv]
 *)
-
+//
 #atscode_separator()
 //
 fun
@@ -746,21 +691,6 @@ a:vt0p
 fun{a:vt0p} list_tabulate$fopr(index: intGte(0)): (a)
 //
 #atscode_separator()
-
-fun{
-a:vt0p
-} list_tabulate_fun{n:nat}
-  (n: int n, f: natLt(n) -<fun1> a): list_vt(a, n)
-fun{
-a:vt0p
-} list_tabulate_clo{n:nat}
-  (n: int n, f: &(natLt(n)) -<clo1> a): list_vt(a, n)
-fun{
-a:vt0p
-} list_tabulate_cloref{n:nat}
-  (n: int n, f: natLt(n) -<cloref1> a): list_vt(a, n)
-
-#atscode_separator()
 //
 fun{
 x,y:t0p
@@ -834,55 +764,12 @@ list_foreach$fwork (x: x, env: &(env) >> _): void
 //
 fun
 {x:t0p}
-list_foreach_fun
-  {fe:eff} (
-  xs: List(INV(x)), f: (x) -<fun,fe> void
-) :<fe> void // end of [list_foreach_fun]
-//
-fun
-{x:t0p}
-list_foreach_clo
-  {fe:eff} (
-  xs: List(INV(x)), f: &(x) -<clo,fe> void
-) :<fe> void // end of [list_foreach_clo]
-fun
-{x:t0p}
-list_foreach_vclo
-  {v:view}{fe:eff} (
-  pf: !v | xs: List(INV(x)), f: &(!v | x) -<clo,fe> void
-) :<fe> void // end of [list_foreach_vclo]
-//
-(*
-fun
-{x:t0p}
-list_foreach_cloptr
-  {fe:eff} (
-  xs: List(INV(x)), f: (x) -<cloptr,fe> void
-) :<fe> void // end of [list_foreach_cloptr]
-fun
-{x:t0p}
-list_foreach_vcloptr
-  {v:view}{fe:eff} (
-  pf: !v | xs: List(INV(x)), f: (!v | x) -<cloptr,fe> void
-) :<fe> void // end of [list_foreach_vcloptr]
-*)
-//
-fun
-{x:t0p}
-list_foreach_cloref
-  {fe:eff} (
-  xs: List(INV(x)), f: (x) -<cloref,fe> void
-) :<fe> void // end of [list_foreach_cloref]
-//
-fun
-{x:t0p}
 list_foreach_funenv
   {v:view}{env:viewtype}{fe:eff}
 (
-  pfv: !v
+  pf: !v
 | xs: List(INV(x))
-, f: (!v | x, !env) -<fun,fe> void
-, env: !env
+, fwork: (!v | x, !env) -<fun,fe> void, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
 //
 #atscode_separator()
@@ -924,15 +811,6 @@ x:t0p}{env:vt0p
 } list_iforeach$fwork(i: intGte(0), x: x, env: &(env) >> _): void
 //
 #atscode_separator()
-
-fun{
-x:t0p
-} list_iforeach_cloref
-  {n:int}
-(
-  xs: list(INV(x), n)
-, fwork: (natLt(n), x) -<cloref1> void
-) : void // end of [list_iforeach_cloref]
 
 fun{
 x:t0p // type for elements
@@ -978,11 +856,6 @@ fun{
 res:vt0p}{x:t0p
 } list_foldleft$fopr(acc: res, x: x): res
 //
-fun{
-res:vt0p}{x:t0p
-} list_foldleft_cloref
-  (xs: List(INV(x)), ini: res, fopr: (res, x) -<cloref1> res): res
-//
 #atscode_separator()
 //
 fun{
@@ -992,11 +865,6 @@ x:t0p}{res:vt0p
 fun{
 x:t0p}{res:vt0p
 } list_foldright$fopr(x: x, acc: res): res
-//
-fun{
-x:t0p}{res:vt0p
-} list_foldright_cloref
-  (xs: List(INV(x)), fopr: (x, res) -<cloref1> res, snk: res): res
 //
 #atscode_separator()
 //

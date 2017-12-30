@@ -395,21 +395,6 @@ x:vt0p}{y:vt0p
   (xs: !list_vt(INV(x), n)): list_vt(y, n)
 //
 #atscode_separator()
-
-fun{
-x:vt0p}{y:vt0p
-} list_vt_map_fun{n:int}
-  (xs: !list_vt(INV(x), n), f: (&x) -<fun1> y): list_vt(y, n)
-fun{
-x:vt0p}{y:vt0p
-} list_vt_map_clo{n:int}
-  (xs: !list_vt(INV(x), n), f: &(&x) -<clo1> y): list_vt(y, n)
-fun{
-x:vt0p}{y:vt0p
-} list_vt_map_cloref{n:int}
-  (xs: !list_vt(INV(x), n), f: (&x) -<cloref1> y): list_vt(y, n)
-
-#atscode_separator()
 //
 fun{
 x:vt0p}{y:vt0p
@@ -420,21 +405,6 @@ x:vt0p}{y:vt0p
 } list_vt_mapfree{n:int}
   (xs: list_vt(INV(x), n)) : list_vt(y, n)
 //
-#atscode_separator()
-
-fun{
-x:vt0p}{y:vt0p
-} list_vt_mapfree_fun{n:int}
-  (xs: list_vt(INV(x), n), f: (&x>>_?) -<fun1> y): list_vt(y, n)
-fun{
-x:vt0p}{y:vt0p
-} list_vt_mapfree_clo{n:int}
-  (xs: list_vt(INV(x), n), f: &(&x>>_?) -<clo1> y): list_vt(y, n)
-fun{
-x:vt0p}{y:vt0p
-} list_vt_mapfree_cloref{n:int}
-  (xs: list_vt(INV(x), n), f: ( &x>>_? ) -<cloref1> y): list_vt(y, n)
-
 #atscode_separator()
 //
 fun{
@@ -453,19 +423,7 @@ x:vt0p}{env:vt0p
 } list_vt_foreach$fwork (x: &x >> _, env: &(env) >> _): void
 //
 #atscode_separator()
-
-fun{
-x:vt0p
-} list_vt_foreach_fun
-  {fe:eff} (
-  xs: !List_vt(INV(x)), f: (&x) -<fe> void
-) :<fe> void // end of [list_vt_foreach_fun]
-fun{
-x:vt0p
-} list_vt_foreach_cloref
-  {fe:eff} (
-  xs: !List_vt(INV(x)), f: (&x) -<cloref,fe> void
-) :<fe> void // end of [list_vt_foreach_cloref]
+//
 fun{
 x:vt0p
 } list_vt_foreach_funenv
@@ -473,7 +431,7 @@ x:vt0p
   pfv: !v
 | xs: !List_vt(INV(x)), f: (!v | &x, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
-
+//
 #atscode_separator()
 //
 fun{

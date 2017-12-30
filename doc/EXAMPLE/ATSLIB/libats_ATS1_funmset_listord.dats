@@ -11,17 +11,22 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload "libats/ATS1/SATS/funmset_listord.sats"
-staload _(*anon*) = "libats/ATS1/DATS/funmset_listord.dats"
-
+//
+staload
+"libats/ATS1/SATS/funmset_listord.sats"
+staload
+_(*anon*) = "libats/ATS1/DATS/funmset_listord.dats"
+//
 (* ****** ****** *)
 
 val () =

@@ -68,6 +68,64 @@ list_vt_tuple_6
 (* ****** ****** *)
 //
 fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_fun{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: (&x) -<fun1> y): list_vt(y, n)
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_clo{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: &(&x) -<clo1> y): list_vt(y, n)
+//
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_cloptr{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: ( &x ) -<cloref1> y): list_vt(y, n)
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_cloref{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: ( &x ) -<cloref1> y): list_vt(y, n)
+//
+(* ****** ****** *)
+//
+fun
+{x:vt0p}{y:vt0p}
+list_vt_mapfree_fun
+  {n:int}
+( xs: list_vt(INV(x), n)
+, f0: (&x >> x?!) -<fun1> y): list_vt(y, n)
+fun
+{x:vt0p}{y:vt0p}
+list_vt_mapfree_clo
+  {n:int}
+( xs: list_vt(INV(x), n)
+, f0: &(&x >> x?!) -<clo1> y): list_vt(y, n)
+//
+fun
+{a:vt0p}
+{b:vt0p}
+list_vt_mapfree_cloptr
+  {n:nat}
+(
+xs: list_vt(INV(a), n), fopr: (&a >> a?!) -<cloptr1> b
+) : list_vt(b, n) // end-of-function
+fun
+{x:vt0p}{y:vt0p}
+list_vt_mapfree_cloref{n:int}
+(
+xs: list_vt(INV(x), n), fopr: (&x >> x?!) -<cloref1> y
+) : list_vt(y, n) // end-of-function
+//
+(* ****** ****** *)
+//
+fun
 {a:vt0p}
 {b:vt0p}
 list_vt_mapfree_method
@@ -75,11 +133,37 @@ list_vt_mapfree_method
 (
   list_vt(INV(a), n), TYPE(b)
 ) :
-(
-  (&a >> a?!) -<cloptr1> b
-) -<lincloptr1> list_vt(b, n)
+((&a >> a?!) -<cloptr1> b) -<lincloptr1> list_vt(b, n)
 //
 overload .mapfree with list_vt_mapfree_method
+//
+(* ****** ****** *)
+//
+fun{
+x:vt0p
+} list_vt_foreach_fun
+  {fe:eff} (
+  xs: !List_vt(INV(x)), f: (&x) -<fun,fe> void
+) :<fe> void // end of [list_vt_foreach_fun]
+fun{
+x:vt0p
+} list_vt_foreach_clo
+  {fe:eff} (
+  xs: !List_vt(INV(x)), f: &(&x) -<clo,fe> void
+) :<fe> void // end of [list_vt_foreach_fun]
+//
+fun{
+x:vt0p
+} list_vt_foreach_cloptr
+(
+  xs: !List_vt(INV(x)), f: (&x) -<cloptr1> void
+) :<1> void // end of [list_vt_foreach_cloptr]
+fun{
+x:vt0p
+} list_vt_foreach_cloref
+(
+  xs: !List_vt(INV(x)), f: (&x) -<cloref1> void
+) :<1> void // end of [list_vt_foreach_cloref]
 //
 (* ****** ****** *)
 

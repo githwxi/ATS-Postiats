@@ -16,6 +16,28 @@ UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
+extern
+fun{
+x:t0p}{y:vt0p
+} list_map_fun{n:int}
+( xs: list(x, n)
+, f0: (x) -<fun1> y): list_vt(y, n)
+implement
+{x}{y}(*tmp*)
+list_map_fun
+  (xs, fopr) = let
+//
+implement
+{x2}{y2}
+list_map$fopr(x2) =
+  $UN.castvwtp0{y2}(fopr($UN.cast{x}(x2)))
+//
+in
+  list_map<x><y>(xs)
+end // end of [list_map_fun]
+//
+(* ****** ****** *)
+//
 #include
 "$PATSHOMELOCS\
 /atscntrb-hx-parcomb/mylibies.hats"
