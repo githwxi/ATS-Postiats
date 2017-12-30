@@ -45,6 +45,10 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
+// HX: prelude/list
+//
+(* ****** ****** *)
+//
 fun{a:t0p}
 list_tuple_0(): list(a, 0)
 //
@@ -274,5 +278,233 @@ x:t0p}{res:vt0p
   (xs: List(INV(x)), fopr: (x, res) -<cloref1> res, snk: res): res
 //
 (* ****** ****** *)
+//
+// HX: prelude/list_vt
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+list_vt_tuple_0(): list_vt(a, 0)
+//
+fun{a:vt0p}
+list_vt_tuple_1(x0: a): list_vt(a, 1)
+fun{a:vt0p}
+list_vt_tuple_2(x0: a, x1: a): list_vt(a, 2)
+fun{a:vt0p}
+list_vt_tuple_3(x0: a, x1: a, x2: a): list_vt(a, 3)
+//
+fun{a:vt0p}
+list_vt_tuple_4
+  (x0: a, x1: a, x2: a, x3: a): list_vt(a, 4)
+fun{a:vt0p}
+list_vt_tuple_5
+  (x0: a, x1: a, x2: a, x3: a, x4: a): list_vt(a, 5)
+fun{a:vt0p}
+list_vt_tuple_6
+  (x0: a, x1: a, x2: a, x3: a, x4: a, x5: a): list_vt(a, 6)
+//
+(* ****** ****** *)
+//
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_fun{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: (&x) -<fun1> y): list_vt(y, n)
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_clo{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: &(&x) -<clo1> y): list_vt(y, n)
+//
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_cloptr{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: ( &x ) -<cloref1> y): list_vt(y, n)
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_map_cloref{n:int}
+( xs: !list_vt(INV(x), n)
+, f0: ( &x ) -<cloref1> y): list_vt(y, n)
+//
+(* ****** ****** *)
+//
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_mapfree_fun
+  {n:int}
+( xs: list_vt(INV(x), n)
+, f0: (&x >> x?!) -<fun1> y): list_vt(y, n)
+fun
+{x:vt0p}
+{y:vt0p}
+list_vt_mapfree_clo
+  {n:int}
+( xs: list_vt(INV(x), n)
+, f0: &(&x >> x?!) -<clo1> y): list_vt(y, n)
+//
+fun
+{a:vt0p}
+{b:vt0p}
+list_vt_mapfree_cloptr
+  {n:nat}
+(
+xs: list_vt(INV(a), n), fopr: (&a >> a?!) -<cloptr1> b
+) : list_vt(b, n) // end-of-function
+fun
+{x:vt0p}{y:vt0p}
+list_vt_mapfree_cloref{n:int}
+(
+xs: list_vt(INV(x), n), fopr: (&x >> x?!) -<cloref1> y
+) : list_vt(y, n) // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+{b:vt0p}
+list_vt_mapfree_method
+  {n:nat}
+(
+  list_vt(INV(a), n), TYPE(b)
+) :
+((&a >> a?!) -<cloptr1> b) -<lincloptr1> list_vt(b, n)
+//
+overload .mapfree with list_vt_mapfree_method
+//
+(* ****** ****** *)
+//
+fun{
+x:vt0p
+} list_vt_foreach_fun
+  {fe:eff} (
+  xs: !List_vt(INV(x)), f: (&x >> _) -<fun,fe> void
+) :<fe> void // end of [list_vt_foreach_fun]
+fun{
+x:vt0p
+} list_vt_foreach_clo
+  {fe:eff} (
+  xs: !List_vt(INV(x)), f: &(&x >> _) -<clo,fe> void
+) :<fe> void // end of [list_vt_foreach_fun]
+//
+fun{
+x:vt0p
+} list_vt_foreach_cloptr
+(
+  xs: !List_vt(INV(x)), f: (&x >> _) -<cloptr1> void
+) :<1> void // end of [list_vt_foreach_cloptr]
+fun{
+x:vt0p
+} list_vt_foreach_cloref
+(
+  xs: !List_vt(INV(x)), f: (&x >> _) -<cloref1> void
+) :<1> void // end of [list_vt_foreach_cloref]
+//
+(* ****** ****** *)
+//
+// HX: prelude/array
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+array_foreach_fun
+  {n:int}{fe:eff}
+(
+A0: &(@[INV(a)][n]) >> @[a][n],
+asz: size_t(n), fwork: (&a >> _) -<fun,fe> void
+) :<fe> void // end of [array_foreach_fun]
+fun
+{a:vt0p}
+array_foreach_clo
+  {n:int}{fe:eff}
+(
+A0: &(@[INV(a)][n]) >> @[a][n],
+asz: size_t (n), fwork: &(&a >> _) -<clo,fe> void
+) :<fe> void // end of [array_foreach_clo]
+fun
+{a:vt0p}
+array_foreach_cloptr
+  {n:int}{fe:eff}
+(
+A0: &(@[INV(a)][n]) >> @[a][n],
+asz: size_t n, fwork: (&a >> _) -<cloptr,fe> void
+) :<fe> void // end of [array_foreach_cloptr]
+fun
+{a:vt0p}
+array_foreach_cloref
+  {n:int}{fe:eff}
+(
+A0: &(@[INV(a)][n]) >> @[a][n],
+asz: size_t(n), fwork: (&a >> _) -<cloref,fe> void
+) :<fe> void // end of [array_foreach_cloref]
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+array_foreach_vclo
+  {v:view}{n:int}{fe:eff}
+(
+  pf: !v
+| A0: &(@[INV(a)][n]) >> @[a][n]
+, asz: size_t n, f0: &(!v | &a >> _) -<clo,fe> void
+) :<fe> void // end of [array_foreach_vclo]
+fun
+{a:vt0p}
+array_foreach_vcloptr
+  {v:view}{n:int}{fe:eff}
+(
+  pf: !v
+| A0: &(@[INV(a)][n]) >> @[a][n]
+, asz: size_t(n), f0: !(!v | &a >> _) -<cloptr,fe> void
+) :<fe> void // end of [array_foreach_vcloptr]
+//
+(* ****** ****** *)
+//
+// HX: prelude/arrayptr
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+arrayptr_foreach_fun
+  {n:int}{fe:eff}
+(
+A0: !arrayptr(INV(a), n),
+asz: size_t(n), fwork: (&a) -<fun,fe> void
+) :<fe> void // end of [arrayptr_foreach_fun]
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+arrayptr_tabulate_cloref
+  {n:int}
+( asz: size_t(n)
+, fopr: (sizeLt(n)) -<cloref> a): arrayptr(a, n)
+//
+(* ****** ****** *)
+//
+// HX: prelude/arrayref
+//
+(* ****** ****** *)
+//
+fun{a:vt0p}
+arrayref_tabulate_cloref
+  {n:int}
+( asz: size_t(n)
+, fopr: (sizeLt(n)) -<cloref> (a)): arrayref(a, n)
+//
+fun{a:vt0p}
+arrszref_tabulate_cloref
+  {n:int}
+  (size_t(n), (sizeLt(n)) -<cloref> a): arrszref(a)
+//
+(* ****** ****** *)
 
-(* end of [list.sats] *)
+(* end of [atspre.sats] *)

@@ -33,7 +33,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 implement
 {a}(*tmp*)
 arrayref_make_elt(asz, x) =
-  arrayptr_refize(arrayptr_make_elt<a>(asz, x))
+arrayptr_refize(arrayptr_make_elt<a>(asz, x))
 // end of [arrayref_make_elt]
 
 #atscode_separator()
@@ -41,9 +41,10 @@ arrayref_make_elt(asz, x) =
 implement
 {}(*tmp*)
 arrayref_make_intrange
-  (l, r) =
+  (left, right) =
 (
-arrayptr_refize{int}(arrayptr_make_intrange<>(l, r))
+arrayptr_refize{int}
+(arrayptr_make_intrange<(*void*)>(left, right))
 ) (* arrayref_make_intrange *)
 
 #atscode_separator()
@@ -51,13 +52,13 @@ arrayptr_refize{int}(arrayptr_make_intrange<>(l, r))
 implement
 {a}(*tmp*)
 arrayref_make_list(asz, xs) =
-  arrayptr_refize(arrayptr_make_list<a>(asz, xs))
+arrayptr_refize(arrayptr_make_list<a>(asz, xs))
 // end of [arrayref_make_list]
 
 implement
 {a}(*tmp*)
 arrayref_make_rlist(asz, xs) =
-  arrayptr_refize(arrayptr_make_rlist<a>(asz, xs))
+arrayptr_refize(arrayptr_make_rlist<a>(asz, xs))
 // end of [arrayref_make_rlist]
 
 #atscode_separator()
@@ -75,18 +76,18 @@ $UN.cast{arrayref(a,n-1)}(ptr_succ<a>(arrayref2ptr(A)))
 implement
 {a}{tk}(*tmp*)
 arrayref_get_at_gint
-  (A, i) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_get_at_gint(!p, i)
+(A, i) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_get_at_gint(!p, i)
 end // end of [arrayref_get_at_gint]
 implement
 {a}{tk}(*tmp*)
 arrayref_get_at_guint
-  (A, i) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_get_at_guint(!p, i)
+(A, i) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_get_at_guint(!p, i)
 end // end of [arrayref_get_at_guint]
 
 #atscode_separator()
@@ -94,20 +95,18 @@ end // end of [arrayref_get_at_guint]
 implement
 {a}{tk}(*tmp*)
 arrayref_set_at_gint
-  (A, i, x) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_set_at_gint(!p, i, x)
-//
+(A, i, x) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_set_at_gint(!p, i, x)
 end // end of [arrayref_set_at_gint]
 implement
 {a}{tk}(*tmp*)
 arrayref_set_at_guint
-  (A, i, x) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_set_at_guint(!p, i, x)
-//
+(A, i, x) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_set_at_guint(!p, i, x)
 end // end of [arrayref_set_at_guint]
 
 #atscode_separator()
@@ -115,20 +114,18 @@ end // end of [arrayref_set_at_guint]
 implement
 {a}{tk}(*tmp*)
 arrayref_exch_at_gint
-  (A, i, x) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_exch_at_gint(!p, i, x)
-//
+(A, i, x) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_exch_at_gint(!p, i, x)
 end // end of [arrayref_exch_at_gint]
 implement
 {a}{tk}(*tmp*)
 arrayref_exch_at_guint
-  (A, i, x) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_exch_at_guint(!p, i, x)
-//
+(A, i, x) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_exch_at_guint(!p, i, x)
 end // end of [arrayref_exch_at_guint]
 
 #atscode_separator()
@@ -136,11 +133,10 @@ end // end of [arrayref_exch_at_guint]
 implement
 {a}(*tmp*)
 arrayref_interchange
-  (A, i, j) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_interchange<a>(!p, i, j)
-//
+(A, i, j) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_interchange<a>(!p, i, j)
 end // end of [arrayref_interchange]
 
 #atscode_separator()
@@ -148,11 +144,10 @@ end // end of [arrayref_interchange]
 implement
 {a}(*tmp*)
 arrayref_subcirculate
-  (A, i, j) = let
-//
-val (vbox pf | p) =
-  arrayref_get_viewptr(A) in array_subcirculate<a> (!p, i, j)
-//
+(A, i, j) = let
+val
+(vbox pf | p) =
+arrayref_get_viewptr(A) in array_subcirculate<a> (!p, i, j)
 end // end of [arrayref_subcirculate]
 
 #atscode_separator()
@@ -186,15 +181,18 @@ end // end of [fprint_arrayref_sep]
 implement
 {a}(*tmp*)
 arrayref_copy
-  {n} (A, n) = let
+{n}(A, n) = let
 //
-val (pf, fpf | p) =
-  $UN.ptr0_vtake{array(a,n)}(ptrcast(A))
+val
+(pf1, fpf1 | p1) =
+$UN.ptr0_vtake{array(a,n)}(ptrcast(A))
 //
-val (pf2, pf2gc | p2) = array_ptr_alloc<a> (n)
-val ((*void*)) = array_copy<a> (!p2, !p, n)
+val
+(pf2, pf2gc | p2) = array_ptr_alloc<a>(n)
 //
-prval ((*void*)) = fpf (pf)
+val ((*void*)) = array_copy<a>(!p2, !p1, n)
+//
+prval ((*returned*)) = fpf1(pf1)
 //
 in
   $UN.castvwtp0{arrayptr(a,n)}((pf2, pf2gc | p2))
@@ -205,14 +203,9 @@ end // end of [arrayref_copy]
 implement
 {a}(*tmp*)
 arrayref_tabulate
-  (asz) = arrayptr_refize (arrayptr_tabulate<a> (asz))
+  (asz) =
+  arrayptr_refize(arrayptr_tabulate<a>(asz))
 // end of [arrayref_tabulate]
-
-implement
-{a}(*tmp*)
-arrayref_tabulate_cloref
-  (asz, f) = arrayptr_refize (arrayptr_tabulate_cloref<a> (asz, f))
-// end of [arrayref_tabulate_cloref]
 
 #atscode_separator()
 
@@ -704,12 +697,6 @@ asz = g1ofg0_uint(asz)
 val A = arrayref_tabulate<a>(asz) in arrszref_make_arrayref(A, asz)
 //
 end // end of [arrszref_tabulate]
-//
-implement
-{a}(*tmp*)
-arrszref_tabulate_cloref(asz, f) = let
-  val A = arrayref_tabulate_cloref<a>(asz, f) in arrszref_make_arrayref(A, asz)
-end // end of [arrszref_tabulate_cloref]
 //
 #atscode_separator()
 

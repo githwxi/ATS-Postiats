@@ -574,61 +574,16 @@ array_foreach$fwork (x, env) = ((*void*))
 
 implement
 {a}(*tmp*)
-array_foreach_fun
-  {n}{fe}
-  (A, asz, fwork) = let
-//
-typedef
-tfun =
-  (!unit_v | &a, !ptr) -<fun,fe> void
-// end of [typedef]
-//
-prval pfu = unit_v ()
-//
-var env: ptr = the_null_ptr
-val fwork = $UN.cast{tfun}(fwork)
-val ((*void*)) =
-  array_foreach_funenv<a>(pfu | A, asz, fwork, env)
-//
-prval ((*freed*)) = unit_v_elim(pfu)
-//
-in
-  // nothing
-end // end of [array_foreach_fun]
-
-implement
-{a}(*tmp*)
-array_foreach_cloref
-  {n}{fe}
-  (A, asz, fwork) = let
-//
-  viewdef v = unit_v
-  typedef vt = (&a) -<cloref,fe> void
-//
-  fun app .<>.
-    (pf: !v | x: &a, env: !vt):<fe> void = env (x)
-  // end of [fun]
-  var env = fwork
-  prval pfu = unit_v ()
-  val ((*void*)) =
-    array_foreach_funenv<a>{v}{vt}(pfu | A, asz, app, env)
-  // end of [val]
-  prval ((*freed*)) = unit_v_elim(pfu)
-in
-  // nothing
-end // end of [array_foreach_cloref]
-
-#atscode_separator()
-
-implement
-{a}(*tmp*)
 array_foreach_funenv
   {v}{vt}
 (
-  pf | A, asz, f, env
+  pf | A0, asz, fwork, env
 ) =
 (
-  array_foreach_funenv_tsz{a}{v}{vt}(pf | A, asz, sizeof<a>, f, env)
+//
+array_foreach_funenv_tsz
+  {a}{v}{vt}(pf | A0, asz, sizeof<a>, fwork, env)
+//
 ) (* end of [array_foreach_funenv] *)
 
 #atscode_separator()

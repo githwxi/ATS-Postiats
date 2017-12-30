@@ -42,12 +42,13 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
+#staload "libats/ML/SATS/basis.sats"
+#staload "libats/ML/SATS/atspre.sats"
 
 (* ****** ****** *)
-
-#staload "libats/ML/SATS/list.sats"
-
+//
+// HX: prelude/list
+//
 (* ****** ****** *)
 //
 implement
@@ -603,5 +604,402 @@ in
 end // end of [list_foldright_cloref]
 
 (* ****** ****** *)
+//
+// HX: prelude/list_vt
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+list_vt_tuple_0() = list_vt_nil()
+//
+implement
+{a}(*tmp*)
+list_vt_tuple_1(x0) = $list_vt{a}(x0)
+implement
+{a}(*tmp*)
+list_vt_tuple_2(x0, x1) = $list_vt{a}(x0, x1)
+implement
+{a}(*tmp*)
+list_vt_tuple_3(x0, x1, x2) = $list_vt{a}(x0, x1, x2)
+//
+implement
+{a}(*tmp*)
+list_vt_tuple_4
+(x0, x1, x2, x3) = $list_vt{a}(x0, x1, x2, x3)
+implement
+{a}(*tmp*)
+list_vt_tuple_5
+(x0, x1, x2, x3, x4) = $list_vt{a}(x0, x1, x2, x3, x4)
+implement
+{a}(*tmp*)
+list_vt_tuple_6
+(x0, x1, x2, x3, x4, x5) = $list_vt{a}(x0, x1, x2, x3, x4, x5)
+//
+(* ****** ****** *)
 
-(* end of [list.dats] *)
+implement
+{x}{y}(*tmp*)
+list_vt_map_fun
+  (xs, f0) = let
+//
+implement
+{x2}{y2}
+list_vt_map$fopr(x2) = let
+//
+val f0 =
+$UN.cast{(&x2)->y}(f0) in $UN.castvwtp0{y2}(f0(x2))
+//
+end // end of [list_vt_map$fopr]
+//
+in
+  list_vt_map<x><y>(xs)
+end // end of [list_vt_map_fun]
+
+implement
+{x}{y}(*tmp*)
+list_vt_map_clo
+  (xs, f0) = let
+//
+val f0 =
+$UN.cast{(&x) -<cloref1> y}(addr@f0)
+//
+implement
+{x2}{y2}
+list_vt_map$fopr(x2) = let
+//
+val f0 =
+$UN.cast{(&x2)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
+//
+end // end of [list_vt_map$fopr]
+//
+in
+  list_vt_map<x><y>(xs)
+end // end of [list_vt_map_clo]
+
+implement
+{x}{y}(*tmp*)
+list_vt_map_cloptr
+  (xs, f0) = ys where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val ys =
+list_vt_map_cloref<x><y>(xs, f1)
+val () =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} (* end of [list_vt_map_cloptr] *)
+
+implement
+{x}{y}(*tmp*)
+list_vt_map_cloref
+  (xs, f0) = let
+//
+implement
+{x2}{y2}
+list_vt_map$fopr(x2) = let
+//
+val f0 =
+$UN.cast{(&x2)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
+//
+end // end of [list_vt_map$fopr]
+//
+in
+  list_vt_map<x><y>(xs)
+end // end of [list_vt_map_cloref]
+
+(* ****** ****** *)
+
+implement
+{x}{y}(*tmp*)
+list_vt_mapfree_fun
+  (xs, f0) = let
+//
+implement
+{x2}{y2}
+list_vt_mapfree$fopr
+  (x2) = let
+//
+val f0 =
+$UN.cast{(&x2>>_?)->y}(f0) in $UN.castvwtp0{y2}(f0(x2))
+//
+end // end of [list_vt_mapfree$fopr]
+//
+in
+  list_vt_mapfree<x><y>(xs)
+end // end of [list_vt_mapfree_fun]
+
+implement
+{x}{y}(*tmp*)
+list_vt_mapfree_clo
+  (xs, f0) = let
+//
+val f0 =
+$UN.cast{(&x>>_?) -<cloref1> y}(addr@f0)
+//
+implement
+{x2}{y2}
+list_vt_mapfree$fopr(x2) = let
+//
+val f0 =
+$UN.cast{(&x2>>_?)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
+//
+end // end of [list_vt_mapfree$fopr]
+//
+in
+  list_vt_mapfree<x><y>(xs)
+end // end of [list_vt_mapfree_clo]
+
+implement
+{x}{y}(*tmp*)
+list_vt_mapfree_cloptr
+  (xs, f0) = ys where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val ys =
+list_vt_mapfree_cloref<x><y>(xs, f1)
+val () =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} (* end of [list_vt_mapfree_cloptr] *)
+
+implement
+{x}{y}(*tmp*)
+list_vt_mapfree_cloref
+  (xs, f0) = let
+//
+implement
+{x2}{y2}
+list_vt_mapfree$fopr(x2) = let
+//
+val f0 =
+$UN.cast{(&x2>>_?)-<cloref1>y}(f0) in $UN.castvwtp0{y2}(f0(x2))
+//
+end // end of [list_vt_mapfree$fopr]
+//
+in
+  list_vt_mapfree<x><y>(xs)
+end // end of [list_vt_mapfree_cloref]
+
+(* ****** ****** *)
+
+implement
+{a}{b}
+list_vt_mapfree_method
+  (xs, _(*type*)) =
+(
+  llam(fopr) => list_vt_mapfree_cloptr<a><b>(xs, fopr)
+) (* list_vt_mapfree_method *)
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list_vt_foreach_fun
+  {fe}(xs, f0) = let
+//
+prval() = lemma_list_vt_param(xs)
+//
+fun
+loop
+{n:nat} .<n>.
+(
+xs: !list_vt(a, n), f0: (&a) -<fe> void
+) :<fe> void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = f0(x)
+      val () = loop(xs1, f0)
+    in
+      fold@ (xs)
+    end // end of [cons]
+  | list_vt_nil((*void*)) => ()
+// end of [loop]
+in
+  loop(xs, f0)
+end // end of [list_vt_foreach_fun]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+list_vt_foreach_cloptr
+  (xs, f0) = () where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val () =
+list_vt_foreach_cloref<a>(xs, f1)
+val () =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} // end of [list_vt_foreach_cloptr]
+
+implement
+{a}(*tmp*)
+list_vt_foreach_cloref
+  (xs, f0) =
+  loop(xs, f0) where
+{
+//
+fun
+loop{n:nat} .<n>.
+(
+xs: !list_vt(a, n),
+f0: (&a) -<cloref1> void
+) : void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) =>
+      fold@(xs) where
+    {
+      val () = f0(x)
+      val () = loop(xs1, f0)
+    } // end of [cons]
+  | list_vt_nil((*void*)) => ()
+// end of [loop]
+//
+prval() = lemma_list_vt_param(xs)
+//
+} // end of [list_vt_foreach_cloref]
+
+(* ****** ****** *)
+//
+// HX: prelude/array
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+array_foreach_fun
+  {n}{fe}
+(
+  A0, asz, fwork
+) = let
+//
+typedef
+fwork_t =
+(!unit_v | &a, !ptr) -<fun,fe> void
+// end of [typedef]
+//
+prval pfu = unit_v()
+//
+var env: ptr = the_null_ptr
+val fwork = $UN.cast{fwork_t}(fwork)
+//
+val ((*void*)) =
+array_foreach_funenv<a>(pfu | A0, asz, fwork, env)
+//
+prval ((*freed*)) = unit_v_elim(pfu)
+//
+in
+  // nothing
+end // end of [array_foreach_fun]
+
+implement
+{a}(*tmp*)
+array_foreach_cloref
+  {n}{fe}
+(
+  A0, asz, fwork
+) = let
+//
+viewdef v = unit_v
+typedef tenv = (&a) -<cloref,fe> void
+//
+fun app .<>.
+  (pf: !v | x: &a, fwork: !tenv):<fe> void = fwork(x)
+// end of [fun]
+//
+var env = fwork
+prval pfu = unit_v()
+//
+val ((*void*)) =
+array_foreach_funenv<a>{v}{tenv}(pfu | A0, asz, app, env)
+//
+prval ((*freed*)) = unit_v_elim(pfu)
+//
+in
+  // nothing
+end // end of [array_foreach_cloref]
+
+(* ****** ****** *)
+//
+// HX: prelude/arrayptr
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+arrayptr_tabulate_cloref
+{n}(asz, f0) = let
+//
+implement(a2)
+array_tabulate$fopr<a2>(i) =
+$UN.castvwtp0{a2}
+(f0($UN.cast{sizeLt(n)}(i)))
+//
+in
+  arrayptr_tabulate<a>(asz)
+end // end of [arrayptr_tabulate_cloref]
+
+(* ****** ****** *)
+//
+// HX: prelude/arrayref
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+arrayptr_foreach_fun
+(
+A0, asz, f0
+) = ((*void*)) where
+{
+//
+val p0 = ptrcast(A0)
+prval pf0 = arrayptr_takeout(A0)
+//
+val () =
+array_foreach_fun<a>(!p0, asz, f0)
+//
+prval () = arrayptr_addback{a}(pf0 | A0)
+//
+} // end of [arrayptr_foreach_fun]
+
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+arrayref_tabulate_cloref
+{n}(asz, f0) = let
+//
+implement(a2)
+array_tabulate$fopr<a2>(i) =
+$UN.castvwtp0{a2}
+(f0($UN.cast{sizeLt(n)}(i)))
+//
+in
+  arrayref_tabulate<a>(asz)
+end // end of [arrayptr_tabulate_cloref]
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+arrszref_tabulate_cloref
+  (asz, f0) =
+(
+arrszref_make_arrayref
+(arrayref_tabulate_cloref<a>(asz, f0), asz)
+)
+//
+(* ****** ****** *)
+
+(* end of [atspre.dats] *)
