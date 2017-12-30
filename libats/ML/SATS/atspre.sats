@@ -506,5 +506,24 @@ arrszref_tabulate_cloref
   (size_t(n), (sizeLt(n)) -<cloref> a): arrszref(a)
 //
 (* ****** ****** *)
+//
+// HX: prelude/option
+//
+(* ****** ****** *)
+//
+fun
+{x:t0p}
+{y:vt0p}
+option_map_cloptr
+  {b:bool}
+  (option(INV(x), b), fopr: (x) -<cloptr1> y): option_vt(y, b)
+fun
+{x:t0p}
+{y:vt0p}
+option_map_cloref
+  {b:bool}
+  (option(INV(x), b), fopr: (x) -<cloref1> y): option_vt(y, b)
+//
+(* ****** ****** *)
 
 (* end of [atspre.sats] *)

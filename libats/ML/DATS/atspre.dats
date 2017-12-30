@@ -1001,5 +1001,34 @@ arrszref_make_arrayref
 )
 //
 (* ****** ****** *)
+//
+implement
+{x}{y}
+option_map_cloref
+  (opt, fopr) = (
+//
+case+ opt of
+| None() => None_vt()
+| Some(x0) => Some_vt(fopr(x0))
+//
+) // end of [option_map_cloref]
+//
+implement
+{x}{y}
+option_map_cloptr
+  (xs, f0) = res where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val res =
+option_map_cloref<x>(xs, f1)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} // end of [option_map_cloptr]
+//
+(* ****** ****** *)
 
 (* end of [atspre.dats] *)

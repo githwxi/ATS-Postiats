@@ -83,18 +83,6 @@ case+ opt of
 ) (* option_unsome_exn *)
 //
 #atscode_separator()
-//
-implement
-{x}{y}
-option_map_cloref
-  (opt, fopr) =
-(
-  case+ opt of
-  | None() => None_vt()
-  | Some(x0) => Some_vt(fopr(x0))
-) (* option_map_cloref *)
-//
-#atscode_separator()
 
 implement
 {a}(*tmp*)
