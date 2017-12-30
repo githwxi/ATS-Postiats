@@ -744,6 +744,7 @@ end // end of [list_split_vt_at]
 
 #atscode_separator()
 
+(*
 implement
 {a}(*tmp*)
 list_vt_concat
@@ -761,16 +762,17 @@ in
   case+ xss of
   | ~list_vt_cons
       (xs, xss) => let
-      val res = list_vt_append<a>(xs, res)
+      val res =
+      list_vt_append<a>(xs, res)
     in
       loop(res, xss)
     end // end of [list_vt_cons]
-  | ~list_vt_nil () => let
+  | ~list_vt_nil() => let
       prval() = lemma_list_vt_param(res) in res
     end // end of [list_vt_nil]
 end (* end of [loop] *)
 //
-val xss = list_vt_reverse (xss)
+val xss = list_vt_reverse<a>(xss)
 //
 prval() = lemma_list_vt_param(xss)
 //
@@ -781,6 +783,62 @@ case+ xss of
     (xs, xss) => loop(xs, xss)
 | ~list_vt_nil() => list_vt_nil()
 //
+end // end of [list_vt_concat]
+*)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+list_vt_concat
+  (xss) = let
+//
+fun
+last(res: ptr): ptr = let
+//
+val xs0 =
+$UN.ptr0_get<List_vt(a)>(res)
+//
+in
+//
+case+ xs0 of
+| list_vt_nil
+    () => res where
+  {
+    prval () = $UN.cast2void(xs0)
+  }
+| @list_vt_cons
+    (x0, xs1) => let
+    val res = addr@xs1
+    prval () = fold@(xs0)
+    prval () = $UN.cast2void(xs0)
+  in
+    last(res)
+  end // end of [list_vt_cons]
+//
+end // end of [last]
+//
+fun
+loop
+( res: ptr,
+  xss: List_vt(List_vt(a))) : void =
+(
+case+ xss of
+| ~list_vt_nil() => ()
+| ~list_vt_cons(xs, xss) =>
+    loop(last(res), xss) where
+  {
+    val () =
+    $UN.ptr0_set<List_vt(a)>(res, xs)
+  }
+)
+//
+var
+res0:
+List0_vt(a) = list_vt_nil()
+//
+in
+  $effmask_all(loop(addr@res0, xss)); res0
 end // end of [list_vt_concat]
 
 #atscode_separator()

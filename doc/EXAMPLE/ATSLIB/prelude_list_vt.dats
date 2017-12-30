@@ -40,10 +40,18 @@ val () = list_vt_free (rxs)
 val () =
 {
 typedef T = int
+//
+fun
+nil() = $list_vt{T}()
+//
 val xs1 = $list_vt{T}(1)
 val xs2 = $list_vt{T}(2)
 val xs3 = $list_vt{T}(3)
-val xss = $list_vt{List_vt(T)}(xs1, xs2, xs3)
+//
+val xss =
+$list_vt{List_vt(T)}
+(xs1, nil(), xs2, nil(), xs3)
+//
 val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
 //
 val () = assertloc (length (xs123) = 3)

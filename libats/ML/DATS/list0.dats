@@ -2233,7 +2233,9 @@ implement
 {x,y}(*tmp*)
 list0_xprod2_foreach_method
   (xs, ys) =
+(
   lam(fwork) => list0_xprod2_foreach<x,y>(xs, ys, fwork)
+)
 //
 (* ****** ****** *)
 
@@ -2262,7 +2264,9 @@ case+ xs of
 and
 loop2
 (
-  i0: int, x0: x, xs: list0(x), j: int, ys: list0(y)
+i0: int, x0: x
+,
+xs: list0(x), j: int, ys: list0(y)
 ) : void =
 (
 case+ ys of
@@ -2287,16 +2291,25 @@ lam(fwork) => list0_xprod2_iforeach<x,y>(xs, ys, fwork)
 implement
 {a}(*tmp*)
 streamize_list0_elt
-  (xs) = streamize_list_elt<a>(g1ofg0(xs))
+  (xs) =
+  streamize_list_elt<a>(g1ofg0(xs))
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+un_streamize_list0_elt
+  (xs) =
+(
+list0_of_list_vt{a}(stream2list_vt(xs))
+)
 //
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 streamize_list0_suffix
-  (xs) =
-  auxmain(xs) where
-{
+  (xs) = let
 //
 fun
 auxmain:
@@ -2306,16 +2319,15 @@ streamize_list0_suffix<a>
 ) = lam(xs) => $ldelay
 (
 case+ xs of
-| list0_nil
-  (
-  // none
-  ) => stream_vt_nil()
-| list0_cons
-  (
-    x0, xs1
-  ) => stream_vt_cons(xs, auxmain(xs1))
+| list0_nil() =>
+  stream_vt_nil()
+| list0_cons(x0, xs1) =>
+  stream_vt_cons(xs, auxmain(xs1))
 )
-} (* end of [streamize_list0_suffix] *)
+//
+in
+  auxmain(xs)
+end (* end of [streamize_list0_suffix] *)
 
 (* ****** ****** *)
 //

@@ -1,15 +1,13 @@
+(* ****** ****** *)
 (*
 For testing GraphStreamize_dfs
 *)
-
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 #include
-"share/HATS/atspre_staload_libats_ML.hats"
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -24,7 +22,8 @@ GRAPHSTREAMIZE_DFS 1
 (* ****** ****** *)
 
 #staload "libats/SATS/stklist.sats"
-#staload _ = "libats/DATS/stklist.dats"
+#staload
+_(*STK*) = "libats/DATS/stklist.dats"
 
 (* ****** ****** *)
 
@@ -75,13 +74,13 @@ node_get_neighbors<>
 //
 extern
 fun
-QueenPuzzle_solve
+QueenPuzzle_streamize
 (
   // argmentless
 ) : stream_vt(node)
 //
 implement
-QueenPuzzle_solve
+QueenPuzzle_streamize
   () = nxs where
 {
 //
@@ -97,7 +96,7 @@ stklist_insert(store, root)
 //
 val nxs = GraphStreamize_dfs(store)
 //
-} (* end of [QueenPuzzle_solve] *)
+} (* end of [QueenPuzzle_streamize] *)
 //
 (* ****** ****** *)
 
@@ -105,12 +104,14 @@ implement
 main0() = () where
 {
 //
-val nxs = QueenPuzzle_solve()
+val
+nxs = QueenPuzzle_streamize()
+val
+nxs =
+(nxs).filter()(lam(nx) => length(nx) >= N)
 //
-val nxs =
-  (nxs).filter()(lam(nx) => length(nx) >= N)
-//
-val ((*void*)) =
+val
+((*void*)) =
 nxs.foreach()
 (
   lam(nx) =>

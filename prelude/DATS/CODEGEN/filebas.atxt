@@ -980,7 +980,7 @@ in
 (*
       //
       // HX:
-      // FILEref is not freed!
+      // FILEref should be kept!
       //
       val () = fileref_close(inp)
       //
@@ -992,12 +992,62 @@ end : stream_vt_con(elt) // end of [let]
 (*
 ,
 //
-fileref_close(inp) // HX-2016-09-12: FILEref is not freed!
+fileref_close(inp) // HX: [inp] should be kept!
 //
 *)
 ) (* end of [auxmain] *)
 //
 } (* end of [streamize_fileref_char] *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+streamize_fileptr_char
+  (inp) = let
+//
+typedef elt = char
+//
+fun
+auxmain
+(
+  inp
+: FILEref
+) : stream_vt(elt) = $ldelay
+(
+//
+let
+  val c0 = fileref_getc(inp)
+in
+  if
+  (c0 >= 0)
+  then
+  (
+    stream_vt_cons
+    (int2char0(c0), auxmain(inp))
+  ) else
+  (
+    stream_vt_nil((*void*)) where
+    {
+      //
+      // HX:
+      // [inp] should be freed!
+      //
+      val () = fileref_close(inp)
+      //
+    }
+  ) (* end-of-else *) // end-of-if
+end : stream_vt_con(elt) // end of [let]
+//
+,
+//
+fileref_close(inp) // HX: [inp] should be freed!
+//
+) (* end of [auxmain] *)
+//
+in
+  auxmain($UN.castvwtp0{FILEref}(inp))
+end (* end of [streamize_fileptr_char] *)
 
 #atscode_separator()
 
@@ -1011,20 +1061,24 @@ vtypedef elt = Strptr1
 //
 fun
 auxmain
-(
-  inp
-: FILEref
-) : stream_vt(elt) = $ldelay
+(inp: FILEref):
+stream_vt(elt) = $ldelay
 (
 //
 let
-  val iseof = fileref_is_eof(inp)
+//
+val
+iseof = fileref_is_eof(inp)
+//
 in
   if iseof
     then let
 (*
+    //
+    // HX: [inp] is kept!
+    //
       val () =
-        fileref_close(inp) // HX: FILEref is not freed!
+        fileref_close(inp)
       // end of [val]
 *)
     in
@@ -1042,7 +1096,7 @@ end : stream_vt_con(elt) // end of [let]
 (*
 ,
 //
-fileref_close(inp) // HX-2016-09-12: FILEref is not freed!
+fileref_close(inp) // HX: [inp] should be kept!
 //
 *)
 ) (* end of [auxmain] *)
@@ -1061,19 +1115,23 @@ vtypedef elt = Strptr1
 //
 fun
 auxmain
-(
-  inp
-: FILEref
-) : stream_vt(elt) = $ldelay
+(inp: FILEref):
+stream_vt(elt) = $ldelay
 (
 //
 let
-  val iseof = fileref_is_eof(inp)
+//
+val
+iseof = fileref_is_eof(inp)
+//
 in
   if iseof
     then let
+    //
+    // HX: [inp] is freed!
+    //
       val () =
-        fileref_close(inp) // HX: FILEref is not freed!
+        fileref_close(inp)
       // end of [val]
     in
       stream_vt_nil((*void*))
@@ -1089,7 +1147,7 @@ end : stream_vt_con(elt) // end of [let]
 //
 ,
 //
-fileref_close(inp) // HX-2016-09-12: FILEref is not freed!
+fileref_close(inp) // HX: [inp] should be freed!
 //
 ) (* end of [auxmain] *)
 //

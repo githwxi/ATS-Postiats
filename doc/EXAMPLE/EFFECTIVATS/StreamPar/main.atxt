@@ -12,7 +12,7 @@
 
 <h1>
 Effective ATS:<br>
-Stream-Processing in Parallel
+Streamization and Stream-Processing in Parallel
 </h1>
 
 ##para('\
@@ -28,9 +28,302 @@ approach to stream-processing in parallel.
 
 ##para('\
 
-In ATS, a stream refers to a lazy-list and a linear stream to a linear lazy-list.
-The fundmental difference between a stream, which is non-linear, and a linear stream
-is that the former is cached while the latter is not.
+In ATS, a stream refers to a lazy-list (in contrast to a standard list
+consisting of nodes for storing elements) and a linear stream to a
+linear lazy-list. Internally, both streams and linear streams are
+represented as closure-functions. The fundmental difference between a
+stream, which is non-linear, and a linear stream is that the former
+caches each element computed during its evaluation (so that the
+element is available for use subsequently) while the latter does
+not. As an example, the following code creates a stream of integers
+from 0 to 999, inclusive, and then computes the length of the created
+stream:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val xs =
+intrange_stream
+  (0, 1000) where
+{
+//
+fun
+intrange_stream
+  (m: int, n: int): stream(int) =
+  $delay
+  (
+  if
+  (m >= n)
+  then stream_nil()
+  else stream_cons(m, intrange_stream(m+1, n))
+  )
+//
+} (* end of [where] *) // end of [val]
+//
+val nxs = stream_length(xs) // nxs = 1000
+//\
+')
+</pre>
+
+After the call to ##dyncode("stream_length") returns,
+the stream that ##dyncode("xs") refers to consists of 1000
+nodes for storing all of the integers between 0 and 999.
+
+As a comparison, the following code creates a linear stream
+of integers between 0 and 999, inclusive, and then computes the
+length of the created stream:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val ys =
+intrange_stream_vt
+  (0, 1000) where
+{
+//
+fun
+intrange_stream_vt
+  (m: int, n: int): stream_vt(int) =
+  $ldelay
+  (
+  if
+  (m >= n)
+  then stream_vt_nil()
+  else stream_vt_cons(m, intrange_stream_vt(m+1, n)) 
+  )
+//
+} (* end of [val] *)
+//
+val nys = stream_vt_length(ys) // nys = 1000
+//\
+')
+</pre>
+
+After the call to ##dyncode("stream_vt_length") returns,
+the stream that ##dyncode("ys") refers to is consumed (and
+thus no longer available for any subsequent use).
+
+')
+
+##para('\
+
+When compared to non-linear streams, linear streams are significantly
+easier to implement and also of greater efficiency both time-wise and
+memory-wise. A linear type system of some kind is needed in order to
+assign types to linear streams, which is certainly non-trivial.  As
+far as I can tell, ATS is currently the only functional programming
+language that supports programming with linear streams. In the
+following presentation, I shall primarily focus on stream-processing
+based on linear streams.
+
+')
+
+<h2>Streamization of Data Containers</h2>
+
+##para('\
+
+The phrase ##emphasis("data container") loosely refers to a
+collection of data of some kind. For instance, a string can be
+considered as a container of the characters in it; a file name
+(represented as a string) can be considered as a container of the
+characters in it, or a container of the words in it, or a container of
+the lines in it; a directory name can be considered as a collection
+of the file names in it; etc. As an example, the following function
+##dyncode("mystring_length") computes the length of a given string:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+fun
+mystring_length
+  (cs: string): int =
+  stream_vt_length(streamize_string_char(cs))
+//\
+')
+</pre>
+
+Note that the function ##dyncode("streamize_string_char") turns a
+given string into a linear stream of chars (of the type
+##stacode("stream_vt(char)")).  Of course, the length of a string can
+be computed more efficiently. What is remarkable here is that the
+linear stream returned by ##dyncode("streamize_string_char") is
+represented as a closure-function, which takes only a few bytes to
+store, and all of the (heap) memory needed by
+##dyncode("stream_vt_length") during its evaluation is just for
+##emphasis("one") node (that stores the first element of the linear
+stream passed as the argument). In other words, the memory footprint
+of ##dyncode("mystring_length") can be truly considered minimal.  As a
+simple comparison, please note that the memory needed for turing a
+string into a list is proportional to the length of the string as each
+char in the string needs to be stored in one node in the list to be
+created.
+
+')
+
+##para('\
+
+Streamization makes it very convenient to employ various stream-based
+combinators to process data. For instance, the following function
+computes the number of chars in the file of a given name:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+fun
+myfilename_nchar
+  (fname: string): int = let
+//
+val opt =
+streamize_filename_char(fname)
+//
+in
+//
+case+ opt of
+| ~Some_vt(cs) =>
+  (
+    stream_vt_length(cs)
+  )
+| ~None_vt((*void*)) =>
+  (
+    prerrln!
+    ("ERROR: Cannot open the file: [", fname, "]");
+    exit(1) // abnormal exit
+  )
+//
+end // end of [myfilename_nchar]
+//\
+')
+</pre>
+
+If we need to count the number of lines in
+the file of a given name, the following function
+can be called:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+//
+fun
+myfilename_nline
+  (fname: string): int = let
+//
+val opt =
+streamize_filename_char(fname)
+//
+in
+//
+case+ opt of
+| ~Some_vt(cs) =>
+  (
+    stream_vt_length
+    ((cs).filter()(lam c => c = '\\n'))
+  )
+| ~None_vt((*void*)) =>
+  (
+    prerrln!
+    ("ERROR: Cannot open the file: [", fname, "]");
+    exit(1) // abnormal exit
+  )
+//
+end // end of [myfilename_nline]
+//\
+""")
+</pre>
+
+
+')
+
+##para('\
+
+In practice, streamization can also provide a highly effective
+approach to avoiding stack-overflow due to deeply nested recursive
+calls. Let us see a concrete example.  The following implementation of
+##dyncode("list0_append") is given in functional style:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+fun
+{a:t@ype}
+list0_append
+(
+xs: list0(a)
+,
+ys: list0(a)
+) : list0(a) =
+auxmain(xs, ys) where
+{
+  fun
+  auxmain
+  ( xs: list0(a)
+  , ys: list0(a)): list0(a) =
+  (
+  case+ xs of
+  | list0_nil() => ys
+  | list0_cons(x0, xs) => list0_cons(x0, auxmain(xs, ys))
+  )
+} (* end of [list0_append] *)
+//\
+')
+</pre>
+
+If the first argument of ##dyncode("list0_append") is a long list
+(e.g., one containing 1M elements), then evaluating
+##dyncode("list0_append") may result in stack-overflow as the inner
+function ##dyncode("auxmain") recursing on its first argument is not
+tail-recursive. On the other hand, the following function
+##dyncode("mylist0_append") does not run the risk of stack-overflow:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+fun
+{a:t@ype}
+mylist0_append
+(
+xs: list0(a)
+,
+ys: list0(a)
+) : list0(a) =
+un_streamize_list0_elt
+  (stream_vt_append(streamize_list0_elt(xs), streamize_list0_elt(ys)))
+//\
+')
+</pre>
+
+Given a list of elements, ##dyncode("streamize_list0_elt") turns it
+into a linear stream of the same elements (enumerated in the same
+order). Due to the very nature of lazy-evaluation, the function
+##dyncode("stream_vt_append") for concatenating two given linear
+streams returns in O(1)-time. The function
+##dyncode("un_streamize_list0_elt") for turning a linear stream into
+the corresponding list is given a special tail-recursive
+implementation. Therefore, there is no danger of stack-overflow when
+##dyncode("mylist0_append") is evaluated regardless of the length of
+its first argument.
+
+')
+
+<h2>Stream-Processing in Parallel</h2>
+
+##para('\
+
+Search is a common theme in programming. We may see search as a
+process of two phases: Streamization is performed in the first phase
+to construct a (linear) stream that enumerates ##emphasis("lazily")
+the data to be searched while the actual search is done in the second
+phase over the (linear) stream constructed in the first phase. Please
+find in ##filename("QueenPuzzle.dats") a concrete example of this kind.
+
+')
+
+##para('\
 
 ')
 

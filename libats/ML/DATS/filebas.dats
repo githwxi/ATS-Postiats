@@ -52,18 +52,21 @@ _(*anon*) = "prelude/DATS/integer_size.dats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/filebas.dats"
+staload
+_(*anon*) = "prelude/DATS/filebas.dats"
 
 (* ****** ****** *)
+//
+macdef
+prelude_fileref_get_line_charlst =
+  fileref_get_line_charlst
+//
+macdef
+prelude_fileref_get_lines_charlstlst =
+  fileref_get_lines_charlstlst
+//
+(* ****** ****** *)
 
-(*
-macdef
-prelude_fileref_open_opt = fileref_open_opt
-*)
-macdef
-prelude_fileref_get_line_charlst = fileref_get_line_charlst
-macdef
-prelude_fileref_get_lines_charlstlst = fileref_get_lines_charlstlst
 macdef
 prelude_fileref_get_line_string = fileref_get_line_string
 macdef
@@ -73,6 +76,8 @@ prelude_fileref_get_lines_stringlst = fileref_get_lines_stringlst
 //
 macdef
 prelude_streamize_fileref_char = streamize_fileref_char
+macdef
+prelude_streamize_fileptr_char = streamize_fileptr_char
 //
 macdef
 prelude_streamize_fileref_line = streamize_fileref_line
@@ -95,9 +100,14 @@ staload "libats/ML/SATS/filebas.sats"
 implement
 fileref_open_opt
   (path, mode) = let
-  val opt = prelude_fileref_open_opt (path, mode)
+//
+val
+opt =
+prelude_fileref_open_opt
+  (path, mode)
+//
 in
-  option0_of_option_vt (opt)
+  option0_of_option_vt{FILEref}(opt)
 end // end of [fileref_open_opt]
 *)
 
@@ -108,7 +118,7 @@ fileref_get_line_charlst
   (filr) =
 (
 list0_of_list_vt
-  (prelude_fileref_get_line_charlst (filr))
+  (prelude_fileref_get_line_charlst(filr))
 ) // end of [fileref_get_line_charlst]
 
 implement
@@ -116,7 +126,7 @@ fileref_get_lines_charlstlst
   (filr) =
 (
 $UN.castvwtp0{list0(charlst0)}
-  (prelude_fileref_get_lines_charlstlst (filr))
+  (prelude_fileref_get_lines_charlstlst(filr))
 ) // end of [fileref_get_lines_charlstlst]
 
 (* ****** ****** *)
@@ -179,6 +189,11 @@ implement
 streamize_fileref_char
   (filr) =
   prelude_streamize_fileref_char(filr)
+implement
+{}(*tmp*)
+streamize_fileptr_char
+  (filp) =
+  prelude_streamize_fileptr_char(filp)
 //
 (* ****** ****** *)
 //
@@ -239,6 +254,110 @@ end // end of [let]
 ) (* end of [auxmain] *)
 //
 } (* end of [streamize_fileref_word] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+streamize_fileptr_word
+  (filp) = let
+//
+fun
+auxmain
+(
+  filr: FILEref
+) :
+stream_vt(string) =
+$ldelay (
+//
+let
+//
+  val
+  word =
+  fileref_get_word<>(filr)
+  val test = strptr_is_null(word)
+//
+  prval () = lemma_strptr_param(word)
+//
+in
+  if test
+    then stream_vt_nil() where
+    {
+      val () = fileref_close(filr)
+      prval () = strptr_free_null(word)
+    } (* end of [then] *)
+    else stream_vt_cons(strptr2string(word), auxmain(filr))
+  // end of [if]
+end // end of [let]
+//
+) (* end of [auxmain] *)
+//
+in
+  auxmain($UN.castvwtp0{FILEref}(filp))
+end (* end of [streamize_fileptr_word] *)
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+streamize_filename_char
+  (fname) = let
+//
+val
+opt =
+fileref_open_opt(fname, file_mode_r)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+   None_vt()
+| ~Some_vt(filr) =>
+   Some_vt(streamize_fileptr_char($UN.castvwtp0{FILEptr1}(filr)))
+//
+end // end of [streamize_filename_char]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+streamize_filename_line
+  (fname) = let
+//
+val
+opt =
+fileref_open_opt(fname, file_mode_r)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+   None_vt()
+| ~Some_vt(filr) =>
+   Some_vt(streamize_fileptr_line($UN.castvwtp0{FILEptr1}(filr)))
+//
+end // end of [streamize_filename_line]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+streamize_filename_word
+  (fname) = let
+//
+val
+opt =
+fileref_open_opt(fname, file_mode_r)
+//
+in
+//
+case+ opt of
+| ~None_vt() =>
+   None_vt()
+| ~Some_vt(filr) =>
+   Some_vt(streamize_fileptr_word($UN.castvwtp0{FILEptr1}(filr)))
+//
+end // end of [streamize_filename_word]
 
 (* ****** ****** *)
 

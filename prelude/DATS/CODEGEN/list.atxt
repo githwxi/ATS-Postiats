@@ -2384,6 +2384,7 @@ $effmask_all
 //
 #atscode_separator()
 
+(*
 implement
 {x}(*tmp*)
 list_foreach_cloptr
@@ -2392,7 +2393,6 @@ list_foreach_cloptr
 $effmask_all
   (list_foreach_cloref<x>(xs, $UN.castvwtp1(fwork)))
 ) (* list_foreach_cloptr *)
-
 implement
 {x}(*tmp*)
 list_foreach_vcloptr
@@ -2401,6 +2401,7 @@ list_foreach_vcloptr
 $effmask_all
   (list_foreach_cloref<x>(xs, $UN.castvwtp1(fwork)))
 ) (* list_foreach_vcloptr *)
+*)
 
 #atscode_separator()
 

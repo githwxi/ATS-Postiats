@@ -60,13 +60,27 @@ PATSLIBATS_targetloc "$PATSHOME/libats"
 (* ****** ****** *)
 //
 #staload
+"{$PATSLIBATS}/ML/SATS/list.sats"
+#staload _ =
+"{$PATSLIBATS}/ML/DATS/list.dats"
+//
+#staload
+"{$PATSLIBATS}/ML/SATS/list_vt.sats"
+#staload _ =
+"{$PATSLIBATS}/ML/DATS/list_vt.dats"
+//
+(* ****** ****** *)
+#staload
 "{$PATSLIBATS}/ML/SATS/stream.sats"
+#staload _ =
+"{$PATSLIBATS}/ML/DATS/stream.dats"
+//
 #staload
 "{$PATSLIBATS}/ML/SATS/stream_vt.sats"
 #staload _ =
-"{$PATSLIBATS}/ML/DATS/stream.dats"
-#staload _ =
 "{$PATSLIBATS}/ML/DATS/stream_vt.dats"
+//
+(* ****** ****** *)
 //
 #staload
 "{$PATSLIBATS}/ML/SATS/gvalue.sats"

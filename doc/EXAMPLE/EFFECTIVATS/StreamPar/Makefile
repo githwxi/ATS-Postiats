@@ -32,6 +32,22 @@ main.atxt ; $(MYTEXTING) -o $@ -i $<
 #
 ######
 #
+StreamPar: \
+StreamPar.dats; $(PATSCC2) -o $@ $< -latslib
+#
+regress:: StreamPar; ./$<
+cleanall:: ; $(RMF) StreamPar
+#
+######
+#
+QueenPuzzle: \
+QueenPuzzle.dats; $(PATSCC2) -o $@ $< -latslib
+#
+regress:: QueenPuzzle; ./$<
+cleanall:: ; $(RMF) QueenPuzzle
+#
+######
+#
 NPM=npm
 #
 npm-update:: ; (NPM) update

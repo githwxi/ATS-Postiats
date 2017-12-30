@@ -1045,6 +1045,10 @@ fun{a:t0p}
 streamize_list0_elt
   (list0(INV(a))):<!wrt> stream_vt(a)
 //
+fun{a:t0p}
+un_streamize_list0_elt
+  (stream_vt(INV(a))):<!wrt> list0(a)
+//
 (* ****** ****** *)
 //
 fun{a:t0p}

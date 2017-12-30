@@ -86,27 +86,48 @@ filename_get_lines_stringlst_opt(path: string): Option_vt(stringlst0)
 (* ****** ****** *)
 //
 fun{}
-streamize_fileref_char(inp: FILEref): stream_vt(char)
-(*
+streamize_fileref_char
+  (inp: FILEref): stream_vt(char)
 fun{}
-streamize_fileptr_char(inp: FILEptr1): stream_vt(char)
-*)
+streamize_fileptr_char
+  (inp: FILEptr1): stream_vt(char)
 //
 (* ****** ****** *)
 //
 fun{}
-streamize_fileref_line(inp: FILEref): stream_vt(string)
+streamize_fileref_line
+  (inp: FILEref): stream_vt(string)
 fun{}
-streamize_fileptr_line(inp: FILEptr1): stream_vt(string)
+streamize_fileptr_line
+  (inp: FILEptr1): stream_vt(string)
 //
 (* ****** ****** *)
 //
 (*
+//
+// HX: this one is in prelude/filebas
+//
 fun{}
 fileref_get_word$isalpha(c0: charNZ): bool
 *)
 fun{}
-streamize_fileref_word(inp: FILEref): stream_vt(string)
+streamize_fileref_word
+  (inp: FILEref): stream_vt(string)
+fun{}
+streamize_fileptr_word
+  (inp: FILEptr1): stream_vt(string)
+//
+(* ****** ****** *)
+//
+fun{}
+streamize_filename_char
+  (fname: string): streamopt_vt(char)
+fun{}
+streamize_filename_line
+  (fname: string): streamopt_vt(string)
+fun{}
+streamize_filename_word
+  (fname: string): streamopt_vt(string)
 //
 (* ****** ****** *)
 //

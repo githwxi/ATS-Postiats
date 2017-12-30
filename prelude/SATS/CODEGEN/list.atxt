@@ -852,18 +852,20 @@ list_foreach_vclo
   pf: !v | xs: List(INV(x)), f: &(!v | x) -<clo,fe> void
 ) :<fe> void // end of [list_foreach_vclo]
 //
+(*
 fun
 {x:t0p}
 list_foreach_cloptr
   {fe:eff} (
-  xs: List(INV(x)), f: !(x) -<cloptr,fe> void
+  xs: List(INV(x)), f: (x) -<cloptr,fe> void
 ) :<fe> void // end of [list_foreach_cloptr]
 fun
 {x:t0p}
 list_foreach_vcloptr
   {v:view}{fe:eff} (
-  pf: !v | xs: List(INV(x)), f: !(!v | x) -<cloptr,fe> void
+  pf: !v | xs: List(INV(x)), f: (!v | x) -<cloptr,fe> void
 ) :<fe> void // end of [list_foreach_vcloptr]
+*)
 //
 fun
 {x:t0p}
