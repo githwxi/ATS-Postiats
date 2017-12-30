@@ -1038,42 +1038,114 @@ val () = xs := res2
 implement
 {a}(*tmp*)
 list_vt_app
-  (xs) = let
-in
+  (xs) =
+  loop(xs) where
+{
 //
+fun
+loop
+(
+xs: !List_vt(a)
+) : void =
+(
 case+ xs of
 | @list_vt_cons
-    (x, xs1) => let
+    (x, xs1) =>
+  {
     val () =
-      list_vt_app$fwork<a>(x)
-    val () = list_vt_app<a>(xs1)
-    prval ((*folded*)) = fold@ (xs)
-  in
-    // nothing
-  end // end of [cons]
+    list_vt_app$fwork<a>(x)
+    val () = loop(xs1)
+    prval ((*folded*)) = fold@(xs)
+  } (* end of [cons] *)
 | list_vt_nil((*void*)) => ()
+)
 //
-end // end of [list_vt_app]
+} // end of [list_vt_app]
 
 implement
 {a}(*tmp*)
 list_vt_appfree
-  (xs) = let
-in
+  (xs) =
+  loop(xs) where
+{
+fun
+loop
+(
+xs: List_vt(a)
+) : void = (
 //
 case+ xs of
 | @list_vt_cons
-    (x, xs1) => let
+    (x, xs1) =>
+    loop(xs1) where
+  {
     val xs1 = xs1
     val () =
     list_vt_appfree$fwork<a>(x)
     val ((*freed*)) = free@{a}{0}(xs)
-  in
-    list_vt_appfree<a>(xs1)
-  end // end of [cons]
+  } (* end of [cons] *)
 | ~list_vt_nil((*void*)) => ()
 //
-end // end of [list_vt_appfree]
+) (* end of [loop] *)
+} // end of [list_vt_appfree]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+list_vt_iapp
+  (xs) =
+  loop(0, xs) where
+{
+//
+fun
+loop
+(
+i0: intGte(0),
+xs: !List_vt(a)
+) : void =
+(
+case+ xs of
+| @list_vt_cons
+    (x, xs1) =>
+  {
+    val () =
+    list_vt_iapp$fwork<a>(i0, x)
+    val () = loop(i0+1, xs1)
+    prval ((*folded*)) = fold@(xs)
+  } (* end of [cons] *)
+| list_vt_nil((*void*)) => ((*void*))
+)
+//
+} // end of [list_vt_iapp]
+
+implement
+{a}(*tmp*)
+list_vt_iappfree
+  (xs) =
+  loop(0, xs) where
+{
+fun
+loop
+(
+i0: intGte(0),
+xs: List_vt(a)
+) : void = (
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) =>
+    loop(i0+1, xs1) where
+  {
+    val xs1 = xs1
+    val () =
+    list_vt_iappfree$fwork<a>(i0, x)
+    val ((*freed*)) = free@{a}{0}(xs)
+  } (* end of [cons] *)
+| ~list_vt_nil((*void*)) => ((*void*))
+//
+) (* end of [loop] *)
+} // end of [list_vt_iappfree]
 
 #atscode_separator()
 

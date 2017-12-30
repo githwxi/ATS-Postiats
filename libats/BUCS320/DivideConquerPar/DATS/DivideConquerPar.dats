@@ -44,15 +44,18 @@ ATS_PACKNAME
 UN =
 "prelude/SATS/unsafe.sats"
 //
-#staload
-"prelude/DATS/list_vt.dats"
-//
 (* ****** ****** *)
 //
 #staload
 "libats/ML/SATS/basis.sats"
+//
+#staload
+"libats/ML/SATS/list.sats"
 #staload
 "libats/ML/SATS/list0.sats"
+//
+#staload
+"prelude/DATS/list_vt.dats"
 //
 (* ****** ****** *)
 //

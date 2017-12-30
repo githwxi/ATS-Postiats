@@ -33,8 +33,9 @@ Here is a list of major additions and changes since the last release:
    ${PATSHOME}/libats/BUCS520/StreamPar (linear-stream-processing)
 5. Adding basic programming support for recursive directory-traversal:
    ${PATSHOME}/npm-utils/contrib/libats-hwxi/find_cli
-6. Adding libats/ML/list and libats/ML/list_vt; adding cloptr-version of
-   various higher-order functions.
+6. Adding libats/ML/list and libats/ML/list_vt; moving higher-order
+   functions from list to ML/list and list_vt to ML/list_vt; adding
+   cloptr-version of various higher-order functions.
     
 ######
 

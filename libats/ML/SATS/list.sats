@@ -68,26 +68,50 @@ list_tuple_6
 (* ****** ****** *)
 //
 fun{x:t0p}
+list_exists_cloptr
+( xs: List(INV(x))
+, pred: (x) -<cloptr> bool):<!wrt> bool
+fun{x:t0p}
 list_exists_cloref
-  (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
+( xs: List(INV(x))
+, pred: (x) -<cloref> bool):<(*0*)> bool
+//
+fun{x:t0p}
+list_iexists_cloptr
+  {n:int}
+(
+  xs: list(INV(x), n), pred: (natLt(n), x) -<cloptr> bool
+) :<!wrt> bool // end of [list_iexists_cloptr]
 fun{x:t0p}
 list_iexists_cloref
   {n:int}
 (
   xs: list(INV(x), n), pred: (natLt(n), x) -<cloref> bool
-) :<> bool // end of [list_iexists_cloref]
+) :<(*0*)> bool // end of [list_iexists_cloref]
 //
 (* ****** ****** *)
 //
 fun{x:t0p}
+list_forall_cloptr
+( xs: List(INV(x))
+, pred: (x) -<cloptr> bool):<!wrt> bool
+fun{x:t0p}
 list_forall_cloref
-  (xs: List(INV(x)), pred: (x) -<cloref> bool):<> bool
+( xs: List(INV(x))
+, pred: (x) -<cloref> bool):<(*0*)> bool
+//
+fun{x:t0p}
+list_iforall_cloptr
+  {n:int}
+(
+  xs: list(INV(x), n), pred: (natLt(n), x) -<cloptr> bool
+) :<!wrt> bool // end of [list_iforall_cloptr]
 fun{x:t0p}
 list_iforall_cloref
   {n:int}
 (
   xs: list(INV(x), n), pred: (natLt(n), x) -<cloref> bool
-) :<> bool // end of [list_iforall_cloref]
+) :<(*0*)> bool // end of [list_iforall_cloref]
 //
 (* ****** ****** *)
 //

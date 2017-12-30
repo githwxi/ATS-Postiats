@@ -1,34 +1,20 @@
 {
-"name":
-"atscntrb-bucs320-graphstreamize"
-,
-"version": "1.0.0"
-,
-"description": "For streamizing graphs..."
-,
-"main": "N/A"
-,
-"scripts": {}
-,
-"repository": {
-  "url":
-  "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/GraphStreamize"
-}
-,
-"keywords": [
-  "ATS",
-  "BUCS",
-  "graph",
-  "streamization"
-]
-,
-"dependencies": {
-}
-,
-"author":
-"Hongwei Xi <gmhwxi@gmail.com>"
-,
-"license": "MIT"
-,
-"note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/GraphStreamize/."
+  "name": "atscntrb-bucs320-graphstreamize",
+  "version": "1.0.0",
+  "description": "For streamizing graphs...",
+  "main": "N/A",
+  "scripts": {},
+  "repository": {
+    "url": "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/GraphStreamize"
+  },
+  "keywords": [
+    "ATS",
+    "BUCS",
+    "graph",
+    "streamization"
+  ],
+  "dependencies": {},
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/GraphStreamize/."
 }

@@ -372,7 +372,7 @@ list_vt_app
   (xs: !List_vt(INV(x))): void
 fun
 {x:vt0p}
-list_vt_app$fwork (x: &x >> _): void
+list_vt_app$fwork(x: &x >> _): void
 //
 #atscode_separator()
 //
@@ -381,7 +381,28 @@ list_vt_appfree
   (xs: List_vt(INV(x))): void
 //
 fun{x:vt0p}
-list_vt_appfree$fwork (x: &x >> x?): void
+list_vt_appfree$fwork(x: &x>>x?): void
+//
+#atscode_separator()
+//
+fun
+{x:vt0p}
+list_vt_iapp
+  (xs: !List_vt(INV(x))): void
+fun
+{x:vt0p}
+list_vt_iapp$fwork
+  (index: intGte(0), x: &x >> _): void
+//
+#atscode_separator()
+//
+fun{x:vt0p}
+list_vt_iappfree
+  (xs: List_vt(INV(x))): void
+//
+fun{x:vt0p}
+list_vt_iappfree$fwork
+  (index: intGte(0), x: &x >> x?): void
 //
 #atscode_separator()
 //

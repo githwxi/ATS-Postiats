@@ -81,6 +81,22 @@ list_tuple_6
 //
 implement
 {x}(*tmp*)
+list_exists_cloptr
+  (xs, p0) = res where
+{
+//
+val p1 =
+$UN.castvwtp1(p0)
+val res =
+list_exists_cloref<x>(xs, p1)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(p0))
+//
+} // end of [list_exists_cloptr]
+//
+implement
+{x}(*tmp*)
 list_exists_cloref
   (xs, pred) = let
 //
@@ -92,7 +108,23 @@ in
 end // end of [list_exists_cloref]
 //
 (* ****** ****** *)
-
+//
+implement
+{x}(*tmp*)
+list_iexists_cloptr
+  (xs, p0) = res where
+{
+//
+val p1 =
+$UN.castvwtp1(p0)
+val res =
+list_iexists_cloref<x>(xs, p1)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(p0))
+//
+} // end of [list_iexists_cloptr]
+//
 implement
 {x}(*tmp*)
 list_iexists_cloref
@@ -119,9 +151,25 @@ loop
 in
   loop(0, xs)
 end // end of [list_iexists_cloref]
-
+//
 (* ****** ****** *)
-
+//
+implement
+{x}(*tmp*)
+list_forall_cloptr
+  (xs, p0) = res where
+{
+//
+val p1 =
+$UN.castvwtp1(p0)
+val res =
+list_forall_cloref<x>(xs, p1)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(p0))
+//
+} // end of [list_forall_cloptr]
+//
 implement
 {x}(*tmp*)
 list_forall_cloref
@@ -133,9 +181,25 @@ list_forall$pred<x2>(x2) = pred($UN.cast{x}(x2))
 in
   list_forall<x>(xs)
 end // end of [list_forall_cloref]
-
+//
 (* ****** ****** *)
-
+//
+implement
+{x}(*tmp*)
+list_iforall_cloptr
+  (xs, p0) = res where
+{
+//
+val p1 =
+$UN.castvwtp1(p0)
+val res =
+list_iforall_cloref<x>(xs, p1)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(p0))
+//
+} // end of [list_iforall_cloptr]
+//
 implement
 {x}(*tmp*)
 list_iforall_cloref
@@ -162,7 +226,7 @@ loop
 in
   loop(0, xs)
 end // end of [list_iforall_cloref]
-
+//
 (* ****** ****** *)
 
 implement
