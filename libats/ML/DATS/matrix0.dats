@@ -405,4 +405,4 @@ matrix0_iforeach<a>
 
 (* ****** ****** *)
 
-(* end of [matrix.dats] *)
+(* end of [matrix0.dats] *)

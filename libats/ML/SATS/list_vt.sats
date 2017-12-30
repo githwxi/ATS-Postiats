@@ -96,13 +96,15 @@ list_vt_map_cloref{n:int}
 (* ****** ****** *)
 //
 fun
-{x:vt0p}{y:vt0p}
+{x:vt0p}
+{y:vt0p}
 list_vt_mapfree_fun
   {n:int}
 ( xs: list_vt(INV(x), n)
 , f0: (&x >> x?!) -<fun1> y): list_vt(y, n)
 fun
-{x:vt0p}{y:vt0p}
+{x:vt0p}
+{y:vt0p}
 list_vt_mapfree_clo
   {n:int}
 ( xs: list_vt(INV(x), n)
@@ -143,26 +145,26 @@ fun{
 x:vt0p
 } list_vt_foreach_fun
   {fe:eff} (
-  xs: !List_vt(INV(x)), f: (&x) -<fun,fe> void
+  xs: !List_vt(INV(x)), f: (&x >> _) -<fun,fe> void
 ) :<fe> void // end of [list_vt_foreach_fun]
 fun{
 x:vt0p
 } list_vt_foreach_clo
   {fe:eff} (
-  xs: !List_vt(INV(x)), f: &(&x) -<clo,fe> void
+  xs: !List_vt(INV(x)), f: &(&x >> _) -<clo,fe> void
 ) :<fe> void // end of [list_vt_foreach_fun]
 //
 fun{
 x:vt0p
 } list_vt_foreach_cloptr
 (
-  xs: !List_vt(INV(x)), f: (&x) -<cloptr1> void
+  xs: !List_vt(INV(x)), f: (&x >> _) -<cloptr1> void
 ) :<1> void // end of [list_vt_foreach_cloptr]
 fun{
 x:vt0p
 } list_vt_foreach_cloref
 (
-  xs: !List_vt(INV(x)), f: (&x) -<cloref1> void
+  xs: !List_vt(INV(x)), f: (&x >> _) -<cloref1> void
 ) :<1> void // end of [list_vt_foreach_cloref]
 //
 (* ****** ****** *)

@@ -255,8 +255,19 @@ overload .iforeach with list_iforeach_method
 //
 fun{
 res:vt0p}{x:t0p
+} list_foldleft_cloptr
+  (xs: List(INV(x)), ini: res, fopr: (res, x) -<cloptr1> res): res
+fun{
+res:vt0p}{x:t0p
 } list_foldleft_cloref
   (xs: List(INV(x)), ini: res, fopr: (res, x) -<cloref1> res): res
+//
+(* ****** ****** *)
+//
+fun{
+x:t0p}{res:vt0p
+} list_foldright_cloptr
+  (xs: List(INV(x)), fopr: (x, res) -<cloptr1> res, snk: res): res
 fun{
 x:t0p}{res:vt0p
 } list_foldright_cloref

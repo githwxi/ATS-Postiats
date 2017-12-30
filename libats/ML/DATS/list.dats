@@ -530,6 +530,24 @@ list_iforeach_method(xs) =
 
 implement
 {res}{x}
+list_foldleft_cloptr
+(
+xs, ini, f0
+) = res where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val res =
+list_foldleft_cloptr<res><x>(xs, ini, f1)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} // end of [list_foldleft_cloptr]
+
+implement
+{res}{x}
 list_foldleft_cloref
   (xs, ini, fopr) = let
 //
@@ -547,6 +565,24 @@ in
 end // end of [list_foldleft_cloref]
 
 (* ****** ****** *)
+
+implement
+{x}{res}
+list_foldright_cloptr
+(
+xs, f0, snk
+) = res where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val res =
+list_foldright_cloptr<x><res>(xs, f1, snk)
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} // end of [list_foldright_cloptr]
 
 implement
 {x}{res}

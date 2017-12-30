@@ -293,13 +293,13 @@ fun{
 a:vt0p
 } matrixptr_foreach{m,n:int}
 (
-  A: !matrixptr(INV(a), m, n) >> _, m: size_t m, n: size_t n
+M0: !matrixptr(INV(a), m, n) >> _, m: size_t m, n: size_t n
 ) : void // end of [matrixptr_foreach]
 fun{
 a:vt0p}{env:vt0p
 } matrixptr_foreach_env{m,n:int}
 (
-  A: !matrixptr(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
+M0: !matrixptr(INV(a), m, n) >> _, m: size_t m, n: size_t n, env: &(env) >> _
 ) : void // end of [matrixptr_foreach_env]
 
 #atscode_separator()
@@ -309,8 +309,8 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 overload [] with matrixptr_get_at_int
-overload [] with matrixptr_get_at_size
 overload [] with matrixptr_set_at_int
+overload [] with matrixptr_get_at_size
 overload [] with matrixptr_set_at_size
 
 #atscode_separator()
