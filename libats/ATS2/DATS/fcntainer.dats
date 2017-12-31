@@ -28,49 +28,38 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: February, 2012
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
-
-#include "prelude/params.hats"
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [fcontainer.dats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-staload
-UN = "prelude/SATS/unsafe.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
-staload "prelude/SATS/fcontainer.sats"
-
+//
+#staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
+#staload
+"libats/ATS2/SATS/fcntainer.sats"
+//
 (* ****** ****** *)
 
 implement
 {xs}{x}
-iforeach (xs) = let
+iforeach(xs) = let
 //
-var i
-  : size_t = g0int2uint (0)
-val p_i = $UN.cast2Ptr1 (addr@ (i))
+var i0: size_t = i2sz(0)
+//
+val p0 = $UN.cast2ptr(addr@i0)
 //
 implement
 foreach$fwork<x>
-  (x) = () where {
-  val i = $UN.ptr1_get<size_t> (p_i)
-  val () = iforeach$fwork<x> (i, x)
-  val () = $UN.ptr1_set<size_t> (p_i, succ(i))
+  (x0) = () where {
+  val i0 = $UN.ptr0_get<size_t>(p0)
+  val () = iforeach$fwork<x>(i0, x0)
+  val () = $UN.ptr0_set<size_t>(p0, succ(i0))
 } // [foreach$work]
 //
 in
-  foreach<xs><x> (xs)
+  foreach<xs><x>(xs)
 end // end of [iforeach]
 
 (* ****** ****** *)
@@ -82,7 +71,7 @@ foldleft_funenv
   (pfv | xs, init, f, env) = let
 //
 var res: init = init
-viewtypedef pvt = (ptr(res), vt)
+vtypedef pvt = (ptr(res), vt)
 //
 val env1 = __cast (env) where {
   extern castfn __cast (env: !vt >> vt?):<> vt
@@ -369,10 +358,4 @@ end // end of [rlistize_funenv]
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [fcontainer.dats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [fcontainer.dats] *)
+(* end of [fcntainer.dats] *)

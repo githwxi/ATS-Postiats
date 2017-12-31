@@ -45,6 +45,35 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 //
+// HX-2017-12-30:
+// prelude/intrange
+//
+(* ****** ****** *)
+//
+fun{}
+int_foreach_cloref
+(
+ n: int, fwork: (int) -<cloref1> void
+) : int // end of [int_foreach_cloref]
+fun{}
+intrange_foreach_cloref
+(
+ l: int, r: int, fwork: (int) -<cloref1> void
+) : int // end of [intrange_foreach_cloref]
+//
+fun{}
+int_rforeach_cloref
+(
+ n: int, fwork: (int) -<cloref1> void
+) : int // end of [int_rforeach_cloref]
+fun{}
+intrange_rforeach_cloref
+(
+ l: int, r: int, fwork: (int) -<cloref1> void
+) : int // end of [intrange_rforeach_cloref]
+//
+(* ****** ****** *)
+//
 // HX: prelude/list
 //
 (* ****** ****** *)
@@ -514,6 +543,19 @@ arrszref_tabulate_cloref
 fun
 {x:t0p}
 {y:vt0p}
+option_map_fun
+  {b:bool}
+  (option(INV(x), b), fopr: (x) -<fun1> y): option_vt(y, b)
+fun
+{x:t0p}
+{y:vt0p}
+option_map_clo
+  {b:bool}
+  (option(INV(x), b), fopr: &(x) -<clo1> y): option_vt(y, b)
+//
+fun
+{x:t0p}
+{y:vt0p}
 option_map_cloptr
   {b:bool}
   (option(INV(x), b), fopr: (x) -<cloptr1> y): option_vt(y, b)
@@ -523,6 +565,74 @@ fun
 option_map_cloref
   {b:bool}
   (option(INV(x), b), fopr: (x) -<cloref1> y): option_vt(y, b)
+//
+(* ****** ****** *)
+//
+// HX: prelude/matrixptr
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+matrixptr_tabulate_cloptr
+  {m,n:int}
+( nrow: size_t(m)
+, ncol: size_t(n)
+, fopr: (sizeLt(m), sizeLt(n)) -<cloptr> (a)
+) : matrixptr(a, m, n) // end-of-function
+//
+fun
+{a:vt0p}
+matrixptr_tabulate_cloref
+  {m,n:int}
+( nrow: size_t(m)
+, ncol: size_t(n)
+, fopr: (sizeLt(m), sizeLt(n)) -<cloref> (a)
+) : matrixptr(a, m, n) // end-of-function
+//
+(* ****** ****** *)
+//
+fun
+{a:vt0p}
+matrixref_tabulate_cloref
+  {m,n:int}
+( nrow: size_t(m)
+, ncol: size_t(n)
+, fopr: (sizeLt(m), sizeLt(n)) -<cloref> (a)
+) : matrixref(a, m, n) // end-of-function
+fun
+{a:vt0p}
+mtrxszref_tabulate_cloref
+  {m,n:int}
+( nrow: size_t(m)
+, ncol: size_t(n)
+, fopr: (sizeLt(m), sizeLt(n)) -<cloref> (a)): mtrxszref(a)
+//
+fun
+{a:vt0p}
+matrixref_foreach_cloref
+  {m,n:int}
+(
+M: matrixref(a, m, n)
+,
+m: size_t(m), n: size_t(n), fwork: (&(a) >> _) -<cloref1> void 
+) : void // end of [mtrxszref_foreach_cloref]
+fun
+{a:vt0p}
+mtrxszref_foreach_cloref
+  (M0: mtrxszref(a), fwork: (&(a) >> _) -<cloref1> void): void
+//
+(* ****** ****** *)
+//
+// HX: prelude/string
+//
+(* ****** ****** *)
+//
+fun{}
+string_tabulate_cloref
+  {n:int}
+( n: size_t(n)
+, f: (sizeLt(n)) -<cloref1> charNZ): strnptr(n)
 //
 (* ****** ****** *)
 

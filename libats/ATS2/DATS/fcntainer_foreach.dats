@@ -28,29 +28,17 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: February, 2012
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
-
-#include "prelude/params.hats"
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [fcontainer_foreach.dats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-staload
+//
+#staload
 UN = "prelude/SATS/unsafe.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
-staload "prelude/SATS/fcontainer.sats"
-
+//
+#staload
+"libats/ATS2/SATS/fcntainer.sats"
+//
 (* ****** ****** *)
 
 implement
@@ -277,10 +265,4 @@ end // end of [foreach_cloref]
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [fcontainer_foreach.dats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [fcontainer_foreach.dats] *)
+(* end of [fcntainer_foreach.dats] *)

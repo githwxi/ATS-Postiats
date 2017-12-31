@@ -38,15 +38,12 @@
 // for iterators based on singly-linked lists
 //
 (* ****** ****** *)
-
-staload
+//
+#staload
 UN = "prelude/SATS/unsafe.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
-staload "prelude/SATS/giterator.sats"
-
+#staload
+"libats/ATS2/SATS/giterator.sats"
+//
 (* ****** ****** *)
 
 sortdef t0p = t@ype

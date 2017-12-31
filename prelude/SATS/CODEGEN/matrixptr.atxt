@@ -261,25 +261,19 @@ a:vt0p
 } matrixptr_freelin
   {l:addr}{m,n:int}
 (
-  A: matrixptr(INV(a), l, m, n), m: size_t(m), n: size_t(n)
+matrixptr(INV(a), l, m, n), m: size_t(m), n: size_t(n)
 ) : void = "mac#%" // end-of-function
 //
 #atscode_separator()
 //
 (*
 fun{a:vt0p}
-matrix_tabulate$fopr (i: size_t, j: size_t): (a)
+matrix_tabulate$fopr(i: size_t, j: size_t): (a)
 *)
 fun{a:vt0p}
 matrixptr_tabulate
-  {m,n:int} (nrow: size_t m, ncol: size_t n): matrixptr (a, m, n)
-//
-fun{a:vt0p}
-matrixptr_tabulate_cloref
   {m,n:int}
-(
-  nrow: size_t m, ncol: size_t n, f: (sizeLt(m), sizeLt(n)) -<cloref> a
-) : matrixptr (a, m, n) // end-of-function
+  (nrow: size_t(m), ncol: size_t(n)): matrixptr(a, m, n)
 //
 #atscode_separator()
 

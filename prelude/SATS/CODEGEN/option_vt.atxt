@@ -71,16 +71,17 @@ option_vt_is_none
 // end of [option_vt_is_none]
 
 #atscode_separator()
-
+//
 fun
 {a:vt0p}
 option_vt_unsome
-  (opt: option_vt(INV(a), true)):<!wrt> (a)
+(opt: option_vt(INV(a), true)):<!wrt> (a)
+//
 fun
 {a:vt0p}
 option_vt_unnone
-  (opt: option_vt(INV(a), false)):<!wrt> void
-
+(opt: option_vt(INV(a), false)):<!wrt> void
+//
 #atscode_separator()
 //
 fun{a:t0p}
@@ -88,15 +89,17 @@ option_vt_free
   (opt: Option_vt(INV(a))):<!wrt> void
 fun{a:t0p}
 option2bool_vt
-  {b:bool}(opt: option_vt(INV(a), b)):<!wrt> bool(b)
+  {b:bool}
+  (opt: option_vt(INV(a), b)):<!wrt> bool(b)
 //
 #atscode_separator()
-
+//
 fun{a:vt0p}
 fprint_option_vt{b:bool}
-   (out: FILEref, opt: !option_vt (INV(a), b)): void
+(out: FILEref, opt: !option_vt(INV(a), b)): void
+//
 overload fprint with fprint_option_vt
-
+//
 #atscode_separator()
 //
 // overloading for certain symbols

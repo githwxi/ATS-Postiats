@@ -47,6 +47,67 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
+// HX-2017-12-30:
+// prelude/intrange
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int_foreach_cloref
+  (n, fwork) =
+(
+intrange_foreach_cloref<>(0, n, fwork)
+) (* end of [int_foreach_cloref] *)
+//
+implement
+{}(*tmp*)
+intrange_foreach_cloref
+  (l, r, fwork) = let
+//
+implement
+(env)(*tmp*)
+intrange_foreach$cont<env>(i, env) = true
+implement
+(env)(*tmp*)
+intrange_foreach$fwork<env>(i, env) = fwork(i)
+//
+var env: void = ()
+//
+in
+  intrange_foreach_env<void>(l, r, env)
+end // end of [intrange_foreach_cloref]
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+int_rforeach_cloref
+  (n, fwork) =
+(
+intrange_rforeach_cloref<>(0, n, fwork)
+) (* end of [int_rforeach_cloref] *)
+//
+implement
+{}(*tmp*)
+intrange_rforeach_cloref
+  (l, r, fwork) = let
+//
+implement
+(env)(*tmp*)
+intrange_rforeach$cont<env>(i, env) = true
+implement
+(env)(*tmp*)
+intrange_rforeach$fwork<env>(i, env) = fwork(i)
+//
+var env: void = ()
+//
+in
+  intrange_rforeach_env<void>(l, r, env)
+end // end of [intrange_rforeach_cloref]
+//
+(* ****** ****** *)
+//
 // HX: prelude/list
 //
 (* ****** ****** *)
@@ -280,8 +341,9 @@ list_app_clo
   list_app<x>(xs) where
 {
 //
-val fwork =
-  $UN.cast{cfun(x,void)}(addr@fwork)
+val
+fwork =
+$UN.cast{cfun(x,void)}(addr@fwork)
 //
 implement
 {x2}(*tmp*)
@@ -293,8 +355,6 @@ implement
 {x}(*tmp*)
 list_app_cloref
   (xs, fwork) = let
-//
-prval() = lemma_list_param(xs)
 //
 fun
 loop
@@ -309,6 +369,8 @@ case+ xs of
 | list_cons(x, xs) => (fwork(x); loop(xs, fwork))
 //
 ) (* end of [loop] *)
+//
+prval() = lemma_list_param(xs)
 //
 in
   loop(xs, fwork)
@@ -1004,6 +1066,29 @@ arrszref_make_arrayref
 //
 implement
 {x}{y}
+option_map_fun
+  (opt, fopr) = (
+//
+case+ opt of
+| None() => None_vt()
+| Some(x0) => Some_vt(fopr(x0))
+//
+) // end of [option_map_fun]
+//
+implement
+{x}{y}
+option_map_clo
+  (opt, fopr) = let
+//
+val fopr =
+$UN.cast{cfun(x,y)}(addr@fopr)
+//
+in
+  option_map_cloref<x><y>(opt, fopr)
+end // end of [option_map_clo]
+//
+implement
+{x}{y}
 option_map_cloref
   (opt, fopr) = (
 //
@@ -1029,6 +1114,143 @@ cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
 //
 } // end of [option_map_cloptr]
 //
+(* ****** ****** *)
+//
+// HX: prelude/matrixptr
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+matrixptr_tabulate_cloptr
+  (nrow, ncol, f0) = mat where
+{
+//
+val mat =
+matrixptr_tabulate_cloref<a>
+  (nrow, ncol, $UN.castvwtp1(f0))
+//
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} // end of [matrixptr_tabulate_cloptr]
+//
+implement
+{a}(*tmp*)
+matrixptr_tabulate_cloref
+  {m,n}(nrow, ncol, fopr) = let
+//
+implement(a2)
+matrix_tabulate$fopr<a2>(i, j) =
+  $UN.castvwtp0{a2}
+  (fopr($UN.cast{sizeLt(m)}(i), $UN.cast{sizeLt(n)}(j)))
+//
+in
+matrixptr_tabulate<a>(nrow, ncol)
+end // end of [matrixptr_tabulate_cloref]
+
+(* ****** ****** *)
+//
+// HX: prelude/matrixref
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+matrixref_tabulate_cloref
+  {m,n}(nrow, ncol, fopr) = let
+//
+implement(a2)
+matrix_tabulate$fopr<a2>(i, j) =
+  $UN.castvwtp0{a2}
+  (fopr($UN.cast{sizeLt(m)}(i), $UN.cast{sizeLt(n)}(j)))
+//
+in
+matrixptr_refize
+(matrixptr_tabulate<a>(nrow, ncol))
+end // end of [matrixref_tabulate_cloref]
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+mtrxszref_tabulate_cloref
+(
+  nrow, ncol, fopr
+) = let
+//
+val M =
+matrixref_tabulate_cloref<a>
+  (nrow, ncol, fopr)
+//
+in
+//
+mtrxszref_make_matrixref(M, nrow, ncol)
+//
+end // end of [mtrxszref_tabulate_cloref]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+matrixref_foreach_cloref
+  (A, m, n, fwork) = let
+//
+implement
+{a2}{env}
+matrix_foreach$fwork
+  (x, env) = let
+  val (pf,fpf|p) =
+    $UN.ptr_vtake{a}(addr@x)
+  // end of [val]
+  val ((*void*)) = fwork(!p)
+  prval ((*returned*)) = fpf(pf)
+in
+  // nothing
+end // end of [matrix_foreach$work]
+//
+in
+  matrixref_foreach<a>(A, m, n)
+end // end of [matrixref_foreach_cloref]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+mtrxszref_foreach_cloref
+  (MSZ, fwork) = let
+//
+implement
+{a2}{env}
+matrix_foreach$fwork
+  (x, env) = let
+  val (pf,fpf|p) =
+    $UN.ptr_vtake{a}(addr@x)
+  // end of [val]
+  val ((*void*)) = fwork(!p)
+  prval ((*returned*)) = fpf(pf)
+in
+  // nothing
+end // end of [matrix_foreach$work]
+//
+in
+  mtrxszref_foreach<a>(MSZ)
+end // end of [mtrxszref_foreach_cloref]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+string_tabulate_cloref
+  {n}(n, fopr) = let
+//
+implement
+string_tabulate$fopr<>(i) = fopr($UN.cast{sizeLt(n)}(i))
+//
+in
+  string_tabulate<>(n)
+end // end of [string_tabulate_cloref]
+
 (* ****** ****** *)
 
 (* end of [atspre.dats] *)

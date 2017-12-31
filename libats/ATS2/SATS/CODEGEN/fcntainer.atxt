@@ -8,7 +8,7 @@ ATSCODEFORMAT "txt"
 #endif // end of [ATSCCODEFORMAT]
 //
 val
-_thisfilename = atext_strcst"fcontainer.sats"
+_thisfilename = atext_strcst"fcntainer.sats"
 val () =
 theAtextMap_insert_str("thisfilename", _thisfilename)
 //
@@ -27,7 +27,7 @@ theAtextMap_insert_str("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/fcontainer.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/fcntainer.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -293,5 +293,5 @@ xs:t0p}{x:t0p
 %{
 implement
 main (argc, argv) =
-  fprint_filsub (stdout_ref, "fcontainer_atxt.txt")
+  fprint_filsub (stdout_ref, "fcntainer_atxt.txt")
 %}\

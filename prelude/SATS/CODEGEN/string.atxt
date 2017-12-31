@@ -545,10 +545,6 @@ string_tabulate$fopr(size_t): charNZ
 fun{}
 string_tabulate{n:int}(n: size_t(n)): strnptr(n)
 //
-fun{}
-string_tabulate_cloref{n:int}
-  (n: size_t(n), f: (sizeLt(n)) -<cloref1> charNZ): strnptr(n)
-//
 #atscode_separator()
 //
 fun{}

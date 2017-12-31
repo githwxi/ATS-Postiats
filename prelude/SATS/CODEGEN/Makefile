@@ -384,25 +384,6 @@ clean:: ; $(RMF) tostring_atxt.exe
 cleanall:: ; $(RMF) tostring.sats
 
 
-all:: giterator.sats
-giterator.sats: giterator_atxt.exe ; ./$< > $@
-giterator_atxt.exe: giterator_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ giterator_atxt.dats -latsdoc
-giterator_atxt.dats: giterator.atxt
-	$(ATSDOC) --outcode $@ -i giterator.atxt > giterator_atxt.txt
-clean:: ; $(RMF) giterator_atxt.exe
-cleanall:: ; $(RMF) giterator.sats
-
-all:: fcontainer.sats
-fcontainer.sats: fcontainer_atxt.exe ; ./$< > $@
-fcontainer_atxt.exe: fcontainer_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ fcontainer_atxt.dats -latsdoc
-fcontainer_atxt.dats: fcontainer.atxt
-	$(ATSDOC) --outcode $@ -i fcontainer.atxt > fcontainer_atxt.txt
-clean:: ; $(RMF) fcontainer_atxt.exe
-cleanall:: ; $(RMF) fcontainer.sats
-
-
 
 all:: parray.sats
 parray.sats: parray_atxt.exe ; ./$< > $@

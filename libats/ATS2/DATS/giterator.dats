@@ -32,25 +32,11 @@
 // Start Time: February, 2012
 //
 (* ****** ****** *)
-
-#include "prelude/params.hats"
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [giterator.dats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-staload
+//
+#staload
 UN = "prelude/SATS/unsafe.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
-staload "prelude/SATS/giterator.sats"
-
+#staload "prelude/SATS/giterator.sats"
+//
 (* ****** ****** *)
 
 implement
@@ -521,12 +507,6 @@ fun loop
 in
   loop (itr, ra)
 end // end of [giter_bsearch]
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [giterator.dats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 

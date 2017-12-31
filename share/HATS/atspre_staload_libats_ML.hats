@@ -29,6 +29,10 @@ LIBATSML_targetloc "$PATSHOME/libats/ML"
 //
 (* ****** ****** *)
 //
+// HX-2017-12-30:
+// Please do not move
+// the following lines:
+//
 #staload
 "{$LIBATSML}/SATS/atspre.sats"
 #staload _ =
