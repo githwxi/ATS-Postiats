@@ -460,10 +460,37 @@ in
 end // end of [giter_foreach_env]
 
 (* ****** ****** *)
+//
 (*
 ** HX-2012-05-23:
-** this is a very exiciting example for myself :)
+** this is a very
+** exiciting example for myself :)
 *)
+(*
+implement
+{a}(*tmp*)
+array_bsearch
+  (A, n) = ofs where
+{
+//
+val itr =
+giter_make_array
+  (view@(A) | addr@(A), n)
+//
+implement
+giter_bsearch$ford<a>(x) = array_bsearch$ford<a>(x)
+//
+val () = giter_bsearch(itr, n)
+//
+val ofs = giter_get_fofs (itr)
+//
+val (pf | ()) = giter_free_array(itr)
+//
+prval((*returned*)) = view@(A) := pf
+//
+} // end of [array_bsearch]
+*)
+//
 implement
 {knd}{x}
 giter_bsearch
@@ -472,8 +499,9 @@ giter_bsearch
 prval () = lemma_giter_param (itr)
 prval () = lemma_g1uint_param (ra)
 //
-stadef giter
-  (f:int, r:int) = giter (knd, kpm, x, f, r)
+stadef
+giter
+(f:int, r:int) = giter(knd, kpm, x, f, r)
 //
 fun loop
   {f,r:nat}
@@ -507,7 +535,7 @@ fun loop
 in
   loop (itr, ra)
 end // end of [giter_bsearch]
-
+//
 (* ****** ****** *)
 
 (* end of [giterator.dats] *)

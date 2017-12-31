@@ -24,17 +24,18 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("Feburary, 2012")
+#atscode_authoremail("hwxiATcsDOTbuDOTedu")
 
 #atscode_separator()
 
-staload UN = "prelude/SATS/unsafe.sats"
-staload IT = "prelude/SATS/giterator.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
-macdef castvwtp_trans = $UN.castvwtp0 // former name
+macdef
+castvwtp_trans = $UN.castvwtp0 // former name
 
 #atscode_separator()
 
@@ -1233,7 +1234,9 @@ val pa2 = ptr_add<a>(pa, n)
 val pb = addr@(B)
 val pc = addr@(C)
 //
-fun loop{la,lb,lc:addr}
+fun
+loop
+{la,lb,lc:addr}
 (
   pa: ptr la, pa2: ptr, pb: ptr lb, pc: ptr lc
 ) : void =
@@ -1242,12 +1245,12 @@ if pa < pa2 then let
   val (pfa, fpfa | pa) = $UN.ptr_vtake{a}(pa)
   val (pfb, fpfb | pb) = $UN.ptr_vtake{b}(pb)
   val (pfc, fpfc | pc) = $UN.ptr_vtake{c?}(pc)
-  val () = array_map2to$fwork<a,b><c> (!pa, !pb, !pc)
+  val () = array_map2to$fwork<a,b><c>(!pa, !pb, !pc)
   prval () = fpfa(pfa)
   prval () = fpfb(pfb)
   prval () = fpfc($UN.castview0{(c?)@lc}(pfc))
 in
-  loop(ptr_succ<a>(pa), pa2, ptr_succ<b> (pb), ptr_succ<c> (pc))
+  loop(ptr_succ<a>(pa), pa2, ptr_succ<b>(pb), ptr_succ<c>(pc))
 end (* end of [if] *)
 )
 //
@@ -1259,34 +1262,6 @@ prval () = view@(C) := $UN.castview0{array_v (c, lc, n)}(view@(C))
 in
   // nothing
 end (* end of [array_map2to] *)
-
-#atscode_separator()
-
-(*
-implement
-{a}(*tmp*)
-array_bsearch
-  (A, n) = $effmask_all let
-//
-val itr =
-  $IT.giter_make_array(view@(A) | addr@(A), n)
-// end of [val]
-//
-implement
-$IT.giter_bsearch$ford<a>(x) = array_bsearch$ford<a>(x)
-//
-val () = $IT.giter_bsearch(itr, n)
-//
-val ofs = $IT.giter_get_fofs (itr)
-//
-val (pf | ()) = $IT.giter_free_array (itr)
-//
-prval((*returned*)) = view@ (A) := pf
-//
-in
-  ofs
-end // end of [array_bsearch]
-*)
 
 #atscode_separator()
 

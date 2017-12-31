@@ -41,8 +41,20 @@ ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
 //
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
+#staload "libats/ML/SATS/basis.sats"
 
+(* ****** ****** *)
+//
+// HX: prelude/string
+//
+(* ****** ****** *)
+//
+fun{}
+string_tabulate_cloref
+  {n:int}
+( n: size_t(n)
+, f: (sizeLt(n)) -<cloref1> charNZ): strnptr(n)
+//
 (* ****** ****** *)
 //
 // HX-2017-12-30:
@@ -621,18 +633,6 @@ fun
 {a:vt0p}
 mtrxszref_foreach_cloref
   (M0: mtrxszref(a), fwork: (&(a) >> _) -<cloref1> void): void
-//
-(* ****** ****** *)
-//
-// HX: prelude/string
-//
-(* ****** ****** *)
-//
-fun{}
-string_tabulate_cloref
-  {n:int}
-( n: size_t(n)
-, f: (sizeLt(n)) -<cloref1> charNZ): strnptr(n)
 //
 (* ****** ****** *)
 

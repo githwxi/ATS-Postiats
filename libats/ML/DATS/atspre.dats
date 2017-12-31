@@ -37,7 +37,7 @@
   
 (* ****** ****** *)
   
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
