@@ -113,15 +113,20 @@ xs:t0p}{x:t0p
 // end of [forall_cloref]
 //
 (* ****** ****** *)
-(*
+//
+fun
+{xs:t0p}{x:t0p}
+rforall(xs: xs): bool
+fun
+{x:t0p}
+rforall$test(x: x): bool
+//
 fun{
 xs:t0p}{x:t0p
-} forall_funenv
-  {v:view}{vt:vtype}{fe:eff}
-( pf: !v
-| xs: xs, fopr: (!v | x, !vt) -<fun,fe> bool, env: !vt
-) :<fe> bool // end of [forall_funenv]
-*)
+} rforall_cloref{fe:eff}
+  (xs: xs, fopr: (x) -<cloref,fe> bool):<fe> bool
+// end of [rforall_cloref]
+//
 (* ****** ****** *)
 //
 fun
@@ -131,10 +136,10 @@ fun
 {x:t0p}
 foreach$fwork(x: x): void
 //
-fun{
-xs:t0p}{x:t0p
-} foreach_cloref{fe:eff}
-  (xs: xs, fwork: (x) -<cloref,fe> void):<fe> void
+fun
+{xs:t0p}{x:t0p}
+foreach_cloref{fe:eff}
+(xs: xs, fwork: (x) -<cloref,fe> void):<fe> void
 // end of [foreach_cloref]
 //
 (* ****** ****** *)
@@ -145,61 +150,68 @@ iforeach(xs: xs): void
 fun{x:t0p}
 iforeach$fwork(i: Nat, x: x): void
 //
-fun{
-xs:t0p}{x:t0p
-} iforeach_cloref{fe:eff}
-  (xs: xs, fwork: (Nat, x) -<cloref,fe> void):<fe> void
+fun
+{xs:t0p}{x:t0p}
+iforeach_cloref{fe:eff}
+(xs: xs, fwork: (Nat, x) -<cloref,fe> void):<fe> void
 // end of [foreach_cloref]
 //
 (* ****** ****** *)
-////
-
-fun{
-xs:t0p}{x:t0p
-} iforeach_funenv
-  {v:view}{vt:viewtype}{fe:eff} (
-  pfv: !v | xs: xs, f: (!v | int, x, !vt) -<fun,fe> void, env: !vt
-) :<fe> int // end of [iforeach_funenv]
-
-fun{
-xs:t0p}{x:t0p
-} iforeach_clo {fe:eff}
-  (xs: xs, f: &(int, x) -<clo,fe> void):<fe> int
-// end of [iforeach_clo]
-fun{
-xs:t0p}{x:t0p
-} iforeach_vclo
-  {v:view}{fe:eff}
-  (pfv: !v | xs: xs, f: &(!v | int, x) -<clo,fe> void):<fe> int
-// end of [iforeach_vclo]
-
-fun{
-xs:t0p}{x:t0p
-} iforeach_cloptr {fe:eff}
-  (xs: xs, f: !(int, x) -<cloptr,fe> void):<fe> int
-fun{
-xs:t0p}{x:t0p
-} iforeach_vcloptr
-  {v:view}{fe:eff}
-  (pfv: !v | xs: xs, f: !(!v | int, x) -<cloptr,fe> void):<fe> int
-// end of [iforeach_vcloptr]
-
-fun{
-xs:t0p}{x:t0p
-} iforeach_cloref {fe:eff}
-  (xs: xs, f: (int, x) -<cloref,fe> void):<fe> int
-// end of [iforeach_cloref]
-
+//
+fun
+{xs:t0p}{x:t0p}
+rforeach(xs: xs): void
+fun
+{x:t0p}
+rforeach$fwork(x: x): void
+//
+fun
+{xs:t0p}{x:t0p}
+rforeach_cloref{fe:eff}
+(xs: xs, fwork: (x) -<cloref,fe> void):<fe> void
+// end of [rforeach_cloref]
+//
+(* ****** ****** *)
+//
+fun
+{res:vt0p}
+{xs:t0p}{x:t0p}
+foldleft(xs: xs, ini: res): res
+fun
+{res:vt0p}{x:t0p}
+foldleft$fopr(res: res, x: x): res
+//
+fun
+{res:vt0p}
+{xs:t0p}{x:t0p}
+foldleft_cloref{fe:eff}
+( xs: xs
+, ini: res
+, fopr: (res, x) -<cloref,fe> res):<fe> res
+// end of [foldleft_cloref]
+//
+(* ****** ****** *)
+//
+fun
+{res:vt0p}
+{xs:t0p}{x:t0p}
+ifoldleft(xs: xs, ini: res): res
+fun
+{res:vt0p}{x:t0p}
+ifoldleft$fopr(res: res, i: Nat, x: x): res
+//
+fun
+{res:vt0p}
+{xs:t0p}{x:t0p}
+ifoldleft_cloref{fe:eff}
+( xs: xs
+, ini: res
+, fopr: (res, Nat, x) -<cloref,fe> res):<fe> res
+// end of [foldleft_cloref]
+//
 (* ****** ****** *)
 
-fun{
-x:t0p}{res:vt0p
-} foldleft$fwork
-  (res: res, x: x): res
-fun{
-xs:t0p}{x:t0p}{res:vt0p
-} foldleft (xs: xs, ini: res): res
-
+////
 fun{
 xs:t0p}{x:t0p}{res:vt0p
 } foldleft_funenv

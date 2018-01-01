@@ -105,4 +105,121 @@ end // end of [iforeach_cloref]
 
 (* ****** ****** *)
 
+implement
+{xs}{x}
+rforeach(xs) = let
+//
+implement
+rforall$test<x>(x) =
+let
+val () =
+rforeach$fwork<x>(x) in true
+end // end of [rforall$test]
+//
+in
+  ignoret(rforall<xs><x>(xs))
+end // end of [rforeach]
+
+implement
+{xs}{x}
+rforeach_cloref
+  (xs, fwork) = let
+//
+implement
+rforeach$fwork<x>
+  (x) = fwork(x)
+//
+in
+  $effmask_all(rforeach<xs><x>(xs))
+end // end of [rforeach_cloref]
+
+(* ****** ****** *)
+
+implement
+{res}{xs}{x}
+foldleft
+  (xs, ini) = let
+//
+var r0: res = ini
+val p0 = addr@(r0)
+//
+implement
+foreach$fwork<x>(x) =
+{
+  val r0 =
+  $UN.ptr0_get<res>(p0)
+  val r0 =
+  foldleft$fopr<res><x>(r0, x)
+  val ((*void*)) =
+  $UN.ptr0_set<res>(p0, r0)
+} // end of [foreach$fwork]
+//
+in
+  let val () = foreach<xs><x>(xs) in r0 end
+end // end of [foldleft]
+
+implement
+{res}{xs}{x}
+foldleft_cloref
+  (xs, ini, fopr) = let
+//
+implement
+foldleft$fopr<res><x>
+  (res, x) = fopr(res, x)
+//
+in
+  $effmask_all(foldleft<res><xs><x>(xs, ini))
+end // end of [foldleft_cloref]
+
+(* ****** ****** *)
+
+implement
+{res}{xs}{x}
+ifoldleft
+  (xs, ini) = let
+//
+var i0: Nat = 0
+var r0: res = ini
+val pi = addr@(i0)
+val pr = addr@(r0)
+//
+implement
+foreach$fwork<x>(x) =
+{
+//
+  val i0 =
+  $UN.ptr0_get<Nat>(pi)
+  val r0 =
+  $UN.ptr0_get<res>(pr)
+//
+  val r0 =
+  ifoldleft$fopr<res><x>(r0, i0, x)
+//
+  val i0 = i0 + 1
+  val ((*void*)) =
+  $UN.ptr0_set<Nat>(pi, i0)
+  val ((*void*)) =
+  $UN.ptr0_set<res>(pr, r0)
+//
+} // end of [foreach$fwork]
+//
+in
+  let val () = foreach<xs><x>(xs) in r0 end
+end // end of [foldleft]
+
+implement
+{res}{xs}{x}
+ifoldleft_cloref
+  (xs, ini, fopr) = let
+//
+implement
+ifoldleft$fopr<res><x>
+  (res, i, x) = fopr(res, i, x)
+//
+in
+  $effmask_all(ifoldleft<res><xs><x>(xs, ini))
+end // end of [ifoldleft_cloref]
+
+(* ****** ****** *)
+
 (* end of [fcntainer2.dats] *)

@@ -61,10 +61,32 @@ case+ xs of
 | list0_cons(x, xs) =>
   (
     if $FC.forall$test<a>(x) then loop(xs) else false
-  )
+  ) (* list0_cons *)
 )
 //
-} (* end of [$FC.foreach] *)
+} (* end of [$FC.forall] *)
+
+(* ****** ****** *)
+
+implement
+(a)(*tmp*)
+$FC.rforall<list0(a)><a>
+  (xs) =
+  auxlst(xs) where
+{
+//
+fun
+auxlst(xs: list0(a)): bool =
+(
+case+ xs of
+| list0_nil() => true
+| list0_cons(x, xs) =>
+  (
+    if auxlst(xs) then $FC.rforall$test<a>(x) else false
+  ) (* list0_cons *)
+)
+//
+} (* end of [$FC.rforall] *)
 
 (* ****** ****** *)
 
