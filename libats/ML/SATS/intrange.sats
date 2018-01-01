@@ -58,6 +58,8 @@ fun{}
 int_repeat_method
   (n: int)(f: cfun0(void)): void
 //
+overload * with int_repeat_lazy
+//
 overload repeat with int_repeat_lazy
 overload repeat with int_repeat_cloref
 overload .repeat with int_repeat_method

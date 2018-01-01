@@ -35,7 +35,8 @@
 //
 #staload
 UN = "prelude/SATS/unsafe.sats"
-#staload "prelude/SATS/giterator.sats"
+#staload
+"libats/ATS2//SATS/giterator.sats"
 //
 (* ****** ****** *)
 
