@@ -32,9 +32,14 @@
 // Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
+
+typedef N0 = intGte(0)
+
+(* ****** ****** *)
 //
 #staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 //
 #staload
 "libats/ATS2/SATS/fcntainer2.sats"
@@ -42,183 +47,259 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 implement
-{xs}{x}
+{xs}{x0}
+exists(xs) = let
+//
+implement
+forall$test<x0>(x0) =
+not(exists$test<x0>(x0))
+//
+in
+//
+  not(forall<xs><x0>(xs))
+//
+end // end of [exists]
+
+(* ****** ****** *)
+
+implement
+{xs}{x0}
+rexists(xs) = let
+//
+implement
+rforall$test<x0>(x0) =
+not(rexists$test<x0>(x0))
+//
+in
+//
+  not(rforall<xs><x0>(xs))
+//
+end // end of [rexists]
+
+(* ****** ****** *)
+
+implement
+{xs}{x0}
 foreach(xs) = let
 //
 implement
-forall$test<x>(x) =
+forall$test<x0>(x0) =
 let
 val () =
-foreach$fwork<x>(x) in true
+foreach$work<x0>(x0) in true
 end // end of [forall$test]
 //
 in
-  ignoret(forall<xs><x>(xs))
+  ignoret(forall<xs><x0>(xs))
 end // end of [foreach]
 
 implement
-{xs}{x}
+{xs}{x0}
 foreach_cloref
   (xs, fwork) = let
 //
 implement
-foreach$fwork<x>
-  (x) = fwork(x)
+foreach$work<x0>
+  (x0) = fwork(x0)
 //
 in
-  $effmask_all(foreach<xs><x>(xs))
+  $effmask_all(foreach<xs><x0>(xs))
 end // end of [foreach_cloref]
 
 (* ****** ****** *)
 
 implement
-{xs}{x}
+{xs}{x0}
 iforeach(xs) = let
 //
-var i0: Nat = 0
+var i0: N0 = 0
 val p0 = addr@(i0)
 //
 implement
-foreach$fwork<x>(x) =
-iforeach$fwork(i0, x) where
+foreach$work<x0>(x0) =
+iforeach$work(i0, x0) where
 {
 val i0 = $UN.ptr0_get<intGte(0)>(p0)
 val () = $UN.ptr0_set<intGte(0)>(p0, i0+1)
 }
 //
 in
-  foreach<xs><x>(xs)
+  foreach<xs><x0>(xs)
 end // end of [iforeach]
 
 implement
-{xs}{x}
+{xs}{x0}
 iforeach_cloref
   (xs, fwork) = let
 //
 implement
-iforeach$fwork<x>
-  (i, x) = fwork(i, x)
+iforeach$work<x0>
+  (i0, x0) = fwork(i0, x0)
 //
 in
-  $effmask_all(iforeach<xs><x>(xs))
+  $effmask_all(iforeach<xs><x0>(xs))
 end // end of [iforeach_cloref]
 
 (* ****** ****** *)
 
 implement
-{xs}{x}
+{xs}{x0}
 rforeach(xs) = let
 //
 implement
-rforall$test<x>(x) =
+rforall$test<x0>(x0) =
 let
 val () =
-rforeach$fwork<x>(x) in true
+rforeach$work<x0>(x0) in true
 end // end of [rforall$test]
 //
 in
-  ignoret(rforall<xs><x>(xs))
+  ignoret(rforall<xs><x0>(xs))
 end // end of [rforeach]
 
 implement
-{xs}{x}
+{xs}{x0}
 rforeach_cloref
   (xs, fwork) = let
 //
 implement
-rforeach$fwork<x>
-  (x) = fwork(x)
+rforeach$work<x0>(x0) = fwork(x0)
 //
 in
-  $effmask_all(rforeach<xs><x>(xs))
+  $effmask_all(rforeach<xs><x0>(xs))
 end // end of [rforeach_cloref]
 
 (* ****** ****** *)
 
 implement
-{res}{xs}{x}
+{r0}{xs}{x0}
 foldleft
   (xs, ini) = let
 //
-var r0: res = ini
-val p0 = addr@(r0)
+var rr: r0 = ini
+val pr = addr@(rr)
 //
 implement
-foreach$fwork<x>(x) =
+foreach$work<x0>(x0) =
 {
-  val r0 =
-  $UN.ptr0_get<res>(p0)
-  val r0 =
-  foldleft$fopr<res><x>(r0, x)
+  val rr =
+  $UN.ptr0_get<r0>(pr)
+  val rr =
+  foldleft$fopr<r0><x0>(rr, x0)
   val ((*void*)) =
-  $UN.ptr0_set<res>(p0, r0)
-} // end of [foreach$fwork]
+  $UN.ptr0_set<r0>(pr, rr)
+} // end of [foreach$work]
 //
 in
-  let val () = foreach<xs><x>(xs) in r0 end
+  let val () = foreach<xs><x0>(xs) in rr end
 end // end of [foldleft]
 
 implement
-{res}{xs}{x}
+{r0}{xs}{x0}
 foldleft_cloref
   (xs, ini, fopr) = let
 //
 implement
-foldleft$fopr<res><x>
-  (res, x) = fopr(res, x)
+foldleft$fopr<r0><x0>
+  (r0, x0) = fopr(r0, x0)
 //
 in
-  $effmask_all(foldleft<res><xs><x>(xs, ini))
+  $effmask_all(foldleft<r0><xs><x0>(xs, ini))
 end // end of [foldleft_cloref]
 
 (* ****** ****** *)
 
 implement
-{res}{xs}{x}
+{r0}{xs}{x0}
 ifoldleft
   (xs, ini) = let
 //
-var i0: Nat = 0
-var r0: res = ini
-val pi = addr@(i0)
-val pr = addr@(r0)
+var ii: N0 = 0
+var rr: r0 = ini
+val pi = addr@(ii)
+val pr = addr@(rr)
 //
 implement
-foreach$fwork<x>(x) =
+foreach$work<x0>(x0) =
 {
 //
   val i0 =
-  $UN.ptr0_get<Nat>(pi)
+  $UN.ptr0_get<N0>(pi)
   val r0 =
-  $UN.ptr0_get<res>(pr)
+  $UN.ptr0_get<r0>(pr)
 //
   val r0 =
-  ifoldleft$fopr<res><x>(r0, i0, x)
+  ifoldleft$fopr<r0><x0>(r0, i0, x0)
 //
   val i0 = i0 + 1
   val ((*void*)) =
-  $UN.ptr0_set<Nat>(pi, i0)
+  $UN.ptr0_set<N0>(pi, i0)
   val ((*void*)) =
-  $UN.ptr0_set<res>(pr, r0)
+  $UN.ptr0_set<r0>(pr, r0)
 //
-} // end of [foreach$fwork]
+} // end of [foreach$work]
 //
 in
-  let val () = foreach<xs><x>(xs) in r0 end
+  let val () = foreach<xs><x0>(xs) in rr end
 end // end of [foldleft]
 
 implement
-{res}{xs}{x}
+{r0}{xs}{x0}
 ifoldleft_cloref
   (xs, ini, fopr) = let
 //
 implement
-ifoldleft$fopr<res><x>
-  (res, i, x) = fopr(res, i, x)
+ifoldleft$fopr<r0><x0>
+  (r0, i0, x0) = fopr(r0, i0, x0)
 //
 in
-  $effmask_all(ifoldleft<res><xs><x>(xs, ini))
+//
+$effmask_all(ifoldleft<r0><xs><x0>(xs, ini))
+//
 end // end of [ifoldleft_cloref]
+
+(* ****** ****** *)
+
+implement
+{xs,ys}
+{x0,y0}
+zip_forall
+  (xs, ys) = let
+//
+fun
+loop
+(
+xs: stream_vt(x0)
+,
+ys: stream_vt(y0)
+) : bool =
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+  (
+    let val () = ~ys in true end
+  )
+| ~stream_vt_cons(x0, xs) =>
+  (
+    case+ !ys of
+    | ~stream_vt_nil() =>
+      (
+        let val () = ~xs in true end
+      )
+    | ~stream_vt_cons(y0, ys) =>
+      (
+        if
+        zip_forall$test(x0, y0)
+        then loop(xs, ys) else (~xs; ~ys; false)
+      )
+  )
+) (* end of [loop] *)
+//
+in
+//
+  loop(streamize_vt<xs><x0>(xs), streamize_vt<ys><y0>(ys))
+//
+end // end of [zip_forall]
 
 (* ****** ****** *)
 

@@ -35,6 +35,8 @@
 //
 #staload
 "libats/ML/SATS/basis.sats"
+#staload
+"libats/ML/SATS/array0.sats"
 //
 (* ****** ****** *)
 //
@@ -48,46 +50,81 @@ UN = "prelude/SATS/unsafe.sats"
 
 implement
 (a:t@ype)
-$FC.forall<list0(a)><a>
+$FC.forall<array0(a)><a>
   (xs) =
-  loop(xs) where
+  loop(p0,i2sz(0)) where
 {
 //
+val
+(p0, n0) =
+array0_get_refsize{a}(xs)
+val p0 = arrayref2ptr(p0)
+//
 fun
-loop(xs: list0(a)): bool =
+loop
+(p0: ptr, i: Size): bool =
 (
-case+ xs of
-| list0_nil() => true
-| list0_cons(x, xs) =>
-  (
-    if $FC.forall$test<a>(x) then loop(xs) else false
-  ) (* list0_cons *)
-)
+if
+i >= n0
+then true
+else let
+//
+val x0 = $UN.ptr0_get<a>(p0)
+//
+in
+//
+if
+$FC.forall$test<a>(x0)
+then loop(ptr0_succ<a>(p0), i+1) else false
+//
+end // end of [else]
+//
+) (* end of [loop] *)
 //
 } (* end of [$FC.forall] *)
 
 (* ****** ****** *)
 
 implement
-(a)(*tmp*)
-$FC.rforall<list0(a)><a>
+(a:t@ype)
+$FC.rforall<array0(a)><a>
   (xs) =
-  auxlst(xs) where
+  loop(pz,i2sz(0)) where
 {
 //
+val
+(p0, n0) =
+array0_get_refsize{a}(xs)
+val p0 = arrayref2ptr(p0)
+val pz =
+ptr0_add_guint<a>(p0, n0)
+//
 fun
-auxlst(xs: list0(a)): bool =
+loop
+(pz: ptr, i: Size): bool =
 (
-case+ xs of
-| list0_nil() => true
-| list0_cons(x, xs) =>
-  (
-    if auxlst(xs) then $FC.rforall$test<a>(x) else false
-  ) (* list0_cons *)
-)
+if
+i >= n0
+then true
+else let
+//
+val pz =
+ptr0_pred<a>(pz)
+val x0 =
+$UN.ptr0_get<a>(pz)
+//
+in
+//
+if
+$FC.rforall$test<a>(x0)
+then loop(pz, i+1) else false
+//
+end // end of [else]
+//
+) (* end of [loop] *)
 //
 } (* end of [$FC.rforall] *)
 
 (* ****** ****** *)
 
-(* end of [fcntainer2_list0.dats] *)
+(* end of [fcntainer2_array0.dats] *)

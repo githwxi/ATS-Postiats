@@ -16,6 +16,13 @@ by Brandon Barker
 <hr></hr>
 
 <b>
+<a href="https://bluishcoder.co.nz/tags/ats/index.html">Articles on ATS
+</a></b><br>
+A series of articles on programming features of ATS<br>
+prepared by Chris Double
+<hr></hr>
+
+<b>
 <a
  href="https://hub.docker.com/r/dockerhwxi/ats2/">Dockerhwxi/ats2
 </a></b><br>
