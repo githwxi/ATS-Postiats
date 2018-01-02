@@ -2,6 +2,17 @@
 //
 // HX: For StreamPar
 //
+// This is a memory-clean
+// implementation:
+//
+// valgrind ./QueenPuzzle
+//
+// With [valgrind], you can
+// see that every allocated byte
+// is free before the execution of
+// [QueenPuzzle] exits!
+// 
+//
 (* ****** ****** *)
 //
 #include
@@ -142,9 +153,9 @@ store =
 stklist_make_nil{node}()
 //
 val () =
-stklist_insert(store, nx0)
+stklist_insert<node>(store, nx0)
 //
-val nxs = GraphStreamize_dfs(store)
+val nxs = GraphStreamize_dfs<>(store)
 //
 } (* end of [QueenPuzzle_solve] *)
 //
