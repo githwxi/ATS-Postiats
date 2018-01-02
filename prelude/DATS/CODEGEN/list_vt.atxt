@@ -1424,6 +1424,49 @@ end (* end of [streamize_list_vt_elt] *)
 #atscode_separator()
 
 implement
+{a,b}(*tmp*)
+streamize_list_vt_zip
+  (xs, ys) =
+  auxmain(xs, ys) where
+{
+//
+fun
+auxmain:
+$d2ctype
+(
+streamize_list_vt_zip<a,b>
+) =
+lam
+(
+xs, ys
+) => $ldelay (
+(
+case+ xs of
+| ~list_vt_nil() =>
+  (
+    list_vt_free(ys); stream_vt_nil()
+  )
+| ~list_vt_cons(x, xs) =>
+  (
+    case+ ys of
+    | ~list_vt_nil() =>
+      (
+        list_vt_free(xs); stream_vt_nil()
+      )
+    | ~list_vt_cons(y, ys) =>
+      (
+        stream_vt_cons((x, y), auxmain(xs, ys))
+      )
+  ) (* end of [list_vt_cons] *)
+)
+, (list_vt_free(xs); list_vt_free(ys))
+) (* end of [$ldelay] *)
+//
+} (* end of [streamize_list_vt_zip] *)
+
+#atscode_separator()
+
+implement
 {tk}(*tmp*)
 listize_g0int_rep
   (i0, base) = let

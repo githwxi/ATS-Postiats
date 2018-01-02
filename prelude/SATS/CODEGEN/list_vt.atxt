@@ -524,8 +524,14 @@ a:vt0p
 //
 #atscode_separator()
 //
-fun{a:vt0p}
+fun
+{a:vt0p}
 streamize_list_vt_elt(List_vt(INV(a))):<!wrt> stream_vt(a)
+//
+fun
+{a,b:t0p}
+streamize_list_vt_zip{n:nat}
+(list_vt(INV(a), n), list_vt(INV(b), n)):<!wrt> stream_vt(@(a, b))
 //
 #atscode_separator()
 //
