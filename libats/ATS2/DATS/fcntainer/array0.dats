@@ -35,6 +35,8 @@
 //
 #staload
 "libats/ML/SATS/basis.sats"
+#staload
+"libats/ML/SATS/array0.sats"
 //
 (* ****** ****** *)
 //
@@ -42,69 +44,87 @@
 UN = "prelude/SATS/unsafe.sats"
 //
 #staload FC =
-"libats/ATS2/SATS/fcntainer2.sats"
-//
-(* ****** ****** *)
-//
-typedef
-intrange = $FC.intrange
-//
-(* ****** ****** *)
-//
-implement
-$FC.forall<intrange><int>
-  (xs) =
-  loop(l, r) where
-{
-//
-val
-$FC.INTRANGE
-  (l, r) = xs
-//
-fun
-loop
-( l: int
-, r: int): bool =
-(
-if (
-l < r
-) then (
-  if $FC.forall$test<int>(l) then loop(l+1, r) else false
-) else true
-)
-//
-} (* end of [$FC.forall] *)
-//
-(* ****** ****** *)
-//
-implement
-$FC.rforall<intrange><int>
-  (xs) =
-  loop(l, r) where
-{
-//
-val
-$FC.INTRANGE
-  (l, r) = xs
-//
-fun
-loop
-( l: int
-, r: int): bool =
-(
-if (
-l < r
-) then let
-//
-val r1 = r-1
-//
-in
-  if $FC.rforall$test<int>(r1) then loop(l, r1) else false
-end else true
-)
-//
-} (* end of [$FC.rforall] *)
+"libats/ATS2/SATS/fcntainer.sats"
 //
 (* ****** ****** *)
 
-(* end of [fcntainer2_intrange.dats] *)
+implement
+(a:t@ype)
+$FC.forall<array0(a)><a>
+  (xs) =
+  loop(p0,i2sz(0)) where
+{
+//
+val
+(p0, n0) =
+array0_get_refsize{a}(xs)
+val p0 = arrayref2ptr(p0)
+//
+fun
+loop
+(p0: ptr, i: Size): bool =
+(
+if
+i >= n0
+then true
+else let
+//
+val x0 = $UN.ptr0_get<a>(p0)
+//
+in
+//
+if
+$FC.forall$test<a>(x0)
+then loop(ptr0_succ<a>(p0), i+1) else false
+//
+end // end of [else]
+//
+) (* end of [loop] *)
+//
+} (* end of [$FC.forall] *)
+
+(* ****** ****** *)
+
+implement
+(a:t@ype)
+$FC.rforall<array0(a)><a>
+  (xs) =
+  loop(pz,i2sz(0)) where
+{
+//
+val
+(p0, n0) =
+array0_get_refsize{a}(xs)
+val p0 = arrayref2ptr(p0)
+val pz =
+ptr0_add_guint<a>(p0, n0)
+//
+fun
+loop
+(pz: ptr, i: Size): bool =
+(
+if
+i >= n0
+then true
+else let
+//
+val pz =
+ptr0_pred<a>(pz)
+val x0 =
+$UN.ptr0_get<a>(pz)
+//
+in
+//
+if
+$FC.rforall$test<a>(x0)
+then loop(pz, i+1) else false
+//
+end // end of [else]
+//
+) (* end of [loop] *)
+//
+} (* end of [$FC.rforall] *)
+
+(* ****** ****** *)
+
+(* end of [fcntainer_array0.dats] *)

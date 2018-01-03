@@ -29,15 +29,6 @@ all::
 
 ######
 
-all:: fcntainer.sats
-fcntainer.sats: fcntainer_atxt.exe ; ./$< > $@
-fcntainer_atxt.exe: fcntainer_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ fcntainer_atxt.dats -latsdoc
-fcntainer_atxt.dats: fcntainer.atxt
-	$(ATSDOC) --outcode $@ -i fcntainer.atxt > fcntainer_atxt.txt
-clean:: ; $(RMF) fcntainer_atxt.exe
-cleanall:: ; $(RMF) fcntainer.sats
-
 all:: giterator.sats
 giterator.sats: giterator_atxt.exe ; ./$< > $@
 giterator_atxt.exe: giterator_atxt.dats

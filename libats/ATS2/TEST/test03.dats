@@ -8,12 +8,12 @@
 (* ****** ****** *)
 //
 #staload FC =
-"libats/ATS2/SATS/fcntainer2.sats"
+"libats/ATS2/SATS/fcntainer.sats"
 //
 #staload _(*FC*) =
-"libats/ATS2/DATS/fcntainer2.dats"
+"libats/ATS2/DATS/fcntainer/main.dats"
 #staload _(*FC*) =
-"libats/ATS2/DATS/fcntainer2_intrange.dats"
+"libats/ATS2/DATS/fcntainer/intrange.dats"
 //
 (* ****** ****** *)
 

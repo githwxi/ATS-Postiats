@@ -42,52 +42,69 @@
 UN = "prelude/SATS/unsafe.sats"
 //
 #staload FC =
-"libats/ATS2/SATS/fcntainer2.sats"
+"libats/ATS2/SATS/fcntainer.sats"
 //
 (* ****** ****** *)
-
+//
+typedef
+intrange = $FC.intrange
+//
+(* ****** ****** *)
+//
 implement
-(a:t@ype)
-$FC.forall<list0(a)><a>
+$FC.forall<intrange><int>
   (xs) =
-  loop(xs) where
+  loop(l, r) where
 {
 //
+val
+$FC.INTRANGE
+  (l, r) = xs
+//
 fun
-loop(xs: list0(a)): bool =
+loop
+( l: int
+, r: int): bool =
 (
-case+ xs of
-| list0_nil() => true
-| list0_cons(x, xs) =>
-  (
-    if $FC.forall$test<a>(x) then loop(xs) else false
-  ) (* list0_cons *)
+if (
+l < r
+) then (
+  if $FC.forall$test<int>(l) then loop(l+1, r) else false
+) else true
 )
 //
 } (* end of [$FC.forall] *)
-
+//
 (* ****** ****** *)
-
+//
 implement
-(a)(*tmp*)
-$FC.rforall<list0(a)><a>
+$FC.rforall<intrange><int>
   (xs) =
-  auxlst(xs) where
+  loop(l, r) where
 {
 //
+val
+$FC.INTRANGE
+  (l, r) = xs
+//
 fun
-auxlst(xs: list0(a)): bool =
+loop
+( l: int
+, r: int): bool =
 (
-case+ xs of
-| list0_nil() => true
-| list0_cons(x, xs) =>
-  (
-    if auxlst(xs) then $FC.rforall$test<a>(x) else false
-  ) (* list0_cons *)
+if (
+l < r
+) then let
+//
+val r1 = r-1
+//
+in
+  if $FC.rforall$test<int>(r1) then loop(l, r1) else false
+end else true
 )
 //
 } (* end of [$FC.rforall] *)
-
+//
 (* ****** ****** *)
 
-(* end of [fcntainer2_list0.dats] *)
+(* end of [fcntainer_intrange.dats] *)

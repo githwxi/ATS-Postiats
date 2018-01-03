@@ -67,7 +67,6 @@ all::
 
 ######
 
-#make_entry("fcntainer")
 #make_entry("giterator")
 
 ######

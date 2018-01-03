@@ -42,7 +42,7 @@ UN =
 "prelude/SATS/unsafe.sats"
 //
 #staload
-"libats/ATS2/SATS/fcntainer2.sats"
+"libats/ATS2/SATS/fcntainer.sats"
 //
 (* ****** ****** *)
 
@@ -303,4 +303,4 @@ end // end of [zip_forall]
 
 (* ****** ****** *)
 
-(* end of [fcntainer2.dats] *)
+(* end of [fcntainer_main.dats] *)
