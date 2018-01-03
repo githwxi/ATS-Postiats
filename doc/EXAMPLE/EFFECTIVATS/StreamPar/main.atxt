@@ -318,12 +318,37 @@ Search is a common theme in programming. We may see search as a
 process of two phases: Streamization is performed in the first phase
 to construct a (linear) stream that enumerates ##emphasis("lazily")
 the data to be searched while the actual search is done in the second
-phase over the (linear) stream constructed in the first phase. Please
-find in ##filename("QueenPuzzle.dats") a concrete example of this kind.
+phase over the (linear) stream constructed in the first phase. In
+pseudo code, we can write something as follows: 
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+val nxs = streamize(SomeData) // Phase 1
+val nxs = stream_vt_filter(nxs, lam(nx) => mycheck(nx)) // Phase 2
+//\
+')
+</pre>
+
+where the function ##dyncode("mycheck") checks whether an element
+in the stream (constructed in the first phase) is a valid solution.
+
+Please find in ##filename("QueenPuzzle.dats") a concrete example of
+this kind, where a package for streamizing graphs is used to construct
+a linear stream of chessboard configurations such that each
+configuration depicts a unique way in which 8 queen pieces are
+positioned but none can attach any other ones.
 
 ')
 
 ##para('\
+
+The aforementioned second phase can clearly be done in parallel.  For
+instance, we can have two threads running on two cores concurrently to
+check the elements in the constructed stream. At the end, a list is
+returned that consists of all of the elements passing the check done
+by ##dyncode("mycheck").
 
 ')
 

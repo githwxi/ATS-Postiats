@@ -63,21 +63,45 @@ string_tabulate_cloref
 (* ****** ****** *)
 //
 fun{}
+int_foreach_cloptr
+(
+ n: int, fwork: (int) -<cloptr1> void
+) : int // end of [int_foreach_cloptr]
+fun{}
 int_foreach_cloref
 (
  n: int, fwork: (int) -<cloref1> void
 ) : int // end of [int_foreach_cloref]
+//
+fun{}
+intrange_foreach_cloptr
+(
+ l: int, r: int, fwork: (int) -<cloptr1> void
+) : int // end of [intrange_foreach_cloptr]
 fun{}
 intrange_foreach_cloref
 (
  l: int, r: int, fwork: (int) -<cloref1> void
 ) : int // end of [intrange_foreach_cloref]
 //
+(* ****** ****** *)
+//
+fun{}
+int_rforeach_cloptr
+(
+ n: int, fwork: (int) -<cloptr1> void
+) : int // end of [int_rforeach_cloptr]
 fun{}
 int_rforeach_cloref
 (
  n: int, fwork: (int) -<cloref1> void
 ) : int // end of [int_rforeach_cloref]
+//
+fun{}
+intrange_rforeach_cloptr
+(
+ l: int, r: int, fwork: (int) -<cloptr1> void
+) : int // end of [intrange_rforeach_cloptr]
 fun{}
 intrange_rforeach_cloref
 (

@@ -222,6 +222,8 @@ stream_vt_ifilter_cloptr
   xs: stream_vt(INV(a)), pred: (intGte(0), &a) -<cloptr1> bool
 ) : stream_vt (a) // end of [stream_vt_ifilter_cloptr]
 //
+#atscode_separator()
+//
 fun{a:vt0p}
 stream_vt_filterlin
   (xs: stream_vt(INV(a))): stream_vt(a)

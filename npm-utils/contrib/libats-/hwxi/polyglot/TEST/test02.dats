@@ -128,7 +128,7 @@ r = fcountlst
 //
 val
 theFCS =
-$StreamPar.streampar_mapfold<r><a><b>
+$StreamPar.streampar_mapfold<a><b><r>
 (
 fws, fnames, theFCS
 ) where
@@ -175,8 +175,8 @@ case+ opt of
 end // end of [$StreamPar.streampar_mapfold$map]
 //
 implement
-$StreamPar.streampar_mapfold$fold<r><b>
-  (fcs, opt) = let
+$StreamPar.streampar_mapfold$fold<b><r>
+  (opt, fcs) = let
 //
 in
 //

@@ -78,7 +78,7 @@ case+ nxs of
 | ~list_vt_nil() => ()
 | ~list_vt_cons(nx, nxs) =>
   (
-    auxlst(nxs); theStreamizeStore_insert(nx)
+    theStreamizeStore_insert(nx); auxlst(nxs)
   )
 )
 //
@@ -161,27 +161,54 @@ val nxs = GraphStreamize_dfs<>(store)
 //
 (* ****** ****** *)
 
+fun
+node_print_free
+  (xs: node): void =
+(
+case+ xs of
+| ~list_vt_nil() => ()
+| ~list_vt_cons(x0, xs) =>
+  (
+    ignoret
+    (int_foreach_cloptr(x0, lam(_)=>print" ."));
+    print(" Q");
+    ignoret
+    (int_foreach_cloptr(N-1-x0, lam(_)=>print" ."));
+    println!((*void*));
+    node_print_free(xs)  
+  )
+)
+(* ****** ****** *)
+
 implement
 main0() = () where
 {
 //
 val
-nx0 = list_vt_nil()
+nx0 =
+list_vt_nil()
 val
-nxs = QueenPuzzle_streamize(nx0)
+nxs =
+QueenPuzzle_streamize(nx0)
+//
+val nxs =
+stream_vt_filterlin(nxs) where
+{
+implement
+stream_vt_filterlin$pred<node>(nx) = (length(nx)=N)
+implement
+stream_vt_filterlin$clear<node>(nx) = $effmask_all(node_free(nx))
+}
 //
 val
 ((*void*)) =
-nxs.foreach()
+nxs.iforeach()
 (
-  lam(nx) =>
-  if
-  (length(nx) = N)
-  then let
-    val nx2 = list_vt_reverse(nx) in
-    println!($UN.list_vt2t(nx2)); list_vt_free(nx2) 
-  end // end of [then]
-  else node_free<>(nx)
+lam(i, nx) =>
+(
+println!("Solution#", i);
+node_print_free(reverse(nx)); println!()
+)
 )
 //
 } (* end of [main0] *)

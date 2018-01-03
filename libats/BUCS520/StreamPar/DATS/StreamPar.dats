@@ -82,9 +82,9 @@ streampar_foreach_cloref
 //
 extern
 fun
-{r:vt@ype}
 {a:vt@ype}
 {b:vt@ype}
+{r:vt@ype}
 streampar_mapfold
 ( fws: fworkshop
 , xs0: stream_vt(INV(a)), r0: r): (r)
@@ -95,20 +95,20 @@ fun
 {b:vt@ype} streampar_mapfold$map(a): b
 extern
 fun
-{r:vt@ype}
-{b:vt@ype} streampar_mapfold$fold(r, b): r
+{b:vt@ype}
+{r:vt@ype} streampar_mapfold$fold(b, r): r
 //
 (* ****** ****** *)
 //
 extern
 fun
-{r:vt@ype}
 {a:vt@ype}
 {b:vt@ype}
+{r:vt@ype}
 streampar_mapfold_cloref
 ( fws: fworkshop
 , xs0: stream_vt(INV(a))
-, res: r, map: cfun(a, b), fold: cfun(r, b, r)): (r)
+, res: r, map: cfun(a, b), fold: cfun(b, r, r)): (r)
 //
 (* ****** ****** *)
 
@@ -215,7 +215,7 @@ streampar_foreach$fwork<a>(x0) = fwork(x0)
 (* ****** ****** *)
 
 implement
-{r}{a}{b}
+{a}{b}{r}
 streampar_mapfold
   (fws, xs0, r0) = let
 //
@@ -289,7 +289,7 @@ case+ !xs of
 //
     val r0 = $UN.ptr0_get<r>(p_r0)
     val ((*void*)) =
-    $UN.ptr0_set<r>(p_r0, streampar_mapfold$fold<r><b>(r0, y0))
+    $UN.ptr0_set<r>(p_r0, streampar_mapfold$fold<b><r>(y0, r0))
 //
     val ((*void*)) =
     $UN.ptr0_subby<int>(p_nwork, 1) in freturn_spin_unlock(locked|fws_spn)
@@ -313,17 +313,17 @@ end // end of [streampar_mapfold]
 (* ****** ****** *)
 
 implement
-{r}{a}{b}
+{a}{b}{r}
 streampar_mapfold_cloref
   (fws, xs0, r0, map, fold) = let
 //
 implement
 streampar_mapfold$map<a><b>(x) = map(x)
 implement
-streampar_mapfold$fold<r><b>(r, y) = fold(r, y)
+streampar_mapfold$fold<b><r>(y, r) = fold(y, r)
 //
 in
-  streampar_mapfold<r><a><b>(fws, xs0, r0)
+  streampar_mapfold<a><b><r>(fws, xs0, r0)
 end // end of [streampar_mapfold_cloref]
 
 (* ****** ****** *)

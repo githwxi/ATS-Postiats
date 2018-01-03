@@ -54,11 +54,35 @@ UN = "prelude/SATS/unsafe.sats"
 //
 implement
 {}(*tmp*)
+int_foreach_cloptr
+  (n, fwork) =
+(
+intrange_foreach_cloptr<>(0, n, fwork)
+) (* end of [int_foreach_cloref] *)
+implement
+{}(*tmp*)
 int_foreach_cloref
   (n, fwork) =
 (
 intrange_foreach_cloref<>(0, n, fwork)
 ) (* end of [int_foreach_cloref] *)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+intrange_foreach_cloptr
+(
+l, r, fwork
+) = res where
+{
+//
+val res =
+intrange_foreach_cloref<>
+  (l, r, $UN.castvwtp1(fwork))
+val ((*void*)) =
+  cloptr_free{void}($UN.castvwtp0(fwork))
+} // end of [intrange_foreach_cloptr]
 //
 implement
 {}(*tmp*)
@@ -82,12 +106,34 @@ end // end of [intrange_foreach_cloref]
 //
 implement
 {}(*tmp*)
+int_rforeach_cloptr
+  (n, fwork) =
+(
+intrange_rforeach_cloptr<>(0, n, fwork)
+) (* end of [int_rforeach_cloptr] *)
+implement
+{}(*tmp*)
 int_rforeach_cloref
   (n, fwork) =
 (
 intrange_rforeach_cloref<>(0, n, fwork)
 ) (* end of [int_rforeach_cloref] *)
 //
+//
+implement
+{}(*tmp*)
+intrange_rforeach_cloptr
+(
+l, r, fwork
+) = res where
+{
+//
+val res =
+intrange_rforeach_cloref<>
+  (l, r, $UN.castvwtp1(fwork))
+val ((*void*)) =
+  cloptr_free{void}($UN.castvwtp0(fwork))
+} // end of [intrange_rforeach_cloptr]
 implement
 {}(*tmp*)
 intrange_rforeach_cloref

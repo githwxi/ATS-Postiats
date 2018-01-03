@@ -1,6 +1,6 @@
 {
   "name": "atscntrb-bucs520-streampar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Linear stream-processing in parallel",
   "main": "N/A",
   "scripts": {},

@@ -558,6 +558,10 @@ overload fprint with fprint_list_vt_sep
 //
 #atscode_separator()
 
+overload reverse with list_vt_reverse
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

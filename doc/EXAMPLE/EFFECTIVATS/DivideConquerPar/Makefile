@@ -86,6 +86,7 @@ cleanall:: ; $(RMF) ParFibo
 cleanall:: ; $(RMF) DirWalk
 cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMRF) node_modules
+cleanall:: ; $(RMRF) package-lock.json
 #
 ######
 
