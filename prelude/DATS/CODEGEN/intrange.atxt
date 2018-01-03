@@ -187,6 +187,12 @@ fun aux0
 
 implement
 {}(*tmp*)
+streamize_intrange_0r(n) = streamize_intrange_lr<>(0, n)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
 streamize_intrange_lr
   (m, n) = aux0(m) where
 {

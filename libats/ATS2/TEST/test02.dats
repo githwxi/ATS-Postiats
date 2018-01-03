@@ -44,4 +44,4 @@ implement main0((*void*)) = ((*void*))
 
 (* ****** ****** *)
 
-(* end of [test01.dats] *)
+(* end of [test02.dats] *)

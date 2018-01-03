@@ -348,6 +348,10 @@ zip_forall$test(x0: x0, y0: y0): bool
 
 (* ****** ****** *)
 
+abst@ype intrange
+
+(* ****** ****** *)
+
 fun
 {xs:t0p}
 {x0:t0p}

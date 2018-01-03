@@ -71,6 +71,8 @@ intrange2_foreach$fwork (i: int, j: int, env: &env >> _): void
 fun{}
 streamize_intrange_l(m: int): stream_vt(int)
 fun{}
+streamize_intrange_0r(n: int): stream_vt(int)
+fun{}
 streamize_intrange_lr(m: int, n: int): stream_vt(int)
 //
 #atscode_separator()
