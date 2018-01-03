@@ -261,6 +261,92 @@ end // end of [ifoldleft_cloref]
 (* ****** ****** *)
 
 implement
+{xs}{x0}
+listize(xs) = let
+//
+vtypedef
+res = List0_vt(x0)
+//
+var r0: res
+var r1: ptr = addr@r0
+//
+val pp = addr@r1
+//
+implement
+foreach$work<x0>(x0) =
+{
+//
+  val nx0 =
+  list_vt_cons{x0}{0}(x0, _)
+  val+
+  list_vt_cons(x1, nx1) = nx0
+//
+  val pr =
+  $UN.ptr0_get<ptr>(pp)
+  val () = 
+  $UN.ptr0_set<ptr>(pp, addr@nx1)
+//
+  val xs =
+  $UN.castvwtp0{res}
+    ((view@x1, view@nx1 | nx0))
+  // end of [castvwtp0]
+  val () = $UN.ptr0_set<res>(pr, xs)
+//
+} (* end of [foreach$work] *)
+//
+val () =
+(r0 := list_vt_nil())
+//
+in
+//
+r0 where
+{
+  val () =
+  $effmask_all
+  (foreach<xs><x0>(xs))
+  val pr =
+  $UN.ptr0_get<ptr>(pp)
+  val () =
+  $UN.ptr0_set<res>
+    (pr, $UN.castvwtp0{res}(list_vt_nil()))
+  // end of [val]
+} (* end of [where] *)
+end // end of [listize]
+
+(* ****** ****** *)
+
+implement
+{xs}{x0}
+rlistize(xs) = let
+//
+vtypedef
+res = List0_vt(x0)
+//
+var r0: res
+val pr: ptr = addr@r0
+//
+implement
+foreach$work<x0>(x0) =
+{
+  val xs =
+  $UN.ptr0_get<res>(pr)
+  val () =
+  $UN.ptr0_set<res>
+    (pr, list_vt_cons(x0, xs))
+  // end of [val]
+}
+//
+val () = r0 := list_vt_nil()
+//
+in
+  let val () =
+    $effmask_all(foreach<xs><x0>(xs)) in r0
+  end // end of [let]
+end // end of [rlistize]
+
+(* ****** ****** *)
+
+implement
 {xs,ys}
 {x0,y0}
 zip_forall

@@ -297,28 +297,29 @@ ifoldright_cloref{fe:eff}
 // end of [ifoldright_cloref]
 //
 (* ****** ****** *)
-
+//
 fun
 {xs:t0p}
 {x0:t0p}
-listize(xs: xs):<> List0_vt(x0)
+listize(xs: xs):<!wrt> List0_vt(x0)
+//
 fun
 {xs:t0p}
 {x0:t0p}
-rlistize(xs: xs):<> List0_vt(x0)
-
+rlistize(xs: xs):<!wrt> List0_vt(x0)
+//
 (* ****** ****** *)
 
 fun
 {xs:t0p}
 {x0:t0p}
 {y0:t0p}
-list_map(xs: xs):<> List0_vt(y0)
+list_map(xs: xs):<!wrt> List0_vt(y0)
 fun
 {xs:t0p}
 {x0:t0p}
 {y0:t0p}
-rlist_map(xs: xs):<> List0_vt(y0)
+rlist_map(xs: xs):<!wrt> List0_vt(y0)
 
 (* ****** ****** *)
 

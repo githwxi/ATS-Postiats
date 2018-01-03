@@ -39,6 +39,13 @@ val ((*void*)) =
 println! ("ifoldleft(res) = ", res)
 //
 (* ****** ****** *)
+//
+val res = $FC.listize<array0(int)><int>(xs)
+val ((*void*)) = println! ("listize(xs) = ", res)
+val res = $FC.rlistize<array0(int)><int>(xs)
+val ((*void*)) = println! ("rlistize(xs) = ", res)
+//
+(* ****** ****** *)
 
 implement main0((*void*)) = ((*void*))
 
