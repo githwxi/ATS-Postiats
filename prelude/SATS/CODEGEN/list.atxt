@@ -147,6 +147,47 @@ list_of_list_vt
   list_cons(x1, list_cons(x2, list_nil()))
 
 #atscode_separator()
+//
+fun{a:t0p}
+list_tuple_0(): list(a, 0)
+//
+fun{a:t0p}
+list_tuple_1(x0: a): list(a, 1)
+fun{a:t0p}
+list_tuple_2(x0: a, x1: a): list(a, 2)
+fun{a:t0p}
+list_tuple_3(x0: a, x1: a, x2: a): list(a, 3)
+//
+fun{a:t0p}
+list_tuple_4
+  (x0: a, x1: a, x2: a, x3: a): list(a, 4)
+fun{a:t0p}
+list_tuple_5
+  (x0: a, x1: a, x2: a, x3: a, x4: a): list(a, 5)
+fun{a:t0p}
+list_tuple_6
+  (x0: a, x1: a, x2: a, x3: a, x4: a, x5: a): list(a, 6)
+//
+#atscode_separator()
+//
+symintr list_tuple
+//
+overload
+list_tuple with list_tuple_0
+overload
+list_tuple with list_tuple_1
+overload
+list_tuple with list_tuple_2
+overload
+list_tuple with list_tuple_3
+overload
+list_tuple with list_tuple_4
+overload
+list_tuple with list_tuple_5
+overload
+list_tuple with list_tuple_6
+//
+#atscode_separator()
 
 fun{x:t0p}
 list_make_sing (x: x):<!wrt> list_vt(x, 1)

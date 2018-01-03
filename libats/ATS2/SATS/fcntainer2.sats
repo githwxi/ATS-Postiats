@@ -32,13 +32,14 @@
 (* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
-
-(*
-** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/fcntainer.atxt
-** Time of generation: Sat Dec 30 21:47:12 2017
-*)
-
+//
+datatype
+intrange =
+INTRANGE of (int, int)
+datatype
+intrange2 =
+INTRANGE2 of (int, int, int, int)
+//
 (* ****** ****** *)
 
 (*

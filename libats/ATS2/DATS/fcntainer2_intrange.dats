@@ -45,10 +45,10 @@ UN = "prelude/SATS/unsafe.sats"
 "libats/ATS2/SATS/fcntainer2.sats"
 //
 (* ****** ****** *)
-
+//
 typedef
-intrange = @(int, int)
-
+intrange = $FC.intrange
+//
 (* ****** ****** *)
 //
 implement
@@ -57,7 +57,9 @@ $FC.forall<intrange><int>
   loop(l, r) where
 {
 //
-val (l, r) = xs
+val
+$FC.INTRANGE
+  (l, r) = xs
 //
 fun
 loop
@@ -81,7 +83,9 @@ $FC.rforall<intrange><int>
   loop(l, r) where
 {
 //
-val (l, r) = xs
+val
+$FC.INTRANGE
+  (l, r) = xs
 //
 fun
 loop

@@ -159,35 +159,6 @@ end // end of [intrange_rforeach_cloref]
 (* ****** ****** *)
 //
 implement
-{a}(*tmp*)
-list_tuple_0() = list_nil()
-//
-implement
-{a}(*tmp*)
-list_tuple_1(x0) = $list{a}(x0)
-implement
-{a}(*tmp*)
-list_tuple_2(x0, x1) = $list{a}(x0, x1)
-implement
-{a}(*tmp*)
-list_tuple_3(x0, x1, x2) = $list{a}(x0, x1, x2)
-//
-implement
-{a}(*tmp*)
-list_tuple_4
-(x0, x1, x2, x3) = $list{a}(x0, x1, x2, x3)
-implement
-{a}(*tmp*)
-list_tuple_5
-(x0, x1, x2, x3, x4) = $list{a}(x0, x1, x2, x3, x4)
-implement
-{a}(*tmp*)
-list_tuple_6
-(x0, x1, x2, x3, x4, x5) = $list{a}(x0, x1, x2, x3, x4, x5)
-//
-(* ****** ****** *)
-//
-implement
 {x}(*tmp*)
 list_exists_cloptr
   (xs, p0) = res where
@@ -714,35 +685,6 @@ end // end of [list_foldright_cloref]
 (* ****** ****** *)
 //
 // HX: prelude/list_vt
-//
-(* ****** ****** *)
-//
-implement
-{a}(*tmp*)
-list_vt_tuple_0() = list_vt_nil()
-//
-implement
-{a}(*tmp*)
-list_vt_tuple_1(x0) = $list_vt{a}(x0)
-implement
-{a}(*tmp*)
-list_vt_tuple_2(x0, x1) = $list_vt{a}(x0, x1)
-implement
-{a}(*tmp*)
-list_vt_tuple_3(x0, x1, x2) = $list_vt{a}(x0, x1, x2)
-//
-implement
-{a}(*tmp*)
-list_vt_tuple_4
-(x0, x1, x2, x3) = $list_vt{a}(x0, x1, x2, x3)
-implement
-{a}(*tmp*)
-list_vt_tuple_5
-(x0, x1, x2, x3, x4) = $list_vt{a}(x0, x1, x2, x3, x4)
-implement
-{a}(*tmp*)
-list_vt_tuple_6
-(x0, x1, x2, x3, x4, x5) = $list_vt{a}(x0, x1, x2, x3, x4, x5)
 //
 (* ****** ****** *)
 

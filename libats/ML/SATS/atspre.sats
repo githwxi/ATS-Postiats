@@ -114,28 +114,6 @@ intrange_rforeach_cloref
 //
 (* ****** ****** *)
 //
-fun{a:t0p}
-list_tuple_0(): list(a, 0)
-//
-fun{a:t0p}
-list_tuple_1(x0: a): list(a, 1)
-fun{a:t0p}
-list_tuple_2(x0: a, x1: a): list(a, 2)
-fun{a:t0p}
-list_tuple_3(x0: a, x1: a, x2: a): list(a, 3)
-//
-fun{a:t0p}
-list_tuple_4
-  (x0: a, x1: a, x2: a, x3: a): list(a, 4)
-fun{a:t0p}
-list_tuple_5
-  (x0: a, x1: a, x2: a, x3: a, x4: a): list(a, 5)
-fun{a:t0p}
-list_tuple_6
-  (x0: a, x1: a, x2: a, x3: a, x4: a, x5: a): list(a, 6)
-//
-(* ****** ****** *)
-//
 fun{x:t0p}
 list_exists_cloptr
 ( xs: List(INV(x))
@@ -345,28 +323,6 @@ x:t0p}{res:vt0p
 (* ****** ****** *)
 //
 // HX: prelude/list_vt
-//
-(* ****** ****** *)
-//
-fun{a:vt0p}
-list_vt_tuple_0(): list_vt(a, 0)
-//
-fun{a:vt0p}
-list_vt_tuple_1(x0: a): list_vt(a, 1)
-fun{a:vt0p}
-list_vt_tuple_2(x0: a, x1: a): list_vt(a, 2)
-fun{a:vt0p}
-list_vt_tuple_3(x0: a, x1: a, x2: a): list_vt(a, 3)
-//
-fun{a:vt0p}
-list_vt_tuple_4
-  (x0: a, x1: a, x2: a, x3: a): list_vt(a, 4)
-fun{a:vt0p}
-list_vt_tuple_5
-  (x0: a, x1: a, x2: a, x3: a, x4: a): list_vt(a, 5)
-fun{a:vt0p}
-list_vt_tuple_6
-  (x0: a, x1: a, x2: a, x3: a, x4: a, x5: a): list_vt(a, 6)
 //
 (* ****** ****** *)
 //
