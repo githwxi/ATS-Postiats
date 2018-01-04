@@ -1,6 +1,6 @@
 (* ****** ****** *)
 (*
-** Sample code for
+** Some code used in
 ** Effectivats-StreamPar
 *)
 (* ****** ****** *)
@@ -19,14 +19,15 @@ intrange_stream
 //
 fun
 intrange_stream
-  (m: int, n: int): stream(int) =
-  $delay
-  (
-  if
-  (m >= n)
-  then stream_nil()
-  else stream_cons(m, intrange_stream(m+1, n))
-  )
+(
+ m: int, n: int
+) : stream(int) = $delay
+(
+if
+(m >= n)
+then stream_nil((*void*))
+else stream_cons(m, intrange_stream(m+1, n))
+)
 //
 } (* end of [where] *) // end of [val]
 //
@@ -41,16 +42,19 @@ intrange_stream_vt
 //
 fun
 intrange_stream_vt
-  (m: int, n: int): stream_vt(int) =
-  $ldelay
-  (
-  if
-  (m >= n)
-  then stream_vt_nil()
-  else stream_vt_cons(m, intrange_stream_vt(m+1, n)) 
-  )
+(
+ m: int, n: int
+) : stream_vt(int) = $ldelay
+(
+if
+(m >= n)
+then
+stream_vt_nil((*void*))
+else
+stream_vt_cons(m, intrange_stream_vt(m+1, n)) 
+)
 //
-} (* end of [val] *)
+} (* end of [where] *) // end of [val]
 //
 val nys = stream_vt_length(ys) // nys = 1000
 //
@@ -200,4 +204,4 @@ implement main0() = ()
 
 (* ****** ****** *)
 
-(* end of [sample.dats] *)
+(* end of [StreamPar_misc.dats] *)

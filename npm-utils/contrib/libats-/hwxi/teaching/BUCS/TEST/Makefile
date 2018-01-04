@@ -19,6 +19,14 @@ all::
 ######
 
 all:: \
+test_find
+test_find: \
+test_find.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+all:: \
 test_which
 test_which: \
 test_which.dats ; \

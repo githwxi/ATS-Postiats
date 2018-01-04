@@ -326,7 +326,7 @@ class="patsyntax">
 ##dats2xhtml('\
 //
 val nxs = streamize(SomeData) // Phase 1
-val nxs = stream_vt_filter(nxs, lam(nx) => mycheck(nx)) // Phase 2
+val nxs = stream_vt_filter_cloptr(nxs, lam(nx) => mycheck(nx)) // Phase 2
 //\
 ')
 </pre>
@@ -349,6 +349,38 @@ instance, we can have two threads running on two cores concurrently to
 check the elements in the constructed stream, and a list is returned
 at the end that consists of all of the elements passing the check done
 by ##dyncode("mycheck").
+
+')
+
+##para('\
+
+In the package ##emphasis("StreamPar"),
+the following higher-order function is available:
+
+<pre
+class="patsyntax">
+##sats2xhtml('\
+//
+fun
+{a:vt@ype}
+{b:vt@ype}
+{r:vt@ype}
+streampar_mapfold_cloref
+( fws: fworkshop
+, xs0: stream_vt(INV(a))
+, res: r, map: cfun(a, b), fold: cfun(b, r, r)): (r)
+//\
+')
+</pre>
+
+The name of the function suggests that it is functionally equivalent
+to applying a map and then a fold to a given linear stream.  It
+essentially requests that the workers (threads) attached to its first
+argument (a workshop) apply the fourth argument (a closure-function)
+to each element in the second argument (a linear stream) to obtain a
+value and then apply the fifth argument (another closure-function) to
+the third argument (used as an accumulator) and the obtained value to
+generate a new version of the accumulator.
 
 ')
 

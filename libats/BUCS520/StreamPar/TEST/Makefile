@@ -41,6 +41,16 @@ regress:: DirWalk; ./$<
 cleanall:: ; $(RMF) DirWalk
 #
 ######
+#
+all:: \
+MatMult
+MatMult: \
+MatMult.dats; $(PATSCC2) -o $@ $^ -latslib -lpthread
+#
+regress:: MatMult; ./$<
+cleanall:: ; $(RMF) MatMult
+#
+######
 
 testall:: all
 testall:: regress

@@ -41,14 +41,34 @@ LIBATSML_targetloc "$PATSHOME/libats/ML"
 (* ****** ****** *)
 //
 #staload
+"{$LIBATSML}/SATS/string.sats"
+#staload
+"{$LIBATSML}/SATS/strarr.sats"
+#staload _ =
+"{$LIBATSML}/DATS/string.dats"
+#staload _ =
+"{$LIBATSML}/DATS/strarr.dats"
+//
+(* ****** ****** *)
+//
+#staload
 "{$LIBATSML}/SATS/list0.sats"
 #staload _ =
 "{$LIBATSML}/DATS/list0.dats"
 //
 #staload
+"{$LIBATSML}/SATS/list0_vt.sats"
+#staload _ =
+"{$LIBATSML}/DATS/list0_vt.dats"
+//
+(* ****** ****** *)
+//
+#staload
 "{$LIBATSML}/SATS/option0.sats"
 #staload _ =
 "{$LIBATSML}/DATS/option0.dats"
+//
+(* ****** ****** *)
 //
 #staload
 "{$LIBATSML}/SATS/array0.sats"
@@ -58,17 +78,6 @@ LIBATSML_targetloc "$PATSHOME/libats/ML"
 "{$LIBATSML}/DATS/array0.dats"
 #staload _ =
 "{$LIBATSML}/DATS/matrix0.dats"
-//
-(* ****** ****** *)
-//
-#staload
-"{$LIBATSML}/SATS/string.sats"
-#staload
-"{$LIBATSML}/SATS/strarr.sats"
-#staload _ =
-"{$LIBATSML}/DATS/string.dats"
-#staload _ =
-"{$LIBATSML}/DATS/strarr.dats"
 //
 (* ****** ****** *)
 //

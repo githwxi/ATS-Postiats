@@ -44,6 +44,7 @@ UN = "prelude/SATS/unsafe.sats"
 //
 #staload "libats/ML/SATS/basis.sats"
 #staload "libats/ML/SATS/list0.sats"
+#staload "libats/ML/SATS/list0_vt.sats"
 #staload "libats/ML/SATS/stream_vt.sats"
 //
 (* ****** ****** *)

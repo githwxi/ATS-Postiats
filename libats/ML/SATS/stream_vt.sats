@@ -75,9 +75,13 @@ stream_vt_make_intrange_lrd
 (* ****** ****** *)
 //
 overload
-intrange_stream_vt with stream_vt_make_intrange_lr
+intrange_stream_vt
+with
+stream_vt_make_intrange_lr
 overload
-intrange_stream_vt with stream_vt_make_intrange_lrd
+intrange_stream_vt
+with
+stream_vt_make_intrange_lrd
 //
 (* ****** ****** *)
 //

@@ -80,31 +80,25 @@ list0_cast{x:t0p}
 (* ****** ****** *)
 //
 castfn
+g0ofg1_list
+  {a:t@ype}
+  (List(INV(a))):<> list0(a)
+castfn
+g1ofg0_list
+  {a:t@ype}
+  (list0(INV(a))):<> List0(a)
+//
+overload g0ofg1 with g0ofg1_list
+overload g1ofg0 with g1ofg0_list
+//
+(* ****** ****** *)
+//
+castfn
 list0_of_list
   {a:t@ype}(List(INV(a))):<> list0(a)
 castfn
 list0_of_list_vt
   {a:t@ype}(List_vt(INV(a))):<> list0(a)
-//
-(* ****** ****** *)
-//
-castfn
-g0ofg1_list
-  {a:t@ype}(List(INV(a))):<> list0(a)
-castfn
-g0ofg1_list_vt
-  {a:t@ype}(List_vt(INV(a))):<> list0(a)
-//
-overload g0ofg1 with g0ofg1_list
-overload g0ofg1 with g0ofg1_list_vt
-//
-(* ****** ****** *)
-//
-castfn
-g1ofg0_list
-  {a:t@ype}(xs: list0(INV(a))):<> List0(a)
-//
-overload g1ofg0 with g1ofg0_list
 //
 (* ****** ****** *)
 //

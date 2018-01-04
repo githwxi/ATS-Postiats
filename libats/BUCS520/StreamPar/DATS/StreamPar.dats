@@ -89,6 +89,11 @@ streampar_mapfold
 ( fws: fworkshop
 , xs0: stream_vt(INV(a)), r0: r): (r)
 //
+// HX:
+// It is only assumed that
+// [map] can be done in parallel
+// There is a spinlock for [fold]
+//
 extern
 fun
 {a:vt@ype}
@@ -326,6 +331,46 @@ in
   streampar_mapfold<a><b><r>(fws, xs0, r0)
 end // end of [streampar_mapfold_cloref]
 
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+streampar_filter_cloref
+( fws: fworkshop
+, xs0: stream_vt(INV(a)), test: cfun(a, bool)): List0_vt(a)
+//
+implement
+{a}(*tmp*)
+streampar_filter_cloref
+  (fws, xs0, test) = let
+//
+vtypedef r = List0_vt(a)
+vtypedef b = Option_vt(a)
+//
+val r0 = list_vt_nil{a}()
+//
+in
+//
+streampar_mapfold<a><b><r>
+  (fws, xs0, r0) where
+{
+  implement
+  streampar_mapfold$map<a><b>(x0) =
+  if test(x0)
+    then Some_vt(x0) else None_vt()
+  // end of [streampar_mapfold$map]
+  implement
+  streampar_mapfold$fold<b><r>(y0, r0) =
+  (
+    case+ y0 of
+    | ~None_vt() => r0
+    | ~Some_vt(x0) => list_vt_cons(x0, r0)
+  ) (* end of [streampar_mapfold$fold] *)
+}
+//
+end // end of [streampar_filter_cloref]
+//
 (* ****** ****** *)
 
 (* end of [StreamPar.dats] *)

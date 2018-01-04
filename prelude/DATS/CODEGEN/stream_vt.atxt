@@ -610,6 +610,67 @@ case+ !xss of
 } (* end of [stream_vt_concat] *)
 
 #atscode_separator()
+//
+(*
+** HX-2018-01-04:
+** this one is a bit like the
+** opposit of [stream_vt_concat]
+*)
+//
+implement
+{a}(*tmp*)
+stream_vt_delim_cloptr
+  (xs, pred) = let
+//
+fun
+auxmain
+(
+ys: List0_vt(a),
+xs: stream_vt(a),
+f0: (a) -<cloptr> bool
+) : stream_vt(List0_vt(a)) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() => let
+    val () = pred_free(f0)
+  in
+    case+ ys of
+    | ~list_vt_nil _ =>
+       stream_vt_nil()
+    |  list_vt_cons _ =>
+       stream_vt_cons(ys, stream_vt_make_nil())
+  end // end of [stream_vt_nil]
+| ~stream_vt_cons(x, xs) =>
+  (
+    if
+    f0(x)
+    then let
+      val ys =
+      list_vt_reverse<a>(ys)
+    in
+      stream_vt_cons
+        (ys, auxmain(nil_vt(), xs, f0))
+      // stream_vt_cons
+    end // end of [then]
+    else !(auxmain(cons_vt(x, ys), xs, f0))
+  ) (* end of [stream_vt_cons] *)
+, (
+  list_vt_free(ys); lazy_vt_free(xs); pred_free(f0)
+  )
+)
+//
+and
+pred_free
+(
+f0: (a) -<cloptr> bool
+) : void =
+  cloptr_free{void}($UN.castvwtp0(f0))
+//
+in
+  auxmain(list_vt_nil(*void*), xs, pred)
+end // end of [stream_vt_delim_cloptr]
+
+#atscode_separator()
 
 implement
 {a}(*tmp*)

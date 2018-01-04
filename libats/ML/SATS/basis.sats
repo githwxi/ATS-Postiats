@@ -93,12 +93,13 @@ stadef cfun = cfun9
 
 (* ****** ****** *)
 //
-// t@ype+: covariant
+// t0ype+: covariant
+// vt0ype+: covariant
 //
 datatype
 list0_t0ype_type
 (
-  a: t@ype+
+  a: t0ype+
 ) =
   | list0_nil of
       ((*void*))
@@ -106,37 +107,65 @@ list0_t0ype_type
       (a, list0_t0ype_type(a))
     // end of [list0_cons]
 //
-stadef
-list0(a:t@ype) = list0_t0ype_type(a)
+datavtype
+list0_vt0ype_vtype
+(
+  a: vt0ype+
+) =
+  | list0_vt_nil of
+      ((*void*))
+  | list0_vt_cons of
+      (a, list0_vt0ype_vtype(a))
+    // end of [list0_vt_cons]
 //
 #define nil0 list0_nil
 #define cons0 list0_cons
+#define nil0_vt list0_vt_nil
+#define cons0_vt list0_vt_cons
+//
+typedef
+list0(a:t0ype) = list0_t0ype_type(a)
+vtypedef
+list0_vt(a:vt0ype) = list0_vt0ype_vtype(a)
 //
 (* ****** ****** *)
 //
-// t@ype+: covariant
+// t0ype+: covariant
+// vt0ype+: covariant
 //
 datatype
 option0_t0ype_type
-  (a: t@ype+) =
-  | None0 of ((*void*)) | Some0 of (a)
+(
+  a: t0ype+
+) =
+  | None0 of () | Some0 of (a)
 //
-stadef
-option0(a:t@ype) = option0_t0ype_type(a)
+datavtype
+option0_vt0ype_vtype
+(
+  a: vt0ype+
+) =
+  | None0_vt of () | Some0_vt of (a)
+//
+typedef
+option0(a:t0ype) = option0_t0ype_type(a)
+vtypedef
+option0_vt(a:vt0ype) = option0_vt0ype_vtype(a)
 //
 (* ****** ****** *)
 //
 abstype
 array0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr
+  (a: vt0ype(*invariant*)) = ptr
 //
-stadef
-array0(a:vt@ype) = array0_vt0ype_type(a)
+typedef
+array0
+(a:vt0ype) = array0_vt0ype_type(a)
 //
 (*
 abstype
 subarray0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr
+  (a: vt0ype(*invariant*)) = ptr
 stadef subarray0 = subarray0_vt0ype_type
 *)
 //
@@ -144,15 +173,17 @@ stadef subarray0 = subarray0_vt0ype_type
 //
 abstype
 matrix0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr
+  (a: vt0ype(*invariant*)) = ptr
 //
-stadef
-matrix0(a:vt@ype) = matrix0_vt0ype_type(a)
+typedef
+matrix0
+(a:vt0ype) = matrix0_vt0ype_type(a)
 //
 (* ****** ****** *)
 //
 abstype strarr_type = ptr
 typedef strarr = strarr_type
+//
 (*
 abstype substrarr_type = ptr
 typedef substrarr = substrarr_type
@@ -161,10 +192,10 @@ typedef substrarr = substrarr_type
 (* ****** ****** *)
 //
 abstype
-dynarray_type(a:vt@ype) = ptr
+dynarray_type(a:vt0ype) = ptr
 //
 typedef
-dynarray(a:vt@ype) = dynarray_type(a)
+dynarray(a:vt0ype) = dynarray_type(a)
 //
 (* ****** ****** *)
 //
@@ -173,10 +204,12 @@ dynarray(a:vt@ype) = dynarray_type(a)
 //
 abstype
 hashtbl_type
-(key:t@ype, itm:t@ype+) = ptr
+(key:t0ype, itm:t0ype+) = ptr
 //
 typedef
-hashtbl(key:t0p, itm:t0p) = hashtbl_type(key, itm)
+hashtbl
+( key:t0ype
+, itm:t0ype) = hashtbl_type(key, itm)
 //
 (* ****** ****** *)
 //
