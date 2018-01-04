@@ -16,7 +16,15 @@ PATSOLVE_SMT2_SOLVING
 (* ****** ****** *)
 //
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
+"libats/ML/SATS/atspre.sats"
+staload _ =
+"libats/ML/DATS/atspre.dats"
 //
 (* ****** ****** *)
 
