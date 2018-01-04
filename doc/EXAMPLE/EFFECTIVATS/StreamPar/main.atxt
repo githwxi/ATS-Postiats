@@ -346,8 +346,8 @@ positioned but none can attach any other ones.
 
 The aforementioned second phase can clearly be done in parallel.  For
 instance, we can have two threads running on two cores concurrently to
-check the elements in the constructed stream. At the end, a list is
-returned that consists of all of the elements passing the check done
+check the elements in the constructed stream, and a list is returned
+at the end that consists of all of the elements passing the check done
 by ##dyncode("mycheck").
 
 ')

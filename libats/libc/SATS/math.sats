@@ -214,8 +214,6 @@ fun sqrt_float (f: float):<> float = "mac#%"
 fun sqrt_double (d: double):<> double = "mac#%"
 fun sqrt_ldouble (ld: ldouble):<> ldouble = "mac#%"
 //
-(* ****** ****** *)
-//
 fun
 {a:t0p}
 cbrt (x: INV(a)):<> a
@@ -223,6 +221,13 @@ cbrt (x: INV(a)):<> a
 fun cbrt_float (f: float):<> float = "mac#%"
 fun cbrt_double (d: double):<> double = "mac#%"
 fun cbrt_ldouble (ld: ldouble):<> ldouble = "mac#%"
+//
+(* ****** ****** *)
+//
+fun{}
+intsqrt{n:nat}(n: int(n)): natLte(n) // = "mac#%"
+fun{}
+intcbrt{n:nat}(n: int(n)): natLte(n) // = "mac#%"
 //
 (* ****** ****** *)
 //

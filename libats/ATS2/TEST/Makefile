@@ -39,6 +39,16 @@ cleanall:: ; rm -f test03
 
 ######
 
+all:: \
+isPrime
+isPrime: \
+isPrime.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -lm
+regress:: isPrime; ./$<
+cleanall:: ; rm -f isPrime
+
+######
+
 testall:: all
 testall:: regress
 testall:: cleanall

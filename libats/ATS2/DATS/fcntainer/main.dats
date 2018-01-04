@@ -48,6 +48,33 @@ UN =
 
 implement
 {xs}{x0}
+forall(xs) =
+  loop(xs) where
+{
+//
+val xs =
+streamize_vt<xs><x0>(xs)
+//
+fun
+loop
+(xs: stream_vt(x0)): bool =
+(
+case+ !xs of
+| ~stream_vt_nil() => true
+| ~stream_vt_cons(x0, xs) =>
+  (
+    if
+    forall$test<x0>(x0)
+    then loop(xs) else (~xs; false)
+  )
+)
+//
+} (* end of [forall] *)
+
+(* ****** ****** *)
+
+implement
+{xs}{x0}
 exists(xs) = let
 //
 implement
@@ -172,7 +199,7 @@ end // end of [rforeach_cloref]
 (* ****** ****** *)
 
 implement
-{r0}{xs}{x0}
+{xs}{r0}{x0}
 foldleft
   (xs, ini) = let
 //
@@ -195,7 +222,7 @@ in
 end // end of [foldleft]
 
 implement
-{r0}{xs}{x0}
+{xs}{r0}{x0}
 foldleft_cloref
   (xs, ini, fopr) = let
 //
@@ -204,13 +231,13 @@ foldleft$fopr<r0><x0>
   (r0, x0) = fopr(r0, x0)
 //
 in
-  $effmask_all(foldleft<r0><xs><x0>(xs, ini))
+  $effmask_all(foldleft<xs><r0><x0>(xs, ini))
 end // end of [foldleft_cloref]
 
 (* ****** ****** *)
 
 implement
-{r0}{xs}{x0}
+{xs}{r0}{x0}
 ifoldleft
   (xs, ini) = let
 //
@@ -244,7 +271,7 @@ in
 end // end of [foldleft]
 
 implement
-{r0}{xs}{x0}
+{xs}{r0}{x0}
 ifoldleft_cloref
   (xs, ini, fopr) = let
 //
@@ -254,7 +281,7 @@ ifoldleft$fopr<r0><x0>
 //
 in
 //
-$effmask_all(ifoldleft<r0><xs><x0>(xs, ini))
+$effmask_all(ifoldleft<xs><r0><x0>(xs, ini))
 //
 end // end of [ifoldleft_cloref]
 
@@ -339,10 +366,52 @@ foreach$work<x0>(x0) =
 val () = r0 := list_vt_nil()
 //
 in
+$effmask_all
+(
   let val () =
-    $effmask_all(foreach<xs><x0>(xs)) in r0
+    foreach<xs><x0>(xs) in r0
   end // end of [let]
+)
 end // end of [rlistize]
+
+(* ****** ****** *)
+//
+implement
+{xs}{x0}
+streamize(xs) =
+$effmask_all
+(
+stream_vt2t(streamize_vt<xs><x0>(xs))
+) (* end of [streamize] *)
+//
+(* ****** ****** *)
+
+implement
+{xs}
+{x0,y0}
+map_forall
+  (xs, f0) =
+  loop(xs) where
+{
+//
+val xs =
+streamize_vt<xs><x0>(xs)
+//
+fun
+loop
+(xs: stream_vt(x0)): bool =
+(
+case+ !xs of
+| ~stream_vt_nil() => true
+| ~stream_vt_cons(x0, xs) =>
+  (
+    if
+    map_forall$test<y0>(f0(x0))
+    then loop(xs) else (~xs; false)
+  )
+)
+//
+} (* end of [map_forall] *)
 
 (* ****** ****** *)
 
@@ -375,7 +444,7 @@ case+ !xs of
     | ~stream_vt_cons(y0, ys) =>
       (
         if
-        zip_forall$test(x0, y0)
+        zip_forall$test<x0,y0>(x0, y0)
         then loop(xs, ys) else (~xs; ~ys; false)
       )
   )
@@ -383,9 +452,156 @@ case+ !xs of
 //
 in
 //
-  loop(streamize_vt<xs><x0>(xs), streamize_vt<ys><y0>(ys))
+loop
+(streamize_vt<xs><x0>(xs), streamize_vt<ys><y0>(ys))
 //
 end // end of [zip_forall]
+
+(* ****** ****** *)
+
+implement
+( xs:t@ype
+, ys:t@ype
+, x0:t@ype
+, y0:t@ype)
+forall<zip(xs, ys)><(x0,y0)>
+  (ZIP(xs, ys)) = let
+//
+implement
+zip_forall$test<x0,y0>
+  (x0, y0) =
+  forall$test<(x0,y0)>((x0, y0))
+//
+in
+  zip_forall<xs,ys><x0,y0>(xs, ys)
+end // end of [zip_forall]
+
+(* ****** ****** *)
+
+implement
+( xs:t@ype
+, ys:t@ype
+, x0:t@ype
+, y0:t@ype)
+streamize_vt<zip(xs,ys)><(x0,y0)>
+  (ZIP(xs, ys)) = let
+//
+typedef
+xy0 = (x0, y0)
+//
+fun
+auxmain
+(
+xs: stream_vt(x0)
+,
+ys: stream_vt(y0)
+) : stream_vt(xy0) = $ldelay
+(
+//
+case+ !xs of
+| ~stream_vt_nil
+    () =>
+    (~ys; stream_vt_nil())
+| ~stream_vt_cons
+    (x0, xs) =>
+  (
+    case+ !ys of
+    | ~stream_vt_nil
+        () =>
+        (~xs; stream_vt_nil())
+    | ~stream_vt_cons
+        (y0, ys) => let
+        val xy0 = (x0, y0)
+      in
+        stream_vt_cons(xy0, auxmain(xs, ys))
+      end // end of [stream_vt_cons]
+  ) (* end of [stream_vt_cons] *)
+, (lazy_vt_free(xs); lazy_vt_free(ys))
+//
+) (* end of [auxmain] *)
+//
+in
+//
+$effmask_all
+( auxmain
+  (streamize_vt<xs><x0>(xs), streamize_vt<ys><y0>(ys))
+) // $effmask_all
+//
+end // end of [streamize_vt<zip>]
+
+(* ****** ****** *)
+
+implement
+{xs,ys}
+{x0,y0}
+cross_forall
+  (xs, ys) = let
+//
+fun
+loop1
+(
+  x0: x0
+, ys: !List0_vt(y0)
+) : bool =
+(
+case+ ys of
+| list_vt_nil() => true
+| list_vt_cons(y0, ys) =>
+  if
+  cross_forall$test<x0,y0>
+    (x0, y0)
+  then loop1(x0, ys) else false
+)
+//
+fun
+loop2
+(
+  xs: stream_vt(x0)
+, ys: (List0_vt(y0))
+) : bool =
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+  (
+    list_vt_free(ys); true
+  )
+| ~stream_vt_cons(x0, xs) =>
+  (
+    if
+    loop1(x0, ys)
+    then loop2(xs, ys)
+    else
+    (
+      ~(xs); list_vt_free(ys); false
+    )
+  ) (* end of [stream_vt_cons] *)
+)
+//
+in
+//
+loop2
+(streamize_vt<xs><x0>(xs), listize<ys><y0>(ys))
+//
+end // end of [cross_forall]
+
+(* ****** ****** *)
+
+implement
+( xs:t@ype
+, ys:t@ype
+, x0:t@ype
+, y0:t@ype)
+forall<cross(xs, ys)><(x0,y0)>
+  (CROSS(xs, ys)) = let
+//
+implement
+cross_forall$test<x0,y0>
+  (x0, y0) =
+  forall$test<(x0,y0)>((x0, y0))
+//
+in
+  cross_forall<xs,ys><x0,y0>(xs, ys)
+end // end of [forall<cross>]
 
 (* ****** ****** *)
 

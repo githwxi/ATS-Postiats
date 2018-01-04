@@ -42,6 +42,11 @@ ATS_EXTERN_PREFIX
 "atslib_libats_libc_" // prefix for external names
 //
 (* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
 
 staload "libats/libc/SATS/math.sats"
 
@@ -143,6 +148,18 @@ implement sqrt<ldouble> = sqrt_ldouble
 implement cbrt<float> = cbrt_float
 implement cbrt<double> = cbrt_double
 implement cbrt<ldouble> = cbrt_ldouble
+//
+(* ****** ****** *)
+//
+implement
+intsqrt<>{n}(x) =
+$UN.cast{natLte(n)}
+(sqrt_double(g0int2float_int_double(x)))
+//
+implement
+intcbrt<>{n}(x) =
+$UN.cast{natLte(n)}
+(cbrt_double(g0int2float_int_double(x)))
 //
 (* ****** ****** *)
 

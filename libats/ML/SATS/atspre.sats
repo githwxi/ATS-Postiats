@@ -61,6 +61,32 @@ string_tabulate_cloref
 // prelude/intrange
 //
 (* ****** ****** *)
+
+fun{}
+int_forall_cloptr
+(
+ n: int, pred: (int) -<cloptr1> bool
+) : bool // end of [int_forall_cloptr]
+fun{}
+int_forall_cloref
+(
+ n: int, pred: (int) -<cloref1> bool
+) : bool // end of [int_forall_cloref]
+
+(* ****** ****** *)
+
+fun{}
+intrange_forall_cloptr
+(
+ m: int, n: int, pred: (int) -<cloptr1> bool
+) : bool // end of [intrange_forall_cloptr]
+fun{}
+intrange_forall_cloref
+(
+ m: int, n: int, pred: (int) -<cloref1> bool
+) : bool // end of [intrange_forall_cloref]
+
+(* ****** ****** *)
 //
 fun{}
 int_foreach_cloptr

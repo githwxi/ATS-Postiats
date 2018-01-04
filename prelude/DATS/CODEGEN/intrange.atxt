@@ -26,34 +26,61 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
+intrange_forall
+  (l, r) =
+  loop(l, r) where
+{
+//
+fun
+loop
+(l: int, r: int): bool =
+(
+if
+(l < r)
+  then (
+    if
+    intrange_forall$pred<>(l)
+    then loop(l+1, r) else false
+  ) else true // end of [if]
+// end of [if]
+)
+//
+} (* end of [intrange_forall] *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
 intrange_foreach
   (l, r) = let
   var env: void = ()
 in
-  intrange_foreach_env<void> (l, r, env)
+  intrange_foreach_env<void>(l, r, env)
 end // end of [intrange_foreach]
 
-implement{tenv}
+implement
+{tenv}(*tmp*)
 intrange_foreach_env
   (l, r, env) = let
 //
 fun loop
 (
-  l: int, r: int, env: &tenv
+  l: int, r: int, env: &tenv >> _
 ) : int =
 (
 //
 if
 l < r
 then let
-  val cont = intrange_foreach$cont<tenv> (l, env)
+  val cont = intrange_foreach$cont<tenv>(l, env)
 in
 //
 if
 cont
 then (
-  intrange_foreach$fwork<tenv> (l, env); loop (succ(l), r, env)
+  intrange_foreach$fwork<tenv>(l, env); loop(succ(l), r, env)
 ) else l // end of [if]
 //
 end // end of [then]
@@ -67,24 +94,28 @@ end // end of [intrange_foreach_env]
 
 #atscode_separator()
 
-implement{env}
-intrange_foreach$cont (i, env) = true
+implement
+{tenv}(*tmp*)
+intrange_foreach$cont(i, env) = true
 (*
-implement{env}
-intrange_foreach$fwork (i, env) = ((*void*))
+implement
+{tenv}(*tmp*)
+intrange_foreach$fwork(i, env) = ((*void*))
 *)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 intrange_rforeach
   (l, r) = let
   var env: void = ()
 in
-  intrange_rforeach_env<void> (l, r, env)
+  intrange_rforeach_env<void>(l, r, env)
 end // end of [intrange_rforeach]
 
-implement{tenv}
+implement
+{tenv}(*tmp*)
 intrange_rforeach_env
   (l, r, env) = let
 //
@@ -98,13 +129,13 @@ if
 l < r
 then let
   val r1 = pred (r)
-  val cont = intrange_rforeach$cont<tenv> (r1, env)
+  val cont = intrange_rforeach$cont<tenv>(r1, env)
 in
 //
 if
 cont
 then (
-  intrange_rforeach$fwork<tenv> (r1, env); loop (l, r1, env)
+  intrange_rforeach$fwork<tenv>(r1, env); loop(l, r1, env)
 ) else r // end of [if]
 //
 end // end of [then]
@@ -118,25 +149,29 @@ end // end of [intrange_rforeach_env]
 
 #atscode_separator()
 
-implement{env}
-intrange_rforeach$cont (i, env) = true
+implement
+{tenv}(*tmp*)
+intrange_rforeach$cont(i, env) = true
 (*
-implement{env}
-intrange_rforeach$fwork (i, env) = ((*void*))
+implement
+{tenv}(*tmp*)
+intrange_rforeach$fwork(i, env) = ((*void*))
 *)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 intrange2_foreach
   (l1, r1, l2, r2) = let
   var env: void = () in
-  intrange2_foreach_env<void> (l1, r1, l2, r2, env)
+  intrange2_foreach_env<void>(l1, r1, l2, r2, env)
 end // end of [intrange2_foreach]
 
 #atscode_separator()
 
-implement{tenv}
+implement
+{tenv}(*tmp*)
 intrange2_foreach_env
   (l1, r1, l2, r2, env) = let
 //
@@ -146,7 +181,7 @@ loop1
   i: int, env: &(tenv) >> _
 ) : void =
 (
-if i < r1 then loop2 (i, l2, env) else ()
+if i < r1 then loop2(i, l2, env) else ()
 )
 //
 and
@@ -158,7 +193,7 @@ loop2
 if
 j < r2
 then (
-  intrange2_foreach$fwork(i, j, env); loop2 (i, j+1, env)
+  intrange2_foreach$fwork(i, j, env); loop2(i, j+1, env)
 ) else loop1 (i+1, env)
 )
 //

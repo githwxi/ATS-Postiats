@@ -29,12 +29,12 @@ val () =
 $FC.iforeach_cloref<list0(int)><int>(xs, lam(i, x) =<1> println!(i, "->", x))
 //
 val res =
-$FC.foldleft_cloref<int><list0(int)><int>(xs, 0(*ini*), lam(res, x) => res + x)
+$FC.foldleft_cloref<list0(int)><int><int>(xs, 0(*ini*), lam(res, x) => res + x)
 val ((*void*)) =
 println! ("foldleft(res) = ", res)
 //
 val res =
-$FC.ifoldleft_cloref<int><list0(int)><int>(xs, 0(*ini*), lam(res, i, x) => res + i*x)
+$FC.ifoldleft_cloref<list0(int)><int><int>(xs, 0(*ini*), lam(res, i, x) => res + i*x)
 val ((*void*)) =
 println! ("ifoldleft(res) = ", res)
 //

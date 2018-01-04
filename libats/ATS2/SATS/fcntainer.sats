@@ -32,14 +32,39 @@
 (* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
+
+typedef
+cfun
+(
+  x0:t@ype
+, y0:t@ype
+) = (x0) -<cloref1> y0
+
+(* ****** ****** *)
 //
 datatype
 intrange =
 INTRANGE of (int, int)
-datatype
-intrange2 =
-INTRANGE2 of (int, int, int, int)
 //
+(* ****** ****** *)
+
+datatype
+map(
+  xs:t@ype
+, x0:t@ype
+, y0: t@ype
+) = MAP of (xs, cfun(x0, y0))
+
+(* ****** ****** *)
+
+datatype
+zip(xs:t@ype, ys:t@ype) = ZIP of (xs, ys)
+
+(* ****** ****** *)
+
+datatype
+cross(xs:t@ype, ys:t@ype) = CROSS of (xs, ys)
+
 (* ****** ****** *)
 
 (*
@@ -212,8 +237,8 @@ iforeach_cloref{fe:eff}
 (* ****** ****** *)
 //
 fun
-{r0:t0p}
 {xs:t0p}
+{r0:t0p}
 {x0:t0p}
 foldleft(xs: xs, ini: r0): r0
 fun
@@ -222,8 +247,8 @@ fun
 foldleft$fopr(r0: r0, x0: x0): r0
 //
 fun
-{r0:t0p}
 {xs:t0p}
+{r0:t0p}
 {x0:t0p}
 foldleft_cloref{fe:eff}
 ( xs: xs
@@ -234,29 +259,29 @@ foldleft_cloref{fe:eff}
 (* ****** ****** *)
 //
 fun
-{r0:t0p}
 {xs:t0p}
 {x0:t0p}
+{r0:t0p}
 foldright(xs: xs, snk: r0): r0
 fun
-{r0:t0p}
 {x0:t0p}
-foldright$fopr(r0: r0, x0: x0): r0
-fun
 {r0:t0p}
+foldright$fopr(x0: x0, r0: r0): r0
+fun
 {xs:t0p}
 {x0:t0p}
+{r0:t0p}
 foldright_cloref{fe:eff}
 ( xs: xs
 , snk: r0
-, fopr: (r0, x0) -<cloref,fe> r0):<fe> r0
+, fopr: (x0, r0) -<cloref,fe> r0):<fe> r0
 // end of [foldright_cloref]
 //
 (* ****** ****** *)
 //
 fun
-{r0:t0p}
 {xs:t0p}
+{r0:t0p}
 {x0:t0p}
 ifoldleft(xs: xs, ini: r0): r0
 fun
@@ -265,8 +290,8 @@ fun
 ifoldleft$fopr(r0: r0, i: Nat, x0: x0): r0
 //
 fun
-{r0:t0p}
 {xs:t0p}
+{r0:t0p}
 {x0:t0p}
 ifoldleft_cloref{fe:eff}
 ( xs: xs
@@ -330,8 +355,21 @@ streamize(xs: xs):<> stream(x0)
 fun
 {xs:t0p}
 {x0:t0p}
-streamize_vt(xs: xs):<> stream_vt(x0)
+streamize_vt(xs: xs):<!wrt> stream_vt(x0)
 
+(* ****** ****** *)
+//
+fun
+{xs:t0p}
+{x0
+,y0:t0p}
+map_forall
+( xs: xs
+, f0: cfun(x0, y0)): bool
+fun
+{y0:t0p}
+map_forall$test(y0: y0): bool
+//
 (* ****** ****** *)
 //
 fun
@@ -343,6 +381,18 @@ zip_forall(xs: xs, ys: ys): bool
 fun
 {x0,y0:t0p}
 zip_forall$test(x0: x0, y0: y0): bool
+//
+(* ****** ****** *)
+//
+fun
+{xs
+,ys:t0p}
+{x0
+,y0:t0p}
+cross_forall(xs: xs, ys: ys): bool
+fun
+{x0,y0:t0p}
+cross_forall$test(x0: x0, y0: y0): bool
 //
 (* ****** ****** *)
 

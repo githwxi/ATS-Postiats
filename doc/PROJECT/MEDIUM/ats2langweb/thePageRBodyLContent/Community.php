@@ -47,7 +47,7 @@ programming language.
 <td>
 <h2
 style="margin-bottom:0px">
-<a id="ATS_IRC_channel">IRC channel for ATS users: ##ats</a>:</h2>
+<a id="ATS_IRC_channel">IRC channel for ATS users</a>:</h2>
 <ul>
 <li>
 Would you like to chat about ATS? Please get onto this IRC channel

@@ -54,6 +54,57 @@ UN = "prelude/SATS/unsafe.sats"
 //
 implement
 {}(*tmp*)
+int_forall_cloptr
+  (n, pred) =
+(
+intrange_forall_cloptr<>(0, n, pred)
+) (* end of [int_forall_cloref] *)
+implement
+{}(*tmp*)
+int_forall_cloref
+  (n, pred) =
+(
+intrange_forall_cloref<>(0, n, pred)
+) (* end of [int_forall_cloref] *)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+intrange_forall_cloptr
+(
+l, r, pred
+) = res where
+{
+//
+val res =
+intrange_forall_cloref<>
+  (l, r, $UN.castvwtp1(pred))
+val ((*void*)) =
+  cloptr_free{void}($UN.castvwtp0(pred))
+} // end of [intrange_forall_cloptr]
+//
+implement
+{}(*tmp*)
+intrange_forall_cloref
+  (l, r, pred) = loop(l, r) where
+{
+//
+fun
+loop
+(l: int, r: int): bool =
+if
+(l < r)
+then (
+  if pred(l) then loop(l+1, r) else false
+) else true
+//
+} // end of [intrange_forall_cloref]
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 int_foreach_cloptr
   (n, fwork) =
 (

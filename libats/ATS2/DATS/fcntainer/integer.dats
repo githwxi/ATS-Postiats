@@ -45,19 +45,10 @@ UN = "prelude/SATS/unsafe.sats"
 "libats/ATS2/SATS/fcntainer.sats"
 //
 (* ****** ****** *)
-//
-typedef
-intrange = $FC.intrange
-//
-(* ****** ****** *)
 
 implement
-$FC.streamize_vt<intrange><int>
+$FC.streamize_vt<int><int>
   (xs) = let
-//
-val
-$FC.INTRANGE
-  (l, r) = xs
 //
 fun
 auxmain
@@ -75,20 +66,17 @@ auxmain
 )
 //
 in
-  $effmask_all(auxmain(l, r))
+  $effmask_all(auxmain(0, xs(*r*)))
 end (* end of [$FC.streamize_vt] *)
 
 (* ****** ****** *)
 //
 implement
-$FC.forall<intrange><int>
+$FC.forall<int><int>
   (xs) =
-  loop(l, r) where
+  loop
+  (0, xs(*r*)) where
 {
-//
-val
-$FC.INTRANGE
-  (l, r) = xs
 //
 fun
 loop
@@ -97,8 +85,9 @@ loop
 (
 if (
 l < r
-) then (
-  if $FC.forall$test<int>(l) then loop(l+1, r) else false
+) then
+(
+if $FC.forall$test<int>(l) then loop(l+1, r) else false
 ) else true // end of [if]
 )
 //
@@ -107,33 +96,28 @@ l < r
 (* ****** ****** *)
 //
 implement
-$FC.rforall<intrange><int>
+$FC.rforall<int><int>
   (xs) =
-  loop(l, r) where
+  loop(xs(*r*)) where
 {
-//
-val
-$FC.INTRANGE
-  (l, r) = xs
 //
 fun
 loop
-( l: int
-, r: int): bool =
+(r: int): bool =
 (
 if (
-l < r
-) then let
-//
-val r1 = r-1
-//
-in
-  if $FC.rforall$test<int>(r1) then loop(l, r1) else false
-end else true // end of [if]
+r > 0
+) then
+(
+let
+val r1 = r-1 in
+  if $FC.rforall$test<int>(r1) then loop(r1) else false
+end // end of [let]
+) else true // end of [if]
 )
 //
 } (* end of [$FC.rforall] *)
 //
 (* ****** ****** *)
 
-(* end of [fcntainer_intrange.dats] *)
+(* end of [fcntainer_integer.dats] *)
