@@ -43,7 +43,11 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
+
+(* ****** ****** *)
+
 staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/list0_vt.sats"
 
 (* ****** ****** *)
 //
@@ -1636,7 +1640,10 @@ case+ xs of
 )
 //
 in
-  g0ofg1(list_vt_reverse(auxmain(xs, list_vt_nil())))
+//
+list0_vt2t
+(g0ofg1(list_vt_reverse(auxmain(xs, list_vt_nil()))))
+//
 end // end of [list0_take_while]
 
 implement
@@ -1659,7 +1666,10 @@ case+ xs of
 )
 //
 in
-  g0ofg1(list_vt_reverse(auxmain(xs, list_vt_nil())))
+//
+list0_vt2t
+(g0ofg1(list_vt_reverse(auxmain(xs, list_vt_nil()))))
+//
 end // end of [list0_take_until]
 
 (* ****** ****** *)

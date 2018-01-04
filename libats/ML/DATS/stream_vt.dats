@@ -53,7 +53,10 @@ implement
 {a}(*tmp*)
 stream2list0_vt
   (xs) =
-  g0ofg1(stream2list_vt<a>(xs))
+(
+list0_vt2t
+(g0ofg1(stream2list_vt<a>(xs)))
+)
 //
 (* ****** ****** *)
 //

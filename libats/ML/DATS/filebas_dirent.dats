@@ -129,7 +129,8 @@ end // end of [else]
 //
 end // end of [loop]
 //
-val dirp = $DIR.opendir(dirname)
+val dirp =
+  $DIR.opendir(dirname)
 //
 in
 //
@@ -156,13 +157,13 @@ then let
 //
 in
 //
-g0ofg1_list_vt(res2)
+  g0ofg1_list(list_vt2t(res2))
 //
 end // end of [then]
 else let
-  prval() = $DIR.DIRptr_free_null(dirp)
-in
-  list0_nil((*void*))
+  prval() =
+    $DIR.DIRptr_free_null(dirp) in list0_nil()
+  // end of [prval]
 end // end of [else]
 //
 end // end of [dirname_get_fnamelst]
