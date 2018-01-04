@@ -43,7 +43,7 @@ implement main0() =
    $FC.foldleft$fopr<int><int>(res, x) =
    if isPrime($UNSAFE.cast{intGte(2)}(x+2)) then res+1 else res
   }
-  val () = println! ("Number of primes < 1000000 = ", np)
+  val () = println! ("The number of primes < 1000000 = ", np)
 //
 } (* end of [main0] *)
 

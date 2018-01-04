@@ -1473,22 +1473,29 @@ xs, ys
 case+ xs of
 | ~list_vt_nil() =>
   (
-    list_vt_free(ys); stream_vt_nil()
-  )
+    stream_vt_nil()
+  ) where
+  {
+    val+~list_vt_nil() = ys
+  }
 | ~list_vt_cons(x, xs) =>
   (
     case+ ys of
-    | ~list_vt_nil() =>
-      (
-        list_vt_free(xs); stream_vt_nil()
-      )
+(*
+    | ~list_vt_nil() => let
+        var x = x
+        val () = list_vt_freelin$clear<a>(x)
+      in
+        list_vt_freelin(xs); stream_vt_nil()
+      end // end of [list_vt_nil]
+*)
     | ~list_vt_cons(y, ys) =>
       (
         stream_vt_cons((x, y), auxmain(xs, ys))
       )
   ) (* end of [list_vt_cons] *)
 )
-, (list_vt_free(xs); list_vt_free(ys))
+, (list_vt_freelin(xs); list_vt_freelin(ys))
 ) (* end of [$ldelay] *)
 //
 } (* end of [streamize_list_vt_zip] *)

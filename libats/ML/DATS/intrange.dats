@@ -46,34 +46,37 @@ staload "libats/ML/SATS/intrange.sats"
 implement
 {}(*tmp*)
 int_repeat_lazy
-  (n, fopr) =
-  int_repeat_cloref<>(n, lazy2cloref(fopr))
+  (n, f) =
+(
+int_repeat_cloref<>(n, lazy2cloref(f))
+)
 //
 (* ****** ****** *)
 
 implement
 {}(*tmp*)
 int_repeat_cloref
-  (n, fopr) = let
+  (n, f) =
+  loop(n, f) where
+{
 //
 fun
 loop
 (
-  n: int, f: cfun0(void)
+ n: int, f: cfun0(void)
 ) : void = (
 //
 if
-(n > 0)
-then
-(
-  let val () = fopr() in loop(n-1, fopr) end
+n > 0
+then (
+let
+val () = f() in loop(n-1, f)
+end
 ) else ((*void*))
 //
 ) (* end of [loop] *)
 //
-in
-  loop (n, fopr)
-end // end of [int_repeat_cloref]
+} // end of [int_repeat_cloref]
 
 (* ****** ****** *)
 //
@@ -82,7 +85,7 @@ implement
 int_repeat_method
   (n) =
 (
-lam(fopr) => int_repeat_cloref(n, fopr)
+lam(f) => int_repeat_cloref<>(n, f)
 )
 //
 (* ****** ****** *)
@@ -91,12 +94,15 @@ implement
 {}(*tmp*)
 int_forall_cloref
   (n, f) =
-  intrange_forall_cloref<> (0, n, f)
+  intrange_forall_cloref<>(0, n, f)
 //
 implement
 {}(*tmp*)
 int_forall_method
-  (n) = lam(f) => int_forall_cloref (n, f)
+  (n) =
+(
+  lam(f) => int_forall_cloref<>(n, f)
+)
 //
 (* ****** ****** *)
 //
@@ -104,12 +110,15 @@ implement
 {}(*tmp*)
 int_foreach_cloref
   (n, f) =
-  intrange_foreach_cloref<> (0, n, f)
+  intrange_foreach_cloref<>(0, n, f)
 //
 implement
 {}(*tmp*)
 int_foreach_method
-  (n) = lam(f) => int_foreach_cloref (n, f)
+  (n) =
+(
+  lam(f) => int_foreach_cloref<>(n, f)
+)
 //
 (* ****** ****** *)
 //
@@ -339,7 +348,7 @@ int_streamGte(n) =
 fix
 aux
 (
-  n:int
+ n: int
 ) : stream(int) => $delay(stream_cons(n, aux(n+1)))
 ) (n) // end of [int_streamGte]
 //
@@ -350,7 +359,7 @@ int_streamGte_vt(n) =
 fix
 aux
 (
-  n:int
+ n: int
 ) : stream_vt(int) => $ldelay(stream_vt_cons(n, aux(n+1)))
 ) (n) // end of [int_streamGte_vt]
 //
@@ -359,12 +368,13 @@ aux
 implement
 {a}(*tmp*)
 int_list0_map_cloref
-  (n, f) = list0_tabulate<a> (n, f)
+  (n, f) = list0_tabulate<a>(n, f)
 //
 implement
 {a}(*tmp*)
 int_list0_map_method
-  (n, tres) = lam(f) => int_list0_map_cloref<a> (n, f)
+  (n, tres) =
+  lam(f) => int_list0_map_cloref<a>(n, f)
 //
 (* ****** ****** *)
 //
@@ -380,7 +390,8 @@ array0_tabulate<a>
 implement
 {a}(*tmp*)
 int_array0_map_method
-  (n, tres) = lam(f) => int_array0_map_cloref<a> (n, f)
+  (n, tres) =
+  lam(f) => int_array0_map_cloref<a>(n, f)
 //
 (* ****** ****** *)
 //
@@ -393,12 +404,15 @@ int_stream_map_cloref
 fun
 auxmain
 (
-  i: Nat
+ i: Nat
 ) : stream(a) = $delay
 (
 if
-(i < n)
-then stream_cons(f(i), auxmain(i+1)) else stream_nil()
+(i >= n)
+then
+stream_nil((*void*))
+else
+stream_cons(f(i), auxmain(i+1))
 ) (* end of [auxmain] *)
 //
 } (* end of [int_stream_map_cloref] *)
@@ -406,7 +420,13 @@ then stream_cons(f(i), auxmain(i+1)) else stream_nil()
 implement
 {a}(*tmp*)
 int_stream_map_method
-  (n, tres) = lam(f) => int_stream_map_cloref<a> (n, f)
+  (n, tres) =
+(
+//
+lam(f) =>
+  int_stream_map_cloref<a>(n, f)
+//
+) (* int_stream_map_method *)
 //
 (* ****** ****** *)
 //
@@ -419,12 +439,17 @@ int_stream_vt_map_cloref
 fun
 auxmain
 (
-  i: Nat
+ i: Nat
 ) : stream_vt(a) = $ldelay
 (
 if
-(i < n)
-then stream_vt_cons(f(i), auxmain(i+1)) else stream_vt_nil()
+(i >= n)
+then
+stream_vt_nil((*void*))
+else
+stream_vt_cons(f(i), auxmain(i+1))
+// end of [then]
+//
 ) : stream_vt_con(a) // [auxmain]
 //
 } (* end of [int_stream_vt_map_cloref] *)
@@ -432,33 +457,44 @@ then stream_vt_cons(f(i), auxmain(i+1)) else stream_vt_nil()
 implement
 {a}(*tmp*)
 int_stream_vt_map_method
-  (n, tres) = lam(f) => int_stream_vt_map_cloref<a> (n, f)
+  (n, tres) =
+(
+//
+lam(f) =>
+  int_stream_vt_map_cloref<a>(n, f)
+//
+)
 //
 (* ****** ****** *)
 //
 implement
 {}(*tmp*)
 int2_foreach_cloref
-  (n1, n2, f) =
-  intrange2_foreach_cloref<> (0, n1, 0, n2, f)
+  (n1, n2, f0) =
+(
+intrange2_foreach_cloref<>
+  ( 0(*l1*), n1(*r1*)
+  , 0(*l2*), n2(*r2*), f0 )
+)
 //
 implement
 {}(*tmp*)
 intrange2_foreach_cloref
-  (l1, r1, l2, r2, f) = let
+  (l1, r1, l2, r2, f0) = let
 //
 fnx
 loop1
 (
   m1: int, r1: int
 , l2: int, r2: int
-, f: cfun2 (int, int, void)
+, f0: cfun2(int, int, void)
 ) : void = (
 //
 if
 m1 < r1
-then loop2(m1, r1, l2, l2, r2, f)
-else ()
+then
+loop2(m1, r1, l2, l2, r2, f0)
+else ((*void*)) // end of [if]
 //
 ) (* end of [loop1] *)
 //
@@ -467,23 +503,28 @@ loop2
 (
   m1: int, r1: int
 , l2: int, m2: int, r2: int
-, f: cfun2 (int, int, void)
+, f0: cfun2(int, int, void)
 ) : void = (
 //
 if
 m2 < r2
-then (
+then let
 //
-f(m1, m2);
-loop2(m1, r1, l2, m2+1, r2, f)
+val () = f0(m1, m2)
 //
-) (* end of [then] *)
-else loop1(m1+1, r1, l2, r2, f)
+in
+  loop2
+  (m1, r1, l2, m2+1, r2, f0)
+end // end of [then]
+else
+(
+  loop1(m1+1, r1, l2, r2, f0)
+) (* end of [else] *)
 //
 ) (* end of [loop2] *)
 //
 in
-  loop1 (l1, r1, l2, r2, f)
+  loop1(l1, r1, l2, r2, f0)
 end // end of [intrange2_foreach_cloref]
 //
 (* ****** ****** *)
