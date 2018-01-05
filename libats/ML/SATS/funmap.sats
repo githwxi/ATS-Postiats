@@ -215,7 +215,7 @@ takeout = $d2ctype(funmap_takeout<key,itm>)
 ,
 listize = $d2ctype(funmap_listize<key,itm>)
 ,
-streamiize = $d2ctype(funmap_streamize<key,itm>)
+streamize = $d2ctype(funmap_streamize<key,itm>)
 //
 } (* end of [set_modtype] *)
 

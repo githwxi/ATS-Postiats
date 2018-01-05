@@ -232,7 +232,7 @@ intersect = $d2ctype(funset_intersect<elt>)
 ,
 listize = $d2ctype(funset_listize<elt>)
 ,
-streamiize = $d2ctype(funset_streamize<elt>)
+streamize = $d2ctype(funset_streamize<elt>)
 //
 } (* end of [set_modtype] *)
 

@@ -55,7 +55,8 @@ pcre_match_substring
   {n}{st,ln}
 (
   code, subject, st, ln
-) = let
+) = ret where
+{
 //
 prval () = lemma_g1uint_param(st)
 prval () = lemma_g1uint_param(ln)
@@ -70,9 +71,7 @@ val ret =
   pcre_exec (code, extra, subject2, length, startoffset, options, ovector, 0)
 prval ((*void*)) = pcre_free_study_null (extra)
 //
-in
-  ret
-end // end of [pcre_match_substring]
+} // end of [pcre_match_substring]
 
 (* ****** ****** *)
 

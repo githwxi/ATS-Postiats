@@ -32,19 +32,28 @@ main.atxt ; $(MYTEXTING) -o $@ -i $<
 #
 ######
 #
-StreamPar: \
-StreamPar.dats; $(PATSCC2) -o $@ $< -latslib
-#
-regress:: StreamPar; ./$<
-cleanall:: ; $(RMF) StreamPar
-#
-######
-#
 QueenPuzzle: \
 QueenPuzzle.dats; $(PATSCC2) -o $@ $< -latslib
 #
 regress:: QueenPuzzle; ./$<
 cleanall:: ; $(RMF) QueenPuzzle
+#
+######
+#
+StreamPar_misc: \
+StreamPar_misc.dats; $(PATSCC2) -o $@ $< -latslib
+#
+regress:: StreamPar_misc; ./$<
+cleanall:: ; $(RMF) StreamPar_misc
+#
+######
+#
+StreamPar_binge: \
+StreamPar_binge.dats; \
+$(PATSCC2) -I $(PATSHOME)/contrib -o $@ $< -latslib -lpcre -lpthread
+#
+regress:: StreamPar_binge; ./$<
+cleanall:: ; $(RMF) StreamPar_binge
 #
 ######
 #

@@ -213,7 +213,7 @@ takeout = funmap_takeout<key,itm>
 ,
 listize = funmap_listize<key,itm>
 ,
-streamiize = funmap_streamize<key,itm>
+streamize = funmap_streamize<key,itm>
 //
 } (* end of [funmap_make_module] *)
 //

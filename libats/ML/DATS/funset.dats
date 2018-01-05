@@ -421,7 +421,7 @@ intersect= funset_intersect<a>
 ,
 listize = funset_listize<a>
 ,
-streamiize = funset_streamize<a>
+streamize = funset_streamize<a>
 //
 } (* end of [funset_make_module] *)
 //
