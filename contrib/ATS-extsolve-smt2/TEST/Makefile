@@ -61,7 +61,6 @@ cleanall:: ; $(RMF) quadratic_dats.smt2
 ######
 
 testall:: all
-testall:: regress
 testall:: cleanall
 
 ######

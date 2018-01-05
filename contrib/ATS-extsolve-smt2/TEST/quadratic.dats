@@ -1,7 +1,8 @@
+(* ****** ****** *)
 (*
-** Testing some operations on reals
+** Testing
+** some operations on reals
 *)
-
 (* ****** ****** *)
 //
 (*
