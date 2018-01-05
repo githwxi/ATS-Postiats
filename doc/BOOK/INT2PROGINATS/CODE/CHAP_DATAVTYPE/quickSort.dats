@@ -1,3 +1,4 @@
+(* ****** ****** *)
 (*
 ** Copyright (C) 2014 Hongwei Xi, Boston University
 **
@@ -22,7 +23,6 @@
 ** FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 ** OTHER DEALINGS IN THE SOFTWARE.
 *)
-
 (* ****** ****** *)
 
 (*
@@ -42,8 +42,15 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
+//
+#staload
+"libats/ML/SATS/atspre.sats"
+#staload _ =
+"libats/ML/DATS/atspre.dats"
+//
+(* ****** ****** *)
 
-staload "./insertionSort.dats"
+#staload "./insertionSort.dats"
 
 (* ****** ****** *)
 //

@@ -12,31 +12,14 @@
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
 
-(* ****** ****** *)
-
-staload "libats/ML/SATS/basis.sats"
-staload "libats/ML/SATS/list0.sats"
-staload "libats/ML/SATS/string.sats"
-
-(* ****** ****** *)
-
-staload _ = "libats/ML/DATS/list0.dats"
-staload _ = "libats/ML/DATS/string.dats"
-
-(* ****** ****** *)
-//
-staload _ = "libats/DATS/hashfun.dats"
-staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/hashtbl_chain.dats"
-//
-staload _ = "libats/ML/DATS/hashtblref.dats"
-//
 (* ****** ****** *)
 
 abstype wcmap_type = ptr
@@ -126,8 +109,8 @@ val cs = loop ()
 in
 //
 case+ cs of
-| nil0 () => stropt_none ((*void*))
-| cons0 _ => stropt_some (string_make_rlist(cs))
+| nil0 () => stropt_none((*void*))
+| cons0 _ => stropt_some(string_make_rlist0(cs))
 //
 end // end of [word_get]
 

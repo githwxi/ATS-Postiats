@@ -1,3 +1,4 @@
+(* ****** ****** *)
 (*
 ** Copyright (C) 2011 Hongwei Xi, Boston University
 **
@@ -22,7 +23,6 @@
 ** FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 ** OTHER DEALINGS IN THE SOFTWARE.
 *)
-
 (* ****** ****** *)
 
 (*
@@ -40,7 +40,7 @@
 //
 (* ****** ****** *)
 
-staload "ratfun.sats"
+staload "./ratfun.sats"
 
 (* ****** ****** *)
 

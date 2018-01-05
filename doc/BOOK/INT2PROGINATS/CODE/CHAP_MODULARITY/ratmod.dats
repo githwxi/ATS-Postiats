@@ -39,7 +39,7 @@
 //
 (* ****** ****** *)
 
-staload "ratmod.sats"
+staload "./ratmod.sats"
 
 (* ****** ****** *)
 

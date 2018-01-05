@@ -15,6 +15,11 @@ STDLIB =
 "./../DATS/BUCS520-2016-Fall.dats"
 //
 (* ****** ****** *)
+//
+#include
+"share/atspre_staload_libats_ML.hats"
+//
+(* ****** ****** *)
 
 implement
 main0(argc, argv) =
@@ -33,19 +38,30 @@ stream_by_command<>
   (argv[1], "-type", "f")
 ) (* stream_by_command *)
 //
+val
+css =
+stream_vt_delim_cloptr
+  (cs, lam(c) => c = '\n')
+val
+lines =
+stream_vt_map_cloptr<List_vt(char)><string>
+( css
+, lam(cs) => string_make_list(list_vt2t(cs))
+)
+//
 local
 implement
 stream_vt_fprint$beg<>(out) = ()
 implement
 stream_vt_fprint$end<>(out) = ()
 implement
-stream_vt_fprint$sep<>(out) = ()
+stream_vt_fprint$sep<>(out) = fprint(out, "\n")
 in
-val () = stream_vt_fprint(cs, out, 1024)
+val () =
+stream_vt_fprint(lines, out, 100)
 end // end of [local]
 //
-val () = fprint(out, "...")
-val () = fprint_newline(out)
+val () = fprintln!(out, "\n...")
 //
 } (* end of [main0] *)
   

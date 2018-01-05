@@ -15,15 +15,17 @@ staload _ = "libats/ML/DATS/list0.dats"
 
 (* ****** ****** *)
 
-staload "intset.sats"
+staload "./intset.sats"
 
 (* ****** ****** *)
 
 (*
+//
 // HX: not any more
-dynload "intset.sats"
+//
+dynload "./intset.sats"
 *)
-dynload "intset.dats"
+dynload "./intset.dats"
 
 (* ****** ****** *)
 

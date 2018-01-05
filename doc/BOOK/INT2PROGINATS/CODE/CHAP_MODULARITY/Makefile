@@ -1,9 +1,9 @@
+######
 ##
 ##
 ## A simple Makefile for compiling ATS programs
 ##
 ##
-
 ######
 
 PATSHOMEQ="$(PATSHOME)"

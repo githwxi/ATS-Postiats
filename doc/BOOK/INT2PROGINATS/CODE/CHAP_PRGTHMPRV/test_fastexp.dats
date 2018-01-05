@@ -1,3 +1,4 @@
+(* ****** ****** *)
 (*
 ** Copyright (C) 2011 Hongwei Xi, Boston University
 **
@@ -22,7 +23,6 @@
 ** FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 ** OTHER DEALINGS IN THE SOFTWARE.
 *)
-
 (* ****** ****** *)
 
 (*
@@ -36,6 +36,8 @@
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -111,8 +113,8 @@ fun fprint_mat2x2
 
 (* ****** ****** *)
 
-staload "fastexp.sats"
-staload _(*anon*) = "fastexp.dats"
+staload "./fastexp.sats"
+staload _(*anon*) = "./fastexp.dats"
 
 local
 

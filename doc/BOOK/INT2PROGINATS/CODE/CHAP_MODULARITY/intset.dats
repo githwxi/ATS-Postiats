@@ -9,7 +9,7 @@
 //
 (* ****** ****** *)
 
-staload "intset.sats"
+staload "./intset.sats"
 
 (* ****** ****** *)
 //

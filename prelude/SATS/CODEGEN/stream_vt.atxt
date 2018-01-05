@@ -204,7 +204,7 @@ stream_vt_concat
 fun
 {a:t0p}
 stream_vt_delim_cloptr
-( xs: stream_vt(a)
+( xs: stream_vt(INV(a))
 , pred: (&a) -<cloptr> bool): stream_vt(List0_vt(a))
 //
 #atscode_separator()

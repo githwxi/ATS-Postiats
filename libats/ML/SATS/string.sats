@@ -101,9 +101,14 @@ string_copy(str: NSH(string)):<> string
 (* ****** ****** *)
 //
 fun{}
-string_make_list(cs: list0(char)):<> string
+string_make_list(cs: List(char)):<> string
 fun{}
-string_make_rlist(cs: list0(char)):<> string
+string_make_rlist(cs: List(char)):<> string
+//
+fun{}
+string_make_list0(cs: list0(char)):<> string
+fun{}
+string_make_rlist0(cs: list0(char)):<> string
 //
 (* ****** ****** *)
 
