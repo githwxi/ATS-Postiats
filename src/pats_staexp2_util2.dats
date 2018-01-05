@@ -1255,17 +1255,23 @@ case s2en10 of
   | _ (* non-S2Edatconptr *) => $raise (SYNEQexn)
   ) (* end of [S2Edatconptr] *)
 //
+| S2Esizeof(s2e1) => (
+  case+ s2en20 of
+  | S2Esizeof(s2e2) =>
+    s2exp_syneq_exn(s2e1, s2e2)
+  | _ (*non-S2Esizeof*) => $raise (SYNEQexn)
+  )
+//
+(*
 | S2Eeff(s2fe1) => (
   case+ s2en20 of
-//
   | S2Eeff(s2fe2) =>
     (
       s2eff_syneq_exn(s2fe1, s2fe2)
     )
-//
   | _ (* non-S2Eeff *) => $raise (SYNEQexn)
-//
   ) (* end of [S2Eeff] *)
+*)
 //
 | S2Eeqeq
     (s2e11, s2e12) =>
