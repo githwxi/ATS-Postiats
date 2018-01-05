@@ -1310,13 +1310,15 @@ file handle and then closes the file handle:
 
 #dats2xhtml('\
 implement
-main0 () =
+main0 () = () where
 {
 //
 val
 out =
-fileref_open_exn("hello.txt", file_mode_w)
-val () = fprint_string(out, "Hello, world!\\\\\\\\n")
+fileref_open_exn
+("hello.txt", file_mode_w)
+val () =
+fprint_string(out, "Hello, world!\\\\\\\\n")
 val () = fileref_close(out)
 //
 } (* end of [main0] *)

@@ -29,20 +29,23 @@ main0 (
 ) = loop () where
 {
 //
-fun loop (): void = let
-  val isnot = fileref_isnot_eof (stdin_ref)
+fun
+loop(): void = let
+  val
+  isnot =
+  fileref_isnot_eof(stdin_ref)
 in
 //
 if isnot then let
   val line =
-    fileref_get_line_string (stdin_ref)
-  val ((*void*)) = fprintln! (stdout_ref, line)
-  val ((*void*)) = strptr_free (line)
+  fileref_get_line_string(stdin_ref)
+  val ((*void*)) = fprintln!(stdout_ref, line)
+  val ((*void*)) = strptr_free(line)
 in
   loop ()
 end else ((*loop exits as the end-of-file is reached*))
 //
-end (* end of [loop] *)
+end // end of [loop]
 //
 } (* end of [main0] *)
 

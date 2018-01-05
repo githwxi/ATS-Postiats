@@ -512,7 +512,14 @@ fileref_get2_file_charlst
 end // end of [local]
 
 #atscode_separator()
-
+//
+implement
+fileref_put_string
+  (out, cs) =
+(
+  fileref_puts(out, cs)
+)
+//
 implement
 fileref_put_charlst
   (out, cs) = let
@@ -524,25 +531,25 @@ fun loop
 in
 //
 case+ cs of
-| list_cons (c, cs) => let
-    val () = fileref_putc (out, c) in loop (out, cs)
+| list_nil() => ()
+| list_cons(c, cs) => let
+    val () = fileref_putc(out, c) in loop(out, cs)
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
 //
 end // end of [loop]
 //
 in
-  loop (out, cs)
+  loop(out, cs)
 end // end of [fileref_put_charlst]
-
+//
 #atscode_separator()
 //
 implement
 {}(*tmp*)
-fileref_get_line_string$bufsize () = 64
+fileref_get_line_string$bufsize() = 64
 implement
 {}(*tmp*)
-fileref_get_file_string$bufsize () = 1024
+fileref_get_file_string$bufsize() = 1024
 //
 #atscode_separator()
 
@@ -552,11 +559,11 @@ fileref_get_line_string
   (inp) = let
 //
 var nlen: int // uninitialized
-val line = fileref_get_line_string_main (inp, nlen)
-prval () = lemma_strnptr_param (line)
+val line = fileref_get_line_string_main(inp, nlen)
+prval () = lemma_strnptr_param(line)
 //
 in
-  strnptr2strptr (line)
+  strnptr2strptr(line)
 end // end of [fileref_get_line_string]
 
 #atscode_separator()
@@ -567,21 +574,21 @@ fileref_get_line_string_main
   (inp, nlen) = let
 //
 val bsz =
-fileref_get_line_string$bufsize ()
+fileref_get_line_string$bufsize<>()
 //
 val [l:addr,n:int] str = $extfcall
 ( Strnptr0
 , "atspre_fileref_get_line_string_main2", bsz, inp, addr@(nlen)
 )
 //
-prval () = lemma_strnptr_param (str)
+prval () = lemma_strnptr_param(str)
 //
 extern
 praxi
-__assert {l:addr} (pf: !int? @ l >> int (n) @ l): void
+__assert{l:addr}(pf: !int? @ l >> int (n) @ l): void
 prval () = __assert (view@(nlen)) 
 //
-val isnot = strnptr_isnot_null (str)
+val isnot = strnptr_isnot_null(str)
 //
 in
 //
@@ -697,7 +704,7 @@ in
 end // end of [loop2]
 //
 val bsz =
-  fileref_get_file_string$bufsize ()
+  fileref_get_file_string$bufsize<>()
 val bsz = i2sz(bsz)
 val (pf, pfgc | p0_) = malloc_gc (bsz)
 val p0_ = $UN.castvwtp0{ptr}((pf, pfgc | p0_))
@@ -897,24 +904,29 @@ fun loop
 | inp: FILEref, bufp: ptr(l), bsz: size_t(n), env: &env
 ) : void = let
 //
-val bsz2 = fread (bufp, i2sz(1), bsz, inp)
-prval [n2:int] EQINT() = g1uint_get_index (bsz2)
+val
+bsz2 = fread(bufp, i2sz(1), bsz, inp)
+//
+prval
+[n2:int] EQINT() = g1uint_get_index(bsz2)
 //
 in
 //
 if bsz2 > 0 then
 {
-  val A = $UN.cast{arrayref(char,n2)}(bufp)
-  val () = fileref_foreach$fworkv<env> (A, bsz2, env)
+  val A =
+    $UN.cast{arrayref(char,n2)}(bufp)
+  val () =
+    fileref_foreach$fworkv<env>(A, bsz2, env)
   val ((*void*)) = loop (pf | inp, bufp, bsz, env)
 } (* end of [if] *)
 //
 end // end of [loop]
 //
-val bsz = fileref_foreach$bufsize<> ()
-val (pf1, pf2 | bufp) = memory$alloc<> (bsz)
-val ((*void*)) = loop (pf1 | inp, bufp, bsz, env)
-val ((*void*)) = memory$free<> (pf1, pf2 | bufp)
+val bsz = fileref_foreach$bufsize<>((*void*))
+val (pf1, pf2 | bufp) = memory$alloc<>( bsz )
+val ((*void*)) = loop(pf1 | inp, bufp, bsz, env)
+val ((*void*)) = memory$free<>(pf1, pf2 | bufp)
 //
 in
   // nothing

@@ -262,8 +262,13 @@ fileref_get2_file_charlst(inp: FILEref, n: int): List0_vt(char)
 //
 #atscode_separator()
 //
+//
 fun
-fileref_put_charlst(inp: FILEref, cs: NSH(List(char))): void
+fileref_put_string
+  (out: FILEref, cs: NSH(string)): void
+fun
+fileref_put_charlst
+  (inp: FILEref, cs: NSH(List(char))): void
 //
 #atscode_separator()
 //

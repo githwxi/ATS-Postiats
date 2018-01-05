@@ -24,7 +24,7 @@
 (* ****** ****** *)
 
 implement
-main0 () =
+main0 () = () where
 {
 //
 val out =
@@ -32,9 +32,9 @@ fileref_open_exn
   ("hello.txt", file_mode_w)
 //
 val () =
-fprint_string (out, "Hello, world!\n")
+fprint_string(out, "Hello, world!\n")
 //
-val ((*closed*)) = fileref_close (out)
+val ((*closed*)) = fileref_close(out)
 //
 } (* end of [main0] *)
 
