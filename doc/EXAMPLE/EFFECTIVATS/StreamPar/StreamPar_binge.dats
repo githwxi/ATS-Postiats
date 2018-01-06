@@ -151,7 +151,7 @@ implement
 main0(argc, argv) =
 {
 //
-#define N 1
+#define N 2
 //
 val
 fws =
@@ -176,6 +176,10 @@ if argc >= 3 then argv[2] else "^\\s*$"
 //
 (*
 //
+// HX-2018-01-06:
+// this is not suitable
+// for running in parallel
+//
 vtypedef a = string
 vtypedef b = stream_vt(string)
 vtypedef r = int(*fold*)
@@ -190,7 +194,6 @@ $StreamPar.streampar_mapfold_cloref<a><b><r>
 )
 //
 *)
-//
 //
 vtypedef a = string
 vtypedef b = List_vt(string)

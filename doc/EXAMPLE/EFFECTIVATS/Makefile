@@ -481,6 +481,14 @@ upload_GraphSearch-npm:: ; \
 
 ######
 
+upload_StreamPar:: ; \
+  $(SCP) \
+  StreamPar/index.html \
+  StreamPar/Makefile StreamPar/package.json StreamPar/*.?ats \
+  ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/StreamPar/
+
+######
+
 upload_DivideConquerPar:: ; \
   $(SCP) \
   DivideConquerPar/index.html \

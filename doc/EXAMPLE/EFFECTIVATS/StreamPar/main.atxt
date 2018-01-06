@@ -432,8 +432,8 @@ its subdirectories. Given a regular expression and the name of a file,
 ##dyncode("fname2lines") returns a stream of lines in the file that
 match the regular expression. In addition, the function
 ##dyncode("stream_print_free") prints out each line in a given stream
-while freeing the stream simultaneously. Please find the code
-implementing these functions in ##filename("StreamPar_binge.dats").
+while freeing the stream simultaneously. Please find the code in
+##filename("StreamPar_binge.dats") that implements these functions.
 Note that a function of the name ##dyncode("stream_by_command") is
 called to implement ##dyncode("dir2fnames").  Essentially,
 ##dyncode("stream_by_command") turns the output of executing a given
@@ -447,12 +447,12 @@ executing the command-line ##command("find [dname] -type f"), where
 ##para('\
 
 With ##dyncode("streampar_mapfold_cloref"), the above code can readily
-use 2 or more threads to process the stream returned by
+use 2 or more threads to process the stream of file names returned by
 ##dyncode("dir2fnames").  However, the code as is written can not
 really take advantage of threads running on multicores because calling
 ##dyncode("fname2lines") immediately returns a stream (represented as
-a closure-function) with no work actually done to find those lines
-matching the given regular expression. By calling the function
+a closure-function) with no work actually being done to find those
+lines matching the given regular expression. By calling the function
 ##dyncode("stream2list_vt"), we can force the evaluation of the stream
 returned by ##dyncode("fname2lines"):
 

@@ -88,14 +88,6 @@ val () = println!("HELLO = ", HELLO)
 //
 (* ****** ****** *)
 //
-(*
-val-
-~Some_vt(cs) =
-streamize_filename_char("./sample.dats")
-val () =
-println!("nchar(sample.dats) = ", length(cs))
-*)
-//
 fun
 myfilename_nchar
   (fname: string): int = let
@@ -121,18 +113,9 @@ end // end of [myfilename_nchar]
 //
 val () =
 println!
-("nchar(StreamPar.dats) = ", myfilename_nchar("./StreamPar.dats"))
+("nchar(StreamPar_misc.dats) = ", myfilename_nchar("./StreamPar_misc.dats"))
 //
 (* ****** ****** *)
-//
-(*
-val-
-~Some_vt(cs) =
-streamize_filename_char("./sample.dats")
-val cs = (cs).filter()(lam c => c = '\n')
-val () =
-println!("nchar(sample.dats) = ", length(cs))
-*)
 //
 fun
 myfilename_nline
@@ -160,7 +143,7 @@ end // end of [myfilename_nline]
 //
 val () =
 println!
-("nline(StreamPar.dats) = ", myfilename_nline("./StreamPar.dats"))
+("nline(StreamPar_misc.dats) = ", myfilename_nline("./StreamPar_misc.dats"))
 //
 (* ****** ****** *)
 
