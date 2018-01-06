@@ -355,7 +355,8 @@ by ##dyncode("mycheck").
 ##para('\
 
 In the package ##emphasis("StreamPar"),
-the following higher-order function is available:
+the following higher-order function is available for processing
+a given (linear) stream in parallel:
 
 <pre
 class="patsyntax">
@@ -383,6 +384,122 @@ the third argument (used as an accumulator) and the obtained value to
 generate a new version of the accumulator.
 
 ')
+
+##para('\
+
+Let us now have a stream-binge! Suppose that we want to print out all
+of the lines in the files contained in a given directory that match a
+given regular expression. The essential code for doing this is written
+as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+vtypedef a = string
+vtypedef b = stream_vt(string)
+vtypedef r = int // for [void]
+//
+val res =  
+$StreamPar.streampar_mapfold_cloref<a><b><r>
+(
+  fws
+, dir2fnames(dname), 0
+, lam(x) => fname2lines(regex, x)
+, lam(y, r) => let val () = stream_print_free(y) in r end
+)\
+')
+</pre>
+
+where the interface for the functions
+##dyncode("dir2fnames") and ##dyncode("fname2lines")
+is given below:
+
+<pre
+class="patsyntax">
+##sats2xhtml('\
+fun
+dir2fnames(dname: string): stream_vt(string)
+fun
+fname2lines
+(regex: string, fname: string): stream_vt(string)\
+')
+</pre>
+
+Given the name of a directory, ##dyncode("dir2fnames") returns a
+linear stream of all the files contained in the directory or any of
+its subdirectories. Given a regular expression and the name of a file,
+##dyncode("fname2lines") returns a stream of lines in the file that
+match the regular expression. In addition, the function
+##dyncode("stream_print_free") prints out each line in a given stream
+while freeing the stream simultaneously. Please find the code
+implementing these functions in ##filename("StreamPar_binge.dats").
+Note that a function of the name ##dyncode("stream_by_command") is
+called to implement ##dyncode("dir2fnames").  Essentially,
+##dyncode("stream_by_command") turns the output of executing a given
+command-line into a linear stream of chars. For instance, the names of
+all the files contained in a given directory can be obtained by
+executing the command-line ##command("find [dname] -type f"), where
+##command("[dname]") refers to the name of the directory.
+
+')
+
+##para('\
+
+With ##dyncode("streampar_mapfold_cloref"), the above code can readily
+use 2 or more threads to process the stream returned by
+##dyncode("dir2fnames").  However, the code as is written can not
+really take advantage of threads running on multicores because calling
+##dyncode("fname2lines") immediately returns a stream (represented as
+a closure-function) with no work actually done to find those lines
+matching the given regular expression. By calling the function
+##dyncode("stream2list_vt"), we can force the evaluation of the stream
+returned by ##dyncode("fname2lines"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+vtypedef a = string
+vtypedef b = list_vt(string)
+vtypedef r = int // for [void]
+//
+val res =  
+$StreamPar.streampar_mapfold_cloref<a><b><r>
+(
+  fws
+, dir2fnames(dname), 0
+, lam(x) => stream2list_vt(fname2lines(regex, x))
+, lam(y, r) => let val () = list_vt_print_free(y) in r end
+)\
+')
+</pre>
+
+Note that ##dyncode("list_vt_print_free") is like
+##dyncode("stream_print_free") except for taking a linear list of
+lines as its argument. In my own crude experiment, I observed about
+25% reduction of real time (that is, wall clock time) when running two
+threads on two cores versus running only one.
+
+')
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+QueenPuzzle.dats // graph streamization
+StreamPar_misc.dats // code for illustration
+StreamPar_binge.dats // code for stream-binge
+</pre>
+
+There is also an accompanying ##filename("Makefile") that can be used
+for compiling and testing the code (via the make utility).\
+
+""")
 
 <hr size="2">
 <p>

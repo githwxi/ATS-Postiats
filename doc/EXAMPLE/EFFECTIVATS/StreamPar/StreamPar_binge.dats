@@ -56,7 +56,7 @@ in (*nothing*) end
 (* ****** ****** *)
 //
 fun
-step1
+dir2fnames
 (
   dname: string
 ) : stream_vt(string) = let
@@ -74,76 +74,95 @@ stream_vt_delim_cloptr
 in
 //
 stream_vt_map_cloptr<List_vt(char)><string>
-( css
-, lam(cs) => string_make_list(list_vt2t(cs))
-)
+(css, lam(cs) => string_make_list(list_vt2t(cs)))
 //
-end // end of [step1]
+end // end of [dir2fnames]
 //
 (* ****** ****** *)
 
 fun
-step2
-( pat: string
+fname2lines
+( regex: string
 , fname: string
-) : List0_vt(string) = let
+) : stream_vt(string) = let
 //
 val opt =
 streamize_filename_line(fname)
 //
 fun
 mycheck
-(x: string): bool =
-(regstr_match_string(pat, x) >= 0)
+(line: string): bool =
+(regstr_match_string(regex, line) >= 0)
 //
 in
 //
+(
 case+ opt of
 | ~None_vt() =>
-   list_vt_nil()
+   stream_vt_make_nil()
 | ~Some_vt(lines) =>
-   stream2list_vt
-   (stream_vt_filter_cloptr(lines, lam(x) => mycheck(x)))
+   stream_vt_filter_cloptr
+     (lines, lam(line) => mycheck(line))
+   // stream_vt_filter_cloptr
+)
 //
-end // end of [step2]
+end // end of [fname2lines]
 
 (* ****** ****** *)
 
 fun
-print_free
+stream_print_free
+(xs: stream_vt(string)): void =
+(
+case+ !xs of
+| ~stream_vt_nil() => ()
+| ~stream_vt_cons(x, xs) => 
+   let val () = println!(x) in stream_print_free(xs) end
+)
+
+(* ****** ****** *)
+
+fun
+list_vt_print_free
 (xs: List_vt(string)): void =
 (
 case+ xs of
 | ~list_vt_nil() => ()
-| ~list_vt_cons(x, xs) => (println!(x); print_free(xs))
-)
-fun
-print_free_if
-(xs: List_vt(string)): void =
-(
-if isneqz(xs) then print_free(xs) else free(xs)
+| ~list_vt_cons(x, xs) => 
+   let val () = println!(x) in list_vt_print_free(xs) end
 )
 
 (* ****** ****** *)
-
 //
 #include
-"libats/BUCS520\
-/StreamPar/mydepies.hats"
+"libats\
+/BUCS520/StreamPar/mydepies.hats"
 #include
-"libats/BUCS520\
-/StreamPar/mylibies.hats"
+"libats\
+/BUCS520/StreamPar/mylibies.hats"
 //
 (* ****** ****** *)
 //
-#staload
-FWS = $FWORKSHOP_chanlst
+#staload FWS = $FWORKSHOP_chanlst
 //
 (* ****** ****** *)
 
 implement
 main0(argc, argv) =
 {
+//
+#define N 1
+//
+val
+fws =
+$FWS.fworkshop_create_exn()
+//
+val
+added =
+$FWS.fworkshop_add_nworker(fws, N)
+val () =
+prerrln!
+("the number of workers = ", added)
 //
 val dname =
 (
@@ -155,24 +174,23 @@ val regex =
 if argc >= 3 then argv[2] else "^\\s*$"
 ) : string
 //
-val fnames = step1(dname)
-//
 (*
-val ((*void*)) =
-(fnames).foreach()(lam(x) => print_free_if(x, step2(regex, x)))
+//
+vtypedef a = string
+vtypedef b = stream_vt(string)
+vtypedef r = int(*fold*)
+//
+val res =
+$StreamPar.streampar_mapfold_cloref<a><b><r>
+(
+  fws
+, dir2fnames(dname), 0
+, lam(x) => fname2lines(regex, x)
+, lam(y, r) => let val () = stream_print_free(y) in r end
+)
+//
 *)
 //
-//
-#define N 2
-//
-val
-fws =
-$FWS.fworkshop_create_exn()
-//
-val
-added = $FWS.fworkshop_add_nworker(fws, N)
-val () =
-prerrln!("the number of workers = ", added)
 //
 vtypedef a = string
 vtypedef b = List_vt(string)
@@ -181,9 +199,10 @@ vtypedef r = int(*fold*)
 val res =
 $StreamPar.streampar_mapfold_cloref<a><b><r>
 (
-  fws, fnames, 0
-, lam(x) => step2(regex, x)
-, lam(y, r) => (print_free_if(y); r)
+  fws
+, dir2fnames(dname), 0
+, lam(x) => stream2list_vt(fname2lines(regex, x))
+, lam(y, r) => let val () = list_vt_print_free(y) in r end
 )
 //
 } (* end of [main0] *)

@@ -52,7 +52,8 @@ cleanall:: ; $(RMF) StreamPar_misc
 #
 StreamPar_binge: \
 StreamPar_binge.dats; \
-$(PATSCC3) -I $(PATSHOME)/contrib -o $@ $< -latslib -lpcre -lpthread -lgc
+$(PATSCC3) \
+-I $(PATSHOME)/contrib -o $@ $< -latslib -lpcre -lpthread -lgc
 #
 regress:: StreamPar_binge; ./$<
 cleanall:: ; $(RMF) StreamPar_binge
