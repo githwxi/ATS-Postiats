@@ -12,6 +12,8 @@ PATSLIB=$(PATSHOME)/ccomp/atslib/lib
 
 PATSCC2=$(PATSCC) \
 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -O2
+PATSCC3=$(PATSCC) \
+-D_GNU_SOURCE -DATS_MEMALLOC_GCBDW -O2
 
 ######
 
@@ -50,7 +52,7 @@ cleanall:: ; $(RMF) StreamPar_misc
 #
 StreamPar_binge: \
 StreamPar_binge.dats; \
-$(PATSCC2) -I $(PATSHOME)/contrib -o $@ $< -latslib -lpcre -lpthread
+$(PATSCC3) -I $(PATSHOME)/contrib -o $@ $< -latslib -lpcre -lpthread -lgc
 #
 regress:: StreamPar_binge; ./$<
 cleanall:: ; $(RMF) StreamPar_binge

@@ -31,9 +31,18 @@ basis_sats.html: \
 ./../SATS/basis.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
+atspre_sats.html
+atspre_sats.html: \
+./../SATS/atspre.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
 list0_sats.html
 list0_sats.html: \
 ./../SATS/list0.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+list0_vt_sats.html
+list0_vt_sats.html: \
+./../SATS/list0_vt.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
 array0_sats.html
@@ -85,9 +94,18 @@ hashtblref_sats.html: \
 ######
 
 all_dats:: \
+atspre_dats.html
+atspre_dats.html: \
+./../DATS/atspre.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
 list0_dats.html
 list0_dats.html: \
 ./../DATS/list0.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+list0_vt_dats.html
+list0_vt_dats.html: \
+./../DATS/list0_vt.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 all_dats:: \
 array0_dats.html

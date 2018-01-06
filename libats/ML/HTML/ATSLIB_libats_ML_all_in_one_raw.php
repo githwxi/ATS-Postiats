@@ -4,7 +4,10 @@
 //
 include './../SATS/basis.sats';
 //
+include './../SATS/atspre.sats';
+//
 include './../SATS/list0.sats';
+include './../SATS/list0_vt.sats';
 //
 include './../SATS/array0.sats';
 include './../SATS/matrix0.sats';
@@ -22,7 +25,10 @@ include './../SATS/hashtblref.sats';
 //
 // DATS
 //
+include './../DATS/atspre.dats';  
+//
 include './../DATS/list0.dats';
+include './../DATS/list0_vt.dats';
 //
 include './../DATS/array0.dats';
 include './../DATS/matrix0.dats';

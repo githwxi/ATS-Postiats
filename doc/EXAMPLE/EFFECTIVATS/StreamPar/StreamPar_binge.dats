@@ -119,11 +119,26 @@ case+ xs of
 )
 fun
 print_free_if
-(f0: string, xs: List_vt(string)): void =
+(xs: List_vt(string)): void =
 (
-if isneqz(xs) then (println!(f0); print_free(xs)) else free(xs)
+if isneqz(xs) then print_free(xs) else free(xs)
 )
 
+(* ****** ****** *)
+
+//
+#include
+"libats/BUCS520\
+/StreamPar/mydepies.hats"
+#include
+"libats/BUCS520\
+/StreamPar/mylibies.hats"
+//
+(* ****** ****** *)
+//
+#staload
+FWS = $FWORKSHOP_chanlst
+//
 (* ****** ****** *)
 
 implement
@@ -137,12 +152,39 @@ if argc >= 2 then argv[1] else "."
 //
 val regex =
 (
-if argc >= 3 then argv[2] else "*"
+if argc >= 3 then argv[2] else "^\\s*$"
 ) : string
 //
 val fnames = step1(dname)
 //
-val ((*void*)) = (fnames).foreach()(lam(x) => print_free_if(x, step2(regex, x)))
+(*
+val ((*void*)) =
+(fnames).foreach()(lam(x) => print_free_if(x, step2(regex, x)))
+*)
+//
+//
+#define N 2
+//
+val
+fws =
+$FWS.fworkshop_create_exn()
+//
+val
+added = $FWS.fworkshop_add_nworker(fws, N)
+val () =
+prerrln!("the number of workers = ", added)
+//
+vtypedef a = string
+vtypedef b = List_vt(string)
+vtypedef r = int(*fold*)
+//
+val res =
+$StreamPar.streampar_mapfold_cloref<a><b><r>
+(
+  fws, fnames, 0
+, lam(x) => step2(regex, x)
+, lam(y, r) => (print_free_if(y); r)
+)
 //
 } (* end of [main0] *)
 
