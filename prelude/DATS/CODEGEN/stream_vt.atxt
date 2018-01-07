@@ -366,9 +366,9 @@ implement
 stream_vt_head_exn(xs) =
 (
 case+ !xs of
-| ~stream_vt_cons (x, xs) =>
+| ~stream_vt_cons(x, xs) =>
     let val () = stream_vt_free(xs) in x end
-| ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
+| ~stream_vt_nil((*void*)) => $raise StreamSubscriptExn()
 ) (* end of [stream_vt_head_exn] *)
 //
 implement
@@ -376,8 +376,8 @@ implement
 stream_vt_tail_exn(xs) =
 (
 case+ !xs of
-| ~stream_vt_cons (x, xs) => (xs)
-| ~stream_vt_nil ((*void*)) => $raise StreamSubscriptExn()
+| ~stream_vt_cons(x, xs) => (xs)
+| ~stream_vt_nil((*void*)) => $raise StreamSubscriptExn()
 ) (* end of [stream_vt_tail_exn] *)
 //
 #atscode_separator()
@@ -388,10 +388,12 @@ stream_vt_uncons_exn(xs0) =
 (
 case+ !xs0 of
 | ~stream_vt_cons
-    (x, xs) => (xs0 := xs; x)
-| ~stream_vt_nil () => let
+    (x, xs) =>
+  let val () = xs0 := xs in x end
+| ~stream_vt_nil
+    ((*void*)) => let
     val () =
-      xs0 := $ldelay (stream_vt_nil)
+      xs0 := $ldelay(stream_vt_nil())
     // end of [val]
   in
     $raise StreamSubscriptExn((*void*))
@@ -1426,8 +1428,8 @@ in
 //
 case+ xs1_con of
 | ~stream_vt_nil
-    ((*_*)) => (~(xs2); stream_vt_nil())
-  // end of [stream_vt_nil]
+    ((*_*)) =>
+  (~(xs2); stream_vt_nil())
 | @stream_vt_cons
     (x1, xs1) => let
     val xs2_con = !xs2
@@ -1436,22 +1438,20 @@ case+ xs1_con of
     | ~stream_vt_nil
         ((*_*)) => let
         val xs1 = xs1
-        val () = free@ (xs1_con)
+        val () = free@(xs1_con)
       in
-        ~(xs1); stream_vt_nil ()
+        ~(xs1); stream_vt_nil()
       end // end of [stream_vt_nil]
     | @stream_vt_cons
         (x2, xs2) => let
         val y =
-        stream_vt_map2$fopr<a1,a2><b> (x1, x2)
+        stream_vt_map2$fopr<a1,a2><b>(x1, x2)
         val xs1 = xs1
         and xs2 = xs2
-        val () = free@ (xs1_con)
-        and () = free@ (xs2_con)
+        val () = free@(xs1_con)
+        and () = free@(xs2_con)
       in
-        stream_vt_cons{b}
-          (y, stream_vt_map2<a1,a2><b> (xs1, xs2))
-        // end of [stream_vt_cons]
+        stream_vt_cons{b}(y, auxmain(xs1, xs2))
       end // end of [stream_vt_cons]
   end // end of [stream_vt_cons]
 //
@@ -1496,6 +1496,83 @@ prval() = fpf1 (pf1) and () = fpf2 (pf2)
 in
   stream_vt_map2<a1,a2><b> (xs1, xs2)
 end // end of [stream_vt_map2_fun]
+
+#atscode_separator()
+
+implement
+{a1,a2}{b}
+stream_vt_map2_cloptr
+  (xs1, xs2, fopr) =
+  auxmain(xs1, xs2, fopr) where
+{
+//
+fun
+auxmain
+(
+  xs1: stream_vt(a1)
+, xs2: stream_vt(a2)
+, fopr: (&a1 >> _, &a2 >> _) -<cloptr1> b
+) : stream_vt(b) = $ldelay
+(
+let
+  val xs1_con = !xs1
+in
+//
+case+ xs1_con of
+| ~stream_vt_nil
+    ((*_*)) =>
+  stream_vt_nil() where
+  {
+    val () =
+    lazy_vt_free(xs2)
+    val () =
+    cloptr_free
+    ($UN.castvwtp0{cloptr0}(fopr))
+  }
+| @stream_vt_cons
+    (x1, xs1) => let
+    val xs2_con = !xs2
+  in
+    case+ xs2_con of
+    | ~stream_vt_nil
+        ((*_*)) =>
+      stream_vt_nil() where
+      {
+        val xs1 = xs1
+        val () =
+        free@(xs1_con)
+        val () =
+        lazy_vt_free(xs1)
+        val () =
+        cloptr_free
+        ($UN.castvwtp0{cloptr0}(fopr))
+      } (* end of [stream_vt_nil] *)
+    | @stream_vt_cons
+        (x2, xs2) => let
+        val y =
+        fopr(x1, x2)
+        val xs1 = xs1
+        and xs2 = xs2
+        val () = free@ (xs1_con)
+        and () = free@ (xs2_con)
+      in
+        stream_vt_cons{b}(y, auxmain(xs1, xs2, fopr))
+        // end of [stream_vt_cons]
+      end // end of [stream_vt_cons]
+  end // end of [stream_vt_cons]
+//
+end // end of [let]
+,
+//
+(
+  lazy_vt_free(xs1);
+  lazy_vt_free(xs2);
+  cloptr_free($UN.castvwtp0{cloptr0}(fopr))
+) (* HX: for freeing the stream! *)
+//
+) (* $ldelay] *) // end of [auxmain]
+//
+} (* end of [stream_vt_map2_cloptr] *)
 
 #atscode_separator()
 

@@ -60,7 +60,7 @@ stream_vt_make_list0
 (* ****** ****** *)
 //
 fun{}
-intgte_stream_vt
+intGte_stream_vt
   (start: int):<!laz> stream_vt(int)
 //
 (* ****** ****** *)

@@ -62,7 +62,7 @@ list0_vt2t
 //
 implement
 {}(*tmp*)
-intgte_stream_vt(n) = f(n) where
+intGte_stream_vt(n) = f(n) where
 {
 fun
 f(n:int):<!laz> stream_vt(int) =
