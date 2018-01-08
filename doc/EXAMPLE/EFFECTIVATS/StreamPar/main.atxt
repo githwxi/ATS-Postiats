@@ -454,7 +454,7 @@ really take advantage of threads running on multicores because calling
 a closure-function) with no work actually being done to find those
 lines matching the given regular expression. By calling the function
 ##dyncode("stream2list_vt"), we can force the evaluation of the stream
-returned by ##dyncode("fname2lines"):
+returned by ##dyncode("fname2lines") into a list:
 
 <pre
 class="patsyntax">

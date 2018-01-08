@@ -278,6 +278,15 @@ implement
 string_make_list0
   (cs) =
   string_make_list<>(g1ofg0_list(cs))
+implement
+{}(*tmp*)
+string_make_list_vt
+  (cs) = res where
+{
+  val res =
+  string_make_list<>($UN.list_vt2t(cs))
+  val ((*freed*)) = list_vt_free<char>(cs)
+}
 //
 (* ****** ****** *)
 //
@@ -302,6 +311,15 @@ implement
 string_make_rlist0
   (cs) =
   string_make_rlist<>(g1ofg0_list(cs))
+implement
+{}(*tmp*)
+string_make_rlist_vt
+  (cs) = res where
+{
+  val res =
+  string_make_rlist<>($UN.list_vt2t(cs))
+  val ((*freed*)) = list_vt_free<char>(cs)
+}
 //
 (* ****** ****** *)
 //

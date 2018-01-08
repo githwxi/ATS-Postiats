@@ -111,6 +111,13 @@ fun{}
 string_make_rlist0(cs: list0(char)):<> string
 //
 (* ****** ****** *)
+//
+fun{}
+string_make_list_vt(List_vt(char)):<!wrt> string
+fun{}
+string_make_rlist_vt(List_vt(char)):<!wrt> string
+//
+(* ****** ****** *)
 
 fun{}
 string_make_prefix

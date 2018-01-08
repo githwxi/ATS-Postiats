@@ -231,6 +231,8 @@ cloptr_free
   {a:t0p}
   (pclo: cloptr(a)):<!wrt> void = "mac#%"
 //
+overload free with cloptr_free of 0
+//
 (* ****** ****** *)
 //
 fun
@@ -261,6 +263,7 @@ lazy_vt_free
   (lazyval: lazy_vt(a)):<!wrt> void = "mac#%"
 //
 overload ~ with lazy_vt_free of 0
+overload free with lazy_vt_free of 0
 //
 (* ****** ****** *)
 //
@@ -269,7 +272,8 @@ overload ~ with lazy_vt_free of 0
 //
 fun
 lazy2cloref
-  {a:t0p}(lazy(a)): ((*void*)) -<cloref1> (a) = "mac#%"
+  {a:t0p}
+  (lazy(a)): ((*void*)) -<cloref1> (a) = "mac#%"
 //
 (* ****** ****** *)
 

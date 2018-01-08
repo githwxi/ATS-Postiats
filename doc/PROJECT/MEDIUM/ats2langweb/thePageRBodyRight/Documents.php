@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+2018-01-06:<br>Effective ATS:<br>
+<a
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/0vXxmmJ25hE"
+>Streamization and Stream-Processing in Parallel</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+  
+<hr></hr>
+
 2017-12-09:<br>Effective ATS:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/9mQyxYDWgnc"
