@@ -430,27 +430,40 @@ fun{
 x:vt0p
 } list_vt_foreach_fun
   {fe:eff} (
-  xs: !List_vt(INV(x)), f: (&x >> _) -<fun,fe> void
+  xs: !List_vt(INV(x)), f0: (&x >> _) -<fun,fe> void
 ) :<fe> void // end of [list_vt_foreach_fun]
 fun{
 x:vt0p
 } list_vt_foreach_clo
   {fe:eff} (
-  xs: !List_vt(INV(x)), f: &(&x >> _) -<clo,fe> void
+  xs: !List_vt(INV(x)), f0: &(&x >> _) -<clo,fe> void
 ) :<fe> void // end of [list_vt_foreach_fun]
 //
 fun{
 x:vt0p
 } list_vt_foreach_cloptr
 (
-  xs: !List_vt(INV(x)), f: (&x >> _) -<cloptr1> void
+  xs: !List_vt(INV(x)), f0: (&x >> _) -<cloptr1> void
 ) :<1> void // end of [list_vt_foreach_cloptr]
 fun{
 x:vt0p
 } list_vt_foreach_cloref
 (
-  xs: !List_vt(INV(x)), f: (&x >> _) -<cloref1> void
+  xs: !List_vt(INV(x)), f0: (&x >> _) -<cloref1> void
 ) :<1> void // end of [list_vt_foreach_cloref]
+//
+(* ****** ****** *)
+//
+fun
+{r:vt0p}
+{x:vt0p}
+list_vt_foldleft_cloptr
+(xs: !List_vt(INV(x)), r0: r, f0: (r, &x) -<cloptr1> r): (r)
+fun
+{r:vt0p}
+{x:vt0p}
+list_vt_foldleft_cloref
+(xs: !List_vt(INV(x)), r0: r, f0: (r, &x) -<cloref1> r): (r)
 //
 (* ****** ****** *)
 //

@@ -471,18 +471,19 @@ x:vt0p}{y:vt0p
 //
 fun{
 x:vt0p
-} list_vt_foreach (xs: !List_vt(INV(x))): void
+} list_vt_foreach(xs: !List_vt(INV(x))): void
 //
 fun{
 x:vt0p}{env:vt0p
-} list_vt_foreach_env (xs: !List_vt(INV(x)), env: &(env) >> _): void
+} list_vt_foreach_env
+  (xs: !List_vt(INV(x)), env: &(env) >> _): void
 //
 fun{
 x:vt0p}{env:vt0p
-} list_vt_foreach$cont (x: &x, env: &env): bool
+} list_vt_foreach$cont(x: &x, env: &env): bool
 fun{
 x:vt0p}{env:vt0p
-} list_vt_foreach$fwork (x: &x >> _, env: &(env) >> _): void
+} list_vt_foreach$fwork(x: &x >> _, env: &(env) >> _): void
 //
 #atscode_separator()
 //

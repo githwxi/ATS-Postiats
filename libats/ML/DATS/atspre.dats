@@ -670,7 +670,7 @@ xs, ini, f0
 val f1 =
 $UN.castvwtp1(f0)
 val res =
-list_foldleft_cloptr<res><x>(xs, ini, f1)
+list_foldleft_cloref<res><x>(xs, ini, f1)
 //
 val ((*freed*)) =
 cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
@@ -708,7 +708,7 @@ xs, f0, snk
 val f1 =
 $UN.castvwtp1(f0)
 val res =
-list_foldright_cloptr<x><res>(xs, f1, snk)
+list_foldright_cloref<x><res>(xs, f1, snk)
 //
 val ((*freed*)) =
 cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
@@ -930,7 +930,9 @@ end // end of [list_vt_foreach_fun]
 implement
 {a}(*tmp*)
 list_vt_foreach_cloptr
-  (xs, f0) = () where
+(
+  xs, f0
+) = () where
 {
 //
 val f1 =
@@ -969,6 +971,53 @@ f0: (&a) -<cloref1> void
 prval() = lemma_list_vt_param(xs)
 //
 } // end of [list_vt_foreach_cloref]
+
+(* ****** ****** *)
+
+implement
+{r}{x}//tmp
+list_vt_foldleft_cloptr
+(
+  xs, r0, f0
+) = res where
+{
+//
+val f1 =
+$UN.castvwtp1(f0)
+val res =
+list_vt_foldleft_cloref<r><x>(xs, r0, f1)
+val ((*freed*)) =
+cloptr_free($UN.castvwtp0{cloptr(void)}(f0))
+//
+} // end of [list_vt_foldleft_cloptr]
+
+implement
+{r}{x}//tmp
+list_vt_foldleft_cloref
+  (xs, r0, f0) = let
+//
+fun
+auxlst:
+$d2ctype
+(
+list_vt_foldleft_cloref<r><x>
+) = lam(xs, r0, f0) =>
+(
+case+ xs of
+| @list_vt_nil
+    () => (fold@(xs); r0)
+| @list_vt_cons
+    (x0, xs1) => res where
+  {
+    val res =
+    auxlst(xs1, f0(r0, x0), f0)
+    prval ((*folded*)) = fold@(xs)
+  } (* end of [list_vt_cons] *)
+)
+//
+in
+  auxlst(xs, r0, f0)
+end // end of [list_vt_foldleft_cloref]
 
 (* ****** ****** *)
 //

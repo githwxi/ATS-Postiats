@@ -28,7 +28,7 @@ Here is a list of major additions and changes since the last release:
 2. Improving doc/BOOK/ATS2FUNCRASH by tidying-up and fixing errors
 3. Adding some examples in ATS-Tutoriats demonstrating ATS+ReactJS
    and ATS+React-Native
-4. Adding basic programming support for parallelized stream-foreach:
+4. Adding basic programming support for parallelized stream-mapfold:
    ${PATSHOME}/libats/BUCS320/StreamPar (stream-processing)
    ${PATSHOME}/libats/BUCS520/StreamPar (linear-stream-processing)
 5. Adding basic programming support for recursive directory-traversal:
@@ -36,9 +36,12 @@ Here is a list of major additions and changes since the last release:
 6. Moving most higher-order functions from ATSPRE to ATSLIB/ML/atspre.
    This is a pervasive change, triggering a lot of (minor) fixes!
 7. Rewriting several stream_vt functions to make them tail-recursive.
-8. Finishing EFFECTIVATS/SteamPar on streamization and stream-processing
+8. Moving ATSPRE/fcontainer and ATSPRE/giterator into libats/ATS2
+9. Finishing EFFECTIVATS/SteamPar on streamization and stream-processing
    in parallel.
-    
+10. Starting the ATS-CodeBook project (at http://github.com/ats-lang):
+    Hello, ReadFromSTDIN, ReadFromSTDIN2, and WordFreqCount
+  
 ######
 
 0.3.8

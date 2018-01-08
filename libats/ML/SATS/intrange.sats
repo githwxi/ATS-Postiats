@@ -293,6 +293,10 @@ overload .stream_vt_map with int_stream_vt_map_method
 //
 (* ****** ****** *)
 //
+(*
+HX: cross product
+*)
+//
 fun{}
 int2_foreach_cloref
   (n1: int, n2: int, f0: cfun2(int, int, void)): void

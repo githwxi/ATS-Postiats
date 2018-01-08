@@ -284,6 +284,14 @@ clean:: ; $(RMF) tempfunctor_dats.o
 clean:: ; $(RMF) tempfunctor_dats.c
 cleanall:: ; $(RMF) tempfunctor tempfunctor.exe
 
+all:: totient
+totient: totient.exe
+totient.exe: totient_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -lm
+totient_dats.c: totient.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output totient_dats.c --dynamic totient.dats
+clean:: ; $(RMF) totient_dats.o
+clean:: ; $(RMF) totient_dats.c
+cleanall:: ; $(RMF) totient totient.exe
+
 all:: wclines
 wclines: wclines.exe
 wclines.exe: wclines_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
@@ -294,7 +302,7 @@ cleanall:: ; $(RMF) wclines wclines.exe
 
 all:: word-chain
 word-chain: word-chain.exe
-word-chain.exe: word-chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O0     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+word-chain.exe: word-chain_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
 word-chain_dats.c: word-chain.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output word-chain_dats.c --dynamic word-chain.dats
 clean:: ; $(RMF) word-chain_dats.o
 clean:: ; $(RMF) word-chain_dats.c
