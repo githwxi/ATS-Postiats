@@ -170,7 +170,8 @@ gadd_val_val<intinf>
 //
 val x1 = g1ofg0(x1)
 and x2 = g1ofg0(x2)
-val res = $effmask_all(add_intinf_intinf(x1, x2))
+val res =
+$effmask_all(add_intinf_intinf(x1, x2))
 //
 in
   g0ofg1_intinf(res)
@@ -184,7 +185,8 @@ gsub_val_val<intinf>
 //
 val x1 = g1ofg0(x1)
 and x2 = g1ofg0(x2)
-val res = $effmask_all(sub_intinf_intinf(x1, x2))
+val res =
+$effmask_all(sub_intinf_intinf(x1, x2))
 //
 in
   g0ofg1_intinf(res)
@@ -198,7 +200,8 @@ gmul_val_val<intinf>
 //
 val x1 = g1ofg0(x1)
 and x2 = g1ofg0(x2)
-val res = $effmask_all(mul_intinf_intinf(x1, x2))
+val res =
+$effmask_all(mul_intinf_intinf(x1, x2))
 //
 in
   g0ofg1_intinf(res)
@@ -213,7 +216,7 @@ gdiv_val_val<intinf>
 val x1 = g1ofg0(x1)
 and x2 = g1ofg0(x2)
 //
-val sgn = compare_intinf_int (x2, 0)
+val sgn = compare_intinf_int(x2, 0)
 //
 in
 //
@@ -239,7 +242,7 @@ gequal_val_val<intinf>
   (x1, x2) = let
 //
 val sgn =
-  gcompare_val_val<intinf> (x1, x2)
+gcompare_val_val<intinf>(x1, x2)
 //
 in
   if sgn = 0 then true else false
@@ -253,7 +256,7 @@ gcompare_val_val<intinf>
   val x1 = g1ofg0(x1)
   and x2 = g1ofg0(x2)
 in
-  compare_intinf_intinf (x1, x2)
+  compare_intinf_intinf(x1, x2)
 end // end of [gcompare_val_val]
 
 (* ****** ****** *)

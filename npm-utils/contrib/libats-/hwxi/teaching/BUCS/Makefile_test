@@ -5,6 +5,7 @@
 ######
 
 NPM=npm
+RMF=rm -f
 RMRF=rm -rf
 
 ######
@@ -27,7 +28,8 @@ for i in $(SUBDIRS); do $(MAKE) -C $$i testall; done
 
 ######
 
-cleanall:: ; $(RMRF) ./node_modules
+cleanall:: ; $(RMF) ./node_modules -r
+cleanall:: ; $(RMF) ./package-lock.json
 
 ######
 

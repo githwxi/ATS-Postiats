@@ -4,8 +4,8 @@
 // Generic Fibonacci
 //
 ** Author: Hongwei Xi
-** Authoremail: hwxi AT gmail DOT com
 ** Start Time: July, 2014
+** Authoremail: hwxi AT gmail DOT com
 **
 *)
 (* ****** ****** *)
@@ -23,9 +23,7 @@ staload _ = "./../DATS/intinf_vt.dats"
 (* ****** ****** *)
 
 extern
-fun{
-a:t0p
-} gfib (x: int): a
+fun{a:t0p} gfib(x: int): a
 
 (* ****** ****** *)
 

@@ -47,14 +47,15 @@ fun
 mypower
 {n:nat} .<n>.
 (
-x0: !Intinf, n: int n
+x0:
+!Intinf, n: int(n)
 ) : Intinf = let
 in
 //
 if
 (n > 0)
 then let
-  val n2 = half (n)
+  val n2 = half(n)
   val x2 = square(x0)
   val res = mypower(x2, n2)
   val ((*freed*)) = intinf_free(x2)
@@ -95,7 +96,7 @@ val
 res =
 pow_intinf_int(x0, N)
 val
-str = intinf_get_strptr (res, 10)
+str = intinf_get_strptr(res, 10)
 //
 val () =
 println! "power (2, " N ") = // built-in\n" str

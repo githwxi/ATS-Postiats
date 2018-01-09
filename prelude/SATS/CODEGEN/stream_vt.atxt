@@ -421,7 +421,7 @@ res:vt0p
 }{a:vt0p}
 stream_vt_foldleft_cloptr
 (
-  xs: stream_vt(INV(a)), init: res, fopr: (res, &a >> a?!) -<cloptr1> res
+xs: stream_vt(INV(a)), init: res, fopr: (res, &a >> a?!) -<cloptr1> res
 ) : res // end of [stream_vt_foldleft_cloptr]
 //
 fun{
@@ -429,7 +429,7 @@ res:vt0p
 }{a:vt0p}
 stream_vt_ifoldleft_cloptr
 (
-  xs: stream_vt(INV(a)), init: res, fopr: (Nat, res, &a >> a?!) -<cloptr1> res
+xs: stream_vt(INV(a)), init: res, fopr: (Nat, res, &a >> a?!) -<cloptr1> res
 ) : res // end of [stream_vt_ifoldleft_cloptr]
 //
 #atscode_separator()
@@ -453,11 +453,11 @@ stream_vt_unfold_opt
 fun
 {x,y:t0p}
 cross_stream_vt_list
-  (xs: stream_vt(INV(x)), ys: List(INV(y))): stream_vt(@(x, y))
+(xs: stream_vt(INV(x)), ys: List(INV(y))): stream_vt(@(x, y))
 fun
 {x,y:t0p}
 cross_stream_vt_list_vt
-  (xs: stream_vt(INV(x)), ys: List_vt(INV(y))): stream_vt(@(x, y))
+(xs: stream_vt(INV(x)), ys: List_vt(INV(y))): stream_vt(@(x, y))
 //
 #atscode_separator()
 //
