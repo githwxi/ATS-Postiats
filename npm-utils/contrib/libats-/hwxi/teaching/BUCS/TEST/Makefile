@@ -42,6 +42,14 @@ $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 
 ######
 
+all:: \
+test_lineto
+test_lineto: \
+test_lineto.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
+
+######
+
 testall:: all
 testall:: cleanall
 
@@ -58,7 +66,9 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) test_find
 cleanall:: ; $(RMF) test_which
 cleanall:: ; $(RMF) test_download
+cleanall:: ; $(RMF) test_lineto
 
 ###### end of [Makefile] ######

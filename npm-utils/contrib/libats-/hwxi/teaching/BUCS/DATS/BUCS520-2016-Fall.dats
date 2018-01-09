@@ -139,5 +139,127 @@ if pid >= 0
 end // end of [stream_by_command]
 
 (* ****** ****** *)
+//
+// HX: to -> timeout
+//
+datavtype lineto =
+  | LNTOline of Strptr1
+  | LNTOtimeout of ((*void*))
+//
+extern
+fun{}
+streamize_fileref_lineto
+( input: FILEref
+, nwait: intGte(0)): stream_vt(lineto)
+extern
+fun{}
+streamize_fileref_lineto$bufsz(): intGte(2)
+//
+(* ****** ****** *)
+
+local
+
+#staload
+"libats\
+/libc/SATS/unistd.sats"
+
+in (* in-of-local *)
+
+implement
+{}(*tmp*)
+streamize_fileref_lineto
+  (input, nwait) = let
+//
+fun
+auxget0
+(
+  input: FILEref
+, nwait: intGte(0)
+, bufsz: intGte(2)
+) : stream_vt(lineto) =
+(
+if
+fileref_is_eof(input)
+then stream_vt_make_nil()
+else auxget1(input, nwait, bufsz)
+) (* end of [auxget0] *)
+
+and
+auxget1
+(
+  input: FILEref
+, nwait: intGte(0)
+, bufsz: intGte(2)
+) : stream_vt(lineto) = $ldelay
+(
+let
+//
+var
+nlen: int
+val
+nbyte =
+i2sz(bufsz)
+//
+val
+(pf | _) =
+alarm_set
+(g1i2u(nwait))
+//
+val
+[l:addr,n:int]
+line =
+$extfcall
+(
+  Strnptr0
+, "atspre_fileref_get_line_string_main2"
+, nbyte, input, addr@(nlen)
+)
+//
+val
+nlen = $UN.cast{int(n)}(nlen)
+//
+(*
+val () = println! ("nlen = ", nlen)
+val () = println! ("nbyte = ", nbyte)
+*)
+//
+val
+lnto =
+(
+if nlen >= 0
+ then
+ LNTOline
+ ($UN.castvwtp0{Strptr1}(line))
+ else let
+   val () =
+   strnptr_free(line) in LNTOtimeout((*void*))
+ end // end of [else]
+) : lineto
+//
+val _(*leftover*) = alarm_cancel(pf | (*void*))
+//
+in
+//  
+stream_vt_cons
+  (lnto, auxget0(input, nwait, bufsz))
+//
+end
+) (* end of [auxget1] *)
+//
+in
+//
+let
+val
+bufsz =
+streamize_fileref_lineto$bufsz<>() in auxget0(input, nwait, bufsz) end
+//
+end // end of [streamize_fileref_lineto]
+
+implement
+streamize_fileref_lineto$bufsz<>() = 1024
+
+end // end of [local]
+
+(* ****** ****** *)
 
 (* end of [BUCS520-2016-Fall.dats] *)

@@ -12,17 +12,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_start_time("Feburary, 2012")
+#atscode_authoremail("hwxiATcsDOTbuDOTedu")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/DATS/CODEGEN/filebas.atxt
 ** Time of generation: #timestamp()
 *)
-
-#atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("Feburary, 2012")
 
 #atscode_separator()
 
@@ -573,29 +573,39 @@ implement
 fileref_get_line_string_main
   (inp, nlen) = let
 //
-val bsz =
+val
+bsz =
 fileref_get_line_string$bufsize<>()
 //
-val [l:addr,n:int] str = $extfcall
+val
+[l:addr,n:int]
+str = $extfcall
 ( Strnptr0
-, "atspre_fileref_get_line_string_main2", bsz, inp, addr@(nlen)
+, "atspre_fileref_get_line_string_main2"
+, bsz, inp, addr@(nlen)
 )
 //
-prval () = lemma_strnptr_param(str)
+prval () =
+  lemma_strnptr_param(str)
 //
-extern
-praxi
+prval () =
+  __assert(view@(nlen)) where
+{
+extern praxi
 __assert{l:addr}(pf: !int? @ l >> int (n) @ l): void
-prval () = __assert (view@(nlen)) 
+}
 //
 val isnot = strnptr_isnot_null(str)
 //
 in
 //
-if isnot then str else let
-  val (
-  ) = exit_errmsg_void (1, "[fileref_get_line_string] failed.")
-  val () = assert (nlen >= 0) // HX: for TC // deadcode at run-time
+if
+isnot
+then str else let
+  val () =
+  exit_errmsg_void
+  (1, "[fileref_get_line_string_main] failed.")
+  val () = assert (nlen >= 0) // HX: for TC // deadcode
 in
   str // HX: [str]=null is not returned
 end (* end of [if] *)
@@ -620,31 +630,39 @@ fun loop
   val iseof = fileref_is_eof (inp)
 in
 //
-if iseof then let
-  val () = (res := list_vt_nil ())
+if
+iseof
+then let
+  val () =
+  (res := list_vt_nil())
 in
   // nothing
 end else let
-  val line =
-    fileref_get_line_string (inp)
+  val
+  line =
+  fileref_get_line_string(inp)
   val () =
   (
-    res := list_vt_cons{line}{0}(line, _)
+    res :=
+    list_vt_cons{line}{0}(line, _)
   )
-  val+list_vt_cons (_, res1) = res
-  val () = loop (inp, res1)
-  prval () = fold@ (res)
+  val+
+  list_vt_cons(_, res1) = res
+  val () = loop(inp, res1) // tail-call
+  prval ((*folded*)) = fold@ (res)
 in
   // nothing
 end // end of [if]
 //
 end // end of [loop]
 //
-var res: lines
-val () = loop (inp, res)
 //
 in
-  res
+//
+let
+var res: lines
+val ((*void*)) = loop(inp, res) in res end
+//
 end // end of [fileref_get_lines_stringlst]
 
 #atscode_separator()
@@ -664,7 +682,9 @@ fun loop
 \#define CNUL '\000'
 //
 val nw =
-$extfcall(size_t, "atslib_libats_libc_fread", p1, 1, n1, inp)
+$extfcall
+( size_t
+, "atslib_libats_libc_fread", p1, 1, n1, inp)
 //
 in (* in-of-let *)
 //
@@ -672,14 +692,15 @@ if
 (nw > 0)
 then let
   val n1 = n1 - nw
-  val p1 = add_ptr_bsz (p1, nw)
+  val p1 = add_ptr_bsz(p1, nw)
 in
   if n1 > 0 then
-    loop (inp, p0, n0, p1, n1) else loop2 (inp, p0, n0)
+    loop(inp, p0, n0, p1, n1) else loop2(inp, p0, n0)
   // end of [if]
 end // end of [then]
 else let
-  val () = $UN.ptr0_set<char> (p1, CNUL) in $UN.castvwtp0{Strptr1}(p0)
+  val () =
+  $UN.ptr0_set<char>(p1, CNUL) in $UN.castvwtp0{Strptr1}(p0)
 end // end of [else]
 //
 end // end of [loop]
@@ -693,14 +714,15 @@ and loop2
   val (pf, pfgc | p0_) = malloc_gc (bsz2)
   val p0_ = $UN.castvwtp0{ptr}((pf, pfgc | p0_))
 //
-  val _(*ptr*) =
-  $extfcall(ptr, "atslib_libats_libc_memcpy", p0_, p0, n0)
+  val _ptr_ =
+  $extfcall
+  (ptr, "atslib_libats_libc_memcpy", p0_, p0, n0)
 //
-  val () = strptr_free ($UN.castvwtp0{Strptr1}(p0))
   val n0_ = pred(g0ofg1(bsz2))
-  val p1_ = add_ptr_bsz (p0_, n0)
+  val p1_ = add_ptr_bsz(p0_, n0)
+  val ((*freed*)) = strptr_free($UN.castvwtp0{Strptr1}(p0))
 in
-  loop (inp, p0_, n0_, p1_, bsz)
+  loop(inp, p0_, n0_, p1_, bsz)
 end // end of [loop2]
 //
 val bsz =
@@ -711,7 +733,7 @@ val p0_ = $UN.castvwtp0{ptr}((pf, pfgc | p0_))
 val n0_ = pred(bsz)
 //
 in
-  loop (inp, p0_, n0_, p0_, n0_)
+  loop(inp, p0_, n0_, p0_, n0_)
 end // end of [fileref_get_file_string]
 
 #atscode_separator()
@@ -723,53 +745,60 @@ atspre_fileref_get_line_string_main2
 (
   atstype_int bsz0
 , atstype_ptr filp0
-, atstype_ref nlen // int *nlen
+, atstype_ref nlen0 // int *nlen
 )
 {
 //
   int bsz = bsz0 ;
+  int ofs1 = 0, ofs2 = 0;
+  int *nlen = (int*)nlen0;
   FILE *filp = (FILE*)filp0 ;
-  int ofs = 0, ofs2 ;
-  char *buf, *buf2, *pres ;
-  buf = atspre_malloc_gc(bsz) ;
+  char *buf1, *buf2, *pres ;
+//
+  buf1 = atspre_malloc_gc(bsz) ;
 //
   while (1) {
-    buf2 = buf+ofs ;
-    pres = fgets(buf2, bsz-ofs, filp) ;
+    buf2 = buf1+ofs1 ;
+    pres = fgets(buf2, bsz-ofs1, filp) ;
     if (!pres)
     {
       if (feof(filp))
       {
-        *buf2 = '\000' ;
-        *(int*)nlen = ofs ; return buf ;
+        *buf2 = '\0' ;
+        *nlen = ofs1 ; return buf1 ;
       } else {
-        atspre_mfree_gc(buf) ;
-        *(int*)nlen = -1 ; return (char*)0 ;
+        atspre_mfree_gc(buf1) ;
+        *nlen = -1 ; return (char*)0 ;
       } // end of [if]
     }
-    ofs2 = strlen(buf2) ;
-    if (ofs2==0) return buf ;
-    ofs += ofs2 ; // HX: ofs > 0
 //
+    ofs2 = strlen(buf2) ;
+//
+    if
+    (ofs2 > 0) ofs1 += ofs2 ; else return buf1;
+//
+// HX: ofs1 > 0 holds at this point
 // HX: the newline symbol needs to be trimmed:
 //
-    if (buf[ofs-1]=='\n')
-    {
-      buf[ofs-1] = '\0'; *(int*)nlen = ofs-1 ; return buf ;
-    }
+    if(
+    buf1[ofs1-1]=='\n'
+    ) {
+    buf1[ofs1-1] = '\0'; *nlen = ofs1-1 ; return buf1 ;
+    } // end of [if]
 //
 // HX: there is room // so there are no more chars:
 //
-    if (ofs+1 < bsz) { *(int*)nlen = ofs ; return buf ; }
+    if (ofs1+1 < bsz) { ( *nlen = ofs1 ) ; return buf1 ; }
 //
-// HX: there is no room // so another call to [fgets] is needed:
+// HX: there is no room // another call to [fgets] is needed:
 //
     bsz *= 2 ;
-    buf2 = buf ; buf = atspre_malloc_gc(bsz) ; memcpy(buf, buf2, ofs) ;
-    atspre_mfree_gc(buf2) ;
+    buf2 = buf1 ;
+    buf1 = atspre_malloc_gc(bsz) ;
+    memcpy(buf1, buf2, ofs1) ; atspre_mfree_gc(buf2) ;
   } // end of [while]
 //
-  return buf ; // HX: deadcode
+  return buf1 ; // HX: this is really deadcode
 //
 } // end of [atspre_fileref_get_line_string_main2]
 \%}
@@ -778,7 +807,7 @@ atspre_fileref_get_line_string_main2
 
 implement
 {}(*tmp*)
-fileref_get_word (inp) = let
+fileref_get_word(inp) = let
 //
 vtypedef
 res = List0_vt(charNZ)
