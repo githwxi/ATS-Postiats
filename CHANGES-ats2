@@ -40,7 +40,8 @@ Here is a list of major additions and changes since the last release:
 9. Finishing EFFECTIVATS/SteamPar on streamization and stream-processing
    in parallel.
 10. Starting the ATS-CodeBook project (at http://github.com/ats-lang):
-    Hello, ReadFromSTDIN, ReadFromSTDIN2, and WordFreqCount
+    Hello, HX-intinf, ReadFromSTDIN, ReadFromSTDIN2, ReadFromSTDIN3, and
+    WordFrqncyCount
   
 ######
 
