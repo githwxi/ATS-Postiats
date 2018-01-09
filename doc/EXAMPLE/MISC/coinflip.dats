@@ -1,3 +1,4 @@
+(* ****** ****** *)
 //
 // One of the early examples
 // It was first done in ATS/Geizella

@@ -52,11 +52,12 @@ STDIO =
 "libats/libc/SATS/stdio.sats"
 //
 staload
-STDLIB =
-"libats/libc/SATS/stdlib.sats"
+TIME =
+"libats/libc/SATS/time.sats"
 //
 staload
-TIME = "libats/libc/SATS/time.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
 //
@@ -284,6 +285,58 @@ aux2(): stream(int) =
 //
 } (* end of [cstream_make_fileref] *)
 
+(* ****** ****** *)
+//
+extern
+fun
+{a:vt0p}
+time_spent_cloptr
+(f0: () -<cloptr1> (a), time: &double >> _): a
+extern
+fun
+{a:vt0p}
+time_spent_cloref
+(f0: () -<cloref1> (a), time: &double >> _): a
+//
+implement
+{a}(*tmp*)
+time_spent_cloptr
+  (f0, time) =
+  result where
+{
+//
+val f1 =
+$UN.castvwtp1{cfun(a)}(f0)
+val result =
+time_spent_cloref<a>(f1, time)
+val ((*freed*)) =
+  cloptr_free{void}($UN.castvwtp0(f0))
+//
+} (* end of [time_spent_cloptr] *)
+//
+implement
+{a}(*tmp*)
+time_spent_cloref
+  (f0, time) =
+  result where
+{
+//
+val clock0 =
+$UN.cast{double}($TIME.clock())
+//
+val result = f0()
+//
+val clock1 =
+$UN.cast{double}($TIME.clock())
+//
+val tspent =
+(clock1-clock0) /
+$UN.cast{double}($TIME.CLOCKS_PER_SEC)
+//
+val ((*void*)) = time := time + tspent
+//
+} (* end of [time_spent_cloref] *)
+//
 (* ****** ****** *)
 
 (* end of [BUCS320.dats] *)

@@ -21,104 +21,53 @@
 ** OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 ** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-** FROM OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-** IN THE SOFTWARE.
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+** THE SOFTWARE.
 ** 
 *)
 
 (* ****** ****** *)
 
 (*
-** Functions for generating random data
+** HX-2018-01-09:
+** Some timing functions
 *)
 
 (* ****** ****** *)
 //
-#define
-ATS_PACKNAME "ATSCNTRB.HX.mytesting"
+typedef
+cfun0(a:vt0p) = () -<cloref1> a
 //
-(* ****** ****** *)
-
-(*
-sortdef
-t0p = t@ype and vt0p = viewt@ype
-*)
-
-(* ****** ****** *)
-
-(*
-** HX:
-** please use srandom for seeding
-*)
-
 (* ****** ****** *)
 //
 fun{}
-randint{n:pos}(n: int n): natLt(n)
+time_spent$show(time: double): void
+//
+fun
+{a:vt0p}
+time_spent_cloptr
+(f0: ((*void*)) -<cloptr1> (a)): (a)
+fun
+{a:vt0p}
+time_spent_cloref
+(f0: ((*void*)) -<cloref1> (a)): (a)
 //
 (* ****** ****** *)
 //
-fun
-{a:vt0p}
-randgen_val(): (a) // for randval generation
-//
-fun
-{a:vt0p} // for randval 
-randgen_ref(x: &(a?) >> a): void // initialization
+fun{}
+time_spent_add$show(time: double): void
 //
 (* ****** ****** *)
-
-fun
-{a:t0p}
-randgen_list{n:nat}(n: int n): list(a, n)
 fun
 {a:vt0p}
-randgen_list_vt{n:nat}(n: int n): list_vt(a, n)
-
-(* ****** ****** *)
-//
+time_spent_add_cloptr
+(f0: () -<cloptr1> (a), time: &double >> _): a
 fun
 {a:vt0p}
-randgen_arrayptr
-  {n:int}(n: size_t(n)): arrayptr(a, n)
-//
-fun
-{a:vt0p}
-randgen_arrayref
-  {n:int}(n: size_t(n)): arrayref(a, n)
-//
-fun
-{a:vt0p}
-randgen_arrszref(n: size_t): arrszref(a)
-//
-(* ****** ****** *)
-//
-fun
-{a:vt0p}
-randarr_initize
-  {n:int}
-  (A: &(@[a?][n]) >> @[a][n], n: size_t(n)): void
-// end of [randarr_initize]
-//
-(* ****** ****** *)
-//
-fun
-{a:vt0p}
-randgen_matrixptr
-  {m,n:int}
-  (m: size_t(m), n: size_t(n)): matrixptr(a, m, n)
-//
-fun
-{a:vt0p}
-randgen_matrixref
-  {m,n:int}
-  (m: size_t(m), n: size_t(n)): matrixref(a, m, n)
-//
-fun
-{a:vt0p}
-randgen_mtrxszref(m: size_t, n: size_t): mtrxszref(a)
+time_spent_add_cloref
+(f0: () -<cloref1> (a), time: &double >> _): a
 //
 (* ****** ****** *)
 
-(* end of [randgen.sats] *)
+(* end of [timing.sats] *)

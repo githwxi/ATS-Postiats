@@ -5,7 +5,7 @@
 (***********************************************************************)
 
 (*
-** Copyright (C) 2012 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2012-2018 Hongwei Xi, ATS Trustful Software, Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and associated documentation files (the "Software"),

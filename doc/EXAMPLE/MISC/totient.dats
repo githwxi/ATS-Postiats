@@ -65,8 +65,26 @@ atsTotient(n: intGt(0)): int =
   end
 
 (* ****** ****** *)
+//
+#staload
+TIMING =
+"contrib/atscntrb-hx-mytesting/SATS/timing.sats"
+#staload
+_(*TIMING*) =
+"contrib/atscntrb-hx-mytesting/DATS/timing.dats"
+//
+(* ****** ****** *)
 
-implement main0() = println! ("totient(1000000) = ", atsTotient(1000000))
+implement
+main0() = () where
+{
+val _ =
+$TIMING.time_spent_cloref<int>
+(
+lam() =>
+(println! ("totient(1000000) = ", atsTotient(1000000)); 0)
+)
+} (* end of [ignoret] *) // end of [main]
 
 (* ****** ****** *)
 

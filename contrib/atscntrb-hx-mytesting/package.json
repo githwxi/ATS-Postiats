@@ -2,10 +2,10 @@
 "name":
 "atscntrb-hx-mytesting"
 ,
-  "version": "1.0.0"
+  "version": "1.0.1"
 ,
   "description":
-  "A simple package for generating random data; it is primarily for backward compatibility; please use prelude/grandom instead!"
+  "A simple package for functions facilitating testing"
 ,
   "main": "N/A"
 ,
@@ -15,7 +15,7 @@
 ,
   "keywords": [
     "ATS",
-    "randgen"
+    "randgen", "timing"
   ]
 ,
   "dependencies" : {}
