@@ -80,11 +80,14 @@ cross(xs:t@ype, ys:t@ype) = CROSS of (xs, ys)
 (*
 **
 ** HX-2012-02:
-**
 ** The basic idea is to implement "everything" else in
 ** terms of [forall] so that they become available for
 ** a container-type whenever [forall] is made available
 ** for that type.
+**
+** HX-2018-01:
+** It seems that [forall] is not enough and [streamize]
+** is needed after all.
 **
 *)
 
@@ -392,6 +395,14 @@ fun
 {x0,y0:t0p}
 zip_forall$test(x0: x0, y0: y0): bool
 //
+fun
+{xs
+,ys:t0p}
+{x0
+,y0:t0p}
+zip_streamize_vt
+(xs: xs, ys: ys):<!wrt> stream_vt(@(x0, y0))
+//
 (* ****** ****** *)
 //
 fun
@@ -403,6 +414,14 @@ cross_forall(xs: xs, ys: ys): bool
 fun
 {x0,y0:t0p}
 cross_forall$test(x0: x0, y0: y0): bool
+//
+fun
+{xs
+,ys:t0p}
+{x0
+,y0:t0p}
+cross_streamize_vt
+(xs: xs, ys: ys):<!wrt> stream_vt(@(x0, y0))
 //
 (* ****** ****** *)
 

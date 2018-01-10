@@ -38,9 +38,10 @@ typedef N0 = intGte(0)
 (* ****** ****** *)
 //
 #staload
-UN =
-"prelude/SATS/unsafe.sats"
+UN = "prelude/SATS/unsafe.sats"
 //
+#staload
+"libats/ML/SATS/atspre.sats"
 #staload
 "libats/ATS2/SATS/fcntainer.sats"
 //
@@ -474,17 +475,15 @@ zip_forall$test<x0,y0>
 //
 in
   zip_forall<xs,ys><x0,y0>(xs, ys)
-end // end of [zip_forall]
+end // end of [forall<zip>]
 
 (* ****** ****** *)
 
 implement
-( xs:t@ype
-, ys:t@ype
-, x0:t@ype
-, y0:t@ype)
-streamize_vt<zip(xs,ys)><(x0,y0)>
-  (ZIP(xs, ys)) = let
+{xs,ys}
+{x0,y0}
+zip_streamize_vt
+  (xs, ys) = let
 //
 typedef
 xy0 = (x0, y0)
@@ -527,8 +526,21 @@ $effmask_all
   (streamize_vt<xs><x0>(xs), streamize_vt<ys><y0>(ys))
 ) // $effmask_all
 //
-end // end of [streamize_vt<zip>]
+end // end of [zip_streamize_vt]
 
+(* ****** ****** *)
+//
+implement
+( xs:t@ype
+, ys:t@ype
+, x0:t@ype
+, y0:t@ype)
+streamize_vt<zip(xs, ys)><(x0,y0)>
+  (ZIP(xs, ys)) =
+(
+  zip_streamize_vt<xs,ys><x0,y0>(xs, ys)
+)
+//
 (* ****** ****** *)
 
 implement
@@ -603,6 +615,88 @@ in
   cross_forall<xs,ys><x0,y0>(xs, ys)
 end // end of [forall<cross>]
 
+(* ****** ****** *)
+
+implement
+{xs,ys}
+{x0,y0}
+cross_streamize_vt
+  (xs, ys) = let
+//
+typedef
+xy0 = (x0, y0)
+//
+fun
+concat
+(
+ps: List_vt(xy0)
+,
+qs: stream_vt(xy0)
+) : stream_vt(xy0) = $ldelay
+(
+(
+case+ ps of
+| ~list_vt_nil() => !(qs)
+| ~list_vt_cons(p, ps) =>
+   stream_vt_cons(p, concat(ps, qs))
+)
+, (list_vt_free(ps); lazy_vt_free(qs))
+)
+//
+fun
+auxelt
+( x0: x0
+, ys: !List0_vt(y0)): List0_vt(xy0) =
+(
+  list_vt_map_cloptr<y0><xy0>(ys, lam(y) => (x0, y))
+)
+//
+fun
+auxlst
+(
+xs:
+stream_vt(x0)
+,
+ys: List0_vt(y0)
+) : stream_vt(xy0) = $ldelay
+(
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil() where
+  {
+    val () = list_vt_free(ys)
+  } (* end of [stream_vt_nil] *)
+| ~stream_vt_cons(x0, xs) =>
+   !(concat(xys0, xys1)) where
+  {
+    val xys0 = auxelt(x0, ys)
+    val xys1 = auxlst(xs, ys)
+  } (* end of [stream_vt_cons] *)
+)
+, (lazy_vt_free(xs); list_vt_free<y0>(ys))
+)
+//
+in
+//
+$effmask_all
+(auxlst(streamize_vt<xs><x0>(xs), listize<ys><y0>(ys)))
+//
+end // end of [cross_streamize_vt]
+
+(* ****** ****** *)
+//
+implement
+( xs:t@ype
+, ys:t@ype
+, x0:t@ype
+, y0:t@ype)
+streamize_vt<cross(xs, ys)><(x0,y0)>
+  (CROSS(xs, ys)) =
+(
+  cross_streamize_vt<xs,ys><x0,y0>(xs, ys)
+)
+//
 (* ****** ****** *)
 
 (* end of [fcntainer_main.dats] *)
