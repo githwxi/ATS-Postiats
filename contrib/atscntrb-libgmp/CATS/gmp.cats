@@ -314,6 +314,10 @@ mpz_sub_si
 #define atscntrb_gmp_mpz_ui_pow_ui(pow, base, exp) mpz_ui_pow_ui(pow, base, exp)
 //
 /* ****** ****** */
+
+#define atscntrb_gmp_mpz_fac_uint(res, n) mpz_fac_ui(res, n)
+
+/* ****** ****** */  
 //
 #define atscntrb_gmp_mpz_fib_uint(res, n) mpz_fib_ui(res, n)
 #define atscntrb_gmp_mpz_fib2_uint(res1, res2, n) mpz_fib2_ui(res1, res2, n)

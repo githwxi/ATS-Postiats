@@ -112,7 +112,7 @@ fun mpz_init2
 //
 // [x] is cleared
 //
-fun mpz_clear (x: &mpz >> mpz?): void = "mac#%"
+fun mpz_clear(x: &mpz >> mpz?): void = "mac#%"
 //
 (* ****** ****** *)
 //
@@ -707,6 +707,12 @@ overload mpz_cmp with mpz_cmp_ulint
 (* ****** ****** *)
 //
 fun
+mpz_fac_uint
+  (x: &mpz >> _, n: uint): void = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 mpz_pow_uint
   (pwr: &mpz >> _, base: &mpz, exp: uint): void = "mac#%"
 fun
@@ -714,7 +720,7 @@ mpz_pow_ulint
   (pwr: &mpz >> _, base: &mpz, exp: ulint): void = "mac#%"
 //
 fun mpz_ui_pow_ui
-  (pw: &mpz >> _, base: ulint, exp: ulint): void = "mac#%"
+  (pwr: &mpz >> _, base: ulint, exp: ulint): void = "mac#%"
 //
 symintr mpz_pow
 //
@@ -725,10 +731,10 @@ overload mpz_pow with mpz_cmp_ulint
 //
 fun
 mpz_fib_uint
-  (x: &mpz >> _, n: ulint): void = "mac#%"
+  (x: &mpz >> _, n: uint): void = "mac#%"
 fun
 mpz_fib2_uint
-  (x1: &mpz >> _, x2: &mpz >> _, n: ulint): void = "mac#%"
+  (x1: &mpz >> _, x2: &mpz >> _, n: uint): void = "mac#%"
 //
 symintr mpz_fib
 symintr mpz_fib2

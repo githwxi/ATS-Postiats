@@ -18,7 +18,7 @@
 (* ****** ****** *)
 //
 val xs =
-list0_tuple<int>(0, 1, 2, 3, 4, 5)
+list0_tuple<int>(0, 1, 2, 3, 4)
 //
 val () =
 $FC.foreach_cloref<list0(int)><int>(xs, lam(x) =<1> println!(x))

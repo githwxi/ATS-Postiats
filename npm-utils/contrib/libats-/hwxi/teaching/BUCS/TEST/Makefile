@@ -49,6 +49,15 @@ test_lineto.dats ; \
 $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -latslib
 
 ######
+#
+all:: \
+test_intinf
+test_intinf: \
+test_intinf.dats ; \
+$(PATSCC) -O2 \
+-I$(PATSHOME)/contrib -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+#
+######
 
 testall:: all
 testall:: cleanall
@@ -70,5 +79,6 @@ cleanall:: ; $(RMF) test_find
 cleanall:: ; $(RMF) test_which
 cleanall:: ; $(RMF) test_download
 cleanall:: ; $(RMF) test_lineto
+cleanall:: ; $(RMF) test_intinf
 
 ###### end of [Makefile] ######

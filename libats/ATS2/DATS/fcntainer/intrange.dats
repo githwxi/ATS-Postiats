@@ -50,6 +50,17 @@ typedef
 intrange = $FC.intrange
 //
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+$FC.intrange_make_int
+  (x) = $FC.INTRANGE(0, x)
+implement
+{}(*tmp*)
+$FC.intrange_make_int2
+  (l, r) = $FC.INTRANGE(l, r)
+//
+(* ****** ****** *)
 
 implement
 $FC.streamize_vt<intrange><int>

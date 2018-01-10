@@ -23,7 +23,7 @@ intrange = $FC.intrange
 (* ****** ****** *)
 //
 val xs =
-$FC.INTRANGE(0, 6)
+$FC.intrange(0, 10)
 //
 val () =
 $FC.foreach_cloref<intrange><int>(xs, lam(x) =<1> println!(x))

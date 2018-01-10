@@ -47,6 +47,16 @@ intrange =
 INTRANGE of (int, int)
 //
 (* ****** ****** *)
+//
+fun{}
+intrange_make_int(int): intrange
+fun{}
+intrange_make_int2(int, int): intrange
+//
+overload intrange with intrange_make_int
+overload intrange with intrange_make_int2
+//
+(* ****** ****** *)
 
 datatype
 map(
