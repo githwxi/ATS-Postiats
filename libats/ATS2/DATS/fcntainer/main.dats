@@ -76,6 +76,40 @@ case+ !xs of
 
 implement
 {xs}{x0}
+iforall(xs) = let
+//
+var i0: Nat = 0
+val p0 = addr@(i0)
+//
+implement
+forall$test<x0>(x0) =
+iforall$test<x0>(i0, x0) where
+{
+val i0 = $UN.ptr0_get<intGte(0)>(p0)
+val () = $UN.ptr0_set<intGte(0)>(p0, i0+1)
+}
+//
+in
+  forall<xs><x0>(xs)
+end // end of [iforall]
+
+implement
+{xs}{x0}
+iforall_cloref
+  (xs, ftest) = let
+//
+implement
+iforall$test<x0>
+  (i0, x0) = ftest(i0, x0)
+//
+in
+  $effmask_all(iforall<xs><x0>(xs))
+end // end of [iforall_cloref]
+
+(* ****** ****** *)
+
+implement
+{xs}{x0}
 exists(xs) = let
 //
 implement
@@ -145,7 +179,7 @@ val p0 = addr@(i0)
 //
 implement
 foreach$work<x0>(x0) =
-iforeach$work(i0, x0) where
+iforeach$work<x0>(i0, x0) where
 {
 val i0 = $UN.ptr0_get<intGte(0)>(p0)
 val () = $UN.ptr0_set<intGte(0)>(p0, i0+1)

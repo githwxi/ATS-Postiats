@@ -53,6 +53,15 @@ andalso(x, y) =
 (* ****** ****** *)
 //
 macdef
+ifopt(t, x) =
+if(,(t))then(Some(,(x)))else(None())
+macdef
+ifopt_vt(t, x) =
+if(,(t))then(Some_vt(,(x)))else(None_vt())
+//
+(* ****** ****** *)
+//
+macdef
 ifval(test, v_then, v_else) =
   (if ,(test) then ,(v_then) else ,(v_else))
 //

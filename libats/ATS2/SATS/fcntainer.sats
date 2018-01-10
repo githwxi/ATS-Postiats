@@ -173,6 +173,24 @@ rforall_cloref{fe:eff}
 fun
 {xs:t0p}
 {x0:t0p}
+iforall(xs: xs): bool
+fun
+{x0:t0p}
+iforall$test(i: Nat, x0: x0): bool
+//
+fun
+{xs:t0p}
+{x0:t0p}
+iforall_cloref{fe:eff}
+( xs: xs
+, fopr: (int, x0) -<cloref,fe> bool):<fe> bool
+// end of [iforall_cloref]
+//
+(* ****** ****** *)
+//
+fun
+{xs:t0p}
+{x0:t0p}
 exists(xs: xs): bool
 fun
 {x0:t0p}

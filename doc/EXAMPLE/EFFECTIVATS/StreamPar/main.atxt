@@ -483,7 +483,7 @@ threads on two cores versus running only one.
 
 ')
 
-<h2>Compiling and Testing</h2>
+<h2>Code for Compiling and Testing</h2>
 
 ##para("""\
 

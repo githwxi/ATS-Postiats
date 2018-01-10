@@ -49,6 +49,16 @@ cleanall:: ; rm -f isPrime
 
 ######
 
+all:: \
+QueenPuzzle
+QueenPuzzle: \
+QueenPuzzle.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< -lm
+regress:: QueenPuzzle; ./$<
+cleanall:: ; rm -f QueenPuzzle
+
+######
+
 testall:: all
 testall:: regress
 testall:: cleanall
