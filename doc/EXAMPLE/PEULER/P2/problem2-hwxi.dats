@@ -29,7 +29,7 @@ staload "{$LIBGMP}/SATS/gmp.sats"
 
 fun loop
 (
-  N: ulint, i: ulint, ifib: &mpz, sum: &mpz
+  N: ulint, i: uint, ifib: &mpz, sum: &mpz
 ) : void = let
 //
 val () = mpz_fib (ifib, i)
@@ -63,7 +63,7 @@ macdef N = 4000000UL
 //
 var ifib: mpz; val () = mpz_init (ifib)
 var fibsum: mpz; val () = mpz_init_set (fibsum, 0UL)
-val () = loop (N, 2UL, ifib, fibsum) // starting from the 2nd Fib number
+val () = loop (N, 2U, ifib, fibsum) // starting from the 2nd Fib number
 val () = assertloc (mpz_get_ulint (fibsum) = 4613732UL)
 val () = fprintln! (out, "The sum of all even Fibonacci numbers < 4 million = ", fibsum)
 val () = mpz_clear (ifib)
