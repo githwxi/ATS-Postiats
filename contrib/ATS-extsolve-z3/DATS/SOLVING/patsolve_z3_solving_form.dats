@@ -17,7 +17,13 @@ PATSOLVE_Z3_SOLVING
 (* ****** ****** *)
 //
 #staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
+//
+#staload
+"libats/ML/SATS/atspre.sats"
+#staload _ =
+"libats/ML/DATS/atspre.dats"
 //
 #staload "./patsolve_z3_solving_ctx.dats"
 //
