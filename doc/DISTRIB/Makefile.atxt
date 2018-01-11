@@ -108,6 +108,7 @@ all_script::
 #make_entry("atslib_libats_ML")
 #make_entry("atslib_libats_libc")
 #make_entry("atslib_libats_ATS1")
+#make_entry("atslib_libats_ATS2")
 #make_entry("atslib_libats_BUCS320")
 
 ######
@@ -311,6 +312,8 @@ srcget_atslib:: srcget_atslib_libats_libc
 srcget_atslib_libats_libc:: SCRIPT/atslib_libats_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_ATS2
+srcget_atslib_libats_ATS2:: SCRIPT/atslib_libats_ATS2.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_BUCS320
 srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
 #

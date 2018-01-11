@@ -23,8 +23,10 @@ tcc - -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${PAT
 //
 (* ****** ****** *)
 //
-staload "libats/ML/SATS/string.sats"
+staload "libats/ML/SATS/atspre.sats"
+staload _ = "libats/ML/DATS/atspre.dats"
 //
+staload "libats/ML/SATS/string.sats"
 staload _ = "libats/ML/DATS/string.dats"
 //
 (* ****** ****** *)

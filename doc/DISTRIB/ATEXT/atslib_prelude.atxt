@@ -228,9 +228,6 @@ The ATSLIB/prelude library\
 
 #packfilename("SATS/extern.sats")
 
-#packfilename("SATS/giterator.sats")
-#packfilename("SATS/fcontainer.sats")
-
 (* ****** ****** *)
 
 #packfilename("DATS/basics.dats")
@@ -335,14 +332,6 @@ The ATSLIB/prelude library\
 #comment('\
 \#packfilename("DATS/extern.dats")
 ')
-
-#packfilename("DATS/giterator.dats")
-#packfilename("DATS/giter_array.dats")
-#packfilename("DATS/giter_list.dats")
-#packfilename("DATS/giter_list_vt.dats")
-
-#packfilename("DATS/fcontainer.dats")
-#packfilename("DATS/fcontainer_foreach.dats")
 
 (* ****** ****** *)
 

@@ -51,7 +51,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 //
 staload
-"libats/ML/SATS/list.sats"
+"libats/ML/SATS/atspre.sats"
 //
 staload
 "libats/ATS1/SATS/funmset_listord.sats"

@@ -107,12 +107,18 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/atspre.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/list0.sats")
 #packfilename("SATS/option0.sats")
 #packfilename("SATS/array0.sats")
 #packfilename("SATS/matrix0.sats")
 #packfilename("SATS/string.sats")
 #packfilename("SATS/strarr.sats")
+
+#packfilename("SATS/list0_vt.sats")
 
 (* ****** ****** *)
 
@@ -151,12 +157,18 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/atspre.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/list0.dats")
 #packfilename("DATS/option0.dats")
 #packfilename("DATS/array0.dats")
 #packfilename("DATS/matrix0.dats")
 #packfilename("DATS/string.dats")
 #packfilename("DATS/strarr.dats")
+
+#packfilename("DATS/list0_vt.dats")
 
 (* ****** ****** *)
 

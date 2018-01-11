@@ -4,7 +4,12 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
+#staload
+"libats/ML/SATS/atspre.sats"
+#staload _ =
+"libats/ML/DATS/atspre.dats"
 //
 (* ****** ****** *)
 
@@ -12,7 +17,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+val
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 (* ****** ****** *)
 

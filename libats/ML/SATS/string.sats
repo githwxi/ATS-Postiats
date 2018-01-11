@@ -200,7 +200,8 @@ string_implode(list0(char)):<> string
 fun{}
 string_copywith
 (
-  cs: string, fopr: (charNZ) -<cloref1> charNZ
+  cs: string
+, fopr: (charNZ) -<cloref1> charNZ
 ) : string // end of [string_copywith]
 
 (* ****** ****** *)

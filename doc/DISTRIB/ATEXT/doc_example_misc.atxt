@@ -204,6 +204,10 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("totient.dats")
+
+(* ****** ****** *)
+
 #packfilename("wclines.dats")
 
 (* ****** ****** *)

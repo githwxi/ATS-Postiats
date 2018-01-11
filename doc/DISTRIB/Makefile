@@ -129,6 +129,16 @@ cleanall:: ; $(RMF) HTML/atslib_libats_ATS1.html
 cleanall:: ; $(RMF) SCRIPT/atslib_libats_ATS1.bash
 
 all_script:: \
+SCRIPT/atslib_libats_ATS2.bash
+SCRIPT/atslib_libats_ATS2.bash: atslib_libats_ATS2_atxt.exe ; ./$< > $@
+atslib_libats_ATS2_atxt.dats: ATEXT/atslib_libats_ATS2.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+atslib_libats_ATS2_atxt.exe: atslib_libats_ATS2_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) atslib_libats_ATS2_atxt.exe
+cleanall:: ; $(RMF) HTML/atslib_libats_ATS2.html
+cleanall:: ; $(RMF) SCRIPT/atslib_libats_ATS2.bash
+
+all_script:: \
 SCRIPT/atslib_libats_BUCS320.bash
 SCRIPT/atslib_libats_BUCS320.bash: atslib_libats_BUCS320_atxt.exe ; ./$< > $@
 atslib_libats_BUCS320_atxt.dats: ATEXT/atslib_libats_BUCS320.atxt ; \
@@ -736,6 +746,8 @@ srcget_atslib:: srcget_atslib_libats_libc
 srcget_atslib_libats_libc:: SCRIPT/atslib_libats_libc.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_ATS1
 srcget_atslib_libats_ATS1:: SCRIPT/atslib_libats_ATS1.bash ; bash $<
+srcget_atslib:: srcget_atslib_libats_ATS2
+srcget_atslib_libats_ATS2:: SCRIPT/atslib_libats_ATS2.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_BUCS320
 srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
 #
@@ -887,7 +899,7 @@ srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.3.8
+PACKNAME=ATS2-Postiats-0.3.9
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
@@ -909,7 +921,7 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-CONTRIBNAME=ATS2-Postiats-contrib-0.3.8
+CONTRIBNAME=ATS2-Postiats-contrib-0.3.9
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(TARZVCF)  $(CONTRIBNAME).tgz  $(CONTRIBNAME)/.
