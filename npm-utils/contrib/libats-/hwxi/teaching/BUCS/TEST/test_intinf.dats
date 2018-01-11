@@ -101,7 +101,7 @@ implement
 main0() = () where
 {
 //
-val N = 1000
+val N = 100
 val ntime = 1000000
 //
 val _ =
