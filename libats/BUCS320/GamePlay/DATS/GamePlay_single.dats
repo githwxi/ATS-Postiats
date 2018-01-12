@@ -49,7 +49,7 @@ fun{}
 GamePlay$input(state): input
 extern
 fun{}
-GamePlay$update(input, state): state
+GamePlay$update(state, input): state
 //
 (* ****** ****** *)
 //
@@ -151,7 +151,7 @@ else loop(state) where
 //
   val input = GamePlay$input(state)
 //
-  val state = GamePlay$update(input, state)
+  val state = GamePlay$update(state, input)
 } (* end-of-else *)
 //
 end // end of [loop]

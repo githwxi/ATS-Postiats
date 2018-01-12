@@ -258,7 +258,7 @@ end // end of [GamePlay$input]
 implement
 GamePlay$update<>
 (
-  input, state
+  state, input
 ) = state where
 {
 //
