@@ -26,21 +26,28 @@ os.execv(args[0], args + sys.argv[1:])
 (* ****** ****** *)
 
 staload
-UN = "prelude/SATS/unsafe.sats"
+UN =
+"prelude/SATS/unsafe.sats"
 staload
-STDLIB = "libc/SATS/stdlib.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
 staload
-UNISTD = "libc/SATS/unistd.sats"
+UNISTD =
+"libats/libc/SATS/unistd.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/dynarray.sats"
-staload _(*anon*) = "libats/DATS/dynarray.dats"
+staload
+"libats/SATS/dynarray.sats"
+staload _(*anon*) =
+"libats/DATS/dynarray.dats"
 
 (* ****** ****** *)
 
-staload "json-c/SATS/json.sats"
-staload _(*anon*) = "json-c/DATS/json.dats"
+staload
+"contrib/atscntrb-libjson-c/SATS/json.sats"
+staload _(*anon*) =
+"contrib/atscntrb-libjson-c/DATS/json.dats"
 
 (* ****** ****** *)
 

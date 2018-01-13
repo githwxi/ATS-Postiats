@@ -280,6 +280,15 @@ cleanall:: ; $(RMF) qa-list-2015-02-20
 ######
 
 all:: \
+qa-list-2018-01-12
+qa-list-2018-01-12: \
+qa-list-2018-01-12.dats; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -cleanaft -o $@ $<
+cleanall:: ; $(RMF) qa-list-2018-01-12
+
+######
+
+all:: \
 list_last
 list_last: \
 list_last.dats ; \
