@@ -83,6 +83,17 @@ PHParray2list_map_rev
 (* ****** ****** *)
 //
 fun
+PHParray_forall
+  {a:t0p}
+  (A: PHParray(a), test: cfun(a, bool)): bool = "mac#%"
+fun
+PHParray_foreach
+  {a:t0p}
+  (A: PHParray(a), test: cfun(a, void)): void = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
 PHParray_streamize_elt
   {a:t0p}(A: PHParray(a)): stream_vt(a) = "mac#%"
 //

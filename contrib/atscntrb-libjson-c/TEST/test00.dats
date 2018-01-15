@@ -6,8 +6,8 @@
 
 (*
 ** Author: Hongwei Xi
+** Start Time: May, 2013
 ** Authoremail: gmhwxi AT gmail DOT edu
-** Time: May, 2013
 *)
 
 (* ****** ****** *)

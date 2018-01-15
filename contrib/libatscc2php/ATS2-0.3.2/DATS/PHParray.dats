@@ -156,6 +156,67 @@ end // end of [PHParray2list_map_rev]
 (* ****** ****** *)
 
 implement
+PHParray_forall
+  (A, test) =
+  loop(asz, 0) where
+{
+//
+val [n:int] asz = A.size()
+//
+fun
+loop
+{n:nat}
+{i:nat|i <= n}
+( n: int(n)
+, i: int(i)): bool =
+(
+if
+(i < n)
+then
+(
+if
+test(A[i]) then loop(n, i+1) else false
+) (* end of [then] *)
+else true // end of [else]
+// end of [if]
+) (* end of [loop] *)
+//
+} // end of [PHParray_forall]
+
+(* ****** ****** *)
+
+implement
+PHParray_foreach
+  (A, fwork) =
+  loop(asz, 0) where
+{
+//
+val [n:int] asz = A.size()
+//
+fun
+loop
+{n:nat}
+{i:nat|i <= n}
+( n: int(n)
+, i: int(i)): void =
+(
+if
+(i < n)
+then
+(
+let val () =
+  fwork(A[i]) in loop(n, i+1)
+end // end of [let]
+) (* end of [then] *)
+else ((*void*)) // end of [else]
+// end of [if]
+) (* end of [loop] *)
+//
+} // end of [PHParray_foreach]
+
+(* ****** ****** *)
+
+implement
 PHParray_streamize_elt
   {a}(A) =
   auxmain(asz, 0) where

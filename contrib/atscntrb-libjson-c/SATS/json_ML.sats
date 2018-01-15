@@ -52,22 +52,25 @@ jsonval =
 where
 json_int = llint
 and
-jsonvalist = List0 (jsonval)
+jsonvalist = List0(jsonval)
 and
 labjsonval = @(string, jsonval)
 and
-labjsonvalist = List0 (labjsonval)
+labjsonvalist = List0(labjsonval)
 
 (* ****** ****** *)
 
 vtypedef
-jsonvalist_vt = List0_vt (jsonval)
+jsonvalist_vt = List0_vt(jsonval)
 
 (* ****** ****** *)
 //
-fun print_jsonval (jsonval): void
-fun prerr_jsonval (jsonval): void
-fun fprint_jsonval (out: FILEref, x: jsonval): void
+fun
+print_jsonval(jsonval): void
+fun
+prerr_jsonval(jsonval): void
+fun
+fprint_jsonval(out: FILEref, x: jsonval): void
 //
 overload print with print_jsonval
 overload prerr with prerr_jsonval
@@ -75,27 +78,28 @@ overload fprint with fprint_jsonval
 //
 (* ****** ****** *)
 //
-fun fprint_jsonvalist
+fun
+fprint_jsonvalist
   (out: FILEref, xs: jsonvalist): void
-fun fprint_labjsonvalist
+fun
+fprint_labjsonvalist
   (out: FILEref, lxs: labjsonvalist): void
 //
 (* ****** ****** *)
 
-fun jsonval_ofstring (str: string): jsonval
-fun jsonval_tostring (jsv: jsonval): Strptr1
+fun jsonval_ofstring(str: string): jsonval
+fun jsonval_tostring(jsv: jsonval): Strptr1
 
 (* ****** ****** *)
 
-fun json_object2val0 (jso: json_object0): jsonval
+fun
+json_object2val0(jso: json_object0): jsonval
+fun
+json_object2val1(jso: !json_object0): jsonval
 
 (* ****** ****** *)
 
-fun json_object2val1 (jso: !json_object0): jsonval
-
-(* ****** ****** *)
-
-fun jsonval_objectify (jsv: jsonval): json_object0
+fun jsonval_objectify(jsv: jsonval): json_object0
 
 (* ****** ****** *)
 

@@ -1,13 +1,13 @@
+(* ****** ****** *)
 (*
-** Some testing code for [json]
+** Testing code for [json]
 *)
-
 (* ****** ****** *)
 
 (*
 ** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT edu
-** Time: May, 2013
+** Start Time: May, 2013
+** Authoremail: gmhwxiATgmailDOTedu
 *)
 
 (* ****** ****** *)
@@ -30,14 +30,30 @@ implement
 main0 () =
 {
 //
-val pb = printbuf_new ()
-val () = assertloc (ptrcast(pb) > 0)
-val cnt = $extfcall (int, "sprintbuf", ptrcast(pb), "Hello from [sprintbuf]!")
-val () = println! ("cnt = ", cnt)
-val (fpf | buf) = printbuf_get_buf (pb)
-val () = println! ("buf = ", buf)
-prval () = fpf (buf)
-val () = printbuf_free (pb)
+val pb =
+printbuf_new()
+val () =
+assertloc(ptrcast(pb) > 0)
+//
+val cnt =
+$extfcall
+( int
+, "sprintbuf"
+, ptrcast(pb)
+, "Hello from [sprintbuf]!"
+)(*$extfcall*)
+//
+val () =
+println!
+("cnt = ", cnt)
+val
+(fpf | buf) =
+printbuf_get_buf(pb)
+val () =
+println!("buf = ", buf)
+prval
+((*returned*)) = fpf(buf)
+val ((*freed*)) = printbuf_free(pb)
 //
 } // end of [main0]
 

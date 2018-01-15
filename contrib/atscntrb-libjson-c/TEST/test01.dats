@@ -1,13 +1,13 @@
+(* ****** ****** *)
 (*
-** Some testing code for [json]
+** Testing code for [json]
 *)
-
 (* ****** ****** *)
 
 (*
 ** Author: Hongwei Xi
 ** Authoremail: gmhwxi AT gmail DOT edu
-** Time: May, 2013
+** Start Time: May, 2013
 *)
 
 (* ****** ****** *)

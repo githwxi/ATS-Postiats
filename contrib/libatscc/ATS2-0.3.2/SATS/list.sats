@@ -80,11 +80,11 @@ overload length with list_length of 100
 fun
 list_length_gte
   {x:t0p}{n1,n2:int}
-  (list(INV(x), n1), int(n2)): bool(n1 >= n2) = "mac#"
+  (list(INV(x), n1), int(n2)): bool(n1 >= n2) = "mac#%"
 fun
 list_length_compare
   {x:t0p}{n1,n2:int}
-  (list(INV(x), n1), int(n2)): int(sgn(n1-n2)) = "mac#"
+  (list(INV(x), n1), int(n2)): int(sgn(n1-n2)) = "mac#%"
 //
 overload >= with list_length_gte of 100
 overload compare with list_length_compare of 100
