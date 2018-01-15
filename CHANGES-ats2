@@ -1,6 +1,38 @@
 ######
 
+0.3.10
+
+This is the 47th release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+######
+
 0.3.9
+
+------------------------------------------------
+ATS2-0.3.9.tgz:
+MD5: 89896a2ea58b07c2c409cd4297891aa1
+SHA1: e350b7872cbac5ab1c3a539c7e35d176e39eb378
+------------------------------------------------
 
 This is the 46th release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
@@ -42,7 +74,7 @@ Here is a list of major additions and changes since the last release:
 10. Starting the ATS-CodeBook project (at http://github.com/ats-lang):
     Hello, HX-intinf, ReadFromSTDIN, ReadFromSTDIN2, ReadFromSTDIN3, and
     WordFrqncyCount
-  
+
 ######
 
 0.3.8

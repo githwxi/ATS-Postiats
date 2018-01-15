@@ -182,6 +182,9 @@ packfilesynop(x) = atext_nil()
 #packfilename(
 "atscntrb-libjson-c/mylibies.hats"
 )
+#packfilename(
+"atscntrb-libjson-c/mylibies_link.hats"
+)
 #packfilename_r("atscntrb-libjson-c/CATS")
 #packfilename_r("atscntrb-libjson-c/SATS")
 #packfilename_r("atscntrb-libjson-c/DATS")
