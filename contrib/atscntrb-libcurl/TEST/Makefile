@@ -22,22 +22,24 @@ INCLUDE=./../..
 
 ######
 
-all:: test00
-test00: test00.dats ; \
-$(PATSCC) -I$(INCLUDE) -o $@  $< testlib.dats -lcurl
+all:: \
+test00
+test00: \
+test00.dats ; \
+$(PATSCC) -I$(INCLUDE) -o $@  $< -lcurl
 #
 regress:: test00 ; ./$<
-#
 cleanall:: ; $(RMF) test00
-
+#
 ######
 #
-all:: test01
-test01: test01.dats ; \
-$(PATSCC) -g -DATS_MEMALLOC_LIBC -I$(INCLUDE) -o $@  $< testlib.dats -lcurl
+all:: \
+test01
+test01: \
+test01.dats ; \
+$(PATSCC) -I$(INCLUDE) -DATS_MEMALLOC_LIBC -o $@  $< -lcurl
 #
 regress:: test01 ; ./$<
-#
 cleanall:: ; $(RMF) test01
 #
 ######

@@ -1,11 +1,9 @@
 (* ****** ****** *)
-
 (*
 ** Author: Hongwei Xi
 ** Start Time: May, 2013
 ** Authoremail: gmhwxiATgmailDOTcom
 *)
-
 (* ****** ****** *)
 
 #ifndef

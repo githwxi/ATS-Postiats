@@ -1,7 +1,15 @@
+(* ****** ****** *)
 (*
-** API for json-c in ATS
+**
+** Author: Hongwei Xi
+** Start Time: May, 2013
+** Authoremail: gmhwxiATgmailDOTcom
+**
 *)
-
+(* ****** ****** *)
+(*
+** API in ATS for json-c
+*)
 (* ****** ****** *)
 
 (*

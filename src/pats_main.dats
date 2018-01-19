@@ -555,7 +555,7 @@ HX: VERSION-0.2.8 released on Wednesday, June 29, 2016)
 //
 #define
 PATS_COPYRIGHT
-"Copyright (c) 2011-2017 Hongwei Xi"
+"Copyright (c) 2011-2018 Hongwei Xi"
 //
 (* ****** ****** *)
 //

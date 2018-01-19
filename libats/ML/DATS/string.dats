@@ -561,7 +561,7 @@ val cs = g1ofg0(cs)
 in
 //
 string_tabulate<>
-  (length(cs), lam(i) => fopr(cs[i]))
+(length(cs), lam(i) => fopr(cs[i]))
 //
 end // end of [string_copywith]
 
@@ -576,12 +576,21 @@ val n0 = g1ofg0_uint(n0)
 //
 implement
 string_tabulate$fopr<>
-  (i) = fopr($UN.cast{sizeLt(n)}(i))
+  (i) =
+  fopr($UN.cast{sizeLt(n)}(i))
 //
 in
-  strnptr2string(prelude_string_tabulate(n0))
+  strnptr2string
+  (prelude_string_tabulate(n0))
 end // end of [string_tabulate]
 
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+string_find_index
+  (str, c0) = strchr<>(g1ofg0(str), c0)
+//
 (* ****** ****** *)
 
 implement

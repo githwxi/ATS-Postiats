@@ -2,7 +2,7 @@
 "name":
 "atscntrb-libcurl"
 ,
-"version": "1.0.2"
+"version": "1.0.3"
 ,
 "description":
 "This package is for directly calling in ATS various CURL-functions."

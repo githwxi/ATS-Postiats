@@ -83,7 +83,13 @@ val ret =
 $extfcall
   (int, "pipe", arrayref2ptr(fid2))
 //
-val pid = $extfcall(int(*child*), "fork")
+val pid =
+(
+if
+(ret >= 0)
+then
+$extfcall(int(*child*), "fork")
+else (~1)): int // end of [val]
 //
 val ((*void*)) =
 if(pid >= 0) then

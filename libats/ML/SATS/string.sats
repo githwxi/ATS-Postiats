@@ -215,6 +215,13 @@ string_tabulate
 ) : string // end of [string_tabulate]
 //
 (* ****** ****** *)
+
+fun{}
+string_find_index
+  (str: string, c0: charNZ):<> ssize_t
+// end of [string_find_index]
+
+(* ****** ****** *)
 //
 fun{}
 string_exists

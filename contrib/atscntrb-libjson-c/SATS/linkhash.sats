@@ -1,8 +1,9 @@
+(* ****** ****** *)
 (*
+** Author: Hongwei Xi
 ** Start Time: May, 2013
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+** Authoremail: gmhwxiATgmailDOTcom
 *)
-
 (* ****** ****** *)
 //
 #define

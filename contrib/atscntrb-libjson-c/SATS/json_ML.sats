@@ -1,6 +1,14 @@
 (* ****** ****** *)
 (*
-** a quasi ML-style API in ATS for json-c
+**
+** Author: Hongwei Xi
+** Start Time: May, 2013
+** Authoremail: gmhwxiATgmailDOTcom
+**
+*)
+(* ****** ****** *)
+(*
+** A quasi ML-style API in ATS for json-c
 *)
 (* ****** ****** *)
 

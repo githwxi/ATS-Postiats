@@ -1,8 +1,9 @@
+(* ****** ****** *)
 (*
+** Author: Hongwei Xi
 ** Start Time: May, 2013
-** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+** Authoremail: gmhwxiATgmailDOTcom
 *)
-
 (* ****** ****** *)
 
 #define ATS_PACKNAME "ATSCNTRB.jsonc"
@@ -18,20 +19,29 @@ stadef array_list1 = $JSON.array_list1
 stadef free_fn_type = $JSON.free_fn_type
 //
 (* ****** ****** *)
-
+//
 (*
+//
 struct
-array_list
-*array_list_new(array_list_free_fn *free_fn)
-
-void  array_list_free (struct array_list *al)
-int   array_list_add (struct array_list *al, void *data)
-int   array_list_put_idx (struct array_list *al, int i, void *data)
+array_list*
+array_list_new
+(array_list_free_fn *free_fn)
+void
+array_list_free(struct array_list *al)
+//
+int
+array_list_length(struct array_list *al)
+//
+int   array_list_put_idx
+      (struct array_list *al, int i, void *data)
 void *array_list_get_idx (struct array_list *al, int i)
-int   array_list_length (struct array_list *al)
-void  array_list_sort (struct array_list *arr, int(*compar)(const void *, const void *))
+//
+int   array_list_add(struct array_list *al, void *data)
+void  array_list_sort
+      (struct array_list *arr, int(*compar)(const void *, const void *))
+//
 *)
-
+//
 (* ****** ****** *)
 //
 castfn

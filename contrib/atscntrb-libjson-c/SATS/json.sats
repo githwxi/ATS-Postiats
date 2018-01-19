@@ -1,5 +1,13 @@
 (* ****** ****** *)
 (*
+**
+** Author: Hongwei Xi
+** Start Time: May, 2013
+** Authoremail: gmhwxiATgmailDOTcom
+**
+*)
+(* ****** ****** *)
+(*
 ** API in ATS for json-c
 *)
 (* ****** ****** *)
@@ -20,16 +28,6 @@
 ** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*)
-
-(* ****** ****** *)
-
-(*
-**
-** Author: Hongwei Xi
-** Authoremail: gmhwxi AT gmail DOT com
-** Start Time: May, 2013
-**
 *)
 
 (* ****** ****** *)
