@@ -44,18 +44,19 @@ staload "./../SATS/cstream_tokener.sats"
 
 (* ****** ****** *)
 
+#define BUFSZ 1024
+
+(* ****** ****** *)
+
 datavtype
 tokener(a:type) =
-TOKENER of (cstream, int, $SBF.stringbuf)
+TOKENER of
+(cstream, int, $SBF.stringbuf)
 // end of [tokener]
 
 (* ****** ****** *)
 
 assume tokener_vtype = tokener
-
-(* ****** ****** *)
-
-#define BUFSZ 1024
 
 (* ****** ****** *)
 

@@ -1,24 +1,21 @@
+(* ****** ****** *)
 (*
 ** stream of characters
 *)
-
 (* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-%{^
-#define \
-atstyarr_field_undef(fname) fname[]
-%} // end of [%{]
-
-(* ****** ****** *)
-
-staload "./../SATS/cstream.sats"
-staload _ = "./../DATS/cstream.dats"
-
+//
+#include "./../mylibies.hats"
+//
+#staload $CSTREAM
+#staload $CSTOKENER
+//
+#include "./../mylibies_link.hats"
+//
 (* ****** ****** *)
 
 implement

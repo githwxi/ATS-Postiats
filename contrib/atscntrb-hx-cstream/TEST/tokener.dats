@@ -16,30 +16,28 @@
 //
 (* ****** ****** *)
 
-%{^
-#define \
-atstyarr_field_undef(fname) fname[]
-%} // end of [%{]
-
-(* ****** ****** *)
-
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-staload "libats/SATS/stringbuf.sats"
+#staload "libats/SATS/stringbuf.sats"
 //
-staload _ = "libats/DATS/stringbuf.dats"
+#staload _ = "libats/DATS/stringbuf.dats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/cstream.sats"
-staload "./../SATS/cstream_tokener.sats"
+#include
+"./../mylibies.hats"
 //
-staload _ = "./../DATS/cstream.dats"
-staload _ = "./../DATS/cstream_tokener.dats"
+#staload $CSTREAM
+#staload $CSTOKENER
 //
+(* ****** ****** *)
+
+#include
+"./../mylibies_link.hats"
+
 (* ****** ****** *)
 
 datatype token =
@@ -117,7 +115,7 @@ then let
 //
 val c = $UN.cast{charNZ}(i)
 val _ =
-  stringbuf_insert (sbf, c) in loop (cs0, sbf)
+  stringbuf_insert(sbf, c) in loop(cs0, sbf)
 //
 end // end-of-then
 else (i) // end-of-else
@@ -127,9 +125,9 @@ else (i) // end-of-else
 end // end of [tokener_get_ide]
 //
 val _ =
-  stringbuf_insert (sbf, $UN.cast{charNZ}(i0))
+  stringbuf_insert(sbf, $UN.cast{charNZ}(i0))
 //
-val () = i0 := loop (cs0, sbf)
+val () = i0 := loop(cs0, sbf)
 //
 in
   stringbuf_truncout_all (sbf)

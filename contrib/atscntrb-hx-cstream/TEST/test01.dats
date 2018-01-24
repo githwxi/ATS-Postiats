@@ -8,27 +8,20 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-%{^
-#define \
-atstyarr_field_undef(fname) fname[]
-%} // end of [%{]
-
-(* ****** ****** *)
 //
 staload
 STDLIB =
 "libats/libc/SATS/stdio.sats"
 //
 (* ****** ****** *)
-
-staload "./../SATS/cstream.sats"
-staload _ = "./../DATS/cstream.dats"
-
-(* ****** ****** *)
-
-#define i2c int2char0
-
+//
+#include "./../mylibies.hats"
+//
+#staload $CSTREAM
+#staload $CSTOKENER
+//
+#include "./../mylibies_link.hats"
+//
 (* ****** ****** *)
 
 implement
@@ -36,6 +29,8 @@ main0 ((*void*)) =
 {
 //
 val Hello = "Hello"
+//
+#define i2c int2char0
 //
 val cs =
 cstream_make_string (Hello)

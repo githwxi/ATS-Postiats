@@ -1,7 +1,7 @@
+######
 #
 # A simple Makefile
 #
-
 ######
 
 include \
@@ -9,37 +9,33 @@ $(PATSHOME)/share/atsmake-pre.mk
 
 ######
 
-MYCCRULE=MYCCRULE
-
-######
-
-MALLOCFLAG=-DATS_MEMALLOC_LIBC
+MALLOCFLAG = -DATS_MEMALLOC_LIBC
 
 ######
 
 all:: test01
-test01: test01.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $< testlib.dats
+test01: test01.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $<
 regress:: test01; ./$<
 cleanall:: ; $(RMF) test01
 
 ######
 
 all:: test02
-test02: test02.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $< testlib.dats
+test02: test02.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $<
 regress:: test02; ./$<
 cleanall:: ; $(RMF) test02
 
 ######
 
 all:: test03
-test03: test03.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $< testlib.dats
+test03: test03.dats ; $(PATSCC2) $(MALLOCFLAG) -o $@ $<
 regress:: test03; ./$<
 cleanall:: ; $(RMF) test03
 
 ######
 
 all:: tokener
-tokener: tokener.dats ; $(PATSCC2) -O2 $(MALLOCFLAG) -o $@ $< testlib.dats
+tokener: tokener.dats ; $(PATSCC2) -O2 $(MALLOCFLAG) -o $@ $<
 regress:: tokener; ./$<
 cleanall:: ; $(RMF) tokener
 
