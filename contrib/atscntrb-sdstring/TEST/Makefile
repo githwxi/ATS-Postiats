@@ -19,32 +19,35 @@ all::
 ######
 #
 all:: \
-test1
-test1: \
-test1.dats; \
-$(PATSCC) $(INCLATS) -o $@ ./../DATS/sdstring.dats $<
-regress:: test1; ./$<
-cleanall:: ; $(RMF) test1
+test01
+test01: \
+test01.dats; \
+$(PATSCC) $(INCLATS) -o $@ $<
+#
+regress:: test01; ./$<
+cleanall:: ; $(RMF) test01
 #
 ######
 #
 all:: \
-test2
-test2: \
-test2.dats; \
-$(PATSCC) $(INCLATS) -o $@ ./../DATS/sdstring.dats $<
-regress:: test2; ./$<
-cleanall:: ; $(RMF) test2
+test02
+test02: \
+test02.dats; \
+$(PATSCC) $(INCLATS) -o $@ $<
+#
+regress:: test02; ./$<
+cleanall:: ; $(RMF) test02
 #
 ######
 #
 all:: \
-test3
-test3: \
-test3.dats; \
-$(PATSCC) $(INCLATS) -o $@ ./../DATS/sdstring.dats $<
-regress:: test3; ./$<
-cleanall:: ; $(RMF) test3
+test03
+test03: \
+test03.dats; \
+$(PATSCC) $(INCLATS) -o $@ $<
+#
+regress:: test03; ./$<
+cleanall:: ; $(RMF) test03
 #
 ######
 

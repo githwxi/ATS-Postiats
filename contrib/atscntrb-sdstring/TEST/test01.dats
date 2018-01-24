@@ -8,9 +8,12 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./../SATS/sdstring.sats"
-
+//
+#include "./../mylibies.hats"
+#include "./../mylibies_link.hats"
+//
+#staload $SDSTRING // opening it!
+//
 (* ****** ****** *)
 
 implement
@@ -38,4 +41,4 @@ val ((*freed*)) = sdsfree(foobar)
 
 (* ****** ****** *)
 
-(* end of [test1.dats] *)
+(* end of [test01.dats] *)

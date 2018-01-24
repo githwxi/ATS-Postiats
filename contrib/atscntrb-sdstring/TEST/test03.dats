@@ -9,9 +9,10 @@
 //
 (* ****** ****** *)
 //
-staload "./../SATS/sdstring.sats"
+#include "./../mylibies.hats"
+#include "./../mylibies_link.hats"
 //
-staload _ = "./../DATS/sdstring.dats"
+#staload $SDSTRING // opening it!
 //
 (* ****** ****** *)
 
@@ -59,4 +60,4 @@ val ((*freed*)) = sdsfree(foo)
 
 (* ****** ****** *)
 
-(* end of [test2.dats] *)
+(* end of [test03.dats] *)
