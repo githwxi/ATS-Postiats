@@ -9,8 +9,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -26,6 +24,14 @@
 //
 #staload _ =
 "libats/DATS/stringbuf.dats"
+//
+(* ****** ****** *)
+//
+#define
+HX_CSTREAM_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
 #staload _ =
 "{$HX_CSTREAM}/DATS/cstream.dats"
 //

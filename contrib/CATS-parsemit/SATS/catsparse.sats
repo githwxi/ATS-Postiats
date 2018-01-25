@@ -34,11 +34,6 @@ THE SOFTWARE.
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-
-(* ****** ****** *)
-//
 #define
 ATS_PACKNAME"CATS-PARSEMIT"
 //
@@ -48,6 +43,14 @@ staload
 DA = "libats/SATS/dynarray.sats"
 staload
 SBF = "libats/SATS/stringbuf.sats"
+//
+(* ****** ****** *)
+//
+#define
+HX_CSTREAM_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
 staload
 CS0 = "{$HX_CSTREAM}/SATS/cstream.sats"
 //

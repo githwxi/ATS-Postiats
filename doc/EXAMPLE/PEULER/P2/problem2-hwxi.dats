@@ -24,8 +24,7 @@
 #define
 LIBGMP_targetloc
 "$PATSHOME/contrib\
-/atscntrb/atscntrb-libgmp"
-//
+/atscntrb/atscntrb-hx-libgmp"
 #staload"{$LIBGMP}/SATS/gmp.sats"
 //
 (* ****** ****** *)

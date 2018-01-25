@@ -13,18 +13,16 @@
 //
 (* ****** ****** *)
 //
-#define
-LIBGMP_targetloc
-"$PATSHOME/contrib\
-/atscntrb/atscntrb-libgmp"
-//
-(* ****** ****** *)
-//
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
+#define
+LIBGMP_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libgmp"
 #staload "{$LIBGMP}/SATS/gmp.sats"
 //
 (* ****** ****** *)

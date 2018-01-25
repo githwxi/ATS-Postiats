@@ -49,12 +49,14 @@ local
 staload SYMCNT =
 {
 //
-#include
-"share/atspre_define.hats"
-//
 #staload _(*anon*) =
 "prelude/DATS/integer.dats"
 //
+#define
+HX_GLOBALS_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-globals"
 #include
 "{$HX_GLOBALS}/HATS/gcount.hats"
 //
@@ -65,10 +67,8 @@ staload SYMCNT =
 staload SYMBOL =
 {
 //
-#include
-"share/atspre_define.hats"
-//
-#staload "./../SATS/catsparse.sats"
+#staload
+"./../SATS/catsparse.sats"
 //
 typedef key = string
 typedef itm = symbol
@@ -81,6 +81,11 @@ typedef itm = symbol
 implement
 hashtbl$recapacitize<> ((*void*)) = 1
 //
+#define
+HX_GLOBALS_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-globals"
 #include
 "{$HX_GLOBALS}/HATS/ghashtbl_linprb.hats"
 //
