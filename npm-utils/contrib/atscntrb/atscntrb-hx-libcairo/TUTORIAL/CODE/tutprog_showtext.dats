@@ -45,26 +45,31 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-//
-#define
-LIBCAIRO_targetloc
-"$PATSHOME/npm-utils\
-/contrib/atscntrb-libcairo"
-//
-(* ****** ****** *)
-//
-staload
+#staload
 MATH =
 "libats/libc/SATS/math.sats"
 //
-macdef PI = $MATH.M_PI
+//
+#define
+LIBCAIRO_targetloc
+"\
+$PATSHOME/\
+npm-utils/contrib\
+/atscntrb/atscntrb-hx-libcairo"
 //
 (* ****** ****** *)
 //
-staload "{$LIBCAIRO}/SATS/cairo.sats"
+#include
+"{$LIBCAIRO}/mylibies.hats"
+#staload $CAIRO // opening it!
 //
 (* ****** ****** *)
-
+//
+macdef
+M_PI = $MATH.M_PI
+//
+(* ****** ****** *)
+//
 fun showtext{l:agz}
 (
   cr: !cairo_ref l, utf8: string
@@ -84,11 +89,11 @@ fun showtext{l:agz}
   val () = cairo_fill (cr)
 //
   #define RAD 2.0
-  val () = cairo_arc (cr, ~x_base, y_base, RAD, 0.0, 2*PI)
+  val () = cairo_arc (cr, ~x_base, y_base, RAD, 0.0, 2*M_PI)
   val () = cairo_set_source_rgb (cr, 1.0, 0.0, 0.0) // red
   val () = cairo_fill (cr)
 //
-  val () = cairo_arc (cr, ~x_base+te.x_advance, y_base+te.y_advance, RAD, 0.0, 2*PI)
+  val () = cairo_arc (cr, ~x_base+te.x_advance, y_base+te.y_advance, RAD, 0.0, 2*M_PI)
   val () = cairo_set_source_rgb (cr, 1.0, 0.0, 0.0) // red
   val () = cairo_fill (cr)
 //

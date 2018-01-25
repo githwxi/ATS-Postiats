@@ -50,13 +50,6 @@
 
 (* ****** ****** *)
 //
-#define
-LIBCAIRO_targetloc
-"$PATSHOME/npm-utils\
-/contrib/atscntrb-libcairo"
-//
-(* ****** ****** *)
-//
 #include
 "share/atspre_staload.hats"
 //
@@ -68,9 +61,20 @@ staload _(*anon*) =
 "libats/libc/DATS/math.dats"
 //
 (* ****** ****** *)
-
-staload "{$LIBCAIRO}/SATS/cairo.sats"
-
+//
+#define
+LIBCAIRO_targetloc
+"\
+$PATSHOME/\
+npm-utils/contrib\
+/atscntrb/atscntrb-hx-libcairo"
+//
+(* ****** ****** *)
+//
+#include
+"{$LIBCAIRO}/mylibies.hats"
+#staload $CAIRO // opening it!
+//
 (* ****** ****** *)
 
 macdef PI = M_PI

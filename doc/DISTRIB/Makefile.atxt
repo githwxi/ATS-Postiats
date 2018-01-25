@@ -100,6 +100,11 @@ all_script::
 
 ######
 
+#make_entry("ccomp_atslib")
+#make_entry("ccomp_runtime")
+
+######
+
 #make_entry("atslib_prelude")
 
 ######
@@ -113,13 +118,8 @@ all_script::
 
 ######
 #
-#make_entry("atslib_atscntrb")
+#make_entry("contrib_atscntrb")
 #
-######
-
-#make_entry("ccomp_atslib")
-#make_entry("ccomp_runtime")
-
 ######
 
 #make_entry("utils_emacs")
@@ -206,11 +206,11 @@ atspackaging:: srcget_share
 atspackaging:: srcget_patsrc
 atspackaging:: srcget_patsrc_cboot
 #
-atspackaging:: srcget_atslib
-atspackaging:: srcget_atslib_atscntrb
-#
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
+#
+atspackaging:: srcget_atslib
+atspackaging:: srcget_contrib_atscntrb
 #
 atspackaging:: srcget_utils_emacs
 atspackaging:: srcget_utils_atscc
@@ -317,7 +317,7 @@ srcget_atslib_libats_ATS2:: SCRIPT/atslib_libats_ATS2.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_BUCS320
 srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
 #
-srcget_atslib_atscntrb:: SCRIPT/atslib_atscntrb.bash ; bash $<
+srcget_contrib_atscntrb:: SCRIPT/contrib_atscntrb.bash ; bash $<
 #
 ######
 

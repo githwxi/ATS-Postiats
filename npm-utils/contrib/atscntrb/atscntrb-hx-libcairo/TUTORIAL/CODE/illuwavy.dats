@@ -48,13 +48,6 @@
 //
 (* ****** ****** *)
 //
-#define
-LIBCAIRO_targetloc
-"$PATSHOME/npm-utils\
-/contrib/atscntrb-libcairo"
-//
-(* ****** ****** *)
-//
 #include
 "share/atspre_staload.hats"
 //
@@ -65,9 +58,20 @@ MATH =
 "libats/libc/SATS/math.sats"
 //
 (* ****** ****** *)
-
-staload "{$LIBCAIRO}/SATS/cairo.sats"
-
+//
+#define
+LIBCAIRO_targetloc
+"\
+$PATSHOME/\
+npm-utils/contrib\
+/atscntrb/atscntrb-hx-libcairo"
+//
+(* ****** ****** *)
+//
+#include
+"{$LIBCAIRO}/mylibies.hats"
+#staload $CAIRO // opening it!
+//
 (* ****** ****** *)
 
 typedef

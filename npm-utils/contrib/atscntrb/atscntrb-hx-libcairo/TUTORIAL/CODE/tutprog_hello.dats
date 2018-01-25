@@ -1,7 +1,6 @@
 (*
 **
-** ATS/Cairo Tutorial:
-** drawing rectangles and circles
+** ATS/Cairo Tutorial: Hello, world!
 **
 ** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: 2010-04
@@ -42,75 +41,53 @@
 (* ****** ****** *)
 //
 // How to compile:
-//   patscc -I${PATSHOME}/contrib -o tutprog_sqrcirc tutprog_sqrcirc.dats `pkg-config cairo --cflags --libs`
+// patscc -I${PATSHOME}/npm-utils/contrib \
+//   -o tutprog_hello tutprog_hello.dats `pkg-config cairo --cflags --libs`
 //
-// How to test: ./tutprog_sqrcirc
-//
-(* ****** ****** *)
-//
-#include
-"share/atspre_staload.hats"
+// How to test: ./tutprog_hello
 //
 (* ****** ****** *)
 //
 #define
 LIBCAIRO_targetloc
-"$PATSHOME/npm-utils\
-/contrib/atscntrb-libcairo"
+"\
+$PATSHOME/\
+npm-utils/contrib\
+/atscntrb/atscntrb-hx-libcairo"
 //
 (* ****** ****** *)
 //
-staload
-MATH =
-"libats/libc/SATS/math.sats"
+#include
+"{$LIBCAIRO}/mylibies.hats"
+#staload $CAIRO // opening it!
 //
-macdef PI = $MATH.M_PI
-//
-(* ****** ****** *)
-//
-staload
-"{$LIBCAIRO}/SATS/cairo.sats"
-//
-(* ****** ****** *)
-
-fun draw_sqrcirc {l:agz}
-  (cr: !cairo_ref l): void = let
-  val () = cairo_rectangle (cr, ~0.5, ~0.5, 1.0, 1.0)
-  val () = cairo_set_source_rgb (cr, 0.0, 0.0, 0.0) // black color
-  val () = cairo_fill (cr)
-  val () = cairo_arc (cr, 0.0, 0.0, 0.5, 0.0, 2*PI)
-  val () = cairo_set_source_rgb (cr, 1.0, 1.0, 1.0) // white color
-  val () = cairo_fill (cr)
-in
-  // nothing
-end // end of [draw_sqrcirc]
-
 (* ****** ****** *)
 
 implement
 main0 () = () where {
 //
-val W = 250 and H = 250
+// create a surface for drawing
 //
-// create a sf for drawing
+val sf = // create a surface for drawing
+  cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 250, 80)
 //
-val sf =
-  cairo_image_surface_create (CAIRO_FORMAT_ARGB32, W, H)
-val cr = cairo_create (sf)
+val cr = cairo_create (sf) // create a context for drawing
 //
-val WH = min (W, H)
-val WH = g0int2float_int_double (WH)
+val () = cairo_select_font_face
+  (cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD)
+val () = cairo_set_font_size (cr, 32.0)
 //
-val (pf0 | ()) = cairo_save (cr)
-val () = cairo_translate (cr, WH/2, WH/2)
-val () = cairo_scale (cr, WH, WH)
-val () = draw_sqrcirc (cr)
-val () = cairo_restore (pf0 | cr)
+// the call [cairo_set_source_rgb] sets the color to blue
+//
+val () =
+  cairo_set_source_rgb (cr, 0.0(*r*), 0.0(*g*), 1.0(*b*))
+val () = cairo_move_to (cr, 10.0, 50.0)
+val () = cairo_show_text (cr, "Hello, world!")
 //
 val status =
-  cairo_surface_write_to_png (sf, "tutprog_sqrcirc.png")
-val () = cairo_surface_destroy (sf) // a type error if omitted
+  cairo_surface_write_to_png (sf, "tutprog_hello.png")
 val () = cairo_destroy (cr) // a type error if omitted
+val () = cairo_surface_destroy (sf) // a type error if omitted
 //
 // in case of a failure ...
 //
@@ -120,4 +97,4 @@ val () = assertloc (status = CAIRO_STATUS_SUCCESS)
 
 (* ****** ****** *)
 
-(* end of [tutprog_sqrcirc.dats] *)
+(* end of [tutprog_hello.dats] *)

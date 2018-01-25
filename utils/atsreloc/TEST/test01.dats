@@ -16,7 +16,8 @@ ATS_PACKNAME "atsreloc_test01"
 staload
 GCOUNT1 = {
 //
-#include "{http://ats-lang.sourceforge.net/LIBRARY/contrib}/libats-/hwxi/globals/HATS/gcount.hats"
+#include
+"{http://ats-lang.sourceforge.net/LIBRARY/contrib}/libats-/hwxi/globals/HATS/gcount.hats"
 //
 } (* end of [GCOUNT1] *)
 
@@ -25,7 +26,8 @@ GCOUNT1 = {
 staload
 GCOUNT2 = {
 //
-#include "{http://ats-lang.sourceforge.net/LIBRARY/contrib}/libats-/hwxi/globals/HATS/gcount.hats"
+#include
+"{http://ats-lang.sourceforge.net/LIBRARY/contrib}/libats-/hwxi/globals/HATS/gcount.hats"
 //
 } (* end of [GCOUNT2] *)
 

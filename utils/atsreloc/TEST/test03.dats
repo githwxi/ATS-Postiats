@@ -19,17 +19,10 @@ ATS_PACKNAME "atsreloc_test03"
 //
 #define
 LIBPCRE "\
-https://raw.githubusercontent.com/\
-githwxi/ATS-Postiats/master/contrib/atscntrb-libpcre"
-//
-(*
-//
-// HX-2014-05-08: this is a backup:
-//
-#define
-PATSCONTRIB
-"http://ats-lang.sourceforge.net/LIBRARY/contrib"
-*)
+https://\
+raw.githubusercontent.com/\
+githwxi/ATS-Postiats/master/\
+contrib/atscntrb/atscntrb-hx-libpcre"
 //
 (* ****** ****** *)
 //

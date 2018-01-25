@@ -76,6 +76,29 @@ cleanall:: ; $(RMF) SCRIPT/patsopt_src_cboot.bash
 ######
 
 all_script:: \
+SCRIPT/ccomp_atslib.bash
+SCRIPT/ccomp_atslib.bash: ccomp_atslib_atxt.exe ; ./$< > $@
+ccomp_atslib_atxt.dats: ATEXT/ccomp_atslib.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+ccomp_atslib_atxt.exe: ccomp_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) ccomp_atslib_atxt.exe
+cleanall:: ; $(RMF) HTML/ccomp_atslib.html
+cleanall:: ; $(RMF) SCRIPT/ccomp_atslib.bash
+
+all_script:: \
+SCRIPT/ccomp_runtime.bash
+SCRIPT/ccomp_runtime.bash: ccomp_runtime_atxt.exe ; ./$< > $@
+ccomp_runtime_atxt.dats: ATEXT/ccomp_runtime.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
+ccomp_runtime_atxt.exe: ccomp_runtime_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) ccomp_runtime_atxt.exe
+cleanall:: ; $(RMF) HTML/ccomp_runtime.html
+cleanall:: ; $(RMF) SCRIPT/ccomp_runtime.bash
+
+
+######
+
+all_script:: \
 SCRIPT/atslib_prelude.bash
 SCRIPT/atslib_prelude.bash: atslib_prelude_atxt.exe ; ./$< > $@
 atslib_prelude_atxt.dats: ATEXT/atslib_prelude.atxt ; \
@@ -152,39 +175,16 @@ cleanall:: ; $(RMF) SCRIPT/atslib_libats_BUCS320.bash
 ######
 #
 all_script:: \
-SCRIPT/atslib_atscntrb.bash
-SCRIPT/atslib_atscntrb.bash: atslib_atscntrb_atxt.exe ; ./$< > $@
-atslib_atscntrb_atxt.dats: ATEXT/atslib_atscntrb.atxt ; \
+SCRIPT/contrib_atscntrb.bash
+SCRIPT/contrib_atscntrb.bash: contrib_atscntrb_atxt.exe ; ./$< > $@
+contrib_atscntrb_atxt.dats: ATEXT/contrib_atscntrb.atxt ; \
   $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-atslib_atscntrb_atxt.exe: atslib_atscntrb_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) atslib_atscntrb_atxt.exe
-cleanall:: ; $(RMF) HTML/atslib_atscntrb.html
-cleanall:: ; $(RMF) SCRIPT/atslib_atscntrb.bash
+contrib_atscntrb_atxt.exe: contrib_atscntrb_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
+clean:: ; $(RMF) contrib_atscntrb_atxt.exe
+cleanall:: ; $(RMF) HTML/contrib_atscntrb.html
+cleanall:: ; $(RMF) SCRIPT/contrib_atscntrb.bash
 
 #
-######
-
-all_script:: \
-SCRIPT/ccomp_atslib.bash
-SCRIPT/ccomp_atslib.bash: ccomp_atslib_atxt.exe ; ./$< > $@
-ccomp_atslib_atxt.dats: ATEXT/ccomp_atslib.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-ccomp_atslib_atxt.exe: ccomp_atslib_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) ccomp_atslib_atxt.exe
-cleanall:: ; $(RMF) HTML/ccomp_atslib.html
-cleanall:: ; $(RMF) SCRIPT/ccomp_atslib.bash
-
-all_script:: \
-SCRIPT/ccomp_runtime.bash
-SCRIPT/ccomp_runtime.bash: ccomp_runtime_atxt.exe ; ./$< > $@
-ccomp_runtime_atxt.dats: ATEXT/ccomp_runtime.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __datatok --outcode $@ > /dev/null
-ccomp_runtime_atxt.exe: ccomp_runtime_atxt.dats ; $(ATSCC) $(INCLATS) $(GCFLAG) -o $@ $< -latsdoc
-clean:: ; $(RMF) ccomp_runtime_atxt.exe
-cleanall:: ; $(RMF) HTML/ccomp_runtime.html
-cleanall:: ; $(RMF) SCRIPT/ccomp_runtime.bash
-
-
 ######
 
 all_script:: \
@@ -640,11 +640,11 @@ atspackaging:: srcget_share
 atspackaging:: srcget_patsrc
 atspackaging:: srcget_patsrc_cboot
 #
-atspackaging:: srcget_atslib
-atspackaging:: srcget_atslib_atscntrb
-#
 atspackaging:: srcget_ccomp_atslib
 atspackaging:: srcget_ccomp_runtime
+#
+atspackaging:: srcget_atslib
+atspackaging:: srcget_contrib_atscntrb
 #
 atspackaging:: srcget_utils_emacs
 atspackaging:: srcget_utils_atscc
@@ -751,7 +751,7 @@ srcget_atslib_libats_ATS2:: SCRIPT/atslib_libats_ATS2.bash ; bash $<
 srcget_atslib:: srcget_atslib_libats_BUCS320
 srcget_atslib_libats_BUCS320:: SCRIPT/atslib_libats_BUCS320.bash ; bash $<
 #
-srcget_atslib_atscntrb:: SCRIPT/atslib_atscntrb.bash ; bash $<
+srcget_contrib_atscntrb:: SCRIPT/contrib_atscntrb.bash ; bash $<
 #
 ######
 

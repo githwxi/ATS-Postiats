@@ -150,16 +150,8 @@ packfilesynop(x) = atext_nil((*void*))
 (* ****** ****** *)
 
 #packtitle("\
-PATSHOME/npm-utils/contrib\
+PATSHOME/npm-utils/contrib/atscntrb\
 ")
-
-(* ****** ****** *)
-
-#packfilename_r("atscntrb-libsdl2")
-
-(* ****** ****** *)
-
-#packfilename_r("atscntrb-libcairo")
 
 (* ****** ****** *)
 

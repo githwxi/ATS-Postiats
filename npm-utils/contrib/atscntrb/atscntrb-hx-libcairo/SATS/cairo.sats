@@ -39,7 +39,7 @@
 
 %{#
 #include \
-"atscntrb-libcairo/CATS/cairo.cats"
+"atscntrb-hx-libcairo/CATS/cairo.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)

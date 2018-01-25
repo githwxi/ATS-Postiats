@@ -24,12 +24,16 @@
 //
 #define
 LIBCAIRO_targetloc
-"$PATSHOME/npm-utils\
-/contrib/atscntrb-libcairo"
+"\
+$PATSHOME/\
+npm-utils/contrib\
+/atscntrb/atscntrb-hx-libcairo"
 //
 (* ****** ****** *)
 //
-#staload "{$LIBCAIRO}/SATS/cairo.sats"
+#include
+"{$LIBCAIRO}/mylibies.hats"
+#staload $CAIRO // opening it!
 //
 (* ****** ****** *)
 

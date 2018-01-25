@@ -14,11 +14,12 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 ######
 
 MAKE=make
-ATSPKGRELOC2=$(PATSHOME)/bin/atspkgreloc_wget
+ATSRELOC2=$(PATSHOME)/bin/atsreloc_wget
 
 ######
 
 CFLAGS :=
+CFLAGS += -I./../..
 CFLAGS += $(shell pkg-config --cflags libevent)
 
 ######
@@ -43,19 +44,17 @@ cleanall:: ; $(RMF) test00
 #
 ######
 
-test00-pkgreloc:: \
-test00-pkgreloc.dats ; \
-$(PATSCC) -IIATS ./.TEST00/. \
--DATS ATSPKGRELOCROOT=\\\".TEST00\\\" $(CFLAGS) -o $@ $< $(LDFLAGS)
+test00-atsreloc: \
+test00-atsreloc.dats ; \
+$(PATSCC) -DATS PATSRELOCROOT=\\\"./.TEST00\\\" $(CFLAGS) -o $@ $< $(LDFLAGS)
 #
-test00-pkgreloc.mk: ; \
-$(PATSOPT) --pkgreloc \
--DATS ATSPKGRELOCROOT=\".TEST00\" -d test00-pkgreloc.dats | $(ATSPKGRELOC2) --output-w $@
+test00-atsreloc.mk: ; \
+$(PATSOPT) --atsreloc -DATS PATSRELOCROOT=\"./.TEST00\" -d test00-atsreloc.dats | $(ATSRELOC2) --output-w $@
 #
-test00-pkgreloc.wget:: test00-pkgreloc.mk ; $(MAKE) -f ./$< wgetall
+test00-atsreloc.wget:: test00-atsreloc.mk ; $(MAKE) -f ./$< wgetall
 #
-cleanall:: ; $(RMF) test00-pkgreloc
-cleanall:: ; $(RMF) test00-pkgreloc.mk
+cleanall:: ; $(RMF) test00-atsreloc
+cleanall:: ; $(RMF) test00-atsreloc.mk
 #
 ######
 #
