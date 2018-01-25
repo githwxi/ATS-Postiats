@@ -1,6 +1,6 @@
 {
 "name":
-"atscntrb-hx-intinf", "version": "1.0.7"
+"atscntrb-hx-intinf", "version": "1.0.8"
 ,
 "description":
 "A simple package based on libgmp for arithmetic operations (plus some other common operations on integers)"
