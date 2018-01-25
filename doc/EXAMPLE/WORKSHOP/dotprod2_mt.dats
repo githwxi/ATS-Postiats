@@ -167,17 +167,28 @@ _(*anon*) = "prelude/DATS/gnumber.dats"
 //
 (* ****** ****** *)
 //
-#staload "{$HX_MYTESTING}/SATS/randgen.sats"
-#staload _ = "{$HX_MYTESTING}/DATS/randgen.dats"
+#define
+MYTESTING_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-mytesting"
+//
+#staload
+"{$MYTESTING}/SATS/randgen.sats"
+#staload _ =
+"{$MYTESTING}/DATS/randgen.dats"
 //
 (* ****** ****** *)
 //
-#staload _ = "libats/DATS/athread.dats"
-#staload _ = "libats/DATS/athread_posix.dats"
+#staload _ =
+"libats/DATS/athread.dats"
+#staload _ =
+"libats/DATS/athread_posix.dats"
 //
 (* ****** ****** *)
 //
-#staload _ = "libats/DATS/deqarray.dats"
+#staload
+_ = "libats/DATS/deqarray.dats"
 //
 (* ****** ****** *)
 //

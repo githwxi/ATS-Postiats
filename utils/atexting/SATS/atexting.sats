@@ -38,8 +38,10 @@ ATS_PACKNAME "ATEXTING"
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+CSTREAM_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
 //
 (* ****** ****** *)
 //
@@ -56,7 +58,7 @@ SBF =
 "libats/SATS/stringbuf.sats"
 staload
 CS0 =
-"{$HX_CSTREAM}/SATS/cstream.sats"
+"{$CSTREAM}/SATS/cstream.sats"
 //
 stadef
 dynarray = $DA.dynarray

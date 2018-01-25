@@ -1,3 +1,4 @@
+(* ****** ****** *)
 (*
 ** Copyright (C) 2015 Hongwei Xi, Boston University
 **
@@ -22,7 +23,6 @@
 ** FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 ** OTHER DEALINGS IN THE SOFTWARE.
 *)
-
 (* ****** ****** *)
 //
 (*
@@ -598,7 +598,8 @@ val-(0) = channel_remove(chan)
 //
 // HX: a cheap hack!!!
 //
-val () = ignoret(usleep(1000u))
+val () =
+  ignoret(usleep(1000000u))
 //
 val () =
   while(channel_rfcnt(chan) >= 2)()

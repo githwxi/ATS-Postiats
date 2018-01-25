@@ -4,25 +4,29 @@
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Time: February, 2010
+// Author: Hongwei Xi
+// Start Time: February, 2010
+// Authoremail: hwxiATcsDOTbuDOTedu
 //
 (* ****** ****** *)
 //
 // HX-2013-06: ported to ATS2
 //
 (* ****** ****** *)
-
-#include "share/atspre_define.hats"
-
-(* ****** ****** *)
 //
 #staload
-_(*anon*) = "prelude/DATS/integer.dats"
+_(*anon*) =
+"prelude/DATS/integer.dats"
 #staload
-_(*anon*) = "prelude/DATS/pointer.dats"
+_(*anon*) =
+"prelude/DATS/pointer.dats"
 //
 (* ****** ****** *)
+//
+#define
+HX_INTINF_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-intinf"
 //
 #staload "{$HX_INTINF}/SATS/intinf_t.sats"
 //

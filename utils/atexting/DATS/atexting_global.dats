@@ -38,13 +38,14 @@
 //
 (* ****** ****** *)
 //
-staload "./../SATS/atexting.sats"
+#staload "./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 
 local
 //
-val the_nsharp_ref = ref<int>(0)
+val
+the_nsharp_ref = ref<int>(0)
 //
 in (* in-of-local *)
 //
@@ -57,20 +58,20 @@ end // end of [local]
 
 (* ****** ****** *)
 
-staload
+#staload
 FIL = {
 //
-#include
-"share/\
-atspre_define.hats"
+#define
+GLOBALS_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-globals"
 //
-staload
-"./../SATS/atexting.sats"
+#staload "./../SATS/atexting.sats"
 //
 typedef T = fil_t
 //
-#include"\
-{$HX_GLOBALS}/HATS/gstacklst.hats"
+#include "{$GLOBALS}/HATS/gstacklst.hats"
 //
 implement
 the_filename_get
@@ -85,13 +86,14 @@ the_filename_push(fil) = push(fil)
 
 (* ****** ****** *)
 
-staload
+#staload
 PARERR = {
 //
 #define
-HX_GLOBALS_targetloc
-"$PATSHOME\
-/contrib/atscntrb-hx-globals"
+GLOBALS_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-globals"
 //
 #staload"./../SATS/atexting.sats"
 //
@@ -99,7 +101,7 @@ typedef T = parerr
 //
 #staload"prelude/DATS/list_vt.dats"
 //
-#include"{$HX_GLOBALS}/HATS/gstacklst.hats"
+#include"{$GLOBALS}/HATS/gstacklst.hats"
 //
 (* ****** ****** *)
 //
@@ -199,7 +201,7 @@ mystack = ref(keyitmlst_vt)
 //
 val
 the_atextstk =
-  ref<keyitmlst_vt>(list_vt_nil)
+ref<keyitmlst_vt>(list_vt_nil)
 //
 assume
 the_atextstk_v(n:int) = unit_v
@@ -208,7 +210,7 @@ in (* in-of-local *)
 //
 implement
 the_atextstk_pop1
-  (pf | (*void*)) = () where
+(pf | (*void*)) =
 {
 //
 prval unit_v() = pf
@@ -225,7 +227,8 @@ val ((*void*)) = (!p0 := kxs)
 //
 implement
 the_atextstk_push1
-  (k, x) = (unit_v | ()) where
+  (k, x) =
+  (unit_v | ()) where
 {
 //
 val

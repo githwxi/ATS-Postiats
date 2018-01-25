@@ -11,6 +11,10 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
+ATSCNTRB=$(PATSHOME)/contrib/atscntrb
+
+######
+
 CFLAGS :=
 CFLAGS += -O2
 CFLAGS += -D_GNU_SOURCE -DATS_MEMALLOC_LIBC
@@ -20,7 +24,8 @@ CFLAGS += -D_GNU_SOURCE -DATS_MEMALLOC_LIBC
 all:: \
 myprint
 myprint: \
-myprint.dats ; $(PATSCC) $(CFLAGS) -o $@ $< -lgmp
+myprint.dats ; \
+$(PATSCC) $(CFLAGS) -o $@ $< -lgmp
 #
 regress:: \
 myprint ; ./myprint
@@ -33,7 +38,7 @@ all:: \
 gnumber
 gnumber: \
 gnumber.dats ; \
-$(PATSCC) $(CFLAGS) -I$(PATSHOME)/contrib -o $@ $< -lgmp
+$(PATSCC) -I$(ATSCNTRB) $(CFLAGS) -o $@ $< -lgmp
 regress:: \
 gnumber ; ./gnumber
 #

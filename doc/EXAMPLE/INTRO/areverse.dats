@@ -45,10 +45,18 @@ STDLIB = "libats/libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
 //
+#define
+MYTESTING_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-mytesting"
+//
+(* ****** ****** *)
+//
 #staload
-RG = "{$HX_MYTESTING}/SATS/randgen.sats"
+RG = "{$MYTESTING}/SATS/randgen.sats"
 #staload
-_(*RG*) = "{$HX_MYTESTING}/DATS/randgen.dats"
+_(*RG*) = "{$MYTESTING}/DATS/randgen.dats"
 //
 (* ****** ****** *)
 //

@@ -64,8 +64,13 @@ M44497
 //
 (* ****** ****** *)
 //
-#include
-"{$HX_INTINF}/mylibies.hats"
+#define
+INTINF_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-intinf"
+//
+#include "{$INTINF}/mylibies.hats"
 //
 (* ****** ****** *)
 //

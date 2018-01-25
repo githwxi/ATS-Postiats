@@ -33,7 +33,6 @@
 //
 (* ****** ****** *)
 //
-//
 #include
 "share/atspre_define.hats"
 #include
@@ -45,12 +44,16 @@
 
 (* ****** ****** *)
 //
-#staload "./../SATS/atexting.sats"
+#staload
+"./../SATS/atexting.sats"
 //
 (* ****** ****** *)
 //
-#staload _ = "libats/DATS/stringbuf.dats"
-#staload _ = "{$HX_CSTREAM}/DATS/cstream.dats"
+#define
+HX_CSTREAM_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
 //
 (* ****** ****** *)
 
@@ -60,17 +63,25 @@ atstyarr_field_undef(fname) fname[]
 %} // end of [%{]
 
 (* ****** ****** *)
-
+//
+#staload _ =
+"libats/DATS/stringbuf.dats"
+#staload _ =
+"{$HX_CSTREAM}/DATS/cstream.dats"
+//
+(* ****** ****** *)
+//
 assume
-lexbuf_vt0ype = _lexbuf_vt0ype
-
+lexbuf_vt0ype
+=
+_lexbuf_vt0ype
+//
 (* ****** ****** *)
 
 implement
 lexbuf_initize_string
-(
-buf, inp
-) = ((*void*)) where
+  (buf, inp) =
+  ((*void*)) where
 {
 //
 #define BUFCAP 1024

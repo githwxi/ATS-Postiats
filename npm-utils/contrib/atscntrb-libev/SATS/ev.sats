@@ -31,8 +31,10 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSCNTRB.libev"
-#define ATS_EXTERN_PREFIX "atscntrb_libev_" // prefix for external names
+#define
+ATS_PACKNAME "ATSCNTRB.libev"
+#define
+ATS_EXTERN_PREFIX "atscntrb_libev_" // prefix for external names
 
 (* ****** ****** *)
 //

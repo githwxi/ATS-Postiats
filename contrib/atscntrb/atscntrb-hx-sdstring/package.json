@@ -1,0 +1,29 @@
+{
+"name":
+"atscntrb-hx-sdstring", "version": "1.0.1"
+,
+"description":
+"This package is for directly calling in ATS various functions on simple dynamic strings."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": 
+  "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/atscntrb/atscntrb-hx-sdstring"
+}	
+,
+"keywords": [
+  "ATS",
+  "sdstring",
+  "atscntrb-sdstring"
+]
+,
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+,
+  "note-for-me": "The package is stored at ${PATSHOME}/contrib/atscntrb/atscntrb-hx-sdstring/."
+}

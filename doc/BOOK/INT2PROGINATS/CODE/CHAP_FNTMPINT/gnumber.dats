@@ -123,8 +123,8 @@ println! ("gfact<double>(100) = ", gfact<double>(100))
 //
 #define
 HX_INTINF_targetloc
-"$PATSHOME\
-/contrib/atscntrb-hx-intinf"
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-intinf"
 //
 (* ****** ****** *)
 //

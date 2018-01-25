@@ -38,12 +38,16 @@ ATS_PACKNAME "ATSCNTRB.HX.jsonats"
 //
 (* ****** ****** *)
 //
-#define
-HX_CSTREAM_targetloc
-"$PATSHOME/contrib\
-/atscntrb-hx-cstream"
 #include
 "share/atspre_staload.hats"
+//
+(* ****** ****** *)
+//
+#define
+HX_CSTREAM_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
 //
 (* ****** ****** *)
 //

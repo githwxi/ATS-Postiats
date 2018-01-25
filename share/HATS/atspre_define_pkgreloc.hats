@@ -41,125 +41,95 @@ ATSLANGCOM "http://www.ats-lang.com"
 *)
 //
 (* ****** ****** *)
+(*
 //
 #define
 LIBGMP_targetloc
-"$PATSHOME/contrib/atscntrb-libgmp"
+"$PATSHOME/contrib/atscntrb/atscntrb-libgmp"
 //
 #define
 LIBPCRE_targetloc
-"$PATSHOME/contrib/atscntrb-libpcre"
+"$PATSHOME/contrib/atscntrb/atscntrb-libpcre"
 //
 #define
 LIBCURL_targetloc
-"$PATSHOME/contrib/atscntrb-libcurl"
+"$PATSHOME/contrib/atscntrb/atscntrb-libcurl"
 //
 #define
 LIBJSONC_targetloc
-"$PATSHOME/contrib/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb/atscntrb-libjson-c"
 #define
 LIBJSON_C_targetloc
-"$PATSHOME/contrib/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb/atscntrb-libjson-c"
 //
+*)
 (* ****** ****** *)
+(*
 //
 #define
 HX_INTINF_targetloc
-"$PATSHOME/contrib/atscntrb-hx-intinf"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-intinf"
+//
 #define
 HX_CSTREAM_targetloc
-"$PATSHOME/contrib/atscntrb-hx-cstream"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-cstream"
+//
 #define
 HX_GLOBALS_targetloc
-"$PATSHOME/contrib/atscntrb-hx-globals"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-globals"
 //
 #define
 HX_MYTESTING_targetloc
-"$PATSHOME/contrib/atscntrb-hx-mytesting"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-mytesting"
 //
+*)
 (* ****** ****** *)
 //
+(*
 #define
 LIBATSCC_targetloc
 "$PATSHOME/contrib/libatscc"
 //
+(* ****** ****** *)
+//
 #define
 LIBATSCC2JS_targetloc
 "$PATSHOME/contrib/libatscc2js"
-//
-(* ****** ****** *)
-//
-#define
-JNI_targetloc "$PATSCONTRIB/contrib/JNI"
-//
-(* ****** ****** *)
-//
-#define
-GTK_targetloc "$PATSCONTRIB/contrib/GTK"
-//
-(* ****** ****** *)
-//
-#define
-GLIB_targetloc "$PATSCONTRIB/contrib/glib"
-//
-(* ****** ****** *)
-//
-#define
-HIREDIS_targetloc "$PATSCONTRIB/contrib/hiredis"
-//
-(* ****** ****** *)
-//
-#define
-OPENSSL_targetloc "$PATSCONTRIB/contrib/OpenSSL"
-//
-(* ****** ****** *)
-//
-#define
-GUROBI_targetloc "$PATSCONTRIB/contrib/gurobi"
-//
-(* ****** ****** *)
-//
-#define
-KERNELATS_targetloc "$PATSCONTRIB/contrib/kernelats"
-//
-(* ****** ****** *)
-//
-#define
-ZLOG_targetloc "$PATSCONTRIB/contrib/zlog"
-//
-(* ****** ****** *)
-//
-#define
-ZEROMQ_targetloc "$PATSCONTRIB/contrib/zeromq"
+*)
 //
 (* ****** ****** *)
 (*
 //
 #define
+LIBATSCC2JS_targetloc
+"$PATSCONTRIB/contrib/libatscc2js/ATS2-0.3.2"
+//
+#define
 LIBATSCC2PL_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2pl"
+"$PATSCONTRIB/contrib/libatscc2pl/ATS2-0.3.2"
 //
 #define
 LIBATSCC2PY3_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2py3"
+"$PATSCONTRIB/contrib/libatscc2py3/ATS2-0.3.2"
 //
 #define
 LIBATSCC2PHP_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2php"
+"$PATSCONTRIB/contrib/libatscc2php/ATS2-0.3.2"
 //
 #define
 LIBATSCC2ERL_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2erl"
+"$PATSCONTRIB/contrib/libatscc2erl/ATS2-0.3.2"
 //
 #define
 LIBATSCC2SCM_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2scm"
+"$PATSCONTRIB/contrib/libatscc2scm/ATS2-0.3.2"
 #define
 LIBATSCC2CLJ_targetloc
-"$PATSCONTRIB/contrib/libatscc/libatscc2clj"
+"$PATSCONTRIB/contrib/libatscc2clj/ATS2-0.3.2"
 //
 *)
 (* ****** ****** *)
+(*
 //
 // HX-2014-05-12:
 // This is for backward compatibility
@@ -169,6 +139,7 @@ LIBATSHWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 #define
 LIBATS_HWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 //
+*)
 (* ****** ****** *)
 //
 // For applying ATS to Linux kernel programming

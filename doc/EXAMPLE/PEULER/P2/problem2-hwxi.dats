@@ -17,14 +17,17 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "{$LIBGMP}/SATS/gmp.sats"
-
+//
+#define
+LIBGMP_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-libgmp"
+//
+#staload"{$LIBGMP}/SATS/gmp.sats"
+//
 (* ****** ****** *)
 
 fun loop

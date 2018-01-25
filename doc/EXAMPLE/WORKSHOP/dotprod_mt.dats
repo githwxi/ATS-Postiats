@@ -6,8 +6,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -205,13 +203,24 @@ _(*anon*) = "prelude/DATS/gnumber.dats"
 //
 (* ****** ****** *)
 //
-#staload "{$HX_MYTESTING}/SATS/randgen.sats"
-#staload _ = "{$HX_MYTESTING}/DATS/randgen.dats"
+#define
+MYTESTING_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-mytesting"
 //
 (* ****** ****** *)
 //
-#staload _ = "libats/DATS/athread.dats"
-#staload _ = "libats/DATS/athread_posix.dats"
+#staload
+"{$MYTESTING}/SATS/randgen.sats"
+#staload
+_ = "{$MYTESTING}/DATS/randgen.dats"
+//
+(* ****** ****** *)
+//
+#staload
+_ = "libats/DATS/athread.dats"
+#staload
+_ = "libats/DATS/athread_posix.dats"
 //
 (* ****** ****** *)
 //

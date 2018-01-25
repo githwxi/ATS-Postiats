@@ -15,20 +15,23 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBGMP_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-libgmp"
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
-
-staload
-UN="prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "{$LIBGMP}/SATS/gmp.sats"
-
+//
+#staload "{$LIBGMP}/SATS/gmp.sats"
+//
 (* ****** ****** *)
 
 fun digitsum

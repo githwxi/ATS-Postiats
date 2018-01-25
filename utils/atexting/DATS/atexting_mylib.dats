@@ -51,8 +51,9 @@
 //
 #define
 HX_CSTREAM_targetloc
-"$PATSHOME\
-/contrib/atscntrb-hx-cstream"
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
 //
 (* ****** ****** *)
 
