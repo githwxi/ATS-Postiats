@@ -144,68 +144,94 @@ end // end of [ptr1_setinc]
 //
 implement
 {a}(*tmp*)
-ptr0_get_at_int (p, i) =
-  ptr0_get<a> (ptr0_add_gint<a> (p, i))
+ptr0_get_at_int(p, i) =
+  ptr0_get<a>(ptr0_add_gint<a>(p, i))
 implement
 {a}(*tmp*)
-ptr0_set_at_int (p, i, x) =
-  ptr0_set<a> (ptr0_add_gint<a> (p, i), x)
+ptr0_set_at_int(p, i, x) =
+  ptr0_set<a>(ptr0_add_gint<a>(p, i), x)
 //
 implement
 {a}(*tmp*)
-ptr0_get_at_size (p, i) =
-  ptr0_get<a> (ptr0_add_guint<a> (p, i))
+ptr0_get_at_size(p, i) =
+  ptr0_get<a>(ptr0_add_guint<a>(p, i))
 implement
 {a}(*tmp*)
-ptr0_set_at_size (p, i, x) =
-  ptr0_set<a> (ptr0_add_guint<a> (p, i), x)
+ptr0_set_at_size(p, i, x) =
+  ptr0_set<a>(ptr0_add_guint<a>(p, i), x)
 //
 #atscode_separator()
 
-implement{a}
-cptr_get (p) = ptr1_get<a> (cptr2ptr(p))
+implement
+{a}(*tmp*)
+cptr_get(p) = ptr1_get<a>(cptr2ptr(p))
 
-implement{a}
-cptr_set (p, x) = ptr1_set<a> (cptr2ptr(p), x)
+implement
+{a}(*tmp*)
+cptr_set(p, x) = ptr1_set<a>(cptr2ptr(p), x)
 
-implement{a}
-cptr_exch (p, x) = ptr1_exch<a> (cptr2ptr(p), x)
+implement
+{a}(*tmp*)
+cptr_exch(p, x) = ptr1_exch<a>(cptr2ptr(p), x)
 
 #atscode_separator()
 
-implement{a}
-ptr0_addby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gadd_val_val<a> (x0, x))
+implement
+{a}(*tmp*)
+ptr0_addby
+  (p, x) = let
+  val x0 = ptr0_get<a>(p)
+in
+ptr0_set<a>(p, gadd_val_val<a>(x0, x))
 end // end of [ptr0_addby]
 implement{a} ptr1_addby = ptr0_addby<a>
 
-implement{a}
-ptr0_subby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gsub_val_val<a> (x0, x))
+implement
+{a}(*tmp*)
+ptr0_subby
+  (p, x) = let
+  val x0 = ptr0_get<a>(p)
+in
+ptr0_set<a>(p, gsub_val_val<a>(x0, x))
 end // end of [ptr0_subby]
 implement{a} ptr1_subby = ptr0_subby<a>
 
-implement{a}
-ptr0_mulby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gmul_val_val<a> (x0, x))
+implement
+{a}(*tmp*)
+ptr0_mulby
+  (p, x) = let
+  val x0 = ptr0_get<a>(p)
+in
+ptr0_set<a>(p, gmul_val_val<a>(x0, x))
 end // end of [ptr0_mulby]
 implement{a} ptr1_mulby = ptr0_mulby<a>
 
-implement{a}
-ptr0_divby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gdiv_val_val<a> (x0, x))
+implement
+{a}(*tmp*)
+ptr0_divby
+  (p, x) = let
+  val x0 = ptr0_get<a>(p)
+in
+ptr0_set<a>(p, gdiv_val_val<a>(x0, x))
 end // end of [ptr0_divby]
 implement{a} ptr1_divby = ptr0_divby<a>
 
-implement{a}
-ptr0_modby (p, x) = let
-  val x0 = ptr0_get<a> (p) in ptr0_set<a> (p, gmod_val_val<a> (x0, x))
+implement
+{a}(*tmp*)
+ptr0_modby
+  (p, x) = let
+//
+val x0 = ptr0_get<a>(p)
+//
+in
+ptr0_set<a>(p, gmod_val_val<a>(x0, x))
 end // end of [ptr0_modby]
 implement{a} ptr1_modby = ptr0_modby<a>
 
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 ptr1_list_next
   (p) = p_next where
 {
@@ -216,6 +242,13 @@ ptr1_list_next
   prval ((*void*)) = fold@ (xs)
   prval ((*void*)) = cast2void (xs)
 } (* end of [ptr1_list_next] *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+string_get_at(src, i) =
+ptr0_get_at<char>(string2ptr(src), i)
 
 #atscode_separator()
 

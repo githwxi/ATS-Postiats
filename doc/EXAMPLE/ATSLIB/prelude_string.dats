@@ -13,12 +13,38 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
 val
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val () =
+assertloc
+($UN.string_get_at(alphabet, 0) = 'A')
+//
+val () =
+assertloc
+($UN.string_get_at(alphabet, 1) = 'B')
+//
+val () =
+assertloc
+($UN.string_get_at(alphabet, 23) = 'X')
+val () =
+assertloc
+($UN.string_get_at(alphabet, 24) = 'Y')
+val () =
+assertloc
+($UN.string_get_at(alphabet, 25) = 'Z')
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 
