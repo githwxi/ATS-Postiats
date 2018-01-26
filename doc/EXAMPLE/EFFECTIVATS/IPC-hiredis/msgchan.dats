@@ -22,16 +22,16 @@ staload "./redisContextSetup.dats"
 //
 #define
 HIREDIS_targetloc
-"$PATSHOME\
-/npm-utils/contrib/atscntrb-libhiredis"
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libhiredis"
 //
 (* ****** ****** *)
 //
-#staload "{$HIREDIS}/SATS/hiredis.sats"
-#staload "{$HIREDIS}/SATS/hiredis_ML.sats"
+#include "{$HIREDIS}/mylibies.hats"
 //
-#staload
-_(*anon*) = "{$HIREDIS}/DATS/hiredis.dats"
+#staload $HIREDIS // opening it!
+#staload $HIREDIS_ML // opening it!
 //
 (* ****** ****** *)
 

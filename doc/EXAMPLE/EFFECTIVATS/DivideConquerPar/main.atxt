@@ -63,7 +63,7 @@ the continuation-passing style (CPS)).  In addition, using the direct
 style means that we have to insert code to perform synchronization
 explicitly (for instance, to notify a blocked worker to continue once
 all of the recursive calls made by it have returned). On the other
-hand, the issue of a worker becomming blocked can be completely
+hand, the issue of a worker becoming blocked can be completely
 avoided if we are to implement D&amp;C in the CPS-style. Without
 blocking, the need for explicit synchronization is also gone.
 

@@ -155,6 +155,12 @@ PATSHOME/npm-utils/contrib/atscntrb\
 
 (* ****** ****** *)
 
+#packfilename_r("atscntrb/atscntrb-hx-libsdl2")
+#packfilename_r("atscntrb/atscntrb-hx-libxml2")
+#packfilename_r("atscntrb/atscntrb-hx-libcairo")
+
+(* ****** ****** *)
+
 #packpostamble()
 
 (* ****** ****** *)

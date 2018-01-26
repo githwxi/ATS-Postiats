@@ -19,7 +19,7 @@ PATSCC_2=\
 $(PATSCC) \
 $(INCLUDE) \
 -DATS_MEMALLOC_GCBDW \
--IIATS $(PATSHOME)/npm-utils/contrib -O2
+-IIATS $(PATSHOME)/contrib/atscntrb -O2
 
 ######
 

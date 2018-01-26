@@ -17,8 +17,9 @@
 //
 #define
 HIREDIS_targetloc
-"$PATSHOME\
-/npm-utils/contrib/atscntrb-libhiredis"
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libhiredis"
 //
 (* ****** ****** *)
   

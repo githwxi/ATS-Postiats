@@ -10,8 +10,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -88,6 +86,12 @@ implement main0 () = myserver ()
 //
 staload
 "libats/libc/SATS/time.sats"
+//
+(* ****** ****** *)
+//
+#define
+ZEROMQ_targetloc
+"$PATSCONTRIB/contrib/zeromq"
 //
 staload "{$ZEROMQ}/SATS/zmq.sats"
 staload "{$ZEROMQ}/SATS/czmq.sats"
