@@ -1,6 +1,6 @@
 {
 "name":
-"atscntrb-hx-cstream", "version": "1.0.3"
+"atscntrb-hx-cstream", "version": "1.0.4"
 ,
 "description":
 "A simple package generating character streams based on strings, files, etc."
