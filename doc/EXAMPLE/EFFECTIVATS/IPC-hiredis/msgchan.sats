@@ -1,12 +1,12 @@
+(* ****** ****** *)
 (*
 ** message channels
 *)
-
 (* ****** ****** *)
 //  
 // Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
 // Start time: December, 2013
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //

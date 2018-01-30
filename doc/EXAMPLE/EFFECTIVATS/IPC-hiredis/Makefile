@@ -27,7 +27,7 @@ SOURCES_SATS += \
   msgchan.sats \
 
 SOURCES_DATS += \
-  mylib.dats \
+  testlib.dats \
   msgchan.dats \
   redisContextSetup.dats \
 
@@ -110,7 +110,7 @@ upload_main: \
 # clean: cleanats
 #
 cleanats:: ; $(RMF) main.exe
-cleanats:: ; $(RMF) mylib_dats.c
+cleanats:: ; $(RMF) testlib_dats.c
 cleanats:: ; $(RMF) msgchan_dats.c
 cleanats:: ; $(RMF) redisContextSetup_dats.c
 cleanats:: ; $(RMF) test_up_dats.c

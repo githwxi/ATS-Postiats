@@ -5,8 +5,8 @@
 (* ****** ****** *)
 //  
 // Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
 // Start time: December, 2013
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
@@ -32,10 +32,14 @@ $PATSHOME/contrib\
 
 (* ****** ****** *)
 //
-#include "{$HIREDIS}/mylibies.hats"
+#include
+"{$HIREDIS}/mylibies.hats"
 //
 #staload $HIREDIS // opening it!
 #staload $HIREDIS_ML // opening it!
+//
+#include
+"{$HIREDIS}/mylibies_link.hats"
 //
 (* ****** ****** *)
 //

@@ -354,13 +354,13 @@ upload_IPC-hiredis:: ; \
   $(SCP) \
   IPC-hiredis/index.html \
   IPC-hiredis/Makefile \
-  IPC-hiredis/mylib.dats \
+  IPC-hiredis/params.hats \
   IPC-hiredis/msgchan.sats \
   IPC-hiredis/msgchan.dats \
-  IPC-hiredis/params.hats \
   IPC-hiredis/redisContextSetup.dats \
   IPC-hiredis/test_up.dats \
   IPC-hiredis/test_dn.dats \
+  IPC-hiredis/testlib.dats \
   ats-hwxi,ats-lang@web.sourceforge.net:htdocs/EXAMPLE/EFFECTIVATS/IPC-hiredis/
 
 ######
