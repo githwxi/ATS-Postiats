@@ -8,13 +8,17 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "./../SATS/hiredis.sats"
-staload _(*anon*) = "./../DATS/hiredis.dats"
-
+//
+#include "./../mylibies.hats"
+//
+#staload $HIREDIS
+//
+#include "./../mylibies_link.hats"
+//
 (* ****** ****** *)
 
 val () =

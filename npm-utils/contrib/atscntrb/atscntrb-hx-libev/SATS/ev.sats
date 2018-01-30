@@ -1,3 +1,5 @@
+(* ****** ****** *)
+
 (*
 ** Copyright (C) 2014 Hongwei Xi.
 **
@@ -17,8 +19,8 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxiATgmailDOTcom
 // Start Time: May, 2014
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 

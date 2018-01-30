@@ -131,32 +131,32 @@ redisReply_get_error
 
 /* ****** ****** */
 //
-#define atscntrb_hiredis_freeReplyObject freeReplyObject
-#define atscntrb_hiredis_redisReply_get_array redisReply_get_array
-#define atscntrb_hiredis_redisReply_get_string redisReply_get_string
-#define atscntrb_hiredis_redisReply_get_integer redisReply_get_integer
-#define atscntrb_hiredis_redisReply_get_status redisReply_get_status
-#define atscntrb_hiredis_redisReply_get_error redisReply_get_error
+#define atscntrb_hx_hiredis_freeReplyObject freeReplyObject
+#define atscntrb_hx_hiredis_redisReply_get_array redisReply_get_array
+#define atscntrb_hx_hiredis_redisReply_get_string redisReply_get_string
+#define atscntrb_hx_hiredis_redisReply_get_integer redisReply_get_integer
+#define atscntrb_hx_hiredis_redisReply_get_status redisReply_get_status
+#define atscntrb_hx_hiredis_redisReply_get_error redisReply_get_error
 //
-#define atscntrb_hiredis_redisReply_get_type(rep) (((redisReply*)rep)->type)
-#define atscntrb_hiredis_redisReply_get_strlen(rep) (((redisReply*)rep)->len)
-#define atscntrb_hiredis_redisReply_get_strptr(rep) (((redisReply*)rep)->str)
+#define atscntrb_hx_hiredis_redisReply_get_type(rep) (((redisReply*)rep)->type)
+#define atscntrb_hx_hiredis_redisReply_get_strlen(rep) (((redisReply*)rep)->len)
+#define atscntrb_hx_hiredis_redisReply_get_strptr(rep) (((redisReply*)rep)->str)
 //
 /* ****** ****** */
 
-#define atscntrb_hiredis_redisReaderFree redisReaderFree
-#define atscntrb_hiredis_redisReaderCreate redisReaderCreate
-#define atscntrb_hiredis_redisReaderFeed redisReaderFeed
-#define atscntrb_hiredis_redisReaderGetReply redisReaderGetReply
+#define atscntrb_hx_hiredis_redisReaderFree redisReaderFree
+#define atscntrb_hx_hiredis_redisReaderCreate redisReaderCreate
+#define atscntrb_hx_hiredis_redisReaderFeed redisReaderFeed
+#define atscntrb_hx_hiredis_redisReaderGetReply redisReaderGetReply
 
 /* ****** ****** */
 
-#define atscntrb_hiredis_redis_get_err(ctx) (((redisContext*)ctx)->err)
-#define atscntrb_hiredis_redis_get_errstr(ctx) (&((redisContext*)ctx)->errstr[0])
+#define atscntrb_hx_hiredis_redis_get_err(ctx) (((redisContext*)ctx)->err)
+#define atscntrb_hx_hiredis_redis_get_errstr(ctx) (&((redisContext*)ctx)->errstr[0])
 
 /* ****** ****** */
 //
-#define atscntrb_hiredis_redisFree redisFree
+#define atscntrb_hx_hiredis_redisFree redisFree
 //
 /* ****** ****** */
 //
@@ -175,10 +175,10 @@ redisConnectWithTimeout_fsec
   return redisConnectWithTimeout(ip, port, tv) ;
 } // end of [redisConnectWithTimeout_fsec]
 //
-#define atscntrb_hiredis_redisConnect redisConnect
-#define atscntrb_hiredis_redisConnectWithTimeout_tv redisConnectWithTimeout
-#define atscntrb_hiredis_redisConnectWithTimeout_fsec redisConnectWithTimeout_fsec
-#define atscntrb_hiredis_redisConnectNonBlock redisConnectNonBlock
+#define atscntrb_hx_hiredis_redisConnect redisConnect
+#define atscntrb_hx_hiredis_redisConnectWithTimeout_tv redisConnectWithTimeout
+#define atscntrb_hx_hiredis_redisConnectWithTimeout_fsec redisConnectWithTimeout_fsec
+#define atscntrb_hx_hiredis_redisConnectNonBlock redisConnectNonBlock
 //
 /* ****** ****** */
 //
@@ -197,26 +197,26 @@ redisConnectUnixWithTimeout_fsec
   return redisConnectUnixWithTimeout(ip, tv) ;
 } // end of [redisConnectUnixWithTimeout_fsec]
 //
-#define atscntrb_hiredis_redisConnectUnix redisConnectUnix
-#define atscntrb_hiredis_redisConnectUnixWithTimeout_tv redisConnectUnixWithTimeout
-#define atscntrb_hiredis_redisConnectUnixWithTimeout_fsec redisConnectUnixWithTimeout_fsec
-#define atscntrb_hiredis_redisConnectUnixNonBlock redisConnectUnixNonBlock
+#define atscntrb_hx_hiredis_redisConnectUnix redisConnectUnix
+#define atscntrb_hx_hiredis_redisConnectUnixWithTimeout_tv redisConnectUnixWithTimeout
+#define atscntrb_hx_hiredis_redisConnectUnixWithTimeout_fsec redisConnectUnixWithTimeout_fsec
+#define atscntrb_hx_hiredis_redisConnectUnixNonBlock redisConnectUnixNonBlock
 //
 /* ****** ****** */
 
-#define atscntrb_hiredis_redisBufferRead redisBufferRead
-#define atscntrb_hiredis_redisBufferWrite redisBufferWrite
+#define atscntrb_hx_hiredis_redisBufferRead redisBufferRead
+#define atscntrb_hx_hiredis_redisBufferWrite redisBufferWrite
 
 /* ****** ****** */
 
-#define atscntrb_hiredis_redisGetReply redisGetReply
-#define atscntrb_hiredis_redisGetReplyFromReader redisGetReplyFromReader
+#define atscntrb_hx_hiredis_redisGetReply redisGetReply
+#define atscntrb_hx_hiredis_redisGetReplyFromReader redisGetReplyFromReader
 
 /* ****** ****** */
 
-#define atscntrb_hiredis_redisCommand redisCommand
-#define atscntrb_hiredis_redisFormatCommand redisFormatCommand
-#define atscntrb_hiredis_redisAppendCommand redisAppendCommand
+#define atscntrb_hx_hiredis_redisCommand redisCommand
+#define atscntrb_hx_hiredis_redisFormatCommand redisFormatCommand
+#define atscntrb_hx_hiredis_redisAppendCommand redisAppendCommand
 
 /* ****** ****** */
 

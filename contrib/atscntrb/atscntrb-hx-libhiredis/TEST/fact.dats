@@ -9,14 +9,17 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/hiredis.sats"
-staload "./../SATS/hiredis_ML.sats"
+#include "./../mylibies.hats"
 //
-staload _(*anon*) = "./../DATS/hiredis.dats"
+#staload $HIREDIS
+#staload $HIREDIS_ML
+//
+#include "./../mylibies_link.hats"
 //
 (* ****** ****** *)
 
@@ -35,8 +38,17 @@ fun loop
 //
 var err: int = 0
 //
-val-RDSstring(n) =
-  redis_get (ctx, arg, err)
+val rdsval =
+redis_get (ctx, arg, err)
+//
+(*
+val () =
+println!
+("fact: loop: rdsval = ", rdsval)
+*)
+//
+val-RDSstring(n) = rdsval
+  
 val n = g0string2int_int (n)
 //
 in
@@ -60,14 +72,27 @@ end // end of [if]
 end // end of [loop]
 //
 val ctx =
-  redisConnect ("127.0.0.1", 6379)
+redisConnect ("127.0.0.1", 6379)
 //
 val () = assertloc (ptrcast(ctx) > 0)
 //
 var err: int = 0
 //
-val _ = redis_set_int (ctx, arg, n, err)
-val _ = redis_set_int (ctx, res, 1, err)
+val
+rdsval_arg =
+redis_set_int(ctx, arg, n, err)
+val
+rdsval_res =
+redis_set_int(ctx, res, 1, err)
+//
+(*
+val () =
+println!
+("fact: rdsval_arg = ", rdsval_arg)
+val () =
+println!
+("fact: rdsval_res = ", rdsval_res)
+*)
 //
 val () = loop (ctx)
 //

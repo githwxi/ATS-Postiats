@@ -1,8 +1,8 @@
+######
 #
 # A simple Makefile for
 # testing the ATS API for cairo
 #
-
 ######
 
 PATSHOMEQ="$(PATSHOME)"

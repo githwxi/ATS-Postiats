@@ -1,6 +1,6 @@
 {
 "name":
-"atscntrb-hx-libhiredis", "version": "1.0.0"
+"atscntrb-hx-libhiredis", "version": "1.0.1"
 ,
 "description":
 "This package is for directly calling in ATS various hiredis-functions."

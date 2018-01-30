@@ -26,9 +26,9 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSCNTRB.pcre_ML"
+ATS_PACKNAME "ATSCNTRB.HX.pcre_ML"
 #define
-ATS_EXTERN_PREFIX "atscntrb_pcre_ML_" // prefix for external names
+ATS_EXTERN_PREFIX "atscntrb_hx_pcre_ML_" // prefix for external names
 //
 (* ****** ****** *)
 

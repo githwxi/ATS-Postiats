@@ -9,14 +9,17 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/hiredis.sats"
-staload "./../SATS/hiredis_ML.sats"
+#include "./../mylibies.hats"
 //
-staload _(*anon*) = "./../DATS/hiredis.dats"
+#staload $HIREDIS
+#staload $HIREDIS_ML
+//
+#include "./../mylibies_link.hats"
 //
 (* ****** ****** *)
 

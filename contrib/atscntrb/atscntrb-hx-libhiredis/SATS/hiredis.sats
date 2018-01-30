@@ -37,12 +37,12 @@
 (* ****** ****** *)
 
 #define
-ATS_PACKNAME "ATSCNTRB.hiredis"
+ATS_PACKNAME "ATSCNTRB.HX.hiredis"
 //
 // HX: prefix for external names
 //
 #define
-ATS_EXTERN_PREFIX "atscntrb_hiredis_"
+ATS_EXTERN_PREFIX "atscntrb_hx_hiredis_"
 
 (* ****** ****** *)
 

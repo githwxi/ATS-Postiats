@@ -135,7 +135,7 @@ fun
 memcpy
 (
   ptr, ptr, size_t
-) : ptr = "mac#atscntrb_pcre_memcpy"
+) : ptr = "mac#atscntrb_hx_pcre_memcpy"
 // end of [memcpy]
 
 fun
@@ -154,7 +154,8 @@ val n = $UN.cast{Size}(e-b)
 val n1 = g1uint_succ_size (n)
 val (pf, pfgc | p) = malloc_gc (n1)
 //
-val p = memcpy(p, ptr_add<char>(string2ptr(subject), b), n)
+val p = memcpy
+  (p, ptr_add<char>(string2ptr(subject), b), n)
 //
 val p_n = ptr_add<char> (p, n)
 val ((*void*)) = $UN.ptr0_set<char> (p_n, '\000')
