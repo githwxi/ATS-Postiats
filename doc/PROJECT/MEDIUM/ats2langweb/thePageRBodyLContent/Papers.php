@@ -157,6 +157,12 @@ means for combining imperative programming with dependent types.
 Links:
 <a href="MYDATA/Xanadu-lics00.pdf">pdf</a>
 </td></tr>
+<!--
+<tr><td>
+Translations:
+<a href="https://www.homeyou.com/~edu/programacao-imperativa">Portuguese</a>
+</td></tr>
+-->
 <tr height="8px"><td></td></tr>
 </table>
 
