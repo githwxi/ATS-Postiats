@@ -61,7 +61,7 @@ stadef mytkind = $extkind"atslib_linmap_skiplist"
 //
 // HX: it is in stdlib.h
 //
-extern void srand48 (time_t);
+extern void srand48 (long int);
 //
 %}
 typedef time_t = $extype"time_t"
@@ -72,7 +72,8 @@ implement
 linmap_skiplist_initize
   ((*void*)) = let
 //
-val seed = $extfcall (time_t, "time", 0)
+val seed =
+  $extfcall (time_t, "time", 0)
 //
 in
   $extfcall (void, "srand48", seed)
