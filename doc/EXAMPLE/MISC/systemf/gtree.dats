@@ -1,5 +1,7 @@
+(* ****** ****** *)
 //
-// BU CAS CS 520: Principles of Programing Languages
+// BUCASCS520:
+// Principles of Programing Languages
 // Instructor: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 // Time: Fall 2005
 //

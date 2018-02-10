@@ -1,3 +1,4 @@
+//usr/bin/env myatscc "$0"; exit
 (* ****** ****** *)
 //
 // Implementing fixed-point operator

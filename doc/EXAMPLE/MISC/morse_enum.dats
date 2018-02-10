@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 //
 // This code is based on some code by

@@ -1,3 +1,4 @@
+//usr/bin/env myatscc "$0"; exit
 (* ****** ****** *)
 //
 // One of the early examples

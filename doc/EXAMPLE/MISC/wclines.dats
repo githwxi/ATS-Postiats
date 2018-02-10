@@ -1,8 +1,10 @@
+(* ****** ****** *)
 (*
 **
 ** A fast approach to counting newlines
 **
-** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+** Author:
+** Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: April 17, 2013
 **
 *)
@@ -52,19 +54,22 @@ fun freadc // read bytes and then add [c] at the end
 ) : size_t // end of [freadc]
 
 implement
-freadc (pf | inp, p, c) = let
+freadc
+( pf
+| inp, p, c
+) = n where
+{
   val n = $extfcall
     (size_t, "fread", p, sizeof<char>, BUFSZ-1, inp)
   val () = $UN.ptr0_set<char> (ptr_add<char> (p, n), c)
-in
-  n
-end (* end of [freadc] *)
+} (* end of [freadc] *)
 
 (* ****** ****** *)
 
 extern
-fun wclbuf
-  {l:addr}{n:int}
+fun
+wclbuf
+{l:addr}{n:int}
 (
   pf: !bytes_v (l, n) | p: ptr l, pz: ptr, c: int, res: int
 ) : int // end of [wclbuf]

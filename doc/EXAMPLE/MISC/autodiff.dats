@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 **
 ** Automatic Differentiation
@@ -8,7 +10,6 @@
 ** Time: January, 2008
 **
 *)
-
 (* ****** ****** *)
 //
 // HX-2012-11-26: ported to ATS/Postiats

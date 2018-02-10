@@ -1,9 +1,10 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 //
 // It is a bit like [scandir] ...
 //
 *)
-
 (* ****** ****** *)
 //
 (*

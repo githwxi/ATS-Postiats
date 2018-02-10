@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 ** A verfied implementation of the integer sqare root function
 ** that is non-tail-recursive and of logarithmic time complexity

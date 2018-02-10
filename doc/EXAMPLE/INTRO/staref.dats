@@ -1,9 +1,9 @@
+(* ****** ****** *)
 //
 // Statically allocated reference
 //
 // Author: Hongwei Xi (June, 2013)
 //
-
 (* ****** ****** *)
 //
 #include "share/atspre_staload.hats"
@@ -12,18 +12,21 @@
 
 local
 
-var __count: int = 0 // it is statically allocated
+var _count_: int = 0 // it is statically allocated
 val theCount =
-  ref_make_viewptr{int}(view@(__count) | addr@(__count))
+  ref_make_viewptr{int}(view@(_count_) | addr@(_count_))
 // end of [val]
 
 in (* in of [local] *)
 
-fun theCount_get (): int = !theCount
+fun
+theCount_get (): int = !theCount
 
-fun theCount_inc (): void = !theCount := !theCount + 1
+fun
+theCount_inc (): void = !theCount := !theCount + 1
 
-fun theCount_getinc
+fun
+theCount_getinc
   (): int = let
   val n = !theCount; val () = !theCount := n + 1 in (n)
 end // end of [theCount_getind]

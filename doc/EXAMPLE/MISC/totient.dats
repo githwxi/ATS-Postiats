@@ -1,3 +1,4 @@
+//usr/bin/env myatscc "$0"; exit
 (* ****** ****** *)
 
 #include "share/atspre_staload.hats"
@@ -9,6 +10,14 @@
 //
 #staload M = "libats/libc/SATS/math.sats"
 #staload _(*M*) = "libats/libc/DATS/math.dats"
+//
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
 //
 (* ****** ****** *)
 
@@ -68,10 +77,12 @@ atsTotient(n: intGt(0)): int =
 //
 #staload
 TIMING =
-"contrib/atscntrb-hx-mytesting/SATS/timing.sats"
+"contrib/atscntrb\
+/atscntrb-hx-mytesting/SATS/timing.sats"
 #staload
 _(*TIMING*) =
-"contrib/atscntrb-hx-mytesting/DATS/timing.dats"
+"contrib/atscntrb\
+/atscntrb-hx-mytesting/DATS/timing.dats"
 //
 (* ****** ****** *)
 
