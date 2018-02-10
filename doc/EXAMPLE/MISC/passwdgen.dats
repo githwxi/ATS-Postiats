@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 **
 ** random password generation
@@ -21,20 +23,25 @@ tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
 //
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN =
+"prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
 staload
-STDLIB = "libats/libc/SATS/stdlib.sats"
+STDLIB =
+"libats/libc/SATS/stdlib.sats"
 //
 staload
 RANDGEN =
-"contrib/atscntrb-hx-mytesting/SATS/randgen.sats"
+"contrib/atscntrb\
+/atscntrb-hx-mytesting/SATS/randgen.sats"
 //
 (* ****** ****** *)
 

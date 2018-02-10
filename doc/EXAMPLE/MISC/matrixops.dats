@@ -1,8 +1,13 @@
+(* ****** ****** *)
 (*
 //
-// Some operations on matrices
+// Some matrix ops
 //
 *)
+(* ****** ****** *)
+
+implement
+main((*void*)) = 0
 
 (* ****** ****** *)
 
@@ -29,10 +34,6 @@ matrix_foreach$fwork<a><env>
 in
   matrix_foreach<a> (A, m, n)
 end // end of [mul_scalar_matrix]
-
-(* ****** ****** *)
-
-implement main () = 0
 
 (* ****** ****** *)
 

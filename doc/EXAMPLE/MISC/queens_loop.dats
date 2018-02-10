@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 //
 // A program to solve the 8-queens problem
