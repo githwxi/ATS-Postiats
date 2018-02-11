@@ -4,14 +4,17 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_staload.hats"
-#include
-"share/atspre_staload_libats_ML.hats"
+staload
+"libats/ML/SATS/basis.sats"
+staload
+"libats/ML/SATS/list0.sats"
+staload
+"libats/ML/SATS/array0.sats"
 //
 (* ****** ****** *)
 
-staload UN = $UNSAFE
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
@@ -188,7 +191,7 @@ fileptr_by_command_opt
 val
 fid2 =
 arrayref_make_elt<pid_t>
-  (i2sz(2), $UNSAFE.cast(0))
+  (i2sz(2), $UN.cast(0))
 //
 val
 ret =
@@ -227,7 +230,7 @@ ifcase
         (i2sz(length(args)+2), the_null_ptr)
       // end of [val]
       var p0 = arrayref2ptr(argv)
-      val () = $UNSAFE.ptr0_setinc<string>(p0, arg0)
+      val () = $UN.ptr0_setinc<string>(p0, arg0)
       val () = loop(args, p0) where
       {
         fun
@@ -238,7 +241,7 @@ ifcase
           | list_cons(arg, args) =>
             loop(args, p0) where
             {
-             val () = $UNSAFE.ptr0_setinc<string>(p0, arg)
+             val () = $UN.ptr0_setinc<string>(p0, arg)
             } (* end of [list_cons] *)
         )
       }
@@ -273,6 +276,37 @@ end else let
 end // end of [else]
 //
 end // end of [fileptr_by_command_opt]
+
+(* ****** ****** *)
+//
+extern
+fun{}
+shell_eval
+(arg0: string, args: stringlst): Option_vt(Strptr1)
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+shell_eval
+  (arg0, args) = let
+//
+  val
+  opt =
+  fileptr_by_command_opt<>(arg0, args)
+//
+in
+  case+ opt of
+  | ~None_vt() =>
+     None_vt()
+  | ~Some_vt(inp) =>
+    (
+      Some_vt
+      (un_streamize_string_char
+       ($UN.castvwtp0(streamize_fileptr_char(inp)))
+      )
+    )
+end // end of [shell_eval]
 
 (* ****** ****** *)
 //
@@ -323,7 +357,7 @@ in
   | ~None_vt() =>
      None_vt()
   | ~Some_vt(inp) =>
-     Some_vt(streamize_fileptr_line(inp))
+     Some_vt($UN.castvwtp0(streamize_fileptr_line(inp)))
 )
 end // end of [streamopt_url_line]
 

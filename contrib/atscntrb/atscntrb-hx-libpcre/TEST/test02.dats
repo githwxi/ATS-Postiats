@@ -24,9 +24,7 @@ patscc \
 
 (* ****** ****** *)
 //
-local
 #include "./../mylibies_link.hats"
-in (*nothing*) end
 //
 (* ****** ****** *)
 

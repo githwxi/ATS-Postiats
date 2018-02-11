@@ -27,7 +27,7 @@ then
 val () =
 fprintln!
 (
-stderr_ref, "Usage: ", argv[0], " ", "<command>"
+stderr_ref, "Usage: ", argv[0], " ", "<cmdname>"
 ) (* end of [val] *)
 } (* end of [if] *)
 //

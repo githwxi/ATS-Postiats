@@ -1,7 +1,7 @@
+######
 #
 # A simple Makefile
 #
-
 ######
 
 PATSHOMEQ="$(PATSHOME)"

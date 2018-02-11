@@ -28,9 +28,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 //
-local
 #include "./../mylibies_link.hats"
-in (*nothing*) end
 //
 (* ****** ****** *)
 

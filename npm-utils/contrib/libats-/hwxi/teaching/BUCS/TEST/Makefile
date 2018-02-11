@@ -19,6 +19,14 @@ all::
 ######
 
 all:: \
+test01
+test01: \
+test01.dats ; \
+$(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+
+######
+
+all:: \
 test_find
 test_find: \
 test_find.dats ; \
@@ -55,7 +63,7 @@ test_intinf
 test_intinf: \
 test_intinf.dats ; \
 $(PATSCC) -O2 \
--I$(PATSHOME)/contrib -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+-I$(PATSHOME)/contrib/atscntrb -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 ######
 
@@ -75,6 +83,7 @@ clean:: ; $(RMF) *_?ats.o
 ######
 
 cleanall:: clean
+cleanall:: ; $(RMF) test01
 cleanall:: ; $(RMF) test_find
 cleanall:: ; $(RMF) test_which
 cleanall:: ; $(RMF) test_download

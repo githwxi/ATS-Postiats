@@ -12,9 +12,11 @@
 (* ****** ****** *)
 //
 #include
-"contrib/atscntrb-hx-intinf/mydepies.hats"
+"contrib/atscntrb\
+/atscntrb-hx-intinf/mydepies.hats"
 #include
-"contrib/atscntrb-hx-intinf/mylibies.hats"
+"contrib/atscntrb\
+/atscntrb-hx-intinf/mylibies.hats"
 //
 #staload $INTINF_vt // opening the package
 //
