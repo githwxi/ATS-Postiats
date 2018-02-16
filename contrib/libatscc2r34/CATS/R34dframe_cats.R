@@ -39,5 +39,12 @@ ats2r34pre_R34dframe_na_omit <-
   function(xss) { return(na.omit(xss)) }
 
 ############################################
+
+ats2r34pre_R34dframe_subrow <-
+function(xs, i, j) { return(xs[i:j,]) }
+ats2r34pre_R34dframe_subcol <-
+function(xs, i, j) { return(xs[,i:j]) }
+
+############################################
 #end of [R34dframe_cats.R]
 ############################################

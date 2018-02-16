@@ -110,6 +110,7 @@ CATS/basics_cats.R \
 CATS/integer_cats.R \
 CATS/bool_cats.R \
 CATS/float_cats.R \
+CATS/R34factor_cats.R \
 CATS/R34vector_cats.R \
 CATS/R34dframe_cats.R \
 CATS/R34matrix_cats.R \

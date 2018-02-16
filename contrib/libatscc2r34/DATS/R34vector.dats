@@ -73,10 +73,37 @@ R34vector_map_fun{a}{b}(xs, cloref2fun1(fopr))
 (* ****** ****** *)
 //
 implement
+R34vector_foreach_cloref
+{a}(*tmp*)
+(xs, fopr) =
+R34vector_foreach_fun{a}(xs, cloref2fun1(fopr))
+implement
+R34vector_iforeach_cloref
+{a}(*tmp*)
+(xs, fopr) =
+R34vector_iforeach_fun{a}(xs, cloref2fun2(fopr))
+//
+(* ****** ****** *)
+//
+implement
+R34vector_foldleft_cloref
+{r}{a}
+(xs, init, fopr) =
+R34vector_foldleft_fun{r}{a}(xs, init, cloref2fun2(fopr))
+//
+(* ****** ****** *)
+//
+implement
 R34vector_tabulate_cloref
 {a}(*tmp*)
 (n0, fopr) =
 R34vector_tabulate_fun{a}(n0, cloref2fun1(fopr))
+//
+implement
+R34vector_tabulate2_cloref
+{a}(*tmp*)
+(n0, x0, fopr) =
+R34vector_tabulate2_fun{a}(n0, x0, cloref2fun2(fopr))
 //
 (* ****** ****** *)
 

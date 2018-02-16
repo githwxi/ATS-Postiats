@@ -162,9 +162,54 @@ overload <> with neq_double_double of 100
 //
 fun
 compare_double_double
-  (x1: double, x2: double):<> Sgn = "mac#%"
+( x1: double
+, x2: double):<> Sgn = "mac#%"
 //
-overload compare with compare_double_double of 100
+overload
+compare with compare_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
+max_double_double
+( x1: double
+, x2: double):<> double = "mac#%"
+fun
+min_double_double
+( x1: double
+, x2: double):<> double = "mac#%"
+//
+overload max with max_double_double of 100
+overload min with min_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
+exp_double
+  (arg: double):<> double = "mac#%"
+fun
+pow_double_double
+( arg1: double
+, arg2: double):<> double = "mac#%"
+//
+overload exp with exp_double of 100
+overload pow with pow_double_double of 100
+//
+(* ****** ****** *)
+//
+fun
+log_double
+  (arg: double):<> double = "mac#%"
+fun
+log2_double
+  (arg: double):<> double = "mac#%"
+fun
+log10_double
+  (arg: double):<> double = "mac#%"
+//
+overload log with log_double of 100
+overload log2 with log2_double of 100
+overload log10 with log10_double of 100
 //
 (* ****** ****** *)
 

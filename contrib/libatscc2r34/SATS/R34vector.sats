@@ -96,6 +96,20 @@ overload [] with R34vector_set_at
 (* ****** ****** *)
 //
 fun
+R34vector_subvec
+{a:t0p}
+{n:int}
+{i,j:int
+|1 <= i
+;i <= j;j <= n}
+( xs: R34vector(a, n)
+, i: int(i), j: int(j)): R34vector(a, j-i+1) = "mac#%"
+//
+overload subvec with R34vector_subvec
+//
+(* ****** ****** *)
+//
+fun
 R34vector_extend
 {a:t0p}
 {n:int}{i:pos|i <= n}
@@ -200,6 +214,55 @@ overload map with R34vector_map_cloref
 (* ****** ****** *)
 //
 fun
+R34vector_foreach_fun
+{a:t0p}
+( xs: R34vector(a)
+, fopr: (a) -<fun1> void): void = "mac#%"
+fun
+R34vector_foreach_cloref
+{a:t0p}
+( xs: R34vector(a)
+, fopr: (a) -<cloref1> void): void = "mac#%"
+//
+overload foreach with R34vector_foreach_cloref
+//
+(* ****** ****** *)
+//
+fun
+R34vector_iforeach_fun
+{a:t0p}
+{n:int}
+( xs: R34vector(a, n)
+, fopr: (natLt(n), a) -<fun1> void): void = "mac#%"
+fun
+R34vector_iforeach_cloref
+{a:t0p}
+{n:int}
+( xs: R34vector(a, n)
+, fopr: (natLt(n), a) -<cloref1> void): void = "mac#%"
+//
+overload iforeach with R34vector_iforeach_cloref
+//
+(* ****** ****** *)
+//
+fun
+R34vector_foldleft_fun
+{r:t0p}
+{a:t0p}
+( xs: R34vector(a)
+, r0: (r), fopr: (r, a) -<fun1> r): (r) = "mac#%"
+fun
+R34vector_foldleft_cloref
+{r:t0p}
+{a:t0p}
+( xs: R34vector(a)
+, r0: (r), fopr: (r, a) -<cloref1> r): (r) = "mac#%"
+//
+overload foldleft with R34vector_foldleft_cloref
+//
+(* ****** ****** *)
+//
+fun
 R34vector_tabulate_fun
 {a:t0p}
 {n:nat}
@@ -211,6 +274,23 @@ R34vector_tabulate_cloref
 {n:nat}
 ( int(n)
 , fopr: (natLt(n)) -<cloref1> a): R34vector(a, n) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+R34vector_tabulate2_fun
+{a:t0p}
+{n:nat}
+( int(n)
+, init: a
+, fopr: (a, natLt(n)) -<fun1> a): R34vector(a, n) = "mac#%"
+fun
+R34vector_tabulate2_cloref
+{a:t0p}
+{n:nat}
+( int(n)
+, init: a
+, fopr: (a, natLt(n)) -<cloref1> a): R34vector(a, n) = "mac#%"
 //
 (* ****** ****** *)
 

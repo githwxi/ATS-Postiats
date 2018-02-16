@@ -63,6 +63,11 @@ function(xs, i) { return(xs[[i]]) }
 #
 ############################################
 
+ats2r34pre_R34vector_subvec <-
+function(xs, i, j) { return(xs[i:j]) }
+
+############################################
+
 ats2r34pre_R34vector_match <-
 function(x, xs) {
   return(match(x, xs, nomatch=0))
@@ -76,11 +81,45 @@ function(xs, fopr)
   n0 = length(xs)
   if (n0 == 0) return(c())
   y1 = fopr(xs[[1]]); ys = rep(y1, n0)
-  if (n0 >= 2)
-  {
+  if (n0 >= 2) {
     for (i in 2:n0) ys[[i]]<-fopr(xs[[i]])
   } ; return(ys)
 } ## ats2r34pre_R34vector_map_fun
+
+############################################
+
+ats2r34pre_R34vector_foreach_fun <-
+function(xs, fopr)
+{
+  n0 = length(xs)
+  if (n0 == 0) return(NULL)
+  {
+    for (i in 1:n0) fopr(xs[[i]])
+  } ; return(NULL)
+} ## ats2r34pre_R34vector_foreach_fun
+
+ats2r34pre_R34vector_iforeach_fun <-
+function(xs, fopr)
+{
+  n0 = length(xs)
+  if (n0 == 0) return(NULL)
+  {
+    for (i in 1:n0) fopr(i-1, xs[[i]])
+  } ; return(NULL)
+} ## ats2r34pre_R34vector_iforeach_fun
+
+############################################
+
+ats2r34pre_R34vector_foldleft_fun <-
+function(xs, r0, fopr)
+{
+  n0 = length(xs)
+  if (n0 == 0) return(r0)
+  r1 = fopr( r0, xs[[1]] );
+  if (n0 >= 2) {
+    for (i in 2:n0) r1 <- fopr(r1, xs[[i]])
+  } ; return(r1)
+} ## ats2r34pre_R34vector_foldleft_fun
 
 ############################################
 
@@ -94,6 +133,22 @@ function(n0, fopr)
     for (i in 2:n0) { xs[[i]] <- fopr(i-1) }
   } ; return(xs)
 } ## ats2r34pre_R34vector_tabulate_fun
+
+############################################
+
+ats2r34pre_R34vector_tabulate2_fun <-
+function(n0, x0, fopr)
+{
+  if (n0 == 0) return(c())
+  x1 = fopr(x0, 0); xs = rep(x1, n0)
+  if (n0 >= 2)
+  {
+    for (i in 2:n0)
+    {
+      x0 <- x1;
+      x1 <- fopr(x0, i-1); xs[[i]] <- x1 }
+  } ; return(xs)
+} ## ats2r34pre_R34vector_tabulate2_fun
 
 ############################################
 #

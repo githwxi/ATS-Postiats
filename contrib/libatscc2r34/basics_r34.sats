@@ -41,6 +41,9 @@ abstype R34filr // nominal!
 (* ****** ****** *)
 //
 abstype
+R34factor(n:int)
+//
+abstype
 R34list(a:t@ype, n:int)
 abstype
 R34vector(a:t@ype, n:int)
@@ -49,6 +52,37 @@ R34dframe(a:t@ype, m:int, n:int)
 abstype
 R34matrix(a:t@ype, m:int, n:int)
 //
+(* ****** ****** *)
+//
+praxi
+lemma_R34factor_param
+  {n:int}
+  (R34factor(n)): [n >= 0] void
+//
+praxi
+lemma_R34dframe_param
+  {a:t@ype}{m,n:int}
+  (R34dframe(a, m, n)): [m >= 0; n >= 0] void
+praxi
+lemma_R34matrix_param
+  {a:t@ype}{m,n:int}
+  (R34matrix(a, m, n)): [m >= 0; n >= 0] void
+//
+praxi
+lemma_R34list_param
+  {a:t@ype}{n:int}(R34list(a, n)): [n >= 0] void
+praxi
+lemma_R34vector_param
+  {a:t@ype}{n:int}(R34vector(a, n)): [n >= 0] void
+//
+(* ****** ****** *)
+
+typedef
+R34factor
+(
+// argless
+) = [n:nat] R34factor(n)
+
 (* ****** ****** *)
 //
 typedef

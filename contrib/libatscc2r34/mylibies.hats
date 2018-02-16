@@ -55,6 +55,13 @@
 
 (* ****** ****** *)
 //
+#staload "./SATS/R34factor.sats"
+(*
+#staload _ = "./DATS/R34factor.dats"
+*)
+//
+(* ****** ****** *)
+//
 #staload "./SATS/R34vector.sats"
 #staload _ = "./DATS/R34vector.dats"
 //

@@ -83,7 +83,33 @@ fun
 R34dframe_na_omit
 {a:t0p}
 {m1,n:int}
-(R34dframe(a, m1, n)): [m2:nat | m2 <= m1] R34dframe(a, m2, n) = "mac#%"
+(
+xs: R34dframe(a, m1, n)
+) : [m2:nat | m2 <= m1] R34dframe(a, m2, n) = "mac#%"
+//
+(* ****** ****** *)
+//
+fun
+R34dframe_subcol
+{a:t0p}
+{m,n:int}
+{i,j:int
+|1 <= i
+;i <= j;j <= n}
+( xs: R34dframe(a, m, n)
+, i0: int(i), j0: int(j)): R34dframe(a, m, j-i+1) = "mac#%"
+fun
+R34dframe_subrow
+{a:t0p}
+{m,n:int}
+{i,j:int
+|1 <= i
+;i <= j;j <= m}
+( xs: R34dframe(a, m, n)
+, i0: int(i), j0: int(j)): R34dframe(a, j-i+1, n) = "mac#%"
+//
+overload subcol with R34dframe_subcol
+overload subrow with R34dframe_subrow
 //
 (* ****** ****** *)
 

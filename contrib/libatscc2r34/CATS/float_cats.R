@@ -119,6 +119,29 @@ ats2r34pre_neq_double_double <-
 function(x,y) { return(x != y) }
 
 ############################################
+#
+ats2r34pre_max_double_double <-
+  function(x,y) { return(max(x,y)) }
+ats2r34pre_min_double_double <-
+  function(x,y) { return(min(x,y)) }
+#
+############################################
+#
+ats2r34pre_exp_double <-
+  function(x) { return(exp(x)) }
+ats2r34pre_pow_double_double <-
+  function(x,y) { return((x)^(y)) }
+#
+############################################
+#
+ats2r34pre_log_double <-
+  function(x) { return(log(x)) }
+ats2r34pre_log2_double <-
+  function(x) { return(log2(x)) }
+ats2r34pre_log10_double <-
+  function(x) { return(log10(x)) }
+#  
+############################################
 ##
 ats2r34pre_print_int <-
   function(x) { return(cat(x)) }

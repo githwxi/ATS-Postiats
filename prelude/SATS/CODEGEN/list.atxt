@@ -103,10 +103,13 @@ ifListSubscriptExn
 (
 let val x = ,(exn) in
 (
-if isListSubscriptExn(x)
-  then
-    let prval () = __vfree_exn (x) in ,(body) end
-  else $raise (x)
+//
+if
+isListSubscriptExn(x)
+then
+  let prval () = __vfree_exn(x) in ,(body) end
+else $raise (x)
+//
 ) : tres // end of [if]
 end (* end of [let] *)
 ) // end of [ifListSubscriptExn]
@@ -190,9 +193,9 @@ list_tuple with list_tuple_6
 #atscode_separator()
 
 fun{x:t0p}
-list_make_sing (x: x):<!wrt> list_vt(x, 1)
+list_make_sing(x: x):<!wrt> list_vt(x, 1)
 fun{x:t0p}
-list_make_pair (x1: x, x2: x):<!wrt> list_vt(x, 2)
+list_make_pair(x1: x, x2: x):<!wrt> list_vt(x, 2)
 
 #atscode_separator()
 
@@ -203,8 +206,8 @@ list_make_elt
 
 #atscode_separator()
 
-fun{
-} list_make_intrange
+fun{}
+list_make_intrange
   {l,r:int | l <= r}
   (l: int l, r: int r):<!wrt> list_vt(intBtw(l, r), r-l)
 // end of [list_make_intrange]

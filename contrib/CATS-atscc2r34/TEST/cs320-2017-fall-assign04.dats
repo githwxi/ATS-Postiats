@@ -19,7 +19,8 @@ LIBATSCC2R34_targetloc
 //
 (* ****** ****** *)
 //
-#include "{$LIBATSCC2R34}/mylibies.hats"
+#include
+  "{$LIBATSCC2R34}/mylibies.hats"
 //
 (* ****** ****** *)
 
@@ -114,7 +115,7 @@ R34vector_tabulate_cloref{double}
   fopr(Adj_Close_data[i+1], Adj_Close_data[i+2]))
 ) where
 {
-  fn fopr(x: double, y: double): double = pred(y/x)
+  fn fopr(x: double, y: double): double = (y/x-1.0)
 }
 //
 (* ****** ****** *)
@@ -123,7 +124,8 @@ val
 volat =
 sqrt(252*variance(Daily_price_changes))
 //
-val ((*void*)) = $extfcall(void, "message", "Volatility = ", volat)
+val ((*void*)) =
+$extfcall(void, "message", "Volatility = ", volat)
 //
 (* ****** ****** *)
 
