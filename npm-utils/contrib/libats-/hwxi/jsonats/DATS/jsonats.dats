@@ -29,12 +29,14 @@
 (* ****** ****** *)
 //
 #define
-ATS_PACKNAME "ATSCNTRB.HX.jsonats"
+ATS_PACKNAME
+"ATSCNTRB.HX.jsonats"
 //
 (* ****** ****** *)
 //
 // HX-2014-05-09:
-// Some convenience functions for parsing JSON data
+// Convenience functions
+// for parsing JSON data
 //
 (* ****** ****** *)
 //

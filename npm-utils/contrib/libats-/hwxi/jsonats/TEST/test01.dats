@@ -6,8 +6,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -19,22 +17,30 @@ atstyarr_field_undef(fname) fname[]
 
 (* ****** ****** *)
 //
-#staload
-"{$HX_CSTREAM}/SATS/cstream.sats"
-#staload
-"{$HX_CSTREAM}/SATS/cstream_tokener.sats"
-//
-#staload _ =
-"libats/DATS/stringbuf.dats"
-#staload _ =
-"{$HX_CSTREAM}/DATS/cstream.dats"
-#staload _ =
-"{$HX_CSTREAM}/DATS/cstream_tokener.dats"
+#include "./../mylibies.hats"
+#include "./../mylibies_link.hats"
+#staload $JSONATS // opening it!
 //
 (* ****** ****** *)
 //
-#include "./../mylibies.hats"
-#staload $JSONATS // opening it!
+#define
+HX_CSTREAM_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-cstream"
+//
+(* ****** ****** *)
+//
+#staload _ =
+"libats/DATS/stringbuf.dats"
+//
+#include
+"{$HX_CSTREAM}/mylibies.hats"
+#include
+"{$HX_CSTREAM}/mylibies_link.hats"
+//
+#staload $CSTREAM // opening it
+#staload $CSTOKENER // opening it
 //
 (* ****** ****** *)
 

@@ -2,7 +2,7 @@
 "name":
 "atscntrb-hx-jsonats"
 ,
-"version": "1.0.0"
+"version": "1.0.1"
 ,
 "description":
 "This package contains some convenience functions for parsing JSON data..."
