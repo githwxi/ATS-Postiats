@@ -474,7 +474,7 @@ fun
 loop
 {l:addr}
 {n:int}
-{i:nat | i <= n}
+{i:nat|i <= n}
 (
   pf: b0ytes(n)@l
 , fpf: mfree_gc_v(l)
@@ -537,7 +537,7 @@ fun
 loop
 {l:addr}
 {n:int}
-{i:nat | i <= n}
+{i:nat|i <= n}
 (
   pf: b0ytes(n)@l
 , fpf: mfree_gc_v(l)

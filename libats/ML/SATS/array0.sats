@@ -212,6 +212,18 @@ array0_make_subarray
 // end of [array0_make_subarray]
 
 (* ****** ****** *)
+//
+fun{a:t0p}
+array0_make_stream
+  (xs: stream(INV(a))):<!wrt> array0(a)
+fun{a:t0p}
+array0_make_stream_vt
+  (xs: stream_vt(INV(a))):<!wrt> array0(a)
+//
+fun{}
+array0_make_stream$bufsize():<> intGte(1)
+//
+(* ****** ****** *)
 
 fun{a:t0p}
 array0_get_at_size

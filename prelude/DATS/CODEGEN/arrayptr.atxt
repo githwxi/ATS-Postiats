@@ -21,13 +21,24 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("May, 2012")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 
 #atscode_separator()
 
 staload UN = "prelude/SATS/unsafe.sats"
 
+#atscode_separator()
+//
+extern
+fun
+memcpy
+( d0: ptr
+, s0: ptr
+, n0: size_t
+) :<!wrt> ptr = "mac\#atspre_array_memcpy"
+// end of [memcpy]
+//
 #atscode_separator()
 
 implement
@@ -201,6 +212,137 @@ val res = list_make_array (!p, asz)
 prval () = arrayptr_addback (pf | A)
 } // end of [arrayptr_imake_list]
 
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+arrayptr_make_stream
+  (xs, asz) = let
+//
+fun
+loop
+{n:int}
+{i:nat|i <= n}
+( xs: stream(a)
+, p0: ptr, pi: ptr
+, n0: size_t(n), i0: size_t(i)
+) : Size_t = (
+if
+(i0 < n0)
+then
+(
+case+ !xs of
+| stream_nil() => i0
+| stream_cons(x, xs) => let
+    val () = $UN.ptr0_set<a>(pi, x)
+  in
+    loop
+    (xs, p0, ptr_succ<a>(pi), n0, succ(i0))
+  end // end of [stream_cons]
+)
+else let
+//
+  val n02 = n0 + n0
+  val A02 =
+  arrayptr_make_uninitized<a>(n02)
+  val p02 = $UN.castvwtp0{ptr}(A02)
+//
+  val _(*p02*) =
+    memcpy(p02, p0, i0*sizeof<a>)
+  val ((*freed*)) =
+    arrayptr_free($UN.castvwtp0(p0))
+//
+in
+  loop
+  (xs, p02, ptr_add<a>(p02, i0), n02, i0)
+end // end of [
+) (* end of [loop] *)
+//
+val n0 =
+arrayptr_make_stream$bufsize<>
+  ((*void*))
+//
+val n0 = i2sz(n0)
+val A0 = arrayptr_make_uninitized<a>(n0)
+val p0 = $UN.castvwtp0{ptr}(A0)
+//
+val n0 =
+  $effmask_all(loop(xs, p0, p0, n0, i2sz(0)))
+//
+in
+//
+  let val () = asz := n0 in $UN.castvwtp0(p0) end
+//
+end // end of [arrayptr_make_stream]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+arrayptr_make_stream_vt
+  (xs, asz) = let
+//
+fun
+loop
+{n:int}
+{i:nat|i <= n}
+( xs: stream_vt(a)
+, p0: ptr, pi: ptr
+, n0: size_t(n), i0: size_t(i)
+) : Size_t = (
+if
+(i0 < n0)
+then
+(
+case+ !xs of
+| ~stream_vt_nil() => i0
+| ~stream_vt_cons(x, xs) => let
+    val () = $UN.ptr0_set<a>(pi, x)
+  in
+    loop
+    (xs, p0, ptr_succ<a>(pi), n0, succ(i0))
+  end // end of [stream_cons]
+)
+else let
+//
+  val n02 = n0 + n0
+  val A02 =
+  arrayptr_make_uninitized<a>(n02)
+  val p02 = $UN.castvwtp0{ptr}(A02)
+//
+  val _(*p02*) =
+    memcpy(p02, p0, i0*sizeof<a>)
+  val ((*freed*)) =
+    arrayptr_free($UN.castvwtp0(p0))
+//
+in
+  loop
+  (xs, p02, ptr_add<a>(p02, i0), n02, i0)
+end // end of [
+) (* end of [loop] *)
+//
+val n0 =
+arrayptr_make_stream$bufsize<>
+  ((*void*))
+//
+val n0 = i2sz(n0)
+val A0 = arrayptr_make_uninitized<a>(n0)
+val p0 = $UN.castvwtp0{ptr}(A0)
+//
+val n0 =
+  $effmask_all(loop(xs, p0, p0, n0, i2sz(0)))
+//
+in
+//
+  let val () = asz := n0 in $UN.castvwtp0(p0) end
+//
+end // end of [arrayptr_make_stream_vt]
+
+#atscode_separator()
+//
+implement
+arrayptr_make_stream$bufsize<> ((*void*)) = 16
+//
 #atscode_separator()
 
 (*

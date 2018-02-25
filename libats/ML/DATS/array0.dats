@@ -243,6 +243,57 @@ in
 end // end of [array0_make_subarray]
 
 (* ****** ****** *)
+
+implement
+{a}(*tmp*)
+array0_make_stream
+  (xs) = let
+//
+implement
+arrayptr_make_stream$bufsize<>
+(
+  // argless
+) = array0_make_stream$bufsize<>()
+//
+var n0: size_t
+val A0 =
+  arrayptr_make_stream<a>(xs, n0)
+//
+in
+  let
+    val A0 = arrayptr_refize(A0)
+  in
+    array0_make_arrayref{a}(A0, n0)
+  end
+end // end of [array0_make_stream]
+
+implement
+{a}(*tmp*)
+array0_make_stream_vt
+  (xs) = let
+//
+implement
+arrayptr_make_stream$bufsize<>
+(
+  // argless
+) = array0_make_stream$bufsize<>()
+//
+var n0: size_t
+val A0 =
+  arrayptr_make_stream_vt<a>(xs, n0)
+//
+in
+  let
+    val A0 = arrayptr_refize(A0)
+  in
+    array0_make_arrayref{a}(A0, n0)
+  end
+end // end of [array0_make_stream_vt]
+
+implement
+array0_make_stream$bufsize<>() = 16
+
+(* ****** ****** *)
 //
 implement
 {a}(*tmp*)
