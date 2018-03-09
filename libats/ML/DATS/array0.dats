@@ -199,22 +199,36 @@ array0_of_arrszref(arrszref_make_elt<a>(asz, x0))
 implement
 {a}(*tmp*)
 array0_make_list
+  (xs) =
+(
+  array0_of_arrszref{a}(arrszref_make_list<a>(xs))
+)
+implement
+{a}(*tmp*)
+array0_make_list0
   (xs) = let
   val xs = g1ofg0(xs)
 in
   array0_of_arrszref{a}(arrszref_make_list<a>(xs))
-end // end of [array0_make_list]
+end // end of [array0_make_list0]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 array0_make_rlist
+  (xs) =
+(
+  array0_of_arrszref{a}(arrszref_make_rlist<a>(xs))
+)
+implement
+{a}(*tmp*)
+array0_make_rlist0
   (xs) = let
   val xs = g1ofg0(xs)
 in
   array0_of_arrszref{a}(arrszref_make_rlist<a>(xs))
-end // end of [array0_make_rlist]
+end // end of [array0_make_rlist0]
 
 (* ****** ****** *)
 
@@ -1013,6 +1027,40 @@ in
 end // end of [let]
 //
 end // end of [array0_is_ordered]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+array0_bsearch
+  (A0, f0) = let
+//
+val
+ASZ = arrszref_of_array0(A0)
+//
+var
+asz : size_t
+val A =
+  arrszref_get_refsize(ASZ, asz)
+//
+implement
+{a}(*tmp*)
+array_bsearch$ford
+(
+  x
+) = let
+//
+val
+ford =
+$UN.cast{(&a)-<cloref>int}(f0)
+//
+in
+   ford(x)
+end // end of [array_bsearch$ford]
+//
+in
+  arrayref_bsearch<a>(A, asz)
+end // end of [array0_bsearch]
 
 (* ****** ****** *)
 

@@ -221,41 +221,47 @@ arrayptr_make_stream
 //
 fun
 loop
-{n:int}
+{n:int|0 < n}
 {i:nat|i <= n}
 ( xs: stream(a)
 , p0: ptr, pi: ptr
 , n0: size_t(n), i0: size_t(i)
-) : Size_t = (
-if
-(i0 < n0)
-then
-(
+) : (ptr, Size_t) = (
+//
 case+ !xs of
-| stream_nil() => i0
-| stream_cons(x, xs) => let
+| stream_nil() =>
+  (
+    p0, i0
+  ) (* stream_nil *)
+| stream_cons(x, xs) =>
+  if
+  (i0 < n0)
+  then
+  let
     val () = $UN.ptr0_set<a>(pi, x)
   in
     loop
     (xs, p0, ptr_succ<a>(pi), n0, succ(i0))
-  end // end of [stream_cons]
-)
-else let
+  end // end of [then]
+  else let
 //
-  val n02 = n0 + n0
-  val A02 =
-  arrayptr_make_uninitized<a>(n02)
-  val p02 = $UN.castvwtp0{ptr}(A02)
+    val n02 = n0 + n0
+    val A02 =
+    arrayptr_make_uninitized<a>(n02)
+    val p02 = $UN.castvwtp0{ptr}(A02)
 //
-  val _(*p02*) =
-    memcpy(p02, p0, i0*sizeof<a>)
-  val ((*freed*)) =
-    arrayptr_free($UN.castvwtp0(p0))
+    val _(*p02*) =
+      memcpy(p02, p0, i0*sizeof<a>)
+    val ((*freed*)) =
+      arrayptr_free($UN.castvwtp0(p0))
 //
-in
-  loop
-  (xs, p02, ptr_add<a>(p02, i0), n02, i0)
-end // end of [
+    val pi = ptr_add<a>(p02, i0)
+    val () = $UN.ptr0_set<a>(pi, x)
+//
+  in
+    loop
+    (xs, p02, ptr_succ<a>(pi), n02, succ(i0))
+  end // end of [else]
 ) (* end of [loop] *)
 //
 val n0 =
@@ -266,7 +272,7 @@ val n0 = i2sz(n0)
 val A0 = arrayptr_make_uninitized<a>(n0)
 val p0 = $UN.castvwtp0{ptr}(A0)
 //
-val n0 =
+val (p0, n0) =
   $effmask_all(loop(xs, p0, p0, n0, i2sz(0)))
 //
 in
@@ -284,41 +290,47 @@ arrayptr_make_stream_vt
 //
 fun
 loop
-{n:int}
+{n:int|0 < n}
 {i:nat|i <= n}
 ( xs: stream_vt(a)
 , p0: ptr, pi: ptr
 , n0: size_t(n), i0: size_t(i)
-) : Size_t = (
-if
-(i0 < n0)
-then
-(
+) : (ptr, Size_t) = (
+//
 case+ !xs of
-| ~stream_vt_nil() => i0
-| ~stream_vt_cons(x, xs) => let
+| ~stream_vt_nil() =>
+  (
+    p0, i0
+  )
+| ~stream_vt_cons(x, xs) =>
+  if
+  (i0 < n0)
+  then
+  let
     val () = $UN.ptr0_set<a>(pi, x)
   in
     loop
     (xs, p0, ptr_succ<a>(pi), n0, succ(i0))
-  end // end of [stream_cons]
-)
-else let
+  end // end of [then]
+  else let
 //
-  val n02 = n0 + n0
-  val A02 =
-  arrayptr_make_uninitized<a>(n02)
-  val p02 = $UN.castvwtp0{ptr}(A02)
+    val n02 = n0 + n0
+    val A02 =
+    arrayptr_make_uninitized<a>(n02)
+    val p02 = $UN.castvwtp0{ptr}(A02)
 //
-  val _(*p02*) =
-    memcpy(p02, p0, i0*sizeof<a>)
-  val ((*freed*)) =
-    arrayptr_free($UN.castvwtp0(p0))
+    val _(*p02*) =
+      memcpy(p02, p0, i0*sizeof<a>)
+    val ((*freed*)) =
+      arrayptr_free($UN.castvwtp0(p0))
 //
-in
-  loop
-  (xs, p02, ptr_add<a>(p02, i0), n02, i0)
-end // end of [
+    val pi = ptr_add<a>(p02, i0)
+    val () = $UN.ptr0_set<a>(pi, x)
+//
+  in
+    loop
+    (xs, p02, ptr_succ<a>(pi), n02, succ(i0))
+  end // end of [else]
 ) (* end of [loop] *)
 //
 val n0 =
@@ -329,7 +341,7 @@ val n0 = i2sz(n0)
 val A0 = arrayptr_make_uninitized<a>(n0)
 val p0 = $UN.castvwtp0{ptr}(A0)
 //
-val n0 =
+val (p0, n0) =
   $effmask_all(loop(xs, p0, p0, n0, i2sz(0)))
 //
 in
@@ -574,6 +586,22 @@ arrayptr_tabulate
   (asz) =
   arrayptr_encode2(array_ptr_tabulate<a>(asz))
 // end of [arrayptr_tabulate]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+arrayptr_bsearch
+  (A, asz) = res where
+{
+//
+val p = ptrcast(A)
+prval pfarr = arrayptr_takeout(A)
+//
+val res = array_bsearch<a>(!p, asz)
+prval () = arrayptr_addback{a}(pfarr | A)
+//
+} (* end of [arrayptr_bsearch] *)
 
 #atscode_separator()
 

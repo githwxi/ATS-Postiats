@@ -497,18 +497,33 @@ arrayptr_freelin
 //
 (*
 fun{a:vt0p}
-array_tabulate$fopr (index: size_t): (a)
+array_tabulate$fopr(index: size_t): (a)
 *)
 fun{a:vt0p}
 arrayptr_tabulate
-  {n:int} (asz: size_t(n)): arrayptr(a, n)
+  {n:int}(asz: size_t(n)): arrayptr(a, n)
+//
+#atscode_separator()
+//
+(*
+fun
+{a:vt0p}
+array_bsearch$ford(x: &RD(a)):<> int
+*)
+//
+fun
+{a:vt0p}
+arrayptr_bsearch
+  {n:int}
+  (A: !arrayptr(a, n), n: size_t(n)):<> sizeLte(n)
 //
 #atscode_separator()
 //
 fun
 {a:vt0p}
 arrayptr_quicksort
-  {n:int}(A: !arrayptr(a, n) >> _, asz: size_t(n)): void
+  {n:int}
+  (A: !arrayptr(a, n) >> _, asz: size_t(n)): void
 //
 #atscode_separator()
 //

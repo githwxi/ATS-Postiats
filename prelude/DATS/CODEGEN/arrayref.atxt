@@ -327,6 +327,19 @@ end // end of [arrayref_is_ordered]
 
 implement
 {a}(*tmp*)
+arrayref_bsearch
+  (A, asz) = let
+//
+val
+(vbox(pf) | p0) =
+arrayref_get_viewptr{a}(A)
+//
+in
+  $effmask_ref(array_bsearch<a>(!p0, asz))
+end // end of [arrayref_bsearch]
+
+implement
+{a}(*tmp*)
 arrayref_quicksort
   (A, asz) = let
 //

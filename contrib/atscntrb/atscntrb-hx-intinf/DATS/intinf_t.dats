@@ -123,7 +123,7 @@ val str = $VT.intinf_get_strptr (x, base)
 prval () = fpf (x)
 //
 in
-  strptr2string (str)
+  strptr2string(str)
 end (* end of [intinf_get_string] *)
 
 (* ****** ****** *)
