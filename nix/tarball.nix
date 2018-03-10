@@ -47,5 +47,8 @@ stdenv.mkDerivation rec {
     mv doc/DISTRIB/${name} $out
   '';
 
-  shellHook = "export PATSHOME=$PWD";
+  shellHook = ''
+    export PATSHOME=$PWD
+    source ./nix/path_hack.sh
+  '';
 }
