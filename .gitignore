@@ -37,6 +37,7 @@ src/Makefile_atxt.dats
 src/TAGS
 src/tags
 src/TAGATS
+src/*.a
 
 bin/patscc
 bin/patsopt
