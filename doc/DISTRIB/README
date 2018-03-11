@@ -1,14 +1,69 @@
-###### beg of [README] ######
+######
 #
-# HX-2013-12-26: some packaging commands
+# HX-2018-03-11:
+# It is assumed that ATS-Anairiats is available!
 #
 ######
-
-make -f Makefile atspackaging # packaging ATS2
-make -f Makefile atscontribing # packaging ATS2-contrib
-
+#
+# Packaging ATS
+#
+# Creating a release file like the following one:
+# ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.8-release.html
+#
+# Uploading the following files to sourceforge
+#
+# ATS2-Postiats-x.y.z.tgz
+# ATS2-Postiats-contrib-x.y.z.tgz
+# ATS2-Postiats-include-x.y.z.tgz
+# ats2-postiats-x.y.z-release.html
+#
+# Updating ats-lang.org/Documents
+# Updating ats-lang.org/Community
+# Announcing to ats-lang-users@lists.sourceforge.net
+#
 ######
+#
+# Key Steps for packaging ATS
+#
+######
+  
+git clone https://github.com/githwxi/ATS-Postiats.git
+cd ATS-Postiats
+export PATSHOME=`pwd`
+make -f Makefile_devl
+make -C src -f Makefile CBOOT
+(cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.)
+(cd ./doc/DISTRIB/ATS-Postiats && sh ./autogen.sh && ./configure)
+make -C src/CBOOT/libc -f Makefile
+make -C src/CBOOT/libats -f Makefile
+make -C src/CBOOT/prelude -f Makefile
+make -C doc/DISTRIB -f Makefile atspackaging
+make -C doc/DISTRIB -f Makefile atspacktarzvcf
+make -C doc/DISTRIB -f Makefile atscontribing
+make -C doc/DISTRIB -f Makefile atscontribtarzvcf
+make -C doc/DISTRIB -f Makefile_inclats tarzvcf
 
-make -f Makefile_inclats tarvcfz # packaging ATS2-include
+#######
+#
+# You should see the generated compressed tarballs
+# for ATS2 and ATS2-contrib and ATS2-inclats
+#
+#######
 
+ls -al doc/DISTRIB/ATS2-*.
+
+#######
+#
+# The following files should be listed for some numbers
+# x, y, and z (such that ATS2-x.y.z is the version being
+# packaged)
+#
+#
+# ATS2-Postiats-x.y.z.tgz
+# ATS2-Postiats-contrib-x.y.z.tgz
+# ATS2-Postiats-include-x.y.z.tgz
+#
+#
+#######
+   
 ###### end of [README] ######
