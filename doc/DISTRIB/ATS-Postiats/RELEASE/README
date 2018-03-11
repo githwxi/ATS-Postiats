@@ -10,7 +10,9 @@ export PATSHOME=`pwd`
 make -f Makefile_devl
 make -C src -f Makefile CBOOT
 (cd doc/DISTRIB/ATS-Postiats && sh ./autogen.sh && ./configure)
-make -C src/CBOOT -f Makefile prelude libc libats
+make -C src/CBOOT/libc -f Makefile
+make -C src/CBOOT/libats -f Makefile
+make -C src/CBOOT/prelude -f Makefile
 make -C doc/DISTRIB -f Makefile atspackaging
 make -C doc/DISTRIB -f Makefile atspacktarzvcf
 make -C doc/DISTRIB -f Makefile atscontribing
