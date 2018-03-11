@@ -14,7 +14,8 @@ cd ATS-Postiats
 export PATSHOME=`pwd`
 make -f Makefile_devl
 make -C src -f Makefile CBOOT
-(cd doc/DISTRIB/ATS-Postiats && sh ./autogen.sh && ./configure)
+(cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.)
+(cd ./doc/DISTRIB/ATS-Postiats && sh ./autogen.sh && ./configure)
 make -C src/CBOOT/libc -f Makefile
 make -C src/CBOOT/libats -f Makefile
 make -C src/CBOOT/prelude -f Makefile
@@ -22,14 +23,29 @@ make -C doc/DISTRIB -f Makefile atspackaging
 make -C doc/DISTRIB -f Makefile atspacktarzvcf
 make -C doc/DISTRIB -f Makefile atscontribing
 make -C doc/DISTRIB -f Makefile atscontribtarzvcf
+make -C doc/DISTRIB -f Makefile_inclats tarzvcf
 
 #######
 #
 # You should see the generated compressed tarballs
-# for ATS2 and ATS2-contrib
+# for ATS2 and ATS2-contrib and ATS2-inclats
 #
 #######
 
-ls -al doc/DISTRIB/ATS2-*.tgz
+ls -al doc/DISTRIB/ATS2-*.
+
+#######
+#
+# The following files should be listed for some numbers
+# x, y, and z (such that ATS2-x.y.z is the version being
+# packaged)
+#
+#
+# ATS2-Postiats-x.y.z.tgz
+# ATS2-Postiats-contrib-x.y.z.tgz
+# ATS2-Postiats-include-x.y.z.tgz
+#
+#
+#######
    
 ###### end of [README] ######
