@@ -3,7 +3,12 @@
 # Steps for packaging ATS
 #
 ######
-
+#
+# HX-2018-03-11:
+# It is assumed that ATS-Anairiats is available!
+#
+######
+  
 git clone https://github.com/githwxi/ATS-Postiats.git
 cd ATS-Postiats
 export PATSHOME=`pwd`
