@@ -1,0 +1,28 @@
+######
+#
+# Steps for packaging ATS
+#
+######
+
+git clone https://github.com/githwxi/ATS-Postiats.git
+cd ATS-Postiats
+export PATSHOME=`pwd`
+make -f Makefile_devl
+make -C src -f Makefile CBOOT
+(cd doc/DISTRIB/ATS-Postiats && sh ./autogen.sh && ./configure)
+make -C src/CBOOT -f Makefile prelude libc libats
+make -C doc/DISTRIB -f Makefile atspackaging
+make -C doc/DISTRIB -f Makefile atspacktarzvcf
+make -C doc/DISTRIB -f Makefile atscontribing
+make -C doc/DISTRIB -f Makefile atscontribtarzvcf
+
+#######
+#
+# You should see the generated compressed tarballs
+# for ATS2 and ATS2-contrib
+#
+#######
+
+ls -al doc/DISTRIB/ATS2-*.tgz
+   
+###### end of [README] ######
