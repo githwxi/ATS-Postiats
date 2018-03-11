@@ -699,11 +699,11 @@ srcget_home:: ; $(CPF) ../../INSTALL $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../VERSION $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../CHANGES-ats2 $(ATSDIST)/
 srcget_home:: ; $(CPF) ../../CHANGES-contrib $(ATSDIST)/
-srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
-srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
-srcget_home:: ; $(CPF) ../../bin/patscc_env.sh.in $(ATSDIST)/bin/
-srcget_home:: ; $(CPF) ../../bin/myatscc_env.sh.in $(ATSDIST)/bin/
-srcget_home:: ; $(CPF) ../../bin/patsopt_env.sh.in $(ATSDIST)/bin/
+#srcget_home:: ; $(CPF) ../../configure.ac $(ATSDIST)/
+#srcget_home:: ; $(CPF) ../../config.mk.in $(ATSDIST)/
+#srcget_home:: ; $(CPF) ../../bin/patscc_env.sh.in $(ATSDIST)/bin/
+#srcget_home:: ; $(CPF) ../../bin/myatscc_env.sh.in $(ATSDIST)/bin/
+#srcget_home:: ; $(CPF) ../../bin/patsopt_env.sh.in $(ATSDIST)/bin/
 
 ######
 #
