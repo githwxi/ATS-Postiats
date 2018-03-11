@@ -21,6 +21,7 @@ aclocal.m4
 autom4te.cache
 patscc_env.sh
 patsopt_env.sh
+myatscc_env.sh
 
 #
 # An external link

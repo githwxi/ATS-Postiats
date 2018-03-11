@@ -50,7 +50,6 @@ script:
   - make -C ${PATSHOME}/src/CBOOT/libats
   - make -C ${PATSHOME}/doc/DISTRIB atspackaging
   - make -C ${PATSHOME}/doc/DISTRIB atspacktarzvcf
-  - make -C ${PATSHOME}/doc/DISTRIB cleanall
   # make -C ${PATSHOME}/doc/DISTRIB atscontribing
   # make -C ${PATSHOME}/doc/DISTRIB atscntrbtarzvcf
   # make -C ${PATSHOME}/doc/DISTRIB cleanall
@@ -61,9 +60,9 @@ script:
   # Building some utilities
   - cp ${ATSHOME}/config.h .
   - make -C src cleanall
-  - make -C src/CBOOT/prelude
   - make -C src/CBOOT/libc
   - make -C src/CBOOT/libats
+  - make -C src/CBOOT/prelude
   - make -C utils/libatsopt copy build
   - cp -f utils/libatsopt/BUILD/libatsopt.a ${ATSHOME}/ccomp/lib
   - make -C utils/libatsynmark copy build
