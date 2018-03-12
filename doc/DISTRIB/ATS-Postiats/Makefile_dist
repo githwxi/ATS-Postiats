@@ -214,11 +214,10 @@ clean:: ; $(MAKE) -C src/CBOOT -f Makefile clean
 
 ######
 
-cleanall:: ; $(RMF) config.h
+cleanall:: ; $(RMF) stamp-h1
 cleanall:: ; $(RMF) config.mk
 cleanall:: ; $(RMF) config.log
 cleanall:: ; $(RMF) config.status
-cleanall:: ; $(RMF) stamp-h1
 cleanall:: ; $(RMRF) autom4te.cache
 
 cleanall:: ; $(RMF) bin/patscc

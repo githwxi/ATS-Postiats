@@ -2,13 +2,16 @@
 #
 # HX-2018-03-11:
 # It is assumed that ATS-Anairiats is available!
+# It is also assumed that ATS-Postiats-contrib is available!
+# Please set PATSCONTRIB to be the path to ATS-Postiats-contrib:
+# export PATSCONTRIB = <the-absolute-path-to-ATS-Postiats-contrib>
 #
 ######
 #
 # Packaging ATS
 #
 # Creating a release file like the following one:
-# ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.8-release.html
+# ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.9-release.html
 #
 # Uploading the following files to sourceforge
 #

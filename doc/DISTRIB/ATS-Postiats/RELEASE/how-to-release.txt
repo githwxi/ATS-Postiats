@@ -1,6 +1,12 @@
+######
 #
 # Some key steps in releasing ATS
 #
+######
+
+HX-2018-03-11:
+The following description is out-of-date.
+Please see ${PATSHOME}/doc/DISTRIB/README
 
 ###### beg of [how-to-release.txt] ######
 

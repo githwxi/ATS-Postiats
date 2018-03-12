@@ -17,6 +17,7 @@ PATSOPT=$(PATSHOMEQ)/bin/patsopt
 
 XRLIBS=`pkg-config cairo --libs`
 XRCFLAGS=`pkg-config cairo --cflags`
+INCLUDES=-I$(PATSHOMEQ)/npm-utils/contrib/atscntrb
 
 ######
 
@@ -28,7 +29,7 @@ all:: \
 theLogo
 theLogo: \
 theLogo.dats ; \
-  $(PATSCC) -I$(PATSHOMERELOCQ)/contrib $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
+  $(PATSCC) $(INCLUDES) $(XRCFLAGS) -o $@ $< $(XRLIBS) -lm 
 regress:: theLogo; ./$<
 cleanall:: ; $(RMF) theLogo
 
