@@ -53,7 +53,7 @@ make -C doc/DISTRIB -f Makefile_inclats tarzvcf
 #
 #######
 
-ls -al doc/DISTRIB/ATS2-*.
+ls -al doc/DISTRIB/ATS2-*
 
 #######
 #
