@@ -27,7 +27,9 @@ PATSOLVE_targetloc
 //
 #define
 SMT_LIBZ3_targetloc
-"$PATSHOME/contrib/atscntrb-smt-libz3"
+"\
+$PATSHOME/contrib\
+/atscntrb//atscntrb-smt-libz3"
 //
 (* ****** ****** *)
 //

@@ -30,11 +30,11 @@ ATS_DYNLOADNAME
 //
 (* ****** ****** *)
 
-staload UN = $UNSAFE
+#staload UN = $UNSAFE
 
 (* ****** ****** *)
 //
-staload
+#staload
 "./../SATS/patsolve_cnstrnt.sats"
 //
 (* ****** ****** *)

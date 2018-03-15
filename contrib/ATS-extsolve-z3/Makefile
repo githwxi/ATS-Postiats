@@ -43,8 +43,8 @@ CFLAGS += -DATS_MEMALLOC_LIBC
 #
 CFLAGS2 :=
 CFLAGS2 +=-DATS_MEMALLOC_LIBC
-CFLAGS2 +=-I${PATSHOMEQ}/contrib
-#
+CFLAGS2 +=\
+-I${PATSHOMEQ}/contrib/atscntrb
 CFLAGS2 += \
 $(shell pkg-config --cflags json-c)
 #
@@ -54,15 +54,19 @@ EXTRA_CFLAGS :=
 
 ######
 
-PATSCC2=$(PATSCC) $(CFLAGS2) $(EXTRA_CFLAGS)
+PATSCC2 = \
+$(PATSCC) \
+$(CFLAGS2) $(EXTRA_CFLAGS)
 
 ######
-
+#
 LDFLAGS :=
-LDFLAGS += $(shell pkg-config --libs json-c)
+LDFLAGS += \
+$(shell pkg-config --libs json-c)
+#
 LDFLAGS +=-lz3
 LDFLAGS +=-lgc
-
+#
 ######
 
 INCLUDE :=

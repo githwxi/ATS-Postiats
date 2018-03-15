@@ -19,13 +19,13 @@
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "./../SATS/patsolve_commarg.sats"
 //
 (* ****** ****** *)
 //
 (*
-dynload "patsolve_cnstrnt.dats"
+#dynload "patsolve_cnstrnt.dats"
 *)
 val () = patsolve_cnstrnt__dynload() where
 {
@@ -35,7 +35,7 @@ val () = patsolve_cnstrnt__dynload() where
 (* ****** ****** *)
 //
 (*
-dynload "patsolve_parsing.dats"
+#dynload "patsolve_parsing.dats"
 *)
 val () = patsolve_parsing__dynload() where
 {
@@ -45,7 +45,7 @@ val () = patsolve_parsing__dynload() where
 (* ****** ****** *)
 //
 (*
-dynload "patsolve_commarg.dats"
+#dynload "patsolve_commarg.dats"
 *)
 val () = patsolve_commarg__dynload() where
 {

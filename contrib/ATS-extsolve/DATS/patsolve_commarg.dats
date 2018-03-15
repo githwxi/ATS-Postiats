@@ -28,15 +28,15 @@ ATS_DYNLOADNAME
 //
 (* ****** ****** *)
 //
-staload
+#staload
 STDIO =
 "libats/libc/SATS/stdio.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/patsolve_commarg.sats"
-staload "./../SATS/patsolve_cnstrnt.sats"
-staload "./../SATS/patsolve_parsing.sats"
+#staload "./../SATS/patsolve_commarg.sats"
+#staload "./../SATS/patsolve_cnstrnt.sats"
+#staload "./../SATS/patsolve_parsing.sats"
 //
 (* ****** ****** *)
 

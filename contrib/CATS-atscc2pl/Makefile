@@ -72,5 +72,7 @@ clean:: ; $(RMF) *_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) ./bin/atscc2pl
+cleanall:: ; $(RMF) ./npm/CATS/catsparse_sats.c
+cleanall:: ; $(RMF) ./npm/CATS/atscc2pl_*_dats.c 
 
 ###### end of [Makefile] ######

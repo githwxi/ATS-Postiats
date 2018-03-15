@@ -24,39 +24,43 @@ ATS_DYNLOADNAME
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 #include
 "share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 HF = "libats/SATS/hashfun.sats"
-staload
+#staload
 HTR = "libats/ML/SATS/hashtblref.sats"
 //
 (* ****** ****** *)
 
-staload
+#staload
 "./../SATS/patsolve_cnstrnt.sats"
-staload
+#staload
 "./../SATS/patsolve_parsing.sats"
 
 (* ****** ****** *)
-
-staload "{$LIBJSONC}/SATS/json.sats"
-staload "{$LIBJSONC}/SATS/json_ML.sats"
-
+//
+#define
+LIBJSONC_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libjson-c"
+//
+#staload "{$LIBJSONC}/SATS/json.sats"
+#staload "{$LIBJSONC}/SATS/json_ML.sats"
+//
 (* ****** ****** *)
 
-staload
+#staload
 _(*anon*) = "libats/libc/DATS/string.dats"
 
 (* ****** ****** *)

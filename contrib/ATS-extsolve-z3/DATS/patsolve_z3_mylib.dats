@@ -19,13 +19,19 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
-staload
+#define
+LIBJSONC_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libjson-c"
+//
+(* ****** ****** *)
+//
+#staload
 "{$LIBJSONC}/DATS/json.dats"
 //
 (* ****** ****** *)

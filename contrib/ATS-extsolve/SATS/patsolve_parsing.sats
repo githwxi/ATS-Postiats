@@ -20,12 +20,15 @@ ATS_PACKNAME
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+LIBJSONC_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libjson-c"
 //
 (* ****** ****** *)
 //
-staload
+#staload
 "{$LIBJSONC}/SATS/json_ML.sats"
 //
 (* ****** ****** *)
@@ -47,7 +50,7 @@ overload [] with jsonval_get_field
 //
 (* ****** ****** *)
 
-staload "./patsolve_cnstrnt.sats"
+#staload "./patsolve_cnstrnt.sats"
 
 (* ****** ****** *)
 
