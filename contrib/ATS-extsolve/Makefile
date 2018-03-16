@@ -100,13 +100,13 @@ PATSCC3 = $(PATSCC) $(CFLAGS) $(CFLAGS2)
 
 ######
 #
-all:: patsolve
+all:: \
+bin_patsolve
 #
-patsolve: \
-$(OBJECTS) ; \
-$(PATSCC) $(INCLUDE) -o $@ $^ $(LDFLAGS) $(EXTRAFLAGS)
+bin_patsolve: $(OBJECTS) ; \
+$(PATSCC2) -O2 -o bin/patsolve $^ $(LDFLAGS) $(EXTRAFLAGS)
 #
-cleanall:: ; $(RMF) patsolve
+cleanall:: ; $(RMF) bin/patsolve
 #
 ######
 

@@ -107,13 +107,13 @@ all:: ; \
 $(MAKE) -C ATS-extsolve DATS_C
 #
 all:: \
-patsolve_smt2
-patsolve_smt2: \
+bin_patsolve_smt2
+bin_patsolve_smt2: \
 $(TARGETS_DATS_O); \
-$(PATSCC2) -O2 -o $@ \
+$(PATSCC2) -O2 -o bin/patsolve_smt2 \
 $(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
 #
-cleanall:: ; $(RMF) patsolve_smt2
+cleanall:: ; $(RMF) bin/patsolve_smt2
 #
 ######
 #

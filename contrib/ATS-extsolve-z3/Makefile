@@ -108,13 +108,13 @@ all:: ; \
 $(MAKE) -C ATS-extsolve DATS_C
 #
 all:: \
-patsolve_z3
-patsolve_z3: \
+bin_patsolve_z3
+bin_patsolve_z3: \
 $(TARGETS_DATS_O); \
-$(PATSCC2) -O2 -o $@ \
+$(PATSCC2) -O2 -o bin/patsolve_z3 \
 $(SOURCES_SATS) $(SOURCES_CATS) $(TARGETS_DATS_O) $(LDFLAGS)
 #
-cleanall:: ; $(RMF) patsolve_z3
+cleanall:: ; $(RMF) bin/patsolve_z3
 #
 ######
 #
