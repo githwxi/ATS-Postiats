@@ -13,6 +13,24 @@
 Updating $PATSHOME/VERSION
 
 ######
+
+Updating
+$PATSHOME/doc/DISTRIB/Makefile.atxt
+with the new version number
+
+Then please do
+
+make -f Makefile.gen
+
+to generate Makefile based on Makefile.atxt
+
+######
+
+Updating
+$PATSHOME/doc/DISTRIB/Makefile_inclats
+with the new version number
+
+######
 #
 # Packaging ATS
 #
