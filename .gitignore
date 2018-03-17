@@ -240,8 +240,12 @@ doc/DISTRIB/ATS-Postiats/libats/?ATS/Number/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/Number/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ML/COMPILE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ML/COMPILE/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ATS2/?ATS/fcntainer.sats
+doc/DISTRIB/ATS-Postiats/libats/ATS2/?ATS/fcntainer/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/sys/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/arpa/*.?ats
@@ -277,7 +281,7 @@ doc/DISTRIB/ATS-Postiats-include/prelude
 doc/DISTRIB/ATS-Postiats-include/libc
 doc/DISTRIB/ATS-Postiats-include/libats
 doc/DISTRIB/ATS-Postiats-include/ccomp
-doc/DISTRIB/ATS-Postiats-include/contrib
+doc/DISTRIB/ATS-Postiats-include/patscontrib
 #
 doc/DISTRIB/ATS2-Postiats-include-0.0.4
 doc/DISTRIB/ATS2-Postiats-include-0.0.5
