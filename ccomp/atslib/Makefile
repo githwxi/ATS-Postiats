@@ -355,6 +355,17 @@ clean:: ; $(RMF) output/atslib_libats_ML_DATS_strarr_dats.o
 
 ######
 
+atslib_libats_ML:: atslib_libats_ML_DATS_argvec_dats
+atslib_libats_ML_DATS_argvec_dats: output/atslib_libats_ML_DATS_argvec_dats.o ; $(ARR) lib/libatslib.a $<
+output/atslib_libats_ML_DATS_argvec_dats.c: $(PATSHOME0)/libats/ML/DATS/argvec.dats ; $(PATSOPT) -o $@ --dynamic $<
+output/atslib_libats_ML_DATS_argvec_dats.o: output/atslib_libats_ML_DATS_argvec_dats.c ; \
+  $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<
+clean:: ; $(RMF) output/atslib_libats_ML_DATS_argvec_dats.c
+clean:: ; $(RMF) output/atslib_libats_ML_DATS_argvec_dats.o
+
+
+######
+
 atslib_libats_ML:: atslib_libats_ML_DATS_gvalue_dats
 atslib_libats_ML_DATS_gvalue_dats: output/atslib_libats_ML_DATS_gvalue_dats.o ; $(ARR) lib/libatslib.a $<
 output/atslib_libats_ML_DATS_gvalue_dats.c: $(PATSHOME0)/libats/ML/DATS/gvalue.dats ; $(PATSOPT) -o $@ --dynamic $<

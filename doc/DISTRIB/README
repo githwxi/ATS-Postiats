@@ -7,6 +7,10 @@
 # export PATSCONTRIB = <the-absolute-path-to-ATS-Postiats-contrib>
 #
 ######
+
+Updating $PATSHOME/VERSION
+
+######
 #
 # Packaging ATS
 #

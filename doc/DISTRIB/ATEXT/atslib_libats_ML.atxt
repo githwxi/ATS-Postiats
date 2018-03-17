@@ -127,6 +127,7 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/argvec.sats")
 #packfilename("SATS/gvalue.sats")
 
 (* ****** ****** *)
@@ -177,6 +178,7 @@ The ATSLIB/libats/ML library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/argvec.dats")
 #packfilename("DATS/gvalue.dats")
 
 (* ****** ****** *)

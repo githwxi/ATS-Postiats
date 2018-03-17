@@ -51,6 +51,10 @@ staload "libats/ML/SATS/argvec.sats"
 
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/integer.dats"
+
+(* ****** ****** *)
+
 implement
 listize_argc_argv
 {n}(argc, argv) = let
