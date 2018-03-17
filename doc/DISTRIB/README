@@ -1,11 +1,18 @@
 ######
 #
+# HX-2018-03-17:
+# Following is a one-stop script for
+# building a new release of ATS-Postiats:
+# ${PATSHOME}/share/SCRIPT/buildRelease.sh
+#
+######
+#
 # HX-2018-03-11:
 # It is assumed that ATS-Anairiats is available!
 # It is also assumed that ATS-Postiats-contrib is available,
 # and that upstream is the git remote name of the official 
 # ATS-Postriats-contrib repo.
-# Please set PATSCONTRIB to be the path to ATS-Postiats-contrib:
+# please set PATSCONTRIB to be the path to ATS-Postiats-contrib:
 # export PATSCONTRIB = <the-absolute-path-to-ATS-Postiats-contrib>
 #
 ######
