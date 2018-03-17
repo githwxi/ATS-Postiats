@@ -92,6 +92,11 @@ LIBATSML_targetloc "$PATSHOME/libats/ML"
 "{$LIBATSML}/DATS/stream_vt.dats"
 //
 (* ****** ****** *)
+
+staload
+"{$LIBATSML}/SATS/argvec.sats"
+
+(* ****** ****** *)
 //
 #staload
 "{$LIBATSML}/SATS/gvalue.sats"
