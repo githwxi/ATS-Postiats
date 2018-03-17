@@ -2,7 +2,9 @@
 #
 # HX-2018-03-11:
 # It is assumed that ATS-Anairiats is available!
-# It is also assumed that ATS-Postiats-contrib is available!
+# It is also assumed that ATS-Postiats-contrib is available,
+# and that upstream is the git remote name of the official 
+# ATS-Postriats-contrib repo.
 # Please set PATSCONTRIB to be the path to ATS-Postiats-contrib:
 # export PATSCONTRIB = <the-absolute-path-to-ATS-Postiats-contrib>
 #
@@ -33,22 +35,14 @@ Updating $PATSHOME/VERSION
 # Key Steps for packaging ATS
 #
 ######
+
+Perform prerequisites for setting up ATS2:
   
 git clone https://github.com/githwxi/ATS-Postiats.git
 cd ATS-Postiats
 export PATSHOME=`pwd`
-make -f Makefile_devl
-make -C src -f Makefile CBOOT
-(cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.)
-(cd ./doc/DISTRIB/ATS-Postiats && sh ./autogen.sh && ./configure)
-make -C src/CBOOT/libc -f Makefile
-make -C src/CBOOT/libats -f Makefile
-make -C src/CBOOT/prelude -f Makefile
-make -C doc/DISTRIB -f Makefile atspackaging
-make -C doc/DISTRIB -f Makefile atspacktarzvcf
-make -C doc/DISTRIB -f Makefile atscontribing
-make -C doc/DISTRIB -f Makefile atscontribtarzvcf
-make -C doc/DISTRIB -f Makefile_inclats tarzvcf
+
+Now run the file in this directoroy ($PATSHOME/doc/DISTRIB), make_distrib.sh.
 
 #######
 #
@@ -57,7 +51,7 @@ make -C doc/DISTRIB -f Makefile_inclats tarzvcf
 #
 #######
 
-ls -al doc/DISTRIB/ATS2-*
+ls -al doc/DISTRIB/ATS2-*.tgz
 
 #######
 #
