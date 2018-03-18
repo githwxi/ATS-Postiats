@@ -837,8 +837,8 @@ srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2scm/ATS2-0.3.2/outp
 srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/*_?ats.clj
 srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/contrib/libatscc2clj/ATS2-0.3.2/output/DATS/ML/*_?ats.clj
 #
-srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libsdl2/TEST/DATA/*.png
-srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb-libcairo/TEST/DATA/*.png
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb/atscntrb-hx-libsdl2/TEST/DATA/*.png
+srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/atscntrb/atscntrb-hx-libcairo/TEST/DATA/*.png
 #
 srcget_dist_cleanup:: ; $(RMF) ATS-Postiats/npm-utils/contrib/libats-/hwxi/OpenSCAD/TEST/output/*.stl
 #
