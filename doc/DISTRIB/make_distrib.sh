@@ -1,5 +1,9 @@
 #!/bin/sh
 
+#
+# Written by Brandon Barker <brandon dot barker at cornell dot edu>
+#
+
 ATSCC=$(which atscc)
 if [ -x "$ATSCC" ] ; 
   then echo "$ATSCC found.";
