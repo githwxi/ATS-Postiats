@@ -5,11 +5,26 @@
 # HX-2018-03-17:
 # Created based on a version of
 # Brandon Barker
+# <brandon dot barker at cornell dot edu>
 #
-# The following three packages are
-# to be built by the script
-#
+# The following packages are built by the script:
 # ATS-Postiats, ATS-Postiats-contrib, and ATS-include
+#
+######
+#
+# HX-2018-03-18:
+# Here is a typical use of this script:
+#
+# cd /tmp
+# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh
+# <
+# Upload the following three built packages
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-contrib-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-include-x.y.z.tgz
+# >
+# rm -rf /tmp/ATS-Postiats
+# rm -rf /tmp/ATS-Postiats-contrib
 #
 ######
 

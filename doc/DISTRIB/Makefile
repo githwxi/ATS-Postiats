@@ -898,8 +898,11 @@ srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 ######
 
 ######
+PATSVER=$(shell cat ${PATSHOME}/VERSION)
+######
 #
 PACKNAME=ATS2-Postiats-0.3.10
+PACKNAME=ATS2-Postiats-$(PATSVER)
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
@@ -922,6 +925,8 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 ######
 #
 CONTRIBNAME=ATS2-Postiats-contrib-0.3.10
+CONTRIBNAME=ATS2-Postiats-contrib-$(PATSVER)
+#
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(CPRF) ATS-Postiats-contrib $(CONTRIBNAME)
 atscontribtarzvcf:: ; $(TARZVCF)  $(CONTRIBNAME).tgz  $(CONTRIBNAME)/.

@@ -1,45 +1,42 @@
 ######
 #
-# HX-2018-03-17:
-# Following is a one-stop script for
-# building a new release of ATS-Postiats:
-# ${PATSHOME}/share/SCRIPT/buildRelease.sh
-#
-######
-#
 # HX-2018-03-11:
-# It is assumed that ATS-Anairiats is available!
-# It is also assumed that ATS-Postiats-contrib is available,
-# and that upstream is the git remote name of the official 
-# ATS-Postriats-contrib repo.
-# please set PATSCONTRIB to be the path to ATS-Postiats-contrib:
-# export PATSCONTRIB = <the-absolute-path-to-ATS-Postiats-contrib>
+# ATS-Anairiats(ATS1) is needed
+# for building ATS-Postiats(ATS2)!
 #
 ######
-
-Updating $PATSHOME/VERSION
-
-######
-
-Updating
-$PATSHOME/doc/DISTRIB/Makefile.atxt
-with the new version number
-
-Then please do
-
-make -f Makefile.gen
-
-to generate Makefile based on Makefile.atxt
-
-######
-
-Updating
-$PATSHOME/doc/DISTRIB/Makefile_inclats
-with the new version number
-
+#
+# First,
+# update $PATSHOME/VERSION
+#
+# which affects the following:
+# $PATSHOME/doc/DISTRIB/Makefile.atxt
+#
+# Second,
+# execute the following command-line
+#
+# make -f Makefile.gen
+#
+# to generate Makefile based on Makefile.atxt
+#
 ######
 #
 # Packaging ATS
+#
+# cd /tmp
+# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh
+# <
+# Move the following built packages to some place:
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-contrib-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-include-x.y.z.tgz
+# >
+# rm -rf /tmp/ATS-Postiats
+# rm -rf /tmp/ATS-Postiats-contrib
+#
+#######
+#
+# Releasing ATS
 #
 # Creating a release file like the following one:
 # ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.9-release.html
@@ -54,41 +51,6 @@ with the new version number
 # Updating ats-lang.org/Documents
 # Updating ats-lang.org/Community
 # Announcing to ats-lang-users@lists.sourceforge.net
-#
-######
-#
-# Key Steps for packaging ATS
-#
-######
-
-Perform prerequisites for setting up ATS2:
-  
-git clone https://github.com/githwxi/ATS-Postiats.git
-cd ATS-Postiats
-export PATSHOME=`pwd`
-
-Now run the file in this directoroy ($PATSHOME/doc/DISTRIB), make_distrib.sh.
-
-#######
-#
-# You should see the generated compressed tarballs
-# for ATS2 and ATS2-contrib and ATS2-inclats
-#
-#######
-
-ls -al doc/DISTRIB/ATS2-*.tgz
-
-#######
-#
-# The following files should be listed for some numbers
-# x, y, and z (such that ATS2-x.y.z is the version being
-# packaged)
-#
-#
-# ATS2-Postiats-x.y.z.tgz
-# ATS2-Postiats-contrib-x.y.z.tgz
-# ATS2-Postiats-include-x.y.z.tgz
-#
 #
 #######
    

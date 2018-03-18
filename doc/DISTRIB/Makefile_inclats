@@ -79,8 +79,14 @@ update2:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
 TARZVCF=tar -zvcf
 
 ######
+PATSVER=\
+$(shell cat ${PATSHOME}/VERSION)
+######
 #
-PACKNAME=ATS2-Postiats-include-0.3.10
+PACKNAME=\
+ATS2-Postiats-include-$(PATSVER)
+#
+# PACKNAME=ATS2-Postiats-include-0.3.10
 # PACKNAME=ATS2-Postiats-include-0.3.9
 # PACKNAME=ATS2-Postiats-include-0.3.8
 # PACKNAME=ATS2-Postiats-include-0.3.7
