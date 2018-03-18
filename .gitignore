@@ -196,6 +196,13 @@ libatslex/SATS/DOCUGEN/*_atxt.dats
 libatslex/SATS/DOCUGEN/HTML
 libatslex/SATS/DOCUGEN/TRYIT
 
+
+#
+# ATSHOME/share/SCRIPT
+#
+share/SCRIPT/ATS-Postiats
+share/SCRIPT/ATS-Postiats-contrib
+
 #
 # ATSHOME/doc/DISTRIB
 #
@@ -230,6 +237,7 @@ doc/DISTRIB/ATS-Postiats/ccomp/atslib/Makefile
 doc/DISTRIB/ATS-Postiats/ccomp/runtime
 doc/DISTRIB/ATS-Postiats/utils/atscc
 doc/DISTRIB/ATS-Postiats/utils/emacs
+doc/DISTRIB/ATS-Postiats/utils/myatscc
 doc/DISTRIB/ATS-Postiats/prelude/*.ats
 doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
@@ -283,10 +291,13 @@ doc/DISTRIB/ATS-Postiats-include/libats
 doc/DISTRIB/ATS-Postiats-include/ccomp
 doc/DISTRIB/ATS-Postiats-include/patscontrib
 #
-doc/DISTRIB/ATS2-Postiats-include-0.0.4
-doc/DISTRIB/ATS2-Postiats-include-0.0.5
-doc/DISTRIB/ATS2-Postiats-include-0.0.6
-doc/DISTRIB/ATS2-Postiats-include-0.0.7
+doc/DISTRIB/ATS2-Postiats-include-[0-9]*.[0-9]*.[0-9]*
+doc/DISTRIB/ATS2-Postiats-include-[0-9]*.[0-9]*.[0-9]*.tgz
+doc/DISTRIB/ATS2-Postiats-contrib-[0-9]*.[0-9]*.[0-9]*
+doc/DISTRIB/ATS2-Postiats-contrib-[0-9]*.[0-9]*.[0-9]*.tgz
+doc/DISTRIB/ATS2-Postiats-[0-9]*.[0-9]*.[0-9]*
+doc/DISTRIB/ATS2-Postiats-[0-9]*.[0-9]*.[0-9]*.tgz
+
 #
 # ATSHOME/doc/EXAMPLE
 #

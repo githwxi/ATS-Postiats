@@ -485,7 +485,8 @@ srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 
 ######
 #
-PACKNAME=ATS2-Postiats-0.3.10
+PATSVERSION=$(cat "${PATSHOME}/VERSION")
+PACKNAME=ATS2-Postiats-${PATSVERSION}
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
 atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)

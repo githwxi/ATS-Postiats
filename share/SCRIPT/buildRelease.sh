@@ -4,7 +4,7 @@
 #
 # HX-2018-03-17:
 # Created based on a version of
-# Brandon Barker
+# Brandon Barker <brandon dot barker at cornell dot edu>
 #
 # The following three packages are
 # to be built by the script
@@ -33,21 +33,39 @@ fi
 
 ######
 
+cd $PATSHOME/doc/DISTRIB 
+make -f Makefile.gen
+
+######
+
+PATSHOMEORIG=$PATSHOME
 PATSHOME=${PWD}/ATS-Postiats
 PATSCONTRIB=${PWD}/ATS-Postiats-contrib
+PATSVERSION=$(cat "${PATSHOME}/VERSION")
 
 ######
 
-$GIT clone https://github.com/githwxi/ATS-Postiats.git
+if [ ! -d "$PATSHOME" ]; then
+  $GIT clone https://github.com/githwxi/ATS-Postiats.git
+fi
+
+cd $PATSHOME && $GIT stash && $GIT checkout master && $GIT pull
 
 ######
 
-$GIT clone https://github.com/githwxi/ATS-Postiats-contrib.git
+if [ ! -d "$PATSCONTRIB" ]; then
+  $GIT clone https://github.com/githwxi/ATS-Postiats-contrib.git
+fi
+
+cd $PATSCONTRIB && $GIT stash && $GIT checkout master && $GIT pull
 
 ######
 
 (\
 cd $PATSHOME && \
+$GIT checkout "tags/v${PATSVERSION}" && \
+cp $PATSHOMEORIG/VERSION $PATSHOME/ && \
+make -f Makefile.gen && \
 make -f Makefile_devl && \
 make -C src -f Makefile CBOOT  && \
 (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \

@@ -17,25 +17,17 @@
 #
 ######
 
-Updating $PATSHOME/VERSION
+Update $PATSHOME/VERSION
 
-######
-
-Updating
+which will affect the following:
 $PATSHOME/doc/DISTRIB/Makefile.atxt
-with the new version number
+$PATSHOME/doc/DISTRIB/Makefile_inclats
 
-Then please do
+then do: 
 
 make -f Makefile.gen
 
 to generate Makefile based on Makefile.atxt
-
-######
-
-Updating
-$PATSHOME/doc/DISTRIB/Makefile_inclats
-with the new version number
 
 ######
 #
