@@ -49,9 +49,15 @@ fi
 
 ######
 
-PATSVERSION=$1
 PATSHOME=${PWD}/ATS-Postiats
 PATSCONTRIB=${PWD}/ATS-Postiats-contrib
+
+######
+
+PATSVERSION=$1
+if [ -z "$PATSVERSION" ] ;
+  then PATSVERSION=$(cat ${PATSHOME}/VERSION)
+fi
 
 ######
 
@@ -62,13 +68,12 @@ $GIT clone https://github.com/githwxi/ATS-Postiats.git \
 
 $GIT clone https://github.com/githwxi/ATS-Postiats-contrib.git \
   || (cd ATS-Postiats-contrib && git pull origin master)
+
 ######
 
 (\
 cd $PATSHOME && \
 $GIT checkout "tags/v${PATSVERSION}" && \
-echo $PATSVERSION > "${PATSHOME}/VERSION" && \
-cd doc/DISTRIB && make -f Makefile.gen && cd $PATSHOME && \
 make -f Makefile_devl && \
 make -C src -f Makefile CBOOT  && \
 (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
