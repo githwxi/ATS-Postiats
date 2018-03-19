@@ -13,10 +13,11 @@
 ######
 #
 # HX-2018-03-18:
-# Here is a typical use of this script:
+# Here is a typical use of this script (for versions 0.3.10+ of ATS only);
+# the first argument to the script is the release to be built:
 #
 # cd /tmp
-# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh
+# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh 0.3.10
 # <
 # Upload the following three built packages
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
@@ -48,21 +49,26 @@ fi
 
 ######
 
+PATSVERSION=$1
 PATSHOME=${PWD}/ATS-Postiats
 PATSCONTRIB=${PWD}/ATS-Postiats-contrib
 
 ######
 
-$GIT clone https://github.com/githwxi/ATS-Postiats.git
+$GIT clone https://github.com/githwxi/ATS-Postiats.git \
+  || (cd ATS-Postiats && git pull origin master)
 
 ######
 
-$GIT clone https://github.com/githwxi/ATS-Postiats-contrib.git
-
+$GIT clone https://github.com/githwxi/ATS-Postiats-contrib.git \
+  || (cd ATS-Postiats-contrib && git pull origin master)
 ######
 
 (\
 cd $PATSHOME && \
+$GIT checkout "tags/v${PATSVERSION}" && \
+echo $PATSVERSION > "${PATSHOME}/VERSION" && \
+cd doc/DISTRIB && make -f Makefile.gen && cd $PATSHOME && \
 make -f Makefile_devl && \
 make -C src -f Makefile CBOOT  && \
 (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
