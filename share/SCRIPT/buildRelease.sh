@@ -54,20 +54,22 @@ PATSCONTRIB=${PWD}/ATS-Postiats-contrib
 
 ######
 
+$GIT clone \
+https://github.com/githwxi/ATS-Postiats.git \
+|| (cd ATS-Postiats && $GIT pull origin master)
+
+######
+
+$GIT clone \
+https://github.com/githwxi/ATS-Postiats-contrib.git \
+|| (cd ATS-Postiats-contrib && $GIT pull origin master)
+
+######
+
 PATSVERSION=$1
 if [ -z "$PATSVERSION" ] ;
   then PATSVERSION=$(cat ${PATSHOME}/VERSION)
 fi
-
-######
-
-$GIT clone https://github.com/githwxi/ATS-Postiats.git \
-  || (cd ATS-Postiats && git pull origin master)
-
-######
-
-$GIT clone https://github.com/githwxi/ATS-Postiats-contrib.git \
-  || (cd ATS-Postiats-contrib && git pull origin master)
 
 ######
 
