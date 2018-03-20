@@ -2,7 +2,7 @@
 
 0.3.11
 
-This is the 47th release of ATS2, the successor of the
+This is the 48th release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
 the name ATS/Positats, ATS2/Postiats or simply Postiats.
 
@@ -27,6 +27,12 @@ Here is a list of major additions and changes since the last release:
 ######
 
 0.3.10
+
+------------------------------------------------
+ATS2-0.3.10.tgz:
+MD5: 19b35d935dd366bed8e064469e7fc79d
+SHA1: 935757aeb342ebf11dae2ea60ae56f7c0c2440ea
+------------------------------------------------
 
 This is the 47th release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
