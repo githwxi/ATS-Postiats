@@ -41,12 +41,16 @@
 # Creating a release file like the following one:
 # ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.9-release.html
 #
-# Uploading the following files to sourceforge
+# Uploading the following files to sourceforge and generate the md5sum and sha1sum
+# of ATS2-Postiats-x.y.z.tgz, and add these to ${PATSHOME}/CHANGE-ats2.
 #
 # ATS2-Postiats-x.y.z.tgz
 # ATS2-Postiats-contrib-x.y.z.tgz
 # ATS2-Postiats-include-x.y.z.tgz
 # ats2-postiats-x.y.z-release.html
+#
+# The changes for the above release.html file can be found in
+# ${PATSHOME}/CHANGE-ats2.
 #
 # Updating ats-lang.org/Documents
 # Updating ats-lang.org/Community
