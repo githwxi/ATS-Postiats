@@ -112,6 +112,10 @@ The ATSLIB/prelude library\
 
 (* ****** ****** *)
 
+#packfilename("codegen2.sats")
+
+(* ****** ****** *)
+
 #packfilename("CATS/basics.cats")
 
 (* ****** ****** *)

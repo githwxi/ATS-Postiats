@@ -36,9 +36,9 @@ stdenv.mkDerivation rec {
   buildPhase = ''
     make -C src all
     make -C src CBOOT
-    make -C src/CBOOT/prelude
     make -C src/CBOOT/libc
     make -C src/CBOOT/libats
+    make -C src/CBOOT/prelude
     make -C doc/DISTRIB atspackaging
     make -C doc/DISTRIB atspacktarzvcf
   '';

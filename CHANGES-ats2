@@ -63,6 +63,10 @@ Here is a list of major additions and changes since the last release:
 3. Adding libats/ML/SATS/argvec.sats and libats/ML/SATS/argvec.dats
 4. Adding share/SCRIPT/buildRelease.sh to automate build/release ATS
 
+Acknowledgment:
+
+Thanks to Lance Galletti and Wei Jiang for helping test this release.
+
 ######
 
 0.3.9
