@@ -122,7 +122,8 @@ val len = string_length(dir)
 in
 //
 if
-strncmp(given, dir, len) = 0
+strncmp
+(given, dir, len) = 0
 then 0(*loc*)
 else
 (
@@ -245,16 +246,19 @@ fprint_filename (out, fil) =
 
 implement
 print_filename_full
-  (fil) = fprint_filename_full (stdout_ref, fil)
+  (fil) =
+  fprint_filename_full(stdout_ref, fil)
 implement
 prerr_filename_full
-  (fil) = fprint_filename_full (stderr_ref, fil)
+  (fil) =
+  fprint_filename_full(stderr_ref, fil)
 implement
 fprint_filename_full
   (out, fil) = let
-  val fname = $SYM.symbol_get_name (fil.filename_fullname)
+  val fname =
+  $SYM.symbol_get_name(fil.filename_fullname)
 in
-  fprint_string (out, fname)
+  fprint_string(out, fname)
 end // end of [fprint_filename_full]
 
 (* ****** ****** *)
@@ -266,14 +270,14 @@ fprint2_filename_full
 val given =
   fil.filename_givename
 val ngurl =
-  givename_get_ngurl (given)
+  givename_get_ngurl(given)
 val fname =
-  $SYM.symbol_get_name (fil.filename_fullname)
+  $SYM.symbol_get_name(fil.filename_fullname)
 //
 in
 //
 if ngurl < 0
-  then fprint_string (out, fname)
+  then fprint_string(out, fname)
   else fprintf(out, "%s(%s)", @(fname, given))
 // end of [if]
 //
@@ -516,6 +520,28 @@ dirs_process{n:nat}
 *)
 in
   case+ dirs of
+  | ~list_vt_nil
+      () => let
+      fun
+      loop{i,j:nat}
+      (
+        pardir: string
+      , npar: int(i), res: list_vt(strptr1, j)
+      ) : list_vt (strptr1, i+j) =
+        if npar > 0 then let
+          val dir =
+            string1_of_string (pardir)
+          // end of [val]
+          val n = string1_length(dir)
+          val dir = string_make_substring(dir, 0, n)
+          val dir = strptr_of_strbuf(dir)
+        in
+          loop(pardir, npar - 1, list_vt_cons(dir, res))
+        end else res // end of [if]
+      // end of [loop]
+    in
+      loop(pardir, npar, res)
+    end (* end of [list_vt_nil] *)
   | ~list_vt_cons
       (dir, dirs) => (
       if (p2s)dir = curdir then let
@@ -534,28 +560,6 @@ in
         end (* end of [if] *)
       ) // end of [if]
     ) (* end of [list_vt_cons] *)
-  | ~list_vt_nil () => let
-      fun
-      loop{i,j:nat}
-      (
-        pardir: string
-      , npar: int i, res: list_vt (strptr1, j)
-      ) : list_vt (strptr1, i+j) =
-        if npar > 0 then let
-          val dir =
-            string1_of_string (pardir)
-          // end of [val]
-          val n = string1_length (dir)
-          val dir = string_make_substring (dir, 0, n)
-          val dir = strptr_of_strbuf (dir)
-        in
-          loop (pardir, npar - 1, list_vt_cons (dir, res))
-        end else res
-        (* end of [if] *)
-      // end of [loop]
-    in
-      loop (pardir, npar, res)
-    end (* end of [list_vt_nil] *)
 end // end of [dirs_process]
 //
 val dirsep = theDirSep_get()
@@ -860,8 +864,8 @@ local
 assume
 the_pathlst_push_v = unit_v
 //
-val the_pathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
-val the_prepathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
+val the_pathlst = ref_make_elt<pathlst_vt>(list_vt_nil)
+val the_prepathlst = ref_make_elt<pathlst_vt>(list_vt_nil)
 //
 in (* in of [local] *)
 
@@ -997,7 +1001,7 @@ val ((*void*)) = !p := xs
 (* ****** ****** *)
 
 implement
-the_prepathlst_push (x) = let
+the_prepathlst_push(x) = let
 //
 val
 (
@@ -1005,7 +1009,7 @@ val
 ) = ref_get_view_ptr(the_prepathlst)
 //
 in
-  !p := list_vt_cons (x, !p)
+  !p := list_vt_cons(x, !p)
 end // end of [the_prepathlst_push]
 
 (* ****** ****** *)
@@ -1141,7 +1145,7 @@ aux2_try
 )
 // end of [val]
 //
-// HX-2018-11-11:
+// HX-2018-01-11:
 // calling the_pathlst_set is
 // needed for the_pathlst being linear
 //
@@ -1351,12 +1355,12 @@ case+ knd of
   )
 //
 | _ (*external*) => let
-    val
-    opt = stropt_none(*void*)
 (*
     val
-    opt = aux_try_pathlst(given)
+    opt = stropt_none(*void*)
 *)
+    val
+    opt = aux_try_pathlst(given)
   in
     if stropt_is_some(opt) then opt else aux_try_prepathlst(given)
   end // end of [_]

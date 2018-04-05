@@ -222,7 +222,7 @@ class="keyword">(</span><span class="staexp">n</span><span
 class="keyword">,</span> <span class="staexp">r0</span><span
 class="keyword">)</span><span class="keyword">,</span> <span
 class="staexp">FIB</span> <span class="keyword">(</span><span
-class="staexp">n</span><span class="keyword">,</span> <span
+class="staexp">n+1</span><span class="keyword">,</span> <span
 class="staexp">r1</span><span class="keyword">)</span><span
 class="keyword">)</span> <span class="staexp"><span
 class="keyword">-&gt;</span></span> <span class="staexp">FIB</span> <span

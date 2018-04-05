@@ -24,6 +24,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
+1. Re-enabling the support for -IATS
+
 ######
 
 0.3.10

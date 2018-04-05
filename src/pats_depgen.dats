@@ -87,32 +87,41 @@ loop
 ps: List(string), given: string
 ) : Option_vt(string) = let
 (*
-val () = printf("pathtry_givename: loop\n")
+val () =
+printf("pathtry_givename: loop\n")
 *)
 in
   case+ ps of
+  | list_nil
+      () => None_vt()
+    // end of [list_nil]
   | list_cons 
       (p, ps) => let
       val pname =
-        $FIL.filename_append(p, given)
-      // end of [val]
+      $FIL.filename_append(p, given)
 (*
       val test = true
 *)
-      val test = test_file_exists((p2s)pname)
+      val test =
+        test_file_exists((p2s)pname)
+      // end of [val]
     in
-      if test then let
-        val pname_norm = $FIL.path_normalize((p2s)pname)
-        val () = strptr_free (pname)
+      if
+      (test)
+      then let
+        val
+        pname_norm =
+        $FIL.path_normalize((p2s)pname)
+        val ((*freed*)) = strptr_free(pname)
       in
-        Some_vt (pname_norm)
-      end else let
-        val () = strptr_free(pname)
-      in
-        loop (ps, given)
-      end // end of [if]
+        Some_vt(pname_norm)
+      end // end of [then]
+      else
+      loop(ps, given) where
+      {
+        val ((*freed*)) = strptr_free(pname)
+      } (* end of [else] *)
     end // end of [list_cons]
-  | list_nil((*void*)) => None_vt()
 end // end of [loop]
 //
 val knd = $FIL.givename_srchknd(given)
@@ -120,22 +129,36 @@ val knd = $FIL.givename_srchknd(given)
 in
 //
 case+ knd of
-| 0 (*local*) => let
-    val fil = $FIL.filename_get_current()
-    val pname = $FIL.filename_get_partname(fil)
-    val pname2 = $FIL.filename_merge(pname, given)
-    val isexi = test_file_exists((p2s)pname2)
+//
+| 0 => let // local: ./<filename>
+    val fil =
+      $FIL.filename_get_current()
+    val pname =
+      $FIL.filename_get_partname(fil)
+    val pname2 =
+      $FIL.filename_merge(pname, given)
+    val isexi =
+      test_file_exists((p2s)pname2)
   in
     if isexi then let
-      val pname2_norm = $FIL.path_normalize((p2s)pname2)
-      val () = strptr_free (pname2)
+      val pname2_norm =
+        $FIL.path_normalize((p2s)pname2)
+      val ((*freed*)) = strptr_free(pname2)
     in
       Some_vt(pname2_norm)
     end else let
-      val () = strptr_free(pname2) in None_vt()
-    end // end of [if]
+      val ((*freed*)) =
+        strptr_free(pname2) in None_vt()
+    end // end of [else]
   end // end of [0]
-| _ (*extern*) => loop($GLOB.the_IATS_dirlst_get(), given)
+//
+| 1 => None_vt() // $PATSHOMELOCS
+//
+(*
+| _ (*non-local*) => None_vt(*void*)
+*)
+| _ (*non-local*) =>
+    loop($GLOB.the_IATS_dirlst_get(), given)
 //
 end // end of [pathtry_givename]
 
@@ -153,7 +176,7 @@ pathtry_staloadarg(arg) =
   | STLDfname
       (loc, name) => pathtry_givename(name)
     // end of [STLDfname]
-  | _ => None_vt (*void*)
+  | _(*non-STLDfname*) => None_vt((*void*))
 ) (* end of [pathtry_staloadarg] *)
 //
 (* ****** ****** *)
@@ -245,10 +268,13 @@ case+
     // nothing
   end // end of [D0Esifhead]
 //
-| D0Elst(lin, elt, d0e) => depgen_d0exp (d0e, res)
-| D0Etup(knd, npf, d0es) => depgen_d0explst (d0es, res)
-| D0Erec(knd, npf, ld0es) => depgen_labd0explst (ld0es, res)
-| D0Eseq(d0es) => depgen_d0explst (d0es, res)
+| D0Eseq(d0es) => depgen_d0explst(d0es, res)
+//
+| D0Elst(lin, elt, d0e) => depgen_d0exp(d0e, res)
+//
+| D0Etup(knd, npf, d0es) => depgen_d0explst(d0es, res)
+//
+| D0Erec(knd, npf, ld0es) => depgen_labd0explst(ld0es, res)
 //
 | _ (* rest-of-d0exp *) => ((*nothing*))
 //

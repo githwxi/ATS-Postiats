@@ -199,30 +199,30 @@ case+ 0 of
     c1 = '$' => let
     val start = $UN.cast2size(2)
     val length = $UN.cast2size(ngurl - 3)
-    val key = my_make_substring (given, start, length)
+    val key = my_make_substring(given, start, length)
     val key2 =
-      sprintf ("%s_targetloc", @($UN.castvwtp1{string}(key)))
+      sprintf("%s_targetloc", @($UN.castvwtp1{string}(key)))
     // end of [val]
-    val () = strptr_free (key)
-    val key2 = string_of_strptr (key2)
+    val () = strptr_free(key)
+    val key2 = string_of_strptr(key2)
 (*
     val () = println! ("key2 = ", key2)
 *)
-    val key2 = $SYM.symbol_make_string (key2)
-    val opt2 = $TRENV1.the_e1xpenv_find (key2)
+    val key2 = $SYM.symbol_make_string(key2)
+    val opt2 = $TRENV1.the_e1xpenv_find(key2)
   in
     case+ opt2 of
-    | ~None_vt () =>
-        pkgsrcname_get_gurl1 (given, ngurl)
+    | ~None_vt() =>
+        pkgsrcname_get_gurl1(given, ngurl)
       // end of [None_vt]
-    | ~Some_vt (e) => (
+    | ~Some_vt(e) => (
         case+ e.e1xp_node of
-        | $S1E.E1XPstring (x) => my_copy_string (x)
-        | _ (*non-E1XPstring*) => pkgsrcname_get_gurl1 (given, ngurl)
+        | $S1E.E1XPstring(x) => my_copy_string(x)
+        | _ (*non-E1XPstring*) => pkgsrcname_get_gurl1(given, ngurl)
       ) (* end of [Some_vt] *)
   end // end of [variable]
 //
-| _ (*nonvariable*) => pkgsrcname_get_gurl1 (given, ngurl)
+| _ (*nonvariable*) => pkgsrcname_get_gurl1(given, ngurl)
 //
 end // end of [pkgsrcname_get2_gurl1]
 
@@ -281,7 +281,7 @@ val c0 = $UN.ptr0_get<char>(p0)
 (*
 val () =
 println!
-  ("pkgsrcname_eval: auxeval1: given = ", given)
+("pkgsrcname_eval: auxeval1: given = ", given)
 *)
 in
 //
