@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-PwTP-bool-vs-prop</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Two Styles of Theorem-Proving in ATS
+</h1>
+
+<p>
+In this article, I present two styles of theorem-proving in ATS,
+illustrating through concrete examples the key relation between the
+two fundamentally different sorts <span style="color: #0000F0;">bool</span> and
+<span style="color: #0000F0;">prop</span>.  For the entirety of the code used in this
+presentation, please see the file <u>bool-vs-prop.dats</u>.
+</p>
+
+<p>
+Let us start with an example.
+A function <span style="color: #F00000;">fib</span> can be specified as follows for computing
+Fibonacci numbers:
+
+<pre
+class="patsyntax"
+style="color:#0000F0;"
+>
+fib(0)   = 0
+fib(1)   = 1
+fib(n+2) = fib(n) + fib(n+1) for n >= 0
+</pre>
+
+The following code gives a direct implementation of this specified function in ATS:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+fib <span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">2</span> <span class="keyword">then</span> fib <span class="keyword">(</span>n-<span class="dynexp">2</span><span class="keyword">)</span> + fib <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> n</span>
+<span class="comment">// end of [fib]</span>
+</pre>
+
+Clearly, this is a terribly inefficient implementation of exponential time-complexity. An implementation of fib in C is given as follows that is of linear time-complexity:
+
+<pre
+class="patsyntax"
+style="color:#000000;"
+>
+int
+fibc (int n) {
+  int tmp, f0 = 0, f1 = 1 ;
+  while (n-- > 0) { tmp = f1 ; f1 = f0 + f1 ; f0 = tmp ; } ; return f0 ;
+} // end of [fibc]
+</pre>
+
+If translated into ATS, the function fibc can essentially be
+implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+fibc <span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">fun</span> loop <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> f0<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> f1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span> <span class="keyword">=</span>
+    <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> loop <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">,</span> f1<span class="keyword">,</span> f0+f1<span class="keyword">)</span> <span class="keyword">else</span> f0</span>
+  <span class="comment">// end of [loop]</span>
+<span class="keyword">in</span>
+  loop <span class="keyword">(</span>n<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [fibc]</span>
+</pre>
+
+There is obviously a logic gap between the definition of fib and its
+implementation as is embodied in fibc.
+
+</p><!--para-->
+
+<p>
+In ATS, an implementation of fib can be given that completely bridges
+this gap.  In order to do so, the specification of fib needs to be
+encoded into ATS, which is fulfilled by the declaration of the following dataprop:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">dataprop</span>
+<span class="staexp">fib_p<span class="keyword">(</span>int<span class="keyword">,</span> int<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">|</span> <span class="prfexp">fib_p_bas0<span class="keyword">(</span><span class="staexp">0</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span> <span class="keyword">of</span> <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">|</span> <span class="prfexp">fib_p_bas1<span class="keyword">(</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span> <span class="keyword">of</span> <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">|</span> <span class="prfexp"><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>r0<span class="keyword">,</span>r1<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  fib_p_ind2<span class="keyword">(</span><span class="staexp">n</span><span class="staexp">+</span><span class="staexp">2</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="staexp">+</span><span class="staexp">r1</span><span class="keyword">)</span> <span class="keyword">of</span> <span class="keyword">(</span><span class="staexp">fib_p</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">fib_p</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">r1</span><span class="keyword">)</span><span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that <span style="color: #0000F0;">fib_p</span> is a prop constructor, where prop means
+<em>type for proofs</em>.  Given two static integer terms
+<span style="color: #0000F0;">N</span> and <span style="color: #0000F0;">R</span>, <span style="color: #0000F0;">fib_p</span> forms the prop
+<span style="color: #0000F0;">fib_p(N, R)</span>, which basically means that <span style="color: #0000F0;">fib(N)</span>
+equals <span style="color: #0000F0;">R</span>.
+
+</p><!--para-->
+
+<p>
+There is a predicate <span style="color: #0000F0;">fib_b</span> corresponding to <span style="color: #0000F0;">fib_p</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">stacst</span> fib_b <span class="keyword">:</span> <span class="keyword">(</span>int<span class="keyword">,</span> int<span class="keyword">)</span> <span class="keyword">-&gt;</span> bool</span>
+<span class="comment">//</span>
+</pre>
+
+Given two static integer terms <span style="color: #0000F0;">N</span> and <span style="color: #0000F0;">R</span>,
+the boolean term <span style="color: #0000F0;">fib_b(N, R)</span> corresponds to the prop
+<span style="color: #0000F0;">fib_p(N, R)</span>. Also, the following three proof functions
+correspond to the three proof constructors associated with <span style="color: #0000F0;">fib_p</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="comment">// Note: unit_p is the unit prop</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+fib_b_bas0<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>fib_b<span class="keyword">(</span>0<span class="keyword">,</span> 0<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">unit_p</span></span>
+<span class="keyword">extern</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+fib_b_bas1<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>fib_b<span class="keyword">(</span>1<span class="keyword">,</span> 1<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">unit_p</span></span>
+<span class="keyword">extern</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+fib_b_ind2
+<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>r0<span class="keyword">,</span>r1<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span>
+  <span class="staexp"><span class="keyword">[</span>fib_b<span class="keyword">(</span>n<span class="keyword">,</span> r0<span class="keyword">)</span>&amp;&amp;fib_b<span class="keyword">(</span>n+1<span class="keyword">,</span> r1<span class="keyword">)</span> -&gt;&gt; fib_b<span class="keyword">(</span>n+2<span class="keyword">,</span> r0+r1<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">unit_p</span></span>
+<span class="comment">//</span>
+</pre>
+
+The syntax for the interface assigned to
+<span style="color: #F00000;">fib_b_ind2</span> may need some explanation here: It basically states
+<span style="color: #F00000;">fib_b_ind2</span> being a proof function that asserts
+the conjunction of <span style="color: #0000F0;">fib_b(n, r0)</span> and <span style="color: #0000F0;">fib_b(n+1, r1)</span>
+implying <span style="color: #0000F0;">fib_b(n+2, r0+r1)</span> for any natural number <span style="color: #0000F0;">n</span>
+and integers <span style="color: #0000F0;">r0</span> and <span style="color: #0000F0;">r1</span>.
+
+</p><!--para-->
+
+<p>
+The following code gives a verified implementation of the fib function
+specified above:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+f_fib_p
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+  <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int<span class="keyword">]</span></span> <span class="keyword">(</span><span class="staexp">fib_p</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">|</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+f_fib_p<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+loop
+<span class="staexp"><span class="keyword">{</span> i<span class="keyword">:</span>nat
+<span class="keyword">|</span> i <span class="keyword">&lt;</span> n <span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span> r0<span class="keyword">,</span>r1<span class="keyword">:</span>int <span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="prfexp">pf0<span class="keyword">:</span> <span class="staexp">fib_p</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">,</span> <span class="staexp">r0</span><span class="keyword">)</span></span>
+<span class="keyword">,</span> <span class="prfexp">pf1<span class="keyword">:</span> <span class="staexp">fib_p</span><span class="keyword">(</span><span class="staexp">i</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">r1</span><span class="keyword">)</span></span>
+<span class="keyword">|</span> i<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span>
+<span class="keyword">,</span> r0<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r0</span><span class="keyword">)</span><span class="keyword">,</span> r1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r1</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int<span class="keyword">]</span></span>
+  <span class="keyword">(</span><span class="staexp">fib_p</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span><span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">|</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> i+<span class="dynexp">1</span> <span class="keyword">&lt;</span> n
+  <span class="keyword">then</span> loop<span class="keyword">(</span><span class="prfexp">pf1</span><span class="keyword">,</span> <span class="prfexp">fib_p_ind2<span class="keyword">(</span>pf0<span class="keyword">,</span> pf1<span class="keyword">)</span></span> <span class="keyword">|</span> i+<span class="dynexp">1</span><span class="keyword">,</span> r1<span class="keyword">,</span> r0+r1<span class="keyword">)</span>
+  <span class="keyword">else</span> <span class="keyword">(</span><span class="prfexp">pf1</span> <span class="keyword">|</span> r1<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [loop]</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> pf0 <span class="keyword">=</span> fib_p_bas0<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> pf1 <span class="keyword">=</span> fib_p_bas1<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">1</span> <span class="keyword">then</span> loop<span class="keyword">(</span><span class="prfexp">pf0</span><span class="keyword">,</span> <span class="prfexp">pf1</span> <span class="keyword">|</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> <span class="keyword">(</span><span class="prfexp">pf0</span> <span class="keyword">|</span> <span class="dynexp">0</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [f_fib_p]</span>
+<span class="comment">//</span>
+</pre>
+
+The interface assigned to <span style="color: #F00000;">f_fib_p</span> indicates that
+<span style="color: #F00000;">f_fib_p</span> takes a natural number <span style="color: #F00000;">n</span> to return
+an integer <span style="color: #F00000;">r</span> paired with a proof of the prop <span style="color: #0000F0;">fib_p(n, r)</span>.
+In other words, the integer returned from a call to <span style="color: #F00000;">f_fib_p</span>
+on the natural number <span style="color: #F00000;">n</span> always equals the value of fib defined on
+the number.
+
+</p><!--para-->
+
+<p>
+The style of theorem-proving in the implementation of
+<span style="color: #F00000;">f_fib_p</span> is often labeled as being explicit as it makes
+explicit use of proofs. There is another style of theorem-proving
+supported in ATS that may be labeled as being implicit (due to its
+making no use of explicit proofs). For instance, the following code
+gives another verified implementaion of the fib function, where
+theorem-proving is done implicitly:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+f_fib_b
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+  <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int<span class="keyword">]</span></span> <span class="keyword">(</span><span class="staexp">fib_b</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">,</span> <span class="staexp">r</span><span class="keyword">)</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+f_fib_b<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp"><span class="keyword">$solver_assert</span><span class="keyword">(</span>fib_b_bas0<span class="keyword">)</span></span></span>
+<span class="prfexp"><span class="keyword">prval</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp"><span class="keyword">$solver_assert</span><span class="keyword">(</span>fib_b_bas1<span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+loop
+<span class="staexp"><span class="keyword">{</span> i<span class="keyword">:</span>nat <span class="keyword">|</span> i <span class="keyword">&lt;</span> n <span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span> r0<span class="keyword">,</span>r1<span class="keyword">:</span>int
+<span class="keyword">|</span> fib_b<span class="keyword">(</span>i<span class="keyword">,</span>r0<span class="keyword">)</span><span class="keyword">;</span> fib_b<span class="keyword">(</span>i+1<span class="keyword">,</span>r1<span class="keyword">)</span> <span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  i<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span>
+<span class="keyword">,</span> r0<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r0</span><span class="keyword">)</span><span class="keyword">,</span> r1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r1</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">:</span>int <span class="keyword">|</span> fib_b<span class="keyword">(</span>n<span class="keyword">,</span>r<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">r</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp"><span class="keyword">$solver_assert</span><span class="keyword">(</span>fib_b_ind2<span class="keyword">{</span>i<span class="keyword">}</span><span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> i+<span class="dynexp">1</span> <span class="keyword">&lt;</span> n
+  <span class="keyword">then</span> loop<span class="keyword">(</span>i+<span class="dynexp">1</span><span class="keyword">,</span> r1<span class="keyword">,</span> r0+r1<span class="keyword">)</span> <span class="keyword">else</span> r1
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [loop]</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">1</span> <span class="keyword">then</span> loop<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> <span class="dynexp">0</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [f_fib_b]</span>
+<span class="comment">//</span>
+</pre>
+
+Applying the keyword <span style="color: #F00000;">$solver_assert</span> to a proof indicates
+the need to turn the prop of the proof into a static boolean term (of
+the same meaning) and then add the term as an assumption (to be used
+by the underlying constraint-solver for solving the subsequent constraints
+generated in the same scope).
+
+The first and second calls to <span style="color: #F00000;">$solver_assert</span> add
+<span style="color: #0000F0;">fib_b(0, 0)</span> and <span style="color: #0000F0;">fib_b(1, 1)</span>, respectively.
+The third one adds the following assumption:
+
+<pre
+class="patsyntax"
+style="color:#0000F0;"
+>
+{r0,r1:int} fib_b(i, r0)&&fib_b(i+1, r1) ->> fib_b(i+2, r0+r1)
+</pre>
+
+which states that the conjunction of <span style="color: #0000F0;">fib_b(i, r0)</span> and
+<span style="color: #0000F0;">fib_b(i+1, r1)</span> implies <span style="color: #0000F0;">fib_b(i+2, r0+r1)</span> for
+every pair of integers <span style="color: #0000F0;">r0</span> and <span style="color: #0000F0;">r1</span>. Please note that
+<span style="color: #0000F0;">i</span> is a free variable and it is not quantified here.
+
+</p><!--para-->
+
+<p>
+Currently, the constraints generated from typechecking the
+implementation of <span style="color: #F00000;">f_fib_b</span> cannot be solved by the built-in
+constraint-solver of ATS/Postiats. One option is to first export these
+constraints and then invoke the command <em>patsolve_z3</em> to
+solve them, where patsolve_z3 is a utility for employing <a
+href="https://github.com/Z3Prover/z3">Z3</a> to solve constraints
+generated from typechecking ATS source. Please find more details in
+the provided <u>Makefile</u>.
+
+</p><!--para-->
+
+<p>
+Which style of theorem-proving is preferred: explicit or implicit?  It
+really depends on what needs to be proven. My personal opinion is to
+use the latter for "easy" stuff while the former for more "difficult"
+stuff. I strongly encourage a non-expert to first try theorem-proving of
+explicit style.
+
+</p><!--para-->
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

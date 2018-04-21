@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-Producer-Consumer</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Readers-and-Writers
+</h1>
+
+In general, ATS shines much more brightly in contexts where dynamic testing
+becomes more difficult to perform and/or control.  In this article, I
+present in ATS an implementation of the classic Readers-and-Writers problem
+in concurrent programming.
+
+<h2>
+Description of the Problem 
+</h2>
+
+The Readers-and-Writers problem models access to a database.  In order for
+a process to read from the database, the process must be granted a
+read-access. In order for it to write to the database, it must be granted a
+write-access.  It is not allowed for a read-access and a write-access to be
+granted at the same time.  While multiple read-accesses can be granted
+simultaneously, only one write-access can be granted at a time.
+
+<h2>
+Interface for Database Access
+</h2>
+
+Following is an abstract interface for accessing database:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">abstype</span> DB <span class="keyword">=</span> ptr</span>
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">absview</span> DBread_v</span>
+<span class="staexp"><span class="keyword">absview</span> DBwrite_v</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> DBread <span class="keyword">(</span><span class="prfexp">pf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBread_v</span></span> <span class="keyword">|</span> db<span class="keyword">:</span> <span class="staexp">DB</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">fun</span> DBwrite <span class="keyword">(</span><span class="prfexp">pf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBwrite_v</span></span> <span class="keyword">|</span> db<span class="keyword">:</span> <span class="staexp">DB</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+For calling <span style="color: #F00000;">DBread</span> to
+read from a database, a proof of the (abstract) view <span style="color: #0000F0;">DBread_v</span> is needed.
+For calling <span style="color: #F00000;">DBwrite</span> to
+write into a database, a proof of the (abstract) view <span style="color: #0000F0;">DBwrite_v</span> is needed.
+
+<h2>
+Databases-with-state
+</h2>
+
+Let us introduce a linear abstract type <span style="color: #0000F0;">DBshell</span> for a database
+with some linear state:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">absvtype</span>
+DBshell <span class="keyword">(</span>r<span class="keyword">:</span> int<span class="keyword">,</span> w<span class="keyword">:</span> int<span class="keyword">)</span> <span class="keyword">=</span> ptr</span>
+<span class="comment">//</span>
+<span class="keyword">vtypedef</span> <span class="staexp">DBshell <span class="keyword">=</span> <span class="staexp"><span class="keyword">[</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">]</span></span> <span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Given integer r and w, a value of the type <span style="color: #0000F0;">DBshell(r, w)</span>
+is referred to as a database-with-state in which the associated
+database is currently granting r read-accesses and w
+write-accesses. The following two proof functions mention explicitly
+some constraints on parameters r and w:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+lemma_DBshell_param
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span><span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>0 &lt;= r<span class="keyword">;</span> 0 &lt;= w<span class="keyword">;</span> w &lt;= 1<span class="keyword">]</span></span> <span class="staexp">void</span></span>
+<span class="prfexp"><span class="keyword">praxi</span>
+lemma_DBshell_param2
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span><span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>r == 0 || <span class="keyword">(</span>r <span class="keyword">&gt;</span> 0 &amp;&amp; w == 0<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+Given a type <span style="color: #0000F0;">DBshell(r, w)</span>, the proof function
+<span style="color: #F00000;">lemma_DBshell_param</span> states that r is a natural number and
+w is between 0 and 1, inclusive; the proof function
+<span style="color: #F00000;">lemma_DBshell_param2</span> states that w must equal 0 if r is
+positive.
+
+<p>
+
+Some functions on databases-with-state are listed as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_dbget <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">DB</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_nread <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_nwrite <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">(</span><span class="staexp">w</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Clearly, <span style="color: #F00000;">DBshell_dbget</span> is meant to return the database
+associated with a given database-with-state. As for
+<span style="color: #F00000;">DBshell_nread</span> and <span style="color: #F00000;">DBshell_nwrite</span>, they can be
+called on a database-with-state of type <span style="color: #0000F0;">DBshell(r, w)</span> to
+obtain the values of r and w, respectively.
+
+<h2>
+Encoding the Policy for Database Access
+</h2>
+
+The policy for database access is formally encoded in the types
+of the following declared functions:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_acquire_read
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">DBread_v</span> <span class="keyword">|</span> <span class="staexp">void</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_release_read
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span><span class="prfexp">pf<span class="keyword">:</span> <span class="staexp">DBread_v</span></span> <span class="keyword">|</span> x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_acquire_write
+  <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">0</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">0</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">DBwrite_v</span> <span class="keyword">|</span> <span class="staexp">void</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> DBshell_release_write
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span><span class="prfexp">pf<span class="keyword">:</span> <span class="staexp">DBwrite_v</span></span> <span class="keyword">|</span> x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+A proof of the view <span style="color: #0000F0;">DBread_v</span> is needed for reading from a database.  In
+order to obtain it, <span style="color: #F00000;">DBshell_acquire_read</span> needs to be called on a
+database-with-state that is currently granting no write-access.  Similarly,
+a proof of the view <span style="color: #0000F0;">DBwrite_v</span> is needed for writing to a database.  In
+order to obtain it, <span style="color: #F00000;">DBshell_acquire_write</span> needs to be called on a
+database-with-state that is currently granting neither read-access nor
+write-access.
+
+<h2>
+Shared Databases-with-state
+</h2>
+
+
+A shared database-with-state essentially wraps a protection mechanism
+around a database-with-state. Let
+introduce a non-linear abstract type <span style="color: #0000F0;">SDBshell</span> for shared databases-with-state:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abstype</span> SDBshell <span class="keyword">=</span> ptr</span>
+</pre>
+
+As can be expected, there is a mutex for protecting the database-with-state
+inside a shared database-with-state.  The following two functions can be called
+to acquire/release the protected database-with-state:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_acquire <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">DBshell</span></span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_release <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp">DBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+Let us now see an implementation of the following declared functions:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_acquire_read <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">DBread_v</span> <span class="keyword">|</span> <span class="staexp">void</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_release_read <span class="keyword">(</span><span class="prfexp">pf<span class="keyword">:</span> <span class="staexp">DBread_v</span></span> <span class="keyword">|</span> sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_acquire_write <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">DBwrite_v</span> <span class="keyword">|</span> <span class="staexp">void</span><span class="keyword">)</span></span> 
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_release_write <span class="keyword">(</span><span class="prfexp">pf<span class="keyword">:</span> <span class="staexp">DBwrite_v</span></span> <span class="keyword">|</span> sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+which can be called to safely support database access in concurrent
+programming (without causing race conditions).
+
+<p>
+
+There is a conditional variable (CV) inside a shared database-with-state.
+The following function <span style="color: #F00000;">SDBshell_wait_read</span> can be called by a process to
+wait on the CV if it wants to read but the database is currently granting a
+write-access to another process:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_wait_read
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">:</span>int<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">DBshell</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end of [SDBshell_wait_read]</span>
+<span class="comment">//</span>
+</pre>
+
+Similarly,
+the following function <span style="color: #F00000;">SDBshell_wait_write</span> can be called by a process to
+wait on the CV if it wants to write but the database is currently granting a
+read-access or write-access to another process:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_wait_write
+  <span class="staexp"><span class="keyword">{</span>r<span class="keyword">,</span>w<span class="keyword">:</span>int <span class="keyword">|</span> r+w &gt;= 1<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="keyword">(</span><span class="staexp">r</span><span class="keyword">,</span> <span class="staexp">w</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">DBshell</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end of [SDBshell_wait_write]</span>
+</pre>
+
+In order to wake up a process waiting on the conditional variable, the
+following function <span style="color: #F00000;">SDBshell_signal</span> can be called:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span> <span class="dynexp"><span class="keyword">fun</span> SDBshell_signal <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+Furthermore, two auxiliary functions are declared as follows to facilitate
+the implementation of <span style="color: #F00000;">SDBshell_acquire_read</span> and <span style="color: #F00000;">SDBshell_acquire_write</span>:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_acquire_read2
+  <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">_</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">DBread_v</span> <span class="keyword">|</span> <span class="staexp">void</span><span class="keyword">)</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> SDBshell_acquire_write2
+  <span class="keyword">(</span>sx<span class="keyword">:</span> <span class="staexp">SDBshell</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">DBshell</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">_</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">DBwrite_v</span> <span class="keyword">|</span> <span class="staexp">void</span><span class="keyword">)</span></span>
+</pre>
+
+The following code implements <span style="color: #F00000;">SDBshell_acquire_read</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+SDBshell_acquire_read
+  <span class="keyword">(</span>sx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> x <span class="keyword">=</span> SDBshell_acquire <span class="keyword">(</span>sx<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_acquire_read2 <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_release <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+SDBshell_acquire_read2
+  <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  lemma_DBshell_param <span class="keyword">(</span>x<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> w <span class="keyword">=</span> DBshell_nwrite <span class="keyword">(</span>x<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> w <span class="keyword">=</span> <span class="dynexp">0</span>
+  <span class="keyword">then</span> DBshell_acquire_read <span class="keyword">(</span>x<span class="keyword">)</span>
+  <span class="keyword">else</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_wait_read <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span> <span class="keyword">in</span> SDBshell_acquire_read2 <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [SDBshell_acquire_read2]</span>
+</pre>
+
+The following code implements <span style="color: #F00000;">SDBshell_release_read</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+SDBshell_release_read
+  <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> sx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> x <span class="keyword">=</span> SDBshell_acquire <span class="keyword">(</span>sx<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> DBshell_release_read <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> x<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> r <span class="keyword">=</span> DBshell_nread <span class="keyword">(</span>x<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+    <span class="keyword">if</span> r <span class="keyword">=</span> <span class="dynexp">0</span>
+      <span class="keyword">then</span> SDBshell_signal <span class="keyword">(</span>sx<span class="keyword">)</span></span>
+    <span class="comment">// end of [if]</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_release <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+</pre>
+
+The following code implements <span style="color: #F00000;">SDBshell_acquire_write</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+SDBshell_acquire_write
+  <span class="keyword">(</span>sx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> x <span class="keyword">=</span> SDBshell_acquire <span class="keyword">(</span>sx<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_acquire_write2 <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_release <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+SDBshell_acquire_write2
+  <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  lemma_DBshell_param <span class="keyword">(</span>x<span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  lemma_DBshell_param2 <span class="keyword">(</span>x<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> r <span class="keyword">=</span> DBshell_nread <span class="keyword">(</span>x<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> r <span class="keyword">=</span> <span class="dynexp">0</span>
+  <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> w <span class="keyword">=</span> DBshell_nwrite <span class="keyword">(</span>x<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    <span class="keyword">if</span> w <span class="keyword">=</span> <span class="dynexp">0</span>
+      <span class="keyword">then</span> DBshell_acquire_write <span class="keyword">(</span>x<span class="keyword">)</span>
+      <span class="keyword">else</span> <span class="keyword">let</span>
+        <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_wait_write <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+      <span class="keyword">in</span>
+        SDBshell_acquire_write2 <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span>
+      <span class="keyword">end</span> <span class="comment">// end of [else]</span>
+    <span class="comment">// end of [if]</span>
+  <span class="keyword">end</span> <span class="comment">// end of [then]</span>
+  <span class="keyword">else</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_wait_write <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span> <span class="keyword">in</span> SDBshell_acquire_write2 <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [SDBshell_acquire_write2]</span>
+</pre>
+
+The following code implements <span style="color: #F00000;">SDBshell_release_write</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+SDBshell_release_write
+  <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> sx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> x <span class="keyword">=</span> SDBshell_acquire <span class="keyword">(</span>sx<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> DBshell_release_write <span class="keyword">(</span><span class="prfexp">pf</span> <span class="keyword">|</span> x<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_signal <span class="keyword">(</span>sx<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> SDBshell_release <span class="keyword">(</span>sx<span class="keyword">,</span> x<span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+</pre>
+
+<h2>
+Summary of the Remaining Implementation
+</h2>
+
+Please find the entirety of the code in the following files:
+
+<pre>
+DB_read_write.sats
+DB_read_write.dats
+</pre>
+
+<!--
+Instead of being coded in C directly, the rest of my implementation is also
+written in ATS but it makes pervasive use of some unsafe programming
+features.
+-->
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

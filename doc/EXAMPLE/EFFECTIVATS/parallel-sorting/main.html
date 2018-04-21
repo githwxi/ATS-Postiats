@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-parallel-sorting</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Parallel Sorting via Fractional Continuation
+</h1>
+
+<p>
+In this article, I present an implementation of parallel merge-sort in the
+continuation-passing style (CPS), which achieves high concurrency
+by completely eliminating the need for explicit synchronization. It is
+expected that this style of implementation can be readily applied to
+various other algorithms based on the so-called divide-and-conquer strategy
+(for problem-solving).
+</p>
+
+<p>
+Note that there is an article in the Effective-ATS series available
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/mergesort/index.html">on-line</a>
+that contains some detailed explanation on implementing (top-down) merge-sort. One may
+want read the article first before studying the current one.
+</p>
+
+<h2>
+Sequential Merge-Sort
+</h2>
+
+<p>
+
+Let us first declare a function <span style="color: #F00000;">mergesort</span> as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mergesort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+which takes a list of length N and returns another list of the same length.
+Strictly speaking, <span style="color: #F00000;">mergesort</span> is a function template, which can
+be instantiated with any given type T to form a function for sorting a list
+in which each element is of the type T.
+
+</p>
+
+<p>
+
+A sequential implementation of <span style="color: #F00000;">mergesort</span> is given as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+mergesort<span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span>
+msort<span class="keyword">(</span>xs<span class="keyword">,</span> length<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+msort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span>
+<span class="keyword">(</span>n &gt;= <span class="dynexp">2</span><span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> n2 <span class="keyword">=</span> n / <span class="dynexp">2</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span> list_split&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>xs<span class="keyword">,</span> n2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> ys1 <span class="keyword">=</span> msort<span class="keyword">(</span>xs1<span class="keyword">,</span> n2<span class="keyword">)</span> <span class="keyword">and</span> ys2 <span class="keyword">=</span> msort<span class="keyword">(</span>xs2<span class="keyword">,</span> n - n2<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  list_merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>ys1<span class="keyword">,</span> ys2<span class="keyword">)</span>
+<span class="keyword">end</span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> xs <span class="comment">// end of [else]</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [msort] *)</span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [mergesort] *)</span>
+</pre>
+
+Note that the functions <span style="color: #F00000;">list_split</span> and <span style="color: #F00000;">list_merge</span>
+are given the following types:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_merge
+<span class="staexp"><span class="keyword">{</span>n1<span class="keyword">,</span>n2<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> ys<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="staexp">+</span><span class="staexp">n2</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_split
+<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>k<span class="keyword">:</span>nat <span class="keyword">|</span> k &lt;= n<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> k<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">k</span><span class="keyword">)</span> <span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">k</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">k</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+The function <span style="color: #F00000;">list_merge</span> merges two given lists (that are
+ordered) into one (that is ordered).
+The function <span style="color: #F00000;">list_split</span> splits a given list into two parts
+where the first part is a prefix of the given list (whose length is
+determined by the integer passed as the second argument to
+<span style="color: #F00000;">list_split</span>) and the second part consists of the rest.
+
+</p>
+
+<p>
+
+The given implementation of <span style="color: #F00000;">mergesort</span> exemplifies the so-called
+divide-and-conquer strategy for problem-solving.  The (inner) function
+<span style="color: #F00000;">msort</span> inside <span style="color: #F00000;">mergesort</span> divides a given problem into
+two subproblems; after recursively solving them, it combines the returned
+solutions into a solution to the original problem.
+
+</p>
+
+<h2>
+Issues on Parallelizing Merge-Sort
+</h2>
+
+<p>
+It is straightforward to parallelize the above implementation of
+<span style="color: #F00000;">msort</span> by simply initiating two threads for handling the two
+recursive calls in the body of <span style="color: #F00000;">msort</span> and then joining these two
+threads to obtain the values they return. In a programming language like
+Erlang where threads are extremely light-weighted, parallelizing
+<span style="color: #F00000;">msort</span> in such a manner may make sense. If threads are not
+light-weighted (e.g., pthreads), doing so often leads to poor performance
+at run-time. Also, joining threads involves explicit synchronization and
+can have a great impact on diminishing the level of concurrency.
+</p>
+
+<p>
+One common approach to lowering the overhead of creating and destroying
+threads is to start a pool of threads. Instead of creating a thread to
+perform a particular piece of work, this piece can be inserted into some
+kind of store shared by the pool of threads so as to allow one of them to
+pick up the piece and then execute it. Also, a thread can return to the
+pool (instead of simply exiting) after it completes a piece of
+work. With this appraoch, the overhead of creating and destroying threads
+is spread over the pieces of work done by the threads in the pool.
+</p>
+
+<p>
+However, there is a caveat that one must pay close attention to when
+utilizing a thread pool. In general, each piece of work passed to this pool
+should not cause blocking for otherwise a scenario can readily occur where
+all of the threads in the pool are blocked (and thus no progress can be
+made in terms of work completion). This is especially true when a recursive
+problem-solving strategy (e.g., divide-and-conquer) is involved.
+</p>
+
+<p>
+It should soon become clear that <span style="color: #F00000;">msort</span> can be implemented in a
+continuation-passing style (CPS) that allows a problem to be divided into
+<em>non-blocking</em> subproblems, which one can pass directly to a thread
+pool without running risk of potential deadlocking.
+</p>
+
+<h2>
+Merge-Sort of Continuation-Passing style
+</h2>
+
+<p>
+
+A (sequential) implementation of <span style="color: #F00000;">mergesort</span> in CPS-style is
+given as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+mergesort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span>
+msort<span class="keyword">(</span>xs<span class="keyword">,</span> length<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span> ys <span class="keyword">=&gt;</span> ys<span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="keyword">typedef</span> <span class="staexp">res <span class="keyword">=</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+msort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> f<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">res</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">res</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span>
+<span class="keyword">(</span>n &gt;= <span class="dynexp">2</span><span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> n2 <span class="keyword">=</span> n / <span class="dynexp">2</span></span>
+<span class="dynexp"><span class="keyword">val</span>
+<span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span>
+list_split&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>xs<span class="keyword">,</span> n2<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+msort
+<span class="keyword">(</span> xs1<span class="keyword">,</span> n2
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>ys1<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  msort<span class="keyword">(</span>xs2<span class="keyword">,</span> n-n2<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>ys2<span class="keyword">)</span> <span class="keyword">=&gt;</span> f<span class="keyword">(</span>list_merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>ys1<span class="keyword">,</span> ys2<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> f<span class="keyword">(</span>xs<span class="keyword">)</span> <span class="comment">// end of [else]</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [msort] *)</span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [mergesort] *)</span>
+</pre>
+
+Note that the third argument of <span style="color: #F00000;">msort</span> (of the name
+<span style="color: #F00000;">k0</span>) is a closure-function that acts like a continuation.
+
+</p>
+
+<h2>
+Parallelization via Fractional Continuation
+</h2>
+
+<p>
+
+The following code illustrates in clear
+and concrete terms the CPS-based approach to parallelizing
+merge-sort:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> <span class="staexp"><span class="keyword">{</span>
+a<span class="keyword">:</span><span class="keyword">t@ype</span>
+<span class="keyword">}</span></span> msort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span>
+k0<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="comment">// For sending to a thread pool</span>
+<span class="comment">// a given closure (representing work)</span>
+<span class="keyword">extern</span> <span class="dynexp"><span class="keyword">fun</span> submit <span class="keyword">:</span> <span class="staexp">lazy</span><span class="keyword">(</span><span class="staexp">void</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+<span class="keyword">(</span>n &gt;= <span class="dynexp">2</span><span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> n2 <span class="keyword">=</span> n / <span class="dynexp">2</span></span>
+<span class="dynexp"><span class="keyword">val</span>
+<span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span>
+list_split&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>xs<span class="keyword">,</span> n2<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">// [cnt] should be</span>
+<span class="comment">// guarded by a spinlock:</span>
+<span class="dynexp"><span class="keyword">val</span> cnt <span class="keyword">=</span> ref&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> ys1 <span class="keyword">=</span> ref&lt;<span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">/</span><span class="staexp">2</span><span class="keyword">)</span><span class="keyword">&gt;</span><span class="keyword">(</span>_<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> ys2 <span class="keyword">=</span> ref&lt;<span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">n</span><span class="staexp">/</span><span class="staexp">2</span><span class="keyword">)</span><span class="keyword">&gt;</span><span class="keyword">(</span>_<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+submit
+<span class="keyword">(</span>
+delay<span class="keyword">(</span> <span class="comment">// delaying the evaluation of its argument</span>
+msort<span class="keyword">(</span>
+  xs1<span class="keyword">,</span> n2
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>ys1_<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  <span class="keyword">(</span><span class="keyword">!</span>ys1 := ys1_<span class="keyword">;</span>
+   <span class="keyword">!</span>cnt := <span class="keyword">!</span>cnt + <span class="dynexp">1</span><span class="keyword">;</span>
+   <span class="keyword">if</span> <span class="keyword">!</span>cnt <span class="keyword">&lt;</span> <span class="dynexp">2</span> <span class="keyword">then</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">else</span> k0<span class="keyword">(</span>list_merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">!</span>ys1<span class="keyword">,</span> <span class="keyword">!</span>ys2<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* msort *)</span>
+<span class="keyword">)</span> <span class="comment">(* delay *)</span>
+<span class="keyword">)</span></span> <span class="comment">(* submit *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+submit
+<span class="keyword">(</span>
+delay<span class="keyword">(</span> <span class="comment">// delaying the evaluation of its argument</span>
+msort<span class="keyword">(</span>
+  xs2<span class="keyword">,</span> n-n2
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>ys2_<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  <span class="keyword">(</span><span class="keyword">!</span>ys2 := ys2_<span class="keyword">;</span>
+   <span class="keyword">!</span>cnt := <span class="keyword">!</span>cnt + <span class="dynexp">1</span><span class="keyword">;</span>
+   <span class="keyword">if</span> <span class="keyword">!</span>cnt <span class="keyword">&lt;</span> <span class="dynexp">2</span> <span class="keyword">then</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">else</span> k0<span class="keyword">(</span>list_merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">!</span>ys1<span class="keyword">,</span> <span class="keyword">!</span>ys2<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* msort *)</span>
+<span class="keyword">)</span> <span class="comment">(* delay *)</span>
+<span class="keyword">)</span></span> <span class="comment">(* submit *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> k0<span class="keyword">(</span>xs<span class="keyword">)</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [msort] *)</span>
+<span class="comment">//</span>
+</pre>
+
+Note that the two recursive calls in the body of <span style="color: #F00000;">msort</span> are
+turned into two closure-functions and then submitted (to some thread
+pool). Each of these closure-functions carries a continuation that may be
+thought of as a fractional one in the following sense.  After one recursive
+call to <span style="color: #F00000;">msort</span> is evaluated, the returned list is stored in some
+reference and the count stored in some counter (set to 0 initially) is
+increased by 1. If this count is less than 2, then the other recursive call
+to <span style="color: #F00000;">msort</span> is not yet completed; otherwise, it is completed and
+the two lists returned by the two recursive calls to <span style="color: #F00000;">msort</span> can
+be merged and then passed to the original continuation. To some extent, one
+may think of the original continuation as being split into two fractions,
+and each fraction is used to build a new continuation for a recursive call
+(to <span style="color: #F00000;">msort</span>).
+
+</p>
+
+<p>
+
+The function <span style="color: #F00000;">mergesort</span> can now be implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+mergesort
+ <span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> block<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span> <span class="comment">// for blocking</span>
+<span class="keyword">and</span> unblock<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// for unblocking</span>
+<span class="comment">//</span>
+<span class="comment">// For sending to a thread pool</span>
+<span class="comment">// a given closure (representing work)</span>
+<span class="keyword">extern</span> <span class="dynexp"><span class="keyword">fun</span> submit <span class="keyword">:</span> <span class="staexp">lazy</span><span class="keyword">(</span><span class="staexp">void</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> ys <span class="keyword">=</span> ref&lt;<span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">&gt;</span><span class="keyword">(</span>_<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+submit
+<span class="keyword">(</span>
+delay<span class="keyword">(</span>
+msort&lt;<span class="staexp">a</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span> xs
+<span class="keyword">,</span> length<span class="keyword">(</span>xs<span class="keyword">)</span>
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>ys_<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">(</span><span class="keyword">!</span>ys := ys_<span class="keyword">;</span> unblock<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* delay *)</span>
+<span class="keyword">)</span></span> <span class="comment">(* submit *)</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  block<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span> <span class="keyword">!</span>ys  
+<span class="keyword">end</span></span> <span class="comment">// end of [mergesort]</span>
+</pre>
+
+Note that <span style="color: #F00000;">msort</span> is in CPS-style but <span style="color: #F00000;">mergesort</span> is in
+direct style (rather than CPS-style). Therefore, some form of handshake is
+needed in order for the caller <span style="color: #F00000;">mergesort</span> to learn that the
+callee <span style="color: #F00000;">msort</span> is finished. The functions <span style="color: #F00000;">block</span> and
+<span style="color: #F00000;">unblock</span> are introduced precisely for this purpose.
+
+</p>
+
+<hr size="2">
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+mergesort.dats
+mergesort_cps.dats
+mergesort_par_cps.dats
+</pre>
+
+In addition, there is an accompanying <u>Makefile</u> for typechecking
+the code.
+</p>
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

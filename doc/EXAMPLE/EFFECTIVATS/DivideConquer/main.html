@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-DivideConquer</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Let's build a template-based package!
+</h1>
+
+<p>
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. The richness of programming features can potentially make it
+highly demanding for a programmer to rein in the inherent complexity
+associated with ATS. In this article, I would like to present a
+template-based package that is designed to (partially) relieve a
+programmer from the heavy burden that is so often associated with
+programming in ATS.
+
+</p>
+
+<p>
+The code presented in this article is essentially based on some library code of ATS available
+<a href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquer/.">on-line</a>.
+
+</p>
+
+<h2>Divide-and-Conquer</h2>
+
+<p>
+In problem-solving, divide-and-conquer (D&amp;C) is a strategy that
+divides a given problem of certain size into a collection of
+subproblems of less size and then solves the subproblems (recursively)
+and then combines the obtained solutions to the subproblems to form a
+solution to the original given problem.
+
+</p>
+
+<p>
+Formally, D&amp;C can be given a template-based implemenation as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+DC_solve<span class="keyword">(</span>x0<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+test <span class="keyword">=</span>
+DC_base_test&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>x0<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span> <span class="comment">(* in-of-let *)</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+<span class="keyword">(</span>test<span class="keyword">)</span>
+<span class="keyword">then</span>
+DC_base_solve&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>x0<span class="keyword">)</span>
+<span class="keyword">else</span> r0 <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> xs <span class="keyword">=</span> DC_divide&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>x0<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> r0 <span class="keyword">=</span> DC_conquer&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>x0<span class="keyword">,</span> xs<span class="keyword">)</span></span>
+<span class="keyword">}</span> <span class="comment">(* end of [else] *)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [DC_solve]</span>
+<span class="comment">//</span>
+</pre>
+
+Note that <span style="color: #F00000;">DC_solve</span> is the main function for
+solving a problem. The following interface is assigned
+to <span style="color: #F00000;">DC_solve</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span> DC_solve <span class="keyword">:</span> <span class="staexp">input</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">output</span></span>
+</pre>
+
+where <span style="color: #0000F0;">input</span> and <span style="color: #0000F0;">output</span> are two abstract
+types for the input and output, respectively, that are associated with
+the problem to be solved.  In the body of <span style="color: #F00000;">DC_solve</span>,
+<span style="color: #F00000;">DC_base_test</span> is called to test whether a given input can
+be classified as a base case; if it is, then
+<span style="color: #F00000;">DC_base_solve</span> is called to return the output for the
+given input immediately; otherwise, <span style="color: #F00000;">DC_divide</span> is called
+to divide the input into a list of inputs, which are then passed to
+<span style="color: #F00000;">DC_conquer</span> defined as follows:
+
+</p>
+
+<p>
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+DC_conquer
+  <span class="keyword">(</span>x0<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=</span> r0 <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> rs <span class="keyword">=</span>
+list0_map&lt;<span class="staexp">input</span><span class="keyword">&gt;&lt;</span><span class="staexp">output</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span> xs
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> DC_solve&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>x<span class="keyword">)</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [val] *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> r0 <span class="keyword">=</span> DC_conquer_combine&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>x0<span class="keyword">,</span> rs<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [DC_conquer] *)</span>
+<span class="comment">//</span>
+</pre>
+
+As can be expected, the function <span style="color: #F00000;">DC_conquer</span> is called to
+process a given list of inputs and then form an output (for the
+original input) by combining (in some manner unspecified here) the
+obtained outputs corresponding to the list of inputs.
+
+</p>
+
+<h2>Example: Fibonacci Numbers</h2>
+
+<p>
+Let us use <span style="color: #F00000;">Fibonacci</span> to refer to the function that maps
+natural numbers to Fibonacci numbers 0, 1, 1, 2, 3, 5, etc. A
+recursive implementation of <span style="color: #F00000;">Fibonacci</span> is given as
+follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+Fibonacci<span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">if</span> n &lt;= <span class="dynexp">1</span>
+  <span class="keyword">then</span> <span class="keyword">(</span>n<span class="keyword">)</span>
+  <span class="keyword">else</span> Fibonacci<span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span>+Fibonacci<span class="keyword">(</span>n-<span class="dynexp">2</span><span class="keyword">)</span></span>
+<span class="comment">// end of [if]</span>
+</pre>
+
+We can also implement <span style="color: #F00000;">Fibonacci</span>
+as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+Fibonacci<span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span> DC_solve&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>n<span class="keyword">)</span></span>
+</pre>
+
+after giving the following (specific) implementations
+for various function templates introduced in the above
+template-based implementation of D&amp;C:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+DC_base_test&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n &lt;= <span class="dynexp">1</span> <span class="keyword">then</span> true <span class="keyword">else</span> false</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+DC_base_solve&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span> n</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+DC_divide&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span>
+  g0ofg1<span class="keyword">(</span><span class="keyword">$list</span><span class="keyword">{</span><span class="staexp">int</span><span class="keyword">}</span><span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">,</span> n-<span class="dynexp">2</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+DC_conquer_combine&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span>_<span class="keyword">,</span> rs<span class="keyword">)</span> <span class="keyword">=</span> r1 + r2 <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val-</span>list0_cons<span class="keyword">(</span>r1<span class="keyword">,</span> rs<span class="keyword">)</span> <span class="keyword">=</span> rs</span>
+<span class="dynexp"><span class="keyword">val-</span>list0_cons<span class="keyword">(</span>r2<span class="keyword">,</span> rs<span class="keyword">)</span> <span class="keyword">=</span> rs</span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [DC_conquer_combine] *)</span>
+<span class="comment">//</span>
+</pre>
+
+Given the simplicity of the (first) recursive implementation of
+<span style="color: #F00000;">Fibonacci</span>, one may not be able to immediately appreciate
+the (second) templated-based implementation of <span style="color: #F00000;">Fibonacci</span>.
+Let me elaborate a bit on this point. Assume that we need to
+parallelize an implementation of <span style="color: #F00000;">Fibonacci</span>. For the
+recursive implementation, we probably need to rewrite it substantially
+in order to parallelize it. For the template-based implementation, we
+can simply choose an already parallelized implementation of D&amp;C
+(while having little need for modifying the implementation of
+<span style="color: #F00000;">Fibonacci</span>). In particular, code that implements
+D&amp;C is generic and can thus be employed repeatedly in settings
+where D&amp;C is the underlying problem-solving strategy.
+
+</p>
+
+<p>
+If we replace <span style="color: #F00000;">Fibonacci</span> with a (much) more involved
+implementation of some algorithm (e.g., in the field of AI), then
+benefits from a template-based implementation can hardly be
+missed. What is particularly beneficial to a programmer is that he or
+she, with the template-based approach as is outlined above,
+can concentrate on the specifics of the problem being solved while
+largely, if not completely, skipping generic issues that are not
+directly pertinent to the problem. For instance, the programmer can
+focus on specific issues such as dividing inputs and combining outputs
+while relying on the chosen implementation of D&amp;C to handle a
+generic issue like parallelization. In other words, the template-based
+approach can be seen as a concrete means that reduces complexity in
+problem-solving by employing the very principle of separation of
+concerns.
+
+</p>
+
+<h2>Assembling a Package for D&amp;C</h2>
+
+<p>
+I hereby outline some key steps involved in assembling a package for
+D&amp;C that can be published
+via <a href="https://www.npmjs.com">npm</a>. Some basic knowledge of
+npm is assumed in the following presentation.
+</p>
+
+<h3><tt>mydepies.hats</tt></h3>
+
+<p>
+In general, a package should contain a file of the name
+<tt>mydepies.hats</tt> for specifying (static) loading of other
+packages upon which the current package depends. The file
+<tt>mydepies.hats</tt> for the package being built is empty as
+there is no issue of package dependency.
+</p>
+
+<h3><tt>mylibies.hats</tt></h3>
+
+<p>
+In general, a package should contain a file of the name
+<tt>mylibies.hats</tt>, which serves as the entry point to the
+package. For instance, the content of <tt>mylibies.hats</tt> for
+the package being built is listed as follows:
+<pre>
+(* ****** ****** *)
+//
+// HX-2017-02-22:
+//
+// Effective-ATS:
+// Generic Divide-Conquer
+//
+(* ****** ****** *)
+//
+#staload
+DivideConquer =
+"./DATS/DivideConquer.dats"
+//
+(* ****** ****** *)
+
+(* end of [mylibies.hats] *)
+</pre>
+
+Code that makes use of this package (which is given the name
+<span style="color: #F00000;">effectivats-divideconquer</span>) is expected to contain a line
+like the following one:
+
+<pre
+class="patsyntax">
+<span class="neuexp"><span class="keyword">#include</span> "$PATSHOMELOCS/effectivats-divideconquer/mylibies.hats"</span>
+</pre>
+
+which introduces a namespace referred to as <span style="color: #F00000;">DivideConquer</span>
+and populates it with all sorts of bindings declared in
+<tt>DivideConquer.dats</tt> (for implementing the template-based
+D&amp;C as is outlined above).  Of course, it is allowed to introduce
+more than one namespaces at once.
+</p>
+
+<h3><tt>package.json</tt></h3>
+
+For each npm-package, a file of the name <tt>package.json</tt> is
+needed for specifying various properties of the package. For instance,
+the content of <tt>package.json</tt> for the package being built
+is given as follows:
+
+<p>
+<pre>
+{
+"name":
+"effectivats-divideconquer"
+,
+"version": "1.0.1"
+,
+"description":
+"A generic implementation of divide-and-conquer for use in the Effective-ATS series"
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url":
+  "https://github.com/githwxi/ATS-Postiats/tree/master/doc/EXAMPLE/EFFECTIVATS/DivideConquer"
+}
+,
+"keywords": [
+  "EFFECTIVATS",
+  "divide-and-conquer"
+]
+,
+"dependencies": {
+}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquer/."
+}
+</pre>
+
+If needed, please see documentation on <a
+href="https://www.npmjs.com">npm</a> for further information on
+<tt>package.json</tt>.
+
+</p>
+
+<p>
+With a correctly formatted <tt>package.json</tt>, one can simply
+issue the following command-line (from the directory containing the
+package) to publish the package:
+
+<pre>
+<em>npm publish</em>
+</pre>
+
+Immediately after <span style="color: #F00000;">effectivats-divideconquer</span> is published,
+it is ready for downloading.
+
+</p>
+
+<h3><tt>Internal Package Testing</tt></h3>
+
+<p>
+The code for testing a package from within is supposed to be stored in
+a directory of the name <tt>TEST</tt>. For instance, the file
+<tt>TEST/Fibonacci.dats</tt> contains code for testing the
+package <span style="color: #F00000;">effectivats-divideconquer</span>. In this file, one can
+find the following line for statically loading into the namespace
+<span style="color: #F00000;">DivideConquer</span> all sorts of the bindings declared inside
+the file <tt>DivideConquer.dats</tt>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#include</span> "./../mylibies.hats"</span>
+<span class="comment">//</span>
+</pre>
+
+Note that a path starting with the dot symbol (.) means that the path is
+relative to the directory that contains the current file (in which the path
+appears).
+
+</p>
+
+<h3><tt>External Package Testing</tt></h3>
+
+<p>
+One can download the package
+<span style="color: #F00000;">effectivats-divideconquer</span> 
+by issuing the following command-line:
+<pre>
+<em>npm i effectivats-divideconquer</em>
+</pre>
+For updating it, one can simply do:
+<pre>
+<em>npm up effectivats-divideconquer</em>
+</pre>
+
+The code for testing the package from outside is supposed to use
+the following line (or one of its variants) to statically load in the
+package:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#include</span> "$PATSHOMELOCS/effectivats-divideconquer/mylibies.hats"</span>
+<span class="comment">//</span>
+</pre>
+
+where <span style="color: #F00000;">PATSHOMELOCS</span> is an evironmental variable
+whose value is set to be a string representing colon-separated
+path names. For instance, following is a typical setup for using npm:
+<pre>
+<em>PATSHOMELOCS=./node_modules:./../node_modules:./../../node_modules</em>
+</pre>
+which reflects the way in which npm stores downloaded packages.
+
+</p>
+
+<p>
+For further details, please find
+<a href="https://github.com/githwxi/ATS-Postiats-test/tree/master/package/TEST">on-line</a>
+some concrete examples on testing packages externally.
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+PackIt/mylibies.hats
+PackIt/Makefile_test.hats
+PackIt/DATS/DivideConquer.dats
+PackIt/TEST/Fibonacci.dats // for testing internally
+</pre>
+
+Note that the file <tt>Makefile_test</tt> can be used for compiling
+and testing the code (via the make utility).
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

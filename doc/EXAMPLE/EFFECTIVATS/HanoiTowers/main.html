@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-hanoi-towers</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>Hanoi Towers:<br>
+Let's tap into the power of types!
+</h1>
+
+<p>Types are an extremely powerful notion in programming
+as what is behind types is logic itself. However, making
+effective use of types in programming is a very difficult
+task for many programmers (ranging from novices to experts).
+In this article, I will present several solutions to a simple problem,
+gradually illustrating certain typical uses of dependent types
+and linear types in programming.
+</p>
+
+<h2>
+What is Hanoi Towers?
+</h2>
+It is a puzzle!
+The <u>Hanoi Towers</u> puzzle can be described as follows:
+
+<p>
+Given three poles: Pole 1, Pole 2 and Pole 3, there are 64 disks of
+distinct sizes stacked on Pole 1 such that no disk is stacked on one
+of a lesser size, and both Pole 2 and Pole 3 are empty.  The player is
+asked to finish the task of moving all the disks from Pole 1 to Pole 2
+(while using Pole 3 as a spare): Only one disk can be moved from one
+pole to another one at any time and no disk is ever allowed to be
+stacked on another one of a lesser size during the entire process of
+disk-moving.
+</p>
+
+<p>
+It will soon be clear that 2<sup>64</sup>-1 moves are needed in order
+to accomplish the aforementioned task.
+Please click <a href="./HanoiTowers_txt.html">here</a> to see a simple
+demo where there are 8 disks initially stacked on Pole 1.
+
+</p><!--para-->
+
+<h2>
+A Solution of Imperative Style
+</h2>
+
+<p>
+First, let us see a straightforward solution of imperative style to
+the Hanoi Towers puzzle. A datatype <span style="color: #0000F0;">pole</span> is declared as
+follows for representing poles:
+
+<pre
+class="patsyntax">
+<span class="keyword">datatype</span>
+<span class="staexp">pole <span class="keyword">=</span> <span class="dynexp">Pole <span class="keyword">of</span>
+<span class="keyword">(</span>
+  <span class="staexp">string</span><span class="comment">(*name*)</span><span class="keyword">,</span> <span class="staexp">ref</span><span class="keyword">(</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="keyword">)</span><span class="comment">(*disks*)</span>
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [Pole] *)</span>
+</pre>
+
+Note that the disks stacked on a pole is represented as a list of
+integers. As a disk may be moved from one pole to another one, a
+reference to a list of integers is contained in the representation of
+a pole so that the content of the reference can be updated to reflect
+the actual disks stacked on the pole.
+</p>
+
+<p>
+In the following code, the function
+<span style="color: #F00000;">move_1</span> is called to move a single disk from
+one pole to another one:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+move_1<span class="keyword">(</span>P1<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">,</span> P2<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+move_1<span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> Pole<span class="keyword">(</span>n1<span class="keyword">,</span> r1<span class="keyword">)</span> <span class="keyword">=</span> P1</span>
+<span class="dynexp"><span class="keyword">val-</span>cons0<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">!</span>r1</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">!</span>r1 := xs</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> Pole<span class="keyword">(</span>n2<span class="keyword">,</span> r2<span class="keyword">)</span> <span class="keyword">=</span> P2</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">!</span>r2 := cons0<span class="keyword">(</span>x<span class="keyword">,</span> <span class="keyword">!</span>r2<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  <span class="dynexp">println!</span> <span class="keyword">(</span><span class="dynstr">"Move ["</span><span class="keyword">,</span> x<span class="keyword">,</span> <span class="dynstr">"] from ["</span><span class="keyword">,</span> n1<span class="keyword">,</span> <span class="dynstr">"] to ["</span><span class="keyword">,</span> n2<span class="keyword">,</span> <span class="dynstr">"]"</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [move_1]</span>
+<span class="comment">//</span>
+</pre>
+
+The function <span style="color: #F00000;">move_n</span> for moving multiple disks from one
+pole to another one (while using the third one as a spare) can be
+implemented based on <span style="color: #F00000;">move_1</span> as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+move_n
+<span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">,</span> P1<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">,</span> P2<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">,</span> P3<span class="keyword">:</span> <span class="staexp">pole</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+move_n
+<span class="keyword">(</span>
+  n<span class="keyword">,</span> P1<span class="keyword">,</span> P2<span class="keyword">,</span> P3
+<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> n1 <span class="keyword">=</span> n - <span class="dynexp">1</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> move_n<span class="keyword">(</span>n1<span class="keyword">,</span> P1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> move_1<span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> move_n<span class="keyword">(</span>n1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">,</span> P1<span class="keyword">)</span></span>
+<span class="keyword">}</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [move_n] *)</span>
+<span class="comment">//</span>
+</pre>
+
+</p>
+
+<p>
+It is easy to see that <span style="color: #F00000;">move_n</span>, when applied
+a natural number N and 3 distinct poles, makes 2<sup>N</sup>-1 calls
+to <span style="color: #F00000;">move_1</span> before it returns.
+
+</p>
+
+<h2>
+A Solution of Functional Style
+</h2>
+
+<p>
+A serious issue with the above solution (of imperative style) is that
+pattern matching involved in the following val-declaration (appearing
+inside the body of <span style="color: #F00000;">move_1</span>) is not guaranteed (solely based
+on typechecking) to succeed:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">val-</span>cons0<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">!</span>r1</span>
+</pre>
+
+While the use of a reference in the type <span style="color: #0000F0;">pole</span> makes it
+straightforward to implement <span style="color: #F00000;">move_1</span>, reasoning about the
+implementation of <span style="color: #F00000;">move_1</span> is greatly complicated (largely
+due to the involvement of a global state).
+
+</p><!--para-->
+
+<p>
+Let us see as follows a solution of functional style to the Hanoi
+Towers puzzle that rules out (solely based on typechecking) the
+possiblity of pattern matching failure at run-time.
+
+</p><!--para-->
+
+<p>
+Given an integer N, the type <span style="color: #0000F0;">pole(N)</span> is for a pole on
+which N disks are stacked:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">abstype</span> pole<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> ptr</span>
+<span class="comment">//</span>
+</pre>
+
+</p><!--para-->
+
+<p>
+The functions <span style="color: #F00000;">move_1</span> and <span style="color: #F00000;">move_n</span> are given the
+following types to reflect their functional nature:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+move_1
+<span class="staexp"><span class="keyword">{</span>p1<span class="keyword">,</span>p2<span class="keyword">:</span>nat<span class="keyword">|</span>p1 <span class="keyword">&gt;</span> 0<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  P1<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="keyword">)</span><span class="keyword">,</span> P2<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+move_n<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span>p1<span class="keyword">,</span>p2<span class="keyword">,</span>p3<span class="keyword">:</span>nat<span class="keyword">|</span>p1 &gt;= n<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">,</span> P1<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="keyword">)</span><span class="keyword">,</span> P2<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="keyword">)</span><span class="keyword">,</span> P3<span class="keyword">:</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p3</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="staexp">-</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="staexp">+</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p3</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that the type assigned to <span style="color: #F00000;">move_1</span> indicates that
+<span style="color: #F00000;">move_1</span> is of functional style: Given two poles holding
+P1 and P2 disks such that P1 is positive, <span style="color: #F00000;">move_1</span> returns
+two (new) poles holding P1-1 and P2+1 disks. Similarly, <span style="color: #F00000;">move_n</span>
+is also of functional style.
+
+</p>
+
+<p>
+The functions <span style="color: #F00000;">move_1</span> and <span style="color: #F00000;">move_n</span> of functional
+style are implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">local</span>
+
+<span class="keyword">datatype</span>
+<span class="staexp">pole_<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="dynexp">Pole <span class="keyword">of</span>
+<span class="keyword">(</span>
+  <span class="staexp">string</span><span class="keyword">,</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [pole_] *)</span>
+
+<span class="staexp"><span class="keyword">assume</span> pole<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> pole_<span class="keyword">(</span>n<span class="keyword">)</span></span>
+
+<span class="keyword">in</span> <span class="comment">(* in-of-local *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+move_1<span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> Pole<span class="keyword">(</span>n1<span class="keyword">,</span> r1<span class="keyword">)</span> <span class="keyword">=</span> P1</span>
+  <span class="dynexp"><span class="keyword">val+</span>list_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=</span> r1</span> <span class="comment">// no failure!</span>
+  <span class="dynexp"><span class="keyword">val</span> Pole<span class="keyword">(</span>n2<span class="keyword">,</span> r2<span class="keyword">)</span> <span class="keyword">=</span> P2</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp">println!</span>
+  <span class="keyword">(</span>
+    <span class="dynstr">"Move ["</span><span class="keyword">,</span> x<span class="keyword">,</span> <span class="dynstr">"] from ["</span><span class="keyword">,</span> n1<span class="keyword">,</span> <span class="dynstr">"] to ["</span><span class="keyword">,</span> n2<span class="keyword">,</span> <span class="dynstr">"]"</span>
+  <span class="keyword">)</span></span> <span class="comment">(* end of [val] *)</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  <span class="keyword">(</span>Pole<span class="keyword">(</span>n1<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">,</span> Pole<span class="keyword">(</span>n2<span class="keyword">,</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> r2<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [move_1]</span>
+
+<span class="keyword">end</span> <span class="comment">// end of [local]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+move_n<span class="keyword">(</span>n<span class="keyword">,</span> P1<span class="keyword">,</span> P2<span class="keyword">,</span> P3<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+n <span class="keyword">&gt;</span> <span class="dynexp">0</span>
+<span class="keyword">then</span>
+<span class="keyword">(</span>
+  P1<span class="keyword">,</span> P2<span class="keyword">,</span> P3
+<span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> n1 <span class="keyword">=</span> n - <span class="dynexp">1</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>P1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">)</span> <span class="keyword">=</span> move_n<span class="keyword">(</span>n1<span class="keyword">,</span> P1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span>     <span class="keyword">=</span> move_1<span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>P3<span class="keyword">,</span> P2<span class="keyword">,</span> P1<span class="keyword">)</span> <span class="keyword">=</span> move_n<span class="keyword">(</span>n1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">,</span> P1<span class="keyword">)</span></span>
+<span class="keyword">}</span>
+<span class="keyword">else</span> <span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">,</span> P3<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [move_n] *)</span>
+</pre>
+
+Note that the keyword <span style="color: #F00000;">val+</span> indicates the need to verify
+(based on typechecking) the exhaustiveness of pattern matching
+involved in the val-declaration it introduces.
+
+</p>
+
+<p>
+With no involvement of a global state, reasoning about the functional
+version of <span style="color: #F00000;">move_1</span> and <span style="color: #F00000;">move_n</span> is greatly
+simplified. And this is often claimed as a strong selling point for
+functional programming.
+
+</p><!--para-->
+
+<h2>
+A Solution of Linear Functional Style
+</h2>
+
+<p>
+While functional programming can greatly simplify reasoning, it is
+often wasteful in terms of memory usage. For instance, each call to
+the above functional version of <span style="color: #F00000;">move_1</span> builds two new
+poles; the two poles passed as arguments are of no more use after the
+call returns. Fortunately, one can turn to what I refer to as linear
+functional programming in ATS to reduce or even eliminate this kind of
+waste.
+
+</p><!--para-->
+
+<p>
+Let us first declare <span style="color: #0000F0;">pole</span> as a linear type:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">absvtype</span> pole<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> ptr</span>
+<span class="comment">//</span>
+</pre>
+
+Unlike a non-linear type, a value of a linear type can be modified.
+The types for the linear functional version of <span style="color: #F00000;">move_1</span> and
+<span style="color: #F00000;">move_n</span> are declared as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+move_1
+<span class="staexp"><span class="keyword">{</span>p1<span class="keyword">,</span>p2<span class="keyword">:</span>nat<span class="keyword">|</span>p1 <span class="keyword">&gt;</span> 0<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  P1<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span>
+<span class="keyword">,</span> P2<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-function</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+move_n<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span>p1<span class="keyword">,</span>p2<span class="keyword">,</span>p3<span class="keyword">:</span>nat<span class="keyword">|</span>p1 &gt;= n<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">,</span> P1<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p1</span><span class="staexp">-</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> P2<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p2</span><span class="staexp">+</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> P3<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">pole</span><span class="keyword">(</span><span class="staexp">p3</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-function</span>
+<span class="comment">//</span>
+</pre>
+
+Based on the type of <span style="color: #F00000;">move_1</span>, it is clear that calling the
+function on two given poles <span style="color: #F00000;">P1</span> and <span style="color: #F00000;">P2</span> changes
+the types of these two poles to reflect the fact that <span style="color: #F00000;">P1</span>
+contains one fewer disk after the call and <span style="color: #F00000;">P2</span> one more
+disk. The type assigned to <span style="color: #F00000;">move_n</span> can be interpreted similarly.
+</p><!--para-->
+
+<p>
+The functions <span style="color: #F00000;">move_1</span> and <span style="color: #F00000;">move_n</span> of linear functional
+style are implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">local</span>
+<span class="comment">//</span>
+<span class="keyword">datavtype</span>
+<span class="staexp">pole_<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="dynexp">Pole<span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">of</span>
+<span class="keyword">(</span>
+  <span class="staexp">string</span><span class="keyword">,</span> <span class="staexp">list_vt</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [pole_] *)</span>
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">assume</span> pole<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> pole_<span class="keyword">(</span>n<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span> <span class="comment">(* in-of-local *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+move_1<span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val+</span><span class="keyword">@</span>Pole<span class="keyword">(</span>n1<span class="keyword">,</span> rxs<span class="keyword">)</span> <span class="keyword">=</span> P1</span>
+<span class="dynexp"><span class="keyword">val</span> n1 <span class="keyword">=</span> n1</span>
+<span class="dynexp"><span class="keyword">val+</span><span class="keyword">~</span>list_vt_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=</span> rxs</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> rxs := xs</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="comment">(*folded*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">fold@</span><span class="keyword">(</span>P1<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val+</span><span class="keyword">@</span>Pole<span class="keyword">(</span>n2<span class="keyword">,</span> rxs<span class="keyword">)</span> <span class="keyword">=</span> P2</span>
+<span class="dynexp"><span class="keyword">val</span> n2 <span class="keyword">=</span> n2</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> rxs := list_vt_cons<span class="keyword">(</span>x<span class="keyword">,</span> rxs<span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="comment">(*folded*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">fold@</span><span class="keyword">(</span>P2<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  <span class="dynexp">println!</span> <span class="keyword">(</span><span class="dynstr">"Move ["</span><span class="keyword">,</span> x<span class="keyword">,</span> <span class="dynstr">"] from ["</span><span class="keyword">,</span> n1<span class="keyword">,</span> <span class="dynstr">"] to ["</span><span class="keyword">,</span> n2<span class="keyword">,</span> <span class="dynstr">"]"</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [move_1]</span>
+
+<span class="keyword">end</span> <span class="comment">// end of [local]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+move_n<span class="keyword">(</span>n<span class="keyword">,</span> P1<span class="keyword">,</span> P2<span class="keyword">,</span> P3<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+n <span class="keyword">&gt;</span> <span class="dynexp">0</span>
+<span class="keyword">then</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> n1 <span class="keyword">=</span> n - <span class="dynexp">1</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> move_n<span class="keyword">(</span>n1<span class="keyword">,</span> P1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> move_1<span class="keyword">(</span>P1<span class="keyword">,</span> P2<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> move_n<span class="keyword">(</span>n1<span class="keyword">,</span> P3<span class="keyword">,</span> P2<span class="keyword">,</span> P1<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span> <span class="comment">(* end of [then] *)</span>
+<span class="keyword">else</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [move_n] *)</span>
+</pre>
+
+Note that a pole now contains a linear list.
+In contrast to the (non-linear) functional version of <span style="color: #F00000;">move_1</span>,
+the linear functional version of <span style="color: #F00000;">move_1</span> returns two new poles
+that are built by modifying the two poles passed as arguments: There is no
+waste in this case as the original poles are no longer in existence after
+the call to <span style="color: #F00000;">move_1</span> is returned.
+
+</p><!--para-->
+
+<p>
+For the entirety of the three presented solutions to the Hanoi Towers puzzle,
+please visit the following files:
+
+<ul>
+<li><u>HanoiTowers-1.dats</u>
+<li><u>HanoiTowers-2.dats</u>
+<li><u>HanoiTowers-3.dats</u>
+</ul>
+
+There is also a Makefile available for testing.
+By comparing the solution of linear functional style with the one of
+imperative style, I hope that one can readily see the progress being made:
+the former is not only simpler and cleaner to reason about than the latter
+but also more efficient both time-wise and memory-wise.
+
+</p><!--para-->
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

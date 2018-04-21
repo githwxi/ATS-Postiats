@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-ssntyped-channels-introduction</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Session-typed Channels:<br>
+A Brief Introduction
+</h1>
+
+<p>
+In this article, I present a brief introduction to session types.
+</p>
+
+<h2>
+Basics on session-typed channels
+</h2>
+
+<p>
+In broad terms, a (dyadic) session is a sequence of interactions between
+two concurrently running processes, and a session type is a form of type
+for specifying (or classifying) such interactions. As an example, let us
+assume that two processes P and Q are connected via a bidirectional
+channel. From the perspective of P, the channel may be specified by a term
+sequence of the following form: </p>
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span> <span class="staexp">P_ssn <span class="keyword">=</span> <span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">bool</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span></span>
+</pre>
+
+<p>
+which means that an integer is to be sent, another integer is to be
+sent, a boolean is to be received, and finally the channel is to be
+closed.  Clearly, from the perspective of Q, the channel should be
+specified by the following term sequence:
+</p>
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span> <span class="staexp">Q_ssn <span class="keyword">=</span> <span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">bool</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span></span>
+</pre>
+
+<p>
+which means precisely the dual of what the previous term sequence
+does.  We may think of P as a client who sends two integers to the
+server Q and then receives from Q either true or false depending on
+whether or not the first sent integer is less than the second one.
+</p>
+
+<p>
+There are two endpoints in a channel: a positive end and a negative end;
+the end held by the server is positive and the end held by the client is
+negative. We introduce two abstract types <span style="color: #0000F0;">chanpos</span> and
+<span style="color: #0000F0;">channeg</span> for positive channels and negative channels,
+respectively, where a positive (negative) channel refers to the positive
+(negative) end of a channel:
+</p>
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absvtype</span> chanpos<span class="keyword">(</span>ssn<span class="keyword">:</span>type<span class="keyword">)</span></span> <span class="comment">// absvtype means linear abstype in ATS</span>
+<span class="staexp"><span class="keyword">absvtype</span> channeg<span class="keyword">(</span>ssn<span class="keyword">:</span>type<span class="keyword">)</span></span> <span class="comment">// absvtype means linear abstype in ATS</span>
+</pre>
+
+<p>
+For instance, the end of the channel held by P is assigned the
+type <span style="color: #0000F0;">channeg(Q_ssn)</span> (not <span style="color: #0000F0;">channeg(P_ssn)</span>) and
+the end of the channel held by Q is assigned the type <span style="color: #0000F0;">chanpos(Q_ssn)</span>.
+So the interpretation of a session type is given based on the view of the
+positive end (that is, the server).
+</p>
+
+<p>
+The functions for sending data on channels are given the following types:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+chanpos_send
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  chp<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp">a</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-function</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+channeg_recv
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  chn<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp">a</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-function</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">overload</span> channel_send <span class="keyword">with</span> chanpos_send</span>
+<span class="dynexp"><span class="keyword">overload</span> channel_send <span class="keyword">with</span> channeg_recv</span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+Note that <span style="color: #F00000;">chanpos_send</span> is for sending a value on a positive
+channel while <span style="color: #F00000;">channeg_recv</span> is for sending a value on a
+negative channel. For convenience, the symbol <span style="color: #F00000;">channel_send</span> is
+overloaded with both of these functions.
+</p>
+
+<p>
+The functions for receiving data sent on channels are given the following types:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+chanpos_recv
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+  <span class="keyword">(</span><span class="staexp"><span class="keyword">!</span></span><span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">a</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+channeg_send
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+  <span class="keyword">(</span><span class="staexp"><span class="keyword">!</span></span><span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">a</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">overload</span> channel_recv <span class="keyword">with</span> chanpos_recv</span>
+<span class="dynexp"><span class="keyword">overload</span> channel_recv <span class="keyword">with</span> channeg_send</span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+Note that <span style="color: #F00000;">chanpos_recv</span> is for receiving a value on a positive
+channel while <span style="color: #F00000;">channeg_send</span> is for receiving a value on a
+negative channel. For convenience, the symbol <span style="color: #F00000;">channel_recv</span> is
+overloaded with both of these functions.
+</p>
+
+<p>
+The functions for closing channels are given the following types:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+chanpos_nil_wait <span class="keyword">(</span>chp<span class="keyword">:</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">fun</span>
+channeg_nil_close <span class="keyword">(</span>chn<span class="keyword">:</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">overload</span> channel_close <span class="keyword">with</span> chanpos_nil_wait</span>
+<span class="dynexp"><span class="keyword">overload</span> channel_close <span class="keyword">with</span> channeg_nil_close</span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+Note that <span style="color: #F00000;">chanpos_nil_wait</span> is for closing a positive
+channel while <span style="color: #F00000;">channeg_nil_close</span> is for closing a negative
+channel. More specifically, a call to <span style="color: #F00000;">chanpos_nil_wait</span> on
+(the positive end of) a channel waits until a message sent by a call
+to <span style="color: #F00000;">channeg_nil_close</span> on (the negative end of) the same
+channel arrives.  For convenience, the symbol <span style="color: #F00000;">channel_close</span>
+is overloaded with both of these functions.
+</p>
+
+<p>
+The functions for sending and receiving can be based
+on either synchronous or asynchronous communication. Calling these
+functions may result in the caller to be blocked. For instance,
+calling <span style="color: #F00000;">channpos_recv</span> blocks the caller if there is no
+value available for the call to return. For asynchronous communication,
+calling <span style="color: #F00000;">channpos_send</span> may block the caller if there is no
+more room available for buffering.
+</p>
+
+<p>
+The programs for the processes P and Q can be implemented as follows:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">fun</span>
+P <span class="keyword">(</span>
+  i1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> i2<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">,</span> chn<span class="keyword">:</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">=</span> lt <span class="keyword">where</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> channel_send<span class="keyword">(</span>chn<span class="keyword">,</span> i1<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> channel_send<span class="keyword">(</span>chn<span class="keyword">,</span> i2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> lt <span class="keyword">=</span> channel_recv<span class="keyword">(</span>chn<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> channel_close<span class="keyword">(</span>chn<span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">fun</span>
+Q <span class="keyword">(</span>
+  chp<span class="keyword">:</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> i1 <span class="keyword">=</span> channel_recv<span class="keyword">(</span>chp<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> i2 <span class="keyword">=</span> channel_recv<span class="keyword">(</span>chp<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> channel_send<span class="keyword">(</span>chp<span class="keyword">,</span> i1 <span class="keyword">&lt;</span> i2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> channel_close<span class="keyword">(</span>chp<span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+
+<span class="comment">(* ****** ****** *)</span>
+</pre>
+
+<p>
+But how a channel can be created in the first place? The answer
+to this question depends on the underlying support for distributed
+programming. For instance, we may be able to introduce the following
+function <span style="color: #F00000;">channel_create</span> for creating a channel:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+channeg_create<span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+  <span class="keyword">(</span>fserv<span class="keyword">:</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">lincloptr1</span><span class="keyword">&gt;</span> <span class="staexp">void</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span></span>
+</pre>
+
+The basic idea here is to spawn a thread (by executing the linear
+closure-function <span style="color: #F00000;">fserv</span>) that works on the postive end of
+the newly created channel and then returns the negative end of the
+channel to the caller.
+</p>
+
+<h2>
+Session-typed channels based on web-workers
+</h2>
+
+<p>
+In the rest of this article, I will give a concrete presentation of
+session-typed channels that are implemented based on web-workers.  For
+those who are not yet familiar with web-workers, it can be a good idea
+to first study some programming examples involving them before reading
+on. Essentially, a web-worker is a thread running in the background
+that can communicate with the browser via message-passing.  The ATS
+code presented as follows is intended to be compiled into JS code (via
+Patsopt and Atscc2js) for running in the browser (client) and a
+web-worker (server). As JS (or, more precisely, its run-time) is
+single-threaded, we cannot support a function (e.g.,
+<span style="color: #F00000;">chanpos_recv</span>) that may block its caller indefinitely. We
+address this issue by building an interface for programming
+session-typed channels that is of CPS-style (where CPS stands for
+continuation-passing style).
+</p>
+
+<p>
+Let us first see the types assigned to the functions for closing
+channels:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">vtypedef</span>
+<span class="staexp">chanpos_nil <span class="keyword">=</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="keyword">vtypedef</span>
+<span class="staexp">channeg_nil <span class="keyword">=</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> chanpos1_close<span class="keyword">(</span><span class="staexp">chanpos_nil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">fun</span> channeg1_close<span class="keyword">(</span><span class="staexp">channeg_nil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+Clearly, everything is standard here, and there is really no surprise at all.
+
+</p>
+
+<p>
+
+Let us next see the types assigned to the functions for sending and receiving
+on channels:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">typedef</span>
+<span class="staexp">chpcont0<span class="keyword">(</span><span class="staexp">ss<span class="keyword">:</span>type</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span>
+<span class="keyword">typedef</span>
+<span class="staexp">chncont0<span class="keyword">(</span><span class="staexp">ss<span class="keyword">:</span>type</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="keyword">typedef</span>
+<span class="staexp">chpcont1<span class="keyword">(</span><span class="staexp">ss<span class="keyword">:</span>type</span><span class="keyword">,</span> <span class="staexp">a<span class="keyword">:</span>t0p</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span>
+<span class="keyword">typedef</span>
+<span class="staexp">chncont1<span class="keyword">(</span><span class="staexp">ss<span class="keyword">:</span>type</span><span class="keyword">,</span> <span class="staexp">a<span class="keyword">:</span>t0p</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="keyword">typedef</span> <span class="staexp">chpcont0_nil <span class="keyword">=</span> <span class="staexp">chpcont0</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="keyword">typedef</span> <span class="staexp">chncont0_nil <span class="keyword">=</span> <span class="staexp">chncont0</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+chanpos1_send
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> x0<span class="keyword">:</span> <span class="staexp">a</span><span class="keyword">,</span> k0<span class="keyword">:</span> <span class="staexp">chpcont0</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+chanpos1_recv
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> k0<span class="keyword">:</span> <span class="staexp">chpcont1</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">,</span> <span class="staexp">chmsg</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+channeg1_recv
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> x0<span class="keyword">:</span> <span class="staexp">a</span><span class="keyword">,</span> k0<span class="keyword">:</span> <span class="staexp">chncont0</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+channeg1_send
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> k0<span class="keyword">:</span> <span class="staexp">chncont1</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">,</span> <span class="staexp">chmsg</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+</pre>
+
+Given a type T, the type <span style="color: #0000F0;">chmsg(T)</span> is for the marshalled
+representation of a value of the type T. The type assigned to the
+function <span style="color: #F00000;">chanpos1_send</span> indicates that the function takes
+three arguments: a positive channel, a value (to be sent), and a
+continuation; the channel is passed to the continuation after the
+value is sent onto the channel. Also, the type assigned to the
+function <span style="color: #F00000;">chanpos1_recv</span> indicates that the function takes
+two arguments: a positive channel and a continuation; the channel and
+the marshalled representation of a value are passed to the
+continutation after the representation is received. The types assigned
+to the functions <span style="color: #F00000;">channeg1_send</span> and
+<span style="color: #F00000;">channeg1_recv</span> can be explained similarly.
+
+</p>
+
+<p>
+
+The above functions <span style="color: #F00000;">P</span> and <span style="color: #F00000;">Q</span> can now be implemented
+as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">fun</span>
+P <span class="keyword">(</span>
+  i1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> i2<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">,</span> chn<span class="keyword">:</span> <span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+channeg1_recv
+<span class="keyword">(</span> chn<span class="keyword">,</span> i1
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chn<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  channeg1_recv
+  <span class="keyword">(</span> chn<span class="keyword">,</span> i2
+  <span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chn<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    channeg1_send
+    <span class="keyword">(</span> chn
+    <span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chn<span class="keyword">,</span> lt<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+      <span class="dynexp"><span class="keyword">val</span> lt <span class="keyword">=</span> chmsg_parse&lt;<span class="staexp">bool</span><span class="keyword">&gt;</span><span class="keyword">(</span>lt<span class="keyword">)</span></span>
+      <span class="comment">(*
+      // Some code for processing [lt]
+      *)</span>
+      <span class="keyword">in</span>
+        channeg1_close<span class="keyword">(</span>chn<span class="keyword">)</span>
+      <span class="keyword">end</span>
+    <span class="keyword">)</span>
+  <span class="keyword">)</span> 
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [P] *)</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">fun</span>
+Q <span class="keyword">(</span>
+  chp<span class="keyword">:</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+chanpos1_recv
+<span class="keyword">(</span> chp
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chp<span class="keyword">,</span> i1<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> i1 <span class="keyword">=</span> chmsg_parse&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span>i1<span class="keyword">)</span></span> <span class="keyword">in</span>
+  chanpos1_recv
+  <span class="keyword">(</span> chp
+  <span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chp<span class="keyword">,</span> i2<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> i2 <span class="keyword">=</span> chmsg_parse&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span>i2<span class="keyword">)</span></span> <span class="keyword">in</span>
+    chanpos1_send
+    <span class="keyword">(</span> chp<span class="keyword">,</span> i1 <span class="keyword">&lt;</span> i2
+    <span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chp<span class="keyword">)</span> <span class="keyword">=&gt;</span> chanpos1_close<span class="keyword">(</span>chp<span class="keyword">)</span>
+    <span class="keyword">)</span>
+    <span class="keyword">end</span> <span class="comment">// end-of-let // end-of-lam</span>
+  <span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end-of-let // end-of-lam</span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [Q] *)</span>
+
+<span class="comment">(* ****** ****** *)</span>
+</pre>
+
+Note that <span style="color: #F00000;">chmsg_parse</span> is a function template for
+unmarshalling: It is called to turn the marshalled representation of a
+value into the value itself.
+
+</p>
+
+<p>
+A simple demo based on the code for <span style="color: #F00000;">P</span> and <span style="color: #F00000;">Q</span> is
+available <a href="./introxmpl1_demo.html">on-line</a>. The entirety
+of the code for this demo can be found in four files of the following
+names:
+
+<pre>
+introxmpl1_demo.html
+introxmpl1_prctl.sats
+introxmpl1_client.dats
+introxmpl1_server.dats
+</pre>
+
+In the file <u>introxmpl1_prctl.sats</u>, the protocol for
+communincations between the client (browser) and the server
+(web-worker) is formally represented as a session type. As can be
+expected, this file is statically loaded in both
+<u>introxmpl1_client.dats</u> and
+<u>introxmpl1_server.dats</u>.  The client code (in
+<u>introxmpl1_client.dats</u>) is based on the code for
+<span style="color: #F00000;">P</span> but contains various significant modifications, and it
+makes use of Bacon.js in its handling GUI issues. On the other hand,
+the server code (in <u>introxmpl1_client.dats</u>) is directly
+based on the code for <span style="color: #F00000;">Q</span> with virtually no modifications. I
+strongly encourage the reader to use the provided Makefile to build
+the demo on his/her own.
+
+</p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

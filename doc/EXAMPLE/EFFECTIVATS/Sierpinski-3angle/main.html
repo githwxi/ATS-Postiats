@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EFFECTIVATS-Sierpinski-3angle</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+
+
+<!--php-->
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Drawing Sierpinski Triangles
+</h1>
+
+<p>
+In this article, I would like to give an example that
+combines ATS code with JavaScript (JS) code. This is also
+an occasion for me to advocate refinement-based programming.
+</p>
+
+<h2>
+Setup for Animation
+</h2>
+
+The following code implements a typical setup for doing animation:
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> drawAnim<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> drawAnim_init<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> drawAnim_loop<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> drawFrame <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+drawAnim<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawAnim_init <span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawAnim_loop <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+drawAnim_loop<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawFrame <span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> sleep <span class="keyword">(</span><span class="dynexp">1</span><span class="comment">(*sec*)</span><span class="keyword">)</span></span> <span class="comment">// HX: this needs to be fixed</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawAnim_loop <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">}</span></span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+The code is self-explanatory: [drawAnim] is the main function to be
+called for doing animation; it calls [drawAnim_init] to do some form of
+initialization and then [drawAnim_loop] to start a loop that repeatedly
+draws a frame (by calling [drawFrame]) and sleeps (by calling [sleep]).
+</p>
+
+<p>
+However, the call to [sleep] inside the body of [drawAnim_loop] is
+problematic. As we want to run the animation inside a browser, calling
+[sleep], if supported, means to stop the browzer entirely, which is
+probably unacceptable. Instead, [drawAnim_loop] can be implemented as
+follows:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+drawAnim_loop<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawFrame <span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extfcall</span> <span class="keyword">(</span>void<span class="keyword">,</span> "setTimeout"<span class="keyword">,</span> drawAnim_loop<span class="keyword">,</span> 1000<span class="comment">(*ms*)</span><span class="keyword">)</span></span></span>
+<span class="keyword">}</span></span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+Essentially, the call to the external function [setTimeout] in
+JS requests that the browser schedule a call to [drawAnim_loop]
+1000 milliseconds (that is, 1 second) after the time when the call is made.
+</p>
+
+<p>
+I present as follows a simple implementation of [drawFrame] in JS
+directly so as to allow the reader to obtain a concrete feel for the
+above animation setup:
+</p>
+
+<pre class="patsyntax">
+<span class="extcode"><span class="extcode">%{$
+//
+var
+canvas =
+document.getElementById
+  ("Patsoptaas-Evaluate-canvas");
+//
+var ctx2d = canvas.getContext( '2d' );
+//
+var theToggle = 0
+//
+function
+drawFrame()
+{
+  var w = canvas.width;
+  var h = canvas.height;
+  if (theToggle) ctx2d.fillStyle = "#ffff00"; // yellow
+  if (!theToggle) ctx2d.fillStyle = "#0000ff"; // blue
+  theToggle = 1 - theToggle;
+  ctx2d.rect(0, 0, w, h);
+  ctx2d.fill();
+}
+//
+jQuery(document).ready(function(){drawAnim();});
+//
+%}</span></span> <span class="comment">// end of [%{$]</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+I do not plan to go over the JS code in detail.  Essentially, it locates a
+canvas identified by the string "Patsoptaas-Evaluate-canvas". The
+implementation of [drawFrame] paints the entire canvas with blue and
+yellow, alternately. The entirety of the code presented so far is stored in
+<u>Sierpinski-3angle-part.dats</u>, which can be readily tested
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinski-3angle/Sierpinski-3angle-part.dats">on-line</a>.
+</p>
+
+<h2>
+Drawing Sierpinski Triangles
+</h2>
+
+<p>
+The reader can take a look at an animated drawing of Sierpinski triangles
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats-contrib/master/projects/SMALL/JSmydraw/Sierpinski_3angle/Sierpinski_3angle_php.dats">on-line</a>.
+</p>
+
+<p>
+Given a natural number, a Sierpinski triangle at level n can be defined
+inductively on n. A regular triangle is regarded as a Sierpinski triangle
+at level 0. For a positive number n, a triangle ABC is a Sierpinski
+triangle at level n if the three triangles APR, PBQ, and RQC are Sierpinski
+triangles at level n-1, where P, Q, and R are the midpoints of the three
+sides AB, BC and CA, respectively.
+</p>
+
+<p>
+Let us introduce an abstract type [color] for colors
+and use [BLUE] and [YELLOW] to refer to two colors defined in JS
+of the same names:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">abstype</span> color</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">macdef</span> BLUE <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>color<span class="keyword">,</span> "BLUE"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">macdef</span> YELLOW <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>color<span class="keyword">,</span> "YELLOW"<span class="keyword">)</span></span></span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+Following is the interface of a function [drawTriangle],
+which is called to draw a triangle ABC filled with a given
+color:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+drawTriangle
+<span class="keyword">(</span>
+  c<span class="keyword">:</span> <span class="staexp">color</span> <span class="comment">// color for filling</span>
+<span class="keyword">,</span> Ax<span class="keyword">:</span> <span class="staexp">double</span><span class="keyword">,</span> Ay<span class="keyword">:</span> <span class="staexp">double</span> <span class="comment">// x-y-coordinates for A</span>
+<span class="keyword">,</span> Bx<span class="keyword">:</span> <span class="staexp">double</span><span class="keyword">,</span> By<span class="keyword">:</span> <span class="staexp">double</span> <span class="comment">// x-y-coordinates for B</span>
+<span class="keyword">,</span> Cx<span class="keyword">:</span> <span class="staexp">double</span><span class="keyword">,</span> Cy<span class="keyword">:</span> <span class="staexp">double</span> <span class="comment">// x-y-coordinates for C</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> "mac#"</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+Let us introduce another function [drawSTriangle]
+for drawing a Sierpinski triangle filled with a given color
+and then implement it based on the function [drawTriangle]:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+drawSTriangle
+<span class="keyword">(</span>
+  c<span class="keyword">:</span> <span class="staexp">color</span>
+<span class="keyword">,</span> Ax<span class="keyword">:</span> <span class="staexp">double</span><span class="keyword">,</span> Ay<span class="keyword">:</span> <span class="staexp">double</span> <span class="comment">// x-y-coordinates for A</span>
+<span class="keyword">,</span> Bx<span class="keyword">:</span> <span class="staexp">double</span><span class="keyword">,</span> By<span class="keyword">:</span> <span class="staexp">double</span> <span class="comment">// x-y-coordinates for B</span>
+<span class="keyword">,</span> Cx<span class="keyword">:</span> <span class="staexp">double</span><span class="keyword">,</span> Cy<span class="keyword">:</span> <span class="staexp">double</span> <span class="comment">// x-y-coordinates for C</span>
+<span class="keyword">,</span> level<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> "mac#"</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+drawSTriangle
+<span class="keyword">(</span>
+  c<span class="keyword">,</span> Ax<span class="keyword">,</span> Ay<span class="keyword">,</span> Bx<span class="keyword">,</span> By<span class="keyword">,</span> Cx<span class="keyword">,</span> Cy<span class="keyword">,</span> level
+<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+level <span class="keyword">&gt;</span> <span class="dynexp">0</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> Px <span class="keyword">=</span> <span class="keyword">(</span>Ax + Bx<span class="keyword">)</span> / <span class="dynexp">2</span>
+  <span class="keyword">and</span> Py <span class="keyword">=</span> <span class="keyword">(</span>Ay + By<span class="keyword">)</span> / <span class="dynexp">2</span></span>
+  <span class="dynexp"><span class="keyword">val</span> Qx <span class="keyword">=</span> <span class="keyword">(</span>Bx + Cx<span class="keyword">)</span> / <span class="dynexp">2</span>
+  <span class="keyword">and</span> Qy <span class="keyword">=</span> <span class="keyword">(</span>By + Cy<span class="keyword">)</span> / <span class="dynexp">2</span></span>
+  <span class="dynexp"><span class="keyword">val</span> Rx <span class="keyword">=</span> <span class="keyword">(</span>Cx + Ax<span class="keyword">)</span> / <span class="dynexp">2</span>
+  <span class="keyword">and</span> Ry <span class="keyword">=</span> <span class="keyword">(</span>Cy + Ay<span class="keyword">)</span> / <span class="dynexp">2</span></span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawTriangle <span class="keyword">(</span>c<span class="keyword">,</span> Px<span class="keyword">,</span> Py<span class="keyword">,</span> Qx<span class="keyword">,</span> Qy<span class="keyword">,</span> Rx<span class="keyword">,</span> Ry<span class="keyword">)</span></span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> level1 <span class="keyword">=</span> level - <span class="dynexp">1</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawSTriangle <span class="keyword">(</span>c<span class="keyword">,</span> Ax<span class="keyword">,</span> Ay<span class="keyword">,</span> Px<span class="keyword">,</span> Py<span class="keyword">,</span> Rx<span class="keyword">,</span> Ry<span class="keyword">,</span> level1<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawSTriangle <span class="keyword">(</span>c<span class="keyword">,</span> Px<span class="keyword">,</span> Py<span class="keyword">,</span> Bx<span class="keyword">,</span> By<span class="keyword">,</span> Qx<span class="keyword">,</span> Qy<span class="keyword">,</span> level1<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> drawSTriangle <span class="keyword">(</span>c<span class="keyword">,</span> Rx<span class="keyword">,</span> Ry<span class="keyword">,</span> Qx<span class="keyword">,</span> Qy<span class="keyword">,</span> Cx<span class="keyword">,</span> Cy<span class="keyword">,</span> level1<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [drawSTriangle] *)</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+The function [drawFrame] can be implemented as follows:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">local</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+theLevel_getinc<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span> "mac#"</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+drawFrame <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> Ax <span class="keyword">=</span> theAx_get<span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// x-coordinate of A</span>
+  <span class="dynexp"><span class="keyword">val</span> Ay <span class="keyword">=</span> theAy_get<span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// y-coordinate of A</span>
+  <span class="dynexp"><span class="keyword">val</span> Bx <span class="keyword">=</span> theBx_get<span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// x-coordinate of B</span>
+  <span class="dynexp"><span class="keyword">val</span> By <span class="keyword">=</span> theBy_get<span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// y-coordinate of B</span>
+  <span class="dynexp"><span class="keyword">val</span> Cx <span class="keyword">=</span> theCx_get<span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// x-coordinate of C</span>
+  <span class="dynexp"><span class="keyword">val</span> Cy <span class="keyword">=</span> theCy_get<span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// y-coordinate of C</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> level <span class="keyword">=</span> theLevel_getinc <span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> drawTriangle <span class="keyword">(</span>BLUE<span class="keyword">,</span> Ax<span class="keyword">,</span> Ay<span class="keyword">,</span> Bx<span class="keyword">,</span> By<span class="keyword">,</span> Cx<span class="keyword">,</span> Cy<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> drawSTriangle <span class="keyword">(</span>YELLOW<span class="keyword">,</span> Ax<span class="keyword">,</span> Ay<span class="keyword">,</span> Bx<span class="keyword">,</span> By<span class="keyword">,</span> Cx<span class="keyword">,</span> Cy<span class="keyword">,</span> level<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [drawFrame] *)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span> <span class="comment">// end of [local]</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+After the canvas for drawing is located, three points A, B and C are
+choosen on the canvas to be the vertices of a Sierpinski triangle. The
+x-y-coordinates of A can be obtained by calling [theAx_get] and
+[theAy_get], which are implemented in JS.  The x-y-coordinates of B and C
+can be obtained similarly. The function [theLevel_getinc] is called to
+yield the level of the Sierpinski triangle to be drawn. Please find all
+the details in the following JS code, which also includes an implementation
+of [drawTriangle]:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="extcode"><span class="extcode">%{$
+//
+var
+canvas =
+document.getElementById
+  ("Patsoptaas-Evaluate-canvas");
+var
+ctx2d = canvas.getContext( '2d' );
+//
+function
+theAx_get() { return 0; }
+function
+theAy_get() { return canvas.height; }
+function
+theBx_get() { return canvas.width/2; }
+function
+theBy_get() { return 0; }
+function
+theCx_get() { return canvas.width; }
+function
+theCy_get() { return canvas.height; }
+//
+var
+theLevel = 0;
+function
+theLevel_getinc()
+{
+  var
+  level = theLevel;
+  theLevel = (level+1)%7;
+  return level;
+}
+//
+function
+drawTriangle
+(
+  color, Ax, Ay, Bx, By, Cx, Cy
+)
+{
+  ctx2d.beginPath();
+  ctx2d.moveTo(Ax, Ay);
+  ctx2d.lineTo(Bx, By);
+  ctx2d.lineTo(Cx, Cy);
+  ctx2d.closePath();
+  ctx2d.fillStyle = color; ctx2d.fill();
+  return;
+}
+//
+jQuery(document).ready(function(){drawAnim();});
+//
+%}</span></span> <span class="comment">// end of [%{$]</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+The entirety of the code for this implementation of
+an animated drawing of Sierpinski triangles is stored in
+<u>Sierpinski-3angle-final.dats</u>, which can be readily tested
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/Sierpinski-3angle/Sierpinski-3angle-final.dats">on-line</a>.
+Of course, it is also possible to use <u>patsopt</u> to compile
+<u>Sierpinski-3angle-final.dats</u> into some C code and then use
+<u>atscc2js</u> to compile the C code into some JS code. Please
+find the related details in the provided Makefile. There is a file
+<u>Sierpinski-3angle.html</u> available for testing the generated JS code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-GraphSearch</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+A Template-Based Implementation of Graph Search
+</h1>
+
+<p>
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. Note that a template being embeddable simply means that the
+template can be given an implementation inside the body of a function
+(so that any argument of this function can be directly referred to in
+the implementation). In this article, I present a concrete example to
+illustrate that embeddable templates can play a pivotal role in
+support of a style of refinement-based programming.
+
+</p>
+
+<h2>Generic Graph Search</h2>
+
+<p>
+
+Abstractly speaking, a graph is a (possibly infinite) collection
+of nodes and each node is associated with a set of nodes that are
+referred to as its neighbors.
+Let us introduce an abstract type <span style="color: #0000F0;">node</span> for the nodes in a
+given graph (on which some kind of search is to be performed):
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">abstype</span> node <span class="keyword">=</span> ptr</span>
+<span class="keyword">typedef</span> <span class="staexp">nodelst <span class="keyword">=</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+node_get_neighbors<span class="keyword">(</span>nx<span class="keyword">:</span> <span class="staexp">node</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">nodelst</span></span>
+<span class="comment">//</span>
+</pre>
+
+For graph search (or graph-based search),
+one does not have to have an explicit representation of the underlying
+graph (to be searched). What is really needed is a way to
+locate all of the neighbors of any given node.
+Clearly, the interface assigned to <span style="color: #F00000;">node_get_neighbors</span>
+imposes the assumption that the set of neighbors of each node is finite
+as the type <span style="color: #0000F0;">list0</span> is only for finite lists.
+Another choice is to define <span style="color: #0000F0;">nodelst</span> as a linear stream
+of the type <span style="color: #0000F0;">stream_vt(node)</span>, which is not taken in this
+article as it may somewhat complicate the presentation.
+
+</p>
+
+<p>
+A common approach to searching a graph employs a store for nodes
+that are to be processed. The search is over if the store becomes
+empty. Otherwise, a node is chosen from the store for processing
+and all of its neighbors are put into the store. Let us introduce
+a function <span style="color: #F00000;">process_node</span> as follows for processing each
+chosen node:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+process_node<span class="keyword">(</span>nx<span class="keyword">:</span> <span class="staexp">node</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that a call to <span style="color: #F00000;">process_node</span> returns a boolean value
+to indicate whether the search should continue or stop immediately.
+
+</p>
+
+<p>
+The following two functions are for inserting a node and a list of
+nodes into the store containing nodes that are to be processed:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span> <span class="comment">// for inserting a node</span>
+theSearchStore_insert<span class="keyword">(</span>nx<span class="keyword">:</span> <span class="staexp">node</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span> <span class="comment">// for inserting a list of nodes</span>
+theSearchStore_insert_lst<span class="keyword">(</span>nxs<span class="keyword">:</span> <span class="staexp">nodelst</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+In addition, the following function is for choosing (based certain
+search strategy) a node from the store:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+theSearchStore_choose<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">Option_vt</span><span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that the function <span style="color: #F00000;">theSearchStore_choose</span> returns a
+node only if the store is not empty. A generic implementation of graph
+search is given as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+GraphSearch<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+GraphSearch
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+search
+<span class="keyword">(</span>
+<span class="comment">// argless</span>
+<span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+opt <span class="keyword">=</span> theSearchStore_choose<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> opt <span class="keyword">of</span>
+<span class="keyword">|</span> <span class="keyword">~</span>None_vt<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">|</span> <span class="keyword">~</span>Some_vt<span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> cont <span class="keyword">=</span> process_node<span class="keyword">(</span>nx<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    <span class="keyword">if</span> cont
+      <span class="keyword">then</span> <span class="keyword">let</span>
+        <span class="dynexp"><span class="keyword">val</span> nxs <span class="keyword">=</span>
+          node_get_neighbors<span class="keyword">(</span>nx<span class="keyword">)</span></span>
+        <span class="comment">// end of [val]</span>
+      <span class="keyword">in</span>
+        theSearchStore_insert_lst<span class="keyword">(</span>nxs<span class="keyword">)</span><span class="keyword">;</span> search<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+      <span class="keyword">end</span> <span class="comment">// end of [then]</span>
+    <span class="comment">// end of [if]</span>
+  <span class="keyword">end</span> <span class="comment">(* end of [Some_vt] *)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [search] *)</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  search<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [GraphSearch]</span>
+</pre>
+
+This implementation (of <span style="color: #F00000;">GraphSearch</span>) should be
+straightforward to follow.
+
+</p>
+
+<p>
+In contrast to a tree, a graph can potentially contain circles.  In
+order to prevent a node from being put into the store repeatedly, one
+may employ a marking scheme that only allows unmarked nodes to be put
+into the store and then marks them immediately after they are in the
+store. The following functions are introduced for the purpose of
+marking and testing (for markedness):
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+node_mark<span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+node_is_marked<span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span></span>
+<span class="dynexp"><span class="keyword">overload</span>
+<span class="keyword">.</span>is_marked <span class="keyword">with</span> node_is_marked</span>
+<span class="comment">//</span>
+</pre>
+
+</p>
+
+<h2>Generic Graph DFS</h2>
+
+<p>
+The so-called depth-first search (DFS) on a tree simply means that the
+children of a node being processed should be processed next ahead of
+the other stored nodes. When generalized to search on a graph, DFS
+means that the neighbors of a node being processed should be processed
+next.  In terms of implementation, the store employed by DFS should
+follow the last-in-first-out principle, that is, the node chosen for
+the next round should be the last node put into the store.
+
+</p>
+
+<p>
+Let us introduce a function <span style="color: #F00000;">theSearchStore_get</span> for
+obtaining the store associated with a particular graph search to be
+performed. With this store, which is represented as a stack of the type
+<span style="color: #0000F0;">slistref(node)</span>, the functions
+<span style="color: #F00000;">theSearchStore_insert</span>
+and
+<span style="color: #F00000;">theSearchStore_choose</span> can be readily implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+theSearchStore_get
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">slistref</span><span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+theSearchStore_insert&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theStore <span class="keyword">=</span> theSearchStore_get<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+<span class="keyword">~</span><span class="keyword">(</span>nx<span class="dynexp"><span class="keyword">.</span>is_marked</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">then</span>
+<span class="keyword">(</span>
+  node_mark<span class="keyword">(</span>nx<span class="keyword">)</span><span class="keyword">;</span>
+  slistref_insert<span class="keyword">(</span>theStore<span class="keyword">,</span> nx<span class="keyword">)</span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [theSearchStore_insert] *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+theSearchStore_insert_lst<span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+nxs
+<span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>rforeach</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> nx <span class="keyword">=&gt;</span> theSearchStore_insert<span class="keyword">(</span>nx<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+theSearchStore_choose&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theStore <span class="keyword">=</span> theSearchStore_get<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  slistref_takeout_opt<span class="keyword">(</span>theStore<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [theSearchStore_choose]</span>
+<span class="comment">//</span>
+</pre>
+
+Clearly, <span style="color: #F00000;">theSearchStore_insert_lst</span> can be implemented
+directly based on <span style="color: #F00000;">theSearchStore_insert</span>. Note that the
+combinator <span style="color: #F00000;">rforeach</span> traverses a list in the reverse
+order, that is, from right to left.
+
+</p>
+
+<h2>Solving 8-Queen Puzzle</h2>
+
+<p>
+The famous 8-queen puzzle asks the player to find ways to put eight
+queen pieces on a chess board such that no queen piece can attack
+any other ones. In other words, no two queen pieces can be put on the
+same row, the same column, or the same diagnal. This puzzle can be
+readily solved with a tree-based search. Let a node be represented by
+a list <span style="color: #F00000;">xs</span> of integers:
+
+<pre
+class="patsyntax"
+><span class="staexp"><span class="keyword">assume</span> node <span class="keyword">=</span> list0<span class="keyword">(</span>int<span class="keyword">)</span></span>
+</pre>
+
+For each valid index <span style="color: #F00000;">i</span>, the integer <span style="color: #F00000;">xs[i]</span>
+stands for the column number of the queen piece on row
+<span style="color: #F00000;">n-1-i</span>, where <span style="color: #F00000;">n</span> refers to the length of
+<span style="color: #F00000;">xs</span>. More precisely, a given integer list of length
+<span style="color: #F00000;">n</span> represents a partial configuration of chess board
+containing <span style="color: #F00000;">n</span> queen pieces with no piece being able to
+attack any other ones.
+
+</p>
+
+<p>
+There is no need for marking nodes as the search involved is tree-based:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span> node_mark&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">implement</span> node_unmark&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">implement</span> node_is_marked&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> false</span>
+</pre>
+
+</p>
+
+<p>
+The function
+<span style="color: #F00000;">node_get_neighbors</span> can be implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+node_get_neighbors
+  <span class="keyword">(</span>nx0<span class="keyword">)</span> <span class="keyword">=</span> 
+<span class="keyword">(</span>
+<span class="keyword">(</span>N<span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>list0_map</span><span class="keyword">(</span>TYPE<span class="staexp"><span class="keyword">{</span>node<span class="keyword">}</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> x <span class="keyword">=&gt;</span> cons0<span class="keyword">(</span>x<span class="keyword">,</span> nx0<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>filter</span><span class="keyword">(</span><span class="keyword">)</span>
+  <span class="keyword">(</span>
+    <span class="keyword">lam</span> nx <span class="keyword">=&gt;</span>
+    <span class="keyword">let</span>
+      <span class="dynexp"><span class="keyword">val-</span>cons0<span class="keyword">(</span>x0<span class="keyword">,</span> nx<span class="keyword">)</span> <span class="keyword">=</span> nx</span>
+    <span class="keyword">in</span>
+      nx<span class="dynexp"><span class="keyword">.</span>iforall</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span>i<span class="keyword">,</span> x<span class="keyword">)</span> <span class="keyword">=&gt;</span> x0 != x &amp;&amp; abs<span class="keyword">(</span>x0 - x<span class="keyword">)</span> != i+<span class="dynexp">1</span><span class="keyword">)</span>
+    <span class="keyword">end</span> <span class="comment">// end of [let] // end of [lam]</span>
+  <span class="keyword">)</span></span>
+</pre>
+
+Note that calling <span style="color: #F00000;">node_get_neighbors</span> on a given node
+returns all of the nodes that extend the given one with one more queen
+piece.
+
+</p>
+
+<p>
+The rest of the code for solving 8-queen puzzle is given as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+process_node&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">if</span>
+<span class="keyword">(</span>length<span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> N<span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp">println!</span> <span class="keyword">(</span>list0_reverse<span class="keyword">(</span>nx<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  true
+<span class="keyword">end</span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> true</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+QueenPuzzle_solve<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+QueenPuzzle_solve<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  GraphSearch<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="dynexp"><span class="keyword">val</span>
+theStore <span class="keyword">=</span>
+slistref_make_nil<span class="staexp"><span class="keyword">{</span>node<span class="keyword">}</span></span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+slistref_insert<span class="keyword">(</span>theStore<span class="keyword">,</span> nil0<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span> theSearchStore_get&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> theStore</span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [QueenPuzzle_solve] *)</span>
+<span class="comment">//</span>
+</pre>
+
+The punch-line in this example is the one-liner implementation of
+<span style="color: #F00000;">theSearchStore_get</span> inside the body of <span style="color: #F00000;">QueenPuzzle_solve</span>.
+One really needs to get this punch-line in order to start appreciating
+the power of embeddability offered by embeddable templates.
+
+</p>
+
+<h2>Playing Game-of-24</h2>
+
+<p>
+Given four natural numbers n1, n2, n3 and n4, one chooses two of them
+and generates a rational number r1 by applying either addition,
+subtraction, multiplication or division; one mixes r1 with the
+remaining two numbers and then chooses two of them to generate a
+rational number r2 by applying either addition, subtraction,
+multiplication or division; one then takes r2 and the last remaining
+number to generate a rational number r3 by applying either addition,
+subtraction, multiplication, or division. If there exists at least one
+way to make r3 equal 24, then (n1, n2, n3, n4) is said to be a good
+quad. For instance, (10,10,4,4) is a good quad since <span style="color: #F00000;">(10 *
+10 - 4) / 4 = 24</span> holds. Similarly, (5,7,7,11) is a good quad since
+<span style="color: #F00000;">( 5 - 11 / 7) * 7 = 24</span> holds.  Game-of-24 is a game that
+asks the player to determine whether four given natural numbers are a
+good quad or not.
+</p>
+
+<p>
+Please find an implementation of Game-of-24 in
+<tt>GameOf24Play.dats</tt> that is directly based on the generic
+graph-based depth-first search presented above.
+
+</p>
+
+<h2>Generic Graph BFS</h2>
+
+<p>
+The so-called breadth-first search (BFS) on a tree is often referred
+to as level-order search as it only starts to search the nodes at the
+next level when it finishes processing all of the node at the current
+level.  When generalized to search on a graph, BFS simply means that
+the children of a node being processed should be processed until after
+all of the other currently stored nodes are processed.  In terms of
+implementation, the store employed by BFS should follow the
+first-in-first-out principle, that is, the node chosen for the next
+round should be the first node put into the store.
+
+</p>
+
+<p>
+By simply replacing <span style="color: #0000F0;">slistref</span> with <span style="color: #0000F0;">qlistref</span>
+in the previously presented implementation of graph-based DFS, one
+obtains the following implementation of graph-based BFS:
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+theSearchStore_get
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">qlistref</span><span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+theSearchStore_insert&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theStore <span class="keyword">=</span> theSearchStore_get<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+<span class="keyword">~</span><span class="keyword">(</span>nx<span class="dynexp"><span class="keyword">.</span>is_marked</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">then</span>
+<span class="keyword">(</span>
+  node_mark<span class="keyword">(</span>nx<span class="keyword">)</span><span class="keyword">;</span>
+  qlistref_insert<span class="keyword">(</span>theStore<span class="keyword">,</span> nx<span class="keyword">)</span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [theSearchStore_insert] *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+theSearchStore_insert_lst<span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+nxs
+<span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>foreach</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> nx <span class="keyword">=&gt;</span> theSearchStore_insert<span class="keyword">(</span>nx<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+theSearchStore_choose&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theStore <span class="keyword">=</span> theSearchStore_get<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  qlistref_takeout_opt<span class="keyword">(</span>theStore<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [theSearchStore_choose]</span>
+<span class="comment">//</span>
+  </pre>
+
+Note that the type <span style="color: #0000F0;">qlistref</span> is for a queue (based on a
+two-list implementation).
+
+</p>
+
+<h2>Playing Doublets Game</h2>
+
+<p>
+Doublets is a word game invented by Lewis Carroll (1832-1898), the
+author of children's classics "Alice in Wonderland". Given two words
+recognized in a chosen dictionary, they are said to be one-step
+connected if they differ precisely at one position in their
+spellings. Clearly, two connected words must contain the same number
+of characters. Two given words <span style="color: #F00000;">W1</span> and <span style="color: #F00000;">W2</span> are
+many-step connected if a sequence of words beginning with
+<span style="color: #F00000;">W1</span> and ending with <span style="color: #F00000;">W2</span> can be found such that any
+two consecutive words in this sequence are one-step connected. The
+game Doublets basically asks the player to tell whether two given
+words are many-step connected. For instance. <span style="color: #F00000;">head</span> and
+<span style="color: #F00000;">tail</span> form a doublet as is shown by the sequence:
+<span style="color: #F00000;">head</span>, <span style="color: #F00000;">held</span>, <span style="color: #F00000;">hell</span>, <span style="color: #F00000;">tell</span>,
+<span style="color: #F00000;">tall</span>, <span style="color: #F00000;">tail</span>.  One may play Doublets on-line by
+visiting
+<a href="http://ats-lang.github.io/EXAMPLE/BUCS320/Doublets/Doublets.html">this link</a>.
+
+</p>
+
+<p>
+Clearly, the kind of search involved in playing Doublets can simply be
+graph-based BFS. Due to the symmetry in the relation of one-step
+connection, a marking scheme is needed to prevent a word from being
+added repeatedly into the store (for the words to be processed). In
+order for a sequence connecting two given words to be shown at the end
+of the search, the type for nodes is chosen to be <span style="color: #0000F0;">list0(string)</span>
+for lists of strings:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">assume</span> node <span class="keyword">=</span> list0<span class="keyword">(</span>string<span class="keyword">)</span></span>
+</pre>
+
+Following is some of the code implementing Doubelets:
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+Doublets_play
+<span class="keyword">(</span>
+w1<span class="keyword">:</span> <span class="staexp">string</span><span class="keyword">,</span> w2<span class="keyword">:</span> <span class="staexp">string</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">Option</span><span class="keyword">(</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">string</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+Doublets_play
+  <span class="keyword">(</span>w1<span class="keyword">,</span> w2<span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp">res[<span class="keyword">]</span></span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+res <span class="keyword">=</span>
+ref&lt;<span class="staexp">Option</span><span class="keyword">(</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">string</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;</span><span class="keyword">(</span>None<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theMarked <span class="keyword">=</span> myhashtbl_make_nil<span class="keyword">(</span><span class="dynexp">1024</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+node_mark&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val-</span>
+  cons0<span class="keyword">(</span>w<span class="keyword">,</span> _<span class="keyword">)</span> <span class="keyword">=</span> nx</span>
+  <span class="dynexp"><span class="keyword">val-</span><span class="keyword">~</span>None_vt<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> theMarked<span class="dynexp"><span class="keyword">.</span>insert</span><span class="keyword">(</span>w<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+node_is_marked&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val-</span>
+  cons0<span class="keyword">(</span>w<span class="keyword">,</span> _<span class="keyword">)</span> <span class="keyword">=</span> nx</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> opt <span class="keyword">=</span> theMarked<span class="dynexp"><span class="keyword">.</span>search</span><span class="keyword">(</span>w<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> opt <span class="keyword">of</span>
+  <span class="keyword">|</span> <span class="keyword">~</span>Some_vt _ <span class="keyword">=&gt;</span> true <span class="keyword">|</span> <span class="keyword">~</span>None_vt _ <span class="keyword">=&gt;</span> false
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [node_is_marked]</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+process_node&lt;<span class="keyword">&gt;</span>
+  <span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val-</span>cons0<span class="keyword">(</span>w<span class="keyword">,</span> _<span class="keyword">)</span> <span class="keyword">=</span> nx</span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> w <span class="keyword">=</span> w2 <span class="keyword">then</span> <span class="keyword">(</span><span class="dynexp">res[<span class="keyword">]</span></span> := Some<span class="keyword">(</span>nx<span class="keyword">)</span><span class="keyword">;</span> false<span class="keyword">)</span> <span class="keyword">else</span> true
+<span class="keyword">end</span></span> <span class="comment">// end of [process_node]</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theStore <span class="keyword">=</span> qlistref_make_nil<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+theSearchStore_get&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> theStore</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> nx <span class="keyword">=</span> list0_sing<span class="keyword">(</span>w1<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> theSearchStore_insert<span class="keyword">(</span>nx<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> GraphSearch<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [Doublets_play] *)</span>
+</pre>
+
+Note that both function templates <span style="color: #F00000;">node_mark</span> and
+<span style="color: #F00000;">node_is_marked</span> are implemented inside the body of the
+function <span style="color: #F00000;">Doublets_play</span>, making it possible for them to
+gain access to <span style="color: #F00000;">theMarked</span>, a hashtable introduced locally
+inside <span style="color: #F00000;">Doublets_play</span> for marking nodes that are put into
+the store (implemented as a queue of the type <span style="color: #0000F0;">qlistref(node)</span>).
+
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+GraphSearch.dats // generic graph search
+GraphSearch_dfs.dats // generic depth-first graph search
+GraphSearch_bfs.dats // generic breadth-first graph search
+QueenPuzzle.dats // solving 8-queen puzzle with GraphSearch_dfs
+GameOf24Play.dats // implementing Game-of-24 based on GraphSearch_dfs
+DoubletsPlay.dats // implementing Doublets based on GraphSearch_bfs
+</pre>
+
+In addition, there is an accompanying <tt>Makefile</tt> for compiling
+and testing the code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

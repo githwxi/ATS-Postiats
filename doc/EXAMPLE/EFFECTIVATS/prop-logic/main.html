@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-prop-logic</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Encoding Propositional Logic
+</h1>
+
+<p>
+In this article, I present a direct encoding of propositional
+logic in ATS, illustrating through examples a simple form of
+formalized theorem-proving. For the entirety of the code used
+in this presentation, please see the files <u>prop-logic.sats</u>
+and <u>prop-logic.dats</u>.
+</p>
+
+<h2>
+Encoding Truth Values
+</h2>
+
+<p>
+The truth values are
+encoded as abstract props <span style="color: #0000F0;">PTRUE</span> and <span style="color: #0000F0;">PFALSE</span>:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absprop</span> PTRUE</span> <span class="comment">// for true</span>
+<span class="staexp"><span class="keyword">absprop</span> PFALSE</span> <span class="comment">// for false</span>
+</pre>
+
+There is one introduction rule but no elimination rule for <span style="color: #0000F0;">true</span>:
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span> true_intr<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">PTRUE</span></span>
+</pre>
+
+There is no introduction rule but one elimination rule for <span style="color: #0000F0;">false</span>:
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span> false_elim<span class="staexp"><span class="keyword">{</span>A<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf<span class="keyword">:</span> <span class="staexp">PFALSE</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">A</span></span>
+</pre>
+
+Clearly, the rule <span style="color: #F00000;">false_elim</span> states that any proposition can be
+derived from a proof of <span style="color: #0000F0;">false</span>.
+</p>
+
+<h2>
+Encoding Negation
+</h2>
+
+<p>
+Given a proposition <span style="color: #0000F0;">A</span>, we use <span style="color: #0000F0;">PNEG(A)</span> for
+the negation of <span style="color: #0000F0;">A</span>:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absprop</span> PNEG<span class="keyword">(</span>A<span class="keyword">:</span> prop<span class="keyword">)</span></span> <span class="comment">// for negation</span>
+<span class="keyword">propdef</span> <span class="staexp"><span class="keyword">~</span><span class="keyword">(</span><span class="staexp">A<span class="keyword">:</span> prop</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp">PNEG</span><span class="keyword">(</span><span class="staexp">A</span><span class="keyword">)</span></span> <span class="comment">// shorthand</span>
+</pre>
+
+For convenience, <span style="color: #0000F0;">~A</span> can be written for <span style="color: #0000F0;">PNEG(A)</span>.
+There is one introduction rule and one elimination rule for negation:
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span> neg_intr<span class="staexp"><span class="keyword">{</span>A<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>fpf<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">PFALSE</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">~</span></span><span class="staexp">A</span></span>
+<span class="prfexp"><span class="keyword">praxi</span> neg_elim<span class="staexp"><span class="keyword">{</span>A<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf1<span class="keyword">:</span> <span class="staexp"><span class="keyword">~</span></span><span class="staexp">A</span><span class="keyword">,</span> pf2<span class="keyword">:</span> <span class="staexp">A</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">PFALSE</span></span>
+</pre>
+
+Essentially, <span style="color: #F00000;">neg_intr</span> means that <span style="color: #0000F0;">~A</span> is
+derivable if any proof of <span style="color: #0000F0;">A</span> can be used to build a proof
+of <span style="color: #0000F0;">false</span>. As for elimination of negation,
+<span style="color: #F00000;">neg_elim</span> states that a proof of <span style="color: #0000F0;">false</span> can be
+built on the top of a proof of <span style="color: #0000F0;">~A</span> and a proof of
+<span style="color: #0000F0;">A</span>.
+
+</p>
+
+<p>
+
+By combining <span style="color: #F00000;">neg_elim</span> and <span style="color: #F00000;">false_elim</span>, we
+obtain the following rule stating that any proposition <span style="color: #0000F0;">B</span>
+can be derived from a proof of <span style="color: #0000F0;">A</span> and a proof of
+<span style="color: #0000F0;">~A</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prfn</span>
+neg_elim2
+  <span class="staexp"><span class="keyword">{</span>A<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span>
+  <span class="keyword">(</span>pf1<span class="keyword">:</span> <span class="staexp">A</span><span class="keyword">,</span> pf2<span class="keyword">:</span> <span class="staexp"><span class="keyword">~</span></span><span class="staexp">A</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">B</span> <span class="keyword">=</span> false_elim<span class="keyword">(</span>neg_elim<span class="keyword">(</span>pf1<span class="keyword">,</span> pf2<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+</p>
+
+<h2>
+Encoding Conjunction
+</h2>
+
+<p>
+Given two propositions <span style="color: #0000F0;">A</span> and <span style="color: #0000F0;">B</span>, we use <span style="color: #0000F0;">PCONJ(A, B)</span> for
+the conjunction of <span style="color: #0000F0;">A</span> and <span style="color: #0000F0;">B</span>:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absprop</span>
+PCONJ<span class="keyword">(</span>A<span class="keyword">:</span> prop<span class="keyword">,</span> B<span class="keyword">:</span> prop<span class="keyword">)</span></span>
+<span class="keyword">propdef</span> <span class="staexp">&amp;&amp;<span class="keyword">(</span><span class="staexp">A<span class="keyword">:</span> prop</span><span class="keyword">,</span> <span class="staexp">B<span class="keyword">:</span> prop</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp">PCONJ</span><span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span></span> <span class="comment">// shorthand</span>
+</pre>
+
+For convenience, <span style="color: #0000F0;">A && B</span> can be written for
+<span style="color: #0000F0;">PCONJ(A, B)</span>.  There are one introduction rule and two
+elimination rules associated with conjunction:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+conj_intr
+  <span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">B</span></span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+conj_elim_l<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">A</span></span>
+<span class="prfexp"><span class="keyword">praxi</span>
+conj_elim_r<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">B</span></span>
+<span class="comment">//</span>
+</pre>
+
+As an example, a proof is given below showing that conjunction is commutative:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prfn</span>
+conj_commute
+  <span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">B</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">B</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">A</span> <span class="keyword">=</span>
+  conj_intr<span class="keyword">(</span>conj_elim_r<span class="keyword">(</span>pf<span class="keyword">)</span><span class="keyword">,</span> conj_elim_l<span class="keyword">(</span>pf<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+</p>
+
+<h2>
+Encoding Disjunction
+</h2>
+
+<p>
+Given two propositions <span style="color: #0000F0;">A</span> and <span style="color: #0000F0;">B</span>, we use <span style="color: #0000F0;">PDISJ(A, B)</span> for
+the disjunction of <span style="color: #0000F0;">A</span> and <span style="color: #0000F0;">B</span>:
+
+<pre
+class="patsyntax">
+<span class="keyword">dataprop</span>
+<span class="staexp">PDISJ<span class="keyword">(</span>A<span class="keyword">:</span> prop<span class="keyword">,</span> B<span class="keyword">:</span> prop<span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="keyword">|</span> <span class="prfexp">disj_intr_l<span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="keyword">of</span> <span class="keyword">(</span><span class="staexp">A</span><span class="keyword">)</span></span>
+  <span class="keyword">|</span> <span class="prfexp">disj_intr_r<span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="keyword">of</span> <span class="keyword">(</span><span class="staexp">B</span><span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="keyword">propdef</span> <span class="staexp">||<span class="keyword">(</span><span class="staexp">A<span class="keyword">:</span> prop</span><span class="keyword">,</span> <span class="staexp">B<span class="keyword">:</span> prop</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp">PDISJ</span><span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+For convenience, <span style="color: #0000F0;">A || B</span> can be written for
+<span style="color: #0000F0;">PDISJ(A, B)</span>.  As an example, a proof is given below
+showing that disjunction is commutative:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prfn</span>
+disj_commute
+  <span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf0<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">||</span> <span class="staexp">B</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">B</span> <span class="staexp">||</span> <span class="staexp">A</span> <span class="keyword">=</span>
+  <span class="keyword">case+</span> pf0 <span class="keyword">of</span>
+  <span class="keyword">|</span> disj_intr_l<span class="keyword">(</span>pf0_l<span class="keyword">)</span> <span class="keyword">=&gt;</span> disj_intr_r<span class="keyword">(</span>pf0_l<span class="keyword">)</span>
+  <span class="keyword">|</span> disj_intr_r<span class="keyword">(</span>pf0_r<span class="keyword">)</span> <span class="keyword">=&gt;</span> disj_intr_l<span class="keyword">(</span>pf0_r<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+The two constructors <span style="color: #F00000;">disj_intr_l</span> and
+<span style="color: #F00000;">disj_intr_r</span> associated with <span style="color: #0000F0;">PDISJ</span> correspond
+to the two introduction rules associated with disjunction, and the
+following function <span style="color: #F00000;">disj_elim</span> encodes the elimination rule
+associated with disjunction:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prfn</span>
+disj_elim<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>C<span class="keyword">:</span>prop<span class="keyword">}</span></span>
+  <span class="keyword">(</span>pf0<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">||</span> <span class="staexp">B</span><span class="keyword">,</span> fpf1<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">C</span><span class="keyword">,</span> fpf2<span class="keyword">:</span> <span class="staexp">B</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">C</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">C</span> <span class="keyword">=</span>
+  <span class="keyword">case+</span> pf0 <span class="keyword">of</span>
+  <span class="keyword">|</span> disj_intr_l<span class="keyword">(</span>pf0_l<span class="keyword">)</span> <span class="keyword">=&gt;</span> fpf1<span class="keyword">(</span>pf0_l<span class="keyword">)</span>
+  <span class="keyword">|</span> disj_intr_r<span class="keyword">(</span>pf0_r<span class="keyword">)</span> <span class="keyword">=&gt;</span> fpf2<span class="keyword">(</span>pf0_r<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+As another example, the following code implements a proof function
+showing that conjunction can be distributed over disjunction:
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">prfn</span>
+conj_disj_distribute
+  <span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">,</span>C<span class="keyword">:</span>prop<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  pf0<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="keyword">(</span><span class="staexp">B</span> <span class="staexp">||</span> <span class="staexp">C</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="staexp">||</span> <span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">&amp;&amp;</span> <span class="staexp">C</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> pf0_l <span class="keyword">=</span> conj_elim_l<span class="keyword">(</span>pf0<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> pf0_r <span class="keyword">=</span> conj_elim_r<span class="keyword">(</span>pf0<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> pf0_r <span class="keyword">of</span>
+<span class="keyword">|</span> disj_intr_l<span class="keyword">(</span>pf0_rl<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    disj_intr_l<span class="keyword">(</span>conj_intr<span class="keyword">(</span>pf0_l<span class="keyword">,</span> pf0_rl<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="comment">// end of [disj_intr_l]</span>
+<span class="keyword">|</span> disj_intr_r<span class="keyword">(</span>pf0_rr<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    disj_intr_r<span class="keyword">(</span>conj_intr<span class="keyword">(</span>pf0_l<span class="keyword">,</span> pf0_rr<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="comment">// end of [disj_intr_r]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [conj_disj_distribute]</span>
+</pre>
+
+</p>
+
+<h2>
+Encoding Implication
+</h2>
+
+<p>
+Given two propositions <span style="color: #0000F0;">A</span>
+and <span style="color: #0000F0;">B</span>, we use <span style="color: #0000F0;">PIMPL(A, B)</span> for
+the implication of <span style="color: #0000F0;">B</span> from <span style="color: #0000F0;">A</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">absprop</span>
+PIMPL<span class="keyword">(</span>A<span class="keyword">:</span> prop<span class="keyword">,</span> B<span class="keyword">:</span> prop<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">infixr</span> <span class="keyword">(</span><span class="keyword">-&gt;</span><span class="keyword">)</span> -&gt;&gt;</span>
+<span class="keyword">propdef</span> <span class="staexp">-&gt;&gt;<span class="keyword">(</span><span class="staexp">A<span class="keyword">:</span> prop</span><span class="keyword">,</span> <span class="staexp">B<span class="keyword">:</span> prop</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp">PIMPL</span><span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+For convenience, <span style="color: #0000F0;">A <tt>-&gt;&gt;</tt> B</span> can be written
+for <span style="color: #0000F0;">PIMPL(A, B)</span>.  There is one introduction rule and one
+elimination rule for implication:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+impl_intr<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp"><span class="keyword">-&gt;</span></span> <span class="staexp">B</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">B</span></span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+impl_elim<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf1<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">B</span><span class="keyword">,</span> pf2<span class="keyword">:</span> <span class="staexp">A</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">B</span></span>
+<span class="comment">//</span>
+</pre>
+
+Essentially, <span style="color: #0000F0;">A</span> implying <span style="color: #0000F0;">B</span> is interpreted as a
+function of the type <span style="color: #0000F0;">A <tt>-&gt;</tt> B</span>.
+</p>
+
+<p>
+As an example, a proof
+<span style="color: #0000F0;">(A <tt>-&gt;&gt;</tt> (B <tt>-&gt;&gt;</tt> C)) <tt>-&gt;&gt;</tt> ((A <tt>-&gt;&gt;</tt> B) <tt>-&gt;&gt;</tt> (A <tt>-&gt;&gt;</tt> C))</span> is given as follows:
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">prfn</span>
+Subst<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">,</span>C<span class="keyword">:</span>prop<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+<span class="comment">// argless</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="keyword">(</span><span class="staexp">B</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">C</span><span class="keyword">)</span><span class="keyword">)</span> <span class="staexp">-&gt;&gt;</span> <span class="keyword">(</span><span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">B</span><span class="keyword">)</span> <span class="staexp">-&gt;&gt;</span> <span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">C</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span>
+impl_intr<span class="keyword">(</span>
+  <span class="keyword">lam</span> pf1 <span class="keyword">=&gt;</span>
+  impl_intr<span class="keyword">(</span>
+    <span class="keyword">lam</span> pf2 <span class="keyword">=&gt;</span>
+    impl_intr<span class="keyword">(</span>
+      <span class="keyword">lam</span> pf3 <span class="keyword">=&gt;</span>
+      impl_elim<span class="keyword">(</span>impl_elim<span class="keyword">(</span>pf1<span class="keyword">,</span> pf3<span class="keyword">)</span><span class="keyword">,</span> impl_elim<span class="keyword">(</span>pf2<span class="keyword">,</span> pf3<span class="keyword">)</span><span class="keyword">)</span>
+    <span class="keyword">)</span>
+  <span class="keyword">)</span>
+<span class="keyword">)</span></span>
+</pre>
+
+</p>
+
+<h2>
+Encoding Equivalence
+</h2>
+
+<p>
+Given two propositions <span style="color: #0000F0;">A</span>
+and <span style="color: #0000F0;">B</span>, we use <span style="color: #0000F0;">PEQUIV(A, B)</span> for the
+(propositional) equivalence between <span style="color: #0000F0;">A</span> and <span style="color: #0000F0;">B</span>:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absprop</span>
+PEQUIV<span class="keyword">(</span>A<span class="keyword">:</span> prop<span class="keyword">,</span> B<span class="keyword">:</span> prop<span class="keyword">)</span></span>
+<span class="keyword">propdef</span> <span class="staexp">== <span class="keyword">(</span><span class="staexp">A<span class="keyword">:</span> prop</span><span class="keyword">,</span> <span class="staexp">B<span class="keyword">:</span> prop</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp">PEQUIV</span><span class="keyword">(</span><span class="staexp">A</span><span class="keyword">,</span> <span class="staexp">B</span><span class="keyword">)</span></span>
+</pre>
+
+For convenience, <span style="color: #0000F0;">A == B</span> can be written for
+<span style="color: #0000F0;">PEQUIV(A, B)</span>.  There is one introduction rule and two
+elimination rules for propositional equivalence:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+equiv_intr
+  <span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">B</span><span class="keyword">,</span> <span class="staexp">B</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">A</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">==</span> <span class="staexp">B</span></span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+equiv_elim_l<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">==</span> <span class="staexp">B</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">B</span></span>
+<span class="prfexp"><span class="keyword">praxi</span>
+equiv_elim_r<span class="staexp"><span class="keyword">{</span>A<span class="keyword">,</span>B<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span>pf<span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">==</span> <span class="staexp">B</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">B</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">A</span></span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<h2>
+The Law of Double Negation
+</h2>
+
+<p>
+The law of double negation can be encoded as follows:
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span> LDN<span class="staexp"><span class="keyword">{</span>A<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp"><span class="keyword">~</span></span><span class="keyword">(</span><span class="staexp"><span class="keyword">~</span></span><span class="staexp">A</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">A</span></span>
+</pre>
+</p>
+
+<h2>
+The Law of Excluded Middle
+</h2>
+
+<p>
+The law of excluded middle can be encoded as follows:
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span> LEM<span class="staexp"><span class="keyword">{</span>A<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">A</span> <span class="staexp">||</span> <span class="staexp"><span class="keyword">~</span></span><span class="staexp">A</span></span>
+</pre>
+</p>
+
+<h2>
+Peirce's Law
+</h2>
+
+<p>
+Peirce's law can be encoded as follows:
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span>
+Peirce<span class="staexp"><span class="keyword">{</span>P<span class="keyword">,</span>Q<span class="keyword">:</span>prop<span class="keyword">}</span></span><span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="keyword">(</span><span class="staexp">P</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">Q</span><span class="keyword">)</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">P</span><span class="keyword">)</span> <span class="staexp">-&gt;&gt;</span> <span class="staexp">P</span></span>
+</pre>
+
+This law of Peirce is equivalent to LEM, and it can be seen as a
+variant of LEM expressed only in terms of the implicative logic
+connective.  </p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
