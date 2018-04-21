@@ -170,7 +170,7 @@ direntp_get_d_name
   (entp: !Direntp1):<> vStrptr1 = "mac#%"
 //
 fun{}
-direntp_get_d_name_gc (entp: !Direntp1):<!wrt> Strptr1
+direntp_get_d_name_gc(entp: !Direntp1):<!wrt> Strptr1
 //
 (* ****** ****** *)
 //

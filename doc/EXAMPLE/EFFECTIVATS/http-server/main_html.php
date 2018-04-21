@@ -148,7 +148,7 @@ myserver_init () =
 {
 //
 val inport = in_port_nbo(MYPORT)
-val inaddr = in_addr_hbo2nbo (INADDR_ANY)
+val inaddr = in_addr_hbo2nbo(INADDR_ANY)
 //
 var servaddr
   : sockaddr_in_struct

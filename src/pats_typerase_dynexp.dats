@@ -340,9 +340,10 @@ local
 
 fun
 auxerr_if
-  (p3t: p3at): void = let
+(p3t: p3at): void = let
 //
-val isful = p3at_is_full(p3t)
+val
+isful = p3at_is_full(p3t)
 //
 in
 //
