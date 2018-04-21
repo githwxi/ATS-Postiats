@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-loop-as-tailrec</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Loops as Tail-Recursive Functions
+</h1>
+
+Although language constructs are available in ATS to support direct
+construction of for-loops and while-loops, it is strongly recommended that
+loops be implemented as tail-recursive functions (a.k.a. iterative
+functions). A primary advantage of doing so is that this style of loop
+implementation can be readily combined with theorem-proving as is supported
+in ATS, thus facilitating program verification involving loops.
+
+<p>
+
+Please see tailrec.dats for the entirety of the code given in the
+following presentation.
+
+<h2>
+What is tail-recursion?
+</h2>
+
+Suppose that [foo] and [bar] are two functions and there is a call to [bar]
+in the body of [foo]. This call is a tail-call if what it returns is also
+the return value of [foo]. In other words, a function call in the body of
+some calling function is a tail-call if the return value of the call is
+also the return value of the calling function. For instance, the call to
+[bar] is a tail-call in the following code but the call to [baz] is not:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> foo <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> x <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> bar<span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">else</span> baz<span class="keyword">(</span>x<span class="keyword">)</span>+<span class="dynexp">1</span></span>
+</pre>
+
+By the way, even if baz(x)+1 is changed into baz(x)+0, the call to
+[baz] is still not considered a tail-call unless baz(x)+0 can somehow be
+translated into baz(x).
+
+<p>
+
+If the calling function calls itself in a tail-call, then this tail-call is
+often referred to as a tail-recursive call. A function is tail-recursive if
+every recursive call in its body is a tail-call. Note that a tail-recursive
+function is also referred to as an iterative function in the literature.
+In the following example, the outside call to [f91] is tail-recursive but
+the inside one is not:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> f91 <span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> x &gt;= <span class="dynexp">101</span> <span class="keyword">then</span> x-<span class="dynexp">10</span> <span class="keyword">else</span> f91<span class="keyword">(</span>f91<span class="keyword">(</span>x+<span class="dynexp">11</span><span class="keyword">)</span><span class="keyword">)</span></span>
+</pre>
+
+By definition, [f91] is not a tail-recursive function.
+
+<h2>
+Why is tail-recursion desirable?
+</h2>
+
+Each tail-recursive function can be readily implemented as a loop.  Assume
+that a call stack is employed to implement function calls, which is by far
+the most common implementation strategy in practice.  Then calling a
+tail-recursive function only requires a fixed amount of stack space. In a
+setting where stack space is greatly limited (e.g., low-level embedded
+programming), tail-recursion is often the only form of recursion that is
+legally allowed.  In short, tail-recursion is desirable because it can be
+implemented in a much more efficient manner, both time-wise and
+memory-wise, when compared with general recursion.
+
+<h2>
+Translating recursion into tail-recursion
+</h2>
+
+Given the advantage of tail-recursion, it is natural to encounter the need
+for turning a recursive (but not tail-recursive) function into an
+equivalent one that is also tail-recursive. While there is a systematic
+approach to translating recursion into tail-recursion (CPS-translation),
+this approach is in general not what one wants to use if one's focus is on
+efficiency. Instead, one mostly relies on ad hoc methods or tricks to
+handle each individual case.
+
+<h4>
+Example 1
+</h4>
+Let us now take a look at a concrete example. The following code implements
+a function [tally] that sums up all the integers between 1 and a given
+number n, inclusive:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> tally <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> n + tally <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> <span class="dynexp">0</span></span>
+</pre>
+
+Clearly, [tally] is not tail-recursive. If we translate this implementation
+of [tally] into C, we essentially obtain the following code:
+
+<pre>
+int tally (int n)
+{
+  return (n > 0) ? n + tally (n-1) : 0 ;
+}
+</pre>
+
+This implementation of [tally] in C is a bit unusual as a standard one is
+expected to be based on a for-loop:
+
+<pre>
+int tally2 (int n)
+{
+  int i ;
+  int res = 0 ;
+  for (i = n ; i > 0 ; i--) res += i ;
+  return res ;
+}
+</pre>
+
+It should be pointed out that the equivalence between [tally] and [tally2]
+relies on the fact that integer addition is <em>associative</em>. If
+addition is replaced with subtraction, which is not associative, then these
+two implementations are no longer equivalent.
+
+<p>
+
+A straightforward translation of the above implementation of [tally2] in C
+into ATS yields the following code:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> tally2
+  <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> loop
+  <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> res<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> loop <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">,</span> res+n<span class="keyword">)</span> <span class="keyword">else</span> res</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  loop <span class="keyword">(</span>n<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [tally2]</span>
+</pre>
+
+Please note that the inner function [loop] is tail-recursive. The
+compiler of ATS (ATS/Postiats) essentially compiles [loop] into
+some code in C that is equivalent to the for-loop mentioned above.
+
+<p>
+
+In general, the process of translating a recursive function into a
+tail-recursive one hinges on finding an efficient way to encode the stack
+generated during the execution of the function. For instance, suppose we
+call [tally] on 100; this call generates a recursive call on 99, and then
+a recursive call on 98, and so on; when [tally] is called on 50, the call
+stack essentially represents the following evaluation context:
+
+<pre>
+100 + (99 + (98 + (... + (51 + []) ...)))
+</pre>
+
+where the symbol [] is to be replaced with the return value of tally(50).
+As integer addition is associative, we can use the sum (100+99+98+...+51)
+to represent this evaluation context. This is precisely the idea behind the
+implementation of the inner function [loop] in the body of [tally2].
+
+<h4>
+Example 2
+</h4>
+Let us take a look at another example. The following code implements
+a function named [fib] for computing Fibonacci numbers:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> fib <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">2</span> <span class="keyword">then</span> fib<span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> + fib<span class="keyword">(</span>n-<span class="dynexp">2</span><span class="keyword">)</span> <span class="keyword">else</span> n</span>
+</pre>
+
+Clearly, neither of the two recursive calls in the body of [fib] is
+tail-recursive. Another function named [fib2] is presented as follows for
+computing Fibonacci numbers:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> fib2
+  <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> loop
+  <span class="keyword">(</span>i<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> f0<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> f1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> i <span class="keyword">&lt;</span> n <span class="keyword">then</span> loop <span class="keyword">(</span>i+<span class="dynexp">1</span><span class="keyword">,</span> f1<span class="keyword">,</span> f0+f1<span class="keyword">)</span> <span class="keyword">else</span> f0</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  loop <span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [fib2]</span>
+</pre>
+
+It is evident that the inner funtion [loop] in the body of [fib2] is
+tail-recursive. Suppose we want to evaluate fib2(100), which generates a
+call of the form loop(0, 0, 1), which then generates a call of the form
+loop(1, 1, 1), which then generates a call of the form loop(2, 1, 2), etc.
+If loop(i, f0, f1) is among this sequence of calls, then f0 is Fibonacci
+number i and f1 is Fibonacci number i+1. This implies that the value
+returned by the last call in this sequence is Fibonacci number 100 (as i
+reaches 100 at that point). This argument, though informal, should probably
+be enough to convince one that [fib] and [fib2] are equivalent, that is,
+they return the same result when applied to a given integer.
+
+<p>
+
+The very idea behind translating [fib] into [fib2] lies in the simple
+observation that only the two previously computed Fibonacci numbers need to
+be kept in order to compute Fibonacci number n for every n >= 2.
+
+<h4>
+Example 3
+</h4>
+
+The next example we see involves list-processing.
+The following code implements the standard concatenation of two given
+lists:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_append
+  <span class="staexp"><span class="keyword">{</span>m<span class="keyword">,</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="keyword">)</span>
+<span class="keyword">,</span> ys<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="staexp">+</span><span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_cons
+    <span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span> list_cons <span class="keyword">(</span>x<span class="keyword">,</span> list_append <span class="keyword">(</span>xs<span class="keyword">,</span> ys<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">|</span> list_nil <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> ys
+<span class="keyword">)</span></span> <span class="comment">// end of [list_append]</span>
+</pre>
+
+The type assigned to [list_append] means that the function returns a list
+of length m+n when applied to two lists xs and ys of length m and n,
+respectively.  Note that this is so-called functional list concatenation as
+neither of the input lists gets modified. Clearly, [list_append] is not
+tail-recursive as the recursive call in its body is not a tail-call. If the
+first argument of a call to [list_append] is long (e.g., containing 1M
+elements), then it is very likely that an execution of this call overflows
+the call stack and thus causes a crash.
+
+<p>
+
+In order to translate [list_append] into a tail-recursive implementation,
+we need some knowledge about list construction. There are essentially two
+steps involved in evaluating list_cons(x, xs); certain memory needs to be
+first allocated for storing a list node; then this node is initialized with
+x and xs. In ATS, it is allowed to formally separate these two steps, and
+this separation is key to obtaining a proper tail-recursive implementation
+of list concatenation as is shown in the following code:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_append2
+  <span class="staexp"><span class="keyword">{</span>m<span class="keyword">,</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="keyword">)</span>
+<span class="keyword">,</span> ys<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="staexp">+</span><span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> loop<span class="staexp"><span class="keyword">{</span>m<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="keyword">)</span>
+<span class="keyword">,</span> ys<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">,</span> res<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">ptr</span><span class="staexp">?</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="staexp">+</span><span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_cons
+    <span class="keyword">(</span>x<span class="keyword">,</span> xs1<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="comment">// allocate a list node with</span>
+    res := list_cons<span class="staexp"><span class="keyword">{</span>a<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>0<span class="keyword">}</span></span><span class="keyword">(</span>x<span class="keyword">,</span> _<span class="keyword">)</span></span> <span class="comment">// uninitialized tail</span>
+    <span class="dynexp"><span class="keyword">val+</span>list_cons <span class="keyword">(</span>_<span class="keyword">,</span> res1<span class="keyword">)</span> <span class="keyword">=</span> res</span> <span class="comment">// [res1] points to the tail</span>
+    <span class="comment">// put into [res1] the concatenation</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> loop <span class="keyword">(</span>xs1<span class="keyword">,</span> ys<span class="keyword">,</span> res1<span class="keyword">)</span></span> <span class="comment">// of [xs1] and [ys]</span>
+  <span class="keyword">in</span>
+    <span class="keyword">fold@</span><span class="keyword">(</span>res<span class="keyword">)</span> <span class="comment">// folding translates into a no-op at run-time</span>
+  <span class="keyword">end</span> <span class="comment">// end of [list_cons]</span>
+<span class="keyword">|</span> list_nil <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> res := ys
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">var</span> res<span class="keyword">:</span> <span class="staexp">ptr</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> loop <span class="keyword">(</span>xs<span class="keyword">,</span> ys<span class="keyword">,</span> res<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  res
+<span class="keyword">end</span></span> <span class="comment">// end of [list_append2]</span>
+</pre>
+
+Given xs, ys, and res, what the inner function [loop] does is to put the
+concatenation of xs and ys into res.  In the body of [loop], we see that
+the expression fold@(res) follows the recursive call to [loop].  However,
+this call is considered a tail-call as fold@(res) is solely used for the
+purpose of typechecking and erased afterwards.  Therefore, [loop] is a
+tail-recursive function.
+
+<p>
+
+By the way, the style of recursion employed in the implementation of [loop]
+is often dubbed <em>tail-recursion modulo allocation</em>, which commonly
+appears in untyped or weakly-typed languages (e.g., LISP and C) but rarely
+in a typed language (due to the great difficulty in properly typing it).
+
+<h2>
+Mutually tail-recursive functions
+</h2>
+
+Sometimes, we need to combine functions together in order to turn mutually
+tail-recursive calls into local jumps. For instance, in the following code,
+[isevn] and [isodd] are defined mutually recursively:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> isevn <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> isodd <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> true
+<span class="keyword">and</span> isodd <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> isevn <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> false</span>
+</pre>
+
+The call to [isodd] in the body of [isevn] and the call to [isevn] in the
+body of [isodd] are both tail-calls. As they are also mutually recursive
+calls, they are referred to as mutually tail-recursive calls.
+
+<p>
+
+When compiling this implementation of [isevn] and [isodd], the ATS compiler
+(ATS/Postiats) handles [isevn] and [isodd] separately and thus
+is <em>unable</em> to turn the call to [isodd] ([isevn]) in the body of
+[isevn] ([isodd]) into a local jump. In order to indicate to the compiler
+that these two functions need to be combined for compilation, the keyword
+[fun] should be replaced with another keyword [fnx]:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fnx</span> isevn <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> isodd <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> true
+<span class="keyword">and</span> isodd <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> n <span class="keyword">&gt;</span> <span class="dynexp">0</span> <span class="keyword">then</span> isevn <span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> false</span>
+</pre>
+
+When compiling the above code, the ATS compiler puts inside the body of
+[isevn] a copy of the body of [isodd] so that mutually tail-recursive calls
+in the bodies of these two functions can be translated into local jumps.
+Also, please note that only the first of a sequence of mutually defined
+functions following the keyword [fnx] is available for subsequent use. In
+the above case, only the function [isevn] is available for subsequent use
+whereas the function [isodd] is not.
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
