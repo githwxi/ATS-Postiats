@@ -391,6 +391,7 @@ p2at_trdn_arg
 //
 val s2f0 = s2exp2hnf (s2e0)
 val s2e0 = s2hnf2exp (s2f0)
+//
 (*
 //
 val () =
@@ -398,6 +399,7 @@ println!
   ("p2at_trdn_arg: s2e0 = ", s2e0)
 //
 *)
+//
 in
 //
 case+
@@ -406,10 +408,15 @@ of // case+
 | S2Erefarg _ => (
   case+
   p2t0.p2at_node of
+(*
+  | P2Tann(p2t1, _) =>
+      p2at_trdn_arg(p2t1, s2e0)
+    // end of [P2Tann]
+*)
   | P2Tvar _ =>
-      p2at_trdn_arg_refarg_var(p2t0, s2e0)
+    p2at_trdn_arg_refarg_var(p2t0, s2e0)
   | _ (*non-P2Tvar*) =>
-      p2at_trdn_arg_refarg_err(p2t0, s2e0)
+    p2at_trdn_arg_refarg_err(p2t0, s2e0)
   ) (* S2Erefarg *)
 //
 | _ (*non-S2Erefarg*) => p2at_trdn(p2t0, s2e0)

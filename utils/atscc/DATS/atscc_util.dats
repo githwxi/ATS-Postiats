@@ -179,14 +179,21 @@ atsopt_print_usage() =
 fprint_string (stdout_ref, ATSOPT_USAGE)
 //
 (* ****** ****** *)
-
+//
+(*
 #define
 ATSCCOMP_DEFAULT "\
 gcc -std=c99 -D_XOPEN_SOURCE \
 -I${PATSHOME} -I${PATSHOME}/ccomp/runtime \
 -L${PATSHOME}/ccomp/atslib/lib -L${PATSHOME}/ccomp/atslib/lib64 \
 "
-
+*)
+#define
+ATSCCOMP_DEFAULT "\
+gcc -std=c99 -D_XOPEN_SOURCE \
+-I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${PATSHOME}/ccomp/atslib/lib  \
+"
+//
 (* ****** ****** *)
 
 (*
