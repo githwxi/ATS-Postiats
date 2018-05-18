@@ -425,8 +425,16 @@ val () = ins ("absviewtype", ABSVIEWTYPE)
 val () = ins ("absvt0ype", ABSVIEWT0YPE)
 val () = ins ("absviewt0ype", ABSVIEWT0YPE)
 //
+val () = ins ("abstbox", ABSTYPE)
+val () = ins ("abstflat", ABSTYPE)
+val () = ins ("absvtbox", ABSVIEWTYPE)
+val () = ins ("absvtflat", ABSVIEWTYPE)
+//
 val () = ins ("assume", T_ASSUME)
 val () = ins ("reassume", T_REASSUME)
+//
+val () = ins ("absimpl", T_ASSUME)
+val () = ins ("absreimpl", T_REASSUME)
 //
 val () = ins ("as", T_AS)
 //
