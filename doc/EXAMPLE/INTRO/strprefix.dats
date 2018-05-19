@@ -1,3 +1,4 @@
+//usr/bin/env myatscc "$0"; exit
 (* ****** ****** *)
 //
 // Finding the max common prefix of

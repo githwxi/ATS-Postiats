@@ -1,10 +1,10 @@
+(* ****** ****** *)
 //
 // An implementation style that is often
 // dubbed tail-recursion-modulo-allocation
 //
 // Author: Hongwei Xi (August 2007)
 //
-
 (* ****** ****** *)
 //
 #include "share/atspre_staload.hats"

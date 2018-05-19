@@ -1,9 +1,9 @@
+(* ****** ****** *)
 //
 // Numbering input lines
 //
 // Author: Hongwei Xi (January, 2013)
 //
-
 (* ****** ****** *)
 //
 #include "share/atspre_staload.hats"

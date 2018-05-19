@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 // Linear Lazy-evaluation:
 // Erathosthene's sieve for primes

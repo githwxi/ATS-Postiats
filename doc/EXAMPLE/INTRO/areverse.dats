@@ -1,3 +1,4 @@
+(* ****** ****** *)
 //
 // Reversing the content of an array.
 // This is a simple and convincing example for
@@ -6,7 +7,6 @@
 // Author: Hongwei Xi (Spring, 2009)
 // Author: Hongwei Xi (May, 2012) // porting to ATS2
 //
-
 (* ****** ****** *)
 //
 #include "share/atspre_define.hats"
