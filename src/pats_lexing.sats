@@ -323,8 +323,8 @@ token_node =
   | T_EXTCODE of (int(*kind*), string) // external code
 //
   | T_COMMENT_line of () // line comment
-  | T_COMMENT_block of () // block comment
   | T_COMMENT_rest of () // rest-of-file comment
+  | T_COMMENT_block of () // (embeddable) block comment
 //
   | T_ERR of () // for errors
 //
@@ -495,8 +495,8 @@ val DLRVCOPYENV_VT : tnode
 (* ****** ****** *)
 
 val DOT : tnode // = T_DOT
-val PERCENT : tnode // = IDENT_sym ("%")
 val QMARK : tnode // = IDENT_sym ("?")
+val PERCENT : tnode // = IDENT_sym ("%")
 
 (* ****** ****** *)
 
@@ -529,7 +529,7 @@ fun tnode_is_comment (node: tnode): bool
 // if the return is not T_NONE, then it does
 //
 fun tnode_search (x: string): tnode
-
+//
 (* ****** ****** *)
 
 datatype

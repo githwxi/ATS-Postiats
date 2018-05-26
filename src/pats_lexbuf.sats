@@ -127,8 +127,10 @@ fun lexbufpos_get_location
 
 (* ****** ****** *)
 
-fun lexbuf_get_char (buf: &lexbuf, nchr: uint): int
-fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
+fun
+lexbuf_get_char(buf: &lexbuf, nchr: uint): int
+fun
+lexbufpos_get_char(buf: &lexbuf, position: &position): int
 
 (* ****** ****** *)
 

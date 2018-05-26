@@ -150,6 +150,7 @@ implement PROP_pos = T_TYPE (PROP_pos_int)
 implement PROP_neg = T_TYPE (PROP_neg_int)
 //
 (* ****** ****** *)
+//
 (*
 implement VIEW = T_TYPE (VIEW_int)
 *)
@@ -273,9 +274,9 @@ implement
 tnode_is_comment
   (x) = case+ x of
   | T_COMMENT_line () => true
-  | T_COMMENT_block () => true
   | T_COMMENT_rest () => true
-  | _ => false
+  | T_COMMENT_block () => true
+  | _ (*non-T_COMMENT_...*)=> false
 // end of [tnode_is_comment]
 
 (* ****** ****** *)
@@ -426,9 +427,9 @@ val () = ins ("absvt0ype", ABSVIEWT0YPE)
 val () = ins ("absviewt0ype", ABSVIEWT0YPE)
 //
 val () = ins ("abstbox", ABSTYPE)
-val () = ins ("abstflat", ABSTYPE)
+val () = ins ("abstflat", ABST0YPE)
 val () = ins ("absvtbox", ABSVIEWTYPE)
-val () = ins ("absvtflat", ABSVIEWTYPE)
+val () = ins ("absvtflat", ABSVIEWT0YPE)
 //
 val () = ins ("assume", T_ASSUME)
 val () = ins ("reassume", T_REASSUME)

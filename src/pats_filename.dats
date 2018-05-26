@@ -173,7 +173,7 @@ case+ 0 of
 | _ when c = c1 =>
     if n > 1 then loop(p1, n-1, c0, c1) else p1
 | _ (* !=c0,c1 *) =>
-    if c != '\000' then loop (p1, n, c0, c1) else null
+    if c != '\000' then loop(p1, n, c0, c1) else null
 //
 end (* end of [loop] *)
 //

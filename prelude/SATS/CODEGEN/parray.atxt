@@ -29,16 +29,16 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_decl_strcst("sortdef vtp = viewtype")
 
 #atscode_separator()
-
+//
 (*
 ** HX: for null-pointer terminated arrays
 *)
-
+//
 #atscode_decl_strcst("\
 dataview
 parray_v
 (
-  a:vt@ype+, addr(*l*), int(*n*)
+ a:vt@ype+, addr(*l*), int(*n*)
 ) = // for arrays with a sentinel at the end
   | {l:addr}
     parray_v_nil(a, l, 0) of ptr(null) @ l
@@ -47,6 +47,7 @@ parray_v
       (a @ l, parray_v(a, l + sizeof(a), n))
     // parray_v_cons
 // end of [parray_v]
+//
 ")\
 
 #atscode_separator()
@@ -66,7 +67,7 @@ fun{
 a:vtp
 } parray_is_empty
   {l:addr}{n:int}
-  (pf: !parray_v(INV(a), l, n) | ptr l):<> bool(n==0)
+  (pf: !parray_v(INV(a), l, n) | ptr(l)):<> bool(n==0)
 // end of [parray_is_empty]
 ")\
 
@@ -75,7 +76,7 @@ fun{
 a:vtp
 } parray_isnot_empty
   {l:addr}{n:int}
-  (pf: !parray_v(INV(a), l, n) | ptr l):<> bool(n > 0)
+  (pf: !parray_v(INV(a), l, n) | ptr(l)):<> bool(n > 0)
 // end of [parray_isnot_empty]
 ")\
 
@@ -86,7 +87,7 @@ fun{
 a:vtp
 } parray_size
   {l:addr}{n:int}
-  (pf: !parray_v(INV(a), l, n) | p: ptr l):<> size_t(n)
+  (pf: !parray_v(INV(a), l, n) | p: ptr(l)):<> size_t(n)
 // end of [parray_size]
 ")\
 
@@ -96,6 +97,6 @@ a:vtp
 
 %{
 implement
-main (argc, argv) =
+main(argc, argv) =
   fprint_filsub (stdout_ref, "parray_atxt.txt")
 %}\
