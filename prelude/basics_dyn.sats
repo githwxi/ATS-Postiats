@@ -711,9 +711,14 @@ fun
 main_argc_argv_0
   {n:int | n >= 1}
   (argc: int n, argv: !argv(n)): void = "ext#mainats_argc_argv_0"
+fun
+main_argc_argv_envp_0
+  {n:int | n >= 1}
+  (argc: int n, argv: !argv(n), envp: ptr): void = "ext#mainats_argc_argv_envp_0"
 //
 overload main0 with main_void_0
 overload main0 with main_argc_argv_0
+overload main0 with main_argc_argv_envp_0
 //
 (* ****** ****** *)
 //
