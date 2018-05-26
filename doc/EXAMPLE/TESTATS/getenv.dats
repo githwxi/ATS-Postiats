@@ -57,13 +57,17 @@ mycast(envp) where {
 fun
 loop
 {l:addr}{n:nat}
-(pf: !parray_v(string, l, n) | p0: ptr(l)): stropt =
+( pf: !
+  parray_v
+  (string, l, n)
+| p0: ptr(l)): stropt =
 (
 if
 parray_isnot_empty(pf | p0)
 then let
 prval parray_v_cons(pf1, pf2) = pf
-  val opt = $extfcall(stropt, "key2val", key, !p0)
+  val opt =
+  $extfcall(stropt, "key2val", key, !p0)
 in
   if
   stropt_is_some(opt)
