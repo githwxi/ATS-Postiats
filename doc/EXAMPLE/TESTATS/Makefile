@@ -119,6 +119,15 @@ cleanall:: ; $(RMF) funargpat
 ######
 
 all:: \
+getenv
+getenv: \
+getenv.dats ; $(PATSCC2) -cleanaft -o $@ $<
+regress:: getenv ; ./$<
+cleanall:: ; $(RMF) getenv
+
+######
+
+all:: \
 ifcase
 ifcase: \
 ifcase.dats ; $(PATSCC2) -cleanaft -o $@ $<
