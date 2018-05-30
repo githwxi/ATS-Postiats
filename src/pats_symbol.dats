@@ -224,7 +224,9 @@ symbol_empty = x where {
 } // end of [symbol_empty]
 
 (* ****** ****** *)
-
+//
+implement symbol_NEG = symbol_make_string "~"
+//
 implement symbol_ADD = symbol_make_string "+"
 implement symbol_SUB = symbol_make_string "-"
 implement symbol_MUL = symbol_make_string "*"

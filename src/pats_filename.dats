@@ -703,8 +703,7 @@ end // end of [filename_occurs]
 in (* in of [local] *)
 //
 implement
-filename_get_current
-  ((*void*)) = !the_filename
+filename_get_current((*void*)) = !the_filename
 //
 (* ****** ****** *)
 

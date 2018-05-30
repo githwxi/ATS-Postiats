@@ -44,6 +44,8 @@ val symbol_empty : symbol
 
 (* ****** ****** *)
 //
+val symbol_NEG : symbol // ~
+//
 val symbol_ADD : symbol // +
 val symbol_SUB : symbol // -
 val symbol_MUL : symbol // *

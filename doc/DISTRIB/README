@@ -8,9 +8,10 @@
 #
 # First,
 # update $PATSHOME/VERSION
-#
 # which affects the following:
 # $PATSHOME/doc/DISTRIB/Makefile.atxt
+# Also update the version number in
+# $PATSHOME/doc/DISTRIB/ATS-Postiats/configure.ac
 #
 # Second,
 # execute the following command-line

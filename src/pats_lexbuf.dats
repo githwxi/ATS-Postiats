@@ -403,12 +403,14 @@ end // end of [lexbuf_incby_count]
 
 implement
 lexbuf_get_strptr0
-  (buf, ln) = lexbuf_get_substrptr0 (buf, 0u, ln)
+  (buf, ln) =
+  lexbuf_get_substrptr0(buf, 0u, ln)
 // end of [lexbuf_get_strptr0]
 
 implement
 lexbuf_get_strptr1
-  (buf, ln) = lexbuf_get_substrptr1 (buf, 0u, ln)
+  (buf, ln) =
+  lexbuf_get_substrptr1(buf, 0u, ln)
 // end of [lexbuf_get_strptr]
 
 (* ****** ****** *)
@@ -453,13 +455,13 @@ lexbuf_get_substrptr1
 implement
 lexbufpos_get_strptr0
   (buf, pos) =
-  lexbuf_get_strptr0 (buf, lexbufpos_diff (buf, pos))
+  lexbuf_get_strptr0(buf, lexbufpos_diff(buf, pos))
 // end of [lexbufpos_get_strptr0]
 
 implement
 lexbufpos_get_strptr1
   (buf, pos) = 
-  lexbuf_get_strptr1 (buf, lexbufpos_diff (buf, pos))
+  lexbuf_get_strptr1(buf, lexbufpos_diff(buf, pos))
 // end of [lexbufpos_get_strptr1]
 
 (* ****** ****** *)

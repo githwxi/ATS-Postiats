@@ -1846,7 +1846,7 @@ implement
 lexing_QUOTE
   (buf, pos) = let
 //
-val i = lexbufpos_get_char (buf, pos)
+val i = lexbufpos_get_char(buf, pos)
 //
 in
 //
@@ -1854,20 +1854,23 @@ if
 i >= 0
 then let
   val c = (i2c)i
-  val () = posincby1 (pos) in
+  val () = posincby1(pos) in
   case+ c of
 //
-  | '\(' => lexbufpos_token_reset (buf, pos, T_QUOTELPAREN)
-  | '\[' => lexbufpos_token_reset (buf, pos, T_QUOTELBRACKET)
-  | '\{' => lexbufpos_token_reset (buf, pos, T_QUOTELBRACE)
+  | '\(' =>
+    lexbufpos_token_reset(buf, pos, T_QUOTELPAREN)
+  | '\[' =>
+    lexbufpos_token_reset(buf, pos, T_QUOTELBRACKET)
+  | '\{' =>
+    lexbufpos_token_reset(buf, pos, T_QUOTELBRACE)
 //
-  | _ when c = '\\' => lexing_char_special (buf, pos)
+  | _ when c = '\\' => lexing_char_special(buf, pos)
 //
-  | _ (*rest-of-char*) => lexing_char_closing (buf, pos, c)
+  | _ (*rest-of-char*) => lexing_char_closing(buf, pos, c)
 //
 end // end of [then]
 else (
-  lexbufpos_lexerr_reset (buf, pos, LE_QUOTE_dangling)
+  lexbufpos_lexerr_reset(buf, pos, LE_QUOTE_dangling)
 ) (* end of [else] *)
 //
 end // end of [lexing_QUOTE]
@@ -2042,17 +2045,18 @@ in
   | '"' => n // string is properly closed
   | '\\' => let
       var err: int = 0
-      val i = lexing_string_char_special (buf, pos, err)
+      val i =
+      lexing_string_char_special(buf, pos, err)
     in
       if err = AGAIN
-        then loop (buf, pos, q, m, n)
-        else loop_ins (buf, pos, q, m, n, i)
+        then loop(buf, pos, q, m, n)
+        else loop_ins(buf, pos, q, m, n, i)
       // end of [if]
     end // end of ['\\']
   | _(*rest*) => loop_ins (buf, pos, q, m, n, i)
 end // end of [then]
 else let
-  val () = regerr (buf, pos) in queue_size {uchar} (q)
+  val () = regerr(buf, pos) in queue_size{uchar}(q)
 end (* end of [else] *)
 //
 end // end of [loop]
@@ -2068,24 +2072,24 @@ loop_ins
 ) : #[m,n:nat] size_t (n) = let
   val c = (i2uc)i
   prval () =
-    lemma_queue_param (q) // m >= n >= 0
+    lemma_queue_param(q) // m >= n >= 0
   // end of [prval]
 in
   case+ 0 of
   | _ when m > n => let
       val () =
-      queue_insert<uchar> (q, c)
+      queue_insert<uchar>(q, c)
     in
-      loop (buf, pos, q, m, n+1)
+      loop(buf, pos, q, m, n+1)
     end // end of [m > n]
   | _ (* m <= n *) => let
       val m2 = m + m
       val () =
-        queue_update_capacity<uchar> (q, m2)
+        queue_update_capacity<uchar>(q, m2)
       // end of [val]
-      val ((*inserted*)) = queue_insert (q, c)
+      val ((*inserted*)) = queue_insert(q, c)
     in
-      loop (buf, pos, q, m2, n+1)
+      loop(buf, pos, q, m2, n+1)
     end // end of [m <= n]
 end // end of [loop_ins]
 //
@@ -2114,14 +2118,14 @@ lexing_postfix
 , pos: &position
 , tn: tnode, tn_post: tnode, c0: char
 ) : token = let
-  val i = lexbufpos_get_char (buf, pos)
+  val i = lexbufpos_get_char(buf, pos)
 in
   case+ 0 of
   | _ when c0 = (i2c)i => let
-      val () = posincby1 (pos) in
-      lexbufpos_token_reset (buf, pos, tn_post)
+      val () = posincby1(pos) in
+      lexbufpos_token_reset(buf, pos, tn_post)
     end
-  | _ => lexbufpos_token_reset (buf, pos, tn)
+  | _ => lexbufpos_token_reset(buf, pos, tn)
 end // end of [lexing_postfix]
 
 (* ****** ****** *)
