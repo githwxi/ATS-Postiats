@@ -24,8 +24,10 @@
 #
 # Packaging ATS
 #
+# # Note: x.y.z is the version you want to build in the following command
+#
 # cd /tmp
-# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh
+# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh x.y.z
 # <
 # Move the following built packages to some place:
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
@@ -43,7 +45,8 @@
 # ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.9-release.html
 #
 # Uploading the following files to sourceforge and generate the md5sum and sha1sum
-# of ATS2-Postiats-x.y.z.tgz, and add these to ${PATSHOME}/CHANGE-ats2.
+# of ATS2-Postiats-x.y.z.tgz, and add these to ${PATSHOME}/CHANGE-ats2
+# and to ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-x.y.z-release.html
 #
 # ATS2-Postiats-x.y.z.tgz
 # ATS2-Postiats-contrib-x.y.z.tgz
