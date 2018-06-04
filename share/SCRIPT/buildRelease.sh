@@ -49,8 +49,8 @@ fi
 
 ######
 
-PATSHOME=${PWD}/ATS-Postiats
-PATSCONTRIB=${PWD}/ATS-Postiats-contrib
+export PATSHOME=${PWD}/ATS-Postiats
+export PATSCONTRIB=${PWD}/ATS-Postiats-contrib
 
 ######
 
@@ -68,13 +68,13 @@ https://github.com/githwxi/ATS-Postiats-contrib.git \
 
 PATSVERSION=$1
 if [ -z "$PATSVERSION" ] ;
-  then PATSVERSION=$(cat ${PATSHOME}/VERSION)
+  then PATSVERSION=$(cat "${PATSHOME}/VERSION")
 fi
 
 ######
 
 (\
-cd $PATSHOME && \
+cd "$PATSHOME" && \
 $GIT checkout "tags/v${PATSVERSION}" && \
 make -f Makefile_devl && \
 make -C src -f Makefile CBOOT  && \
@@ -92,6 +92,6 @@ make -C doc/DISTRIB -f Makefile_inclats tarzvcf \
 
 ######
 
-ls -alh $PATSHOME/doc/DISTRIB/ATS2-*.tgz
+ls -alh "$PATSHOME/doc/DISTRIB/ATS2-*.tgz"
 
 ###### end of [buildRelease.sh] ######

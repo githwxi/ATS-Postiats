@@ -14,7 +14,7 @@
 # $PATSHOME/doc/DISTRIB/ATS-Postiats/configure.ac
 #
 # Second,
-# execute the following command-line
+# execute the following command-line from doc/DISTRIB:
 #
 # make -f Makefile.gen
 #
