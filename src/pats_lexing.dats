@@ -501,7 +501,7 @@ fun SIGN_test
 
 local
 //
-#define ESCAPED "ntvbrfa\\\?\'\"\(\[\{"
+#define ESCAPED "ntvbrfa\\\?\'\"()[]{}"
 //
 in(*in-of-local*)
 //
