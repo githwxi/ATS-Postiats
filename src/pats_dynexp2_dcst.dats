@@ -78,7 +78,8 @@ staload "./pats_dynexp2.sats"
 (* ****** ****** *)
 
 typedef
-d2cst_struct = @{
+d2cst_struct =
+@{
   d2cst_sym= symbol
 //
 , d2cst_loc= location

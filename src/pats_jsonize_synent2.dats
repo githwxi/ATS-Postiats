@@ -1682,134 +1682,139 @@ jsonize_d2ecl
 //
 (*
 val () =
-println! (
-"jsonize_d2ecl: d2c0 = ", d2c0
-) (* end of [val] *)
+println!
+("jsonize_d2ecl: d2c0 = ", d2c0)
 *)
 //
-fun auxmain
+fun
+auxmain
   (d2c0: d2ecl): jsonval = let
+(*
+val () =
+println!
+("jsonize_d2ecl: auxmain: d2c0 = ", d0c0)
+*)
 in
 //
 case+
 d2c0.d2ecl_node of
 //
-| D2Cnone () =>
-    jsonval_conarg0 ("D2Cnone")
-| D2Clist (xs) => let
-    val xs = jsonize_d2eclist (xs)
+| D2Cnone() =>
+    jsonval_conarg0("D2Cnone")
+| D2Clist(xs) => let
+    val xs = jsonize_d2eclist(xs)
   in
-    jsonval_conarg1 ("D2Clist", xs)
+    jsonval_conarg1("D2Clist", xs)
   end // end of [D2Clist]
 //
 | D2Coverload
     (id, pval, opt) => let
     val sym =
-      jsonize_symbol(id.i0de_sym)
+    jsonize_symbol(id.i0de_sym)
     val pval = jsonval_int (pval)
     val opt =
-      jsonize_option_fun<d2itm>(opt, jsonize_d2itm)
-    // end of [val]
+    jsonize_option_fun<d2itm>(opt, jsonize_d2itm)
   in
-    jsonval_conarg3 ("D2Coverload", sym, pval, opt)
+    jsonval_conarg3("D2Coverload", sym, pval, opt)
   end // end of [D2Coverload]
 //
-| D2Cstacsts (s2cs) => let
-    val s2cs = jsonize_s2cstlst (s2cs)
+| D2Cstacsts(s2cs) => let
+    val s2cs = jsonize_s2cstlst(s2cs)
   in
-    jsonval_conarg1 ("D2Cstacsts", s2cs)
+    jsonval_conarg1("D2Cstacsts", s2cs)
   end // end of [D2Cstacsts]
-| D2Cstacons (knd, s2cs) => let
-    val knd = jsonval_int (knd)
-    val s2cs = jsonize_s2cstlst (s2cs)
+| D2Cstacons(knd, s2cs) => let
+    val knd = jsonval_int(knd)
+    val s2cs = jsonize_s2cstlst(s2cs)
   in
-    jsonval_conarg2 ("D2Cstacsts", knd, s2cs)
+    jsonval_conarg2("D2Cstacsts", knd, s2cs)
   end // end of [D2Cstacons]
 //
 | D2Cextype
     (name, s2e_def) => let
-    val name = jsonval_string (name)
-    val s2e_def = jsonize0_s2exp (s2e_def)
+    val name = jsonval_string(name)
+    val s2e_def = jsonize0_s2exp(s2e_def)
   in
-    jsonval_conarg2 ("D2Cextype", name, s2e_def)
+    jsonval_conarg2("D2Cextype", name, s2e_def)
   end // end of [D2Cextype]
 | D2Cextvar
     (name, d2e_def) => let
-    val name = jsonval_string (name)
-    val d2e_def = jsonize_d2exp (d2e_def)
+    val name = jsonval_string(name)
+    val d2e_def = jsonize_d2exp(d2e_def)
   in
-    jsonval_conarg2 ("D2Cextvar", name, d2e_def)
+    jsonval_conarg2("D2Cextvar", name, d2e_def)
   end // end of [D2Cextvar]
 | D2Cextcode
     (knd, pos, code) => let
-    val knd = jsonval_int (knd)
-    val pos = jsonval_int (pos)
-    val code = jsonval_string (code)
+    val knd = jsonval_int(knd)
+    val pos = jsonval_int(pos)
+    val code = jsonval_string(code)
   in
-    jsonval_conarg3 ("D2Cextcode", knd, pos, code)
+    jsonval_conarg3("D2Cextcode", knd, pos, code)
   end // end of [D2Cextcode]
 //
 | D2Cdatdecs
     (knd, s2cs) => let
-    val knd = jsonval_int (knd)
-    val s2cs = jsonize_s2cstlst (s2cs)
+    val knd = jsonval_int(knd)
+    val s2cs = jsonize_s2cstlst(s2cs)
   in
     jsonval_conarg2 ("D2Cdatdecs", knd, s2cs)
   end // end of [D2Cdatdecs]
-| D2Cexndecs (d2cs) => let
-    val d2cs = jsonize_d2conlst (d2cs)
+//
+| D2Cexndecs(d2cs) => let
+    val d2cs = jsonize_d2conlst(d2cs)
   in
-    jsonval_conarg1 ("D2Cexndecs", d2cs(*constr*))
+    jsonval_conarg1("D2Cexndecs", d2cs(*constr*))
   end // end of [D2Cdatdecs]
 //
 | D2Cdcstdecs
     (knd, dck, d2cs) => let
-    val knd = jsonval_int (knd)
-    val dck = jsonize_dcstkind (dck)
-    val d2cs = jsonize_d2cstlst (d2cs)
+    val knd = jsonval_int(knd)
+    val dck = jsonize_dcstkind(dck)
+    val d2cs = jsonize_d2cstlst(d2cs)
   in
-    jsonval_conarg3 ("D2Cdcstdecs", knd, dck, d2cs)
+    jsonval_conarg3("D2Cdcstdecs", knd, dck, d2cs)
   end // end of [D2Cdcstdecs]
 //
 | D2Cimpdec
     (knd, i2mp) => let
-    val knd = jsonval_int (knd)
-    val i2mp = jsonize_i2mpdec (i2mp)
+    val knd = jsonval_int(knd)
+    val i2mp = jsonize_i2mpdec(i2mp)
   in
-    jsonval_conarg2 ("D2Cimpdec", knd, i2mp)
+    jsonval_conarg2("D2Cimpdec", knd, i2mp)
   end // end of [D2Cimpdec]
 //
 | D2Cfundecs
   (
     knd, s2qs, f2ds
   ) => let
-    val knd = jsonize_funkind (knd)
-    val s2qs = jsonize_ignored (s2qs)
-    val f2ds = jsonize_f2undeclst (f2ds)
+    val knd = jsonize_funkind(knd)
+    val s2qs = jsonize_ignored(s2qs)
+    val f2ds = jsonize_f2undeclst(f2ds)
   in
-    jsonval_conarg3 ("D2Cfundecs", knd, s2qs, f2ds)
+    jsonval_conarg3("D2Cfundecs", knd, s2qs, f2ds)
   end // end of [D2Cfundecs]
 //
 | D2Cvaldecs
     (knd, v2ds) => let
-    val knd = jsonize_valkind (knd)
-    val v2ds = jsonize_v2aldeclst (v2ds)
+    val knd = jsonize_valkind(knd)
+    val v2ds = jsonize_v2aldeclst(v2ds)
   in
-    jsonval_conarg2 ("D2Cvaldecs", knd, v2ds)
+    jsonval_conarg2("D2Cvaldecs", knd, v2ds)
   end // end of [D2Cvaldecs]
 //
 | D2Cvardecs(v2ds) => let
-    val v2ds = jsonize_v2ardeclst (v2ds)
+    val v2ds = jsonize_v2ardeclst(v2ds)
   in
-    jsonval_conarg1 ("D2Cvardecs", v2ds)
+    jsonval_conarg1("D2Cvardecs", v2ds)
   end // end of [D2Cvardecs]
 //
 | D2Cinclude
     (knd, d2cs) => let
-    val knd = jsonval_int (knd)
-    val d2cs = jsonize_d2eclist (d2cs)
+    val knd = jsonval_int(knd)
+    val d2cs = jsonize_d2eclist(d2cs)
   in
-    jsonval_conarg2 ("D2Cinclude", knd, d2cs)
+    jsonval_conarg2("D2Cinclude", knd, d2cs)
   end // end of [D2Cinclude]
 //
 | D2Cstaload
@@ -1817,28 +1822,28 @@ d2c0.d2ecl_node of
     idopt, fname, loadflag, fenv, loaded
   ) => let
     val idopt =
-      jsonize_symbolopt (idopt)
+      jsonize_symbolopt(idopt)
     // end of [val]
-    val fname = jsonize_filename (fname)
+    val fname = jsonize_filename(fname)
   in
-    jsonval_conarg2 ("D2Cstaload", idopt, fname)
+    jsonval_conarg2("D2Cstaload", idopt, fname)
   end // end of [D2Cstaload]
 //
 | D2Clocal
     (head, body) => let
-    val head = jsonize_d2eclist (head)
-    val body = jsonize_d2eclist (body)
+    val head = jsonize_d2eclist(head)
+    val body = jsonize_d2eclist(body)
   in
-    jsonval_conarg2 ("D2Clocal", head, body)
+    jsonval_conarg2("D2Clocal", head, body)
   end // end of [D2Clocal]
 //
-| _ (*rest*) => jsonval_conarg0 ("D2Cignored")
+| _ (*rest*) => jsonval_conarg0("D2Cignored")
 //
 end // end of [auxmain]
 //
 val loc0 = d2c0.d2ecl_loc
-val loc0 = jsonize_loc (loc0)
-val d2c0 = auxmain (d2c0)
+val d2c0 = auxmain( d2c0 )
+val loc0 = jsonize_loc(loc0)
 //
 in
 //
@@ -1850,8 +1855,11 @@ end // end of [jsonize_d2ecl]
 (* ****** ****** *)
 //
 implement
-jsonize_d2eclist (d2cs) =
-  jsonize_list_fun<d2ecl>(d2cs, jsonize_d2ecl)
+jsonize_d2eclist
+  (d2cs) =
+(
+jsonize_list_fun<d2ecl>(d2cs, jsonize_d2ecl)
+)
 //
 (* ****** ****** *)
 

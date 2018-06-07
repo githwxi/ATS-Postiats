@@ -42,12 +42,15 @@ typedef d2cstref = d2cstref_type
 
 (* ****** ****** *)
 
-fun d2cstref_make (name: string): d2cstref
+fun
+d2cstref_make(name: string): d2cstref
 
 (* ****** ****** *)
 
-fun d2cstref_get_cst (r: d2cstref): d2cst
-fun d2cstref_equ_cst (r: d2cstref, d2c: d2cst): bool
+fun
+d2cstref_get_cst(r0: d2cstref): d2cst
+fun
+d2cstref_equ_cst(r0: d2cstref, d2c: d2cst): bool
 
 (* ****** ****** *)
 
@@ -55,7 +58,7 @@ val the_sizeof_vt0ype_size : d2cstref
 
 (* ****** ****** *)
 
-fun d2cst_is_sizeof (d2c: d2cst): bool // sizeof-template
+fun d2cst_is_sizeof(d2c: d2cst): bool // sizeof-template
 
 (* ****** ****** *)
 

@@ -138,6 +138,11 @@ implement
 d2con_app
   (d2c, env) = let
 //
+val s2c =
+  d2con_get_scst(d2c)
+val ((*void*)) =
+  s2cst_app(s2c, env)
+//
 val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV
