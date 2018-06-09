@@ -6,9 +6,9 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
-2018-06-07:<br>
+2018-06-09:<br>
 <a
- href="https://groups.google.com/forum/#!topic/ats-lang-users/"
+ href="https://groups.google.com/forum/#!topic/ats-lang-users/hIKp1f8osUs"
 >ATS2-0.3.11 has been released</a><br>
 by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
 
