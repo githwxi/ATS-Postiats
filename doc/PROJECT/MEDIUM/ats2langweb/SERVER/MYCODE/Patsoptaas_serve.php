@@ -1323,10 +1323,10 @@ Help_about_onclick()
 </ul>
 </div>
 
-<td
- width="25%"
- style="background-color:#FFFFF0">
-</td>
+<!-- <td --> 
+<!--  width="25%" -->
+<!--  style="background-color:#FFFFF0"> -->
+<!-- </td> -->
 
 </tr>
 </table>
