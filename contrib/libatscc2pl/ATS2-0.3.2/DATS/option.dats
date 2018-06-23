@@ -9,13 +9,13 @@
 
 (* ****** ****** *)
 //
-// HX-2014-11:
+// HX-2014-08:
 // prefix for external names
 //
 #define
 ATS_EXTERN_PREFIX "ats2plpre_"
 #define
-ATS_STATIC_PREFIX "_ats2plpre_stream_"
+ATS_STATIC_PREFIX "_ats2plpre_option_"
 //
 (* ****** ****** *)
 //
@@ -30,38 +30,17 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
-
-staload "./../basics_pl.sats"
-
-(* ****** ****** *)
 //
 staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/print.sats"
+staload "./../SATS/option.sats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/list.sats"
-staload "./../SATS/reference.sats"
+#include "{$LIBATSCC}/DATS/option.dats"
 //
 (* ****** ****** *)
 
-staload "./../SATS/stream.sats"
-
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/stream.dats"
-//
-(* ****** ****** *)
-
-%{$
-######
-1; #note that it is needed by 'use' or 'require'
-######
-%} // end of [%{$]
-
-(* ****** ****** *)
-
-(* end of [stream.dats] *)
+(* end of [option.dats] *)

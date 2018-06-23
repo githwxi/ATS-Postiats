@@ -15,7 +15,7 @@
 #define
 ATS_EXTERN_PREFIX "ats2plpre_"
 #define
-ATS_STATIC_PREFIX "_ats2plpre_stream_"
+ATS_STATIC_PREFIX "_ats2plpre_list_"
 //
 (* ****** ****** *)
 //
@@ -30,29 +30,42 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
-
-staload "./../basics_pl.sats"
-
-(* ****** ****** *)
 //
 staload "./../SATS/integer.sats"
 //
 (* ****** ****** *)
 //
 staload "./../SATS/print.sats"
+staload "./../SATS/filebas.sats"
 //
 (* ****** ****** *)
 //
 staload "./../SATS/list.sats"
-staload "./../SATS/reference.sats"
+//
+staload "./../SATS/stream_vt.sats"
+staload _ = "./../DATS/stream.dats"
+//
+staload "./../SATS/stream_vt.sats"
+staload _ = "./../DATS/stream_vt.dats"
 //
 (* ****** ****** *)
-
-staload "./../SATS/stream.sats"
-
+//
+#define ATSCC_STREAM 1
+#define ATSCC_STREAM_VT 1
+//
 (* ****** ****** *)
 //
-#include "{$LIBATSCC}/DATS/stream.dats"
+#include "{$LIBATSCC}/DATS/list.dats"
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+print_list (xs) = fprint_list<a> (STDOUT, xs)
+implement
+{a}(*tmp*)
+print_list_sep
+  (xs, sep) = fprint_list_sep<a> (STDOUT, xs, sep)
 //
 (* ****** ****** *)
 
@@ -64,4 +77,4 @@ staload "./../SATS/stream.sats"
 
 (* ****** ****** *)
 
-(* end of [stream.dats] *)
+(* end of [list.dats] *)

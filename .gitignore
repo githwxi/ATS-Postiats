@@ -24,11 +24,6 @@ patsopt_env.sh
 myatscc_env.sh
 
 #
-# An external link
-#
-contrib
-
-#
 # The compiler for POSTIATS 
 #
 src/patsopt

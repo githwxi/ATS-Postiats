@@ -15,7 +15,7 @@
 #define
 ATS_EXTERN_PREFIX "ats2plpre_"
 #define
-ATS_STATIC_PREFIX "_ats2plpre_stream_"
+ATS_STATIC_PREFIX "_ats2plpre_intrange_"
 //
 (* ****** ****** *)
 //
@@ -26,33 +26,16 @@ LIBATSCC_targetloc
 //
 (* ****** ****** *)
 //
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-
-staload "./../basics_pl.sats"
-
-(* ****** ****** *)
-//
-staload "./../SATS/integer.sats"
+#include "./../staloadall.hats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/print.sats"
+#define ATSCC_STREAM 1
+#define ATSCC_STREAM_VT 1
 //
 (* ****** ****** *)
 //
-staload "./../SATS/list.sats"
-staload "./../SATS/reference.sats"
-//
-(* ****** ****** *)
-
-staload "./../SATS/stream.sats"
-
-(* ****** ****** *)
-//
-#include "{$LIBATSCC}/DATS/stream.dats"
+#include "{$LIBATSCC}/DATS/intrange.dats"
 //
 (* ****** ****** *)
 
@@ -64,4 +47,4 @@ staload "./../SATS/stream.sats"
 
 (* ****** ****** *)
 
-(* end of [stream.dats] *)
+(* end of [intrange.dats] *)

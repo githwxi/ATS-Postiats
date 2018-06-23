@@ -1,8 +1,8 @@
+(* ****** ****** *)
 (*
 ** For writing ATS code
 ** that translates into Perl
 *)
-
 (* ****** ****** *)
 
 #define ATS_DYNLOADFLAG 0
