@@ -57,6 +57,15 @@
 ;; ****** ****** ;;
 ;;
 (defmacro
+ ats2cljpre_half_int0[x] `(quot ~x 2)
+)
+(defmacro
+ ats2cljpre_half_int1[x] `(quot ~x 2)
+)
+;;
+;; ****** ****** ;;
+;;
+(defmacro
  ats2cljpre_add_int0_int0[x y] `(+ ~x ~y)
 )
 (defmacro

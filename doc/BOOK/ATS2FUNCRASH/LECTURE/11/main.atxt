@@ -86,8 +86,8 @@ follow the link mentioned at the end of the chapter.
 #para("\
 
 Clearly, the implementation of #dyncode("ftally2") seems more complex
-than that of #dyncode("ftally"). Is there any practical reason for prefering
-#dyncode("ftally2") over #dyncode("ftally")? Absolutely.
+than that of #dyncode("ftally"). Is there any practical reason for
+preferring #dyncode("ftally2") over #dyncode("ftally")? Absolutely.
 
 ")
 
