@@ -95,7 +95,7 @@ token_node =
   | T_LT of () // < // for opening a tmparg
   | T_GT of () // > // for closing a tmparg
 //
-  | T_GTLT of () // <>
+  | T_GTLT of () // ><
   | T_DOTLT of () // .< // opening termetric
   | T_GTDOT of () // >. // closing termetric
   | T_DOTLTGTDOT of () // .<>. // for empty termetric
