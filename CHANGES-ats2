@@ -24,6 +24,8 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
+1. Fixing issues with some atsccomp transpilers and their libs
+
 ######
 
 0.3.11
