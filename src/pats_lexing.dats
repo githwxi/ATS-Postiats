@@ -1774,7 +1774,7 @@ in
       // end of [if]
     end // end of [_ when ...]
   | _ => let
-      val k = testing_digitseq0 (buf, pos)
+      val k = testing_octalseq0 (buf, pos)
     in
       if k = 0u then
         lexbufpos_lexerr_reset (buf, pos, LE_CHAR_oct)
