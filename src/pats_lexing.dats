@@ -1313,7 +1313,7 @@ then let
     if c2 = '2' then (knd := knd + 1; posincby1 (pos))
   end // end of [val]
   val () =
-    if knd = DYNEND then let // for $^2
+    if knd = DYNEND then let // for $2
     val i2 = lexbufpos_get_char (buf, pos)
     val c2 = (i2c)i2
   in
