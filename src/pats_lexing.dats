@@ -1721,7 +1721,7 @@ lexing_char_oct
     in
       loop (buf, pred(k), succ(nchr), i)
     end else i
-  val i = loop (buf, k, 2u, 0)
+  val i = loop (buf, k, 3u, 0)
   val c = (i2c)i
 in
   lexing_char_closing (buf, pos, c)
@@ -1742,7 +1742,7 @@ lexing_char_hex
     in
       loop (buf, pred(k), succ(nchr), i)
     end else i
-  val i = loop (buf, k, 3u, 0)
+  val i = loop (buf, k, 2u, 0)
   val c = (i2c)i
 in
   lexing_char_closing (buf, pos, c)
