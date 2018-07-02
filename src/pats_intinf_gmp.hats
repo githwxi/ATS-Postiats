@@ -112,6 +112,7 @@ end // end of [intinf_make_string]
 implement
 intinf_make_base_string_ofs
   (base, rep, ofs) = let
+//
   val rep =
     __cast (rep) where {
     extern castfn __cast (x: string): ptr
@@ -120,8 +121,18 @@ intinf_make_base_string_ofs
     __cast (rep + ofs) where {
     extern castfn __cast (x: ptr): string
   }
-  val (pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
-  prval () = free_gc_elim (pfgc)
+//
+// HX-2018-07-01:
+// "0x" is treated as "0x0"
+//
+  val rep_ofs =
+  (if
+   string_is_empty(rep_ofs) then "0" else rep_ofs
+  ) : string // end of [val]
+//
+  val (pfgc, pfat | p) =
+    ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+prval () = free_gc_elim (pfgc)
   val () = mpz_init_set_str_exn (!p, rep_ofs, base)
 in
   ref_make_view_ptr (pfat | p)
