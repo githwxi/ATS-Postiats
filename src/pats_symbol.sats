@@ -60,7 +60,6 @@ val symbol_BACKSLASH : symbol // \
 val symbol_BANG : symbol // !
 val symbol_COLONEQ : symbol // := // assign
 val symbol_COLONEQCOLON : symbol // :=: // exhange
-val symbol_FUN: symbol // fun
 //
 val symbol_GT : symbol // >
 val symbol_GTEQ : symbol // >=
@@ -81,7 +80,6 @@ val symbol_LAND : symbol // &&
 val symbol_LOR : symbol // ||
 val symbol_LRBRACKETS : symbol // []
 val symbol_MINUSGT : symbol // ->
-val symbol_MINUSLTGT : symbol // -<>
 val symbol_QMARK : symbol // ?
 val symbol_QMARKBANG : symbol // ?!
 val symbol_TILDE : symbol // ~
