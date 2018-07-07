@@ -78,7 +78,6 @@ val symbol_LAND : symbol // &&
 val symbol_LOR : symbol // ||
 val symbol_LRBRACKETS : symbol // []
 val symbol_MINUSGT : symbol // ->
-val symbol_MINUSLTGT : symbol // -<>
 val symbol_QMARK : symbol // ?
 val symbol_QMARKBANG : symbol // ?!
 val symbol_TILDE : symbol // ~
