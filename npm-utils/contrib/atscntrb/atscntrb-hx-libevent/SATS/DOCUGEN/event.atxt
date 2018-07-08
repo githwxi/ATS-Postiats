@@ -1,0 +1,94 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../event.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_libevent_event")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libevent/event\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS for the <a href="http://libevent.org/">libevent</a> package.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("event")
+#declnamesynop("event0")
+#declnamesynop("event1")
+
+(* ****** ****** *)
+
+#declnamesynop("event_is_gtez")
+
+#declnamesynop("event2ptr")
+
+#declnamesynop("event_null")
+#declnamesynop("event_free_null")
+
+#declnamesynop("event_is_null")
+#declnamesynop("event_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("event_base")
+#declnamesynop("event0_base")
+#declnamesynop("event1_base")
+
+(* ****** ****** *)
+
+#declnamesynop("event_base_is_gtez")
+
+#declnamesynop("event2ptr_base")
+
+#declnamesynop("event_base_null")
+#declnamesynop("event_base_free_null")
+
+#declnamesynop("event_base_is_null")
+#declnamesynop("event_base_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("event_config")
+#declnamesynop("event0_config")
+#declnamesynop("event1_config")
+
+(* ****** ****** *)
+
+#declnamesynop("event_config_is_gtez")
+
+#declnamesynop("event2ptr_config")
+
+#declnamesynop("event_config_null")
+#declnamesynop("event_config_free_null")
+
+#declnamesynop("event_config_is_null")
+#declnamesynop("event_config_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("event_config_new")
+#declnamesynop("event_config_free")
+#declnamesynop("event_config_avoid_method")
+
+(* ****** ****** *)
+
+(* end of [event.atxt] *)

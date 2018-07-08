@@ -14,7 +14,7 @@ typedef atextlst = $LDOC.atextlst
 (* ****** ****** *)
 //
 staload LSYNMK =
-"libatsynmark/SATS/libatsynmark.sats"
+"utils/libatsynmark/SATS/libatsynmark.sats"
 //
 typedef d0eclreplst = $LSYNMK.d0eclreplst
 //

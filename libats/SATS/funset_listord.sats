@@ -26,24 +26,31 @@
 *)
 
 (* ****** ****** *)
-
+//
 (*
 **
-** A functional set based on ordered lists
+** A functional
+** set implementation
+** based on ordered lists
 **
-** Contributed by Hongwei Xi (hwxiATcsDOTbuDOTedu)
+** Contributed by
+** Hongwei Xi (hwxiATcsDOTbuDOTedu)
 ** Time: May 18, 2011
 **
 *)
-
+//
 (* ****** ****** *)
 //
 // HX-2012-12:
-// ported to ATS/Postitats from ATS/Anairiats
+// It is ported
+// to ATS/Postitats
+// from ATS/Anairiats
 //
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.funset_listord"
+#define
+ATS_PACKNAME
+"ATSLIB.libats.funset_listord"
 
 (* ****** ****** *)
 
@@ -52,7 +59,7 @@
 (* ****** ****** *)
 //
 castfn
-funset2list{a:t0p} (xs: set(INV(a))):<> List0 (a)
+funset2list{a:t0p}(xs: set(INV(a))):<> List0(a)
 //
 (* ****** ****** *)
 

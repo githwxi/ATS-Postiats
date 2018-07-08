@@ -6,15 +6,8 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
-#define ATS_DYNLOADFLAG 0
+#define
+ATS_DYNLOADFLAG 0
 //
 #define
 ATS_EXTERN_PREFIX "atslangweb_"
@@ -23,15 +16,27 @@ ATS_STATIC_PREFIX "_atslangweb_patsopt_tcats_"
 //
 (* ****** ****** *)
 //
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME\
+/contrib/libatscc2js/ATS2-0.3.2"
+//
+(* ****** ****** *)
+//
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
 //
-staload
-"{$LIBATSCC2JS}/SATS/Ajax/Ajax.sats"
+#staload
+"{$LIBATSCC2JS}/SATS/HTTP/Ajax/Ajax.sats"
 //
 (* ****** ****** *)
 
-staload "./../SATS/atslangweb.sats"
+#staload "./../SATS/atslangweb.sats"
 
 (* ****** ****** *)
 
@@ -40,16 +45,20 @@ implement
 patsopt_tcats_rpc
   (mycode) = let
 //
-val xmlhttp =
-  XMLHttpRequest_new()
+val
+xmlhttp =
+XMLHttpRequest_new()
 val ((*void*)) =
 xmlhttp.onreadystatechange
 (
 lam((*void*)) =>
 (
-  if xmlhttp.is_ready_okay()
-    then patsopt_tcats_rpc$reply<> (xmlhttp.responseText)
-  // end of [if]
+if (
+xmlhttp.is_ready_okay()
+) then (
+  patsopt_tcats_rpc$reply<> (xmlhttp.responseText())
+) (* then *)
+// end of [if]
 ) (* end of [lam] *)
 )
 //

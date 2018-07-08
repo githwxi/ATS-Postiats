@@ -20,21 +20,21 @@
 //
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
 // HX: n mod p = r
 //
-absprop MOD (n:int, p:int, r:int)
+absprop MOD(n:int, p:int, r:int)
 //
 (* ****** ****** *)
 
 extern
 fun nmod
   {n,p:int | n >= 0; p > 0}
-  (n: int n, p: int p):<> [r:nat] (MOD (n, p, r) | int r)
+  (n: int n, p: int p):<> [r:nat] (MOD(n, p, r) | int r)
   = "mac#atspre_g0int_mod_int"
 // end of [nmod]
 

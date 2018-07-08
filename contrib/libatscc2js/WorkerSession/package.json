@@ -1,0 +1,33 @@
+{
+"name":
+"libatscc2js-workersession"
+,
+"version": "1.0.0"
+,
+"description":
+"The package implements session-typed channels based on web-workers."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/libatscc/libatscc2js/WorkerSession"
+}
+"keywords": [
+  "ATS",
+  "atscc2js",
+  "session", "session-type",
+  "JavaScript", "web-worker"
+]
+,
+"dependencies" : {}
+,
+ "author":
+ "Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me":
+"This package is stored at ${PATSHOME}/contrib/libatscc/libatscc2js/WorkerSession/."
+}

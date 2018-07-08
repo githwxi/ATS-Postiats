@@ -1,0 +1,726 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-parsing-cmbntr-cps</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Combinators for Parsing in CPS-style
+</h1>
+
+<p>
+In this article, I present a brief introduction to parsing combinators
+that are designed to facilitate parser implementation in CPS-style. This
+is also an occassion for me to advocate the use of abstract types in
+programming via a concrete case.
+</p>
+
+<h2>
+Parsers of CPS-style
+</h2>
+
+<p>
+Let us first take a look at the following two type definitions:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">typedef</span>
+<span class="staexp">parcont
+  <span class="keyword">(</span><span class="staexp">a<span class="keyword">:</span><span class="keyword">t@ype</span></span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">parinp</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">parout</span></span>
+<span class="comment">//</span>
+<span class="keyword">typedef</span>
+<span class="staexp">parinp_nullify
+  <span class="keyword">(</span><span class="staexp">a<span class="keyword">:</span><span class="keyword">t@ype</span></span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">parinp</span><span class="keyword">,</span> <span class="staexp">parcont</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">parout</span></span>
+<span class="comment">//</span>
+</pre>
+
+The types <span style="color: #0000F0;">parinp</span> and <span style="color: #0000F0;">parout</span> are abstract at this
+stage. Intuitively, <span style="color: #0000F0;">parinp</span> is meant to be the type for parsing
+input and <span style="color: #0000F0;">parout</span> the type for parsing output.  Given a type T,
+the type <span style="color: #0000F0;">parcont(T)</span> is for a continuation taking a value of the
+type T and another value representing parsing input; the type
+<span style="color: #0000F0;">parinp_nullify(T)</span> is for a parser of CPS-style that parses some
+input into a value of the type T and then passes the value and the
+remaining input to a continuation of the type <span style="color: #0000F0;">parcont(T)</span>.
+If a parser of the type <span style="color: #0000F0;">parinp_nullify(T)</span> cannot turn
+the given parsing input into a value of the type T, then a raised exception
+<span style="color: #F00000;">ParFailExn()</span> is issued as the parsing result.
+</p>
+
+<p>
+
+The type constructor <span style="color: #0000F0;">kparser</span> is declared to be abstract.
+Given a type T, <span style="color: #0000F0;">kparser(T)</span> and <span style="color: #0000F0;">parcont(T)</span> are two
+types that are equivalent:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">castfn</span>
+kparser_encode
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">parinp_nullify</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">castfn</span>
+kparser_decode<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">parinp_nullify</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Each value of the type <span style="color: #0000F0;">kparser(T)</span> represents a parser of
+CPS-style. For the sake of brevity, I will only state that such a parser
+parses some input into a value of the type T, omitting the part that the
+value obtained from parsing and the remaining input need to be passed to a
+continuation of the type <span style="color: #0000F0;">parcont(T)</span>.
+
+</p>
+
+<h2>
+Parsing Combinators
+</h2>
+
+<p>
+Generally speaking, parsing combinators are functions designed
+for constructing parsers. While a parsing combinator is often called
+on some existing parsers to construct a new parser, it is not uncommon
+to see one that takes as its arguments values that are not parsers.
+I present as follows some common parsing combinators.
+</p>
+
+<p>
+Two combinators
+<span style="color: #F00000;">kparser_fail</span> and <span style="color: #F00000;">kparser_just</span>
+are given the following types:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_fail<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_just<span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp">a</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Calling <span style="color: #F00000;">kparser_fail</span> simply raises an exception.
+Given a value, <span style="color: #F00000;">kparser_just</span> simply returns the value
+without consuming any input.
+
+</p>
+
+<p>
+Given a parser and a predicate,
+the combinator <span style="color: #F00000;">kparser_satisfy</span> constructs
+another parser that only returns if the value returned
+by the given parser satisfies the predicate:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_satisfy
+<span class="keyword">(</span>
+  <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> test<span class="keyword">:</span> <span class="staexp">cfun1</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">bool</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+Given two parsers, the combinator <span style="color: #F00000;">kparser_join2</span>
+constructs a new parser that essentially calls the two parsers
+consecutively and then combines the values returned by them to form
+a tuple:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a1
+<span class="keyword">,</span>a2<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_join2
+<span class="keyword">(</span>
+  kp1<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a1</span><span class="keyword">)</span><span class="keyword">,</span> kp2<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a2</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="keyword">@(</span><span class="staexp">a1</span><span class="keyword">,</span> <span class="staexp">a2</span><span class="keyword">)</span><span class="keyword">)</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+Given a parser and a function, the combinator <span style="color: #F00000;">kparser_fmap</span>
+constructs another parser that returns a value obtained from applying
+the given function to the value returned by the given parser:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span>b<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_fmap
+  <span class="keyword">(</span>kp<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> fmap<span class="keyword">:</span> <span class="staexp">cfun1</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">b</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">b</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+The combinator <span style="color: #F00000;">kparser_fmap2</span> is essentially
+a composition of <span style="color: #F00000;">kparser_join2</span> and <span style="color: #F00000;">kparser_fmap</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a1
+<span class="keyword">,</span>a2<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span>b<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_fmap2
+  <span class="keyword">(</span>kp1<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a1</span><span class="keyword">)</span><span class="keyword">,</span> kp2<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a2</span><span class="keyword">)</span><span class="keyword">,</span> fmap<span class="keyword">:</span> <span class="staexp">cfun1</span><span class="keyword">(</span><span class="staexp">a1</span><span class="keyword">,</span> <span class="staexp">a2</span><span class="keyword">,</span> <span class="staexp">b</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">b</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+Given two parsers, the combinator <span style="color: #F00000;">kparser_orelse</span> constructs
+a new parser that calls the first parser and then, if parsing fails, calls
+the second parser:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_orelse
+  <span class="keyword">(</span>kp1<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> kp2<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+If the second parser is called, then the input passed to
+it is the same as the input passed to the first one.
+</p>
+
+<p>
+Given a parser, the combinator <span style="color: #F00000;">kparser_repeat0</span>
+constructs another one that applies the given parser repeatedly
+(until a parsing failure occurs):
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_repeat0<span class="keyword">(</span>kp<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+The values obtained from applying the given parser repeatedly are gathered
+in a list and then the list is returned.  The combinator
+<span style="color: #F00000;">kparser_repeat1</span> is a slight variant of <span style="color: #F00000;">kparser_repeat0</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+kparser_repeat1<span class="keyword">(</span>kp<span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">List1</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Given a parser, <span style="color: #F00000;">kparser_repeat1</span> constructs another one
+that applies the given parser to obtain a value and then applies it repeated
+(until a parsing failure occurs).
+
+</p>
+
+<p>
+Let us now see certain combinators
+desiged to construct parsers for parsing a sequence of characters
+(of the type <span style="color: #0000F0;">char</span>):
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+kparser_char<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">char</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+kparser_alpha<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">char</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+kparser_alnum<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">char</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+kparser_digit<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">char</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+kparser_litchar<span class="keyword">(</span>c0<span class="keyword">:</span> <span class="staexp">char</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">char</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+kparser_literal<span class="keyword">(</span>lit<span class="keyword">:</span> <span class="staexp">string</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+</pre>
+
+The combinator <span style="color: #0000F0;">kparser_char</span> cannot be implemented yet
+at this stage as the type <span style="color: #0000F0;">parinp</span> is abstract. The rest of the
+combinators can be implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+kparser_alpha
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> kp <span class="keyword">=</span> kparser_char&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  kparser_satisfy<span class="keyword">(</span>kp<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>c<span class="keyword">)</span> <span class="keyword">=&gt;</span> isalpha<span class="keyword">(</span>c<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [kparser_alpha]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+kparser_alnum
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> kp <span class="keyword">=</span> kparser_char&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  kparser_satisfy<span class="keyword">(</span>kp<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>c<span class="keyword">)</span> <span class="keyword">=&gt;</span> isalnum<span class="keyword">(</span>c<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [kparser_alnum]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+kparser_digit
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> kp <span class="keyword">=</span> kparser_char&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  kparser_satisfy<span class="keyword">(</span>kp<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>c<span class="keyword">)</span> <span class="keyword">=&gt;</span> isdigit<span class="keyword">(</span>c<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [kparser_digit]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+kparser_litchar
+  <span class="keyword">(</span>c0<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> kp <span class="keyword">=</span> kparser_char&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  kparser_satisfy&lt;<span class="staexp">char</span><span class="keyword">&gt;</span><span class="keyword">(</span>kp<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>c1<span class="keyword">)</span> <span class="keyword">=&gt;</span> c0 <span class="keyword">=</span> c1<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [kparser_litchar]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+kparser_literal
+  <span class="keyword">(</span>lit<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+<span class="keyword">[</span><span class="staexp">n<span class="keyword">:</span>int</span><span class="keyword">]</span>
+lit <span class="keyword">=</span> g1ofg0<span class="keyword">(</span>lit<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+ncs <span class="keyword">=</span> sz2i<span class="keyword">(</span>string_length<span class="keyword">(</span>lit<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+loop<span class="keyword">(</span>i<span class="keyword">:</span> <span class="staexp">natLte</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">kparser</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">if</span> i <span class="keyword">&lt;</span> ncs
+  <span class="keyword">then</span> kparser_litchar<span class="keyword">(</span><span class="dynexp">lit[i<span class="keyword">]</span></span><span class="keyword">)</span> &gt;&gt; loop<span class="keyword">(</span>i+<span class="dynexp">1</span><span class="keyword">)</span> <span class="keyword">else</span> kparser_just<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="comment">// end of [if]</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  loop<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [kparser_literal]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+</pre>
+
+Given a character <span style="color: #F00000;">ch</span>, <span style="color: #F00000;">kparser_litchar(ch)</span> returns a
+parser for recognizing the character. Given a string <span style="color: #F00000;">str</span>,
+<span style="color: #F00000;">kparser_literal(str)</span> returns a parser for recognizing the
+sequence of the characters contained in the string <span style="color: #F00000;">str</span>.  </p>
+
+<p>
+For those interested in studying parsing combinators in more depth, the
+following links should be helpful:
+
+<ul>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/HATS/kparcomb.hats">Interface and Implementation</a>
+</li>
+</ul>
+</p>
+
+<h2>
+Parsing Combinators in Action
+</h2>
+
+<p>
+In the rest of this article, I briefly mention the implementation of a
+tokenizer that turns a sequence of characters into tokens, showing a
+concrete case of parsing combinators in action.  </p>
+
+<p>
+Assume that <span style="color: #0000F0;">parinp</span> equals <span style="color: #0000F0;">charlst</span> (which is defined
+as <span style="color: #0000F0;">List0(char)</span>). That is, parsing input is just a list of
+characters. Then the combinator <span style="color: #F00000;">kparser_char</span> can be implemented
+as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">assume</span>
+parinp_type <span class="keyword">=</span> List0<span class="keyword">(</span>char<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+kparser_char
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span>
+kparser_encode
+  <span class="staexp"><span class="keyword">{</span>char<span class="keyword">}</span></span><span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">lam</span><span class="keyword">(</span>inp<span class="keyword">,</span> kont<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+<span class="keyword">(</span>
+  <span class="keyword">case+</span> inp <span class="keyword">of</span>
+  <span class="keyword">|</span> cons<span class="keyword">(</span>c<span class="keyword">,</span> inp2<span class="keyword">)</span> <span class="keyword">=&gt;</span> kont<span class="keyword">(</span>c<span class="keyword">,</span> inp2<span class="keyword">)</span> <span class="keyword">|</span> nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp"><span class="keyword">$raise</span> ParFailExn<span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* kparser_char *)</span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+Assume that a legal integer token consists of a non-empty sequence of
+digits. Then a parser for integer tokens can be implement as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_digit <span class="keyword">=</span> kparser_digit&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_int <span class="keyword">=</span>
+kparser_fmap&lt;<span class="staexp">charlst</span><span class="keyword">&gt;&lt;</span><span class="staexp">int</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span>
+  kparser_repeat1<span class="keyword">(</span>kp_digit<span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>cs<span class="keyword">)</span> <span class="keyword">=&gt;</span> charlst2int<span class="keyword">(</span>cs<span class="keyword">)</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+Assume that a legal identifier token consists of a letter followed by a
+(possibly empty) sequence of letters or digits. Then a parser for
+identifiers can be implement as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_alpha <span class="keyword">=</span> kparser_alpha&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_alnum <span class="keyword">=</span> Kparser_alnum&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_ident <span class="keyword">=</span> <span class="comment">// parsing identifiers</span>
+kparser_fmap2&lt;<span class="staexp">char</span><span class="keyword">,</span><span class="staexp">charlst</span><span class="keyword">&gt;&lt;</span><span class="staexp">string</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span> kp_alpha
+<span class="keyword">,</span> kparser_repeat0<span class="keyword">(</span>kp_alnum<span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>c<span class="keyword">,</span> cs<span class="keyword">)</span> <span class="keyword">=&gt;</span> charlst2str<span class="keyword">(</span>cons<span class="keyword">(</span>c<span class="keyword">,</span> cs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+The datatype <span style="color: #0000F0;">token</span> is declared for tokens as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">datatype</span> <span class="staexp">token <span class="keyword">=</span>
+  <span class="keyword">|</span> <span class="dynexp">TOKeof <span class="keyword">of</span> <span class="keyword">(</span><span class="keyword">)</span></span> <span class="comment">// the end</span>
+  <span class="keyword">|</span> <span class="dynexp">TOKint <span class="keyword">of</span> <span class="staexp">int</span></span> <span class="comment">// integer</span>
+  <span class="keyword">|</span> <span class="dynexp">TOKident <span class="keyword">of</span> <span class="staexp">string</span></span> <span class="comment">// identifier</span>
+  <span class="keyword">|</span> <span class="dynexp">TOKspchr <span class="keyword">of</span> <span class="staexp">char</span></span> <span class="comment">// special char</span>
+  <span class="keyword">|</span> <span class="dynexp">TOKcomment <span class="keyword">of</span> <span class="keyword">(</span><span class="keyword">)</span></span></span> <span class="comment">// comment</span>
+<span class="comment">//</span>
+</pre>
+
+The parser <span style="color: #F00000;">kp_token</span>
+for turning sequences of characters into tokens
+is implemented below:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_TOKeof <span class="keyword">=</span>
+kparser_fmap<span class="keyword">(</span>kp_eof<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> TOKeof<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_TOKint <span class="keyword">=</span>
+kparser_fmap<span class="keyword">(</span>kp_int<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> TOKint<span class="keyword">(</span>x<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_TOKident <span class="keyword">=</span>
+kparser_fmap<span class="keyword">(</span>kp_ident<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> TOKident<span class="keyword">(</span>x<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_TOKspchr <span class="keyword">=</span>
+kparser_fmap<span class="keyword">(</span>kp_spchr<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> TOKspchr<span class="keyword">(</span>x<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_TOKcomment <span class="keyword">=</span>
+kparser_fmap<span class="keyword">(</span>kp_comment<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> TOKcomment<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_token <span class="keyword">=</span>
+kp_TOKint || kp_TOKident ||
+kp_TOKcomment || kp_TOKspchr || kp_TOKeof</span>
+<span class="comment">//</span>
+</pre>
+
+Note that <span style="color: #F00000;">kp_eof</span>, <span style="color: #F00000;">kp_spchr</span> and
+<span style="color: #F00000;">kp_comment</span> are not presented here. A comment consisits of a
+sequence of characters starting with <span style="color: #F00000;">(*</span> and ending with
+<span style="color: #F00000;">*)</span>, and embedded comments are allowed. I suggest that the
+reader pay close attention to the implementation of <span style="color: #F00000;">kp_comment</span>
+in <u>tokenizer.dats</u>, which is not based on parsing combinators.
+Instead, <span style="color: #F00000;">kp_comment</span> is implemented in a direct style.  Parsing
+combinators can often help implement elegant parsers but not always.  There
+is really no point sticking to parsing combinators if one can find a
+simpler and/or cleaner solution otherwise.
+</p>
+
+<p>
+A tokenizer is implemented as follows that turns a list of characters into
+a (lazy) stream of tokens:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">assume</span>
+parout_type <span class="keyword">=</span> stream_con<span class="keyword">(</span>token<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+tokenizer
+<span class="keyword">(</span>
+cs<span class="keyword">:</span> <span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">char</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">stream</span><span class="keyword">(</span><span class="staexp">token</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+kp_token <span class="keyword">=</span> kparser_decode<span class="keyword">(</span>kp_token<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">$delay</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> cs <span class="keyword">of</span>
+<span class="keyword">|</span> nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  stream_nil<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">|</span> cons _ <span class="keyword">=&gt;</span>
+  kp_token<span class="keyword">(</span>cs<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>tok<span class="keyword">,</span> inp<span class="keyword">)</span> <span class="keyword">=&gt;</span> stream_cons<span class="keyword">(</span>tok<span class="keyword">,</span> tokenizer<span class="keyword">(</span>inp<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span> <span class="keyword">:</span> stream_con<span class="keyword">(</span>token<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [tokenizer]</span>
+<span class="comment">//</span>
+</pre>
+</p>
+
+<p>
+Please find the entirety of the code for this example in the file
+<u>tokenizer.dats</u>. A good exercise to solidify one's
+understanding of parsing combinators of CPS-style is to simply implement a
+parser for arithmetic expressions based on the tokenizer presented here.
+</p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
+

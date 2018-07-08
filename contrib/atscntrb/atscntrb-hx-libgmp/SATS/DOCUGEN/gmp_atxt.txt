@@ -1,0 +1,93 @@
+(* ****** ****** *)
+
+
+
+(* ****** ****** *)
+
+
+
+(* ****** ****** *)
+
+#__datatok1$
+
+(* ****** ****** *)
+
+#__datatok2$#__datatok4$
+
+(* ****** ****** *)
+
+#__datatok5$
+#__datatok6$
+#__datatok7$
+
+(* ****** ****** *)
+
+#__datatok8$
+
+(* ****** ****** *)
+
+#__datatok9$
+#__datatok10$
+
+(* ****** ****** *)
+
+#__datatok11$
+#__datatok12$
+
+(* ****** ****** *)
+
+#__datatok13$
+#__datatok14$
+#__datatok15$
+#__datatok16$
+#__datatok17$
+
+(* ****** ****** *)
+
+#__datatok18$
+
+(* ****** ****** *)
+
+#__datatok19$
+#__datatok20$
+#__datatok21$
+#__datatok22$
+#__datatok23$
+#__datatok24$
+#__datatok25$
+#__datatok26$
+
+(* ****** ****** *)
+
+#__datatok27$
+#__datatok28$
+
+(* ****** ****** *)
+
+#__datatok29$
+#__datatok30$
+#__datatok31$
+
+(* ****** ****** *)
+
+#__datatok32$
+#__datatok33$
+#__datatok34$
+
+(* ****** ****** *)
+
+#__datatok35$
+#__datatok36$
+#__datatok37$
+#__datatok38$
+#__datatok39$
+#__datatok40$
+#__datatok41$
+#__datatok42$
+#__datatok43$
+#__datatok44$
+#__datatok45$
+
+(* ****** ****** *)
+
+(* end of [gmp.atxt] *)

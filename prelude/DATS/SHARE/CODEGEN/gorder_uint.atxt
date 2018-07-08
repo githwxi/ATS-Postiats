@@ -27,13 +27,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 //
 implement
-gcompare_val<uint> = g0uint_compare_uint
+gcompare_val_val<uint> = g0uint_compare_uint
 implement
-gcompare_val<ulint> = g0uint_compare_ulint
+gcompare_val_val<ulint> = g0uint_compare_ulint
 implement
-gcompare_val<ullint> = g0uint_compare_ullint
+gcompare_val_val<ullint> = g0uint_compare_ullint
 implement
-gcompare_val<size_t> = g0uint_compare_size
+gcompare_val_val<size_t> = g0uint_compare_size
 //
 #atscode_separator()
 

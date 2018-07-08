@@ -1,0 +1,10 @@
+#
+# Compiling via g++
+# the C code generated from patsopt
+#
+######
+
+test01: plain C code
+test02: making use of std:vector
+
+###### end of [README] ######

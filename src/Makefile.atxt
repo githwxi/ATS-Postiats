@@ -19,28 +19,42 @@ staload "libatsdoc/SATS/libatsdoc_atext.sats"
 %}\
 %{
 
-fn extrem (
-  str: string // extension removal
+fn
+extrem
+(
+//
+str: string
+// extension removal
 ) : string = let
 //
-val str = string1_of_string (str)
+val str =
+  string1_of_string(str)
 //
-fun loop {n:int}
-  {i:nat | i <= n} .<n-i>.
-  (str: string n, i: size_t i): string =
-  if string_isnot_atend (str, i) then let
-    val c = str[i]
-  in
-    if c = '.' then let
-      val str1 = string_make_substring (str, 0, i) in string_of_strbuf (str1)
-    end else loop (str, i + 1)
-  end else str // end of [if]
+fun
+loop{n:int}
+{i:nat | i <= n} .<n-i>.
+(
+  str: string n, i: size_t i
+) : string =
+(
+if
+string_isnot_atend(str, i)
+then let
+  val c = str[i]
+in
+  if c = '.' then let
+    val str1 = string_make_substring (str, 0, i) in string_of_strbuf (str1)
+  end else loop (str, i + 1)
+end else str // end of [if]
+) (* end of [loop] *)
 //
 in
   loop (str, 0)
 end // end of [extrem]
 
-fn isSuffix (
+fn
+isSuffix
+(
   str: string, sfx: string
 ) : bool = let
   val str = string1_of_string (str)
@@ -58,21 +72,28 @@ end // end of [isSuffix]
 macdef isSATS (x) = isSuffix (,(x), ".sats")
 macdef isDATS (x) = isSuffix (,(x), ".dats")
 
-fn srcRename
-  (str: string): string =
+fn
+srcRename
+(
+  str: string
+) : string =
   case+ 0 of
-  | _ when isSATS (str) => extrem (str) + "_sats"
-  | _ when isDATS (str) => extrem (str) + "_dats"
-  | _ => str
+  | _ when isSATS(str) => extrem(str) + "_sats"
+  | _ when isDATS(str) => extrem(str) + "_dats"
+  | _ (*non-SATS-DATS*) => str
 // end of [srcRename]
+
 %}\
 %{
-
+//
 (*
 ** HX: pats_main.dats is not include in [SOURCES]
 *)
-val SOURCES =
-  $lst{string} (
+//
+val
+SOURCES =
+$lst{string}
+(
 //
   "pats_params.hats"
 //
@@ -262,9 +283,6 @@ val SOURCES =
 //
 , "pats_dynexp2_mapgen.dats"
 //
-, "pats_synent2_jsonize.sats"
-, "pats_synent2_jsonize.dats"
-//
 , "pats_trans2.sats"
 //
 , "pats_namespace.sats"
@@ -280,6 +298,16 @@ val SOURCES =
 , "pats_trans2_impdec.dats"
 //
 , "pats_trans2_decl.dats"
+//
+, "pats_codegen2.sats"
+, "pats_codegen2.dats"
+, "pats_codegen2_util.dats"
+, "pats_codegen2_absrec.dats"
+, "pats_codegen2_datype.dats"
+, "pats_codegen2_fprint.dats"
+//
+, "pats_jsonize_synent2.sats"
+, "pats_jsonize_synent2.dats"
 //
 , "pats_dynexp3.sats"
 , "pats_dynexp3.dats"
@@ -394,50 +422,107 @@ val SOURCES =
 
 (* ****** ****** *)
 
-fn process_SOURCES
-  (): atext = let
-  fun f (x: string): atext = let
-    val res = sprintf ("  %s \\\n", @(x)) in atext_strptr (res)
+fn
+SOURCES_process
+(
+// argless
+) : atext = let
+  fun
+  fopr
+  (
+    x: string
+  ) : atext = let
+    val res = sprintf ("  %s \\\n", @(x)) in atext_strptr(res)
   end // end of [f]
-  val res = list_map_fun (SOURCES, f)
+  val res = list_map_fun(SOURCES, fopr)
   val res = list_of_list_vt (res)
 in
-  atext_concatxt (res)
-end // end of [process_SOURCES]
+  atext_concatxt(res)
+end // end of [SOURCES_process]
 
-fn process_OBJECTS
-  (): atext = let
+fn
+TARGETS_process
+(
+// argless
+) : atext = let
 //
-fun aux (
+fun aux
+(
   xs: List(string)
 ) : atextlst =
+(
   case+ xs of
-  | list_cons (x, xs) => (
+  | list_nil() =>
+    list_nil(*void*)
+  | list_cons(x, xs) =>
+    (
     case+ 0 of
-    | _ when isSATS (x) => let
-        val x1 = extrem (x)
-        val x2 = sprintf ("  %s_sats.o \\\n", @(x1))
-        val res = atext_strptr (x2)
+    | _ when isSATS(x) => let
+        val x1 = extrem(x)
+        val x2 = sprintf("  %s_sats.c \\\n", @(x1))
+        val res = atext_strptr(x2)
       in
         list_cons (res, aux (xs))
       end
-    | _ when isDATS (x) => let
-        val x1 = extrem (x)
-        val x2 = sprintf ("  %s_dats.o \\\n", @(x1))
-        val res = atext_strptr (x2)
+    | _ when isDATS(x) => let
+        val x1 = extrem(x)
+        val x2 = sprintf("  %s_dats.c \\\n", @(x1))
+        val res = atext_strptr(x2)
       in
         list_cons (res, aux (xs))
       end
     | _ => aux (xs)
     )
-  | list_nil () => list_nil ()
-// end of [aux]
+) (* end of [aux] *)
 //
-val res = aux (SOURCES)
+val res = aux(SOURCES)
 //
 in
-  atext_concatxt (res)
-end // end of [process_OBJECTS]
+  atext_concatxt(res)
+end // end of [TARGETS_process]
+
+fn
+OBJECTS_process
+(
+// argless
+) : atext = let
+//
+fun aux
+(
+  xs: List(string)
+) : atextlst =
+(
+  case+ xs of
+  | list_nil() =>
+    list_nil(*void*)
+  | list_cons(x, xs) =>
+    (
+    case+ 0 of
+    | _ when
+        isSATS(x) => let
+        val x1 = extrem(x)
+        val x2 = sprintf("  %s_sats.o \\\n", @(x1))
+        val res = atext_strptr(x2)
+      in
+        list_cons(res, aux(xs))
+      end // end of [isSATS]
+    | _ when
+        isDATS(x) => let
+        val x1 = extrem(x)
+        val x2 = sprintf("  %s_dats.o \\\n", @(x1))
+        val res = atext_strptr(x2)
+      in
+        list_cons(res, aux(xs))
+      end // end of [isDATS]
+    | _ => aux (xs)
+    )
+) (* end of [aux] *)
+//
+val res = aux(SOURCES)
+//
+in
+  atext_concatxt(res)
+end // end of [OBJECTS_process]
 
 (* ****** ****** *)
 
@@ -449,47 +534,68 @@ in
 //
 case+ 0 of
 | _ when
-    isSATS (src) => let
+    isSATS(src) => let
     val src1 = extrem (src)
-    val line1 = sprintf (
+    val line1 = sprintf
+    (
       "%s_sats.c: %s.sats; $(ATSCC) $(DATSCC) -cc $<\n", @(src1, src1)
     ) // end of [val]
-    val line1 = atext_strptr (line1)
-    val line2 = sprintf (
+    val line1 = atext_strptr(line1)
+    val line2 = sprintf
+    (
       "%s_sats.o: %s_sats.c; $(ATSCC) $(CFLAGS) -c $<\n\n", @(src1, src1)
     ) // end of [val]
-    val line2 = atext_strptr (line2)
+    val line2 = atext_strptr(line2)
   in
     Some_vt (atext_apptxt2 (line1, line2))
-  end
+  end // end of [isSATS]
 | _ when
-    isDATS (src) => let
-    val src1 = extrem (src)
-    val line1 = sprintf (
+    isDATS(src) => let
+    val src1 =
+      extrem(src)
+    // end of [val]
+//
+    val line1 = sprintf
+    (
       "%s_dats.c: %s.dats; $(ATSCC) $(DATSCC) -cc $<\n", @(src1, src1)
     ) // end of [val]
-    val line1 = atext_strptr (line1)
-    val line2 = sprintf (
+    val line1 = atext_strptr(line1)
+//
+    val line2 = sprintf
+    (
       "%s_dats.o: %s_dats.c; $(ATSCC) $(CFLAGS) -c $<\n\n", @(src1, src1)
     ) // end of [val]
-    val line2 = atext_strptr (line2)
+    val line2 = atext_strptr(line2)
+//
   in
-    Some_vt (atext_apptxt2 (line1, line2))
-  end
-| _ => None_vt () // HX: .cats or .hats
+    Some_vt(atext_apptxt2(line1, line2))
+  end // end of [isDATS]
+| _(*non-SATS-DATS*) => None_vt((*void*)) // HX: .cats? .hats?
 //
 end // end of [fproc]
 
 in // in of [local]
 
 fun
-process_compile_lines () = let
-  val ys =
-    list_mapopt_fun<string><atext> (SOURCES, fproc)
-  val res1 = atext_concatxt ((l2l)ys)
-  val- ~Some_vt (res2) = fproc ("pats_main.dats")
+process_compile_lines
+  ((*void*)) = let
+//
+val ys =
+list_mapopt_fun<string><atext>
+  (SOURCES, fproc)
+// end of [val]
+val res1 = atext_concatxt ((l2l)ys)
+(*
+val-
+~Some_vt
+  (res2) = fproc ("pats_main.dats")
+// end of [val]
+*)
 in
+  res1
+(*
   atext_apptxt2 (res1, res2)
+*)
 end // end of [process_compile_lines]
 
 end // end of [local]
@@ -505,10 +611,12 @@ end // end of [local]
 #
 
 ######
-
+#
 CC=gcc
+CCOMP=$(CC)
+#
 export ATSCCOMP=$(CC)
-
+#
 ######
 
 ATSCC=$(ATSHOME)/bin/atscc
@@ -536,11 +644,13 @@ GCFLAG=
 # [intknd] for CBOOTmin
 #
 C3NSTRINTKND=gmpknd
+\#C3NSTRINTKND=intknd
 #
 ######
-
-DATSCC=-DATS C3NSTRINTKND=$(C3NSTRINTKND)
-
+#
+DATSCC=-DATS \\
+C3NSTRINTKND=$(C3NSTRINTKND)
+#
 ######
 
 LIBATS=-lats
@@ -560,15 +670,22 @@ endif
 ######
 
 SOURCES := \\
-#process_SOURCES()
+#SOURCES_process()
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))
 
 ######
 
+TARGETS := \\
+#TARGETS_process()
+TARGETS += pats_main_dats.c
+TARGETS += pats_main_none_dats.c
+
+######
+
 OBJECTS := \\
-#process_OBJECTS()
+#OBJECTS_process()
 
 ######
 
@@ -578,12 +695,22 @@ all:: patsopt
 #
 # AS-20130407:
 # link order matters to GNU ld
-# please keep the order '$(LIBATS) $(LIBGMP)' as libats depends on libgmp
+# please keep the order '$(LIBATS) $(LIBGMP)'
+# as the former depends on the latter
 #
-patsopt: \\
-  pats_main_dats.o $(OBJECTS) ; \\
-  $(ATSCC) $(CFLAGS) $(GCFLAG) -o $@ pats_main_dats.o $(OBJECTS) $(LIBATS) $(LIBGMP)
+patsopt:: $(TARGETS)
+patsopt:: $(OBJECTS) ; \\
+$(ATSCC) $(CFLAGS) $(GCFLAG) \\
+-o $@ pats_main.dats $(OBJECTS) $(LIBATS) $(LIBGMP)
+#
 cleanall:: ; $(RMF) patsopt
+#
+######
+#
+libatsopt:: $(TARGETS)
+#
+libatsopt:: $(OBJECTS) \
+  pats_main_none_dats.o; $(ARR) libatsopt.a $^
 #
 ######
 #
@@ -615,11 +742,17 @@ TAGATS:: ; $(RMF) $@
 TAGATS:: ; $(ATSOPT) --output-a $@ --taggen -s $(SOURCESsta) -d $(SOURCESdyn)
 
 ######
-
+#
 #process_compile_lines()
-
+#
+pats_main_dats.c: \\
+  pats_main.dats; $(ATSOPT) $(DATSCC) -o $@ -d $<
+pats_main_none_dats.c: \\
+  pats_main.dats; $(ATSOPT) $(DATSCC) -DATS PATSOPT_MAIN_NONE -o $@ -d $<
+#
+pats_main_none_dats.o: pats_main_none_dats.c; $(ATSCC) $(CFLAGS) -c -o $@ $<
+#
 ######
-
 #
 # HX: '-o .depend' means appending instead of overwriting
 #
@@ -627,20 +760,30 @@ depend::
 	$(RMF) .depend
 	$(ATSOPT) --output-a .depend --depgen -d pats_main.dats
 	$(ATSOPT) --output-a .depend --depgen -s $(SOURCESsta) -d $(SOURCESdyn)
+#
 -include .depend
-
+#
 ######
 
 DIR=.
+ARR=ar -r
 CPF=cp -f
 RMF=rm -f
 WCL=wc -l
 
 ######
-
-srclines:: ; $(WCL) pats_main.dats $(SOURCES)
-liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
-
+#
+srclines:: ; \
+$(WCL) \
+  pats_main.dats $(SOURCES)
+#
+liblines:: ; \
+$(WCL) \
+  ../prelude/*.sats \
+  ../prelude/?ATS/*.?ats \
+  ../libc/?ATS/*.?ats \
+  ../libats/?ATS/*.?ats ../libats/?ATS/SHARE/*.?ats
+#
 ######
 
 clean:: ; $(RMF) $(DIR)/*~

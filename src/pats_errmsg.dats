@@ -38,6 +38,13 @@ staload "./pats_errmsg.sats"
 (* ****** ****** *)
 
 implement{}
+prerr_ERROR_beg() = prerr ("**ERROR(000000):beg**\n")
+implement{}
+prerr_ERROR_end() = prerr ("**ERROR(000000):end**\n")
+
+(* ****** ****** *)
+
+implement{}
 prerr_interror () =
 {
   val () = (

@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 //
 // Implementing Erathosthene's sieve
@@ -10,6 +12,12 @@
 // HX-2012-11-25: ported to ATS/Postiats (typecheck)
 // HX-2012-06-08: ported to ATS/Postiats (compilation)
 //
+(* ****** ****** *)
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
 (* ****** ****** *)
 
 staload INT = "prelude/DATS/integer.dats"

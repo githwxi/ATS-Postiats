@@ -28,18 +28,26 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmhwxiATgmailDOTcom *)
 (* Start time: December, 2012 *)
+(* Authoremail: gmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 //
-// HX-2012-12: the set implementation is based on AVL trees
+// HX-2012-12:
+// this set implementation
+// is based on the AVL trees
 //
 (* ****** ****** *)
-
+//
 staload
-FS = "libats/SATS/funset_avltree.sats"
-
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
+FS =
+"libats/SATS/funset_avltree.sats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -54,72 +62,95 @@ staload "libats/ML/SATS/funset.sats"
 
 (* ****** ****** *)
 
-implement{a}
-compare_elt_elt = gcompare_val<a>
-implement{a}
+implement
+{a}(*tmp*)
+compare_elt_elt = gcompare_val_val<a>
+implement
+{a}(*tmp*)
 $FS.compare_elt_elt = compare_elt_elt<a>
 
 (* ****** ****** *)
 
-assume set_type (a:t0p) = $FS.set (a)
+assume set_type(a:t0p) = $FS.set(a)
 
 (* ****** ****** *)
-
-implement{}
-funset_nil () = $FS.funset_nil ()
-implement{}
-funset_make_nil () = $FS.funset_make_nil ()
-
+//
+implement
+{}(*tmp*)
+funset_nil
+  ((*void*)) = $FS.funset_nil()
+implement
+{}(*tmp*)
+funset_make_nil
+  ((*void*)) = $FS.funset_make_nil()
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funset_sing
+  (x0) = $FS.funset_sing<a>(x0)
+implement
+{a}(*tmp*)
+funset_make_sing
+  (x0) = $FS.funset_make_sing<a>(x0)
+//
 (* ****** ****** *)
 
-implement{a}
-funset_sing (x) = $FS.funset_sing<a> (x)
-implement{a}
-funset_make_sing (x) = $FS.funset_make_sing<a> (x)
-
-(* ****** ****** *)
-
-implement{a}
+implement
+{a}(*tmp*)
 funset_make_list
   (xs) = let
 //
-val xs = g1ofg0_list (xs)
+val xs = g1ofg0_list(xs)
+//
 implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_make_list (xs)
+  $FS.funset_make_list<a>(xs)
 end // end of [funset_make_list]
 
 (* ****** ****** *)
-
-implement{}
-fprint_funset$sep
-  (out) = fprint_string (out, ", ")
-implement{a}
-fprint_funset (out, xs) = let
 //
 implement
-$FS.fprint_funset$sep<> (out) = fprint_funset$sep (out)
+{}(*tmp*)
+fprint_funset$sep
+  (out) =
+  fprint_string (out, ", ")
+//
+implement
+{a}(*tmp*)
+fprint_funset
+  (out, xs) = let
+//
+implement
+$FS.fprint_funset$sep<>
+  (out) = fprint_funset$sep<>(out)
 //
 in
-  $FS.fprint_funset (out, xs)
+  $FS.fprint_funset<a>(out, xs)
 end // end of [fprint_funset]
-
+//
 (* ****** ****** *)
-
-implement{}
-funset_is_nil (xs) = $FS.funset_is_nil (xs)
-implement{}
-funset_isnot_nil (xs) = $FS.funset_isnot_nil (xs)
-
+//
+implement
+{}(*tmp*)
+funset_is_nil
+  (xs) = $FS.funset_is_nil<>(xs)
+implement
+{}(*tmp*)
+funset_isnot_nil
+  (xs) = $FS.funset_isnot_nil<>(xs)
+//
 (* ****** ****** *)
-
-implement{a}
-funset_size (xs) = $FS.funset_size (xs)
-
+//
+implement
+{a}(*tmp*)
+funset_size(xs) = $FS.funset_size<a>(xs)
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_is_member
@@ -129,13 +160,14 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_is_member (xs, x0)
+  $FS.funset_is_member<a>(xs, x0)
 end // end of [funset_is_member]
-
+//
 implement
 {a}(*tmp*)
-funset_isnot_member (xs, x0) = ~funset_is_member (xs, x0)
-
+funset_isnot_member
+  (xs, x0) = ~funset_is_member<a>(xs, x0)
+//
 (* ****** ****** *)
 
 implement
@@ -147,7 +179,7 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_insert (xs, x0)
+  $FS.funset_insert<a>(xs, x0)
 end // end of [funset_insert]
 
 (* ****** ****** *)
@@ -161,27 +193,27 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_remove (xs, x0)
+  $FS.funset_remove<a>(xs, x0)
 end // end of [funset_remove]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_getmax_opt = $FS.funset_getmax_opt<a>
 implement
 {a}(*tmp*)
 funset_getmin_opt = $FS.funset_getmin_opt<a>
-
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_takeoutmax_opt = $FS.funset_takeoutmax_opt<a>
 implement
 {a}(*tmp*)
 funset_takeoutmin_opt = $FS.funset_takeoutmin_opt<a>
-
+//
 (* ****** ****** *)
 
 implement
@@ -193,11 +225,11 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_union (xs1, xs2)
+  $FS.funset_union<a>(xs1, xs2)
 end // end of [funset_union]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_intersect
@@ -207,25 +239,25 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_intersect (xs1, xs2)
+  $FS.funset_intersect<a>(xs1, xs2)
 end // end of [funset_intersect]
-
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-funset_diff
+funset_differ
   (xs1, xs2) = let
 //
 implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_diff (xs1, xs2)
-end // end of [funset_diff]
+  $FS.funset_differ<a>(xs1, xs2)
+end // end of [funset_differ]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_symdiff
@@ -235,11 +267,11 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_symdiff (xs1, xs2)
+  $FS.funset_symdiff<a>(xs1, xs2)
 end // end of [funset_symdiff]
-
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_equal
@@ -249,11 +281,11 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_equal (xs1, xs2)
+  $FS.funset_equal<a>(xs1, xs2)
 end // end of [funset_equal]
-
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_compare
@@ -263,11 +295,11 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_compare (xs1, xs2)
+  $FS.funset_compare<a>(xs1, xs2)
 end // end of [funset_compare]
-
+//
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
 funset_is_subset
@@ -277,43 +309,122 @@ implement
 $FS.compare_elt_elt<a> = compare_elt_elt<a>
 //
 in
-  $FS.funset_is_subset (xs1, xs2)
+  $FS.funset_is_subset<a>(xs1, xs2)
 end // end of [funset_is_subset]
-
+//
 implement
 {a}(*tmp*)
-funset_is_supset (xs1, xs2) = funset_is_subset (xs2, xs1)
-
+funset_is_supset
+  (xs1, xs2) = funset_is_subset<a>(xs2, xs1)
+//
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funset_foreach (xs) = let
+funset_foreach(xs) = let
 //
-var env: void = () in funset_foreach_env<a><void> (xs, env)
+var env: void = ((*void*))
 //
+in
+  funset_foreach_env<a><void>(xs, env)
 end // end of [funset_foreach]
 
 implement
 {a}{env}
-funset_foreach_env (xs, env) = let
+funset_foreach_env(xs, env) = let
 //
 implement
-funset_foreach$fwork<a><env> = $FS.funset_foreach$fwork<a><env>
+$FS.funset_foreach$fwork<a><env>
+  (x, env) = funset_foreach$fwork<a><env>(x, env)
 //
 in
-  $FS.funset_foreach_env<a><env> (xs, env)
+  $FS.funset_foreach_env<a><env>(xs, env)
 end // end of [funset_foreach_env]
+
+implement
+{a}(*tmp*)
+funset_foreach_cloref
+  (xs, fwork) = let
+//
+var env: void = ((*void*))
+//
+implement
+(env)(*tmp*)
+$FS.funset_foreach$fwork<a><env>(x, env) = fwork(x)
+//
+in
+  $FS.funset_foreach_env<a><void> (xs, env)
+end // end of [funset_foreach_cloref]
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-funset_listize (xs) =
-(
-  $effmask_wrt (list0_of_list_vt ($FS.funset_listize (xs)))
-) // end of [funset_listize]
+funset_tabulate_cloref
+  {n}(n, fopr) = let
+//
+implement
+$FS.funset_tabulate$fopr<a>(i) = fopr($UN.cast{natLt(n)}(i))
+//
+in
+  $FS.funset_tabulate<a> (n)
+end // end of [funset_tabulate]
 
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funset_listize
+  (xs) = (
+//
+$effmask_wrt
+(
+  list0_of_list_vt{a}($FS.funset_listize<a>(xs))
+) (* $effmask_wrt *)
+//
+) (* funset_listize *)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funset_streamize
+  (xs) = $effmask_wrt($FS.funset_streamize<a>(xs))
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+funset_make_module
+  ((*void*)) = $rec
+{
+//
+nil = funset_nil{a}
+,
+sing = funset_sing<a>
+,
+make_list = funset_make_list<a>
+,
+size = funset_size<a>
+,
+is_nil = funset_is_nil{a}
+,
+isnot_nil = funset_isnot_nil{a}
+,
+insert= funset_insert<a>
+,
+remove= funset_remove<a>
+,
+union= funset_union<a>
+,
+intersect= funset_intersect<a>
+,
+listize = funset_listize<a>
+,
+streamize = funset_streamize<a>
+//
+} (* end of [funset_make_module] *)
+//
 (* ****** ****** *)
 
 (* end of [funset.dats] *)

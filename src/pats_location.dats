@@ -32,6 +32,11 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
+//
+staload
+ATSPRE = "./pats_atspre.dats"
+//
+(* ****** ****** *)
 
 staload
 FIL = "./pats_filename.sats"
@@ -159,13 +164,19 @@ position_incby_count
 assume
 location_type =
 '{
-  filename= filename // file name
+//
+  filename=
+  filename // file name
+//
 , beg_ntot= lint // beginning char position
 , beg_nrow= int
 , beg_ncol= int
 , end_ntot= lint // finishing char position
 , end_nrow= int
 , end_ncol= int
+//
+, locpragma= locpragma
+//
 } (* end of [location_type] *)
 
 (* ****** ****** *)
@@ -188,26 +199,18 @@ location_end_ntot (loc) = loc.end_ntot
 (* ****** ****** *)
 
 implement
-location_get_filename (loc) = loc.filename
+location_get_filename(loc) = loc.filename
 
 (* ****** ****** *)
 //
 implement
-print_location (loc) = fprint_location (stdout_ref, loc)
-implement
-prerr_location (loc) = fprint_location (stderr_ref, loc)
+print_location
+  (loc) = fprint_location(stdout_ref, loc)
 //
-(* ****** ****** *)
-
 implement
-fprint_location
-  (out, loc) = let
-  val fname = loc.filename
-in
-  $FIL.fprint_filename_full (out, fname);
-  fprint_string (out, ": "); fprint_locrange (out, loc)
-end (* end of [fprint_location] *)
-
+prerr_location
+  (loc) = fprint_location(stderr_ref, loc)
+//
 (* ****** ****** *)
 
 implement
@@ -237,12 +240,33 @@ val () = fprint_string (out, ")")
 (* ****** ****** *)
 
 implement
+fprint_location
+  (out, loc) = let
+(*
+val () = println! ("fprint_location")
+*)
+in
+//
+fprint_locpragma(out, loc.locpragma);
+$FIL.fprint_filename_full (out, loc.filename);
+fprint_string (out, ": "); fprint_locrange (out, loc)
+//
+end (* end of [fprint_location] *)
+
+(* ****** ****** *)
+
+implement
 fprint2_location
   (out, loc) = let
-  val fname = loc.filename
+(*
+val () = println! ("fprint2_location")
+*)
 in
-  $FIL.fprint2_filename_full (out, fname); 
-  fprint_string (out, ": "); fprint_locrange (out, loc)
+//
+fprint_locpragma(out, loc.locpragma);
+$FIL.fprint2_filename_full (out, loc.filename); 
+fprint_string (out, ": "); fprint_locrange (out, loc)
+//
 end (* end of [fprint2_location] *)
 
 (* ****** ****** *)
@@ -257,7 +281,20 @@ location_dummy =
 , end_ntot= ~1L
 , end_nrow= ~1
 , end_ncol= ~1
+, locpragma= locpragma0_make()
 } (* end of [location_dummy] *)
+
+(* ****** ****** *)
+
+implement
+location_filename_origin
+  (fil) =
+'{
+  filename= fil
+, beg_ntot= 0L, beg_nrow= 0, beg_ncol= 0
+, end_ntot= 0L, end_nrow= 0, end_ncol= 0
+, locpragma= locpragma0_make()
+} (* end of [location_filename_origin] *)
 
 (* ****** ****** *)
 
@@ -281,6 +318,7 @@ location_make_fil_pos_pos
 , end_ntot= pos2.ntot
 , end_nrow= pos2.nrow
 , end_ncol= pos2.ncol
+, locpragma= the_location_pragma_get()
 } // end of [location_make_pos_pos]
 
 (* ****** ****** *)
@@ -295,6 +333,7 @@ location_leftmost
 , end_ntot= loc.beg_ntot
 , end_nrow= loc.beg_nrow
 , end_ncol= loc.beg_ncol
+, locpragma= loc.locpragma
 } // end of [location_leftmost]
 
 implement
@@ -307,6 +346,7 @@ location_rightmost
 , end_ntot= loc.end_ntot
 , end_nrow= loc.end_nrow
 , end_ncol= loc.end_ncol
+, locpragma= loc.locpragma
 } // end of [location_rightmost]
 
 (* ****** ****** *)
@@ -362,6 +402,7 @@ in '{
   filename= loc1.filename
 , beg_ntot= beg_ntot, beg_nrow= beg_nrow, beg_ncol= beg_ncol
 , end_ntot= end_ntot, end_nrow= end_nrow, end_ncol= end_ncol
+, locpragma= loc1.locpragma
 } end // end of [location_combine_main]
 
 in // in of [local]
@@ -371,7 +412,7 @@ location_combine
   (loc1, loc2) = case+ 0 of
   | _ when location_is_none loc1 => loc2
   | _ when location_is_none loc2 => loc1
-  | _ => location_combine_main (loc1, loc2)
+  | _ (*rest*) => location_combine_main (loc1, loc2)
 // end of [location_combine]
 
 end // end of [local]
@@ -382,10 +423,13 @@ implement
 fprint_line_pragma
   (out, loc) = let
 //
-val line = loc.beg_nrow
+val
+line = loc.beg_nrow
 //
 val () =
-  if line >= 0 then let
+if
+line >= 0
+then let
   val () = fprint_string (out, "#line ")
   val () = fprint_int (out, line+1) // counting from 1
   val () = fprint_string (out, " \"")
@@ -393,7 +437,8 @@ val () =
   val () = fprint_string (out, "\"\n")
 in
   // nothing
-end else let
+end // end of [then]
+else let
 (*
 //
 // HX-2010-11-02: this is another possibility:
@@ -402,11 +447,90 @@ end else let
 *)
 in
   // nothing
-end // end of [if]
+end // end of [else]
 //
 in
   // nothing
 end // end of [fprint_line_pragma]
+
+(* ****** ****** *)
+
+local
+//
+datatype
+locpragma =
+  | LOCPRAGMA0 of ()
+  | LOCPRAGMA1 of (string(*...*))
+  | LOCPRAGMA2 of (string(*file*), string(*...*))
+//
+assume locpragma_type = locpragma
+//
+typedef locpragmalst = List0(locpragma)
+//
+val
+the_locpragma = ref<locpragma>(LOCPRAGMA0())
+val
+the_locpragmalst = ref<locpragmalst>(list_nil())
+//
+in (* in-of-local *)
+//
+implement
+locpragma0_make()= LOCPRAGMA0()
+implement
+locpragma1_make(x)= LOCPRAGMA1(x)
+implement
+locpragma2_make(x1, x2)= LOCPRAGMA2(x1, x2)
+//
+implement
+the_location_pragma_get
+  ((*void*)) = !the_locpragma
+implement
+the_location_pragma_set
+  (x0) = !the_locpragma := x0
+//
+implement
+the_location_pragma_pop
+  ((*void*)) = () where
+{
+//
+  val x0 = !the_locpragma
+  val xs = !the_locpragmalst
+  val-list_cons(x, xs) = xs
+  val () = !the_locpragma := x
+  val () = !the_locpragmalst := xs
+//
+} (* end of [the_location_pragma_pop] *)
+//
+implement
+the_location_pragma_push
+  ((*void*)) = () where
+{
+//
+  val x0 = !the_locpragma
+  val xs = !the_locpragmalst
+  val () = !the_locpragma := LOCPRAGMA0()
+  val () = !the_locpragmalst := list_cons(x0, xs)
+//
+} (* end of [the_location_pragma_push] *)
+
+(* ****** ****** *)
+
+implement
+fprint_locpragma(out, x) =
+(
+//
+case+ x of
+| LOCPRAGMA0() => ()
+| LOCPRAGMA1(loc) =>
+  fprint! (out, "#locpragma(", loc, "): ")
+| LOCPRAGMA2(fil, loc) =>
+  fprint! (out, "#locpragma(", fil, ": ", loc, "): ")
+//
+) (* end of [fprint_locpragma] *)
+
+(* ****** ****** *)
+
+end // end of [local]
 
 (* ****** ****** *)
 

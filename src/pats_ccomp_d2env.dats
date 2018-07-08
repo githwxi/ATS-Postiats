@@ -90,12 +90,19 @@ implement
 d2var2env (d2v) = let
 (*
 val () =
-(
-  println! ("d2var2env: d2v = ", d2v)
-)
+println!
+  ("d2var2env: d2v = ", d2v)
 *)
-val-Some (hse) =
-  d2var_get2_hisexp (d2v) in d2env_make (d2v, hse)
+//
+val opt = d2var_get2_hisexp (d2v)
+//
+(*
+val-Some(hse) = opt
+val ((*void*)) =
+  println! ("d2var2env: hse = ", hse)
+*)
+//
+val-Some(hse) = opt in d2env_make (d2v, hse)
 // end of [val]
 //
 end // end of [d2var2env]

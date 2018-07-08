@@ -1,0 +1,140 @@
+#
+# For testing ATS-extsolve-z3
+#
+######
+
+PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
+
+######
+
+PATSOLVE=$(PATSHOME)/bin/patsolve_z3
+
+######
+
+all::
+all:: atspre
+
+######
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/integer.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/pointer.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/integer_ptr.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/integer_fixed.dats | $(PATSOLVE) -i
+#
+######
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/bool.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/char.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/float.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/string.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/strptr.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/tuple.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/filebas.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/filebas_prf.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/intrange.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/reference.dats | $(PATSOLVE) -i
+#
+######
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/unsafe.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/checkast.dats | $(PATSOLVE) -i
+#
+######
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/arith_prf.dats | $(PATSOLVE) -i
+#
+######
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/list.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/list_vt.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/option.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/option_vt.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/array.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/arrayptr.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/arrayref.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/array_prf.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/matrix.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/matrixptr.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/matrixref.dats | $(PATSOLVE) -i
+#
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/stream.dats | $(PATSOLVE) -i
+atspre:: ; \
+$(PATSOPT) -tc --constraint-export \
+  -d $(PATSHOME)/prelude/DATS/stream_vt.dats | $(PATSOLVE) -i
+#
+######
+
+###### end of [Makefile_test] ######

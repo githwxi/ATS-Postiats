@@ -1,0 +1,26 @@
+{
+"name":
+"atsccomp-atscc2py3"
+,
+"version": "1.0.2"
+,
+"description":
+"For transpiling into Python C code generated from ATS source via patsopt"
+,
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "Python",
+    "atsopt",
+    "patsopt",
+    "atscc2py3"
+  ],
+  "dependencies" : {
+    "catsparsemit" : ">=1.0.0"
+  },
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "The package is stored at ${PATSHOME}/contrib/CATS-atscc2py3/."
+}

@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/ats2tutorial.dats"
+#include "./../MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
@@ -41,10 +41,10 @@ functions on persistent matrices can be found in the SATS file
 
 The following function is commonly used to create a matrixref-value:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 matrixref_make_elt{m,n:int}
-  (m: size_t m, n: size_t n, x0: a):<!wrt> matrixref (a, m, n)
+  (m: size_t m, n: size_t n, x0: a):<!wrt> matrixref(a, m, n)
 // end of [matrixref_make_elt]
 ')
 
@@ -59,10 +59,10 @@ in which each cell is initialized with the element x0.\
 Also, the following cast function can be called to turn an array into
 a matrix:
 
-#atscode('\
+#sats2xhtml('\
 castfn
 arrayref2matrixref
-  {a:vt0p}{m,n:nat} (A: arrayref (a, m*n)):<> matrixref (a, m, n)
+  {a:vt0p}{m,n:nat} (A: arrayref(a, m*n)):<> matrixref(a, m, n)
 // end of [arrayref2matrixref]
 ')
 
@@ -74,20 +74,20 @@ For accessing and updating the content of a matrix-cell, the following
 two functions #dyncode("matrixref_get_at") and #dyncode("matrixref_set_at")
 can be called:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun{a:t0p}
 matrixref_get_at
   {m,n:int}
 (
-  A: matrixref (a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
+  A: matrixref(a, m, n), i: sizeLt(m), n: size_t(n), j: sizeLt(n)
 ) :<!ref> (a) // end of [matrixref_get_at]
 //
 fun{a:t0p}
 matrixref_set_at
   {m,n:int}
 (
-  A: matrixref (INV(a), m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
+  A: matrixref(INV(a), m, n), i: sizeLt(m), n: size_t n, j: sizeLt(n), x: a
 ) :<!refwrt> void // end of [matrixref_set_at]
 //
 ')
@@ -103,48 +103,59 @@ needs to be supplied as well.
 In the following presentation, I give an implementation of a function that
 turns a given square matrix into its transpose:
 
-#atscode('\
+#dats2xhtml('\
 //
 extern
 fun{a:t0p}
 matrixref_transpose
   {n:nat}
 (
-  M: matrixref (a, n, n), n: size_t (n)
+  M: matrixref(a, n, n), n: size_t(n)
 ) : void // end of [matrixref_transpose]
 //
-implement{a}
+implement
+{a}(*tmp*)
 matrixref_transpose
-  {n} (M, n) = let
+  {n}(M, n) = let
 //
 macdef
-mget (i, j) =
-  matrixref_get_at (M, ,(i), n, ,(j))
-macdef
-mset (i, j, x) =
-  matrixref_set_at (M, ,(i), n, ,(j), ,(x))
+mget(i, j) =
+matrixref_get_at(M, ,(i), n, ,(j))
 //
-fun loop
-  {i,j:nat |
-   i < j; j <= n
-  } .<n-i,n-j>. 
+macdef
+mset(i, j, x) =
+matrixref_set_at(M, ,(i), n, ,(j), ,(x))
+//
+fun
+loop
+{i,j:nat |
+ i < j; j <= n
+} .<n-i,n-j>. 
 (
-  i: size_t (i), j: size_t (j)
-) : void =
-  if j < n then let
-    val x = mget(i, j)
-    val () = mset(i, j, mget(j, i))
-    val () = mset(j, i, x)
-  in
-    loop (i, j+1)
-  end else let
-    val i1 = succ (i)
-  in
-    if i1 < n then loop (i1, succ(i1)) else ()
-  end // end of [if]
+ i: size_t(i), j: size_t(j)
+) : void = (
+//
+if
+(j < n)
+then let
+  val x = mget(i, j)
+  val () = mset(i, j, mget(j, i))
+  val () = mset(j, i, x)
+in
+  loop (i, j+1)
+end // end of [then]
+else let
+  val i1 = succ (i)
+in
+//
+if i1 < n then loop(i1, succ(i1)) else ()
+//
+end // end of [else]
+//
+) (* end of [loop] *)
 //
 in
-  if n > 0 then loop (i2sz(0), i2sz(1)) else ()
+  if (n > 0) then loop(i2sz(0), i2sz(1)) else ()
 end // end of [matrixref_transpose]
 ')
 
@@ -171,8 +182,8 @@ implement main () = {
 //
 val filr =
   $STDIO.fopen_ref_exn ("../TEMP/chap_matrixref.dats", file_mode_w)
-val () = fprint_theCodeLst (filr)
-val () = $STDIO.fclose_exn (filr)
+val () = fprint_theCodeLst(filr)
+val () = $STDIO.fclose_exn(filr)
 //
 val () = fprint_filsub (stdout_ref, "main_atxt.txt")
 //

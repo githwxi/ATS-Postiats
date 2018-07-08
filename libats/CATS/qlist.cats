@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_LIBATS_CATS_QLIST
-#define ATSHOME_LIBATS_CATS_QLIST
+#ifndef ATSLIB_LIBATS_CATS_QLIST
+#define ATSLIB_LIBATS_CATS_QLIST
 
 /* ****** ****** */
 
@@ -48,7 +48,7 @@ struct {
 
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_LIBATS_CATS_QLIST
+#endif // ifndef ATSLIB_LIBATS_CATS_QLIST
 
 /* ****** ****** */
 

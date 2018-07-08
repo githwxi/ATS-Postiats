@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 //
 // Two verified implementations
 // of the well-known factorial function:
@@ -9,6 +11,18 @@
 //
 // Author: Hongwei Xi (February 2012)
 //
+(* ****** ****** *)
+(*
+//
+// HX-2017-05-22:
+// For remote typechecking only!
+//
+##myatsccdef=\
+curl --data-urlencode mycode@$1 \
+http://www.ats-lang.org/SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php | \
+php -R 'if (\$argn != \"\") echo(json_decode(urldecode(\$argn))[1].\"\\n\");'
+//
+*)
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/basics.dats"
@@ -66,23 +80,31 @@ fact2
   FACT(n, r) | int(r)
 ) = let
 //
-  fun loop
-    {n:nat}
-    {r0:int} .<n>. (
-    x: int n, r0: int r0
-  ) : [r:int] (
-    FACT (n, r) | int (r*r0)
-  ) = (
-    if x > 0 then let
-      val [r1:int]
-        (pf1 | res) = loop (x-1, x*r0)
-      prval pf = FACTind {n}{r1} (pf1)
-    in
-      (pf | res)
-    end else
-      (FACTbas () | r0)
-    // end of [if]
-  ) // end of [loop]
+fun
+loop
+{n:nat}
+{r0:int} .<n>.
+(
+  x: int n, r0: int r0
+) : [r:int]
+(
+  FACT (n, r) | int (r*r0)
+) =
+(
+if
+(x > 0)
+then let
+val
+[r1:int]
+(pf1|res) = loop (x-1, x*r0)
+prval pf0 = FACTind{n}{r1}(pf1)
+//
+in
+  (pf0 | res)
+end // end of [then]
+else (FACTbas() | r0)
+//
+) // end of [loop]
 //
 in
   loop (x, 1)
@@ -91,20 +113,21 @@ end // end of [fact2]
 (* ****** ****** *)
 
 implement
-main0 (argc, argv) =
+main0(argc, argv) =
 {
 //
-val n = (
+val n =
+(
   if argc >= 2
-    then g1string2int (argv[1]) else 10(*default*)
+    then g1string2int(argv[1]) else 10(*default*)
   // end of [if]
 ) : Int // end of [val]
-val () = assertexn (n >= 0)
+val () = assertexn(n >= 0)
 //
-val pfr = fact (n)
-and pfr2 = fact2 (n)
+val pfr = fact(n)
+and pfr2 = fact2(n)
 //
-val () = assertloc (pfr.1 = pfr2.1)
+val () = assertloc(pfr.1 = pfr2.1)
 //
 } (* end of [main0] *)
 

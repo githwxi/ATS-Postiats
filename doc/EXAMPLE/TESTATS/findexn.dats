@@ -3,7 +3,8 @@
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
 //
 // Start time: November, 2013
 //
@@ -33,18 +34,21 @@ loop {n:nat} .<n>.
   case+ xs of
   | list_nil () => ()
   | list_cons (x, xs) =>
-      if list_find$pred<a> (x) then $raise Found(x) else loop (xs)
+      if list_find$pred<a>(x)
+        then $raise Found(x) else loop(xs)
+      // end of [if]
     // end of [list_cons]
 ) (* end of [loop] *)
 //
-prval () = lemma_list_param (xs)
+prval () = lemma_list_param(xs)
 //
 in
 //
-try
-  let val () = loop (xs) in $raise ListSubscriptExn() end
-with
-  | ~Found(x) => x
+try let
+  val () = loop(xs)
+in
+  ($raise ListSubscriptExn()): a
+end with ~Found(x) => x
 //
 end // end of [list_find_exn]
 

@@ -19,23 +19,30 @@ released packages of ATS2 are available at the following links:
 <ul>
 <li>
 The current <em>stable</em> release of ATS2 is at
-<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.1.8</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.3.10</a>.
 </li>
 
 <li>
 The current <em>pre-stable</em> release of ATS2 is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.1.9.tgz">ATS2-0.1.9</a>
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.3.11.tgz">ATS2-0.3.11</a>
 </li>
 <li>
 The current <em>pre-stable</em> release of ATS2-intmin is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intmin-0.1.7.tgz">ATS2-intmin-0.1.8</a>
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intmin-0.3.7.tgz">ATS2-intmin-0.3.7</a>
 </li>
 </ul>
 
 <p>
-The previous stable releases of ATS2 are also available
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/">on-line</a>.
-</p>
+All of the past stable releases of ATS2 are available <a
+href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/">on-line</a>
+at <a href="http://sourceforge.net">sourceforge.net</a> (SF).  </p>
+
+<p>
+In case of SF going down, which seems not uncommon at all, please
+obtain the latest stable release (and some other past releases) of
+ATS2 <a
+href="https://github.com/ats-lang/ATS-Postiats">on-line</a> at
+<a href="http://github.com">github.com</a>, which serves as a backup. </p>
 
 <hr></hr>
 
@@ -63,7 +70,7 @@ Removing the binaries <u>patscc</u> and <u>patsopt</u>, which are
 usually stored in a directory like <u>/usr/bin</u> or <u>/usr/local/bin</u>;
 </li>
 <li>
-Removing the directory ${PATSHOMERELOC} if ATS2-contrib is installed.
+Removing the directory ${PATSCONTRIB} if ATS2-contrib is installed.
 </li>
 </ul>
 </p>
@@ -254,7 +261,7 @@ of library packages, tutorials, examples, documentation of various sorts, etc.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-contrib is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.1.7/.">ATS2-contrib-0.1.7</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.3.10/.">ATS2-contrib-0.3.10</a>.
 </li>
 </ul>
 
@@ -272,9 +279,9 @@ x.x.x is the version number of the package. All the directories and files extrac
 from the tarball are now in the directory <u>MYATS/ATS2-Postiats-contrib-x.x.x</u>.
 </p>
 <p>
-Please set the environment variable PATSHOMERELOC to the name of this
+Please set the environment variable PATSCONTRIB to the name of this
 directory and then you are ready to use ATS2-contrib.  If you like, you can
-set PATSHOMERELOC to be the same as ${PATSHOME} after moving the content of
+set PATSCONTRIB to be the same as ${PATSHOME} after moving the content of
 the directory <u>MYATS/ATS2-Postiats-contrib-x.x.x</u> into the directory of
 the name ${PATSHOME}.
 </p>
@@ -310,7 +317,7 @@ violations.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-include is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.1.7/.">ATS2-include-0.1.7</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.3.10/.">ATS2-include-0.3.10</a>.
 </li>
 </ul>
 
@@ -322,6 +329,17 @@ then a directory like <u>/usr/lib/ats2-postiats-x.x.x</u> or
 the header files contained in it, where x.x.x refers to the verison number of
 ATS2-include.
 </p>
+
+<hr></hr>
+
+<h2>
+<a id="Scripts_for_installing_ATS_Postiats">Scripts for installing ATS-Postiats</a>
+</h2>
+
+<p>
+Please find various scripts for installing ATS-Postiats
+<a href="https://github.com/ats-lang/ats-lang.github.io/tree/master/SCRIPT">on-line</a>.
+</pr
 
 <hr></hr>
 

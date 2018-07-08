@@ -4,15 +4,27 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
+#define
+CAIRO_targetloc
+"\
+$PATSHOME\
+/npm-utils\
+/contrib\
+/atscntrb\
+/atscntrb-hx-libcairo"
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 //
-staload
-"{$CAIRO}/SATS/cairo.sats"
+#include
+"{$CAIRO}/mylibies.hats"
+#staload $CAIRO // opening it
+//
+(* ****** ****** *)
 //
 val PI = 3.1415926536
 //

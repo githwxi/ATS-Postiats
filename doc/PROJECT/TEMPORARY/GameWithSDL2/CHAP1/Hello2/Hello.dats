@@ -35,8 +35,10 @@ staload Window =
 //
 staload "{$SDL2}/SATS/SDL.sats"
 //
-vtypedef objptr(l:addr) = SDL_Window_ptr(l)
-#include "{$LIBATSHWXI}/globals/HATS/gobjptr.hats"
+vtypedef
+objptr(l:addr) = SDL_Window_ptr(l)
+//
+#include "{$HX_GLOBALS}/HATS/gobjptr.hats"
 //
 } (* end of [Window] *)
 
@@ -52,8 +54,10 @@ staload Renderer =
 //
 staload "{$SDL2}/SATS/SDL.sats"
 //
-vtypedef objptr(l:addr) = SDL_Renderer_ptr(l)
-#include "{$LIBATSHWXI}/globals/HATS/gobjptr.hats"
+vtypedef
+objptr(l:addr) = SDL_Renderer_ptr(l)
+//
+#include "{$HX_GLOBALS}/HATS/gobjptr.hats"
 //
 } (* end of [Renderer] *)
 
@@ -69,15 +73,18 @@ staload isRunning =
 //
 typedef T = bool
 //
-fun initize (x: &T? >> T): void = x := false
-#include "{$LIBATSHWXI}/globals/HATS/globvar.hats"
+fun
+initize (x: &T? >> T): void = x := false
+//
+#include "{$HX_GLOBALS}/HATS/globvar.hats"
 //
 } (* end of [isRunning] *)
 
 (* ****** ****** *)
 
-implement{
-} Game_init () =
+implement
+{}(*tmp*)
+Game_init () =
 {
 val err =
   SDL_Init (SDL_INIT_EVERYTHING)

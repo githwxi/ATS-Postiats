@@ -4,9 +4,10 @@
 *)
 
 (* ****** ****** *)
-
-#include "./mylayout2.dats"
-
+//
+#include
+"./mylayout2.dats"
+//
 (* ****** ****** *)
   
 val () =
@@ -14,7 +15,7 @@ thePage2.content
 (
 "\
 <?php\n\
-include './thePage2/Patsoptaas.php';\n\
+include './thePage2/Patsoptaas_seed.php';\n\
 ?><!--php-->\n\
 ") (* end of [thePage2.content] *)
 
@@ -25,7 +26,7 @@ thePage2Left.content
 (
 "\
 <?php\n\
-include './thePage2Left/Patsoptaas.php';\n\
+include './thePage2Left/Patsoptaas_seed.php';\n\
 ?><!--php-->\n\
 ") (* end of [thePage2Left.content] *)
 
@@ -36,7 +37,7 @@ thePage2RTop.content
 (
 "\
 <?php\n\
-include './thePage2RTop/Patsoptaas.php';\n\
+include './thePage2RTop/Patsoptaas_seed.php';\n\
 ?><!--php-->\n\
 ") (* end of [thePage2RTop.content] *)
   
@@ -47,7 +48,7 @@ thePage2RBody.content
 (
 "\
 <?php\n\
-include './thePage2RBody/Patsoptaas.php';\n\
+include './thePage2RBody/Patsoptaas_seed.php';\n\
 ?><!--php-->\n\
 ") (* end of [thePage2RBody.content] *)
   
@@ -57,13 +58,28 @@ implement
 main0 () =
 {
 //
-val out = stdout_ref
+implement
+gprint$out<>
+(
+// argless
+) = stdout_ref
 //
 val () =
-  fprint_webox_html_all (out, theBodyProp)
+gprintln!(
+"\
+<?php
+echo \"<?php\\n\";
+echo \"header(\\n\";
+echo \"\\\"Access-Control-Allow-Origin: *\\\"\\n\";
+echo \"); /* header */\\n\";
+echo \"?>\\n\";
+?><!--php-->
+") (* fprintln! *)
+//
+val () = gprint_webox_html_all<>(theBodyProp)
 //
 } (* end of [main0] *)
 
 (* ****** ****** *)
 
-(* end of [thePatsopt_layout.dats] *)
+(* end of [thePatsoptaas_layout.dats] *)

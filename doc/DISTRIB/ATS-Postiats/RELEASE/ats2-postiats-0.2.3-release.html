@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.2.3</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.2.3:
+</H2>
+
+<pre>
+
+This is the 26th release of ATS2, the successor of the ATS
+(currently referred to as ATS1) programming language. The compiler
+for ATS2 is given the name ATS/Positats, ATS2/Postiats or simply
+Postiats.
+
+The official website for ATS is:
+
+<a href="http://www.ats-lang.org">http://www.ats-lang.org</a>
+
+ATS-Postiats is hosted at github:
+
+<a href="https://github.com/githwxi/ATS-Postiats">https://github.com/githwxi/ATS-Postiats</a>
+
+Major releases of ATS2 are available at:
+
+<a href="https://sourceforge.net/projects/ats2-lang">https://sourceforge.net/projects/ats2-lang</a>
+
+Major releases of external packages for ATS2 are available at:
+
+<a href="https://sourceforge.net/projects/ats2-lang-contrib">https://sourceforge.net/projects/ats2-lang-contrib</a>
+
+Here is a list of major additions and changes since the last release:
+
+1. Enforcing that the definition of each declared function be
+   lam-abstract. For instanct, the following code results in an
+   error during compilation:
+   fun fact = fix f(n:int): int => if n > 0 then n*f(n-1) else 1
+   Of course, one can always have:
+   val fact = fix f(n:int): int => if n > 0 then n*f(n-1) else 1
+(*
+//
+// HX-2015-09-15: This is re-implemented:
+//
+2. Supporting the use of locally defined templates:
+   local fun foo(): int = 0 in fun{} foo2() = foo() + 1 end
+   local fun{} foo(): int = 0 in fun{} foo2() = foo() + 1 end
+*)
+3. Changing some names:
+   _ATS_CCOMP_HEADER_NONE -> _ATS_CCOMP_HEADER_NONE_
+   _ATS_CCOMP_PRELUDE_NONE -> _ATS_CCOMP_PRELUDE_NONE_
+   _ATS_CCOMP_PRELUDE_USER -> _ATS_CCOMP_PRELUDE_USER_
+   _ATS_CCOMP_PRELUDE_USER2 -> _ATS_CCOMP_PRELUDE_USER2_
+   _ATS_CCOMP_RUNTIME_NONE -> _ATS_CCOMP_RUNTIME_NONE_
+   _ATS_CCOMP_EXCEPTION_NONE -> _ATS_CCOMP_EXCEPTION_NONE_
+   _ATS_CCOMP_RUNTIME_TRYWITH_NONE -> _ATS_CCOMP_RUNTIME_TRYWITH_NONE_
+4. Moving libatsynmark to utils/libatsynmark
+5. Fixing an issue that causes crash due to compiling atstyvar_type.
+   See hitype_tyvar_test in [pats_ccomp_hitype] for more information.
+6. Changing the keyword 'require' to '#require' (for atspkgreloc)
+7. Adding into ATSPRE string/string_forall and string/string_iforall
+8. Reorganizing:
+   moving the fprint-functions in prelude into prelude/fprintf.cats
+9. Fixing a bug in CATS-parsemit (that affects parsing #if(0) ... #endif)
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

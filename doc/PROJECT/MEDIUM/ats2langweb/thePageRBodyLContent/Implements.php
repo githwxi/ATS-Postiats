@@ -67,7 +67,7 @@ It is nearly entirely written in ATS itself, consisting of 100K+ lines
 of source code. When compared to ATS/Geizella, another previous
 implementation of ATS, ATS/Anairiats is significantly more efficient, and
 it issues in general more informative messages for identifying program
-errors. ATS/Postiats is now often referred to as ATS1, and it is
+errors. ATS/Anairiats is now often referred to as ATS1, and it is
 currently being actively used for the purpose of developing ATS/Postiats,
 that is, ATS2.
 </p>
@@ -86,7 +86,7 @@ style="margin-bottom:0px">
 <p>
 ATS/Postiats is the currently released implementation of ATS.  It is often
 referred to as ATS2, the second generation of ATS.  ATS/Postiats is nearly
-entirely implmented in ATS1, consisting of 150K+ lines of source code. Its
+entirely implemented in ATS1, consisting of 180K+ lines of source code. Its
 major improvement over ATS1 lies in a highly versatile template system that
 aims at maximally facilitating code reuse. Note that ATS/Postiats is in general
 unable to compile code written in ATS1. However, turning ATS1 code into legal

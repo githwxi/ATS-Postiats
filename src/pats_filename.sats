@@ -114,10 +114,12 @@ fun compare_filename_filename
 overload compare with compare_filename_filename
 
 (* ****** ****** *)
-
-val filename_dummy : filename (* dummy *)
+//
+val filename_dummy : filename (* DUMMY *)
+//
 val filename_stdin : filename (* STDIN *)
-
+val filename_string : filename (* STRING *)
+//
 (* ****** ****** *)
 
 fun filename_is_dummy : filename -> bool
@@ -129,64 +131,109 @@ fun filename_is_sats (fil: filename): bool
 fun filename_is_dats (fil: filename): bool
 
 (* ****** ****** *)
-
-fun filename_get_current (): filename
-
+//
+fun filename_get_current((*void*)): filename
+//
 (* ****** ****** *)
-
+//
 absview
 the_filenamelst_push_v
-
+//
 fun the_filenamelst_pop
   (pf: the_filenamelst_push_v | (*none*)): void
-
+//
 fun the_filenamelst_push
   (fil: filename): (the_filenamelst_push_v | void)
 // end of [the_filenamelst_push]
-
+//
 fun the_filenamelst_push_check
   (fil: filename): (the_filenamelst_push_v | bool)
 // end of [the_filenamelst_push_check]
-
-fun the_filenamelst_ppop (): void 
-fun the_filenamelst_ppush (fil: filename): void
-
+//
+fun the_filenamelst_ppop(): void 
+fun the_filenamelst_ppush(fil: filename): void
+(*
+// HX-2017-01-31: push from the back!
+fun the_filenamelst_ppushb(fil: filename): void
+//
+*)
 fun fprint_the_filenamelst (out: FILEref): void
-
+//
 (* ****** ****** *)
-
+//
 typedef path = string
-
-fun path_normalize (s0: NSHARED(path)): path
-fun path_normalize_vt (s0: NSHARED(path)): Strptr1
-
-(* ****** ****** *)
-
-absview the_pathlst_push_v
-
-(* ****** ****** *)
-//
-fun the_pathlst_pop
-  (pf: the_pathlst_push_v | (*none*)): void
-fun the_pathlst_push (p: path): (the_pathlst_push_v | void)
-fun the_pathlst_ppush (p: path): void // HX: permanent push
-//
-fun the_prepathlst_push (p: path): void
+typedef pathlst = List0(path)
 //
 (* ****** ****** *)
-
-fun filename_make
+//
+fun print_pathlst(xs: pathlst): void
+fun prerr_pathlst(xs: pathlst): void
+fun fprint_pathlst(out: FILEref, xs: pathlst): void
+//
+(* ****** ****** *)
+//
+fun path_normalize(s0: NSHARED(path)): path
+fun path_normalize_vt(s0: NSHARED(path)): Strptr1
+//
+(* ****** ****** *)
+//
+absview
+the_pathlst_push_v
+//
+(* ****** ****** *)
+//
+fun
+the_pathlst_pop
+(
+  pf: the_pathlst_push_v | (*none*)
+) : void // end-of-function
+//
+fun
+the_pathlst_push
+  (x: path): (the_pathlst_push_v | void)
+//
+// HX: permanent push
+//
+fun the_pathlst_ppush(x: path): void
+//
+(*
+// HX: permanent push from the back!
+fun the_pathlst_ppushb(x: path): void
+*)
+//
+(* ****** ****** *)
+//
+fun
+the_prepathlst_push
+  (x: path): void = "ext#libatsopt_the_prepathlst_push"
+//
+(* ****** ****** *)
+//
+fun
+filename_make
   (given: string, part: string, full: string): filename
-
+//
 (* ****** ****** *)
-
-fun pkgsrcname_relocatize (given: string, ngurl: int): string
-
+//
+fun
+pkgsrcname_relocatize (given: string, ngurl: int): string
+//
 (* ****** ****** *)
-
-fun filenameopt_make_local (name: string): filenameopt_vt
-fun filenameopt_make_relative (name: string): filenameopt_vt
-
+//
+fun
+filenameopt_make_local(name: string): filenameopt_vt
+//
+fun
+filenameopt_make_relative
+  (given: string, given2: &string? >> string): filenameopt_vt
+//
+(* ****** ****** *)
+//
+vtypedef
+pathlst_vt = List0_vt(path)
+//
+fun the_PATSHOMELOCS_get_pathlst((*void*)): pathlst
+//
 (* ****** ****** *)
 
 (* end of [pats_filename.sats] *)

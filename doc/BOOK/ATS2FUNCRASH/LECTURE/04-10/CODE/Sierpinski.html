@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SierpinskiTriangle</title>
+    <style>
+     #canvas-container
+     {
+       margin: 0 auto; width: 920px; height: auto;
+     }
+    </style>
+    <script
+     src="https://cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js">
+    </script>
+    <script
+     src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_all.js">
+    </script>
+  </head>
+  <body>
+    <center>
+    <h1>Sierpinski Triangle</h1>
+    </center>
+    <hr></hr>
+    <div id="canvas-container">
+      <canvas
+	 id="theCanvas"
+	 width="880px" height="570px"
+	 oncontextmenu="event.preventDefault()">
+	It seems that canvas is not supported by your browser!
+      </canvas>
+    </div>
+    <hr></hr>
+    <!--
+HX-2014-11: it must be the last one!
+     -->
+    <script src="./Sierpinski_dats.js"></script>
+  </body>
+</html>

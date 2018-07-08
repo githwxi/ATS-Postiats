@@ -1,0 +1,33 @@
+#
+# Providing via nodejs
+# patsopt-functionalities 
+#
+######
+
+Source code:
+
+The source for compilation is required to be stored under
+the PATSHOME directory. For instance, there is a directory of the
+name PATSHOME/mytmp that can be used to store source code. One may
+want create a symbolic link of this directory for a bit of convenience.
+
+######
+
+Typical usage:
+
+A single-file program in ATS can be compiled as follows:
+
+nodejs patsopt_dats.js -d PATSHOME/mytmp/hello.dats > myout/hello_dats.c
+
+The generated C code can be compiled to into object code by a compiler like
+gcc or clang:
+
+CC=gcc & \
+${CC} -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -o myout/hello myout/hello_dats.c
+
+Another possibility is for the generated C code to be transpiled into JavaScript
+via atscc2js.
+
+######
+
+###### end of [README] ######

@@ -37,6 +37,13 @@ staload
 ATSPRE = "./pats_atspre.dats"
 //
 (* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*UN*) = "prelude/DATS/unsafe.dats"
+//
+(* ****** ****** *)
 
 staload "./pats_basics.sats"
 
@@ -186,6 +193,68 @@ jsonval_some (x) = JSONoption (Some(x))
 //
 (* ****** ****** *)
 
+local
+
+fun
+fprint_jsonval_string
+(
+  out: FILEref, str: string
+) : void = let
+//
+fun
+auxch
+(
+  out: FILEref, c: char
+) : void = let
+in
+//
+case+ c of
+| '"' => fprint_string (out, "\\\"")
+| '\\' => fprint_string (out, "\\\\")
+| '\n' => fprint_string (out, "\\n")
+| '\r' => fprint_string (out, "\\r")
+| '\t' => fprint_string (out, "\\t")
+| '\b' => fprint_string (out, "\\b")
+| '\f' => fprint_string (out, "\\f")
+| _ (*rest-of-char*) =>
+  (
+    if char_isprint(c)
+      then fprint_char(out, c)
+      else let
+        val uc = uchar_of_char(c) in
+        fprintf (out, "\\u00%.2X", @($UN.cast2uint(uc)))
+      end // end of [else]
+    // end of [if]
+  ) (* end of [_] *)
+//
+end // end of [auxch]
+//
+fun
+loop
+(
+  out: FILEref, p: ptr
+) : void = let
+//
+val c = $UN.ptr0_get<char> (p)
+//
+in
+//
+if
+c != '\000'
+then (auxch(out, c); loop (out, p+sizeof<char>)) else ()
+//
+end // end of [loop]
+//
+in
+//
+fprint_char (out, '"');
+loop (out, $UN.cast{ptr}(str));
+fprint_char (out, '"');
+//
+end // end of [fprint_jsonval_string]
+
+in (* in-of-local *)
+
 implement
 fprint_jsonval
   (out, x0) = let
@@ -196,7 +265,9 @@ prstr (str) = fprint_string (out, ,(str))
 in
 //
 case+ x0 of
+//
 | JSONnul () => prstr "{}"
+//
 | JSONint (i) => fprint_int (out, i)
 | JSONintinf (i) =>
   {
@@ -204,9 +275,11 @@ case+ x0 of
     val () = $INTINF.fprint_intinf (out, i)
     val () = fprint_char (out, '"')
   }
+//
 | JSONbool (b) => fprint_bool (out, b)
 | JSONfloat (d) => fprint_double (out, d)
-| JSONstring (str) => fprintf (out, "\"%s\"", @(str))
+//
+| JSONstring (str) => fprint_jsonval_string (out, str)
 //
 | JSONlocation (loc) =>
   {
@@ -246,6 +319,8 @@ case+ x0 of
   }
 //
 end // end of [fprint_jsonval]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -352,91 +427,97 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-jsonize_caskind (knd) =
-(
-  case+ knd of
-  | CK_case () => jsonval_string "CK_case"
-  | CK_case_pos () => jsonval_string "CK_case_pos"
-  | CK_case_neg () => jsonval_string "CK_case_neg"
+jsonize_caskind(knd) = (
+//
+case+ knd of
+| CK_case () => jsonval_string "CK_case"
+| CK_case_pos () => jsonval_string "CK_case_pos"
+| CK_case_neg () => jsonval_string "CK_case_neg"
+//
 ) (* end of [jsonize_caskind] *)
 
 (* ****** ****** *)
 
 implement
-jsonize_funkind (knd) =
-(
-  case+ knd of
+jsonize_funkind(knd) = (
 //
-  | FK_fn () => jsonval_string "FK_fn"
-  | FK_fnx () => jsonval_string "FK_fnx"
-  | FK_fun () => jsonval_string "FK_fun"
+case+ knd of
 //
-  | FK_prfn () => jsonval_string "FK_prfn"
-  | FK_prfun () => jsonval_string "FK_prfun"
+| FK_fn () => jsonval_string "FK_fn"
+| FK_fnx () => jsonval_string "FK_fnx"
+| FK_fun () => jsonval_string "FK_fun"
 //
-  | FK_praxi () => jsonval_string "FK_praxi"
+| FK_prfn () => jsonval_string "FK_prfn"
+| FK_prfun () => jsonval_string "FK_prfun"
 //
-  | FK_castfn () => jsonval_string "FK_castfn"
+| FK_praxi () => jsonval_string "FK_praxi"
+//
+| FK_castfn () => jsonval_string "FK_castfn"
 //
 ) (* end of [jsonize_funkind] *)
 
 (* ****** ****** *)
 
 implement
-jsonize_valkind (knd) =
-(
-  case+ knd of
-  | VK_val () => jsonval_string "VK_val"
-  | VK_prval () => jsonval_string "VK_prval"
-  | VK_val_pos () => jsonval_string "VK_val_pos"
-  | VK_val_neg () => jsonval_string "VK_val_neg"
+jsonize_valkind(knd) = (
+//
+case+ knd of
+| VK_val () => jsonval_string "VK_val"
+| VK_prval () => jsonval_string "VK_prval"
+| VK_val_pos () => jsonval_string "VK_val_pos"
+| VK_val_neg () => jsonval_string "VK_val_neg"
+//
 ) (* end of [jsonize_valkind] *)
 
 (* ****** ****** *)
 
 implement
-jsonize_dcstkind (knd) =
-(
-  case+ knd of
+jsonize_dcstkind(knd) = (
 //
-  | DCKfun () => jsonval_string "DCKfun"
-  | DCKval () => jsonval_string "DCKval"
-  | DCKpraxi () => jsonval_string "DCKpraxi"
-  | DCKprfun () => jsonval_string "DCKprfun"
-  | DCKprval () => jsonval_string "DCKprval"
-  | DCKcastfn () => jsonval_string "DCKcastfn"
+case+ knd of
+| DCKfun () => jsonval_string "DCKfun"
+| DCKval () => jsonval_string "DCKval"
+| DCKpraxi () => jsonval_string "DCKpraxi"
+| DCKprfun () => jsonval_string "DCKprfun"
+| DCKprval () => jsonval_string "DCKprval"
+| DCKcastfn () => jsonval_string "DCKcastfn"
 //
 ) (* end of [jsonize_dcstkind] *)
 
 (* ****** ****** *)
 //
 implement
-jsonize_stamp (x0) =
-  jsonval_int (stamp_get_int (x0))
+jsonize_stamp(x0) =
+  jsonval_int(stamp_get_int(x0))
 //
 (* ****** ****** *)
 //
 implement
-jsonize_symbol (sym) =
-  jsonval_string (symbol_get_name (sym))
+jsonize_symbol(sym) =
+  jsonval_string(symbol_get_name(sym))
 implement
-jsonize_symbolopt (opt) =
-  jsonize_option_fun (opt, jsonize_symbol)
+jsonize_symbolopt(opt) =
+(
+//
+case+ opt of
+| None() => jsonval_none()
+| Some(x) => jsonval_some(jsonize_symbol(x))
+//
+) (* end of [jsonize_symbolopt] *)
 //
 (* ****** ****** *)
 //
 implement
-jsonize_location (loc) = jsonval_location (loc)
+jsonize_location(loc) = jsonval_location (loc)
 implement
-jsonize_filename (fil) = jsonval_filename (fil)
+jsonize_filename(fil) = jsonval_filename (fil)
 //
 (* ****** ****** *)
 
 implement
-jsonize_label
-  (lab) = let
+jsonize_label(lab) = let
 //
-val opt = label_get_int (lab)
+val opt = label_get_int(lab)
 //
 in
 //
@@ -461,32 +542,43 @@ case+ opt of
 end // end of [jsonize_label]
 
 (* ****** ****** *)
-
+//
 implement
-jsonize_ignored (x0) = JSONnul ((*void*)) 
-
+jsonize_ignored(x0) = JSONnul((*void*)) 
+//
 (* ****** ****** *)
 
 implement
-jsonize_list_fun
-  {a} (xs, f) = let
+{a}(*tmp*)
+jsonize_list_fun(xs, f) = let
 //
-val jsvs = list_map_fun<a> (xs, f)
+(*
+val () =
+  println! ("jsonize_option_fun")
+*)
 //
-in
-  JSONlist (list_of_list_vt(jsvs))
+val
+jsvs = list_map_fun<a> (xs, f)
+//
+val jsvs = list_of_list_vt(jsvs) in JSONlist (jsvs)
+//
 end // end of [jsonize_list_fun]
 
 (* ****** ****** *)
 
 implement
-jsonize_option_fun
-  {a} (opt, f) = let
+{a}(*tmp*)
+jsonize_option_fun(opt, f) = let
+//
+(*
+val () =
+  println! ("jsonize_option_fun")
+*)
+//
 in
 //
 case+ opt of
-| None () => jsonval_none ()
-| Some (x) => jsonval_some (f(x))
+| None() => jsonval_none() | Some(x) => jsonval_some(f(x))
 //
 end // end of [jsonize_option_fun]
 

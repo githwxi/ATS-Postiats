@@ -1,0 +1,334 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../MYTEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_LIST/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="funlist">
+#title("Functional Lists")
+
+#para("\
+
+A functional list is just a singly-linked list that is immutable
+after its construction. The following datatype declaration introduces
+a type #stacode("list") for functional lists:
+
+#sats2xhtml('\
+//
+datatype
+list(a:t@ype, int) =
+| list_nil(a, 0) of ()
+| {n:nat}
+  list_cons(a, n+1) of (a, list(a, n))
+//
+')
+
+Given a type T and an integer N, the type #stacode("list(T,N)") is for a
+list of length N that contains elements of type T.  The interfaces for
+various functions on functional lists can be found in the SATS file
+#myatscodelink("prelude/SATS/list.sats", "prelude/SATS/list.sats"), which
+is automatically loaded by #command("atsopt").\
+
+")
+
+#para("\
+
+There are various functions in ATSLIB for list construction. In practice, a
+list is usually built by making direct use of the constructors
+#dyncode('list_nil') and #dyncode('list_cons'). For instance, the following
+function #dyncode("fromto") builds a list of integers between two given ones:
+
+#dats2xhtml('\
+//
+fun
+fromto
+{m,n:int | m <= n}
+(
+  m: int(m), n: int(n)
+) : list(int, n-m) =
+  if m < n then list_cons(m, fromto(m+1, n)) else list_nil()
+//
+')
+
+Traversing a list is commonly done by making use of pattern matching.  For
+instance, the following code implements a function for computing the length
+of a given list:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list_length
+  {n:nat}
+(
+  xs: list(a, n)
+) : int(n) = let
+//
+fun
+loop
+{i,j:nat}
+(
+  xs: list(a, i), j: int(j)
+) : int(i+j) =
+(
+case+ xs of
+| list_nil () => j
+| list_cons (_, xs) => loop(xs, j+1)
+)
+//
+in
+  loop (xs, 0)
+end // end of [list_length]
+//
+')
+
+Given a non-empty list xs, #dyncode("xs.head()") and #dyncode("xs.tail()")
+refer to the head and tail of xs, respectively, where #dyncode(".head()") and
+#dyncode(".tail()") are overloaded dot-symbols. For instance, the function
+#dyncode("list_foldleft") for folding a given list from the left can be
+implemented as follows:
+
+#dats2xhtml('\
+//
+fun
+{a,b:t@ype}
+list_foldleft
+  {n:nat}
+(
+  f: (a, b) -> a, ini: a, xs: list(b, n)
+) : a =
+  if iseqz(xs)
+    then ini else list_foldleft(f, f(ini, xs.head()), xs.tail())
+  // end of [if]
+//
+')
+
+And the function
+#dyncode("list_foldright") for folding a given list from the right can be
+implemented as follows:
+
+#dats2xhtml('\
+//
+fun
+{a,b:t@ype}
+list_foldright
+  {n:nat}
+(
+  f: (a, b) -> b, xs: list(a, n), snk: b
+) : b =
+  if iseqz(xs)
+    then snk else f(xs.head(), list_foldright(f, xs.tail(), snk))
+  // end of [if]
+//
+')
+
+Note that #dyncode("list_foldleft") is tail-recursive but #dyncode("list_foldright")
+is not.\
+
+")
+
+#para("\
+
+As an application of #dyncode("list_foldleft"), the following code
+implements a function for reversing a given list:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List0(a)
+) : List0(a) =
+(
+list_foldleft<List0(a),a>
+  (lam (xs, x) => list_cons(x, xs), list_nil, xs)
+)
+')
+
+where the type constructor #stacode("List0") is for lists of
+unspecified length:
+
+#sats2xhtml('\
+typedef List0(a:t@ype) = [n:nat] list (a, n)
+')
+
+Clearly, #dyncode("list_reverse") is length-preserving, that is, it always
+returns a list of the same length as its input. Unfortunately, this
+invariant is not captured in the above implementation of
+#dyncode("list_reverse") based on #dyncode("list_foldleft"). For the
+purpose of comparison, another implementation of #dyncode("list_reverse") is
+given as follows that captures the invariant of #dyncode("list_reverse")
+being length-preserving:
+
+#dats2xhtml('\
+fun
+{a:t@ype}
+list_reverse
+  {n:nat}
+(
+  xs: list(a, n)
+) : list(a, n) = let
+//
+fun
+loop{i,j:nat}
+(
+  xs: list(a, i), ys: list(a, j)
+) : list(a, i+j) =
+  case+ xs of
+  | list_nil () => ys
+  | list_cons (x, xs) => loop (xs, list_cons (x, ys))
+//
+in
+  loop (xs, list_nil)
+end // end of [list_reverse]
+')
+
+")
+
+#para("\
+
+As an application of #dyncode("list_foldright"), the following code
+implements a function for concatenating two given lists:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list_append
+(
+  xs: List0(a), ys: List0(a)
+) : List0(a) =
+  list_foldright<a, List0(a)>(lam (x, xs) => list_cons(x, xs), ys, xs)
+//
+')
+
+The type assigned to #dyncode("list_append") states that this function
+takes two lists as its arguments and returns one of unspecified length.
+For the purpose of comparison, another implementation of #dyncode("list_append")
+is given as follows:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list_append
+  {m,n:nat}
+(
+  xs: list(a,m), ys: list(a,n)
+) : list(a,m+n) =
+(
+case+ xs of
+| list_nil () => ys
+| list_cons (x, xs) => list_cons (x, list_append (xs, ys))
+)
+//
+')
+
+where the type assigned to #dyncode("list_append") states that this
+function takes two lists of length m and n, respectively, and returns
+another list of length m+n.
+
+")
+
+#para("\
+
+One may think of a functional list as a representation for the finite
+mapping that maps each natural number i less than the length of the list to
+element i in the list. The following function #dyncode("list_get_at") is
+for accessing a list element at a given position:
+
+#dats2xhtml("\
+//
+fun
+{a:t@ype}
+list_get_at
+  {n:nat}
+(
+  xs: list(a, n), i: natLt(n)
+) : a =
+  if i > 0 then list_get_at(xs.tail(), i-1) else xs.head()
+//
+")
+
+This function can be called through the use of the bracket
+notation. In other words, #dyncode("xs[i]") is automatically interpreted
+as #dyncode("list_get_at(xs, i)") whenever xs and i are a list and an integer,
+respectively. Note that the time-complexity of #dyncode("list_get_at(xs,
+i)") is O(i). If one uses #dyncode("list_get_at") frequently when handling
+lists, then it is almost always a sure sign of poor programming style.
+
+")
+
+#para("\
+
+There is no destructive update on a functional list as it is immutable.
+The following function #dyncode("list_set_at") can be called to construct
+a list that differs from a given one only at a given position:
+
+#dats2xhtml('\
+//
+fun
+{a:t@ype}
+list_set_at
+  {n:nat}
+(
+  xs: list(a, n), i: natLt(n), x0: a
+) : list(a, n) =
+  if i > 0
+    then list_cons(xs.head(), list_set_at(xs.tail(), i-1, x0))
+    else list_cons(x0, xs.tail())
+  // end of [if]
+//
+')
+
+While it is fine to call #dyncode("list_set_at") occasionally, a need to
+do so repeatedly often indicates that another data structure should probably
+be chosen in place of functional list.\
+
+")
+
+#para("\
+
+Functional lists are by far the most widely used data structure
+in functional programming. However, one should not attempt to use a
+functional list like an array as doing so is inefficient both time-wise and
+memory-wise.\
+
+")
+
+#para("\
+
+Please find #mycodelink("chap_list.dats", "on-line") the entirety of the
+code used in this chapter plus some testing code.\
+
+")#comment("para")
+
+</chapter><!--"funlist"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_list.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

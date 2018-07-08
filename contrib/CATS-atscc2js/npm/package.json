@@ -1,0 +1,25 @@
+{
+"name":
+"atsccomp-atscc2js"
+,
+"version": "1.0.4"
+,
+"description":
+"For transpiling into JS the C code generated from ATS source via patsopt"
+,
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "JavaScript",
+    "atsopt",
+    "patsopt",
+    "atscc2js"
+  ],
+  "dependencies" : {
+    "catsparsemit" : ">=1.0.0"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "This package is stored at ${PATSHOME}/contrib/CATS-atscc2js/."
+}

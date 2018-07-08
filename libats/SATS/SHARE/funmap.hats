@@ -42,7 +42,7 @@ sortdef t0p = t@ype
 // of types [key] and [itm], respectively
 //
 abstype map_type (key:t@ype, itm:t@ype+) = ptr
-typedef map (key:t0p, itm:t0p) = map_type (key, itm)
+typedef map(key:t0p, itm:t0p) = map_type(key, itm)
 
 (* ****** ****** *)
 
@@ -54,18 +54,18 @@ compare_key_key (x1: key, x2: key):<> int
 (* ****** ****** *)
 
 fun{
-} funmap_nil {key,itm:t0p} ():<> map (key, itm)
+} funmap_nil {key,itm:t0p}():<> map(key, itm)
 fun{
-} funmap_make_nil {key,itm:t0p} ():<> map (key, itm)
+} funmap_make_nil{key,itm:t0p}():<> map(key, itm)
 
 (* ****** ****** *)
 
 fun{
 } funmap_is_nil
-  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
+  {key,itm:t0p}(map: map(key, INV(itm))):<> bool
 fun{
 } funmap_isnot_nil
-  {key,itm:t0p} (map: map (key, INV(itm))):<> bool
+  {key,itm:t0p}(map: map(key, INV(itm))):<> bool
 
 (* ****** ****** *)
 //
@@ -73,7 +73,7 @@ fun{
 //
 fun{
 key,itm:t@ype
-} funmap_size (map: map (key, INV(itm))):<> size_t
+} funmap_size(map: map(key, INV(itm))):<> size_t
 //
 (* ****** ****** *)
 
@@ -81,14 +81,14 @@ fun{
 key,itm:t0p
 } funmap_search
 (
-  map: map (key, INV(itm))
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)
+  map: map(key, INV(itm))
+, key: key, res: &itm? >> opt(itm, b)
+) : #[b:bool] bool(b)
 
 fun{
 key,itm:t0p
 } funmap_search_opt
-  (map: map (key, INV(itm)), k0: key): Option_vt (itm)
+  (map: map(key, INV(itm)), k0: key): Option_vt(itm)
 // end of [funmap_search_opt]
 
 (* ****** ****** *)
@@ -102,16 +102,16 @@ fun{
 key,itm:t0p
 } funmap_insert
 (
-  map: &map (key, INV(itm)) >> _
-, k0: key, x0: itm, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)
+  map: &map(key, INV(itm)) >> _
+, key: key, x0: itm, res: &itm? >> opt(itm, b)
+) : #[b:bool] bool(b)
 
 fun{
 key,itm:t0p
 } funmap_insert_opt
 (
-  map: &map (key, INV(itm)) >> _, k0: key, x0: itm
-) : Option_vt (itm) // endfun
+  map: &map(key, INV(itm)) >> _, k0: key, x0: itm
+) : Option_vt(itm) // endfun
 
 (* ****** ****** *)
 //
@@ -122,49 +122,46 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } funmap_insert_any
-  (map: &map (key, INV(itm)) >> _, k0: key, x0: itm): void
+  (map: &map(key, INV(itm)) >> _, k0: key, x0: itm): void
 // end of [funmap_insert_any]
 
 (* ****** ****** *)
-
+//
 fun{
 key,itm:t0p
 } funmap_takeout (
-  map: &map (key, INV(itm)) >> _
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b)
-
+  &map(key, INV(itm)) >> _, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // end-of-function
+//
 fun{
 key,itm:t0p
 } funmap_takeout_opt
-(
-  map: &map (key, INV(itm)) >> _, k0: key
-) : Option_vt (itm) // endfun
-
+  (map: &map(key, INV(itm)) >> _, k0: key) : Option_vt (itm)
+//
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } funmap_remove
-  (map: &map (key, INV(itm)) >> _, k0: key): bool
+  (map: &map(key, INV(itm)) >> _, k0: key): bool
 // end of [funmap_remove]
 
 (* ****** ****** *)
 //
-fun{
-} fprint_funmap$sep (out: FILEref): void // "; "
-fun{
-} fprint_funmap$mapto (out: FILEref): void // "->"
+fun{}
+fprint_funmap$sep (out: FILEref): void // "; "
+fun{}
+fprint_funmap$mapto (out: FILEref): void // "->"
 //
 fun{
 key,itm:t@ype
 } fprint_funmap
-  (out: FILEref, map: map (key, INV(itm))): void
+  (out: FILEref, map: map(key, INV(itm))): void
 //
 overload fprint with fprint_funmap
 //
 (* ****** ****** *)
-
+//
 fun
 {key:t0p
 ;itm:t0p}
@@ -172,44 +169,48 @@ fun
 funmap_foreach$fwork
   (k: key, x: itm, env: &(env) >> _): void
 // end of [funmap_foreach$fwork]
-
+//
 fun{
 key,itm:t0p
-} funmap_foreach
-  (map: map (key, INV(itm))): void
-// end of [funmap_foreach]
-
+} funmap_foreach(map: map(key, INV(itm))): void
+//
 fun
 {key:t0p
 ;itm:t0p}
 {env:vt0p}
 funmap_foreach_env
-  (map: map (key, INV(itm)), env: &(env) >> _): void
+  (map: map(key, INV(itm)), env: &(env) >> _): void
 // end of [funmap_foreach_env]
-
+//
 (* ****** ****** *)
 
 fun{
 key,itm:t0p
 } funmap_listize
-  (xs: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+  (map: map(key, INV(itm))):<!wrt> List0_vt(@(key,itm))
 // end of [funmap_listize]
 
 (* ****** ****** *)
-
+//
 fun
 {key:t0p
 ;itm:t0p}
 {ki2:t0p}
-funmap_flistize$fopr (k: key, i: itm): ki2
+funmap_flistize$fopr(key, itm): ki2
 fun
 {key:t0p
 ;itm:t0p}
 {ki2:t0p}
-funmap_flistize
-  (xs: map (key, INV(itm))): List_vt (ki2)
-// end of [funmap_flistize]
-
+funmap_flistize(map: map(key, INV(itm))): List0_vt(ki2)
+//
+(* ****** ****** *)
+//
+fun
+{key:t0p
+;itm:t0p}
+funmap_streamize
+  (map: map(key, INV(itm))):<!wrt> stream_vt(@(key,itm))
+//
 (* ****** ****** *)
 
 (* end of [funmap.hats] *)

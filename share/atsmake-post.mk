@@ -122,7 +122,9 @@ endif
 #
 ######
 
+CPF=cp -f
 RMF=rm -f
+RMRF=rm -rf
 
 ######
 

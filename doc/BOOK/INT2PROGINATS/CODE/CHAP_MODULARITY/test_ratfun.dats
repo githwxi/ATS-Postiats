@@ -9,21 +9,25 @@
 //
 (* ****** ****** *)
 
-staload "ratfun.sats"
-staload _(*anon*) = "ratfun.dats"
+staload "./ratfun.sats"
+staload _(*anon*) = "./ratfun.dats"
 
 (* ****** ****** *)
-
-staload M = "libc/SATS/math.sats"
-staload _(*M*) = "libc/DATS/math.dats"
-
+//
+staload
+M = "libats/libc/SATS/math.sats"
+staload
+_(*M*) = "libats/libc/DATS/math.dats"
+//
 (* ****** ****** *)
 
 (*
+//
 // HX: not any more
-dynload "ratfun.sats"
+//
+dynload "./ratfun.sats"
 *)
-dynload "ratfun.dats"
+dynload "./ratfun.dats"
 
 (* ****** ****** *)
 //

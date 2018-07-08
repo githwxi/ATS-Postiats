@@ -1,3 +1,4 @@
+(* ****** ****** *)
 //
 // For chaining words based on
 // their occurrences in a given file
@@ -277,7 +278,7 @@ end // end of [wordmap_build]
 (* ****** ****** *)
 //
 staload
-STDLIB = "libc/SATS/stdlib.sats"
+STDLIB = "libats/libc/SATS/stdlib.sats"
 //
 extern
 fun

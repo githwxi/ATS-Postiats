@@ -1,14 +1,65 @@
-###### beg of [README] ######
+######
 #
-# HX-2013-12-26: some packaging commands
+# HX-2018-03-11:
+# ATS-Anairiats(ATS1) is needed
+# for building ATS-Postiats(ATS2)!
 #
 ######
-
-make -f Makefile atspackaging # packaging ATS2
-make -f Makefile atscontribing # packaging ATS2-contrib
-
+#
+# First,
+# update $PATSHOME/VERSION
+# which affects the following:
+# $PATSHOME/doc/DISTRIB/Makefile.atxt
+# Also update the version number in
+# $PATSHOME/doc/DISTRIB/ATS-Postiats/configure.ac
+#
+# Second,
+# execute the following command-line from doc/DISTRIB:
+#
+# make -f Makefile.gen
+#
+# to generate Makefile based on Makefile.atxt
+#
 ######
-
-make -f Makefile_inclats tarvcfz # packaging ATS2-include
-
+#
+# Packaging ATS
+#
+# # Note: x.y.z is the version you want to build in the following command
+#
+# cd /tmp
+# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh x.y.z
+# <
+# Move the following built packages to some place:
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-contrib-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-include-x.y.z.tgz
+# >
+# rm -rf /tmp/ATS-Postiats
+# rm -rf /tmp/ATS-Postiats-contrib
+#
+#######
+#
+# Releasing ATS
+#
+# Creating a release file like the following one:
+# ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-0.3.9-release.html
+#
+# Uploading the following files to sourceforge and generate the md5sum and sha1sum
+# of ATS2-Postiats-x.y.z.tgz, and add these to ${PATSHOME}/CHANGE-ats2
+# and to ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-x.y.z-release.html
+#
+# ATS2-Postiats-x.y.z.tgz
+# ATS2-Postiats-contrib-x.y.z.tgz
+# ATS2-Postiats-include-x.y.z.tgz
+# ats2-postiats-x.y.z-release.html
+#
+# The changes for the above release.html file can be found in
+# ${PATSHOME}/CHANGE-ats2.
+#
+# Updating ats-lang.org/Documents
+# Updating ats-lang.org/Community
+# Announcing to ats-lang-users@lists.sourceforge.net
+#
+#######
+   
 ###### end of [README] ######

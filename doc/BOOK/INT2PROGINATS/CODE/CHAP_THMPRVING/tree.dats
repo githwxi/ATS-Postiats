@@ -4,24 +4,34 @@
 
 (* ****** ****** *)
 
-datasort tree = E of () | B of (tree, tree)
+datasort tree =
+  | E of () | B of (tree, tree)
 
-dataprop SZ (tree, int) =
+(* ****** ****** *)
+
+dataprop
+SZ (tree, int) =
   | SZE (E (), 0) of ()
   | {tl,tr:tree}{sl,sr:nat}
     SZB (B (tl, tr), 1+sl+sr) of (SZ (tl, sl), SZ (tr, sr))
 // end of [SZ]
 
-dataprop HT (tree, int) =
+dataprop
+HT (tree, int) =
   | HTE (E (), 0) of ()
   | {tl,tr:tree}{hl,hr:nat}
     HTB (B (tl, tr), 1+max(hl,hr)) of (HT (tl, hl), HT (tr, hr))
 // end of [HT]
 
-dataprop POW2 (int, int) =
+(* ****** ****** *)
+
+dataprop
+POW2 (int, int) =
   | POW2bas (0, 1)
   | {n:nat}{p:int} POW2ind (n+1, p+p) of POW2 (n, p)
 // end of [POW2]
+
+(* ****** ****** *)
 
 extern
 prfun
@@ -34,24 +44,26 @@ lemma_tree_size_height
 
 prfun pow2_istot
   {h:nat} .<h>. (): [p:int] POW2 (h, p) =
-  sif h > 0 then POW2ind (pow2_istot {h-1} ()) else POW2bas ()
+  sif h==0
+    then POW2bas () else POW2ind (pow2_istot {h-1} ())
+  // end of [sif]
 // end of [pow2_istot]
 
 prfun pow2_pos
   {h:nat}{p:int} .<h>.
   (pf: POW2 (h, p)): [p > 0] void =
   case+ pf of
-  | POW2ind (pf1) => pow2_pos (pf1) | POW2bas () => ()
+  | POW2bas () => () | POW2ind (pf1) => pow2_pos (pf1)
 // end of [pow2_pos]
 
 prfun pow2_inc
   {h1,h2:nat | h1 <= h2}{p1,p2:int} .<h2>.
   (pf1: POW2 (h1, p1), pf2: POW2 (h2, p2)): [p1 <= p2] void =
   case+ pf1 of
+  | POW2bas () => pow2_pos (pf2)
   | POW2ind (pf11) => let
       prval POW2ind (pf21) = pf2 in pow2_inc (pf11, pf21)
-    end
-  | POW2bas () => pow2_pos (pf2)
+    end // end of [POW2ind]
 // end of [pow2_inc]
 
 (* ****** ****** *)
@@ -66,6 +78,13 @@ prfun lemma
   pf1: SZ (t, s), pf2: HT (t, h), pf3: POW2 (h, p)
 ) : [p > s] void =
   scase t of
+  | E () => let
+      prval SZE () = pf1
+      prval HTE () = pf2
+      prval POW2bas () = pf3
+   in
+     // nothing
+   end // end of [E]
   | B (tl, tr) => let
       prval SZB (pf1l, pf1r) = pf1
       prval HTB{tl,tr}{hl,hr} (pf2l, pf2r) = pf2
@@ -79,13 +98,6 @@ prfun lemma
     in
       // nothing
     end // end of [B]
-  | E () => let
-      prval SZE () = pf1
-      prval HTE () = pf2
-      prval POW2bas () = pf3
-   in
-     // nothing
-   end // end of [E]
 //
 in
   lemma (pf1, pf2, pf3)

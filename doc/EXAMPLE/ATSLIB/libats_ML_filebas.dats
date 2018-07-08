@@ -4,7 +4,8 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_staload.hats"
+#include
+"share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
@@ -18,9 +19,12 @@ staload "libats/ML/SATS/list0.sats"
 staload _ = "libats/ML/DATS/list0.dats"
 
 (* ****** ****** *)
-
+//
 staload "libats/ML/SATS/filebas.sats"
-
+staload _ = "libats/ML/DATS/filebas.dats"
+staload _ = "libats/libc/DATS/dirent.dats"
+staload _ = "libats/ML/DATS/filebas_dirent.dats"
+//
 (* ****** ****** *)
 
 val () =
@@ -86,6 +90,27 @@ val () = fprintln! (out, "fnames(.) = ", fnames)
 val out = stdout_ref
 val fnames = dirname_get_fnamelst ("..")
 val () = fprintln! (out, "fnames(..) = ", fnames)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val out = stdout_ref
+//
+val fnames =
+  streamize_dirname_fname (".")
+//
+val ((*void*)) = stream_vt_fprint(fnames, out, 10)
+val ((*void*)) = fprint_newline(out)
+//
+val fnames =
+  streamize_dirname_fname ("..")
+//
+val ((*void*)) = stream_vt_fprint(fnames, out, 10)
+val ((*void*)) = fprint_newline(out)
+//
 } (* end of [val] *)
 
 (* ****** ****** *)

@@ -155,6 +155,14 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/theGetters.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/typeval.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/ilist_prf.sats")
 
 (* ****** ****** *)
@@ -177,6 +185,15 @@ The ATSLIB/libats library\
 
 #packfilename("SATS/funmap_list.sats")
 #packfilename("SATS/funmap_avltree.sats")
+#packfilename("SATS/funmap_rbtree.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/funmset_listord.sats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/funarray.sats")
 
 (* ****** ****** *)
 
@@ -220,15 +237,18 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("SATS/Number/real.sats")
+#packfilename("SATS/Number/float.sats")
+
+(* ****** ****** *)
+
 #packfilename("SATS/SHARE/hashtbl.hats")
 
 (* ****** ****** *)
 
 #packfilename("SATS/SHARE/funset.hats")
-
-(* ****** ****** *)
-
 #packfilename("SATS/SHARE/funmap.hats")
+#packfilename("SATS/SHARE/funmset.hats")
 
 (* ****** ****** *)
 
@@ -292,6 +312,14 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/theGetters.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/typeval.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/ilist_prf.dats")
 #packfilename("DATS/gflist.dats")
 #packfilename("DATS/gflist_vt.dats")
@@ -311,6 +339,15 @@ The ATSLIB/libats library\
 
 #packfilename("DATS/funmap_list.dats")
 #packfilename("DATS/funmap_avltree.dats")
+#packfilename("DATS/funmap_rbtree.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funmset_listord.dats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/funarray_braunt.dats")
 
 (* ****** ****** *)
 
@@ -349,12 +386,20 @@ The ATSLIB/libats library\
 
 (* ****** ****** *)
 
+#packfilename("DATS/Number/SHARE/real.dats")
+#packfilename("DATS/Number/real_double.dats")
+#packfilename("DATS/Number/float_double.dats")
+#packfilename("DATS/Number/SHARE/float.dats")
+
+(* ****** ****** *)
+
 #packfilename("DATS/SHARE/hashtbl.hats")
 
 (* ****** ****** *)
 
 #packfilename("DATS/SHARE/funset.hats")
 #packfilename("DATS/SHARE/funmap.hats")
+#packfilename("DATS/SHARE/funmset.hats")
 
 (* ****** ****** *)
 

@@ -1,0 +1,24 @@
+{
+  "name": "effectivats-divideconquerpar",
+  "version": "1.0.0",
+  "description": "A case of divide-and-conquer in parallel in the Effective-ATS series",
+  "main": "N/A",
+  "scripts": {},
+  "repository": {},
+  "keywords": [
+    "EFFECTIVATS",
+    "parallel",
+    "parallelization",
+    "divide-and-conquer",
+    "divide-and-conquer-par"
+  ],
+  "dependencies": {
+    "atscntrb-hx-fworkshop": "^1.0.0",
+    "atscntrb-hx-threadkit": "^1.0.0",
+    "atscntrb-bucs320-divideconquer": "^1.0.0",
+    "atscntrb-bucs320-divideconquerpar": "^1.0.0"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquerPar/."
+}

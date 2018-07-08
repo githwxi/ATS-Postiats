@@ -1,0 +1,27 @@
+{
+"name":
+"atscntrb-libatsrec"
+,
+"version": "1.0.0"
+,
+"description":
+"This package is parsing records into gvhashtbl values."
+,
+  "main": "N/A"
+,
+  "scripts": {}
+,
+  "repository": {}
+,
+  "keywords": [
+    "ATS",
+    "record", "gvhashtbl"
+  ]
+,
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+,
+  "note-for-me": "The package is stored at ${PATSHOME}/utils/libatsrec/."
+}

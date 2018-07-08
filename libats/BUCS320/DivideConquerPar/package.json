@@ -1,0 +1,24 @@
+{
+  "name": "atscntrb-bucs320-divideconquerpar",
+  "version": "1.0.9",
+  "description": "A generic implementation of the divide-and-conquer strategy in parallel",
+  "main": "N/A",
+  "scripts": {},
+  "repository": {
+    "url": "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquerPar"
+  },
+  "keywords": [
+    "ATS",
+    "BUCS",
+    "parallel",
+    "divide-conquer"
+  ],
+  "dependencies": {
+    "atscntrb-hx-fworkshop": "^1.0.2",
+    "atscntrb-hx-threadkit": "^1.0.3",
+    "atscntrb-bucs320-divideconquer": "^1.0.5"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "The package is stored at ${PATSHOME}/libats/BUCS320/DivideConquerPar/."
+}

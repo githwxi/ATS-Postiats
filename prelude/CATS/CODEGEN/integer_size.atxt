@@ -1,0 +1,166 @@
+%{
+//
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_CATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_size.cats"
+val ((*void*)) =
+theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_GPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("January, 2013")
+*/
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/integer_size.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_PRELUDE_CATS_INTEGER_SIZE
+\#define ATSLIB_PRELUDE_CATS_INTEGER_SIZE
+
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2uint_int_size(x) ((atstype_size)(x))
+\#define \\
+atspre_g1int2uint_int_size(x) atspre_g0int2uint_int_size(x)
+\#define \\
+atspre_g0uint2uint_uint_size(x) ((atstype_size)(x))
+\#define \\
+atspre_g1uint2uint_uint_size(x) atspre_g0uint2uint_uint_size(x)
+//
+\#define \\
+atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
+\#define \\
+atspre_g1int2int_int_ssize(x) atspre_g0int2int_int_ssize(x)
+\#define \\
+atspre_g0uint2int_uint_ssize(x) ((atstype_ssize)(x))
+\#define \\
+atspre_g1uint2int_uint_ssize(x) atspre_g0uint2int_uint_ssize(x)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2uint_lint_size(x) ((atstype_size)(x))
+\#define \\
+atspre_g1int2uint_lint_size(x) atspre_g0int2uint_lint_size(x)
+\#define \\
+atspre_g0uint2uint_ulint_size(x) ((atstype_size)(x))
+\#define \\
+atspre_g1uint2uint_ulint_size(x) atspre_g0uint2uint_ulint_size(x)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2int_lint_ssize(ssz) ((atstype_ssize)(ssz))
+\#define \\
+atspre_g1int2int_lint_ssize(ssz) atspre_g0int2int_lint_ssize(ssz)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0uint2int_size_int(sz) ((atstype_int)(sz))
+\#define \\
+atspre_g1uint2int_size_int(sz) atspre_g0uint2int_size_int(sz)
+//
+\#define \\
+atspre_g0uint2uint_size_uint(sz) ((atstype_uint)(sz))
+\#define \\
+atspre_g1uint2uint_size_uint(sz) atspre_g0uint2uint_size_uint(sz)
+//
+\#define \\
+atspre_g0uint2uint_size_size(sz) ((atstype_size)(sz))
+\#define \\
+atspre_g1uint2uint_size_size(sz) atspre_g0uint2uint_size_size(sz)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2int_ssize_int(ssz) ((atstype_int)(ssz))
+\#define \\
+atspre_g1int2int_ssize_int(ssz) atspre_g0int2int_ssize_int(ssz)
+//
+\#define \\
+atspre_g0int2uint_ssize_uint(ssz) ((atstype_uint)(ssz))
+\#define \\
+atspre_g1int2uint_ssize_uint(ssz) atspre_g0int2uint_ssize_uint(ssz)
+//
+\#define \\
+atspre_g0int2int_ssize_ssize(ssz) ((atstype_ssize)(ssz))
+\#define \\
+atspre_g1int2int_ssize_ssize(ssz) atspre_g0int2int_ssize_ssize(ssz)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0uint2int_size_ssize(sz) ((atstype_ssize)(sz))
+\#define \\
+atspre_g1uint2int_size_ssize(sz) atspre_g0uint2int_size_ssize(sz)
+\#define \\
+atspre_g0int2uint_ssize_size(ssz) ((atstype_size)(ssz))
+\#define \\
+atspre_g1int2uint_ssize_size(ssz) atspre_g0int2uint_ssize_size(ssz)
+//
+#atscode_separator_for_C()
+//
+#g0uint_implist("size")\
+//
+#g1uint_implist("size")\
+//
+#atscode_separator_for_C()
+//
+#g0int_implist("ssize")\
+//
+#g1int_implist("ssize")\
+//
+#atscode_separator_for_C()
+//
+ATSinline()
+atstype_size
+atspre_g0string2uint_size
+  (atstype_string inp)
+  { return strtoul((char*)inp, NULL, 10) ; }
+//
+ATSinline()
+atstype_ssize
+atspre_g0string2int_ssize
+  (atstype_string inp) { return atol((char*)inp) ; }
+//
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_PRELUDE_CATS_INTEGER_SIZE
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) = fprint_filsub (stdout_ref, "integer_size_atxt.txt")
+%}\
+

@@ -1,9 +1,18 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 //
 // It is a bit like [scandir] ...
 //
 *)
-
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc - -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -L${PATSHOME}/ccomp/atslib/lib -latslib
+*)
+//
 (* ****** ****** *)
 
 (*
@@ -24,13 +33,13 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/dirent.sats"
-staload _ = "libc/DATS/dirent.dats"
+staload "libats/SATS/dynarray.sats"
+staload _ = "libats/DATS/dynarray.dats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/dynarray.sats"
-staload _ = "libats/DATS/dynarray.dats"
+staload "libats/libc/SATS/dirent.sats"
+staload _ = "libats/libc/DATS/dirent.dats"
 
 (* ****** ****** *)
 
@@ -52,15 +61,17 @@ implement
 readdirall$pred<> (x) = true
 
 (* ****** ****** *)
-
+//
 extern
 fun{}
-readdirall (dirp: !DIRptr1): dynarray (Direntp1)
-
+readdirall
+  (dirp: !DIRptr1): dynarray (Direntp1)
+//
 (* ****** ****** *)
 
-implement{}
-readdirall (dirp) = let
+implement
+{}(*tmp*)
+readdirall(dirp) = let
 //
 implement
 readdirall$pred<> (x) = let
@@ -123,8 +134,11 @@ val dirp = opendir_exn (dname)
 //
 val DA = readdirall (dirp)
 //
-implement(a:vtype)
-dynarray_quicksort$cmp<a> (x, y) = let
+implement
+(a:vtype)
+dynarray_quicksort$cmp<a>
+  (x, y) = sgn where
+{
   val x2 = $UN.castvwtp1{Direntp1}(x)
   val (xfpf | xstr) = direntp_get_d_name (x2)
   val y2 = $UN.castvwtp1{Direntp1}(y)
@@ -133,36 +147,42 @@ dynarray_quicksort$cmp<a> (x, y) = let
   prval () = $UN.cast2void(y2)
   val sgn = compare (xstr, ystr)
   prval () = xfpf (xstr) and () = yfpf (ystr)
-in
-  sgn
-end // end of [...]
-val () = dynarray_quicksort (DA)
+} (* end of [...] *)
+//
+val () =
+  dynarray_quicksort<Direntp1> (DA)
 //
 var n: size_t
-val A = dynarray_getfree_arrayptr (DA, n)
+val A0 = dynarray_getfree_arrayptr (DA, n)
 //
 val out = stdout_ref
 //
-implement{}
-fprint_array$sep (out) = fprint_newline (out)
+implement
+{}(*tmp*)
+fprint_array$sep
+  (out) = fprint_newline (out)
 //
-implement(a:vtype)
+implement
+(a:vtype)
 fprint_ref<a> (out, x) =
 {
   val x2 =
     $UN.castvwtp1{Direntp1}(x)
+  // end of [val]
   val (fpf | str) = direntp_get_d_name (x2)
   prval () = $UN.cast2void(x2)
-  val () = fprint_strptr (out, str)
-  prval () = fpf (str)
+  val ((*void*)) = fprint_strptr (out, str)
+  prval ((*void*)) = fpf (str)
 }
-val (
-) = fprint_arrayptr (out, A, n)
+//
+val () =
+  fprint_arrayptr (out, A0, n)
+//
 val () = fprint_newline (out)
 //
 implement(a:vtype)
 array_uninitize$clear<a> (i, x) = direntp_free ($UN.castvwtp0(x))
-val () = arrayptr_freelin (A, n)
+val () = arrayptr_freelin (A0, n)
 //
 val () = closedir_exn (dirp)
 //

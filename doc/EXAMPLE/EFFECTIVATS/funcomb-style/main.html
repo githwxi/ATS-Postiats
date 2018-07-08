@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-funcomb-style</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Functional Programming with Combinators
+</h1>
+
+<p>
+Generally speaking (or by convention), the name combinator refers to a
+relatively small function for processing tree-like data (including
+lists). By a combinator-based style of programming, I mostly mean a
+style that puts a particular emphasis on making use of combinators in
+program construction.
+
+</p>
+
+<p>
+A great strength in functional programming lies in its support for
+programming with combinators. In this article, I would like to present
+some code that makes extensive use of sequence-processing combinators,
+where a sequence may refer to either a list or a stream (that is, a
+lazy list) in ATS.
+</p>
+
+<h2>Listing Permutations</h2>
+
+<p>
+The first example I use for illustration is about listing all of the
+permutations of a given list. The following function <span style="color: #F00000;">permute</span>
+is declared for this purpose:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>
+a<span class="keyword">:</span><span class="keyword">t@ype</span>
+<span class="keyword">}</span></span> permute
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">fact</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Essentially, the type assigned to <span style="color: #F00000;">permute</span> states that
+<span style="color: #F00000;">permute</span> is a function taking a list of length <span style="color: #0000F0;">N</span>
+and returning a list of length <span style="color: #0000F0;">fact(N)</span> in which each element
+is itself a list of length <span style="color: #0000F0;">N</span>, where <span style="color: #0000F0;">fact</span> refers to the
+factorial function on natural numbers. Before implementing
+<span style="color: #F00000;">permute</span>, I would like to first implement the following
+declared function <span style="color: #F00000;">permute0</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>
+a<span class="keyword">:</span><span class="keyword">t@ype</span>
+<span class="keyword">}</span></span> permute0<span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+where <span style="color: #0000F0;">list0</span> is just an un-indexed version of
+<span style="color: #0000F0;">list</span>. Note that <span style="color: #F00000;">permute</span> and
+<span style="color: #F00000;">permute0</span> do the same at run-time but the latter is given
+a simplied type when compared to the former. The implementation of
+<span style="color: #F00000;">permute0</span> given as follows can be said of typical
+combinator-based style:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+permute0<span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list0_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  list0_sing
+  <span class="keyword">(</span>
+     list0_nil<span class="keyword">(</span><span class="keyword">)</span>
+  <span class="keyword">)</span>
+<span class="keyword">|</span> list0_cons _ <span class="keyword">=&gt;</span>
+  list0_concat
+  <span class="keyword">(</span>
+    list0_map&lt;<span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;&lt;</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+      <span class="keyword">(</span>choose_1_rest<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span><span class="keyword">@(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> list0_mapcons<span class="keyword">(</span>x<span class="keyword">,</span> permute0<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+The function <span style="color: #F00000;">list0_sing</span> forms a singleton list, and the
+function <span style="color: #F00000;">list0_map</span> forms a list by applying its second
+argument, which is a closure-function, to each element in its first
+argument, which is a list.  The function <span style="color: #F00000;">list0_concat</span>
+takes a list <span style="color: #F00000;">xss</span> of lists and returns the concatenation
+of all of the lists in <span style="color: #F00000;">xss</span>.  As for
+<span style="color: #F00000;">list0_mapcons</span>, it takes an element and a list of lists
+and then forms another list by putting the element to the front of
+each list in the list of lists.
+
+Finally, the function <span style="color: #F00000;">choose_1_rest</span> takes a list
+<span style="color: #F00000;">xs</span> and returns a list of pairs such that each pair
+consists of an element <span style="color: #F00000;">x</span> and the list obtained from
+removing <span style="color: #F00000;">x</span> from <span style="color: #F00000;">xs</span>, where <span style="color: #F00000;">x</span>
+ranges over all of the elements in <span style="color: #F00000;">xs</span>. Please
+find as follows an implementation of <span style="color: #F00000;">choose_1_rest</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+choose_1_rest<span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">INV</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="keyword">@(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+choose_1_rest<span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list0_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  list0_nil<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">|</span> list0_cons<span class="keyword">(</span>x1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  list0_cons
+  <span class="keyword">(</span>
+    <span class="keyword">(</span>x1<span class="keyword">,</span> xs2<span class="keyword">)</span>
+  <span class="keyword">,</span> list0_map&lt;<span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;&lt;</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+      <span class="keyword">(</span>choose_1_rest<span class="keyword">(</span>xs2<span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xxs<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">(</span>xxs<span class="dynexp"><span class="keyword">.0</span></span><span class="keyword">,</span> list0_cons<span class="keyword">(</span>x1<span class="keyword">,</span> xxs<span class="dynexp"><span class="keyword">.1</span></span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+    <span class="comment">// list0_map</span>
+  <span class="keyword">)</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Please click
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/funcomb-style/JS/permute.dats">here</a>
+to try a completed program that prints out all of the permutations of
+(1, 2, 3).
+
+</p>
+
+<p>
+The above implementation of <span style="color: #F00000;">permute0</span> can be readily turned
+into the following one for <span style="color: #F00000;">permute</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+permute
+<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+lemma_fact_0<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>fact<span class="keyword">(</span>0<span class="keyword">)</span>==1<span class="keyword">]</span></span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+lemma_fact_1<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>pos<span class="keyword">}</span></span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>fact<span class="keyword">(</span>n<span class="keyword">)</span>==n*fact<span class="keyword">(</span>n-1<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  mylist_sing<span class="keyword">(</span>nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">where</span>
+  <span class="keyword">{</span>
+    <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_fact_0<span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="keyword">}</span> <span class="comment">(* end of [nil] *)</span>
+<span class="keyword">|</span> cons _ <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+    <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_fact_1<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+  <span class="comment">//</span>
+  mylist_concat
+  <span class="keyword">(</span>
+    mylist_map&lt;<span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;&lt;</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">fact</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+      <span class="keyword">(</span>mychoose_1_rest<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span><span class="keyword">@(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> mylist_mapcons<span class="keyword">(</span>x<span class="keyword">,</span> permute<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">)</span>
+  <span class="comment">//</span>
+  <span class="keyword">end</span> <span class="comment">// end of [cons]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [permute]</span>
+</pre>
+
+where the involved combinators are assigned the following types:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mylist_sing<span class="keyword">(</span>x<span class="keyword">:</span> <span class="staexp">a</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">1</span><span class="keyword">)</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mylist_concat<span class="staexp"><span class="keyword">{</span>m<span class="keyword">,</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">INV</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">m</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">m</span><span class="staexp">*</span><span class="staexp">n</span><span class="keyword">)</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mylist_mapcons<span class="staexp"><span class="keyword">{</span>m<span class="keyword">,</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">INV</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">m</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">m</span><span class="keyword">)</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+<span class="staexp"><span class="keyword">{</span>b<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mylist_map<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">INV</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">a</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">b</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">b</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mychoose_1_rest<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">INV</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="keyword">@(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+</p>
+
+<h2>Depth-First Search</h2>
+
+<p>
+As another example of programming with combinators, I present a
+high-level implementation of tree-based depth-first search. In the
+following declaration, <span style="color: #0000F0;">node</span> is introduced as an abstract
+type (for nodes in a given tree to be searched) and <span style="color: #0000F0;">nodes</span>
+as an alias for the type <span style="color: #0000F0;">list0(node)</span>, which is for lists
+of nodes:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abstype</span> node</span>
+<span class="keyword">typedef</span> <span class="staexp">nodes <span class="keyword">=</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">node</span><span class="keyword">)</span></span>
+</pre>
+
+Let us further assume the availability of
+a function of the name <span style="color: #F00000;">node_get_children</span>
+for obtaining the children of a given node:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+node_get_children<span class="keyword">(</span>nx<span class="keyword">:</span> <span class="staexp">node</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">nodes</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">overload</span> <span class="keyword">.</span>children <span class="keyword">with</span> node_get_children</span>
+<span class="comment">//</span>
+</pre>
+
+With the dot-notation overloading, one can write
+<span style="color: #F00000;">nx.children()</span> for <span style="color: #F00000;">node_get_children(nx)</span>.
+
+</p>
+
+<p>
+The following declared function <span style="color: #F00000;">depth_first_search</span>
+essentially pre-orderly lists all of the nodes in each tree rooted at
+one of given nodes:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+depth_first_search<span class="keyword">(</span>nxs<span class="keyword">:</span> <span class="staexp">nodes</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">nodes</span></span>
+<span class="comment">//</span>
+</pre>
+
+A specification-like implementation for
+<span style="color: #F00000;">depth_first_search</span> is given as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+depth_first_search
+  <span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span> iseqz<span class="keyword">(</span>nxs<span class="keyword">)</span>
+  <span class="keyword">then</span> list0_nil<span class="keyword">(</span><span class="keyword">)</span>
+  <span class="keyword">else</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> nx0 <span class="keyword">=</span> nxs<span class="dynexp"><span class="keyword">.</span>head</span><span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    list0_cons<span class="keyword">(</span>nx0<span class="keyword">,</span> depth_first_search<span class="keyword">(</span>nx0<span class="dynexp"><span class="keyword">.</span>children</span><span class="keyword">(</span><span class="keyword">)</span> + nxs<span class="dynexp"><span class="keyword">.</span>tail</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [depth_first_search] *)</span>
+<span class="comment">//</span>
+</pre>
+
+where the symbol <span style="color: #F00000;">+</span> is overloaded with <span style="color: #F00000;">list0_append</span>
+for concatenating two given list0-values.
+
+</p>
+
+<p>
+The use of <span style="color: #0000F0;">list0</span> in the above implementation of
+<span style="color: #F00000;">depth_first_search</span> can result in great inefficiency both
+time-wise and memory-wise. For instance, by calling
+<span style="color: #F00000;">depth_first_search</span> on a given node, one generates a list
+containing all of the nodes in the tree rooted at the given node; this
+generated list can potentially be of great size, requiring long time to
+compute as well as large memory to store.
+</p>
+
+<p>
+By replacing <span style="color: #0000F0;">list0</span> with <span style="color: #0000F0;">stream_vt</span> (for
+linear streams) in the definition of <span style="color: #0000F0;">nodelst</span>, I give as
+follows another implementation of <span style="color: #F00000;">depth_first_search</span>
+that can be seen as a close variant of the above one:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+depth_first_search
+  <span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$ldelay</span><span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> <span class="keyword">!</span>nxs <span class="keyword">of</span>
+<span class="keyword">|</span> <span class="keyword">~</span>stream_vt_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    stream_vt_nil<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">|</span> <span class="keyword">~</span>stream_vt_cons<span class="keyword">(</span>nx0<span class="keyword">,</span> nxs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    stream_vt_cons<span class="keyword">(</span>nx0<span class="keyword">,</span> depth_first_search<span class="keyword">(</span>nx0<span class="keyword">.</span>children<span class="keyword">(</span><span class="keyword">)</span> + nxs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span>
+<span class="keyword">,</span>
+<span class="keyword">~</span><span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="comment">// HX: for freeing the stream!</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [depth_first_search] *)</span>
+<span class="comment">//</span>
+</pre>
+
+Due to the very nature of lazy-evaluation, each node in
+the stream returned by a call to <span style="color: #F00000;">depth_first_search</span>
+is computed only if it is needed subsequently. For instance,
+if one only needs to find the first node in the stream satisfying
+some property, then no following nodes are ever computed.
+Additionally, linear lazy-evaluation (<span style="color: #0000F0;">stream_vt</span>)
+means that only the latest computed node needs to be kept at any point during
+evaluation, saving the memory that would otherwise be needed for storing
+all of the previously computed nodes.
+
+</p>
+
+<h2>Breadth-First Search</h2>
+
+<p>
+A specification-like implementation of tree-based breadth-first search
+is given as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+breadth_first_search
+  <span class="keyword">(</span>nxs<span class="keyword">:</span> <span class="staexp">nodes</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">nodes</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+breadth_first_search
+  <span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span> iseqz<span class="keyword">(</span>nxs<span class="keyword">)</span>
+  <span class="keyword">then</span> list0_nil<span class="keyword">(</span><span class="keyword">)</span>
+  <span class="keyword">else</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> nx0 <span class="keyword">=</span> nxs<span class="dynexp"><span class="keyword">.</span>head</span><span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    list0_cons<span class="keyword">(</span>nx0<span class="keyword">,</span> breadth_first_search<span class="keyword">(</span>nxs<span class="dynexp"><span class="keyword">.</span>tail</span><span class="keyword">(</span><span class="keyword">)</span> + nx0<span class="dynexp"><span class="keyword">.</span>children</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [breadth_first_search] *)</span>
+<span class="comment">//</span>
+</pre>
+
+While this implementation is functionally correct, its can be
+impractical. Clearly, processing one node involves evaluating the code
+<span style="color: #F00000;">nxs.tail() + nx0.children()</span>, which can be both
+time-consuming and memory-consuming as the list
+<span style="color: #F00000;">nxs.tail()</span> can be exponentially long (in terms of
+tree-height). One method for addressing this issue is to replace the
+list-based sequence representation with one that can support efficient
+concatenation (for instance, one based on finger-trees). I leave it as
+an exercise for the interested reader to experiment with such a
+method.
+
+
+</p>
+
+<p>
+As in the case of depth-first search, another implementation of
+<span style="color: #F00000;">breadth_first_search</span> can be given as follows where
+<span style="color: #0000F0;">list0</span> in the definition of <span style="color: #0000F0;">nodelst</span> is
+replaced with <span style="color: #0000F0;">stream_vt</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+breadth_first_search
+  <span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$ldelay</span><span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> <span class="keyword">!</span>nxs <span class="keyword">of</span>
+<span class="keyword">|</span> <span class="keyword">~</span>stream_vt_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    stream_vt_nil<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">|</span> <span class="keyword">~</span>stream_vt_cons<span class="keyword">(</span>nx0<span class="keyword">,</span> nxs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    stream_vt_cons<span class="keyword">(</span>nx0<span class="keyword">,</span> breadth_first_search<span class="keyword">(</span>nxs + nx0<span class="keyword">.</span>children<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span>
+<span class="keyword">,</span>
+<span class="keyword">~</span><span class="keyword">(</span>nxs<span class="keyword">)</span> <span class="comment">// HX: for freeing the stream!</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [breadth_first_search] *)</span>
+<span class="comment">//</span>
+</pre>
+
+When the objective is to find one node satisfying certain property,
+this stream-based implementation of breadth-first search can actually
+be quite attractive.
+
+</p>
+
+<!--
+<h2>Game-of-24</h2>
+-->
+
+<h2>Queen Puzzle</h2>
+
+<p>
+The famous 8-queen puzzle asks the player to find ways to put eight
+queen pieces on a chess board such that no queen piece can attack
+any other ones. In other words, no two queen pieces can be put on the
+same row, the same column, or the same diagnal. This puzzle can be
+readily solved with a tree-based search. Let a node be represented by
+a list <span style="color: #F00000;">xs</span> of integers:
+
+<pre
+class="patsyntax"
+><span class="staexp"><span class="keyword">assume</span> node <span class="keyword">=</span> list0<span class="keyword">(</span>int<span class="keyword">)</span></span>
+</pre>
+
+For each valid index <span style="color: #F00000;">i</span>, the integer <span style="color: #F00000;">xs[i]</span>
+stands for the column number of the queen piece on row
+<span style="color: #F00000;">n-1-i</span>, where <span style="color: #F00000;">n</span> refers to the length of
+<span style="color: #F00000;">xs</span>. More precisely, a given integer list of length
+<span style="color: #F00000;">n</span> represents a partial configuration of chess board
+containing <span style="color: #F00000;">n</span> queen pieces with no piece being able to
+attack any other ones.  As for <span style="color: #F00000;">node_get_children</span>, we can
+implement it as follows:
+
+<pre
+class="patsyntax"
+><span class="dynexp"><span class="keyword">implement</span>
+node_get_children
+  <span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#define</span> N 8</span>
+<span class="comment">//  </span>
+<span class="dynexp"><span class="keyword">fn</span>
+test
+<span class="comment">// testing whether putting a queen piece</span>
+<span class="comment">// at position i on the next row is safe</span>
+<span class="keyword">(</span>
+  i<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">,</span> nx<span class="keyword">:</span> <span class="staexp">node</span>
+<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span>nx<span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>iforall</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> <span class="keyword">(</span>d<span class="keyword">,</span> j<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">(</span>i != j<span class="keyword">)</span> &amp;&amp; <span class="keyword">(</span>abs<span class="keyword">(</span>i-j<span class="keyword">)</span> != d+<span class="dynexp">1</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  <span class="keyword">(</span><span class="keyword">(</span>N<span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>stream_vt_map</span><span class="keyword">(</span>TYPE<span class="staexp"><span class="keyword">{</span>node<span class="keyword">}</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span>i<span class="keyword">)</span> <span class="keyword">=&gt;</span> list0_cons<span class="keyword">(</span>i<span class="keyword">,</span> nx<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>filter</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> nx <span class="keyword">=&gt;</span> test<span class="keyword">(</span>nx<span class="dynexp"><span class="keyword">.</span>head</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> nx<span class="dynexp"><span class="keyword">.</span>tail</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [node_get_children]</span>
+</pre>
+
+Calling <span style="color: #F00000;">node_get_children</span> on a given node returns all of
+the nodes that extend the given one with one more queen piece. A
+solution to the 8-queen puzzle is just a node containing 8 integers,
+and the following (linear) stream <span style="color: #F00000;">theSolution</span> consists of
+all of such nodes:
+
+<pre
+class="patsyntax"
+><span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theSolutions <span class="keyword">=</span>
+<span class="keyword">(</span>depth_first_search<span class="keyword">(</span>stream_vt_make_sing<span class="keyword">(</span>list0_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span><span class="dynexp"><span class="keyword">.</span>filter</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> nx <span class="keyword">=&gt;</span> length<span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> N<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+</p>
+
+<p>
+Please click
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/funcomb-style/JS/queen-puzzle-dfs-2.dats">here</a>
+to try a completed program that prints out the first two solutions to the 8-queen puzzle.
+
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+permute.dats // listing permutations
+depth-first.dats // dfs using list-based sequence representation
+depth-first-2.dats // dfs using stream-based sequence representation
+breadth-first.dats // bfs using list-based sequence representation
+breadth-first-2.dats // bfs using stream-based sequence representation
+queen-puzzle-dfs-2.dats // solving 8-queen puzzle with depth-first-2
+</pre>
+
+In addition, there is an accompanying <tt>Makefile</tt> for compiling
+and testing the code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 // Lazy-evaluation:
 // Erathosthene's sieve for primes
@@ -14,6 +16,14 @@
 ** Ported to ATS2 by HX-2013-09
 *)
 
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
 (* ****** ****** *)
 //
 #include

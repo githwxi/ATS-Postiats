@@ -75,9 +75,11 @@ case+
     fc, _arg, _res
   ) => {
     val () = prstr "HSEfun("
-    val () = fprint_hisexplst (out, _arg)
+    val () = fprint_funclo(out, fc)
     val () = prstr "; "
-    val () = fprint_hisexp (out, _res)
+    val () = fprint_hisexplst(out, _arg)
+    val () = prstr "; "
+    val () = fprint_hisexp(out, _res)
     val () = prstr ")"
   } // end of [HSEfun]
 //

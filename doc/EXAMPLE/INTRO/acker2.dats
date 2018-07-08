@@ -1,8 +1,8 @@
+(* ****** ****** *)
 //
 // Implementing Ackermann's function
 // Author: Hongwei Xi (February 21, 2013)
 //
-
 (* ****** ****** *)
 
 staload "prelude/DATS/integer.dats"

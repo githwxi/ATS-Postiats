@@ -138,6 +138,11 @@ implement
 d2con_app
   (d2c, env) = let
 //
+val s2c =
+  d2con_get_scst(d2c)
+val ((*void*)) =
+  s2cst_app(s2c, env)
+//
 val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV
@@ -154,11 +159,19 @@ implement
 d2cst_app
   (d2c, env) = let
 //
+val s2e =
+  d2cst_get_type(d2c)
+val ((*void*)) =
+  s2exp_app(s2e, env)
+//
 val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV
   (_, _, _, _, !p_d2cs, _) = env2
-val ((*void*)) = !p_d2cs := d2cstset_vt_add(!p_d2cs, d2c)
+//
+val ((*void*)) =
+  !p_d2cs := d2cstset_vt_add(!p_d2cs, d2c)
+//
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
 //
@@ -174,7 +187,10 @@ val env2 =
   $UN.castvwtp1{myenv}(env)
 val+MYENV
   (_, _, _, _, _, !p_d2vs) = env2
-val ((*void*)) = !p_d2vs := d2varset_vt_add(!p_d2vs, d2v)
+//
+val ((*void*)) =
+  !p_d2vs := d2varset_vt_add(!p_d2vs, d2v)
+//
 prval ((*void*)) = fold@ (env2)
 prval ((*void*)) = $UN.castvwtp0{void}(env2)
 //
@@ -190,20 +206,20 @@ implement
 d2eclist_mapgen_all
   (d2cls) = let
 //
-  val s2cs = s2cstset_vt_nil ()
-  val s2vs = s2varset_vt_nil ()
-  val s2Vs = s2Varset_vt_nil ()
+val s2cs = s2cstset_vt_nil ()
+val s2vs = s2varset_vt_nil ()
+val s2Vs = s2Varset_vt_nil ()
 //
-  val d2cons = d2conset_vt_nil ()
-  val d2csts = d2cstset_vt_nil ()
-  val d2vars = d2varset_vt_nil ()
+val d2cons = d2conset_vt_nil ()
+val d2csts = d2cstset_vt_nil ()
+val d2vars = d2varset_vt_nil ()
 //
-  val appenv =
-  $UN.castvwtp0{appenv}(MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars))
+val appenv =
+$UN.castvwtp0{appenv}(MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars))
 //
-  val ((*void*)) = d2eclist_app (d2cls, appenv)
+val ((*void*)) = d2eclist_app (d2cls, appenv)
 //
-  val+~MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars) = $UN.castvwtp0{myenv}(appenv)
+val+~MYENV(s2cs, s2vs, s2Vs, d2cons, d2csts, d2vars) = $UN.castvwtp0{myenv}(appenv)
 //
 in
 //

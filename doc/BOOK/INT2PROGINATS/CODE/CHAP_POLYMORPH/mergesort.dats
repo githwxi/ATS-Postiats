@@ -47,7 +47,6 @@
 
 (* ****** ****** *)
 
-#include "share/atspre_define.hats"
 #include "share/atspre_staload.hats"
 
 (* ****** ****** *)
@@ -125,22 +124,25 @@ in
 end // end of [mergesort]
 
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
-
-staload "libc/SATS/time.sats"
-staload "libc/SATS/stdlib.sats"
-
+//
+staload
+"libats/libc/SATS/time.sats"
+staload
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 //
 #define
 ATSCNTRB_sourceloc
 "http://www.ats-lang.org/LIBRARY/contrib"
 #define
-ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+ATSCNTRB_targetloc "./../.INT2PROGINATS-atscntrb"
 //
 staload RG =
 "{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"

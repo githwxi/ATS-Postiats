@@ -181,7 +181,8 @@ end // end of [local]
 
 local
 
-staload STDIO = "libc/SATS/stdio.sats"
+staload
+STDIO = "libats/libc/SATS/stdio.sats"
 
 in (* in of [local] *)
 
@@ -241,7 +242,7 @@ val () = list_vt_freelin (wcs1)
 val () = list_vt_freelin (wcs2)
 end // end of [local]
 //
-} // end of [main0]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

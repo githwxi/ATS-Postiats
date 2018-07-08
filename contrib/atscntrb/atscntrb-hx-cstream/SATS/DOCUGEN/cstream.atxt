@@ -1,0 +1,103 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../cstream.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats-hwxi_cstream")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libats-hwxi/cstream\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package implements streams of characters.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("cstream")
+#declnamesynop("cstream_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("cstream_get_char")
+#decldescrpt('\
+
+If the current position in the character stream represented by a given
+cstream-value is not at the end, then this function returns the character
+at the position while advancing the position by 1.  Otherwise, the function
+returns -1.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("cstream_getv_char")
+#decldescrpt('\
+
+A reference implementation of this function calls
+#dyncode("cstream_get_char") repeatedly until either the number of calls
+reaches the value of its third argument or -1 is returned, and it stores the
+characters returned by calls to #dyncode("cstream_get_char") in its second
+(call-by-reference) argument. The return value of
+#dyncode("cstream_getv_char") indicates how many characters are actually
+stored.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("cstream_get_charlst")
+#decldescrpt('\
+
+This function calls #dyncode("cstream_get_char") repeatedly until either
+the number of calls reaches the value of its second argument or -1 is
+returned, and it returns a list consisting of all the characters returned
+by calls to #dyncode("cstream_get_char"). Note that this function returns
+a list consisting of all the characters in the character stream associated
+with its first argument if its second argument is a negative integer.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("cstream_make_fun")
+#declnamesynop("cstream_make_cloref")
+
+(* ****** ****** *)
+
+#declnamesynop("cstream_get_range")
+#declnamesynop("cstream_string_get_range")
+#declnamesynop("cstream_strptr_get_range")
+
+#declnamesynop("cstream_make_string")
+#declnamesynop("cstream_make_strptr")
+
+(* ****** ****** *)
+
+#declnamesynop("cstream_make_fileref")
+#declnamesynop("cstream_make_fileptr")
+
+(* ****** ****** *)
+
+#declname2("cstream_tokener.sats", "cstream_tokener.html")
+
+(* ****** ****** *)
+
+(* end of [cstream.atxt] *)

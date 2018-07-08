@@ -1,0 +1,95 @@
+%{
+//
+#define
+ATSCODEFORMAT "txt"
+//
+#if
+(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_SATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_short.sats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("January, 2013")
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/integer_short.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+sortdef tk = tkind
+
+#atscode_separator()
+//
+stadef sintknd = sint_kind
+stadef usintknd = usint_kind
+//
+#atscode_separator()
+//
+fun g0int2int_int_sint(int):<> sint = "mac\#%"
+fun g0uint2int_uint_sint(uint):<> sint = "mac\#%"
+//
+fun g0int2uint_int_usint(int):<> usint = "mac\#%"
+fun g0uint2uint_uint_usint(uint):<> usint = "mac\#%"
+//
+#atscode_separator()
+
+fun g0int2uint_sint_usint(sint):<> usint = "mac\#%"
+fun g0uint2int_usint_sint(usint):<> sint = "mac\#%"
+
+#atscode_separator()
+//
+fun g0int2int_sint_int(sint):<> int = "mac\#%"
+fun g0int2uint_sint_uint(sint):<> uint = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0uint2int_usint_int(usint):<> int = "mac\#%"
+fun g0uint2uint_usint_uint(usint):<> uint = "mac\#%"
+//
+#atscode_separator()
+//
+#fprint_print_prerr_decl("sint", "sint")\
+#fprint_print_prerr_decl("usint", "usint")\
+//
+#atscode_separator()
+//
+#g0int_type_aop_cmp_decl("sint", "sint")\
+#g0uint_type_aop_cmp_decl("usint", "usint")\
+//
+#atscode_separator()
+//
+#g1int_type_aop_cmp_decl("sint", "sint")\
+#g1uint_type_aop_cmp_decl("usint", "usint")\
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_short_atxt.txt")
+%}\

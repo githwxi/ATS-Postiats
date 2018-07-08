@@ -26,6 +26,7 @@ fun foo (xy: !xy): T = xy.x
 // HX: For now, this is considered intended behavior(?)
 //
 fun foo2 (xy: xy): T = let val '{ x=x, ... } = xy in x end
+fun foo2 (xy: xy): T = let val $rec{ x=x, ... } = xy in x end
 //
 (* ****** ****** *)
 

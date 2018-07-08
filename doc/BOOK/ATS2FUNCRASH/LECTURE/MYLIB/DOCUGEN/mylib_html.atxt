@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>ATS2FUNCRASH-mylib</title>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+<style type="text/css">
+dynfun {
+  font-size: 220%;
+  font-weight: bold;
+}
+</style>
+
+<style type="text/css">
+  .patsyntax {width:100%;margin:auto;}
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<script
+ src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+ </script>
+
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_all.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/ats2langweb/pats2xhtmlize_dats.js">
+</script>
+
+</head>
+
+<body>
+
+<center>
+<h1>ATS2FUNCRASH/mylib</h1>
+</center>
+
+<hr size="1"></hr>
+
+##html_dynfun("int_foreach")
+##html_dynfun("int_foreach_method")
+
+##html_dynfun("int_foldleft")
+##html_dynfun("int_foldleft_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_cross_foreach")
+##html_dynfun("int_cross_foreach_method")
+
+<!-- ****** ****** -->
+
+<!-- LIST0 -->
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_is_nil")
+##html_dynfun("list0_is_cons")
+##html_dynfun("list0_length")
+##html_dynfun("list0_head_exn")
+##html_dynfun("list0_tail_exn")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_drop_exn")
+##html_dynfun("list0_take_exn")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_get_at_exn")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_append")
+##html_dynfun("list0_concat")
+
+##html_dynfun("list0_reverse")
+##html_dynfun("list0_revappend")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_map")
+##html_dynfun("list0_map_method")
+##html_dynfun("list0_imap")
+##html_dynfun("list0_imap_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_mapopt")
+##html_dynfun("list0_mapopt_method")
+##html_dynfun("list0_mapjoin")
+##html_dynfun("list0_mapjoin_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_list0_map")
+##html_dynfun("int_list0_mapopt")
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_cross_list0_map")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_foreach")
+##html_dynfun("list0_foreach_method")
+##html_dynfun("list0_iforeach")
+##html_dynfun("list0_iforeach_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_forall")
+##html_dynfun("list0_exists")
+##html_dynfun("list0_find_index")
+##html_dynfun("list0_forall_method")
+##html_dynfun("list0_exists_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_foldleft")
+##html_dynfun("list0_ifoldleft")
+
+<!-- ****** ****** -->
+
+##html_dynfun("list0_foldright")
+
+<!-- ****** ****** -->
+
+<!-- STREAM -->
+
+<!-- ****** ****** -->
+
+##html_dynfun("int_stream_from")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_make_list0")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_takeLte")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_get_at_exn")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_append")
+##html_dynfun("stream_concat")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_map")
+##html_dynfun("stream_imap")
+
+##html_dynfun("stream_filter")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_foreach")
+##html_dynfun("stream_foreach_method")
+
+##html_dynfun("stream_iforeach")
+##html_dynfun("stream_iforeach_method")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_foldleft")
+
+<!-- ****** ****** -->
+
+<!-- STREAM_VT -->
+   
+<!-- ****** ****** -->
+
+##html_dynfun("int_stream_vt_from")
+
+<!-- ****** ****** -->
+
+##html_dynfun("stream_vt_append")
+##html_dynfun("stream_vt_concat")
+
+<!-- ****** ****** -->
+
+##html_dynfun( "stream_vt_takeLte" )
+
+<!-- ****** ****** -->
+
+##html_dynfun( "stream_vt_map" )
+
+<!-- ****** ****** -->
+
+##html_dynfun( "stream_vt_foldleft" )
+
+<!-- ****** ****** -->
+
+<script>
+$(document).ready(function(){pats2xhtmlize_process_all();return;});
+</script>
+
+</body>
+
+</html>

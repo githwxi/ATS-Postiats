@@ -1,0 +1,41 @@
+######
+#
+# libatsopt:
+#
+# It is really libatsopt_ext
+# as it is the extended version
+# of ccomp/atslib/lib/libatsopt
+#
+######
+#
+# Steps for building libatsopt.a
+#
+######
+
+Assume that ATS1 is already installed.
+Assume that ATS2-github is checked out, which is
+the version of ATS2 stored in the following directory:
+
+https://github.com/githwxi/ATS-Postiats
+
+Please use the provided Makefile to build libatsopt.a:
+
+make libatsopt # the built libatsopt.a depends on libgmp (-lgmp)
+make libatsopt_min # the built libatsopt.a does not depend on libgmp
+
+After libatsopt.a is successfully built, you need to do:
+
+make libatsopt_ext
+
+After the extended version of libatsopt.a is successfully built,
+you can test it by doing:
+
+cd TEST
+make patsopt LIBGMP= # for libatsopt.a without libgmp dependency
+make patsopt LIBGMP=-lgmp # for libatsopt.a with libgmp dependency
+
+The generated executable 'patsopt' is just the compiler for ATS2 :)
+
+Cheers!
+
+###### end of [README] ######

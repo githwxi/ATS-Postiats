@@ -1,6 +1,6 @@
 (*
 ** Bug causing infinite recursion
-** during the process code emission.
+** during the process of code emission.
 *)
 
 (* ****** ****** *)
@@ -11,7 +11,8 @@
 
 (* ****** ****** *)
 //
-//  Status: FIXME!!!
+// Status: HX-2015-01-30: it is fixed!
+// Please see: pats_typerase.dats:s2zexp_tyer
 //
 (* ****** ****** *)
 

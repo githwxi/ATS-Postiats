@@ -1,0 +1,53 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../intinf.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats-hwxi_intinf")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/libats-hwxi/intinf\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package is for supporting integers of unlimited precision, and it is
+implemented based on the <a href="http://www.gmplib.org/">GMP</a> library.
+The primary purpose of the package is to provide a simple and clean
+approach to programming with large integers.\
+
+')#comment("para")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("intinf_type")
+#declnamesynop("intinf_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("intinf_vt2t")
+#declnamesynop("intinf_takeout")
+#declnamesynop("intinf_vcopy")
+
+(* ****** ****** *)
+
+#declname2("intinf_t.sats", "intinf_t.html")
+#declname2("intinf_vt.sats", "intinf_vt.html")
+
+(* ****** ****** *)
+
+(* end of [intinf.atxt] *)

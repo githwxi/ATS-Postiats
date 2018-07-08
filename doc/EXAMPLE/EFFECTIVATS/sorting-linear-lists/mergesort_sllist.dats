@@ -44,16 +44,17 @@ compare_mynode_mynode<>
   (x, y) = ans where
 {
 //
-  val x =
-    $UN.castvwtp1{g2node1(a)}(x)
-  and y =
-    $UN.castvwtp1{g2node1(a)}(y)
-  val p_x = gnode_getref_elt (x)
-  and p_y = gnode_getref_elt (y)
-  val (pf_x, fpf_x | p_x) = $UN.cptr_vtake{a}(p_x)
-  and (pf_y, fpf_y | p_y) = $UN.cptr_vtake{a}(p_y)
-  val ans = gcompare_ref<a> (!p_x, !p_y)
-  prval () = fpf_x (pf_x) and () = fpf_y (pf_y)
+val x =
+  $UN.castvwtp1{g2node1(a)}(x)
+and y =
+  $UN.castvwtp1{g2node1(a)}(y)
+//
+val p_x = gnode_getref_elt (x)
+and p_y = gnode_getref_elt (y)
+val (pf_x, fpf_x | p_x) = $UN.cptr_vtake{a}(p_x)
+and (pf_y, fpf_y | p_y) = $UN.cptr_vtake{a}(p_y)
+val ans = gcompare_ref_ref<a> (!p_x, !p_y)
+prval () = fpf_x (pf_x) and () = fpf_y (pf_y)
 //
 } // end of [compare_mynode_mynode]
 //

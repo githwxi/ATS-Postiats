@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+%{
+#include "./../MYTEXT/mytextfun.hats"
+%}
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-IPC-redis</title>
+#patscode_style()
+#patspage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Inter-Process Communication based on Redis
+</h1>
+
+In this article, I present a straightforward example of inter-process
+communication based on the NOSQL <a href="http://redis.io">redis</a>.  The
+primary purpose of this example is to show a concrete case where redis
+functions are directly called inside ATS code.
+
+<h2>
+Message Channels
+</h2>
+
+Let us first introduce a type #stacode("msgchan") for message channels:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+abstype msgchan_type = ptr
+typedef msgchan = msgchan_type
+')</pre>
+
+The following function is for creating a message channel:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun msgchan_create (name: string): msgchan
+')</pre>
+
+In the actual implementation, a message channel is just a key
+referring to a queue in redis, and the function
+#dyncode("msgchan_create") computes such a key based on a given name.
+
+<p>
+
+In order to insert a message into a given message channel, the
+following function #dyncode("msgchan_insert") can be called:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun msgchan_insert
+  (chan: msgchan, msg: string, nerr: &int >> _) : void
+')</pre>
+
+The third argument of #dyncode("msgchan_insert") is
+call-by-reference, and its value is increased to indicate a failed
+attempt to insert a message.
+
+<p>
+
+In order to take out a message for a given message channel,
+the following function #dyncode("msgchan_takeout") can be called:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun msgchan_takeout (chan: msgchan, nerr: &int >> _): stropt
+')</pre>
+
+The second argument of #dyncode("msgchan_takeout") is
+call-by-reference, and its value is increased to indicate a failed
+attempt to take out a message. What #dyncode("msgchan_takeout")
+returns is an optional string, which is either a regular string or a
+null pointer. In case a null pointer is returned, it is also an
+indication of failure of some sort.  Note that a call to
+#dyncode("msgchan_takeout") on a given channel is blocked if the
+channel is currently empty.
+
+<p>
+
+If calling #dyncode("msgchan_insert") or #dyncode("msgchan_takeout")
+on a channel results in a failure, then the redis connection
+associated with the channel should be re-established before a second
+attempt is made.
+
+<h2>
+Redis Connection Setup
+</h2>
+
+To set up a redis connection means to create a value of the type
+#stacode("redisContext(l)"), where l refers to the memory location at which the value
+is stored.  Let us use the name redisContext-value to refer to such a
+value.  In case a redis connection cannot be set up successfully, the type
+#stacode("redisContext(null)") is assigned to the created redisContext-value, which
+is just a null pointer.
+
+<p>
+
+Once a redis connection is established, the redisContext-value associated
+with this connection is stored in a reference (that is, an array of size 1).
+The following function can be called to obtain the stored redisContext-value
+(for temporary use):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+fun the_redisContext_vtget (): [l:addr] vttakeout0 (redisContext(l))
+')</pre>
+
+where #dyncode("vttakeout0") is defined as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+vtypedef
+vttakeout0 (a:vt@ype) = (a -<lin,prf> void | a) // borrowed linear value
+')</pre>
+
+The following code depicts a typical calling sequence:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val (fpf | ctx) = the_redisContext_vtget ()
+//
+// Here is some code that makes use of [ctx]
+//
+prval () = fpf (ctx) // returning the borrowed context
+//
+')</pre>
+
+where #dyncode("the_redisContext_vtget") is called to obtain a
+redisContext-value and a proof function for returning this value, and
+the proof function is then called on the redisContext-value to return
+it (in the sense of theorem-proving) after its being used.
+
+<h2>
+Testing the Implementation
+</h2>
+
+The ATS code implementing message channels can be found
+in the following files:
+
+<pre>
+msgchan.sats
+msgchan.dats
+redisContextSetup.dats
+</pre>
+
+In the file [test_up.dats], some testing code is available
+for uploading the content of a file into a message channel.
+
+<p>
+
+In the file [test_dn.dats], some testing code is available
+for downloading the content of a message channel into a file.
+
+<p>
+
+There is also a Makefile available for compiling the ATS source code into
+excutables [test_up] and [test_dn] for testing. Assume the availability of
+a redis server running on the default port 6379 at the IP address 127.0.0.1.
+By executing the following command-line:
+
+<pre>
+cat msgchan.sats | ./test_up & ./test_dn
+</pre>
+
+one should be able to see the content of the file [msgchan.sats] being
+output to the console in a line-by-line fashion, where a short pause (of 3
+seconds at most) is introduced between the appearance of two consecutive
+lines.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+#patspage_script()
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

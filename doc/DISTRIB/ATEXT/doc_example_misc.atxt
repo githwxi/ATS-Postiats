@@ -109,10 +109,6 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
-#packfilename("autodiff.dats")
-
-(* ****** ****** *)
-
 #packfilename("coinflip.dats")
 
 (* ****** ****** *)
@@ -126,6 +122,14 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("autodiff.dats")
+
+(* ****** ****** *)
+
+#packfilename("fib_memo.dats")
+
+(* ****** ****** *)
+
 #packfilename("fourslot.dats")
 
 (* ****** ****** *)
@@ -134,7 +138,8 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
-#packfilename("isqrt.dats")
+#packfilename("intsqrt_cps.dats")
+#packfilename("intsqrt_prf.dats")
 
 (* ****** ****** *)
 
@@ -142,12 +147,25 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("memoization.dats")
+
+(* ****** ****** *)
+
 #packfilename("morse_enum.dats")
 
 (* ****** ****** *)
 
+#packfilename("monad_list.dats")
 #packfilename("monad_maybe.dats")
 #packfilename("monad_state.dats")
+
+(* ****** ****** *)
+
+#packfilename("myfixptcomb.dats")
+
+(* ****** ****** *)
+
+#packfilename("mysendmailist.dats")
 
 (* ****** ****** *)
 
@@ -157,6 +175,8 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 #packfilename("queens_lazy.dats")
 #packfilename("queens_loop.dats")
+#packfilename("queens_comb.dats")
+#packfilename("queens_lincomb.dats")
 
 (* ****** ****** *)
 
@@ -184,7 +204,15 @@ The ATSHOME/doc/EXAMPLE/MISC\
 
 (* ****** ****** *)
 
+#packfilename("totient.dats")
+
+(* ****** ****** *)
+
 #packfilename("wclines.dats")
+
+(* ****** ****** *)
+
+#packfilename("tempfunctor.dats")
 
 (* ****** ****** *)
 

@@ -32,14 +32,25 @@ ref = ref_make_elt<a>
 
 implement
 {a}(*tmp*)
-ref_make_elt (x0) = let
-  val (pfat, pfgc | p) = ptr_alloc<a> ()
-  prval () = mfree_gc_v_elim (pfgc)
-  val () = !p := x0 // initialization
+ref_make_elt
+  (x0) = let
+//
+val
+(pfat,pfgc|p) = ptr_alloc<a>()
+prval () = mfree_gc_v_elim(pfgc)
+//
 in
-  ref_make_viewptr (pfat | p)
+  !p := x0;
+  ref_make_viewptr{a}(pfat | p)
 end // end of [ref_make_elt]
 
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
+ref_make_type_elt
+  (_type_, x) = ref_make_elt<a>(x)
+//
 #atscode_separator()
 
 implement

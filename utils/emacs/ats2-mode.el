@@ -291,7 +291,7 @@
     "$record" "$record_t" "$record_vt" "$tup" "$tup_t" "$tup_vt" "$tuple" "$tuple_t"
     "$tuple_vt" "$raise" "$showtype" "$myfilename" "$mylocation" "$myfunction" "#assert" "#define"
     "#elif" "#elifdef" "#elifndef" "#else" "#endif" "#error" "#if" "#ifdef"
-    "#ifndef" "#include" "#print" "#then" "#undef"))
+    "#ifndef" "#print" "#then" "#undef" "#include" "#staload" "#dynload" "#require"))
 
 (defun wrap-special-keyword (w)
   (concat "\\" w "\\>"))
@@ -330,7 +330,7 @@
   (unless (local-variable-p 'compile-command)
     (set (make-local-variable 'compile-command)
          (let ((file buffer-file-name))
-           (format "patsopt -tc -d %s" file)))
+           (format "patscc -tcats %s" file)))
     (put 'compile-command 'permanent-local t))
   (setq indent-line-function 'c/ats-mode-indent-line))
 
@@ -367,7 +367,7 @@
   (unless (local-variable-p 'compile-command)
     (set (make-local-variable 'compile-command)
          (let ((file buffer-file-name))
-           (format "patsopt -tc -d %s" file)))
+           (format "patscc -tcats %s" file)))
     (put 'compile-command 'permanent-local t))
   (local-set-key (kbd "C-c C-c") 'compile)
   (cond 
@@ -400,7 +400,8 @@
                       (back-to-indentation)
                       (current-column))))
 
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.\\(d\\|s\\)ats\\'" . ats-mode))
+;;;autoload
+(add-to-list 'auto-mode-alist '("\\.\\(s\\|d\\|h\\)ats\\'" . ats-mode))
 
 (provide 'ats-mode)
+;;; end of [ats2-mode.el]

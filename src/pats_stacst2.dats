@@ -97,32 +97,36 @@ syms2cst_struct = @{
   sym= symbol, cst= s2cstnul
 } // end of [syms2cst_struct]
 
-assume s2cstref_type = ref (syms2cst_struct)
+assume
+s2cstref_type = ref(syms2cst_struct)
 
-in // in of [local]
+in (* in of [local] *)
 
-fun s2cstref_get_sym
+fun
+s2cstref_get_sym
   (r: s2cstref): symbol = let
-  val (vbox pf | p) = ref_get_view_ptr (r) in p->sym
+  val (vbox pf | p) = ref_get_view_ptr(r) in p->sym
 end // end of [s2cstref_get_sym]
 
-fun s2cstref_get_cstnul
+fun
+s2cstref_get_cstnul
   (r: s2cstref): s2cstnul = let
-  val (vbox pf | p) = ref_get_view_ptr (r) in p->cst
+  val (vbox pf | p) = ref_get_view_ptr(r) in p->cst
 end // end of [s2cstref_get_cstnul]
-fun s2cstref_set_cstnul
+fun
+s2cstref_set_cstnul
   (r: s2cstref, s2c: s2cstnul): void = let
-  val (vbox pf | p) = ref_get_view_ptr (r) in p->cst := s2c
+  val (vbox pf | p) = ref_get_view_ptr(r) in p->cst := s2c
 end // end of [s2cstref_set_cstnul]
 
 implement
-s2cstref_make (name) = let
-  val id = $SYM.symbol_make_string (name)
-  val (pfgc, pfat | p) = ptr_alloc<syms2cst_struct> ()
-  prval () = free_gc_elim (pfgc)
-  val () = (p->sym := id; p->cst := s2cstnul_none (null))
+s2cstref_make(name) = let
+  val id = $SYM.symbol_make_string(name)
+  val (pfgc, pfat | p) = ptr_alloc<syms2cst_struct>()
+prval () = free_gc_elim (pfgc)
+  val () = (p->sym := id; p->cst := s2cstnul_none(null))
 in
-  ref_make_view_ptr (pfat | p)
+  ref_make_view_ptr(pfat | p)
 end  // end of [s2cstref_make]
 
 end // end of [local]
@@ -130,7 +134,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-s2cstref_get_cst (r) = let
+s2cstref_get_cst(r) = let
 //
 fn auxerr
   (id: symbol): s2cst = let
@@ -175,18 +179,26 @@ end // end of [s2cstref_get_cst]
 (* ****** ****** *)
 
 implement
-s2cstref_equ_cst (r, s2c) =
-  eq_s2cst_s2cst (s2cstref_get_cst (r), s2c)
-// end of [s2cstref_equ_cst]
+s2cstref_equ_cst
+  (r, s2c) =
+(
+//
+eq_s2cst_s2cst
+  (s2cstref_get_cst(r), s2c)
+//
+) (* end of [s2cstref_equ_cst] *)
 
 implement
 s2cstref_equ_exp
-  (r, s2e) = begin
-  case+ s2e.s2exp_node of
-  | S2Ecst s2c => s2cstref_equ_cst (r, s2c)
-  | S2Eapp (s2e, _) => s2cstref_equ_exp (r, s2e)
-  | _ => false
-end // end of [s2cstref_equ_exp]
+  (r, s2e) =
+(
+case+
+s2e.s2exp_node
+of (* case+ *)
+| S2Ecst s2c => s2cstref_equ_cst(r, s2c)
+| S2Eapp(s2e, _) => s2cstref_equ_exp(r, s2e)
+| _ (*non-S2Ecst-S2Eapp*) => false
+) (* end of [s2cstref_equ_exp] *)
 
 (* ****** ****** *)
 
@@ -309,6 +321,13 @@ the_sub_addr_addr = s2cstref_make "sub_addr_addr"
 (* ****** ****** *)
 
 implement
+the_types_nil = s2cstref_make "types_nil"
+implement
+the_types_cons = s2cstref_make "types_cons"
+
+(* ****** ****** *)
+
+implement
 the_lte_cls_cls = s2cstref_make "lte_cls_cls"
 implement
 the_gte_cls_cls = s2cstref_make "gte_cls_cls"
@@ -320,99 +339,164 @@ the_gterel_cls_cls = s2cstref_make "gterel_cls_cls"
 (* ****** ****** *)
 
 implement
-s2exp_agtz (s2l) = let
+s2exp_agtz(s2l) = let
   val s2c =
-    s2cstref_get_cst (the_gt_addr_addr)
-  val _0 = s2exp_int (0) // HX: 0 for null
+    s2cstref_get_cst(the_gt_addr_addr)
+  val _0_ = s2exp_int(0) // HX: 0 for null
 in
-  s2exp_cstapp (s2c, list_pair (s2l, _0))
+  s2exp_cstapp(s2c, list_pair(s2l, _0_))
 end // end of [s2exp_agtz]
 
 (* ****** ****** *)
 
 implement
-s2exp_bneg (s2p) = let
-  val s2c = s2cstref_get_cst (the_neg_bool)
+s2exp_bneg(s2p) = let
+  val s2c =
+    s2cstref_get_cst(the_neg_bool)
+  // end of [val]
 in
-  s2exp_cstapp (s2c, list_sing (s2p))
+  s2exp_cstapp(s2c, list_sing(s2p))
 end // end of [s2exp_bneg]
 
 implement
-s2exp_badd (s2p1, s2p2) = let
-  val s2c = s2cstref_get_cst (the_add_bool_bool)
+s2exp_badd(s2p1, s2p2) = let
+  val s2c =
+    s2cstref_get_cst(the_add_bool_bool)
+  // end of [val]
 in
-  s2exp_cstapp (s2c, list_pair (s2p1, s2p2))
+  s2exp_cstapp(s2c, list_pair(s2p1, s2p2))
 end // end of [s2exp_badd]
 
 implement
 s2exp_bmul (s2p1, s2p2) = let
-  val s2c = s2cstref_get_cst (the_mul_bool_bool)
+  val s2c =
+    s2cstref_get_cst(the_mul_bool_bool)
+  // end of [val]
 in
-  s2exp_cstapp (s2c, list_pair (s2p1, s2p2))
+  s2exp_cstapp(s2c, list_pair(s2p1, s2p2))
 end // end of [s2exp_bmul]
 
 (* ****** ****** *)
 
 implement
-s2exp_ineg (s2e) = let
-  val s2c = s2cstref_get_cst (the_neg_int)
+s2explst_badd(s2ps) = let
+//
+fun
+aux (
+  s2p0: s2exp, s2ps: s2explst
+) : s2exp =
+(
+case+ s2ps of
+| list_nil() => s2p0
+| list_cons(s2p, s2ps) =>
+    s2exp_badd(s2p0, aux(s2p, s2ps))
+  // end of [list_cons]
+)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  case+ s2ps of
+  | list_nil() => s2exp_bool(false)
+  | list_cons(s2p, s2ps) => aux(s2p, s2ps)
+end // end of [s2explst_badd]
+
+implement
+s2explst_bmul(s2ps) = let
+//
+fun
+aux (
+  s2p0: s2exp, s2ps: s2explst
+) : s2exp =
+(
+case+ s2ps of
+| list_nil() => s2p0
+| list_cons(s2p, s2ps) =>
+    s2exp_bmul(s2p0, aux(s2p, s2ps))
+  // end of [list_cons]
+)
+//
+in
+  case+ s2ps of
+  | list_nil() => s2exp_bool(true)
+  | list_cons(s2p, s2ps) => aux(s2p, s2ps)
+end // end of [s2explst_bmul]
+
+(* ****** ****** *)
+
+implement
+s2exp_ineg(s2e) = let
+  val
+  s2c =
+  s2cstref_get_cst(the_neg_int)
+in
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_ineg]
 
 (* ****** ****** *)
 
 implement
-s2exp_intlt (s2i1, s2i2) = let
-  val s2c = s2cstref_get_cst (the_lt_int_int)
+s2exp_intlt(s2i1, s2i2) = let
+  val
+  s2c = s2cstref_get_cst(the_lt_int_int)
 in
-  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+  s2exp_cstapp(s2c, list_pair(s2i1, s2i2))
 end // end of [s2exp_intlt]
 
 implement
-s2exp_intlte (s2i1, s2i2) = let
-  val s2c = s2cstref_get_cst (the_lte_int_int)
+s2exp_intlte(s2i1, s2i2) = let
+  val
+  s2c = s2cstref_get_cst(the_lte_int_int)
 in
-  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+  s2exp_cstapp(s2c, list_pair(s2i1, s2i2))
 end // end of [s2exp_intlte]
 
 implement
-s2exp_intgt (s2i1, s2i2) = let
-  val s2c = s2cstref_get_cst (the_gt_int_int)
+s2exp_intgt(s2i1, s2i2) = let
+  val
+  s2c = s2cstref_get_cst(the_gt_int_int)
 in
-  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+  s2exp_cstapp(s2c, list_pair(s2i1, s2i2))
 end // end of [s2exp_intgt]
 
 implement
-s2exp_intgte (s2i1, s2i2) = let
-  val s2c = s2cstref_get_cst (the_gte_int_int)
+s2exp_intgte(s2i1, s2i2) = let
+  val
+  s2c = s2cstref_get_cst(the_gte_int_int)
 in
-  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+  s2exp_cstapp(s2c, list_pair(s2i1, s2i2))
 end // end of [s2exp_intgte]
 
 implement
-s2exp_intneq (s2i1, s2i2) = let
-  val s2c = s2cstref_get_cst (the_neq_int_int)
+s2exp_intneq(s2i1, s2i2) = let
+  val
+  s2c = s2cstref_get_cst(the_neq_int_int)
 in
-  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+  s2exp_cstapp(s2c, list_pair(s2i1, s2i2))
 end // end of [s2exp_intneq]
 
+(* ****** ****** *)
+//
 implement
-s2exp_igtez (s2i) = let
-  val _0 = s2exp_int (0) in s2exp_intgte (s2i, _0)
-end // end of [s2exp_igtez]
-
+s2exp_igtez
+  (s2i) = s2exp_intgte(s2i, s2exp_int(0))
+//
 (* ****** ****** *)
 
 implement
-un_s2exp_intconst (s2i) = let
+un_s2exp_intconst
+  (s2i) = let
+(*
+val () =
+println!
+("un_s2exp_intconst")
+*)
 in
 //
 case+ s2i.s2exp_node of
 //
-| S2Eint (x) => Some_vt (x)
+| S2Eint(x) => Some_vt(x)
 //
-| S2Eintinf (x) => Some_vt ($INTINF.intinf_get_int(x))
+| S2Eintinf(x) =>
+  Some_vt($INTINF.intinf_get_int(x))
 //
 | _(*noninteger*) => None_vt((*void*))
 //
@@ -433,12 +517,16 @@ the_bool_kind = s2cstref_make "bool_kind"
 *)
 
 implement
-s2exp_bool (b) = let
-  val s2cref = (
-    if b then the_true_bool else the_false_bool
+s2exp_bool(b) = let
+  val s2cref =
+  (
+    if b
+      then the_true_bool
+      else the_false_bool
+    // end of [if]
   ) : s2cstref // end of [val]
 in
-  s2exp_cst (s2cstref_get_cst (s2cref))
+  s2exp_cst(s2cstref_get_cst(s2cref))
 end // end of [s2exp_bool]
 
 implement
@@ -447,25 +535,34 @@ implement
 the_bool_bool_t0ype = s2cstref_make "bool_bool_t0ype"
 
 implement
-s2exp_bool_t0ype () =
-  s2exp_cst (s2cstref_get_cst (the_bool_t0ype))
+s2exp_bool_t0ype() =
+  s2exp_cst(s2cstref_get_cst(the_bool_t0ype))
 // end of [s2exp_bool_t0ype]
 
 implement
-s2exp_bool_bool_t0ype (b) = let
-  val s2c = s2cstref_get_cst (the_bool_bool_t0ype)
-  val ind = s2exp_bool (b)
+s2exp_bool_bool_t0ype
+  (b) = let
+//
+  val ind = s2exp_bool(b)
+  val s2c =
+  s2cstref_get_cst(the_bool_bool_t0ype)
+//
 in
-  s2exp_cstapp (s2c, list_sing (ind))
+  s2exp_cstapp(s2c, list_sing(ind))
 end // end of [s2exp_bool_bool_t0ype]
 
 (* ****** ****** *)
 
 implement
-s2exp_bool_index_t0ype (ind) = let
-  val s2c = s2cstref_get_cst (the_bool_bool_t0ype)
+s2exp_bool_index_t0ype
+  (ind) = let
+//
+val
+s2c =
+s2cstref_get_cst(the_bool_bool_t0ype)
+//
 in
-  s2exp_cstapp (s2c, list_sing (ind))
+  s2exp_cstapp(s2c, list_sing(ind))
 end // end of [s2exp_bool_index_t0ype]
 
 implement
@@ -474,14 +571,18 @@ un_s2exp_bool_index_t0ype
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg) 
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node
+of (* case+ *)
+| S2Eapp (
+  s2e_fun, s2es_arg
+  ) when s2cstref_equ_exp
+  (
     the_bool_bool_t0ype, s2e_fun
   ) => let
-    val-list_cons (s2b, _) = s2es_arg in Some_vt (s2b)
+    val-list_cons(s2b, _) = s2es_arg in Some_vt(s2b)
   end // end of [S2Eapp when ...]
-| _ => None_vt ()
+| _ (* non-S2Eapp *) => None_vt((*void*))
 //
 end // end of [un_s2exp_bool_index_t0ype]
 
@@ -673,8 +774,11 @@ in
   s2exp_cstapp (g1i, list_pair (knd, ind))
 end // end of [s2exp_g1int_kind_index_t0ype]
 
+(* ****** ****** *)
+
 implement
-un_s2exp_g1int_index_t0ype (s2f) = let
+un_s2exp_g1int_index_t0ype
+  (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
@@ -709,8 +813,11 @@ in
   s2exp_cstapp (g1u, list_pair (knd, ind))
 end // end of [s2exp_g1uint_kind_index_t0ype]
 
+(* ****** ****** *)
+
 implement
-un_s2exp_g1uint_index_t0ype (s2f) = let
+un_s2exp_g1uint_index_t0ype
+  (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
@@ -731,7 +838,8 @@ end // end of [un_s2exp_g1uint_index_t0ype]
 (* ****** ****** *)
 
 implement
-un_s2exp_g1size_index_t0ype (s2f) = let
+un_s2exp_g1size_index_t0ype
+  (s2f) = let
   val opt = un_s2exp_g1int_index_t0ype (s2f)
 in
 //
@@ -843,37 +951,6 @@ in
 end // end of [s2exp_uchar_int_t0ype]
 
 (* ****** ****** *)
-
-implement
-the_string_type = s2cstref_make "string_type"
-implement
-the_string_int_type = s2cstref_make "string_int_type"
-
-implement
-s2exp_string_type () =
-  s2exp_cst (s2cstref_get_cst (the_string_type))
-// end of [s2exp_string_type]
-
-implement
-s2exp_string_int_type (n) = let
-//
-// HX: the cast is okay as we do not attempt
-// to handle string of extremely long length
-//
-  val ind = s2exp_int ((int_of_size)n)
-  val s2c = s2cstref_get_cst (the_string_int_type)
-in
-  s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_string_type]
-
-implement
-s2exp_string_index_type (ind) = let
-  val s2c = s2cstref_get_cst (the_string_int_type)
-in
-  s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_string_index_type]
-
-(* ****** ****** *)
 //
 implement
 the_float_kind = s2cstref_make "float_kind"
@@ -917,24 +994,92 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-the_ptr_type = s2cstref_make "ptr_type"
+the_string_type =
+s2cstref_make("string_type")
 implement
-s2exp_ptr_type () =
-  s2exp_cst (s2cstref_get_cst (the_ptr_type))
-// end of [s2exp_ptr_type]
+the_string_int_type =
+s2cstref_make("string_int_type")
+
+implement
+s2exp_string_type () =
+  s2exp_cst (s2cstref_get_cst (the_string_type))
+// end of [s2exp_string_type]
+
+implement
+s2exp_string_int_type (n) = let
+//
+// HX: the cast is okay as we do not attempt
+// to handle string of extremely long length
+//
+  val ind = s2exp_int ((int_of_size)n)
+  val s2c = s2cstref_get_cst (the_string_int_type)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_string_type]
+
+implement
+s2exp_string_index_type (ind) = let
+  val s2c = s2cstref_get_cst (the_string_int_type)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_string_index_type]
 
 (* ****** ****** *)
+//
+implement
+the_literal_float =
+s2cstref_make("literal_float")
+implement
+the_literal_string =
+s2cstref_make("literal_string")
+//
+implement
+s2exp_literal_float
+  (rep) = let
+  val ind = s2exp_float (rep)
+  val s2c = s2cstref_get_cst (the_literal_float)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_literal_float]
 
 implement
+s2exp_literal_string
+  (str) = let
+  val ind = s2exp_string (str)
+  val s2c = s2cstref_get_cst (the_literal_string)
+in
+  s2exp_cstapp (s2c, list_sing(ind))
+end // end of [s2exp_literal_string]
+//
+(* ****** ****** *)
+//
+implement
+the_ptr_type = s2cstref_make "ptr_type"
+//
+implement
+s2exp_ptr_type () =
+  s2exp_cst(s2c) where
+{
+  val s2c = s2cstref_get_cst(the_ptr_type)
+}  
+// end of [s2exp_ptr_type]
+//
+(* ****** ****** *)
+//
+implement
 the_ptr_addr_type =
-  s2cstref_make "ptr_addr_type"
+  s2cstref_make("ptr_addr_type")
+//
 implement
 s2exp_ptr_addr_type (s2l) = let
-  val s2c = s2cstref_get_cst (the_ptr_addr_type)
+//
+val s2c =
+  s2cstref_get_cst(the_ptr_addr_type)
+//
 in
   s2exp_cstapp (s2c, list_sing (s2l))
 end // end of [s2exp_ptr_addr_type]
-
+//
 implement
 un_s2exp_ptr_addr_type
   (s2f) = let
@@ -951,16 +1096,18 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_ptr_addr_type]
-
+//
 (* ****** ****** *)
-
+//
 implement
-the_atsvoid_t0ype = s2cstref_make "atsvoid_t0ype"
+the_atsvoid_t0ype =
+  s2cstref_make "atsvoid_t0ype"
+//
 implement
 s2exp_void_t0ype () =
   s2exp_cst (s2cstref_get_cst (the_atsvoid_t0ype))
 // end of [s2exp_void_t0ype]
-
+//
 (* ****** ****** *)
 
 implement
@@ -977,26 +1124,31 @@ s2exp_unit_view () =
 // end of [s2exp_unit_view]
 
 (* ****** ****** *)
-
+//
 implement
 the_exception_vtype =
   s2cstref_make "exception_vtype"
+//
 implement
-s2exp_exception_vtype () =
-  s2exp_cst (s2cstref_get_cst (the_exception_vtype))
-// end of [s2exp_exception_vtype]
-
+s2exp_exception_vtype
+  ((*void*)) =
+  s2exp_cst(s2c) where
+{
+  val s2c = s2cstref_get_cst (the_exception_vtype)
+} (* end of [s2exp_exception_vtype] *)
+//
 (* ****** ****** *)
 
 implement
 the_arrpsz_vt0ype_int_vt0ype =
   s2cstref_make "arrpsz_vt0ype_int_vt0ype"
 implement
-s2exp_arrpsz_vt0ype_int_vt0ype (s2e, s2i) = let
-  val ind = s2exp_int (s2i)
-  val s2c = s2cstref_get_cst (the_arrpsz_vt0ype_int_vt0ype)
+s2exp_arrpsz_vt0ype_int_vt0ype
+  (s2e, s2i) = let
+  val ind = s2exp_int(s2i)
+  val s2c = s2cstref_get_cst(the_arrpsz_vt0ype_int_vt0ype)
 in
-  s2exp_cstapp (s2c, list_pair (s2e, ind))
+  s2exp_cstapp(s2c, list_pair(s2e, ind))
 end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
@@ -1019,40 +1171,53 @@ implement
 the_list_t0ype_int_type =
   s2cstref_make "list_t0ype_int_type"
 implement
-s2exp_list_t0ype_int_type (s2e, s2i) = let
+s2exp_list_t0ype_int_type
+  (s2e, s2i) = let
   val ind = s2exp_int (s2i)
   val s2c = s2cstref_get_cst (the_list_t0ype_int_type)
 in
-  s2exp_cstapp (s2c, list_pair (s2e,  ind))
+  s2exp_cstapp(s2c, list_pair(s2e,  ind))
 end // end of [s2exp_list_t0ype_int_type]
 
 implement
 the_list_vt0ype_int_vtype =
   s2cstref_make "list_vt0ype_int_vtype"
 implement
-s2exp_list_vt0ype_int_vtype (s2e, s2i) = let
+s2exp_list_vt0ype_int_vtype
+  (s2e, s2i) = let
   val ind = s2exp_int (s2i)
   val s2c = s2cstref_get_cst (the_list_vt0ype_int_vtype)
 in
-  s2exp_cstapp (s2c, list_pair (s2e, ind))
+  s2exp_cstapp(s2c, list_pair(s2e, ind))
 end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
-
+//
 implement
 the_vbox_view_prop =
   s2cstref_make "vbox_view_prop"
+//
 implement
-s2exp_vbox_view_prop (s2e) =  let
-  val s2c = s2cstref_get_cst (the_vbox_view_prop)
+s2exp_vbox_view_prop
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+(
+  the_vbox_view_prop
+) (* end of [val] *)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_vbox_view_prop]
-
+//
 implement
 un_s2exp_vbox_view_prop
   (s2f) = let
-  val s2e = s2hnf2exp (s2f)
+//
+val s2e = s2hnf2exp (s2f)
+//
 in
 //
 case+ s2e.s2exp_node of
@@ -1065,17 +1230,25 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_vbox_view_prop]
-
+//
 (* ****** ****** *)
 
 implement
 the_ref_vt0ype_type =
   s2cstref_make "ref_vt0ype_type"
 implement
-s2exp_ref_vt0ype_type (s2e) = let
-  val s2c = s2cstref_get_cst (the_ref_vt0ype_type)
+s2exp_ref_vt0ype_type
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+(
+  the_ref_vt0ype_type
+) (* end of [val] *)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing (s2e))
 end // end of [s2exp_ref_vt0ype_type]
 
 implement
@@ -1096,16 +1269,25 @@ case+ s2e.s2exp_node of
 end // end of [un_s2exp_ref_vt0ype_type]
 
 (* ****** ****** *)
-
+//
 implement
 the_lazy_t0ype_type =
   s2cstref_make "lazy_t0ype_type"
 implement
-s2exp_lazy_t0ype_type (s2e) = let
-  val s2c = s2cstref_get_cst (the_lazy_t0ype_type)
+s2exp_lazy_t0ype_type
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+(
+  the_lazy_t0ype_type
+) (* end of [val] *)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_lazy_t0ype_type]
+//
 implement
 un_s2exp_lazy_t0ype_type
   (s2f) = let
@@ -1122,83 +1304,156 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_lazy_t0ype_type]
-
+//
 (* ****** ****** *)
-
+//
 implement
 the_lazy_vt0ype_vtype =
   s2cstref_make "lazy_vt0ype_vtype"
+//
 implement
-s2exp_lazy_vt0ype_vtype (s2e) = let
-  val s2c = s2cstref_get_cst (the_lazy_vt0ype_vtype)
+s2exp_lazy_vt0ype_vtype
+  (s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst
+  (the_lazy_vt0ype_vtype)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
+  s2exp_cstapp(s2c, list_sing(s2e))
 end // end of [s2exp_lazy_vt0ype_vtype]
+//
 implement
 un_s2exp_lazy_vt0ype_vtype
   (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg) 
-    when s2cstref_equ_exp (
+case+
+s2e.s2exp_node
+of // case+
+| S2Eapp
+  (
+    s2e_fun, s2es_arg
+  ) when
+    s2cstref_equ_exp
+  (
     the_lazy_vt0ype_vtype, s2e_fun
   ) => let
-    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-
+    list_cons
+      (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
-| _ => None_vt ()
+| _ (* non-S2Eapp *) => None_vt((*void*))
 //
 end // end of [un_s2exp_lazy_vt0ype_vtype]
-
+//
 (* ****** ****** *)
-
+//
 implement
 the_bottom_t0ype_uni =
   s2cstref_make "bottom_t0ype_uni"
+//
 implement
-s2exp_bottom_t0ype_uni () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_t0ype_uni))
+s2exp_bottom_t0ype_uni() =
+s2exp_cst
+(s2cstref_get_cst(the_bottom_t0ype_uni))
 // end of [s2exp_bottom_t0ype_uni]
-
+//
 implement
 the_bottom_t0ype_exi =
   s2cstref_make "bottom_t0ype_exi"
+//
 implement
-s2exp_bottom_t0ype_exi () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_t0ype_exi))
+s2exp_bottom_t0ype_exi() =
+s2exp_cst
+(s2cstref_get_cst(the_bottom_t0ype_exi))
 // end of [s2exp_bottom_t0ype_exi]
-
+//
 (* ****** ****** *)
-
+//
 implement
 the_bottom_vt0ype_uni =
   s2cstref_make "bottom_vt0ype_uni"
+//
 implement
-s2exp_bottom_vt0ype_uni () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_uni))
+s2exp_bottom_vt0ype_uni() =
+s2exp_cst
+(s2cstref_get_cst(the_bottom_vt0ype_uni))
 // end of [s2exp_bottom_vt0ype_uni]
-
+//
 implement
 the_bottom_vt0ype_exi =
   s2cstref_make "bottom_vt0ype_exi"
+//
 implement
-s2exp_bottom_vt0ype_exi () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_exi))
+s2exp_bottom_vt0ype_exi() =
+s2exp_cst
+(s2cstref_get_cst(the_bottom_vt0ype_exi))
 // end of [s2exp_bottom_vt0ype_exi]
-
+//
 (* ****** ****** *)
 
 implement
-the_vcopyenv_view_view =
-  s2cstref_make "vcopyenv_view_view"
-implement
-s2exp_vcopyenv_v (s2e) = let
-  val s2c = s2cstref_get_cst (the_vcopyenv_view_view)
+s2exp_types_nil
+  ((*void*)) = let
+//
+val
+s2c =
+s2cstref_get_cst(the_types_nil)
+//
 in
-  s2exp_cstapp (s2c, list_sing (s2e))
-end // end of [s2exp_vcopyenv_v]
+  s2exp_cst(s2c)
+end // end of [s2exp_types_nil]
 
+implement
+s2exp_types_cons
+  (s2e1, s2e2) = let
+//
+val
+s2c =
+s2cstref_get_cst(the_types_cons)
+//
+in
+  s2exp_cstapp(s2c, list_pair(s2e1, s2e2))
+end // end of [s2exp_types_cons]
+
+(* ****** ****** *)
+//
+implement
+s2exp_types_list
+  (s2es) = let
+//
+fun
+auxlst(s2es: s2explst): s2exp =
+case+ s2es of
+| list_nil() =>
+  s2exp_types_nil()
+| list_cons(s2e, s2es) =>
+  s2exp_types_cons(s2e, auxlst(s2es))
+//
+in
+  s2exp_vararg(auxlst(s2es))
+end (* end of [s2exp_types_list] *)
+//
+(* ****** ****** *)
+//
+implement
+the_vcopyenv_view_view =
+s2cstref_make("vcopyenv_view_view")
+//
+implement
+s2exp_vcopyenv_v(s2e) = let
+//
+val
+s2c =
+s2cstref_get_cst(the_vcopyenv_view_view)
+//
+in
+  s2exp_cstapp(s2c, list_sing(s2e))
+end // end of [s2exp_vcopyenv_v]
+//
 (* ****** ****** *)
 
 implement
@@ -1244,19 +1499,19 @@ s2e.s2exp_node of
 //
 | S2Ecst (s2c) => (
     case+ 0 of
-    | _ when s2cstref_equ_cst (the_effnil, s2c) => s2eff_effset (effset_nil)
-    | _ when s2cstref_equ_cst (the_effall, s2c) => s2eff_effset (effset_all)
-    | _ when s2cstref_equ_cst (the_effntm, s2c) => s2eff_effset (effset_ntm)
-    | _ when s2cstref_equ_cst (the_effexn, s2c) => s2eff_effset (effset_exn)
-    | _ when s2cstref_equ_cst (the_effref, s2c) => s2eff_effset (effset_ref)
-    | _ when s2cstref_equ_cst (the_effwrt, s2c) => s2eff_effset (effset_wrt)
+    | _ when s2cstref_equ_cst(the_effnil, s2c) => s2eff_effset(effset_nil)
+    | _ when s2cstref_equ_cst(the_effall, s2c) => s2eff_effset(effset_all)
+    | _ when s2cstref_equ_cst(the_effntm, s2c) => s2eff_effset(effset_ntm)
+    | _ when s2cstref_equ_cst(the_effexn, s2c) => s2eff_effset(effset_exn)
+    | _ when s2cstref_equ_cst(the_effref, s2c) => s2eff_effset(effset_ref)
+    | _ when s2cstref_equ_cst(the_effwrt, s2c) => s2eff_effset(effset_wrt)
     | _ => s2fe
   ) // end of [S2Ecst]
 | S2Evar (s2v) => s2fe
 | S2EVar (s2v) => s2fe
 | S2Eeff (s2fe) => s2fe
 | _ => let
-    val s2e = s2exp_err (s2rt_eff) in s2eff_exp (s2e)
+    val s2e = s2exp_errexp(s2rt_eff) in s2eff_exp(s2e)
   end // end of [_]
 //
 end (* end of [aux] *)
@@ -1265,7 +1520,7 @@ in
 //
 case+ s2fe of
 | S2EFFset _ => s2fe
-| S2EFFexp (s2e) => aux (s2fe, s2e)
+| S2EFFexp(s2e) => aux (s2fe, s2e)
 | S2EFFadd _ => s2fe
 //
 end // end of [s2eff_make_s2exp]
@@ -1273,12 +1528,13 @@ end // end of [s2eff_make_s2exp]
 (* ****** ****** *)
 
 extern
-fun sizeof_t0ype_int_assume (): void
+fun sizeof_t0ype_int_assume(): void
 extern
-fun at_vt0ype_addr_view_assume (): void
+fun at_vt0ype_addr_view_assume(): void
 
 extern
-fun invar_assume (s2cr: s2cstref, s2t: s2rt): void
+fun
+invar_assume(s2cr: s2cstref, s2t: s2rt): void
 
 extern
 fun invar_prop_prop_assume (): void
@@ -1289,57 +1545,86 @@ fun invar_t0ype_t0ype_assume (): void
 extern
 fun invar_vt0ype_vt0ype_assume (): void
 
-implement
-stacst2_initialize () = () where {
-//
-  val () = sizeof_t0ype_int_assume () // sizeof(VT)
-//
-  val () = at_vt0ype_addr_view_assume () // VT @ L
-//
-  val () = invar_assume (the_invar_prop_prop, s2rt_prop)
-  val () = invar_assume (the_invar_view_view, s2rt_view)
-  val () = invar_assume (the_invar_t0ype_t0ype, s2rt_t0ype)
-  val () = invar_assume (the_invar_vt0ype_vt0ype, s2rt_vt0ype)
-//
-} // end of [stacst2_initialize]
-
 (* ****** ****** *)
 
 implement
 the_at_vt0ype_addr_view =
-  s2cstref_make "at_vt0ype_addr_view" // in prelude/basics_pre.sats
-// end of [the_at_vt0ype_addr_view]
+(
+//
+// in prelude/basics_pre.sats
+//
+  s2cstref_make("at_vt0ype_addr_view")
+) // end of [the_at_vt0ype_addr_view]
 
 implement
-at_vt0ype_addr_view_assume () = let
-  val s2c = s2cstref_get_cst (the_at_vt0ype_addr_view)
-  val s2t_def = s2cst_get_srt (s2c)
-  val s2v1 = s2var_make_srt s2rt_vt0ype and s2v2 = s2var_make_srt s2rt_addr
-  val arg1 = s2exp_var (s2v1)
-  val arg2 = s2exp_var (s2v2)
-  val s2f_body = s2exp_at (arg1, arg2)
-  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v1, s2v2], s2f_body)
+at_vt0ype_addr_view_assume
+(
+// argless
+) = let
+//
+  val s2c =
+  s2cstref_get_cst
+    (the_at_vt0ype_addr_view)
+  // end of [val]
+//
+  val s2t_def =
+    s2cst_get_srt(s2c)
+  val s2v1 =
+    s2var_make_srt(s2rt_vt0ype)
+  and s2v2 =
+    s2var_make_srt( s2rt_addr )
+//
+  val arg1 = s2exp_var(s2v1)
+  val arg2 = s2exp_var(s2v2)
+//
+  val s2f_at =
+    s2exp_at(arg1, arg2)
+  val s2e_def =
+    s2exp_lam_srt
+    (s2t_def, '[s2v1, s2v2], s2f_at)
+  // end of [val]
 in
-  s2cst_set_def (s2c, Some s2e_def)
+  s2cst_set_def(s2c, Some(s2e_def))
 end // end of [at_vt0ype_addr_view_assume]
 
 (* ****** ****** *)
 
 implement
 the_sizeof_t0ype_int =
-  s2cstref_make "sizeof_t0ype_int" // in prelude/basics_pre.sats
-// end of [the_sizeof_t0ype_int]
+(
+//
+// in prelude/basics_pre.sats
+//
+  s2cstref_make("sizeof_t0ype_int")
+) (* end of [the_sizeof_t0ype_int] *)
 
 implement
-sizeof_t0ype_int_assume () = let
-  val s2c = s2cstref_get_cst (the_sizeof_t0ype_int)
-  val s2t_def = s2cst_get_srt s2c
-  val s2v = s2var_make_srt s2rt_t0ype
-  val arg = s2exp_var (s2v)
-  val s2e_body = s2exp_sizeof (arg)
-  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], s2e_body)
+sizeof_t0ype_int_assume
+(
+// argless
+) = let
+//
+  val
+  s2c =
+  s2cstref_get_cst
+    (the_sizeof_t0ype_int)
+  // end of [val]
+  val
+  s2v =
+  s2var_make_srt(s2rt_t0ype)
+//   
+  val
+  arg = s2exp_var(s2v)
+  val
+  s2size = s2exp_sizeof(arg)
+//
+  val
+  s2t_def = s2cst_get_srt(s2c)
+  val
+  s2e_def =
+  s2exp_lam_srt(s2t_def, '[s2v], s2size)
 in
-  s2cst_set_def (s2c, Some s2e_def)
+  s2cst_set_def(s2c, Some s2e_def)
 end // end of [sizeof_t0ype_int_assume]
 
 (* ****** ****** *)
@@ -1393,6 +1678,22 @@ the_atstype_size = s2cstref_make "atstype_size"
 implement
 the_atstype_ssize = s2cstref_make "atstype_ssize"
 //
+(* ****** ****** *)
+
+implement
+stacst2_initialize() = () where {
+//
+  val () = sizeof_t0ype_int_assume() // sizeof(VT)
+//
+  val () = at_vt0ype_addr_view_assume() // VT @ L
+//
+  val () = invar_assume(the_invar_prop_prop, s2rt_prop)
+  val () = invar_assume(the_invar_view_view, s2rt_view)
+  val () = invar_assume(the_invar_t0ype_t0ype, s2rt_t0ype)
+  val () = invar_assume(the_invar_vt0ype_vt0ype, s2rt_vt0ype)
+//
+} // end of [stacst2_initialize]
+
 (* ****** ****** *)
 
 (* end of [pats_stacst2.dats] *)

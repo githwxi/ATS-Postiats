@@ -57,6 +57,10 @@ sorting-linear-lists:
   A concrete example that demonstrates a typical way of programming with
   abstract types.
 
+funcomb-style:
+  Some examples of a combinator-based programming style that makes extensive
+  use of combinators.
+
 ######
 
 ###### end of [README] ######

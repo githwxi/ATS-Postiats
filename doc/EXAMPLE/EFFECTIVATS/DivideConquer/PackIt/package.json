@@ -1,0 +1,33 @@
+{
+"name":
+"effectivats-divideconquer"
+,
+"version": "1.0.1"
+,
+"description":
+"A generic implementation of divide-and-conquer for use in the Effective-ATS series"
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url":
+  "https://github.com/githwxi/ATS-Postiats/tree/master/doc/EXAMPLE/EFFECTIVATS/DivideConquer/PackIt"
+}
+,
+"keywords": [
+  "EFFECTIVATS",
+  "divide-and-conquer"
+]
+,
+"dependencies": {
+}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-myself": "The package is stored at ${PATSHOME}/doc/EXAMPLE/EFFECTIVATS/DivideConquer/PackIt/."
+}

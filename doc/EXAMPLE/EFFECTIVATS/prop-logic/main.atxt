@@ -1,0 +1,415 @@
+%{
+#include "./../MYTEXT/mytextfun.hats"
+%}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-prop-logic</title>
+#patscode_style()
+#patspage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Encoding Propositional Logic
+</h1>
+
+<p>
+In this article, I present a direct encoding of propositional
+logic in ATS, illustrating through examples a simple form of
+formalized theorem-proving. For the entirety of the code used
+in this presentation, please see the files #filename("prop-logic.sats")
+and #filename("prop-logic.dats").
+</p>
+
+<h2>
+Encoding Truth Values
+</h2>
+
+<p>
+The truth values are
+encoded as abstract props #stacode("PTRUE") and #stacode("PFALSE"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absprop PTRUE // for true
+absprop PFALSE // for false
+')</pre>
+
+There is one introduction rule but no elimination rule for #stacode("true"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi true_intr((*void*)): PTRUE
+')</pre>
+
+There is no introduction rule but one elimination rule for #stacode("false"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi false_elim{A:prop}(pf: PFALSE): A
+')</pre>
+
+Clearly, the rule #dyncode("false_elim") states that any proposition can be
+derived from a proof of #stacode("false").
+</p>
+
+<h2>
+Encoding Negation
+</h2>
+
+<p>
+Given a proposition #stacode("A"), we use #stacode("PNEG(A)") for
+the negation of #stacode("A"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absprop PNEG(A: prop) // for negation
+propdef ~(A: prop) = PNEG(A) // shorthand
+')</pre>
+
+For convenience, #stacode("~A") can be written for #stacode("PNEG(A)").
+There is one introduction rule and one elimination rule for negation:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi neg_intr{A:prop}(fpf: A -> PFALSE): ~A
+praxi neg_elim{A:prop}(pf1: ~A, pf2: A): PFALSE
+')</pre>
+
+Essentially, #dyncode("neg_intr") means that #stacode("~A") is
+derivable if any proof of #stacode("A") can be used to build a proof
+of #stacode("false"). As for elimination of negation,
+#dyncode("neg_elim") states that a proof of #stacode("false") can be
+built on the top of a proof of #stacode("~A") and a proof of
+#stacode("A").
+
+</p>
+
+<p>
+
+By combining #dyncode("neg_elim") and #dyncode("false_elim"), we
+obtain the following rule stating that any proposition #stacode("B")
+can be derived from a proof of #stacode("A") and a proof of
+#stacode("~A"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+prfn
+neg_elim2
+  {A:prop}{B:prop}
+  (pf1: A, pf2: ~A): B = false_elim(neg_elim(pf1, pf2))
+//
+')</pre>
+
+</p>
+
+<h2>
+Encoding Conjunction
+</h2>
+
+<p>
+Given two propositions #stacode("A") and #stacode("B"), we use #stacode("PCONJ(A, B)") for
+the conjunction of #stacode("A") and #stacode("B"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absprop
+PCONJ(A: prop, B: prop)
+propdef &&(A: prop, B: prop) = PCONJ(A, B) // shorthand
+')</pre>
+
+For convenience, #stacode("A && B") can be written for
+#stacode("PCONJ(A, B)").  There are one introduction rule and two
+elimination rules associated with conjunction:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+praxi
+conj_intr
+  {A,B:prop} : (A, B) -> A && B
+//
+praxi
+conj_elim_l{A,B:prop} : (A && B) -> A
+praxi
+conj_elim_r{A,B:prop} : (A && B) -> B
+//
+')</pre>
+
+As an example, a proof is given below showing that conjunction is commutative:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+prfn
+conj_commute
+  {A,B:prop}(pf: A && B): B && A =
+  conj_intr(conj_elim_r(pf), conj_elim_l(pf))
+//
+')</pre>
+
+</p>
+
+<h2>
+Encoding Disjunction
+</h2>
+
+<p>
+Given two propositions #stacode("A") and #stacode("B"), we use #stacode("PDISJ(A, B)") for
+the disjunction of #stacode("A") and #stacode("B"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+dataprop
+PDISJ(A: prop, B: prop) =
+  | disj_intr_l(A, B) of (A)
+  | disj_intr_r(A, B) of (B)
+//
+propdef ||(A: prop, B: prop) = PDISJ(A, B)
+//
+')</pre>
+
+For convenience, #stacode("A || B") can be written for
+#stacode("PDISJ(A, B)").  As an example, a proof is given below
+showing that disjunction is commutative:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+prfn
+disj_commute
+  {A,B:prop}(pf0: A || B): B || A =
+  case+ pf0 of
+  | disj_intr_l(pf0_l) => disj_intr_r(pf0_l)
+  | disj_intr_r(pf0_r) => disj_intr_l(pf0_r)
+//
+')</pre>
+
+The two constructors #dyncode("disj_intr_l") and
+#dyncode("disj_intr_r") associated with #stacode("PDISJ") correspond
+to the two introduction rules associated with disjunction, and the
+following function #dyncode("disj_elim") encodes the elimination rule
+associated with disjunction:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+prfn
+disj_elim{A,B:prop}{C:prop}
+  (pf0: A || B, fpf1: A -> C, fpf2: B -> C): C =
+  case+ pf0 of
+  | disj_intr_l(pf0_l) => fpf1(pf0_l)
+  | disj_intr_r(pf0_r) => fpf2(pf0_r)
+//
+')</pre>
+
+As another example, the following code implements a proof function
+showing that conjunction can be distributed over disjunction:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+prfn
+conj_disj_distribute
+  {A,B,C:prop}
+(
+  pf0: A && (B || C)
+) : (A && B) || (A && C) = let
+//
+val pf0_l = conj_elim_l(pf0)
+val pf0_r = conj_elim_r(pf0)
+//
+in
+//
+case+ pf0_r of
+| disj_intr_l(pf0_rl) =>
+    disj_intr_l(conj_intr(pf0_l, pf0_rl))
+  // end of [disj_intr_l]
+| disj_intr_r(pf0_rr) =>
+    disj_intr_r(conj_intr(pf0_l, pf0_rr))
+  // end of [disj_intr_r]
+//
+end // end of [conj_disj_distribute]
+')</pre>
+
+</p>
+
+<h2>
+Encoding Implication
+</h2>
+
+<p>
+Given two propositions #stacode("A")
+and #stacode("B"), we use #stacode("PIMPL(A, B)") for
+the implication of #stacode("B") from #stacode("A"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+absprop
+PIMPL(A: prop, B: prop)
+//
+infixr (->) ->>
+propdef ->>(A: prop, B: prop) = PIMPL(A, B)
+//
+')</pre>
+
+For convenience, #stacode("A <tt>-&gt;&gt;</tt> B") can be written
+for #stacode("PIMPL(A, B)").  There is one introduction rule and one
+elimination rule for implication:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+praxi
+impl_intr{A,B:prop}(pf: A -> B): A ->> B
+//
+praxi
+impl_elim{A,B:prop}(pf1: A ->> B, pf2: A): B
+//
+')</pre>
+
+Essentially, #stacode("A") implying #stacode("B") is interpreted as a
+function of the type #stacode("A <tt>-&gt;</tt> B").\
+
+</p>
+
+<p>
+As an example, a proof
+#stacode("(A <tt>-&gt;&gt;</tt> (B <tt>-&gt;&gt;</tt> C)) <tt>-&gt;&gt;</tt> ((A <tt>-&gt;&gt;</tt> B) <tt>-&gt;&gt;</tt> (A <tt>-&gt;&gt;</tt> C))") is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+prfn
+Subst{A,B,C:prop}
+(
+// argless
+) : (A ->> (B ->> C)) ->> ((A ->> B) ->> (A ->> C)) =
+impl_intr(
+  lam pf1 =>
+  impl_intr(
+    lam pf2 =>
+    impl_intr(
+      lam pf3 =>
+      impl_elim(impl_elim(pf1, pf3), impl_elim(pf2, pf3))
+    )
+  )
+)
+')</pre>
+
+</p>
+
+<h2>
+Encoding Equivalence
+</h2>
+
+<p>
+Given two propositions #stacode("A")
+and #stacode("B"), we use #stacode("PEQUIV(A, B)") for the
+(propositional) equivalence between #stacode("A") and #stacode("B"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+absprop
+PEQUIV(A: prop, B: prop)
+propdef == (A: prop, B: prop) = PEQUIV(A, B)
+')</pre>
+
+For convenience, #stacode("A == B") can be written for
+#stacode("PEQUIV(A, B)").  There is one introduction rule and two
+elimination rules for propositional equivalence:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+praxi
+equiv_intr
+  {A,B:prop}(A ->> B, B ->> A): A == B
+//
+praxi
+equiv_elim_l{A,B:prop}(pf: A == B): A ->> B
+praxi
+equiv_elim_r{A,B:prop}(pf: A == B): B ->> A
+//
+')</pre>
+</p>
+
+<h2>
+The Law of Double Negation
+</h2>
+
+<p>
+The law of double negation can be encoded as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('praxi LDN{A:prop}(~(~A)): A')
+</pre>
+</p>
+
+<h2>
+The Law of Excluded Middle
+</h2>
+
+<p>
+The law of excluded middle can be encoded as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('praxi LEM{A:prop}((*void*)): A || ~A')
+</pre>
+</p>
+
+<h2>
+Peirce's Law
+</h2>
+
+<p>
+Peirce's law can be encoded as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+praxi
+Peirce{P,Q:prop}((*void*)): ((P ->> Q) ->> P) ->> P
+')</pre>
+
+This law of Peirce is equivalent to LEM, and it can be seen as a
+variant of LEM expressed only in terms of the implicative logic
+connective.  </p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+#patspage_script()
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

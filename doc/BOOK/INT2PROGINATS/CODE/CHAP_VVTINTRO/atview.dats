@@ -38,37 +38,47 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
-ptr_get0 {l:addr} (pf: a @ l | p: ptr l): (a @ l | a)
-
+fun
+{a:t@ype}
+ptr_get0{l:addr}
+  (pf: a @ l | p: ptr l): (a @ l | a)
+//
 extern
-fun{a:t@ype}
-ptr_set0 {l:addr} (pf: a? @ l | p: ptr l, x: a): (a @ l | void)
-
-fn{a:t@ype}
-swap0 {l1,l2:addr} (
+fun
+{a:t@ype}
+ptr_set0{l:addr}
+  (pf: a? @ l | p: ptr l, x: a): (a @ l | void)
+//
+fn
+{a:t@ype}
+swap0{l1,l2:addr}
+(
   pf1: a @ l1, pf2: a @ l2 | p1: ptr l1, p2: ptr l2
 ) : (a @ l1, a @ l2 | void) = let
-  val (pf1 | tmp1) = ptr_get0<a> (pf1 | p1)
-  val (pf2 | tmp2) = ptr_get0<a> (pf2 | p2)
-  val (pf1 | ()) = ptr_set0<a> (pf1 | p1, tmp2)
-  val (pf2 | ()) = ptr_set0<a> (pf2 | p2, tmp1)
+  val (pf1 | x1) = ptr_get0<a> (pf1 | p1)
+  val (pf2 | x2) = ptr_get0<a> (pf2 | p2)
+  val (pf1 | ()) = ptr_set0<a> (pf1 | p1, x2)
+  val (pf2 | ()) = ptr_set0<a> (pf2 | p2, x1)
 in
   (pf1, pf2 | ())
-end // end of [swap0]
-
+end (* end of [swap0] *)
+//
 (* ****** ****** *)
-
+//
 extern
-fun{a:t@ype}
-ptr_get1 {l:addr} (pf: !a @ l >> a @ l | p: ptr l): a
-
+fun
+{a:t@ype}
+ptr_get1{l:addr}
+  (pf: !a @ l >> a @ l | p: ptr l): (a)
+//
 extern
-fun{a:t@ype}
-ptr_set1 {l:addr} (pf: !a? @ l >> a @ l | p: ptr l, x: a): void
-
+fun
+{a:t@ype}
+ptr_set1{l:addr}
+  (pf: !a? @ l >> a @ l | p: ptr l, x: a): void
+//
 (* ****** ****** *)
 
 implement{a} ptr_get1 (pf | p) = !p
@@ -76,34 +86,38 @@ implement{a} ptr_set1 (pf | p, x) = !p := x
 
 (* ****** ****** *)
 
-fn{a:t@ype}
-swap1 {l1,l2:addr}
+fn
+{a:t@ype}
+swap1{l1,l2:addr}
 (
   pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
 ) : void = let
-  val tmp = ptr_get1<a> (pf1 | p1)
+  val x0 = ptr_get1<a> (pf1 | p1)
   val () = ptr_set1<a> (pf1 | p1, ptr_get1<a> (pf2 | p2))
-  val () = ptr_set1<a> (pf2 | p2, tmp)
+  val () = ptr_set1<a> (pf2 | p2, x0)
 in
   // nothing
 end // end of [swap1]
 
 (* ****** ****** *)
 
-fn{a:t@ype}
-swap1 {l1,l2:addr}
+fn
+{a:t@ype}
+swap1{l1,l2:addr}
 (
-  pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
+  pf1: !a @ l1
+, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
 ) : void = let
-  val tmp = !p1 in !p1 := !p2; !p2 := tmp
+  val x1 = !p1 in !p1 := !p2; !p2 := x1
 end // end of [swap1]
 
 (* ****** ****** *)
 
-viewtypedef tptr (a:t@ype, l:addr) = (a @ l | ptr l)
+vtypedef tptr (a:t@ype, l:addr) = (a @ l | ptr l)
 
 fn getinc
-  {l:addr} {n:nat} (
+  {l:addr}{n:nat}
+(
   cnt: !tptr (int(n), l) >> tptr (int(n+1), l)
 ) : int(n) = n where {
   val n = ptr_get1<int(n)> (cnt.0 | cnt.1)
@@ -112,7 +126,7 @@ fn getinc
 
 (* ****** ****** *)
 
-viewtypedef cloptr
+vtypedef cloptr
   (a:t@ype, b:t@ype, l:addr) =
   [env:t@ype] (((&env, a) -> b, env) @ l | ptr l)
 // end of [cloptr]
@@ -124,28 +138,36 @@ a:t@ype}{b:t@ype
 } cloptr_app {l:addr}
 (
   pclo: !cloptr (a, b, l), x: a
-) : b = let
+) : b = res where
+{
   val p = pclo.1
-  prval pf = pclo.0 // takeout pf: ((&env, a) -> b, env) @ l
+(*
+//
+// taking out pf: ((&env, a) -> b, env) @ l
+//
+  prval pf = pclo.0
+//
+*)
   val res = !p.0 (!p.1, x)
-  prval () = pclo.0 := pf // return pf
-in
-  res
-end // end of [cloptr]
+(*
+  prval () = pclo.0 := pf // putting the proof pf back
+*)
+} (* end of [cloptr] *)
 
 (* ****** ****** *)
 
-fn{
-a:t@ype
-} swap2
+fn
+{a:t@ype}
+swap2
 (
   x1: &a, x2: &a
 ) : void = let
   val tmp = x1 in x1 := x2; x2 := tmp
 end // end of [swap2]
 
-fn{a:t@ype}
-swap1 {l1,l2:addr}
+fn
+{a:t@ype}
+swap1{l1,l2:addr}
 (
   pf1: !a @ l1, pf2: !a @ l2 | p1: ptr l1, p2: ptr l2
 ) : void = swap2 (!p1, !p2)
@@ -164,12 +186,14 @@ fn foo (): void = let
   var z: int with pfz = 3 // pfz is an alias of view@ (z): int(3) @ z
 in
   // nothing
-end // end of [f]
+end // end of [foo]
 
 (* ****** ****** *)
 
-fn fact {n:nat}
-  (n: int n): int = let
+fn
+fact{n:nat}
+  (n: int n): int = res where
+{
   fun loop {n:nat} {l:addr} .<n>.
     (pf: !int @ l | n: int n, res: ptr l): void =
     if n > 0 then let
@@ -178,9 +202,7 @@ fn fact {n:nat}
   // end of [loop]
   var res: int with pf = 1
   val () = loop (pf | n, addr@res) // &res: the pointer to res
-in
-  res
-end // end of [fact]
+} (* end of [fact] *)
 
 (* ****** ****** *)
 

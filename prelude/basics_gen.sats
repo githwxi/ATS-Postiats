@@ -54,19 +54,25 @@ gidentity_vt (x: INV(a)):<> a
 (* ****** ****** *)
 //
 fun
-{a:t0p}
-gcopy_val (x: INV(a)):<> a
+{a:vt0p}
+gcopy_val (x: !INV(a)):<!wrt> a
 //
 fun
 {a:vt0p}
 gcopy_ref (x: &INV(a)):<!wrt> a
 //
 (* ****** ****** *)
-
+//
 fun
 {a:vt0p}
 gfree_val (x: INV(a)):<!wrt> void
-
+//
+(*
+fun
+{a:vt0p}
+gfree_ref (x: &INV(a) >> a?):<!wrt> void
+*)
+//
 (* ****** ****** *)
 
 fun
@@ -83,11 +89,11 @@ gclear_ref (x: &a >> a?):<!wrt> void
 //
 fun
 {a:t0p}
-gequal_val (x: a, y: a):<> bool
+gequal_val_val (x: a, y: a):<> bool
 //
 fun
 {a:vt0p}
-gequal_ref (x: &INV(a), y: &a):<> bool
+gequal_ref_ref (x: &INV(a), y: &a):<> bool
 //
 (* ****** ****** *)
 
@@ -99,16 +105,9 @@ tostring_ref (x: &INV(a)):<> string
 (* ****** ****** *)
 
 fun{a:t0p}
-tostrptr_val (x: a):<> Strptr1
+tostrptr_val (x: a):<!wrt> Strptr1
 fun{a:vt0p}
-tostrptr_ref (x: &INV(a)):<> Strptr1
-
-(* ****** ****** *)
-
-fun{a:t0p}
-fprint_val (out: FILEref, x: a): void
-fun{a:vt0p}
-fprint_ref (out: FILEref, x: &INV(a)): void
+tostrptr_ref (x: &INV(a)):<!wrt> Strptr1
 
 (* ****** ****** *)
 
@@ -126,6 +125,45 @@ prerr_ref (x: &INV(a)): void // = fprint_ref (stderr_ref, x)
 //
 *)
 
+(* ****** ****** *)
+//
+fun{a:t0p}
+fprint_val(out: FILEref, x: a): void
+fun{a:vt0p}
+fprint_ref(out: FILEref, x: &INV(a)): void
+//
+(* ****** ****** *)
+//
+fun
+{src:vt0p}
+{elt:vt0p}
+streamize_val(source: src): stream_vt(elt)
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+print_stamped_t(stamped_t(a)): void
+fun
+{a:t0p}
+prerr_stamped_t(stamped_t(a)): void
+fun
+{a:t0p}
+fprint_stamped_t(out: FILEref, x: stamped_t(a)): void
+(*
+//
+// HX-2017-12-09:
+// This one does not seem to be so useful
+//
+fun
+{a:vt0p}
+fprint_stamped_vt(out: FILEref, x: &stamped_vt(a)): void
+*)
+//
+overload print with print_stamped_t
+overload prerr with prerr_stamped_t
+overload fprint with fprint_stamped_t
+//
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

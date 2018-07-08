@@ -21,13 +21,38 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 #atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("March, 2012")
+#atscode_authoremail("hwxiATcsDOTbuDOTedu")
+
+#atscode_separator()
+//
+// HX-2017-03-08:
+\#define // there is no need
+ATS_DYNLOADFLAG 0 // for dynloading
+//
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+//
+implement
+patsopt_version((*void*)) = "0.3.4"
+//
+#atscode_separator()
+//
+primplmnt
+false_elim() = case+ 0 of _ =/=> ()
+//
+#atscode_separator()
+
+primplmnt prop_verify () = ()
+primplmnt prop_verify_and_add () = ()
 
 #atscode_separator()
 
-primplmnt
-false_elim () = case+ 0 of _ =/=> ()
+primplmnt pridentity_v (x) = ()
+primplmnt pridentity_vt (x) = ()
 
 #atscode_separator()
 
@@ -47,16 +72,6 @@ primplmnt eqbool_make_bool (x) = EQBOOL ()
 
 #atscode_separator()
 
-primplmnt prop_verify () = ()
-primplmnt prop_verify_and_add () = ()
-
-#atscode_separator()
-
-primplmnt pridentity_v (x) = ()
-primplmnt pridentity_vt (x) = ()
-
-#atscode_separator()
-
 implement
 {a}(*tmp*)
 lazy_force (lazyval) = !lazyval
@@ -65,12 +80,27 @@ implement
 lazy_vt_force (lazyval) = !lazyval
 
 #atscode_separator()
+//
+implement
+{a}(*tmp*)
+stamped_vt2t_ref{x}(x) =
+  $UN.ptr0_get<stamped_t(a,x)>(addr@x)
+//
+(* ****** ****** *)
 
 primplmnt
 unit_v_elim (pf) = let
   prval unit_v () = pf in (*nothing*)
 end // end of [unit_v_elim]
 
+#atscode_separator()
+//
+implement{a} box(x) = $UN.cast(x)
+implement{a} unbox(x) = $UN.cast(x)
+//
+implement{a} box_vt(x) = $UN.castvwtp0(x)
+implement{a} unbox_vt(x) = $UN.castvwtp0(x)
+//
 #atscode_separator()
 //
 // HX:
@@ -96,56 +126,162 @@ argv_get_at
   prval () = minus_addback (fpf, pf | argv)
 } // end of [argv_get_at]
 *)
-
-#atscode_separator()
-
-implement{}
-assertexn_bool0 (b) = if not(b) then $raise AssertExn()
-implement{}
-assertexn_bool1 (b) = if not(b) then $raise AssertExn()
-
-#atscode_separator()
-
-implement{a} gidentity (x) = x
-implement{a} gidentity_vt (x) = x
-
-#atscode_separator()
-//
-implement
-(a:t@ype)
-gequal_ref<a> (x, y) = gequal_val<a> (x, y)
-//
-implement gequal_val<int> (x, y) = (x = y)
-implement gequal_val<bool> (x, y) = (x = y)
-implement gequal_val<char> (x, y) = (x = y)
-implement gequal_val<double> (x, y) = (x = y)
-implement gequal_val<string> (x, y) = (x = y)
-//
 #atscode_separator()
 
 implement
-{a}(*tmp*)
-tostring_val (x) =
-  strptr2string (tostrptr_val<a> (x))
-// end of [tostring_val]
-
-#atscode_separator()
-
-implement
-{a}(*tmp*)
-fprint_val (out, x) = let
-  val str = tostrptr_val<a> (x)
-  val ((*void*)) = fprint_strptr (out, str)
-  val ((*void*)) = strptr_free (str)
+{}(*tmp*)
+listize_argc_argv
+  {n}(argc, argv) = let
+//
+prval () =
+  lemma_argv_param(argv)
+//
+fun
+loop
+{i:nat | i <= n} .<n-i>.
+(
+argv: !argv(n), i0: int(i),
+res0: &ptr? >> list_vt(string, n-i)
+) : void =
+(
+if
+(i0 < argc)
+then let
+  val x0 = argv[i0]
+  val () =
+    res0 :=
+    list_vt_cons{string}{0}(x0, _)
+  // end of [val]
+  val+list_vt_cons(_, res1) = res0
+  val () = loop(argv, i0+1, res1)
+  prval ((*folded*)) = fold@(res0)
 in
   // nothing
-end // end of [fprint_val]
+end // end of [then]
+else () where
+{
+  val () = res0 := list_vt_nil()
+}
+) (* end of [loop] *)
+//
+in
+  let var res0: ptr in loop(argv, 0, res0); res0 end
+end // end of [listize_argc_argv]
+
+#atscode_separator()
+//
+implement{}
+assertexn_bool0 (b) =
+  if not(b) then $raise AssertExn()
+//
+implement{}
+assertexn_bool1 (b) =
+  if not(b) then $raise AssertExn()
+//
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+gidentity (x) = (x)
+implement
+{a}(*tmp*)
+gidentity_vt (x) = (x)
+
+#atscode_separator()
+//
+implement
+(a:t@ype)
+gcopy_val<a> (x) = (x)
+//
+implement
+(a:t@ype)
+gcopy_ref<a> (x) = (x)
+//
+#atscode_separator()
+//
+implement
+(a:t@ype)
+gfree_val<a> (x) = ((*void*))
+//
+(*
+implement
+(a:t@ype)
+gfree_ref<a> (x) = ((*void*))
+*)
+//
+#atscode_separator()
+//
+implement
+(a:t@ype)
+gclear_ref<a> (x) = ((*void*))
+//
+#atscode_separator()
+//
+implement
+gequal_val_val<int> (x, y) = (x = y)
+implement
+gequal_val_val<bool> (x, y) = (x = y)
+implement
+gequal_val_val<char> (x, y) = (x = y)
+implement
+gequal_val_val<double> (x, y) = (x = y)
+implement
+gequal_val_val<string> (x, y) = (x = y)
+//
+#atscode_separator()
+//
+implement
+(a:t@ype)
+gequal_ref_ref<a>
+  (x, y) = gequal_val_val<a> (x, y)
+//
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
+tostring_val(x) = let
+//
+val str =
+  $effmask_wrt(tostrptr_val<a>(x))
+in
+  strptr2string(str)
+end // end of [tostring_val]
+//
+implement
+{a}(*tmp*)
+tostring_ref(x) = let
+//
+val str =
+  $effmask_wrt(tostrptr_ref<a>(x))
+in
+  strptr2string(str)
+end // end of [tostring_ref]
+//
+#atscode_separator()
+
+implement
+(a:t@ype)
+tostrptr_ref<a>(x) = tostrptr_val<a>(x)
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
+fprint_val(out, x) = let
+//
+val rep = tostrptr_val<a>(x)
+val ((*void*)) = fprint_strptr(out, rep)
+val ((*freed*)) = strptr_free(rep)
+//
+in
+  // nothing
+end (* end of [fprint_val] *)
 
 #atscode_separator()
 
 implement
 (a:t@ype)
-fprint_ref<a> (out, x) = fprint_val<a> (out, x)
+fprint_ref<a>(out, x) = fprint_val<a>(out, x)
 
 #atscode_separator()
 
@@ -163,6 +299,19 @@ implement{a}
 prerr_ref (x) = fprint_ref<a> (stderr_ref, x)
 *)
 
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
+print_stamped_t(x) = fprint_stamped_t<a>(stdout_ref, x)
+implement
+{a}(*tmp*)
+prerr_stamped_t(x) = fprint_stamped_t<a>(stderr_ref, x)
+//
+implement
+{a}(*tmp*)
+fprint_stamped_t(out, x) = fprint_val<a>(out, unstamp_t(x))
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

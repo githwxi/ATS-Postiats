@@ -16,45 +16,50 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+#define
+LIBGMP_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libgmp"
+#staload "{$LIBGMP}/SATS/gmp.sats"
+//
 (* ****** ****** *)
 
-staload
-UN="prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "{$LIBGMP}/SATS/gmp.sats"
-
-(* ****** ****** *)
-
-fun digitsum
+fun
+digitsum
   (x: &mpz): int = let
 //
-val str =
-  mpz_get_str_null (10, x)
-//
 typedef tenv = int
+//
 var env : tenv = 0
+//
+val str =
+  mpz_get_str_null(10, x)
 //
 local
 //
 implement
-string_foreach$fwork<tenv> (c, env) = env := env + (c - '0')
+string_foreach$fwork<tenv>
+  (c, env) =
+  (env := env + (c - '0'))
 //
 in (* in of [local] *)
 //
-val _ = string_foreach_env<tenv> ($UN.strptr2string(str), env)
+val _ =
+  string_foreach_env<tenv>
+  ($UN.strptr2string(str), env)
 //
 end (* end of [local] *)
 //
-val () = strptr_free (str)
-//
 in
-  env
+  let val () = strptr_free(str) in env end
 end // end of [digitsum]
 
 (* ****** ****** *)

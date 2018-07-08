@@ -33,8 +33,10 @@
 //
 (* ****** ****** *)
 //
-staload UN = "prelude/SATS/unsafe.sats"
-staload _(*anon*) = "prelude/DATS/unsafe.dats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_(*UN*) = "prelude/DATS/unsafe.dats"
 //
 (* ****** ****** *)
 //
@@ -45,58 +47,116 @@ staload "./pats_utils.sats"
 %{^
 //
 static char *patsopt_PATSHOME = (char*)0 ;
-static char *patsopt_PATSHOMERELOC = (char*)0 ;
-static char *patsopt_ATSPKGRELOCROOT = (char*)0 ;
+static char *patsopt_PATSCONTRIB = (char*)0 ;
+static char *patsopt_PATSHOMELOCS = (char*)0 ;
+static char *patsopt_PATSRELOCROOT = (char*)0 ;
+//
+#define \
+patsopt_getenv(name) getenv(name)
 //
 extern
 ats_ptr_type
-patsopt_getenv_gc(ats_ptr_type);
-ATSinline()
-char *getenv_gc (const char *name)
-{
-  return (char*)(patsopt_getenv_gc((char*)name));
-}
-//
-#define patsopt_getenv(name) getenv(name)
+patsopt_getenv_gc
+  (ats_ptr_type name);
 //
 ATSextfun()
 ats_ptr_type
-patsopt_PATSHOME_get () {
+patsopt_PATSHOME_get()
+{
   return patsopt_PATSHOME ; // optional string
 } // end of [patsopt_PATSHOME_get]
 ATSextfun()
-ats_ptr_type
-patsopt_PATSHOMERELOC_get () {
-  return patsopt_PATSHOMERELOC ; // optional string
-} // end of [patsopt_PATSHOMERELOC_get]
-//
-ATSextfun()
 ats_void_type
-patsopt_PATSHOME_set () {
-  patsopt_PATSHOME = getenv_gc("PATSHOME") ;
-  if (!patsopt_PATSHOME)
-    patsopt_PATSHOME = getenv_gc("ATSHOME") ;
+patsopt_PATSHOME_set()
+{
+//
+  patsopt_PATSHOME = patsopt_getenv_gc("PATSHOME") ;
+//
+  if
+  (
+   !patsopt_PATSHOME
+  )
+  {
+    patsopt_PATSHOME = patsopt_getenv_gc("ATSHOME") ;
+  }
+//
   return ;
+//
 } // end of [patsopt_PATSHOME_set]
-ATSextfun()
-ats_void_type
-patsopt_PATSHOMERELOC_set () {
-  patsopt_PATSHOMERELOC = getenv_gc("PATSHOMERELOC") ;
-  if (!patsopt_PATSHOMERELOC)
-    patsopt_PATSHOMERELOC = getenv_gc("ATSHOMERELOC") ;
-  return ;
-} // end of [patsopt_PATSHOMERELOC_set]
 //
 ATSextfun()
 ats_ptr_type
-patsopt_ATSPKGRELOCROOT_get () {
-  return patsopt_ATSPKGRELOCROOT ; // optional string
-} // end of [patsopt_ATSPKGRELOCROOR_get]
+patsopt_PATSCONTRIB_get()
+{
+  return patsopt_PATSCONTRIB ; // optional string
+} // end of [patsopt_PATSCONTRIB_get]
 ATSextfun()
 ats_void_type
-patsopt_ATSPKGRELOCROOT_set () {
-  patsopt_ATSPKGRELOCROOT = getenv_gc("ATSPKGRELOCROOT") ; return ;
-} // end of [patsopt_ATSPKGRELOCROOT_set]
+patsopt_PATSCONTRIB_set()
+{
+//
+  patsopt_PATSCONTRIB = patsopt_getenv_gc("PATSCONTRIB") ;
+//
+  if
+  (
+   !patsopt_PATSCONTRIB
+  )
+  {
+    patsopt_PATSCONTRIB = patsopt_getenv_gc("ATSCONTRIB") ;
+  }
+//
+  return ;
+//
+} // end of [patsopt_PATSCONTRIB_set]
+//
+ATSextfun()
+ats_ptr_type
+patsopt_PATSHOMELOCS_get()
+{
+  return patsopt_PATSHOMELOCS ; // optional string
+} // end of [patsopt_PATSHOMELOCS_get]
+ATSextfun()
+ats_void_type
+patsopt_PATSHOMELOCS_set()
+{
+//
+  patsopt_PATSHOMELOCS = patsopt_getenv_gc("PATSHOMELOCS") ;
+//
+  if
+  (
+   !patsopt_PATSHOMELOCS
+  )
+  {
+    patsopt_PATSHOMELOCS = patsopt_getenv_gc("ATSHOMELOCS") ;
+  }
+//
+  return ;
+} // end of [patsopt_PATSHOMELOCS_set]
+//
+ATSextfun()
+ats_ptr_type
+patsopt_PATSRELOCROOT_get()
+{
+  return patsopt_PATSRELOCROOT ; // optional string
+} // end of [patsopt_PATSRELOCROOR_get]
+ATSextfun()
+ats_void_type
+patsopt_PATSRELOCROOT_set()
+{
+//
+  patsopt_PATSRELOCROOT = patsopt_getenv_gc("PATSRELOCROOT") ;
+//
+  if
+  (
+   !patsopt_PATSRELOCROOT
+  )
+  {
+    patsopt_PATSRELOCROOT = patsopt_getenv_gc("ATSRELOCROOT") ;
+  }
+//
+  return ;
+//
+} // end of [patsopt_PATSRELOCROOT_set]
 //
 %} (* end of [%{^] *)
 
@@ -105,7 +165,9 @@ patsopt_ATSPKGRELOCROOT_set () {
 extern
 fun
 patsopt_getenv_gc
-  (name: string): Stropt = "ext#patsopt_getenv_gc"
+(
+  name: string
+) : Stropt = "ext#patsopt_getenv_gc"
 //
 implement
 patsopt_getenv_gc
@@ -151,24 +213,50 @@ fun strcasecmp (
   = "ext#patsopt_strcasecmp"
 //
 implement
-strcasecmp (x1, x2) = let
-  fun loop (p1: Ptr1, p2: Ptr1): int = let
-    val c1 = char_toupper ($UN.ptrget<char> (p1))
-    val c2 = char_toupper ($UN.ptrget<char> (p2))
-  in
-    if c1 < c2 then ~1
-    else if c1 > c2 then 1
-    else if c1 != '\000' then loop (p1+1, p2+1)
-    else 0 // end of [if]
-  end // end of [loop]
+strcasecmp
+  (x1, x2) = let
+//
+#define NUL '\000'
+//
+fun
+loop
+(
+p1: Ptr1, p2: Ptr1
+) : int = let
+//
+val c1 = char_toupper($UN.ptrget<char>(p1))
+val c2 = char_toupper($UN.ptrget<char>(p2))
+//
 in
-  $effmask_all (loop ($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2)))
+//
+if
+(c1 < c2)
+then (~1)
+else
+(
+if
+(c1 > c2)
+then ( 1 )
+else
+(
+if c1 != NUL then loop(p1+1, p2+1) else (0)
+) (* end of [else] *)
+) (* end of [else] *)
+//
+end // end of [loop]
+//
+in
+//
+$effmask_all
+  (loop($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2)))
+//
 end // end of [strcasecmp]
 //
 (* ****** ****** *)
 //
 extern
-fun string_test_prefix
+fun
+string_test_prefix
 (
   str: string, prfx: string
 ) :<> bool
@@ -201,7 +289,8 @@ end // end of [patsopt_string_test_prefix]
 (* ****** ****** *)
 //
 extern
-fun string_test_sffx
+fun
+string_test_sffx
 (
   str: string, sffx: string
 ) :<> bool
@@ -231,6 +320,8 @@ end // end of [string_test_sffx]
 (* ****** ****** *)
 
 local
+
+(* ****** ****** *)
 
 staload
 STDLIB = "libc/SATS/stdlib.sats"
@@ -515,20 +606,31 @@ in
 end // end of [dirpath_append]
 
 (* ****** ****** *)
-
+//
+implement
+print_stropt
+ (opt) =
+ fprint_stropt(stdout_ref, opt)
+implement
+prerr_stropt
+ (opt) =
+ fprint_stropt(stderr_ref, opt)
+//
 implement
 fprint_stropt
  (out, opt) = let
 in
 //
-if stropt_is_some (opt) then
-  fprint_string (out, stropt_unsome (opt))
+if
+stropt_is_some(opt)
+then
+  fprint_string(out, stropt_unsome(opt))
 else
-  fprint_string (out, "(none)")
+  fprint_string(out, "(none)")
 // end of [if]
 //
 end (* end of [fprint_stropt] *)
-
+//
 (* ****** ****** *)
 
 implement
@@ -687,12 +789,16 @@ extern
 ats_ssize_type
 atslib_fildes_read_all_err
 (
-  ats_int_type fd, ats_ref_type buf, ats_size_type ntot
+  ats_int_type fd
+, ats_ref_type buf
+, ats_size_type ntot
 ) ; // end of [atslib_fildes_read_all_err]
 //
 ats_ptr_type
 patsopt_file2strptr
-  (ats_int_type fd) {
+(
+  ats_int_type fd
+) {
   int err = 0 ;
   int nerr = 0 ;
   char* sbp = (char*)0 ;
@@ -715,72 +821,104 @@ patsopt_file2strptr
   }
   if (err < 0) { nerr += 1 ; }
 //
-  if (nerr == 0) {
+  if (nerr==0) {
     sbp[ofs_end] = '\0'; return sbp ;
   }
 //
-  if (sbp) free (sbp) ; return NULL ;
+  if (sbp) free(sbp) ; return (NULL) ;
 } // end of [patsopt_file2strptr]
+//
 %} // end of [%{$]
 
 (* ****** ****** *)
 
 local
-
+//
+// HX-2015-10-07:
+// It can be interesting to implement
+// tostrong_fprint based on open_memstream
+//
 staload
 FCNTL = "libc/SATS/fcntl.sats"
 staload
 STDIO = "libc/SATS/stdio.sats"
-macdef SEEK_SET = $STDIO.SEEK_SET
 staload
 STDLIB = "libc/SATS/stdlib.sats"
 staload
 UNISTD = "libc/SATS/unistd.sats"
-
+//
+macdef SEEK_SET = $STDIO.SEEK_SET
+//
 in (* in of [local] *)
 
 implement{a}
 tostring_fprint
   (prfx, fpr, x) = let
-  val tmp = sprintf ("%sXXXXXX", @(prfx))
-  val [m,n:int] tmp = strbuf_of_strptr (tmp)
-  prval () = __assert () where {
-    extern prfun __assert (): [n >= 6] void
-  }
-  prval pfstr = tmp.1
-  val (pfopt | fd) = $STDLIB.mkstemp !(tmp.2) // create it!
-  prval () = tmp.1 := pfstr
-  val tmp = strptr_of_strbuf (tmp)
+//
+val
+tmp0 =
+sprintf ("%sXXXXXX", @(prfx))
+val
+[m,n:int]
+tmpbuf = strbuf_of_strptr(tmp0)
+//
+prval () =
+__assert () where
+{
+  extern prfun __assert(): [n >= 6] void
+} (* end of [prval] *)
+//
+prval
+pfstr = tmpbuf.1
+val
+(pfopt|fd) =
+$STDLIB.mkstemp !(tmpbuf.2)
+prval ((*ret*)) = tmpbuf.1 := pfstr
+//
+val tmpstr = strptr_of_strbuf(tmpbuf)
+//
 in
 //
 if
 fd >= 0
 then let
-  prval
-  $FCNTL.open_v_succ (pffil) = pfopt
-  val (fpf | out) =
-  fdopen (pffil | fd, file_mode_w) where {
+//
+prval
+  $FCNTL.open_v_succ(pffil) = pfopt
+//
+  val
+  (fpf|out) =
+  fdopen (pffil | fd, file_mode_w) where
+  {
     extern
     fun
     fdopen{fd:nat}
     (
-      pffil: !fildes_v fd | fd: int fd, mode: file_mode
+      pffil: !fildes_v fd
+    | fd: int fd, mode: file_mode
     ) : (fildes_v fd -<lin,prf> void | FILEref) = "mac#fdopen"
   } (* end of [out] *)
-  val () = fpr (out, x)
-  val _err = $STDIO.fflush_err (out)
-  val _err = $STDIO.fseek_err (out, 0L, SEEK_SET)
-  val res = file2strptr (pffil | fd)
-  prval () = fpf (pffil)
-  val _err = $STDIO.fclose_err (out)
-  val _err = $UNISTD.unlink ($UN.castvwtp1 (tmp))
-  val () = strptr_free (tmp)
+  val () = fpr(out, x)
+//
+  val err = $STDIO.fflush_err(out)
+  val err = $STDIO.fseek_err(out, 0L, SEEK_SET)
+//
+  val res = file2strptr(pffil | fd)
+  prval ((*returned*)) = fpf (pffil)
+//
+  val err = $STDIO.fclose_err(out)
+  val err = $UNISTD.unlink($UN.castvwtp1{string}(tmpstr))
+  val ((*freed*)) = strptr_free(tmpstr)
 in
   res (*strptr*)
 end // end of [then]
 else let
-  prval $FCNTL.open_v_fail () = pfopt
-  val () = strptr_free (tmp) in strptr_null ()
+//
+prval
+  $FCNTL.open_v_fail((*void*)) = pfopt
+//
+  val ((*freed*)) = strptr_free(tmpstr) in strptr_null((*void*))
+//
 end // end of [else]
 //
 end // end of [tostring_fprint]
@@ -792,7 +930,7 @@ end // end of [local]
 // HX-2015-01-27:
 // for stopping optimization
 //
-implement ptr_as_volatile (ptr) = ((*dummy*))
+implement ptr_as_volatile(ptr) = ((*dummy*))
 //
 (* ****** ****** *)
 

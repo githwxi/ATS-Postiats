@@ -12,6 +12,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_start_time("Feburary, 2012")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/DATS/CODEGEN/option.atxt
@@ -20,41 +26,62 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("Feburary, 2012")
-
-#atscode_separator()
-
-implement{a} option_some (x) = Some (x)
-implement{a} option_none ( ) = None ( )
-
-#atscode_separator()
-
-implement{}
-option_is_some (opt) =
-  case+ opt of Some _ => true | None _ => false
-// end of [option_is_some]
-
-implement{}
-option_is_none (opt) =
-  case+ opt of Some _ => false | None _ => true
-// end of [option_is_none]
-
-#atscode_separator()
-
 implement{a}
+option_some(x) = Some(x)
+implement{a}
+option_none( ) = None(*void*)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+option2bool
+  (opt) =
+(
+case+ opt of
+| Some _ => true | None _ => false
+) (* end of [option2bool] *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+option_is_some
+  (opt) =
+(
+case+ opt of
+| Some _ => true | None _ => false
+) (* end of [option_is_some] *)
+
+implement
+{}(*tmp*)
+option_is_none
+  (opt) =
+(
+case+ opt of
+| Some _ => false | None _ => true
+) (* end of [option_is_none] *)
+
+#atscode_separator()
+//
+implement
+{a}(*tmp*)
 option_unsome
-  (opt) = x where { val+Some (x) = opt }
-// end of [option_unsome]
-
-implement{a}
+  (opt) =
+(
+  x0
+) where { val+Some(x0) = opt }
+//
+implement
+{a}(*tmp*)
 option_unsome_exn
-  (opt) = (
-  case+ opt of
-  | Some x => x | None _ => $raise NotSomeExn()
-) // end of [option_unsome_exn]
-
+  (opt) =
+(
+case+ opt of
+| Some x0 => x0
+| None () => $raise NotSomeExn()
+) (* option_unsome_exn *)
+//
 #atscode_separator()
 
 implement
@@ -66,33 +93,47 @@ option_equal
 case+ opt1 of
 | None () =>
   (
-    case+ opt1 of None () => true | Some _ => false
-  )
+    case+ opt1 of
+    | None() => true | Some _ => false
+  ) (* end of [None] *)
 | Some x1 =>
   (
-    case+ opt2 of None () => false | Some x2 => option_equal$eqfn(x1, x2)
-  )
+    case+ opt2 of
+    | None() => false
+    | Some(x2) => option_equal$eqfn(x1, x2)
+  ) (* end of [Some] *)
 //
 ) (* end of [option_equal] *)
 
 #atscode_separator()
-
-implement{a}
+//
+implement
+{a}(*tmp*)
+print_option(opt) =
+fprint_option<a>(stdout_ref, opt)
+implement
+{a}(*tmp*)
+prerr_option(opt) =
+fprint_option<a>(stderr_ref, opt)
+//
+implement
+{a}(*tmp*)
 fprint_option
-  (out, opt) = let
-in
+  (out, opt) =
+(
 //
 case+ opt of
-| Some (x) => {
-    val (
-    ) = fprint_string (out, "Some(")
+| Some x => {
+    val () =
+      fprint_string(out, "Some(")
+    // end of [val]
     val () = fprint_val<a> (out, x)
     val () = fprint_string (out, ")")
   } (* end of [Some] *)
-| None () => fprint_string (out, "None()")
+| None _ => fprint_string(out, "None()")
 //
-end // end of [fprint_option]
-
+) (* end of [fprint_option] *)
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

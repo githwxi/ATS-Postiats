@@ -57,7 +57,9 @@ cleanall:: ; $(RMF) quicksort_list_vt
 
 ######
 #
-PATS2XHTML=$(PATSHOMEQ)/bin/pats2xhtml
+PATS2XHTML=\
+$(PATSHOMEQ)/bin/pats2xhtml
+#
 %_sats.html: %.sats ; $(PATS2XHTML) -o $@ -s $<
 %_dats.html: %.dats ; $(PATS2XHTML) -o $@ -d $<
 #
@@ -69,15 +71,31 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
-main.exe: \
-  main_atxt.dats ; \
-  $(ATSCC) \
-  -IATS $(PATSHOME) -IATS $(ATSHOME) \
-  -I$(PATSHOME)/src -D_ATS_GCATS -o $@ $< \
-  -L$(PATSHOME)/libatsynmark -latsynmark -latsdoc
+INPATH :=
+INPATH += -I$(PATSHOME)/src
+INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
 
-main_atxt.dats: \
-  main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+LDPATH :=
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
+#LDPATH += -L$(PATSHOME)/utils/libatsopt
+#LDPATH += -L$(PATSHOME)/utils/libatsynmark
+
+LIBRARY :=
+LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp
+
+######
+#
+main.exe: \
+main_atxt.dats ; \
+$(ATSCC) \
+  -D_ATS_GCATS \
+  $(INPATH) -o $@ $< $(LDPATH) $(LIBRARY)
+#
+main_atxt.dats: main.atxt; \
+$(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+#
+######
+
 main.html: main.exe ; ./main.exe > $@
 
 ######

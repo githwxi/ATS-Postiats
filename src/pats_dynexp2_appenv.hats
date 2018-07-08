@@ -78,6 +78,16 @@ d2pitmlst_app : synent_app (d2pitmlst)
 //
 (* ****** ****** *)
 //
+extern
+fun{}
+d2atdecs_app : synent_app (s2cstlst)
+//
+extern
+fun{}
+d2cstdecs_app : synent_app (d2cstlst)
+//
+(* ****** ****** *)
+//
 implement
 {}(*tmp*)
 d2cstlst_app
@@ -145,7 +155,7 @@ implement
 d2pitm_app
   (d2pi, env) = let
 //
-val+D2PITM(pval, d2i) = d2pi in d2pitm_app (d2pi, env)
+val+D2PITM(pval, d2i) = d2pi in d2itm_app (d2i, env)
 //
 end // end of [d2pitm_app]
 
@@ -156,6 +166,91 @@ implement
 d2pitmlst_app
   (xs, env) = synentlst_app (xs, env, d2pitm_app)
 //
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+d2atdecs_app
+  (s2cs, env) = let
+//
+fun
+auxlst_dcon
+(
+  d2cs: d2conlst, env: !appenv
+) : void = 
+(
+case+ d2cs of
+| list_nil () => ()
+| list_cons
+    (d2c, d2cs) => let
+    val () = d2con_app (d2c, env)
+    val s2e = d2con_get_type (d2c)
+    val () = s2exp_app (s2e, env)
+  in
+    auxlst_dcon (d2cs, env)
+  end // end of [list_cons]
+) (* end of [auxlst_dcon] *)
+//
+fun
+auxlst_scst
+(
+  s2cs: s2cstlst, env: !appenv
+) : void = 
+(
+case+ s2cs of
+| list_nil () => ()
+| list_cons
+    (s2c, s2cs) => let
+    val opt = s2cst_get_dconlst(s2c)
+    val ((*void*)) =
+    (
+      case+ opt of
+      | None () => ()
+      | Some (d2cs) => auxlst_dcon (d2cs, env)
+    ) (* end of [val] *)
+  in
+    auxlst_scst (s2cs, env)
+  end // end of [list_cons]
+) (* end of [auxlst_scst] *)
+//
+val () = s2cstlst_app (s2cs, env)
+//
+in
+  auxlst_scst (s2cs, env)
+end // end of [d2atdecs_app]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+d2cstdecs_app
+  (d2cs, env) = let
+//
+(*
+fun
+auxlst
+(
+  d2cs: d2cstlst, env: !appenv
+) : void = (
+//
+case+ d2cs of
+| list_nil
+    ((*void*)) => ()
+| list_cons
+    (d2c, d2cs) => let
+    val s2e = d2cst_get_type(d2c)
+  in
+    s2exp_app(s2e, env); auxlst(d2cs, env)
+  end (* end of [list_cons] *)
+) (* end of [auxlst] *)
+val () = auxlst(d2cs, env)
+*)
+val () = d2cstlst_app(d2cs, env)
+//
+in
+  // nothing
+end // end of [d2cstdecs_app]
+
 (* ****** ****** *)
 
 extern
@@ -230,6 +325,15 @@ extern
 fun{}
 d2exparglst_app : synent_app (d2exparglst)
 
+(* ****** ****** *)
+//
+extern
+fun{}
+i2fcl_app : synent_app (i2fcl)
+extern
+fun{}
+i2fclist_app : synent_app (i2fclist)
+//
 (* ****** ****** *)
 //
 extern
@@ -498,6 +602,8 @@ d2e0.d2exp_node of
 | D2Eempty () => ()
 //
 | D2Ecstsp _ => ()
+| D2Etyrep (s2e) => s2exp_app (s2e, env)
+| D2Eliteral _ => ()
 //
 | D2Eextval (s2e, name) => s2exp_app (s2e, env)
 //
@@ -560,8 +666,12 @@ d2e0.d2exp_node of
 | D2Esifhead
     (invres, _test, _then, _else) =>
   (
-    s2exp_app (_test, env); d2exp_app (_then, env); d2exp_app (_else, env);
+    s2exp_app (_test, env);
+    d2exp_app (_then, env); d2exp_app (_else, env);
   ) (* end of [D2Esifhead] *)
+//
+| D2Eifcasehd
+    (knd, invres, ifcls) => i2fclist_app (ifcls, env)
 //
 | D2Ecasehead
     (knd, invres, d2es, c2ls) =>
@@ -573,6 +683,7 @@ d2e0.d2exp_node of
     val () = s2exp_app (s2e, env) in sc2laulst_app (sc2ls, env)
   end // end of [D2Escasehead]
 //
+| D2Esing (d2e) => d2exp_app (d2e, env)
 | D2Elist (npf, d2es) => d2explst_app (d2es, env)
 //
 | D2Elst (lin, opt, d2es) =>
@@ -591,10 +702,6 @@ d2e0.d2exp_node of
 | D2Eptrof (d2lval) => d2exp_app (d2lval, env)
 | D2Eviewat (d2lval) => d2exp_app (d2lval, env)
 //
-| D2Emac (d2mac) => ()
-| D2Emacsyn (knd, d2e) => d2exp_app (d2e, env)
-| D2Emacfun (name, d2es) => d2explst_app (d2es, env)
-//
 | D2Eann_type (d2e, s2e_ann) =>
   (
     d2exp_app (d2e, env); s2exp_app (s2e_ann, env)
@@ -602,7 +709,10 @@ d2e0.d2exp_node of
 | D2Eann_seff (d2e, s2fe) => d2exp_app (d2e, env)
 | D2Eann_funclo (d2e, funclo) => d2exp_app (d2e, env)
 //
-| D2Ederef (d2e) => d2exp_app (d2e, env)
+| D2Ederef (d2s, d2e) =>
+  (
+    d2sym_app(d2s, env); d2exp_app (d2e, env)
+  )
 | D2Eassgn (d2e_l, d2e_r) =>
   (
     d2exp_app (d2e_l, env); d2exp_app (d2e_r, env)
@@ -631,17 +741,19 @@ d2e0.d2exp_node of
     d2expopt_app (asz, env); d2explst_app (d2es_ini, env)
   ) (* end of [D2Earrinit] *)
 //
-| D2Eraise (d2e) => d2exp_app (d2e, env)
+| D2Eraise(d2e) => d2exp_app(d2e, env)
 //
-| D2Eeffmask (s2fe, d2e) => d2exp_app (d2e, env)
+| D2Eeffmask(s2fe, d2e) => d2exp_app(d2e, env)
 //
-| D2Eshowtype (d2e) => d2exp_app (d2e, env)
+| D2Evararg(d2es) => d2explst_app(d2es, env)
 //
-| D2Evcopyenv (knd, d2e) => d2exp_app (d2e, env)
+| D2Evcopyenv(knd, d2e) => d2exp_app(d2e, env)
 //
-| D2Etempenver (d2vs) => d2varlst_app (d2vs, env)
+| D2Eshowtype(d2e) => d2exp_app(d2e, env)
 //
-| D2Eexist (s2a, d2e) =>
+| D2Etempenver(d2vs) => d2varlst_app(d2vs, env)
+//
+| D2Eexist(s2a, d2e) =>
   (
     s2exparg_app (s2a, env); d2exp_app (d2e, env)
   ) (* end of [D2Eexist] *)
@@ -707,6 +819,13 @@ d2e0.d2exp_node of
   (
     d2exp_app (d2e, env); c2laulst_app (c2ls, env)
   )
+//
+| D2Esolverify(s2e) => ()
+| D2Esolassert(d2e) => d2exp_app (d2e, env)
+//
+| D2Emac (d2mac) => ()
+| D2Emacsyn (knd, d2e) => d2exp_app (d2e, env)
+| D2Emacfun (name, d2es) => d2explst_app (d2es, env)
 //
 | D2Eerrexp ((*void*)) => ()
 //
@@ -804,6 +923,22 @@ d2exparglst_app
 //
 implement
 {}(*tmp*)
+i2fcl_app
+  (ifcl, env) =
+{
+  val () = d2exp_app (ifcl.i2fcl_test, env)
+  val () = d2exp_app (ifcl.i2fcl_body, env)
+} (* end of [i2fcl_app] *)
+//
+implement
+{}(*tmp*)
+i2fclist_app
+  (xs, env) = synentlst_app (xs, env, i2fcl_app)
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
 gm2at_app
   (gua, env) =
 {
@@ -876,14 +1011,16 @@ d2c0.d2ecl_node of
 | D2Csaspdec of s2aspdec (* for static assumption *)
 *)
 //
-| D2Cextype (name, s2e) => s2exp_app (s2e, env)
-| D2Cextvar (name, d2e) => d2exp_app (d2e, env)
-| D2Cextcode (knd, pos, code) => ((*void*))
+| D2Cextype(name, s2e) => s2exp_app(s2e, env)
+| D2Cextvar(name, d2e) => d2exp_app(d2e, env)
+| D2Cextcode(knd, pos, code) => ((*void*))
 //
-| D2Cdatdecs (int, s2cs) => s2cstlst_app (s2cs, env)
-| D2Cexndecs ( d2cs_exn ) => d2conlst_app (d2cs_exn, env)
+| D2Cdatdecs(int, s2cs) => d2atdecs_app(s2cs, env)
+| D2Cexndecs( d2cs_exn ) => d2conlst_app(d2cs_exn, env)
 //
-| D2Cdcstdecs (staext, knd, d2cs) => d2cstlst_app (d2cs, env)
+| D2Cdcstdecs
+    (staext, knd, d2cs) => d2cstdecs_app(d2cs, env)
+  // end of [D2Cdcstdecs]
 //
 | D2Cimpdec (knd, impdec) => i2mpdec_app (impdec, env)
 //

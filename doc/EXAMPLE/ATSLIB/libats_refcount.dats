@@ -24,7 +24,9 @@ val () =
 //
 typedef T = int
 //
-val rfc = refcnt_make<T> (1000)
+val rfc =
+  refcnt_make_elt<T> (1000)
+//
 val cnt = refcnt_get_count (rfc)
 val rfc2 = refcnt_incref (rfc)
 val-~None_vt() = refcnt_decref_opt (rfc)

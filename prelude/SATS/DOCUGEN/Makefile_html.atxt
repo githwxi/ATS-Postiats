@@ -26,8 +26,8 @@ HTML/%s.html: \
   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
 %s_atxt.exe: htmlgendecl_atxt.dats \
   %s_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ; \
-  $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $< \
-    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOMEQ)/libatsynmark/libatsynmark.a -latsdoc
+  $(ATSCC) $(INCLUDE) $(INCLATS) -o $@ $< \
+    $(DECLATEXT) $(HTMLGENDECL) $(LDPATH) -latsynmark -latsopt -latsdoc -lats -lgmp
 upload_%s:: ; \
   scp HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/prelude/SATS/DOCUGEN/HTML
 clean:: ; $(RMF) %s_atxt.exe
@@ -38,7 +38,7 @@ cleanall:: ; $(RMF) HTML/%s.html
 in
   atext_strptr (ent)
 end // end of [make_entry]
-
+//
 %}\
 #
 #
@@ -63,6 +63,11 @@ PATSHOMEQ="$(PATSHOME)"
 ######
 
 SHAREDOCU=$(PATSHOMEQ)/share/DOCUGEN
+
+######
+
+LDPATH :=
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
 
 ######
 

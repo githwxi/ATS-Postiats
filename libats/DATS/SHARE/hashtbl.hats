@@ -41,14 +41,14 @@
 (*
 implement
 {key}(*tmp*)
-hash_key = ghash_val<key>
+hash_key = ghash_val_val<key>
 *)
 
 (* ****** ****** *)
 
 implement
 {key}(*tmp*)
-equal_key_key = gequal_val<key>
+equal_key_key = gequal_val_val<key>
 
 (* ****** ****** *)
 //
@@ -56,7 +56,12 @@ equal_key_key = gequal_val<key>
 //
 implement
 hash_key<string> (str) =
+  string_hash_multiplier (31UL, 618033989UL, str)
+(*
+implement
+hash_key<string> (str) =
   string_hash_multiplier (31UL, 61803398875UL, str)
+*)
 //
 (* ****** ****** *)
 
@@ -70,12 +75,19 @@ implement
 hashtbl_search
   (t, k0, res) = let
 //
-val p = hashtbl_search_ref (t, k0)
+val p =
+  hashtbl_search_ref<key,itm>(t, k0)
 //
 in
 //
-if cptr2ptr(p) > 0 then let
-  val (pf, fpf | p) = $UN.cptr_vtake (p)
+if
+(cptr2ptr(p) > 0)
+then let
+//
+  val
+  (pf, fpf | p) =
+  $UN.cptr_vtake(p)
+//
   val () = res := !p
   prval () = fpf (pf)
   prval () = opt_some {itm} (res)
@@ -95,18 +107,24 @@ implement
 {key,itm}
 hashtbl_search_opt
   (tbl, k0) = let
-  var res: itm?
-  val ans = hashtbl_search (tbl, k0, res)
+//
+var res: itm?
+val ans =
+  hashtbl_search<key,itm>
+    (tbl, k0, res)
+//
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [hashtbl_search_opt]
@@ -120,18 +138,21 @@ hashtbl_insert_opt
 //
 var res: itm?
 val ans =
-  hashtbl_insert (tbl, k0, x0, res)
+  hashtbl_insert<key,itm>
+    (tbl, k0, x0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
-  Some_vt {itm} (res)
+  Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
-  None_vt {itm} ((*void*))
+  None_vt{itm}((*void*))
 end // end of [if]
 //
 end // end of [hashtbl_insert_opt]
@@ -144,16 +165,20 @@ hashtbl_takeout_opt
   (tbl, k0) = let
 //
 var res: itm?
-val ans = hashtbl_takeout (tbl, k0, res)
+val ans =
+  hashtbl_takeout<key,itm>
+    (tbl, k0, res)
 //
 in
 //
-if ans then let
-  prval () = opt_unsome {itm} (res)
+if
+ans
+then let
+  prval () = opt_unsome{itm}(res)
 in
   Some_vt{itm}(res)
 end else let
-  prval () = opt_unnone {itm} (res)
+  prval () = opt_unnone{itm}(res)
 in
   None_vt{itm}((*void*))
 end // end of [if]
@@ -169,12 +194,31 @@ hashtbl_remove
 //
 var res: itm
 val takeout =
-  hashtbl_takeout<key,itm> (tbl, k0, res)
+  hashtbl_takeout<key,itm>(tbl, k0, res)
 prval () = opt_clear (res)
 //
 in
   takeout(*removed*)
 end // end of [hashtbl_remove]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_exchange
+  (tbl, k0, x0) = let
+//
+val p_x1 =
+  hashtbl_search_ref<key,itm>(tbl, k0)
+//
+val p_x1 = cptr2ptr(p_x1)
+//
+in
+//
+if isneqz(p_x1)
+  then ($UN.ptr1_exch<itm>(p_x1, x0); true) else false
+//
+end // end of [hashtbl_exchange]
 
 (* ****** ****** *)
 
@@ -186,10 +230,13 @@ fprint_hashtbl
 implement
 hashtbl_foreach$fwork<key,itm><int>
   (k, x, env) = {
-  val () = if env > 0 then fprint_hashtbl$sep (out)
+  val () =
+  if env > 0
+    then fprint_hashtbl$sep<>(out)
+  // end of [if]
   val () = env := env + 1
   val () = fprint_val<key> (out, k)
-  val () = fprint_hashtbl$mapto (out)
+  val () = fprint_hashtbl$mapto<>(out)
   val () = fprint_val<itm> (out, x)
 } (* end of [hashtbl_foreach$fwork] *)
 //
@@ -220,6 +267,30 @@ end // end of [hashtbl_foreach]
 
 implement
 {key,itm}
+hashtbl_foreach_cloref
+  (tbl, fwork) = let
+//
+implement
+{key,itm}{env}
+hashtbl_foreach$fwork
+  (k, x, env) = let
+//
+typedef
+fwork_t =
+  (key, &itm >> _) -<cloref1> void
+//
+in
+  $UN.cast{fwork_t}(fwork)(k, x)
+end // end of [hashtbl_foreach$fwork]
+//
+in
+  hashtbl_foreach<key,itm>(tbl)
+end // end of [hashtbl_foreach_cloref]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 hashtbl_listize
   (tbl) = let
 //
@@ -232,6 +303,13 @@ in
   hashtbl_flistize<key,itm><ki2> (tbl)
 end // end of [hashtbl_listize]
 
+(* ****** ****** *)
+//
+implement
+{key,itm}
+streamize_hashtbl(tbl) =
+  streamize_list_vt_elt<@(key,itm)>(hashtbl_listize(tbl))
+//
 (* ****** ****** *)
 
 local

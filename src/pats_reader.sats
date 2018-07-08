@@ -51,37 +51,51 @@ $extype "pats_reader_struct"
 viewtypedef reader = reader_vt0ype
 
 (* ****** ****** *)
-
-fun reader_initialize_filp
-  {m:file_mode} {l:addr} (
-  pfmod: file_mode_lte (m, r)
-, pffil: FILE m @ l
-| r: &reader? >> reader, p: ptr l
-) : void // end of [reader_initialize_filp]
-
+//
+sortdef
+fmode = file_mode
+//
+fun
+reader_initize_filp
+  {m:fmode}{l0:addr}
+(
+  pfmod:
+  file_mode_lte(m,r)
+, pffil: FILE(m) @ l0
+| reader: &reader? >> reader, p0: ptr l0
+) : void // end of [reader_initize_filp]
+//
 (* ****** ****** *)
 
-fun reader_initialize_getc (
+fun
+reader_initize_getc
+(
   r: &reader? >> reader, getc: () -<cloptr1> int
-) : void // end of [reader_initialize_getc]
+) : void // end of [reader_initize_getc]
 
 (* ****** ****** *)
 
-fun reader_initialize_string (
+fun
+reader_initize_string
+(
   r: &reader? >> reader, inp: string
-) : void // end of [reader_initialize_string]
+) : void // end of [reader_initize_string]
 
 (* ****** ****** *)
 
-fun reader_initialize_charlst_vt (
+fun
+reader_initize_charlst_vt
+(
   r: &reader? >> reader, inp: List_vt (char)
-) : void // end of [reader_initialize_charlst_vt]
+) : void // end of [reader_initize_charlst_vt]
 
 (* ****** ****** *)
 
-fun reader_uninitialize (
+fun
+reader_uninitize
+(
   r: &reader >> reader?
-) : void // end of [reader_uninitialize]
+) : void // end of [reader_uninitize]
 
 (* ****** ****** *)
 

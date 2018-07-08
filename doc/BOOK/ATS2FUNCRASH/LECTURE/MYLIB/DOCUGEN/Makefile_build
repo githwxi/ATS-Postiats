@@ -1,0 +1,64 @@
+######
+#
+# A simple Makefile
+#
+######
+
+PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
+
+######
+#
+LDPATH :=
+LDPATH := -L$(ATSHOME)/ccomp/lib
+LDPATH += -L$(ATSHOME)/ccomp/lib64
+# LDPATH += -L$(PATSHOME)/utils/libatsopt
+# LDPATH += -L$(PATSHOME)/utils/libatsynmark
+#
+LIBRARY = -lats -latslib -lgmp -lgc
+#
+ATSRUNTIME=$(ATSHOME)/ccomp/runtime
+#
+######
+
+MYTEXTING=\
+mylib_atexting
+
+######
+
+all:: \
+$(MYTEXTING)
+
+######
+#
+$(MYTEXTING): \
+$(MYTEXTING).dats ; \
+$(PATSCC) -O2 -o $@ \
+-D_GNU_SOURCE -DATS_MEMALLOC_GCBDW \
+$(MYTEXTING).dats $(LDPATH) $(LIBRARY)
+#
+######
+#
+regress:: \
+$(MYTEXTING) ; \
+./$(MYTEXTING) < ./mylib_dats.atxt > mylib_atxt.dats
+#
+regress:: \
+$(MYTEXTING) ; \
+./$(MYTEXTING) < ./mylib_html.atxt > mylib_atxt.html
+#
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_dats.c
+
+######
+
+cleanall:: clean
+cleanall:: ; $(RMF) $(MYTEXTING)
+
+###### end of [Makefile_build] ######

@@ -9,7 +9,7 @@
 //
 (* ****** ****** *)
 
-staload "acker.sats"
+staload "./acker.sats"
 
 (* ****** ****** *)
 

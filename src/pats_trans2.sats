@@ -32,11 +32,13 @@
 // Start Time: May, 2011
 //
 (* ****** ****** *)
-
+//
 staload
 SYN = "./pats_syntax.sats"
+//
 typedef s0rtq = $SYN.s0rtq
-
+typedef sqi0de = $SYN.sqi0de
+//
 (* ****** ****** *)
 
 staload "./pats_staexp1.sats"
@@ -61,21 +63,29 @@ datatype trans2err =
   | T2E_s1exp_trdn of (s1exp, s2rt)
   | T2E_s1exp_trdn_impred of (s1exp)
   | T2E_s2exp_trdn of (location, s2exp, s2rt)
+//
+  | T2E_S1Ed2ctype_tr of S1Ed2ctype
+//
   | T2E_s1arg_trdn of (s1arg, s2rt)
   | T2E_s1marg_trdn of (s1marg, s2rtlst)
-  | T2E_sp1at_trdn of (sp1at, s2rt)
 //
+  | T2E_sp1at_trdn of (sp1at, s2rt)
   | T2E_sc2laulst_coverck_sort of (location, s2rt)
   | T2E_sc2laulst_coverck_sort of (location, s2rt)
   | T2E_sc2laulst_coverck_repeat of (location, sc2lau)
   | T2E_sc2laulst_coverck_missing of (location, s2cst)
 //
   | T2E_q1marg_tr_dec of (q1marg)
+//
   | T2E_s1rtext_tr of (s1rtext)
   | T2E_s1expdef_tr of (s1expdef)
+//
   | T2E_s1aspdec_tr of (s1aspdec)
   | T2E_s1aspdec_tr_arg of (s1aspdec, s1marg)
   | T2E_s1aspdec_tr_res of (s1aspdec, s2rt, s2rt)
+//
+  | T2E_re1assume_tr of (sqi0de(*s2cst*))
+//
   | T2E_d1atcon_tr of (d1atcon)
   | T2E_d1atdec_tr of (d1atdec)
 //
@@ -87,6 +97,8 @@ datatype trans2err =
   | T2E_d1exp_tr_ann of (d1exp, s2exp)
   | T2E_i1nvarg_tr of (i1nvarg)
   | T2E_c1lau_tr of (c1lau)
+//
+  | T2E_f1undec_tr of (f1undec)
 //
   | T2E_d1cstdec_tr of (d1cstdec)
 //
@@ -181,14 +193,21 @@ fun s1explst_trdn_err
 
 (* ****** ****** *)
 
-fun s1exp_trup_arg (s1e: s1exp, wths1es: &wths1explst): s2exp
-fun s1exp_trdn_arg_impred (s1e: s1exp, wths1es: &wths1explst): s2exp
-fun s1exp_trdn_res_impred (s1e: s1exp, wths1es: wths1explst): s2exp
+fun s1exp_trup_arg
+  (s1e: s1exp, wths1es: &wths1explst): s2exp
+fun s1exp_trdn_arg_impred
+  (s1e: s1exp, wths1es: &wths1explst): s2exp
+fun s1exp_trdn_res_impred
+  (s1e: s1exp, wths1es: (wths1explst)): s2exp
 
 (* ****** ****** *)
 
 fun witht1ype_tr (wty: witht1ype): s2expopt
 
+(* ****** ****** *)
+//
+fun S1Ed2ctype_tr (d2ctp: S1Ed2ctype): s2exp // HX: $d2ctype(...)
+//
 (* ****** ****** *)
 //
 // HX: arg/res type translation

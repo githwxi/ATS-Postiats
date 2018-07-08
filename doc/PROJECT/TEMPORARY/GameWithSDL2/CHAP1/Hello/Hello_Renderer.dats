@@ -26,7 +26,7 @@ objptr(l:addr) = SDL_Renderer_ptr(l)
 //
 in (* in of [local] *)
 
-#include "{$LIBATSHWXI}/globals/HATS/gobjptr.hats"
+#include "{$HX_GLOBALS}/HATS/gobjptr.hats"
 
 end // end of [local]
 

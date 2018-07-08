@@ -250,24 +250,34 @@ in
 //
 case+ node of
 //
-| PE_AND () => KN (x, "and")
-| PE_END () => KN (x, "end")
-| PE_AS () => KN (x, "as")
-| PE_OF () => KN (x, "of")
-| PE_IN () => KN (x, "in")
-| PE_IF () => KN (x, "if")
-| PE_SIF () => KN (x, "sif")
-| PE_CASE () => KN (x, "case")
-| PE_SCASE () => KN (x, "scase")
+| PE_AS() => KN (x, "as")
+//
+| PE_AND() => KN (x, "and")
+//
+| PE_END() => KN (x, "end")
+//
+| PE_OF() => KN (x, "of")
+| PE_IN() => KN (x, "in")
+//
+| PE_IF() => KN (x, "if")
+| PE_SIF() => KN (x, "sif")
+//
+| PE_CASE() => KN (x, "case")
+| PE_SCASE() => KN (x, "scase")
+//
+| PE_IFCASE() => KN (x, "ifcase")
+//
 | PE_THEN () => KN (x, "then")
 | PE_ELSE () => KN (x, "else")
+//
 | PE_REC () => KN (x, "rec")
 | PE_WHEN () => KN (x, "when")
 | PE_WITH () => KN (x, "with")
 //
+| PE_TRY () => KN (x, "try")
+//
 | PE_FOR () => KN (x, "for")
 | PE_WHILE () => KN (x, "while")
-| PE_TRY () => KN (x, "try")
 //
 | PE_BAR () => KN (x, "|")
 | PE_COLON () => KN (x, ":")
@@ -351,9 +361,13 @@ case+ node of
 | PE_atmp0at () => SN (x, "atmp0at")
 | PE_labp0at () => SN (x, "labp0at")
 | PE_p0at_as () => SN (x, "p0at_as")
+//
+| PE_i0fcl () => SN (x, "i0fcl")
+//
 | PE_gm0at () => SN (x, "gm0at")
 | PE_guap0at () => SN (x, "guap0at")
 | PE_c0lau () => SN (x, "c0lau")
+| PE_sc0lau () => SN (x, "sc0lau")
 //
 | PE_di0de () => SN (x, "di0de")
 | PE_d0ynq () => SN (x, "d0ynq")

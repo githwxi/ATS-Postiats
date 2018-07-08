@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2014 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -26,57 +26,105 @@
 *)
 
 (* ****** ****** *)
-
-// author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-
+//
+// Author: Hongwei Xi
+// Authoremail: hwxiATcsDOTbuDOTedu
+//
+// This one was
+// there at the very beginning of ATS
+//
 (* ****** ****** *)
-
-// some fixity declarations
-
+//
+(*
+HX: fixity declarations
+*)
 #include "prelude/params.hats"
+//
+(* ****** ****** *)
 
 #if VERBOSE_FIXITY #then
 #print "Loading [fixity.ats] starts!\n"
 #endif // end of [VERBOSE_FIXITY]
 
 (* ****** ****** *)
+//
+(*
+prefix 00 ! (* static *)
+*)
+//
+prefix 99 ! (* dynamic *)
+//
+(* ****** ****** *)
 
 (*
-prefix  00 ! (* static *)
+prefix 81 ID (* identity *)
 *)
 
-prefix  99 ! (* dynamic *)
+(* ****** ****** *)
 
 (*
-postfix 80  .lab // dynamic
+postfix 80 .lab // dynamic
 postfix 80 ->lab // dynamic
 *)
 
-(*
-prefix  79  &    // dynamic
-*)
+(* ****** ****** *)
 
 (*
-postfix 69 ?
+prefix 79 & // dynamic
+*)
+
+(* ****** ****** *)
+
+(*
 infixl 70 app
 *)
 
-prefix  61 ~
+(* ****** ****** *)
 
+(*
+postfix 69 ?
+*)
+
+(* ****** ****** *)
+//
+// HX-2015-08-04:
+// mostly following the Fortran convention
+//
+(* ****** ****** *)
+
+infixr 61 ** (*exp*)
+
+(* ****** ****** *)
+//
+// multiplicative
+//
 infixl 60 * / % mod
+//
 (*
 infixl 60 nmul ndiv nmod
 *)
+//
+(* ****** ****** *)
 
-infixl 50 + -
+prefix 51 ~ (*negative*)
 
+(* ****** ****** *)
+//
+infixl 50 + - (*additive*)
+//
 (*
-infixr (+) ++ (*concat*)
+infixr (+) ++ // concatenative
 *)
+//
+(* ****** ****** *)
 
-infixl 41 asl asr lsl lsr
+infixl 41 asl asr
+infixl 41 lsl lsr
 
+(* ****** ****** *)
+//
 infix 40 < <= > >=
+//
 (*
 //
 // HX-2012-07: removed
@@ -86,10 +134,17 @@ infixl ( <= ) ilte flte plte ulte
 infixl ( > ) igt fgt pgt ugt
 infixl ( >= ) igte fgte pgte ugte
 *)
+//
+(* ****** ****** *)
 
 infixr 40 :: @
 
+(* ****** ****** *)
+
 infix 30 = == != <>
+
+(* ****** ****** *)
+
 (*
 //
 // HX-2012-07: removed
@@ -98,14 +153,24 @@ infix ( = ) ieq feq peq ueq
 infix ( <> ) ineq fneq pneq uneq
 *)
 
+(* ****** ****** *)
+
 infixl 21 &&
 infixl ( && ) andalso land
+
+(* ****** ****** *)
+
 infixl 20 ||
-infixl ( || ) orelse lor lxor
+infixl ( || ) xor orelse lor lxor
+
+(* ****** ****** *)
 
 infixr 10 ->
 
-infix 0 := :=: // HX: assgn and xchng
+(* ****** ****** *)
+
+infix 0 := // HX: assign
+infix 0 :=: // HX: exchange
 
 (* ****** ****** *)
 
@@ -122,6 +187,10 @@ infixr 0 =++ --= // setinc and decset
 
 infix 0 :+= :-= :*= :/= // x:=x+a, x:=x-a, ...
 infix 0 :=+ :=- :=* :=/ // x:=a+x, x:=a-x, ...
+
+(* ****** ****** *)
+
+prefix 0 ignoret // ignoring a funcall return
 
 (* ****** ****** *)
 

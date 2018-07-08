@@ -1,5 +1,6 @@
 (*
-** for testing [prelude/char]
+** For testing
+** [prelude/char]
 *)
 
 (* ****** ****** *)
@@ -145,6 +146,15 @@ val () = assertloc ('5' - '0' = 5)
 val () = assertloc ('9' - '0' = 9)
 //
 } (* end of [val] *)
+
+(* ****** ****** *)
+
+overload stringify with char2string
+
+(* ****** ****** *)
+
+val () = assertloc("a" = stringify('a'))
+val () = assertloc("\n" = stringify('\n'))
 
 (* ****** ****** *)
 

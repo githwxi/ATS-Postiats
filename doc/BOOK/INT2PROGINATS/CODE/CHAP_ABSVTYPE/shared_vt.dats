@@ -38,18 +38,19 @@
 %} // end of [%{^]
 
 (* ****** ****** *)
-
-#include
-"share/atspre_define.hats"
+//
 #include
 "share/atspre_staload.hats"
-
-staload UN = $UNSAFE
-
+//
 (* ****** ****** *)
-
-staload "libc/SATS/unistd.sats"
-
+//
+staload UN = $UNSAFE
+//
+(* ****** ****** *)
+//
+staload
+"libats/libc/SATS/unistd.sats"
+//
 (* ****** ****** *)
 //
 staload

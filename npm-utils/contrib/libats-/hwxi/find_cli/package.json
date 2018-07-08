@@ -1,0 +1,19 @@
+{
+ "name": "atscntrb-hx-find-cli",
+ "version": "1.0.0",
+ "description": "This package is for supporting recursive directory-traversal in parallel.",
+ "main": "N/A",
+ "scripts": {},
+ "repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/libats-/hwxi/find_cli"
+ },
+ "keywords": [
+  "ATS",
+  "dirwalk",
+  "find"
+ ],
+ "dependencies": {},
+ "author": "Hongwei Xi <gmhwxi@gmail.com>",
+ "license": "MIT",
+ "note-for-me": "The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/find_cli/."
+}

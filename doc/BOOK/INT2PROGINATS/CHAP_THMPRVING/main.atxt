@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/int2proginats.dats"
+#include "./../MYTEXT/int2proginats.dats"
 //
 %}\
 #comment("\n\
@@ -17,7 +17,7 @@ id="theorem-proving_in_ats_lf">
 
 #para("\
 
-Within the ATS programming langauge system, there is a component named
+Within the ATS programming language system, there is a component named
 ATS/LF for supporting (interactive) therorem-proving. In ATS/LF,
 theorem-proving is done by constructing proofs as total functional
 programs. It will soon become clear that this style of theorem-proving can
@@ -39,7 +39,7 @@ code for testing.\
 <!-- ****** ****** -->
 
 <sect1
-id="encoding_relations_as_dataprops">
+ id="encoding_relations_as_dataprops">
 #title("Encoding Relations as Dataprops")
 
 #para("\
@@ -51,12 +51,13 @@ prop-type or just a prop. A dataprop can be declared in a manner that is
 mostly similar to the declaration of a datatype. For instance, a prop
 construct #stacode("FIB") is introduced in the following dataprop declaration:
 
-#atscode("\
-dataprop FIB (int, int) =
-  | FIB0 (0, 0) of () // [of ()] can be dropped
-  | FIB1 (1, 1) of () // [of ()] can be dropped
-  | {n:nat}{r0,r1:nat}
-    FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
+#sats2xhtml("\
+dataprop
+FIB(int, int) =
+  | FIB0(0, 0) of () // [of ()] can be dropped
+  | FIB1(1, 1) of () // [of ()] can be dropped
+  | {n:nat}{r0,r1:int}
+    FIB2(n+2, r0+r1) of (FIB(n, r0), FIB(n+1, r1))
 // end of [FIB]
 ")
 
@@ -70,13 +71,13 @@ assigned the following function types (or more accurately, prop-types):
 
 <listitem>
 #para("\
-#dyncode("FIB0"): #stacode("() -> FIB (0, 0)")
+#dyncode("FIB0"): #stacode("() -> FIB(0, 0)")
 ")
 </listitem>
 
 <listitem>
 #para("\
-#dyncode("FIB1"): #stacode("() -> FIB (1, 1)")
+#dyncode("FIB1"): #stacode("() -> FIB(1, 1)")
 ")
 </listitem>
 
@@ -109,7 +110,7 @@ fib(1) = 1, and
 
 <listitem>
 #para("\
-fib(n+2) = fib(n+1) + fib(n) for n >= 2.
+fib(n+2) = fib(n) + fib(n+1) for n >= 2.
 ")
 </listitem>
 
@@ -127,19 +128,20 @@ only if fib(n) equals r. For instance, the proof value
 As another example of dataprop, the following declaration introduces a prop
 constructor #stacode("MUL") together with three associated proof constructors:
 
-#atscode("\
-dataprop MUL (int, int, int) =
-  | {n:int} MULbas (0, n, 0) of ()
+#sats2xhtml("\
+dataprop
+MUL(int, int, int) =
+  | {n:int} MULbas(0, n, 0) of ()
   | {m:nat}{n:int}{p:int}
-    MULind (m+1, n, p+n) of MUL (m, n, p)
+    MULind(m+1, n, p+n) of MUL(m, n, p)
   | {m:pos}{n:int}{p:int}
-    MULneg (~m, n, ~p) of MUL (m, n, p)
+    MULneg(~(m), n, ~(p)) of MUL(m, n, p)
 // end of [MUL]
 ")
 
-Given three integers m, n and p, the prop #stacode("MUL(m, n, p)") encodes
-the relation m*n = p. As for #dyncode("MULbas"), #dyncode("MULind") and
-#dyncode("MULneg"), they correspond to the following three equations,
+Given three integers m, n and p, the prop #stacode("MUL(m, n, p)")
+encodes the relation m*n = p. As for #dyncode("MULbas"), #dyncode("MULind")
+and #dyncode("MULneg"), they correspond to the following three equations,
 respectively:
 
 <itemizedlist>
@@ -192,7 +194,7 @@ ATS/LF. For instance, the following prop states that integer multiplication
 is commutative:
 
 #atscode("\
-{m,n:int}{p:int} MUL (m, n, p) -<prf> MUL (n, m, p)
+{m,n:int}{p:int} MUL(m, n, p) -<prf> MUL(n, m, p)
 ")
 
 Constructing a proof for a theorem in ATS/LF means implementing a total
@@ -206,8 +208,8 @@ peculiar to those who have never tried it before.
 As a simple introductory example, let us first construct a proof
 function in ATS/LF that is given the following interface:
 
-#atscode("\
-prfun mut_istot {m,n:int} (): [p:int] MUL (m, n, p)
+#sats2xhtml("\
+prfun mul_istot {m,n:int} (): [p:int] MUL(m, n, p)
 ")
 
 The keyword #keycode("prfun") indicates that the interface is for a proof
@@ -215,9 +217,7 @@ function (in contrast to a non-proof function).  Note that
 #dyncode("mul_istot") is declared to be of the following type (or more
 accurately, prop):
 
-#atscode("\
-{m,n:int} () -<prf> [p:int] MUL (m, n, p)
-")
+#atscode("{m,n:int} () -<prf> [p:int] MUL(m, n, p)")
 
 which essentially states that integer multiplication is a total function:
 Given any two integers m and n, there exists an integer p such that m, n
@@ -225,15 +225,17 @@ and p are related according to the structurally inductively defined
 relation #stacode("MUL"). The following code gives an implementation of
 #dyncode("mul_istot"):
 
-#atscode("\
+#dats2xhtml("\
 primplement
-mul_istot {m,n} () = let
-  prfun istot
-    {m:nat;n:int} .<m>. (): [p:int] MUL (m, n, p) =
-    sif m > 0 then MULind (istot {m-1,n} ()) else MULbas ()
-  // end of [istot]
+mul_istot{m,n}() = let
+//
+prfun istot
+  {m:nat;n:int} .<m>. (): [p:int] MUL(m, n, p) =
+  sif m > 0 then MULind(istot{m-1,n}()) else MULbas()
+// end of [istot]
+//
 in
-  sif m >= 0 then istot {m,n} () else MULneg (istot {~m,n} ())
+  sif m >= 0 then istot{m,n}() else MULneg(istot{~m,n}())
 end // end of [mul_istot]  
 ")
 
@@ -262,31 +264,31 @@ to the rule encoded by #dyncode("MULneg").\
 As another example of theorem-proving in ATS/LF, a proof function of
 the name #dyncode("mul_isfun") is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 prfn mul_isfun
   {m,n:int}{p1,p2:int}
 (
-  pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)
+  pf1: MUL(m, n, p1), pf2: MUL(m, n, p2)
 ) : [p1==p2] void = let
   prfun isfun
     {m:nat;n:int}{p1,p2:int} .<m>.
   (
-    pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)
+    pf1: MUL(m, n, p1), pf2: MUL(m, n, p2)
   ) : [p1==p2] void =
     case+ pf1 of
-    | MULind (pf1prev) => let
-        prval MULind (pf2prev) = pf2 in isfun (pf1prev, pf2prev)
+    | MULind(pf1prev) => let
+        prval MULind(pf2prev) = pf2 in isfun (pf1prev, pf2prev)
       end // end of [MULind]
-    | MULbas () => let
-        prval MULbas () = pf2 in ()
+    | MULbas() => let
+        prval MULbas() = pf2 in ()
       end // end of [MULbas]
   // end of [isfun]
 in
   case+ pf1 of
-  | MULneg (pf1nat) => let
-      prval MULneg (pf2nat) = pf2 in isfun (pf1nat, pf2nat)
+  | MULneg(pf1nat) => let
+      prval MULneg(pf2nat) = pf2 in isfun (pf1nat, pf2nat)
     end // end of [MULneg]
-  | _ =>> isfun (pf1, pf2)
+  | _ (*non-MULneg*) =>> isfun (pf1, pf2)
 end // end of [mul_isfun]
 ")
 
@@ -327,61 +329,68 @@ corresponds to the base case in the inductive proof encoded by
 
 <!-- ****** ****** -->
 
-<sect1 id="example_proving_distributivity_of_multiplication">
-#title("Example: Proving Distributivity of Multiplication")
+<sect1
+ id="example_distributivity_of_multiplication">
+#title("Example: Distributivity of Multiplication")
 
 #para("\
 The distributivity of multiplication over addition means that the following
 equation holds
 
-#atscode("\
-m * (n1 + n2) = m * n1 + m * n2
-")
+#atscode("m * (n1 + n2) = m * n1 + m * n2")
 
-for m, n1 and n2 ranging over integers. Clearly, a direct encoding of the equation
+for m, n1 and n2 ranging over integers. A direct encoding of the equation
 is given by the following (proof) function interface:
 
-#atscode("\
-extern
+#sats2xhtml("\
+//
 prfun
 mul_distribute
-  {m:int}{n1,n2:int}{p1,p2:int}
-  (pf1: MUL (m, n1, p1), pf2: MUL (m, n2, p2)): MUL (m, n1+n2, p1+p2)
-// end of [mul_distribute]
+  {m,n1,n2:int}{p1,p2:int}
+  (MUL(m, n1, p1), MUL(m, n2, p2)): MUL(m, n1+n2, p1+p2)
+//
 ")
 
 Plainly speaking, the encoding states that the product of m and (n1+n2) is
 p1+p2 if the product of m and n1 is p1 and the product of m and n2 is p2.
 An implementation of #dyncode("mul_distribute") is given as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 mul_distribute
-  {m}{n1,n2}{p1,p2} (pf1, pf2) = let
-  prfun aux
-    {m:nat}
-    {n1,n2:int}
-    {p1,p2:int}
-    .<m>. (
-    pf1: MUL (m, n1, p1), pf2: MUL (m, n2, p2)
-  ) : MUL (m, n1+n2, p1+p2) =
-    case+ (pf1, pf2) of
-    | (MULbas (), MULbas ()) => MULbas ()
-    | (MULind pf1, MULind pf2) => MULind (aux (pf1, pf2))
-  // end of [aux]
+{m,n1,n2}{p1,p2}
+  (pf1, pf2) = let
+//
+prfun
+auxnat
+{m:nat}{p1,p2:int} .<m>.
+(
+  pf1: MUL(m, n1, p1), pf2: MUL(m, n2, p2)
+) : MUL(m, n1+n2, p1+p2) =
+(
+  case+ (pf1, pf2) of
+  | (MULbas(), MULbas()) => MULbas()
+  | (MULind pf1, MULind pf2) => MULind(auxnat (pf1, pf2))
+) (* end of [auxnat] *)
+//
 in
-  sif m >= 0 then
-    aux (pf1, pf2)
-  else let
-    prval MULneg (pf1) = pf1
-    prval MULneg (pf2) = pf2
-  in
-    MULneg (aux (pf1, pf2))
-  end
+//
+sif
+m >= 0
+then (
+  auxnat (pf1, pf2)
+) // end of [then]
+else let
+  prval MULneg(pf1) = pf1
+  prval MULneg(pf2) = pf2
+in
+  MULneg(auxnat (pf1, pf2))
+end // end of [else]
+//
 end // end of [mul_distribute]
 ")
 
-In essence, the inner function #dyncode("aux") encodes a straighforward
+The inner function #dyncode("auxnat") encodes a straighforward
 proof based on mathematical induction that establishes the following
 equation:
 
@@ -391,17 +400,101 @@ m * (n1 + n2) = m * n1 + m * n2
 
 for m ranging over natural numbers and n1 and n2 ranging over integers. The
 function #dyncode("mul_distribute") can then be implemented immediately
-based on #dyncode("aux").\
+based on #dyncode("auxnat").\
 
 ")
 
-</sect1><!--id="example_proving_distributivity_of_multiplication"-->
+</sect1><!--id="example_distributivity_of_multiplication"-->
 
 <!-- ****** ****** -->
 
 <sect1
-id="datasorts">
-#title("Datasorts")
+ id="example_commutativity_of_multiplication">
+#title("Example: Commutativity of Multiplication")
+
+#para("\
+The commutativity of multiplication means that the following equation
+holds
+
+#atscode("m * n = n * m")
+
+for m and n ranging over integers. A direct encoding of this equation
+is given by the following (proof) function interface:
+
+#sats2xhtml("\
+//
+prfun
+mul_commute{m,n:int}{p:int}(MUL(m, n, p)): MUL(n, m, p)
+//
+")
+
+An implementation of #dyncode("mul_commute") is given as follows:
+
+#dats2xhtml("\
+primplmnt
+mul_commute
+  {m,n}{p}(pf0) = let
+//
+prfun
+auxnat
+{m:nat}
+{p:int} .<m>.
+(
+pf: MUL(m, n, p)
+) : MUL(n, m, p) =
+(
+  case+ pf of
+  | MULbas() => mul_nx0_0{n}()
+  | MULind(pf1) =>
+      mul_distribute(auxnat(pf1), mul_nx1_n{n}())
+    // end of [MULind]
+) (* end of [auxnat] *)
+//
+in
+//
+sif
+m >= 0
+then auxnat(pf0)
+else let
+  prval MULneg(pf1) = pf0 in mul_neg_2(auxnat(pf1))
+end // end of [else]
+//
+end // end of [mul_commute]
+")
+
+where the following proof functions are called:
+
+#sats2xhtml("\
+//
+prfun
+mul_nx0_0{n:int}(): MUL(n, 0, 0) // n * 0 = 0
+//
+prfun
+mul_nx1_n{n:int}(): MUL(n, 1, n) // n * 1 = n
+//
+prfun
+mul_neg_2
+  {m,n:int}{p:int}(MUL(m,n,p)): MUL(m,~n,~p) // m*(~n) = ~(m*n)
+//
+")
+
+The inner function #dyncode("auxnat") encodes a straighforward
+proof based on mathematical induction that establishes the following
+equation:
+
+#atscode("m * n = n * m")
+
+for m ranging over natural numbers and n ranging over integers.
+The function #dyncode("mul_commute") can then be implemented immediately
+based on #dyncode("auxnat").\
+")
+
+</sect1><!--id="example_commutativity_of_multiplication"-->
+
+<!-- ****** ****** -->
+
+<sect1 id="datasorts">
+#title("Algebraic Datasorts")
 
 #para("\
 A datasort is rather similar to a dataype. However, the former is
@@ -412,7 +505,7 @@ h are the size and height, respectively, of a given binary tree. To
 represent binary trees in the statics, we first declare a datasort as
 follows:
 
-#atscode("\
+#sats2xhtml("\
 datasort tree = E of () | B of (tree, tree)
 ")
 
@@ -430,18 +523,22 @@ B are really just tree skeletons carrying no data.\
 We now declare two dataprops as follows for capturing the notion of
 size and height of trees:
 
-#atscode("\
-dataprop SZ (tree, int) =
+#sats2xhtml("\
+//
+dataprop
+SZ (tree, int) =
   | SZE (E (), 0) of ()
   | {tl,tr:tree}{sl,sr:nat}
     SZB (B (tl, tr), 1+sl+sr) of (SZ (tl, sl), SZ (tr, sr))
 // end of [SZ]
-
-dataprop HT (tree, int) =
+//
+dataprop
+HT (tree, int) =
   | HTE (E (), 0) of ()
   | {tl,tr:tree}{hl,hr:nat}
     HTB (B (tl, tr), 1+max(hl,hr)) of (HT (tl, hl), HT (tr, hr))
 // end of [HT]
+//
 ")
 
 Given a tree t and an integer s, SZ(t, s) encodes the relation that the
@@ -453,8 +550,9 @@ encodes the relation that the height of t equals h.
 As the power function (of base 2) is not available in the statics of ATS,
 we declare a dataprop as follows to capture it:
 
-#atscode("\
-dataprop POW2 (int, int) =
+#sats2xhtml("\
+dataprop
+POW2 (int, int) =
   | POW2bas (0, 1)
   | {n:nat}{p:int} POW2ind (n+1, p+p) of POW2 (n, p)
 // end of [POW2]
@@ -470,8 +568,7 @@ interface encodes the theorem stating that s is strictly less than
 2<superscript>h</superscript> if s and h are the size and height of a
 given binary tree:
 
-#atscode("\
-extern
+#sats2xhtml("\
 prfun
 lemma_tree_size_height
   {t:tree}{s,h:nat}{p:int}
@@ -487,27 +584,32 @@ Let us now construct an implementation of this proof function as follows.
 We first establish some elementary properties on the power function
 (of base 2):
 
-#atscode("\
-prfun pow2_istot
+#dats2xhtml("\
+prfun
+pow2_istot
   {h:nat} .<h>. (): [p:int] POW2 (h, p) =
-  sif h > 0 then POW2ind (pow2_istot {h-1} ()) else POW2bas ()
+  sif h==0
+    then POW2bas () else POW2ind (pow2_istot {h-1} ())
+  // end of [sif]
 // end of [pow2_istot]
 
-prfun pow2_pos
+prfun
+pow2_pos
   {h:nat}{p:int} .<h>.
   (pf: POW2 (h, p)): [p > 0] void =
   case+ pf of
-  | POW2ind (pf1) => pow2_pos (pf1) | POW2bas () => ()
+  | POW2bas () => () | POW2ind (pf1) => pow2_pos (pf1)
 // end of [pow2_pos]
 
-prfun pow2_inc
+prfun
+pow2_inc
   {h1,h2:nat | h1 <= h2}{p1,p2:int} .<h2>.
   (pf1: POW2 (h1, p1), pf2: POW2 (h2, p2)): [p1 <= p2] void =
   case+ pf1 of
+  | POW2bas () => pow2_pos (pf2)
   | POW2ind (pf11) => let
       prval POW2ind (pf21) = pf2 in pow2_inc (pf11, pf21)
-    end
-  | POW2bas () => pow2_pos (pf2)
+    end // end of [POW2ind]
 // end of [pow2_inc]
 ")
 
@@ -523,7 +625,7 @@ establishes that the power function is increasing.\
 The function #dyncode("lemma_tree_size_height") can be implemented
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_tree_size_height
   (pf1, pf2, pf3) = let
@@ -538,6 +640,13 @@ lemma{t:tree}
 ) : [p > s] void =
 (
   scase t of
+  | E () => let
+      prval SZE () = pf1
+      prval HTE () = pf2
+      prval POW2bas () = pf3
+   in
+     // nothing
+   end // end of [E]
   | B (tl, tr) => let
       prval SZB (pf1l, pf1r) = pf1
       prval HTB {tl,tr}{hl,hr} (pf2l, pf2r) = pf2
@@ -551,13 +660,6 @@ lemma{t:tree}
     in
       // nothing
     end // end of [B]
-  | E () => let
-      prval SZE () = pf1
-      prval HTE () = pf2
-      prval POW2bas () = pf3
-   in
-     // nothing
-   end // end of [E]
 ) (* end of [lemma] *)
 //
 in
@@ -585,8 +687,8 @@ and #keycode("case").  Please find the entirety of the above code
 <!-- ****** ****** -->
 
 <sect1
-id="example_proving_properties_on_braun_trees">
-#title("Example: Proving Properties on Braun Trees")
+ id="example_establishing_properties_on_braun_trees">
+#title("Example: Establishing Properties on Braun Trees")
 
 #para("\
 
@@ -596,8 +698,9 @@ left one minus the size of the right one is either 0 or 1.  Formally, we
 can declare the following dataprop #dyncode("isBraun") to capture the notion
 of Braun trees:
 
-#atscode("\
-dataprop isBraun (tree) =
+#sats2xhtml("\
+dataprop
+isBraun (tree) =
   | isBraunE (E) of ()
   | {tl,tr:tree}
     {sl,sr:nat | sr <= sl; sl <= sr + 1}
@@ -612,9 +715,9 @@ dataprop isBraun (tree) =
 We first prove that there exists a Braun tree of any given size.
 This property can be encoded as follows in ATS:
 
-#atscode("\
-extern
-prfun lemma_existence {n:nat} (): [t:tree] (isBraun (t), SZ (t, n))
+#sats2xhtml("\
+prfun
+lemma_existence{n:nat}(): [t:tree] (isBraun (t), SZ (t, n))
 ")
 
 Literally, the type assigned to #dyncode("lemma_existence") means that there
@@ -622,23 +725,30 @@ exists a tree t for any given natural number n such that t is a Braun tree
 and the size of t is n. The following code gives an implementation of
 #dyncode("lemma_existence"):
 
-#atscode("\
+#dats2xhtml("\
 primplement
-lemma_existence {n} () = let
-  prfun lemma {n:nat} .<n>.
-    (): [t:tree] (isBraun (t), SZ (t, n)) =
-    sif n > 0 then let
-      stadef nl = n / 2 // size for the left subtree
-      stadef nr = n - 1 - nl // size for the right subtree
-      val (pfl1, pfl2) = lemma {nl} ()
-      and (pfr1, pfr2) = lemma {nr} ()
+lemma_existence
+  {n}((*void*)) = let
+//
+prfun
+lemma{n:nat} .<n>.
+(
+  // argless
+) : [t:tree] (isBraun (t), SZ (t, n)) =
+  sif n==0
+    then (isBraunE (), SZE ())
+    else let
+      stadef nl = n / 2
+      stadef nr = n - 1 - nl
+      val (pfl1, pfl2) = lemma{nl}((*void*))
+      and (pfr1, pfr2) = lemma{nr}((*void*))
     in
       (isBraunB (pfl1, pfr1, pfl2, pfr2), SZB (pfl2, pfr2))
-    end else
-      (isBraunE (), SZE ())
-    // end of [sif]
+    end // end of [else]
+  // end of [sif]
+//
 in
-  lemma {n} ()
+  lemma{n}((*void*))
 end // end of [lemma_existence]
 ")
 
@@ -653,8 +763,7 @@ introducing a name and a static term of the sort #keycode("t@ype")).
 Next we show that two Braun trees of the same size are identical. This
 property can be encoded as follows:
 
-#atscode("\
-extern
+#sats2xhtml("\
 prfun
 lemma_unicity
   {n:nat}{t1,t2:tree}
@@ -666,7 +775,7 @@ lemma_unicity
 where #stacode("EQ") is a prop-constructor introduced by the following
 dataprop declaration:
 
-#atscode("\
+#sats2xhtml("\
 dataprop EQ (tree, tree) =
   | EQE (E, E) of ()
   | {t1l,t1r:tree}{t2l,t2r:tree}
@@ -678,7 +787,7 @@ Clearly, #stacode("EQ") is the inductively defined equality on trees.
 An implementation of the proof function #dyncode("lemma_unicity") is presented
 as follows:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
@@ -686,23 +795,26 @@ lemma_unicity
   (
     pf1: isBraun t1, pf2: isBraun t2, pf3: SZ (t1, n), pf4: SZ (t2, n)
   ) : EQ (t1, t2) =
-    sif n > 0 then let
-      prval SZB (pf3l, pf3r) = pf3
-      prval SZB (pf4l, pf4r) = pf4
-      prval isBraunB (pf1l, pf1r, pf1lsz, pf1rsz) = pf1
-      prval isBraunB (pf2l, pf2r, pf2lsz, pf2rsz) = pf2
-      prval () = SZ_istot (pf1lsz, pf3l) and () = SZ_istot (pf1rsz, pf3r)
-      prval () = SZ_istot (pf2lsz, pf4l) and () = SZ_istot (pf2rsz, pf4r)
-      prval pfeql = lemma (pf1l, pf2l, pf3l, pf4l)
-      prval pfeqr = lemma (pf1r, pf2r, pf3r, pf4r)
-    in
-      EQB (pfeql, pfeqr)
-    end else let
-      prval SZE () = pf3 and SZE () = pf4
-      prval isBraunE () = pf1 and isBraunE () = pf2
-    in
-      EQE ()
-    end // end of [sif]
+    sif n==0
+      then let
+        prval SZE () = pf3 and SZE () = pf4
+        prval isBraunE () = pf1 and isBraunE () = pf2
+      in
+        EQE ()
+      end // end of [then]
+      else let
+        prval SZB (pf3l, pf3r) = pf3
+        prval SZB (pf4l, pf4r) = pf4
+        prval isBraunB (pf1l, pf1r, pf1lsz, pf1rsz) = pf1
+        prval isBraunB (pf2l, pf2r, pf2lsz, pf2rsz) = pf2
+        prval () = SZ_istot (pf1lsz, pf3l) and () = SZ_istot (pf1rsz, pf3r)
+        prval () = SZ_istot (pf2lsz, pf4l) and () = SZ_istot (pf2rsz, pf4r)
+        prval pfeql = lemma (pf1l, pf2l, pf3l, pf4l)
+        prval pfeqr = lemma (pf1r, pf2r, pf3r, pf4r)
+      in
+        EQB (pfeql, pfeqr)
+      end // end of [else]
+    // end of [sif]
 in
   lemma (pf1, pf2, pf3, pf4)
 end // end of [lemma_unicity]
@@ -711,9 +823,9 @@ end // end of [lemma_unicity]
 Note that the proof function #dyncode("SZ_istot") in this implementation of
 #dyncode("lemma_unicity") is given the following interface:
 
-#atscode("\
-extern
-prfun SZ_istot{t:tree}{n1,n2:int}
+#sats2xhtml("\
+prfun
+SZ_istot{t:tree}{n1,n2:int}
   (pf1: SZ (t, n1), pf2: SZ (t, n2)): [n1==n2] void
 ")
 
@@ -740,39 +852,43 @@ and t2 are the same; by the definition of tree equality (encoded by
 As a comparison, the following code gives another implementation of
 #dyncode("lemma_unicity") that is of a different (and rather unusual) style:
 
-#atscode("\
+#dats2xhtml("\
 primplement
 lemma_unicity
   (pf1, pf2, pf3, pf4) = let
-  prfun lemma{n:nat}{t1,t2:tree} .<t1>.
-  (
-    pf1: isBraun t1, pf2: isBraun t2, pf3: SZ (t1, n), pf4: SZ (t2, n)
-  ) : EQ (t1, t2) =
-    case+ (pf1, pf2) of
-    | (isBraunE (), isBraunE ()) => EQE ()
-    | (isBraunB (pf11, pf12, pf13, pf14),
-       isBraunB (pf21, pf22, pf23, pf24)) => let
 //
-        prval SZB (pf31, pf32) = pf3
-        prval SZB (pf41, pf42) = pf4
+prfun
+lemma{n:nat}{t1,t2:tree} .<t1>.
+(
+  pf1: isBraun t1, pf2: isBraun t2, pf3: SZ (t1, n), pf4: SZ (t2, n)
+) : EQ (t1, t2) =
+  case+ (pf1, pf2) of
 //
-        prval () = SZ_istot (pf13, pf31)
-        prval () = SZ_istot (pf23, pf41)
+  | (isBraunE (), isBraunE ()) => EQE ()
 //
-        prval () = SZ_istot (pf14, pf32)
-        prval () = SZ_istot (pf24, pf42)
+  | (isBraunB (pf11, pf12, pf13, pf14),
+     isBraunB (pf21, pf22, pf23, pf24)) => let
 //
-        prval pfeq1 = lemma (pf11, pf21, pf31, pf41)
-        prval pfeq2 = lemma (pf12, pf22, pf32, pf42)
-      in
-        EQB (pfeq1, pfeq2)
-      end
-    | (isBraunE _, isBraunB _) =/=> let
-        prval SZE _ = pf3 and SZB _ = pf4 in (*none*)
-      end
-    | (isBraunB _, isBraunE _) =/=> let
-        prval SZB _ = pf3 and SZE _ = pf4 in (*none*)
-      end
+      prval SZB (pf31, pf32) = pf3
+      prval SZB (pf41, pf42) = pf4
+//
+      prval () = SZ_istot (pf13, pf31)
+      prval () = SZ_istot (pf23, pf41)
+//
+      prval () = SZ_istot (pf14, pf32)
+      prval () = SZ_istot (pf24, pf42)
+//
+      prval pfeq1 = lemma (pf11, pf21, pf31, pf41)
+      prval pfeq2 = lemma (pf12, pf22, pf32, pf42)
+    in
+      EQB (pfeq1, pfeq2)
+    end
+//
+  | (isBraunE _, isBraunB _) =/=>
+    let prval SZE _ = pf3 and SZB _ = pf4 in (*none*) end
+  | (isBraunB _, isBraunE _) =/=>
+    let prval SZB _ = pf3 and SZE _ = pf4 in (*none*) end
+//
 in
   lemma (pf1, pf2, pf3, pf4)
 end // end of [lemma_unicity]
@@ -788,7 +904,184 @@ right-hand side of the clause. Please find the entirety of the above code
 
 ")#comment("para")
 
-</sect1><!--id="example_proving_properties_on_braun_trees"-->
+</sect1><!--id="example_establishing_properties_on_braun_trees"-->
+
+<!-- ****** ****** -->
+
+<sect1
+ id="programmer_centric_theorem_proving">
+#title("Programmer-Centric Theorem-Proving")
+
+#para("\
+
+I have so far presented several formal proofs in ATS.  However,
+constructing such formal proofs is at most a secondary issue in ATS. If I
+compare ATS with theorem-proving systems such as Isabelle and Coq, I would
+like to state emphatically that the design for theorem-proving in ATS takes
+a fundamentally different view of theorem-proving. In particular,
+theorem-proving in ATS does not take a foundational approach that
+establishes the validity of a theorem by reducing it to the validity of a
+minimal set of axioms and rules. Instead, theorem-proving in ATS is mostly
+done in a semi-formal manner and its primary purpose is to greatly diminish
+the chance of a programmer making use of incorrect assumptions or
+claims. In this regard, theorem-proving in ATS is rather similar to
+contructing informal paper-and-pencil proofs (in mathematics and
+elsewhere). I refer to this style of theorem-proving in ATS as being
+programmer-centric.  In order to allow the reader to obtain a more concrete
+feel as to what this style of theorem-proving is like, I present in the
+rest of this section a simple but telling example of programmer-centric
+theorem-proving.\
+
+")#comment("para")
+
+#para("\
+
+Suppose we are to prove that the square of any rational number cannot equal
+2. Note that this statement is a bit weaker than the one stating that the
+square root of 2 is irrational as the latter assumes the very existence of the
+square root of 2. Let us first sketch an informal proof as follows.\
+
+")#comment("para")
+
+#para("\
+
+Suppose (m/n)#sup("2")=2 for some positive numbers m and n. Clearly,
+this means (m)#sup("2")=2(n)#sup("2"), implying m being an even number.
+Let m=2m#sub("2"). We have (2m#sub("2"))#sup("2")=2(n)#sup("2"), implying
+(n/m#sub("2"))#sup("2")=2. Clearly, m &gt; n &gt; m#sub("2") holds. If we
+assume that m is the least positive number satisfying (m/n)#sup("2")=2 for
+some n, then a contradiction is reached as n satisfies the same property.
+Therefore, there is no rational number whose square equals 2. Clearly,
+this proof still holds if the number 2 is replaced with another prime number.
+
+")#comment("para")
+
+#para("\
+
+The primary argument in the above informal proof can be encoded in
+ATS as follows:
+
+#dats2xhtml('\
+//
+extern
+prfun
+mylemma_main
+{m,n,p:int | m*m==p*n*n}(PRIME(p)): [m2:nat | n*n==p*m2*m2] void
+//
+primplmnt
+mylemma_main
+{m,n,p}(pfprm) = let
+  prval pfeq_mm_pnn =
+    eqint_make{m*m,p*n*n}()
+  prval () = square_is_nat{m}()
+  prval () = square_is_nat{n}()
+  prval () = lemma_PRIME_param(pfprm)
+  prval
+  pfmod1 =
+    lemma_MOD0_intr{m*m,p,n*n}()
+  prval
+  pfmod2 = mylemma1{m,p}(pfmod1, pfprm)
+  prval
+  [m2:int]
+  EQINT() =
+    lemma_MOD0_elim(pfmod2)
+  prval EQINT() = pfeq_mm_pnn
+  prval () =
+  __assert{p}{p*m2*m2,n*n}() where
+  {
+    extern prfun __assert{p:pos}{x,y:int | p*x==p*y}(): [x==y] void
+  } (* end of [where] *) // end of [prval]
+in
+  #[m2 | ()]
+end // end of [mylemma_main]
+//
+')
+
+The interface for #dyncode("mylemma_main") states that
+(m)#sup("2")=p(n)#sup("2") implies (n)#sup("2")=p(m#sub("2"))#sup("2") for
+some natural number m#sub("2").
+
+")
+
+#para("\
+
+Given two integers m and p, #dyncode("MOD0(m,p)") means that m equals the
+product of p and q for some natural number q. This meaning is encoded into
+the following two proof functions:
+
+#sats2xhtml("\
+//
+prfun
+lemma_MOD0_intr{m,p,q:nat | m==p*q}(): MOD0(m, p)
+//
+prfun
+lemma_MOD0_elim{m,p:int}(MOD0(m, p)): [q:nat] EQINT(m, p*q)
+//
+")
+
+where #dyncode("EQINT") is a dataprop declared as follows:
+
+#sats2xhtml('\
+dataprop EQINT(int, int) = {x:int} EQINT(x, x)
+')
+
+Given two integers x and y, #dyncode("EQINT(x, y)") simply means that
+x equals y.  Also, the function #dyncode("eqint_make") is assgined the
+interface below:
+
+#sats2xhtml('\
+prfun eqint_make{x,y:int | x == y}((*void*)): EQINT (x, y)
+')
+
+Given an integer p, #dyncode("PRIME(p)") means that p is a prime number.
+The following two proof functions are called in the above implementation
+of #dyncode("mylemma_main"):
+
+#sats2xhtml('\
+//
+prfun lemma_PRIME_param{p:int}(PRIME(p)): [p >= 2] void
+//
+prfun mylemma1{n,p:int}(MOD0(n*n, p), PRIME(p)): MOD0(n, p)
+//
+')
+
+The proof function #dyncode("mylemma1") encodes a proposition stating that
+p divides n if p divides the square of n and p is also a prime number.
+I give no implementation of #dyncode("mylemma1") as I see the encoded
+proposition to be obviously true. Certainly, this is a kind of programmer-centric
+judgment. \
+
+")
+
+#para("\
+
+One may find that
+the following declaration in the implementation of #dyncode("mylemma_main")
+looks mysterious:
+
+#atscode("\
+  prval EQINT() = pfeq_mm_pnn
+")
+
+Note that #dyncode("pfeq_mm_pnn")
+is of the prop #dyncode('EQINT(m*m, p*(n*n))').
+Also, m equaling p*m#sub("2") for some natural number m#sub("2") is
+available when the above declaration is typechecked.
+This means that the equality between
+(p*m#sub("2"))#sup("2") and p*(n)#sup("2") is added into the current store
+of (static) assumptions after the above declaration is typechecked.
+
+")
+
+#para("\
+
+Please find #mycodelink("CHAP_THMPRVING/sqrt2_irrat.dats", "on-line") the
+entirety of an encoded proof showing that there exists no rational number whose
+square equals 2.\
+
+")
+
+</sect1><!--id="programmer_centric_theorem_proving"-->
 
 <!-- ****** ****** -->
 

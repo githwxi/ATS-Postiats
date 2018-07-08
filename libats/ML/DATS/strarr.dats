@@ -359,104 +359,144 @@ end // end of [strarr_copy]
 implement
 strarr_append
   (str1, str2) = let
-  val str1 = strarr2array (str1)
-  val str2 = strarr2array (str2)
-  val str12 = $effmask_ref (array0_append<char> (str1, str2))
+//
+val str1 = strarr2array (str1)
+val str2 = strarr2array (str2)
+//
+val
+str12 =
+$effmask_ref
+  (array0_append<char> (str1, str2))
+//
 in
   array2strarr (str12)
 end // end of [strarr_append]
 
 (* ****** ****** *)
-
+//
 implement
-strarr_tabulate (n, f) = array2strarr (array0_tabulate (n, f))
-
+strarr_tabulate
+  (n, fopr) =
+(
+array2strarr(array0_tabulate<char>(n, fopr))
+)
+//
 (* ****** ****** *)
 
 implement
 strarr_foreach
-  (str, f) = let
+  (str, fwork) = let
 //
-fun loop
+fun
+loop
 (
-  p: ptr, n: size_t, f: cfun (char, void)
+  p: ptr, n: size_t
+, fwork: cfun(char, void)
 ) : void = let
 in
 //
-if n > 0 then let
-  val () = f ($UN.ptr0_get<char> (p))
+if
+(n > 0)
+then let
+//
+val () =
+  fwork($UN.ptr0_get<char>(p))
+//
 in
-  loop (ptr0_succ<char> (p), pred (n), f)
-end else () // end of [if]
+  loop(ptr0_succ<char>(p), pred(n), fwork)
+end // end of [then]
+else () // end of [else]
 //
 end // end of [loop]
 //
-val p0 = strarr_get_ref (str)
-val n0 = strarr_get_size (str)
+val p0 = strarr_get_ref(str)
+val n0 = strarr_get_size(str)
 //
 in
-  loop (p0, n0, f)
+  loop(p0, n0, fwork)
 end // end of [strarr_foreach]
 
 (* ****** ****** *)
 
 implement
 strarr_iforeach
-  (str, f) = let
+  (str, fwork) = let
 //
 fun loop
 (
-  p: ptr, n: size_t
-, i: size_t, f: cfun (size_t, char, void)
+  p: ptr
+, n: size_t, i: size_t
+, fwork: cfun (size_t, char, void)
 ) : void = let
 in
 //
-if n > i then let
-  val () = f (i, $UN.ptr0_get<char> (p))
+if
+(n > i)
+then let
+val () =
+  fwork(i, $UN.ptr0_get<char>(p))
+//
 in
-  loop (ptr0_succ<char> (p), n, succ (i), f)
-end else () // end of [if]
+  loop(ptr0_succ<char>(p), n, succ(i), fwork)
+end // end of [then]
+else () // end of [else]
 //
 end // end of [loop]
 //
-val p0 = strarr_get_ref (str)
-val n0 = strarr_get_size (str)
+val p0 = strarr_get_ref(str)
+val n0 = strarr_get_size(str)
 //
 in
-  loop (p0, n0, i2sz(0), f)
+  loop(p0, n0, i2sz(0), fwork)
 end // end of [strarr_iforeach]
 
 (* ****** ****** *)
 
 implement
 strarr_rforeach
-  (str, f) = let
+  (str, fwork) = let
 //
-fun loop
+fun
+loop
 (
-  p: ptr, n: size_t, f: cfun (char, void)
+  p: ptr, n: size_t
+, fwork: cfun(char, void)
 ) : void = let
 in
 //
-if n > 0 then let
-  val p1 = ptr0_pred<char> (p)
-  val () = f ($UN.ptr0_get<char> (p1)) in loop (p1, pred (n), f)
-end else () // end of [if]
+if
+(n > 0)
+then let
+//
+val p1 =
+  ptr0_pred<char>(p)
+val () =
+  fwork($UN.ptr0_get<char>(p1))
+//
+in
+  loop(p1, pred(n), fwork)
+end // end of [then]
+else () // end of [else]
 //
 end // end of [loop]
 //
-val p0 = strarr_get_ref (str)
-val n0 = strarr_get_size (str)
+val p0 = strarr_get_ref(str)
+val n0 = strarr_get_size(str)
 //
 in
-  loop (ptr0_add_guint<char> (p0, n0), n0, f)
+//
+loop
+(
+  ptr0_add_guint<char>(p0, n0), n0, fwork
+) (* end of [loop] *)
+//
 end // end of [strarr_rforeach]
 
 (* ****** ****** *)
 //
 implement
 fprint_val<strarr>
-  (out, str) = fprint_strarr (out, str)
+  (out, str) = fprint_strarr(out, str)
 //
 (* ****** ****** *)
 

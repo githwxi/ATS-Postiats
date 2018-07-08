@@ -46,22 +46,43 @@
 #define atsbool_false 0
 //
 #define atsptr_null ((void*)0)
+#define the_atsptr_null ((void*)0)
 //
 /* ****** ****** */
 //
 #define ATSstruct struct
+//
+/* ****** ****** */
 /*
 #define ATStypedef typedef
 */
 //
 /* ****** ****** */
 
+#ifndef \
+ATS_EXTERN_DEF__
 #define ATSextern() extern
-#define ATSstatic() static
+#else
+#define ATSextern() ATS_EXTERN_DEF__
+#endif // #ifndef
 
 /* ****** ****** */
 
+#ifndef \
+ATS_STATIC_DEF__
+#define ATSstatic() static
+#else
+#define ATSstatic() ATS_STATIC_DEF__
+#endif // #ifndef
+
+/* ****** ****** */
+
+#ifndef \
+ATS_INLINE_DEF__
 #define ATSinline() static inline
+#else
+#define ATSinline() ATS_INLINE_DEF__
+#endif // #ifndef
 
 /* ****** ****** */
 //
@@ -72,20 +93,27 @@
 //
 #define ATSdynloadflag_init(flag) int flag = 0
 //
+#define ATSdynloadflag_minit(flag) int flag = 0
+//
 #define ATSdynloadset(flag) flag = 1
 #define ATSdynloadfcall(dynloadfun) dynloadfun()
 //
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifndef \
+_ATS_CCOMP_EXCEPTION_NONE_
 //
 #define \
-ATSdynexn_dec(d2c) atstype_exncon d2c = { 0, "#ATSEXNCON" }
+ATSdynexn_dec(d2c) \
+atstype_exncon d2c = { 0, "__ATSEXNMSG__" }
+//
+#define \
+ATSdynexn_extdec(d2c) ATSextern() atstype_exncon d2c
+//
 #define \
 ATSdynexn_initize(d2c, exnmsg) the_atsexncon_initize(&(d2c), exnmsg)
-#define ATSdynexn_extdec(d2c) ATSextern() atstype_exncon d2c
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 

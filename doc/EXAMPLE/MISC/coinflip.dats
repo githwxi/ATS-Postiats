@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 //
 // One of the early examples
 // It was first done in ATS/Geizella
@@ -19,13 +21,21 @@
 //
 (* ****** ****** *)
 //
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload TIME = "libc/SATS/time.sats"
-staload STDLIB = "libc/SATS/stdlib.sats"
+staload TIME = "libats/libc/SATS/time.sats"
+staload STDLIB = "libats/libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 

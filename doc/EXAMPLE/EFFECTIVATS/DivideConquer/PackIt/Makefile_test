@@ -1,0 +1,27 @@
+######
+#
+# For testing and cleanup
+#
+######
+
+all::
+
+######
+
+MAKE=make
+
+######
+#
+all:: \
+TEST
+TEST:: ; \
+$(MAKE) -C TEST -f Makefile testall
+#
+######
+#
+cleanall:: ; \
+$(MAKE) -C TEST -f Makefile cleanall
+#
+######
+
+###### end of [Makefile_test] ######

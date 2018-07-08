@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-IPC-redis</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Inter-Process Communication based on Redis
+</h1>
+
+In this article, I present a straightforward example of inter-process
+communication based on the NOSQL <a href="http://redis.io">redis</a>.  The
+primary purpose of this example is to show a concrete case where redis
+functions are directly called inside ATS code.
+
+<h2>
+Message Channels
+</h2>
+
+Let us first introduce a type <span style="color: #0000F0;">msgchan</span> for message channels:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abstype</span> msgchan_type <span class="keyword">=</span> ptr</span>
+<span class="keyword">typedef</span> <span class="staexp">msgchan <span class="keyword">=</span> <span class="staexp">msgchan_type</span></span>
+</pre>
+
+The following function is for creating a message channel:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> msgchan_create <span class="keyword">(</span>name<span class="keyword">:</span> <span class="staexp">string</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">msgchan</span></span>
+</pre>
+
+In the actual implementation, a message channel is just a key
+referring to a queue in redis, and the function
+<span style="color: #F00000;">msgchan_create</span> computes such a key based on a given name.
+
+<p>
+
+In order to insert a message into a given message channel, the
+following function <span style="color: #F00000;">msgchan_insert</span> can be called:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> msgchan_insert
+  <span class="keyword">(</span>chan<span class="keyword">:</span> <span class="staexp">msgchan</span><span class="keyword">,</span> msg<span class="keyword">:</span> <span class="staexp">string</span><span class="keyword">,</span> nerr<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">int</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">_</span><span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+The third argument of <span style="color: #F00000;">msgchan_insert</span> is
+call-by-reference, and its value is increased to indicate a failed
+attempt to insert a message.
+
+<p>
+
+In order to take out a message for a given message channel,
+the following function <span style="color: #F00000;">msgchan_takeout</span> can be called:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> msgchan_takeout <span class="keyword">(</span>chan<span class="keyword">:</span> <span class="staexp">msgchan</span><span class="keyword">,</span> nerr<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">int</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">_</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">stropt</span></span>
+</pre>
+
+The second argument of <span style="color: #F00000;">msgchan_takeout</span> is
+call-by-reference, and its value is increased to indicate a failed
+attempt to take out a message. What <span style="color: #F00000;">msgchan_takeout</span>
+returns is an optional string, which is either a regular string or a
+null pointer. In case a null pointer is returned, it is also an
+indication of failure of some sort.  Note that a call to
+<span style="color: #F00000;">msgchan_takeout</span> on a given channel is blocked if the
+channel is currently empty.
+
+<p>
+
+If calling <span style="color: #F00000;">msgchan_insert</span> or <span style="color: #F00000;">msgchan_takeout</span>
+on a channel results in a failure, then the redis connection
+associated with the channel should be re-established before a second
+attempt is made.
+
+<h2>
+Redis Connection Setup
+</h2>
+
+To set up a redis connection means to create a value of the type
+<span style="color: #0000F0;">redisContext(l)</span>, where l refers to the memory location at which the value
+is stored.  Let us use the name redisContext-value to refer to such a
+value.  In case a redis connection cannot be set up successfully, the type
+<span style="color: #0000F0;">redisContext(null)</span> is assigned to the created redisContext-value, which
+is just a null pointer.
+
+<p>
+
+Once a redis connection is established, the redisContext-value associated
+with this connection is stored in a reference (that is, an array of size 1).
+The following function can be called to obtain the stored redisContext-value
+(for temporary use):
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> the_redisContext_vtget <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>l<span class="keyword">:</span>addr<span class="keyword">]</span></span> <span class="staexp">vttakeout0</span> <span class="keyword">(</span><span class="staexp">redisContext</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">)</span><span class="keyword">)</span></span>
+</pre>
+
+where <span style="color: #F00000;">vttakeout0</span> is defined as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">vtypedef</span>
+<span class="staexp">vttakeout0 <span class="keyword">(</span><span class="staexp">a<span class="keyword">:</span><span class="keyword">vt@ype</span></span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="staexp">a</span> <span class="keyword">-&lt;</span><span class="staexp">lin</span><span class="keyword">,</span><span class="staexp">prf</span><span class="keyword">&gt;</span> <span class="staexp">void</span> <span class="keyword">|</span> <span class="staexp">a</span><span class="keyword">)</span></span> <span class="comment">// borrowed linear value</span>
+</pre>
+
+The following code depicts a typical calling sequence:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="prfexp">fpf</span> <span class="keyword">|</span> ctx<span class="keyword">)</span> <span class="keyword">=</span> the_redisContext_vtget <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="comment">// Here is some code that makes use of [ctx]</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> fpf <span class="keyword">(</span>ctx<span class="keyword">)</span></span> <span class="comment">// returning the borrowed context</span>
+<span class="comment">//</span>
+</pre>
+
+where <span style="color: #F00000;">the_redisContext_vtget</span> is called to obtain a
+redisContext-value and a proof function for returning this value, and
+the proof function is then called on the redisContext-value to return
+it (in the sense of theorem-proving) after its being used.
+
+<h2>
+Testing the Implementation
+</h2>
+
+The ATS code implementing message channels can be found
+in the following files:
+
+<pre>
+msgchan.sats
+msgchan.dats
+redisContextSetup.dats
+</pre>
+
+In the file [test_up.dats], some testing code is available
+for uploading the content of a file into a message channel.
+
+<p>
+
+In the file [test_dn.dats], some testing code is available
+for downloading the content of a message channel into a file.
+
+<p>
+
+There is also a Makefile available for compiling the ATS source code into
+excutables [test_up] and [test_dn] for testing. Assume the availability of
+a redis server running on the default port 6379 at the IP address 127.0.0.1.
+By executing the following command-line:
+
+<pre>
+cat msgchan.sats | ./test_up & ./test_dn
+</pre>
+
+one should be able to see the content of the file [msgchan.sats] being
+output to the console in a line-by-line fashion, where a short pause (of 3
+seconds at most) is introduced between the appearance of two consecutive
+lines.
+
+<hr size="2">
+
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

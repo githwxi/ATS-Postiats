@@ -1,5 +1,7 @@
+(* ****** ****** *)
 //
-// Test code for stack allocation
+// Test code
+// for stack allocation
 //
 (* ****** ****** *)
 
@@ -11,7 +13,7 @@
 val () =
 {
 var x: int = 0
-prval () = showviewtype (x)
+prval () = showviewtype(x)
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -19,7 +21,7 @@ prval () = showviewtype (x)
 val () =
 {
 var !p_x: int = 0
-prval () = showviewtype (!p_x)
+prval () = showviewtype(!p_x)
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -28,7 +30,7 @@ val () =
 {
 //
 var A = @[int][3]()
-prval () = showviewtype (A)
+prval () = showviewtype(A)
 //
 } (* end of [val] *)
 
@@ -38,7 +40,7 @@ val () =
 {
 //
 var A = @[int][3](1)
-prval () = showviewtype (A)
+prval () = showviewtype(A)
 //
 val out = stdout_ref
 //
@@ -90,7 +92,7 @@ val () =
 val out = stdout_ref
 //
 var factorial =
-fix@ f (x: int): int => if x > 0 then x * f(x-1) else 1
+fix@ f(x: int): int => if x > 0 then x * f(x-1) else 1
 //
 prval () = showviewtype (factorial)
 //
@@ -101,16 +103,22 @@ val ((*void*)) = fprintln! (out, "factorial(", 10, ") = ", factorial(10))
 (* ****** ****** *)
 
 fun
-factorial2 (n: int): int = let
+factorial2
+  (n: int): int = let
 //
 var
 factorial2_loop =
 fix@ f
 (
   i: int, res: int
-) : int => if i < n then f (i+1, (i+1)*res) else res
+) : int =>
+(
+if i < n
+  then f (i+1, (i+1)*res) else res
+// end of [if]
+)
 //
-prval () = showviewtype (factorial2_loop)
+prval () = showviewtype(factorial2_loop)
 //
 in
   factorial2_loop (0, 1)

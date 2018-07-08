@@ -1,0 +1,51 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json_util.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json_util\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_from_file")
+
+(* ****** ****** *)
+
+#declnamesynop("json_objlst_from_file")
+#decldescrpt('\
+
+This function is based on #dyncode("json_tokener_parse_list"). It
+essentially parses the content of a given file into a list of (possibly
+null) json-objects.\
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_to_file")
+#declnamesynop("json_object_to_file_ext")
+
+(* ****** ****** *)
+
+#declnamesynop("json_parse_int64")
+#declnamesynop("json_parse_double")
+
+(* ****** ****** *)
+
+#declnamesynop("json_type_to_name")
+
+(* ****** ****** *)
+
+(* end of [json_util.atxt] *)

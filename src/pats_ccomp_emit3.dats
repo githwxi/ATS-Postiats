@@ -28,33 +28,39 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: January, 2013
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
 //
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "pats_basics.sats"
 
 (* ****** ****** *)
-
-staload ERR = "./pats_error.sats"
-
+//
+staload
+"./pats_errmsg.sats"
+staload
+_(*anon*) = "./pats_errmsg.dats"
+//
+implement
+prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
+//
 (* ****** ****** *)
-
-staload "./pats_errmsg.sats"
-staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
-
-(* ****** ****** *)
+//
+staload
+ERR = "./pats_error.sats"
 //
 staload
 FIL = "./pats_filename.sats"
@@ -103,35 +109,44 @@ implement
 emit_exndec
   (out, hid) = let
 //
-val loc0 = hid.hidecl_loc
-val-HIDexndecs (d2cs) = hid.hidecl_node
+val
+loc0 = hid.hidecl_loc
+val-
+HIDexndecs(d2cs) = hid.hidecl_node
 //
-val () = emit_text (out, "/*\n")
-val () = emit_location (out, loc0)
-val () = emit_text (out, "\n*/\n")
+val () = emit_text(out, "/*\n")
+val () = emit_location(out, loc0)
+val () = emit_text(out, "\n*/\n")
 //
-fun auxlst
+fun
+auxlst
 (
   out: FILEref, d2cs: d2conlst
 ) : void = let
 in
 //
 case+ d2cs of
-| list_nil () => ()
+//
+| list_nil
+    ((*void*)) => ()
+//
 | list_cons
     (d2c, d2cs) => let
+//
     val () =
-    emit_text (out, "ATSdynexn_dec(")
-    val () = emit_d2con (out, d2c)
-    val () = emit_text (out, ") ;\n")
+    emit_text
+    (out, "ATSdynexn_dec(")
+    val () = emit_d2con(out, d2c)
+    val () = emit_text(out, ") ;\n")
+//
   in
-    auxlst (out, d2cs)
+    auxlst(out, d2cs)
   end // end of [list_cons]
 //
 end (* end of [auxlst] *)
 //
 in
-  auxlst (out, d2cs)
+  auxlst(out, d2cs)
 end // end of [emit_exndec]
 
 (* ****** ****** *)
@@ -230,7 +245,8 @@ end // end of [emit_extcode]
 
 local
 
-fun auxloc
+fun
+auxloc
 (
   out: FILEref, loc: location
 ) : void = let
@@ -241,88 +257,150 @@ in
   // nothing
 end // end of [auxloc]
 
-fun auxsta
+fun
+auxsta
+(
+  out: FILEref, d2cs: d2eclist
+) : void = let
+//
+(*
+val () = println! ("auxsta")
+*)
+//
+in
+//
+case+ d2cs of
+| list_nil
+    ((*void*)) => ()
+  // end of [list_nil]
+| list_cons
+  (
+    d2c, d2cs
+  ) => auxsta(out, d2cs) where
+  {
+    val () =
+    (
+    case+
+    d2c.d2ecl_node
+    of // case+
+//
+    | $D2E.D2Cextcode
+        (knd, pos, code) =>
+      (
+(*
+      println! ("auxsta: pos = ", pod);
+*)
+//
+      if
+      (pos = 0) // %{#
+      then let
+        val loc = d2c.d2ecl_loc
+      in
+        auxloc(out, loc); emit_text(out, code)
+      end // end of [then] // end of [if]
+//
+      ) (* end of [D2Cextcode] *)
+//
+    | $D2E.D2Cstaload
+      (
+        idopt
+      , fil, flag, fenv, _(*loaded*)
+      ) => let
+        val () =
+          auxloc(out, d2c.d2ecl_loc)
+        val d2cs =
+          $TR2ENV.filenv_get_d2eclist(fenv)
+        val issta =
+          $FIL.filename_is_sats(fil)
+      in
+        if issta then auxsta(out, d2cs) else ((*void*))
+      end // end of [D2Cstaload]
+//
+    | _ (* rest-of-d2ecl *) => ((*skipped*))
+//
+    ) : void // end of [val]
+  } (* end of [where] *) // end of [list_cons]
+//
+end // end of [auxsta]
+
+fun
+auxdyn
 (
   out: FILEref, d2cs: d2eclist
 ) : void = let
 in
 //
 case+ d2cs of
+//
+| list_nil
+    ((*void*)) => ()
+  // end of [list_nil]
+//
 | list_cons
-    (d2c, d2cs) => let
-    val () = (
+  (
+    d2c, d2cs
+  ) => auxdyn(out, d2cs) where
+  {
+    val () =
+    (
     case+
-      d2c.d2ecl_node of
+    d2c.d2ecl_node
+    of // case+
+//
     | $D2E.D2Cextcode
-        (knd, pos, code) => let
-        val () =
-          auxloc (out, d2c.d2ecl_loc)
-        // end of [val]
+        (knd, pos, code) =>
+      (
+(*
+      println! ("auxdyn: knd = ", knd);
+*)
+//
+      if
+      (pos = 0) // %{#
+      then let
+        val loc = d2c.d2ecl_loc
       in
-        emit_text (out, code)
-      end // end of [D2Cextcode]
+        auxloc(out, loc); emit_text(out, code)
+      end // end of [then] // end of [if]
+//
+      ) (* end of [D2Cextcode] *)
+//
     | $D2E.D2Cstaload
       (
-        idopt, fil, flag, fenv, loaded
+        idopt
+      , fil, flag, fenv, loaded
       ) => let
         val () =
-          auxloc (out, d2c.d2ecl_loc)
+          auxloc(out, d2c.d2ecl_loc)
         val d2cs =
-          $TR2ENV.filenv_get_d2eclist (fenv)
+          $TR2ENV.filenv_get_d2eclist(fenv)
         val issta =
-          $FIL.filename_is_sats (fil)
-      in
-        if issta then auxsta (out, d2cs) else ()
-      end // end of [D2Cstaload]
-    | _ (*skipped*) => ((*void*))
-    ) : void // end of [val]
-  in
-    auxsta (out, d2cs)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [auxsta]
-
-fun auxdyn (
-  out: FILEref, d2cs: d2eclist
-) : void = let
-in
-//
-case+ d2cs of
-| list_cons
-    (d2c, d2cs) => let
-    val (
-    ) = (
-    case+
-      d2c.d2ecl_node of
-    | $D2E.D2Cstaload
-      (
-        idopt, fil, flag, fenv, loaded
-      ) => let
-        val () =
-          auxloc (out, d2c.d2ecl_loc)
-        val d2cs =
-          $TR2ENV.filenv_get_d2eclist (fenv)
-        val issta =
-          $FIL.filename_is_sats (fil)
+          $FIL.filename_is_sats(fil)
       in
         if issta
-          then auxsta (out, d2cs) else auxdyn (out, d2cs)
+          then auxsta(out, d2cs) else auxdyn(out, d2cs)
         // end of [if]
       end // end of [D2Cstaload]
+//
     | $D2E.D2Clocal
       (
         d2cs_head, d2cs_body
-      ) => let
-        val () = auxdyn (out, d2cs_head)
-        val () = auxdyn (out, d2cs_body) in (*nothing*)
-      end // end of [D2Clocal]
-    | _ => ()
+      ) =>
+      (
+        auxdyn(out, d2cs_head); auxdyn(out, d2cs_body)
+      ) // end of [D2Clocal]
+//
+    | $D2E.D2Cinclude
+        (knd, d2cs) =>
+      (
+        if knd = 0
+          then auxsta(out, d2cs) else auxdyn(out, d2cs)
+        // end of [if]
+      ) (* end of [D2Cinclude] *)
+    | _ (* rest-of-d2ecl *) => ((*skipped*))
+//
     ) : void // end of [val]
-  in
-    auxdyn (out, d2cs)
-  end // end of [list_cons]
-| list_nil () => ()
+//
+  } (* end of [where] *) // end of [list_cons]
 //
 end // end of [auxdyn]
 
@@ -340,23 +418,26 @@ val-HIDstaload
 val () = 
   println! ("emit_staload: flag = ", flag)
 *)
-val d2cs = $TR2ENV.filenv_get_d2eclist (fenv)
+val d2cs =
+  $TR2ENV.filenv_get_d2eclist(fenv)
 //
-val issta = $FIL.filename_is_sats (fil)
+val issta = $FIL.filename_is_sats(fil)
 //
 in
-  if issta then auxsta (out, d2cs) else auxdyn (out, d2cs)
+  if issta then auxsta(out, d2cs) else auxdyn(out, d2cs)
 end // end of [emit_staload]
 
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_tmprimval (out: FILEref, tpmv: tmprimval): void
+fun
+emit_tmprimval(out: FILEref, tpmv: tmprimval): void
 extern
-fun emit_tmpmovlst (out: FILEref, tmvlst: tmpmovlst): void
-
+fun
+emit_tmpmovlst(out: FILEref, tmvlst: tmpmovlst): void
+//
 (* ****** ****** *)
 
 implement
@@ -381,15 +462,16 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val () = emit_text (out, "ATSINSmove(")
+    val () =
+    emit_text (out, "ATSINSmove(")
     val () = emit_tmpvar (out, x.1)
     val () = emit_text (out, ", ")
     val () = emit_tmprimval (out, x.0)
-    val () = emit_text (out, ") ;")
+    val () = emit_text (out, ") ; ")
   in
     auxlst (out, i+1, xs)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil((*void*)) => ((*void*))
 //
 end // end of [auxlst]
 //
@@ -764,28 +846,29 @@ end // end of [local]
 
 local
 
-fun auxfun
+fun
+auxfun
 (
   out: FILEref, fent: funent
 ) : void = let
 //
-val flab = funent_get_lab (fent)
-val istmp = (funlab_get_tmpknd (flab) > 0)
+val flab = funent_get_lab(fent)
+val istmp = (funlab_get_tmpknd(flab) > 0)
 //
-val qopt = funlab_get_d2copt (flab)
+val qopt = funlab_get_d2copt(flab)
 val isqua =
 (
-  case+ qopt of Some (d2c) => true | None () => false
+  case+ qopt of Some(d2c) => true | None() => false
 ) : bool // end of [val]
 val isext =
 (
 case+ qopt of
 | Some (d2c) =>
-    if $D2E.d2cst_is_static (d2c) then false else true
+    if $D2E.d2cst_is_static(d2c) then false else true
 | None _ => false
 ) : bool // end of [val]
 //
-val flopt = funlab_get_origin (flab)
+val flopt = funlab_get_origin(flab)
 val isqua =
 (
   case+ flopt of Some _ => false | None () => isqua
@@ -1281,10 +1364,12 @@ end // end of [emit_funent_closure]
 end // end of [local]
 
 (* ****** ****** *)
-
-extern fun
+//
+extern
+fun
 emit_funlab_funarg
   (out: FILEref, flab: funlab): void
+//
 implement
 emit_funlab_funarg (out, flab) = let
 //
@@ -1299,6 +1384,13 @@ case+ hses of
     (hse, hses) => let
     val () =
       emit_text (out, "ATStmpdec(")
+    // end of [val]
+(*
+    val isvoid = hisexp_is_void (hse)
+    val ((*void*)) =
+      if isvoid then emit_text (out, "_void")
+    // end of [val]
+*)
     val () = (
       emit_funarg (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
     ) (* end of [val] *)
@@ -1315,10 +1407,11 @@ val hses = funlab_get_type_arg (flab)
 in
   auxlst (out, hses, 0(*i*))
 end // end of [emit_funlab_funarg]
-
+//
 (* ****** ****** *)
 //
-extern fun
+extern
+fun
 emit_funlab_funapy
   (out: FILEref, flab: funlab): void
 //
@@ -1326,7 +1419,8 @@ implement
 emit_funlab_funapy
   (out, flab) = let
 //
-fun auxlst
+fun
+auxlst
 (
   out: FILEref, hses: hisexplst, i: int
 ) : void = let
@@ -1336,15 +1430,23 @@ case+ hses of
 | list_cons
     (hse, hses) => let
     val () =
-      emit_text (out, "ATStmpdec(")
-    val () = (
-      emit_funapy (out, i); emit_text (out, ", "); emit_hisexp (out, hse)
+      emit_text(out, "ATStmpdec(")
+    // end of [val]
+(*
+    val isvoid = hisexp_is_void (hse)
+    val ((*void*)) =
+      if isvoid then emit_text (out, "_void")
+    // end of [val]
+*)
+    val () =
+    (
+      emit_funapy(out, i); emit_text(out, ", "); emit_hisexp(out, hse)
     ) (* end of [val] *)
-    val () = emit_text (out, ") ;\n")
+    val () = emit_text(out, ") ;\n")
   in
-    auxlst (out, hses, i+1)
+    auxlst(out, hses, i+1)
   end // end of [list_cons]
-| list_nil ((*void*)) => ()
+| list_nil((*void*)) => ()
 //
 end // end of [auxlst]
 //
@@ -1364,17 +1466,17 @@ implement
 emit_funent_fundec
   (out, fent) = let
 //
-val flab = funent_get_lab (fent)
+val flab = funent_get_lab(fent)
 //
-val tmpret = funent_get_tmpret (fent)
-val ntlcal = tmpvar_get_tailcal (tmpret)
+val tmpret = funent_get_tmpret(fent)
+val ntlcal = tmpvar_get_tailcal(tmpret)
 //
 val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
 //
 val () =
-  if ntlcal >= 2 then emit_funlab_funapy (out, flab)
+  if ntlcal >= 2 then emit_funlab_funapy(out, flab)
 //
-val () = emit_tmpdeclst (out, funent_get_tmpvarlst (fent))
+val () = emit_tmpdeclst(out, funent_get_tmpvarlst(fent))
 //
 val () = emit_text (out, "/* tmpvardeclst(end) */\n")
 //
@@ -1416,12 +1518,14 @@ in
 end // end of [emit_funent_funbody]
 
 (* ****** ****** *)
-
+//
 extern
-fun emit_funent_fnxdeclst (out: FILEref, fent0: funent): void
+fun
+emit_funent_fnxdeclst (out: FILEref, fent0: funent): void
 extern
-fun emit_funent_fnxbodylst (out: FILEref, fent0: funent): void
-
+fun
+emit_funent_fnxbodylst (out: FILEref, fent0: funent): void
+//
 (* ****** ****** *)
 
 local
@@ -1474,13 +1578,13 @@ implement
 emit_funent_fnxdeclst
   (out, fent0) = let
 //
-val fls = funent_get_fnxlablst (fent0)
+val fls = funent_get_fnxlablst(fent0)
 //
 val () = (
 case+ fls of
 | list_cons _ =>
-  emit_text (out, "/*\nemit_funent_fnxdeclst:\n*/\n")
-| _ => ((*void*))
+  emit_text(out, "/*\nemit_funent_fnxdeclst:\n*/\n")
+| list_nil((*void*)) => ((*void*))
 ) : void // end of [val]
 //
 in
@@ -1489,7 +1593,7 @@ case+ fls of
 | list_cons
     (fl0, fls) => auxflist (out, fent0, fls, 2(*i*))
   // end of [list_cons]
-| list_nil ((*void*)) => ()
+| list_nil((*void*)) => ((*void*))
 //
 end // end of [emit_funent_fnxdeclst]
 
@@ -1505,14 +1609,14 @@ fun auxfl
 , fent0: funent, fl: funlab
 ) : void = let
 //
-val opt = funlab_get_funent (fl)
+val opt = funlab_get_funent(fl)
 //
 in
 //
 case+ opt of
 | Some (fent) =>
-    emit_funent_funbody (out, fent)
-| None ((*void*)) => ()
+    emit_funent_funbody(out, fent)
+| None ((*void*)) => ((*void*))
 //
 end // end of [auxfl]
 
@@ -1599,13 +1703,21 @@ implement
 emit_funent_implmnt
   (out, fent) = let
 (*
-val () = fprintln! (stdout_ref, "emit_funent_implmnt: fent = ", fent)
+val () =
+fprintln!
+( stdout_ref
+, "emit_funent_implmnt: fent = ", fent
+)
 *)
 val loc0 = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
 val d2es = funent_eval_d2envlst (fent)
 (*
-val () = fprintln! (stdout_ref, "emit_funent_implmnt: d2es = ", d2es)
+val () =
+fprintln!
+( stdout_ref
+, "emit_funent_implmnt: d2es = ", d2es
+)
 *)
 val () = emit_text (out, "/*\n")
 val () = $LOC.fprint_location (out, loc0)
@@ -1688,6 +1800,7 @@ val () = emit_text (out, "] */\n")
 val () = funent_varbindmap_uninitize (fent)
 //
 in
+  // nothing
 end // end of [emit_funent_implmnt]
 
 end // end of [local]
@@ -1754,7 +1867,7 @@ case+ pmd.primdec_node of
     (knd, hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
-| PMDvardecs (hvds, inss) =>
+| PMDvardecs(hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
 | PMDinclude
@@ -1810,15 +1923,20 @@ implement
 emit_d2con_extdec
   (out, d2c) = let
 //
-val isexn =
-  $S2E.d2con_is_exn (d2c)
-val (
-) = if isexn then {
+val
+isexn =
+$S2E.d2con_is_exn(d2c)
 //
-val () = emit_text (out, "ATSdynexn_extdec")
-val () = emit_text (out, "(")
-val () = emit_d2con (out, d2c)
-val () = emit_text (out, ") ;\n")
+val () =
+if isexn then {
+//
+val () =
+emit_text
+(out, "ATSdynexn_extdec")
+//
+val () = emit_text(out, "(")
+val () = emit_d2con(out, d2c)
+val () = emit_text(out, ") ;\n")
 //
 } // end of [if] // end of [val]
 //

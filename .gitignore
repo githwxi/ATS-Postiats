@@ -21,11 +21,7 @@ aclocal.m4
 autom4te.cache
 patscc_env.sh
 patsopt_env.sh
-
-#
-# An external link
-#
-contrib
+myatscc_env.sh
 
 #
 # The compiler for POSTIATS 
@@ -37,16 +33,25 @@ src/Makefile_atxt.dats
 src/TAGS
 src/tags
 src/TAGATS
+src/*.a
 
 bin/patscc
 bin/patsopt
 bin/pats2xhtml
-bin/atspkgreloc_curl
-bin/atspkgreloc_wget
+bin/myatscc
+bin/atsreloc_curl
+bin/atsreloc_wget
 bin/atscc2js
 bin/atscc2pl
+bin/atscc2clj
+bin/atscc2erl
 bin/atscc2php
-bin/atscc2py
+bin/atscc2py3
+bin/atscc2r34
+bin/atscc2scm
+bin/patsolve
+bin/patsolve_z3
+bin/patsolve_smt2
 
 #
 # Boostrapping
@@ -56,11 +61,18 @@ src/CBOOT/Makefile
 src/CBOOT/pats*.?ats
 
 #
-# Syntax-highlighting
+# Patsopt as a library
 #
 
-utils/atsyntax/HTML
-utils/atsyntax/pats2xhtml
+utils/libatsopt/JS/TEST/PATSHOME
+
+#
+# For syntax-highlighting
+#
+
+utils/atsynmark/HTML
+utils/atsynmark/pats2xhtml
+utils/libatsynmark/libatsynmark.a
 
 #
 # ATSHOME/ccomp
@@ -80,6 +92,9 @@ utils/atscc/patscc
 # ATSLIB/prelude
 #
 
+prelude/CATS/CODEGEN/*.cats
+prelude/CATS/CODEGEN/*_atxt.txt
+prelude/CATS/CODEGEN/*_atxt.dats
 prelude/SATS/CODEGEN/*.sats
 prelude/SATS/CODEGEN/*_atxt.txt
 prelude/SATS/CODEGEN/*_atxt.dats
@@ -89,83 +104,44 @@ prelude/DATS/CODEGEN/*_atxt.dats
 prelude/DATS/SHARE/CODEGEN/*.dats
 prelude/DATS/SHARE/CODEGEN/*_atxt.txt
 prelude/DATS/SHARE/CODEGEN/*_atxt.dats
-prelude/CATS/CODEGEN/*.cats
-prelude/CATS/CODEGEN/*_atxt.txt
-prelude/CATS/CODEGEN/*_atxt.dats
 
+prelude/SATS/DOCUGEN/HTML
+prelude/SATS/DOCUGEN/DBOOK
+prelude/SATS/DOCUGEN/TRYIT
 prelude/SATS/DOCUGEN/*_atxt.txt
 prelude/SATS/DOCUGEN/*_atxt.dats
 prelude/SATS/DOCUGEN/Makefile
 prelude/SATS/DOCUGEN/Makefile2
-prelude/SATS/DOCUGEN/HTML
-prelude/SATS/DOCUGEN/DBOOK
-prelude/SATS/DOCUGEN/TRYIT
-
-#
-# ATSLIB/libc
-#
-
-libc/SATS/CODEGEN/*.sats
-libc/SATS/CODEGEN/*_atxt.txt
-libc/SATS/CODEGEN/*_atxt.dats
-libc/DATS/CODEGEN/*.dats
-libc/DATS/CODEGEN/*_atxt.txt
-libc/DATS/CODEGEN/*_atxt.dats
-libc/CATS/CODEGEN/*.cats
-libc/CATS/CODEGEN/*_atxt.txt
-libc/CATS/CODEGEN/*_atxt.dats
-
-libc/SATS/DOCUGEN/Makefile
-libc/SATS/DOCUGEN/*_atxt.txt
-libc/SATS/DOCUGEN/*_atxt.dats
-libc/SATS/DOCUGEN/HTML
-libc/SATS/DOCUGEN/TRYIT
-
-libc/sys/SATS/CODEGEN/*.sats
-libc/sys/SATS/CODEGEN/*_atxt.txt
-libc/sys/SATS/CODEGEN/*_atxt.dats
-libc/sys/DATS/CODEGEN/*.dats
-libc/sys/DATS/CODEGEN/*_atxt.txt
-libc/sys/DATS/CODEGEN/*_atxt.dats
-libc/sys/CATS/CODEGEN/*.cats
-libc/sys/CATS/CODEGEN/*_atxt.txt
-libc/sys/CATS/CODEGEN/*_atxt.dats
-
-libc/sys/SATS/DOCUGEN/Makefile
-libc/sys/SATS/DOCUGEN/*_atxt.txt
-libc/sys/SATS/DOCUGEN/*_atxt.dats
-libc/sys/SATS/DOCUGEN/HTML
-libc/sys/SATS/DOCUGEN/TRYIT
 
 #
 # ATSLIB/libats
 #
 
+libats/CATS/CODEGEN/*.cats
+libats/CATS/CODEGEN/*_atxt.txt
+libats/CATS/CODEGEN/*_atxt.dats
 libats/SATS/CODEGEN/*.sats
 libats/SATS/CODEGEN/*_atxt.txt
 libats/SATS/CODEGEN/*_atxt.dats
 libats/DATS/CODEGEN/*.dats
 libats/DATS/CODEGEN/*_atxt.txt
 libats/DATS/CODEGEN/*_atxt.dats
-libats/CATS/CODEGEN/*.cats
-libats/CATS/CODEGEN/*_atxt.txt
-libats/CATS/CODEGEN/*_atxt.dats
 
 libats/SATS/DOCUGEN/Makefile
 libats/SATS/DOCUGEN/*_atxt.txt
 libats/SATS/DOCUGEN/*_atxt.dats
-libats/SATS/DOCUGEN/HTML
-libats/SATS/DOCUGEN/TRYIT
+libats/SATS/DOCUGEN/HTML/*.html
+libats/SATS/DOCUGEN/TRYIT/*.dats
 
+libats/ML/CATS/CODEGEN/*.cats
+libats/ML/CATS/CODEGEN/*_atxt.txt
+libats/ML/CATS/CODEGEN/*_atxt.dats
 libats/ML/SATS/CODEGEN/*.sats
 libats/ML/SATS/CODEGEN/*_atxt.txt
 libats/ML/SATS/CODEGEN/*_atxt.dats
 libats/ML/DATS/CODEGEN/*.dats
 libats/ML/DATS/CODEGEN/*_atxt.txt
 libats/ML/DATS/CODEGEN/*_atxt.dats
-libats/ML/CATS/CODEGEN/*.cats
-libats/ML/CATS/CODEGEN/*_atxt.txt
-libats/ML/CATS/CODEGEN/*_atxt.dats
 
 libats/ML/SATS/DOCUGEN/*_atxt.txt
 libats/ML/SATS/DOCUGEN/*_atxt.dats
@@ -175,26 +151,45 @@ libats/ML/SATS/DOCUGEN/*_atxt.dats
 libats/ML/SATS/DOCUGEN/HTML
 libats/ML/SATS/DOCUGEN/TRYIT
 
-#
-# ATSLIB/libats
-#
+libats/libc/CATS/CODEGEN/*.cats
+libats/libc/CATS/CODEGEN/*_atxt.txt
+libats/libc/CATS/CODEGEN/*_atxt.dats
+libats/libc/SATS/CODEGEN/*.sats
+libats/libc/SATS/CODEGEN/*_atxt.txt
+libats/libc/SATS/CODEGEN/*_atxt.dats
+libats/libc/DATS/CODEGEN/*.dats
+libats/libc/DATS/CODEGEN/*_atxt.txt
+libats/libc/DATS/CODEGEN/*_atxt.dats
 
+libats/libc/SATS/DOCUGEN/Makefile
+libats/libc/SATS/DOCUGEN/*_atxt.txt
+libats/libc/SATS/DOCUGEN/*_atxt.dats
+libats/libc/SATS/DOCUGEN/HTML/*.html
+libats/libc/SATS/DOCUGEN/TRYIT/*.dats
+
+libats/libc/CATS/sys/CODEGEN/*.cats
+libats/libc/CATS/sys/CODEGEN/*_atxt.txt
+libats/libc/CATS/sys/CODEGEN/*_atxt.dats
+libats/libc/SATS/sys/CODEGEN/*.sats
+libats/libc/SATS/sys/CODEGEN/*_atxt.txt
+libats/libc/SATS/sys/CODEGEN/*_atxt.dats
+libats/libc/DATS/sys/CODEGEN/*.dats
+libats/libc/DATS/sys/CODEGEN/*_atxt.txt
+libats/libc/DATS/sys/CODEGEN/*_atxt.dats
+
+libats/libc/SATS/sys/DOCUGEN/Makefile
+libats/libc/SATS/sys/DOCUGEN/*_atxt.txt
+libats/libc/SATS/sys/DOCUGEN/*_atxt.dats
+libats/libc/SATS/sys/DOCUGEN/HTML/*.html
+libats/libc/SATS/sys/DOCUGEN/TRYIT/*.dats
+
+#
+# ATSLIB/libatslex
+#
 libatslex/SATS/DOCUGEN/*_atxt.txt
 libatslex/SATS/DOCUGEN/*_atxt.dats
 libatslex/SATS/DOCUGEN/HTML
 libatslex/SATS/DOCUGEN/TRYIT
-
-#
-# ATSLIB/libatsynmark
-#
-
-libatsynmark/libatsynmark.a
-
-#
-# ATSLIB/libatsyn2json
-#
-
-libatsyn2json/libatsyn2json.a
 
 #
 # ATSHOME/doc/DISTRIB
@@ -203,13 +198,16 @@ doc/DISTRIB/*_atxt.txt
 doc/DISTRIB/*_atxt.dats
 doc/DISTRIB/HTML
 doc/DISTRIB/SCRIPT/*.bash
+doc/DISTRIB/*.tgz
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats
 #
 doc/DISTRIB/ATS-Postiats/AUTHORS
 doc/DISTRIB/ATS-Postiats/COPYING
 doc/DISTRIB/ATS-Postiats/INSTALL
-doc/DISTRIB/ATS-Postiats/VERSION.txt
+doc/DISTRIB/ATS-Postiats/VERSION
+doc/DISTRIB/ATS-Postiats/CHANGES-ats2
+doc/DISTRIB/ATS-Postiats/CHANGES-contrib
 doc/DISTRIB/ATS-Postiats/config*
 doc/DISTRIB/ATS-Postiats/stamp-h1
 doc/DISTRIB/ATS-Postiats/patscc_env.sh.in
@@ -228,30 +226,46 @@ doc/DISTRIB/ATS-Postiats/ccomp/atslib/Makefile
 doc/DISTRIB/ATS-Postiats/ccomp/runtime
 doc/DISTRIB/ATS-Postiats/utils/atscc
 doc/DISTRIB/ATS-Postiats/utils/emacs
+doc/DISTRIB/ATS-Postiats/utils/myatscc
 doc/DISTRIB/ATS-Postiats/prelude/*.ats
 doc/DISTRIB/ATS-Postiats/prelude/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/prelude/DATS/SHARE/*.dats
-doc/DISTRIB/ATS-Postiats/libc/?ATS/*.?ats
-doc/DISTRIB/ATS-Postiats/libc/sys/?ATS/*.?ats
-doc/DISTRIB/ATS-Postiats/libc/arpa/?ATS/*.?ats
-doc/DISTRIB/ATS-Postiats/libc/netinet/?ATS/*.?ats
-doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/*.?ats
-doc/DISTRIB/ATS-Postiats/libc/gdbm/?ATS/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/?ATS/Number/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/?ATS/Number/SHARE/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ML/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ML/COMPILE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ML/COMPILE/?ATS/*.?ats
 doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ATS1/?ATS/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/ATS2/?ATS/fcntainer.sats
+doc/DISTRIB/ATS-Postiats/libats/ATS2/?ATS/fcntainer/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/sys/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/arpa/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/netinet/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/gdbm/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/libc/?ATS/gdbm/SHARE/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/parcomb/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/parcomb/DATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/GraphSearch/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/GraphSearch/DATS/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/DivideConquer/*.?ats
+doc/DISTRIB/ATS-Postiats/libats/BUCS320/DivideConquer/DATS/*.?ats
 doc/DISTRIB/ATS-Postiats/contrib/*
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
-doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/MISC/Makefile
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/*.?ats
 doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/PCPV/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/INTRO/Makefile
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/*.?ats
+doc/DISTRIB/ATS-Postiats/doc/EXAMPLE/ATSLIB/Makefile
+#
+doc/DISTRIB/ATS2-Postiats-0.3.10
 #
 # ATSHOME/doc/DISTRIB/ATS-Postiats-contrib
 #
@@ -266,12 +280,13 @@ doc/DISTRIB/ATS-Postiats-include/prelude
 doc/DISTRIB/ATS-Postiats-include/libc
 doc/DISTRIB/ATS-Postiats-include/libats
 doc/DISTRIB/ATS-Postiats-include/ccomp
-doc/DISTRIB/ATS-Postiats-include/contrib
+doc/DISTRIB/ATS-Postiats-include/patscontrib
 #
 doc/DISTRIB/ATS2-Postiats-include-0.0.4
 doc/DISTRIB/ATS2-Postiats-include-0.0.5
 doc/DISTRIB/ATS2-Postiats-include-0.0.6
 doc/DISTRIB/ATS2-Postiats-include-0.0.7
+doc/DISTRIB/ATS2-Postiats-include-0.3.9
 #
 # ATSHOME/doc/EXAMPLE
 #
@@ -288,9 +303,9 @@ doc/PROJECT/MEDIUM/UTFPL0/.depend
 #
 # INT2PROGINATS
 #
-
 doc/BOOK/INT2PROGINATS/preface
 doc/BOOK/INT2PROGINATS/preface.db
+doc/BOOK/INT2PROGINATS/PDF/main.pdf
 doc/BOOK/INT2PROGINATS/*_atxt.txt
 doc/BOOK/INT2PROGINATS/*_atxt.dats
 doc/BOOK/INT2PROGINATS/CHAP_*/main.db
@@ -298,9 +313,9 @@ doc/BOOK/INT2PROGINATS/CHAP_*/main.db
 #
 # ATS2TUTORIAL
 #
-
 doc/BOOK/ATS2TUTORIAL/preface
 doc/BOOK/ATS2TUTORIAL/preface.db
+doc/BOOK/ATS2TUTORIAL/PDF/main.pdf
 doc/BOOK/ATS2TUTORIAL/CHAP_*/main.db
 doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.txt
 doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.dats
@@ -308,7 +323,6 @@ doc/BOOK/ATS2TUTORIAL/CHAP_*/*_atxt.dats
 #
 # ATS-for-APUE3
 #
-
 doc/BOOK/ATS-for-APUE3/apue.3e
 doc/BOOK/ATS-for-APUE3/CHAP_*/main.db
 

@@ -29,6 +29,16 @@ DATS/atslangweb_utils_dats.c; $(ATSCC2JS) -o $@ -i $<
 ######
 #
 all:: \
+MYCODE/pats2xhtmlize_dats.js
+#
+DATS/pats2xhtmlize_dats.c: \
+DATS/pats2xhtmlize.dats; $(PATSOPT) -o $@ -d $<
+MYCODE/pats2xhtmlize_dats.js: \
+DATS/pats2xhtmlize_dats.c; $(ATSCC2JS) -o $@ -i $<
+#
+######
+#
+all:: \
 MYCODE/patsoptaas_utils_dats.js
 #
 DATS/patsoptaas_utils_dats.c: \
@@ -64,6 +74,7 @@ clean:: ; $(RMF) DATS/*_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) MYCODE/atslangweb_utils_dats.js
+cleanall:: ; $(RMF) MYCODE/pats2xhtmlize_dats.js
 cleanall:: ; $(RMF) MYCODE/patsoptaas_utils_dats.js
 cleanall:: ; $(RMF) MYCODE/patsoptaas_examples_dats.js
 cleanall:: ; $(RMF) MYCODE/patsoptaas_templates_dats.js

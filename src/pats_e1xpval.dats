@@ -59,6 +59,8 @@ macdef prerr_location = $LOC.prerr_location
 
 staload SYM = "./pats_symbol.sats"
 //
+macdef NEG = $SYM.symbol_NEG
+//
 macdef ADD = $SYM.symbol_ADD
 macdef SUB = $SYM.symbol_SUB
 macdef MUL = $SYM.symbol_MUL
@@ -519,7 +521,27 @@ end // end of [e1xplevenv_valize_main]
 
 (* ****** ****** *)
 
-fn e1xplevenv_valize_add (
+fn
+e1xplevenv_valize_neg
+(
+  lev: int, env: !vlenv
+, e0: e1xp, id: symbol, e1: e1xp
+) : v1al = let
+  val v1 = e1xplevenv_valize (lev, env, e1)
+in
+  case+ (v1) of
+  | (V1ALint i1) => V1ALint (~i1)
+  | (V1ALfloat f1) => V1ALfloat(~f1)
+  | _(*non-number*) => V1ALerr () where {
+      val () = the_valerrlst_add(VE_opr_arglst(e0, id))
+    }
+end // end of [e1xplevenv_valize_neg]
+
+(* ****** ****** *)
+
+fn
+e1xplevenv_valize_add
+(
   lev: int, env: !vlenv
 , e0: e1xp, id: symbol, e1: e1xp, e2: e1xp
 ) : v1al = let
@@ -535,7 +557,9 @@ in
     }
 end // end of [e1xplevenv_valize_add]
 
-fn e1xplevenv_valize_sub (
+fn
+e1xplevenv_valize_sub
+(
   lev: int, env: !vlenv
 , e0: e1xp, id: symbol, e1: e1xp, e2: e1xp
 ) : v1al = let
@@ -550,7 +574,9 @@ in
     }
 end // end of [e1xplevenv_valize_sub]
 
-fn e1xplevenv_valize_mul (
+fn
+e1xplevenv_valize_mul
+(
   lev: int, env: !vlenv
 , e0: e1xp, id: symbol, e1: e1xp, e2: e1xp
 ) : v1al = let
@@ -565,7 +591,9 @@ in
     }
 end // end of [e1xplevenv_valize_mul]
 
-fn e1xplevenv_valize_div (
+fn
+e1xplevenv_valize_div
+(
   lev: int, env: !vlenv
 , e0: e1xp, id: symbol, e1: e1xp, e2: e1xp
 ) : v1al = let
@@ -829,33 +857,39 @@ in
 case+ 0 of
 | _ when id = DEFINED => (
   case+ es of
-  | e :: nil () => e1xp_valize_defined (e)
+  | e :: nil () => e1xp_valize_defined(e)
   | _ => oprarity_err ()
   )
 | _ when id = UNDEFINED => (
   case+ es of
-  | e :: nil () => e1xp_valize_undefined (e)
+  | e :: nil () => e1xp_valize_undefined(e)
+  | _ => oprarity_err ()
+  )
+//
+| _ when id = NEG => (
+  case+ es of
+  | e1 :: nil () => e1xplevenv_valize_neg(lev, env, e0, id, e1)
   | _ => oprarity_err ()
   )
 //
 | _ when id = ADD => (
   case+ es of
-  | e1 :: e2 :: nil () => e1xplevenv_valize_add (lev, env, e0, id, e1, e2)
+  | e1 :: e2 :: nil () => e1xplevenv_valize_add(lev, env, e0, id, e1, e2)
   | _ => oprarity_err ()
   )
 | _ when id = SUB => (
   case+ es of
-  | e1 :: e2 :: nil () => e1xplevenv_valize_sub (lev, env, e0, id, e1, e2)
+  | e1 :: e2 :: nil () => e1xplevenv_valize_sub(lev, env, e0, id, e1, e2)
   | _ => oprarity_err ()
   )
 | _ when id = MUL => (
   case+ es of
-  | e1 :: e2 :: nil () => e1xplevenv_valize_mul (lev, env, e0, id, e1, e2)
+  | e1 :: e2 :: nil () => e1xplevenv_valize_mul(lev, env, e0, id, e1, e2)
   | _ => oprarity_err ()
   )
 | _ when id = DIV => (
   case+ es of
-  | e1 :: e2 :: nil () => e1xplevenv_valize_div (lev, env, e0, id, e1, e2)
+  | e1 :: e2 :: nil () => e1xplevenv_valize_div(lev, env, e0, id, e1, e2)
   | _ => oprarity_err ()
   )
 //

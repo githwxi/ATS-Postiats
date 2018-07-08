@@ -21,18 +21,25 @@
 <!ENTITY chap_dotoverld SYSTEM "CHAP_DOTOVERLD/main.db">
 <!ENTITY chap_recursion SYSTEM "CHAP_RECURSION/main.db">
 <!ENTITY chap_datatypes SYSTEM "CHAP_DATATYPES/main.db">
+<!ENTITY chap_list SYSTEM "CHAP_LIST/main.db">
+<!ENTITY chap_funsetmap SYSTEM "CHAP_FUNSETMAP/main.db">
 <!ENTITY chap_exception SYSTEM "CHAP_EXCEPTION/main.db">
 <!ENTITY chap_reference SYSTEM "CHAP_REFERENCE/main.db">
+<!ENTITY chap_tuprec_1 SYSTEM "CHAP_TUPREC_1/main.db">
 <!ENTITY chap_arrayref SYSTEM "CHAP_ARRAYREF/main.db">
 <!ENTITY chap_arrszref SYSTEM "CHAP_ARRSZREF/main.db">
 <!ENTITY chap_matrixref SYSTEM "CHAP_MATRIXREF/main.db">
 <!ENTITY chap_mtrxszref SYSTEM "CHAP_MTRXSZREF/main.db">
+<!ENTITY chap_hashtable SYSTEM "CHAP_HASHTABLE/main.db">
 <!ENTITY chap_tailrec SYSTEM "CHAP_TAILREC/main.db">
 <!ENTITY chap_hordfun SYSTEM "CHAP_HORDFUN/main.db">
 <!ENTITY chap_stream SYSTEM "CHAP_STREAM/main.db">
+<!ENTITY chap_list_vt SYSTEM "CHAP_LIST_VT/main.db">
 <!ENTITY chap_extvar SYSTEM "CHAP_EXTVAR/main.db">
 <!ENTITY chap_cloptr SYSTEM "CHAP_CLOPTR/main.db">
+<!ENTITY chap_stkclo SYSTEM "CHAP_STKCLO/main.db">
 <!ENTITY chap_stream_vt SYSTEM "CHAP_STREAM_VT/main.db">
+<!ENTITY chap_codegen2 SYSTEM "CHAP_CODEGEN2/main.db">
 ]>
 <book id="ATS2TUTORIAL" lang="en">
 &bookinfo;
@@ -61,22 +68,29 @@ To Jinning, Zoe, and Chloe
 &chap_dotoverld;
 &chap_recursion;
 &chap_datatypes;
+&chap_list;
+&chap_funsetmap;
 &chap_exception;
 &chap_reference;
+&chap_tuprec_1;
 &chap_arrayref;
 &chap_arrszref;
 &chap_matrixref;
 &chap_mtrxszref;
+&chap_hashtable;
 &chap_tailrec;
 &chap_hordfun;
 &chap_stream;
+&chap_list_vt;
 </part><!--"basic_tutorial_topics"-->
 
 <part id="advanced_tutorial_topics">
 <title>Advanced Tutorial Topics</title>
 &chap_extvar;
 &chap_cloptr;
+&chap_stkclo;
 &chap_stream_vt;
+&chap_codegen2;
 </part><!--"advanced_tutorial_topics"-->
 
 </book>

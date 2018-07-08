@@ -1,0 +1,110 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../pcre_ML.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_pcre_pcre_ML")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/pcre/pcre_ML\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS of quasi ML-style that is
+directly based on the <a href="http://www.pcre.org/">pcre</a> package.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match_string")
+#decldescrpt("\
+
+Given a pcre-style regular expression (represented as a string) and a
+subject string, this function tests whether the subject string contains a
+portion that matches the given regular expression.
+
+")
+
+#declfunretval("\
+
+The function returns 0 to indicate that a match is found. Otherwise, it
+returns a negative integer to indicate its failure in finding a match. Note
+that a failure may also mean that the given regular expression is
+ill-formed.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match_substring")
+#decldescrpt("\
+
+This function is a slightly generalized variant of #dyncode("regstr_match_string").
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match2_string")
+#decldescrpt("\
+
+Compared with #dyncode("regstr_match_string"), this function takes two
+additional call-by-reference arguments that are used to store the beginning
+and ending positions of the portion of the given subject string that
+matches the given regular expression.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match2_substring")
+#decldescrpt("\
+
+This function is a slightly generalized variant of #dyncode("regstr_match2_string").
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match3_string")
+#decldescrpt("\
+
+Compared with #dyncode("regstr_match2_string"), this function returns a
+list of (linear) strings that are copies of the captured portions in the
+given subject string. Note that the integer value stored in the
+call-by-reference argument err indicates whether matching succeeded or
+failed; if the value is negative, then matching failed; if the value is
+zero, then matching succeeded and the length of the returned list equals a
+fixed integer (currently chosen to be 15); otherwise, matching succeeded
+and the length of the returned list equals the value minus 1.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("regstr_match3_substring")
+#decldescrpt("\
+
+This function is a slightly generalized variant of #dyncode("regstr_match3_string").
+
+")
+
+(* ****** ****** *)
+
+(* end of [pcre_ML.atxt] *)

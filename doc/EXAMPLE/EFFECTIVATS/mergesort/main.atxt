@@ -1,25 +1,26 @@
+<!DOCTYPE html>
 %{
-#include "./../ATEXT/atextfun.hats"
+#include "./../MYTEXT/mytextfun.hats"
 %}
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-mergesort</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
 
 <h1>
-Effective ATS: Mergesort
+Effective ATS: Mergesort (top-down)
 </h1>
 
-In this article, I would like to use mergesort as a concrete example to
-demonstrate a natural style of refinement-based programming.
+In this article,
+I would like to use mergesort as a concrete example to demonstrate a
+natural style of refinement-based programming. The implementation of mergesort
+given is of the so-called top-down style.
 
 <h2>
 What is Mergesort?
@@ -62,9 +63,8 @@ in
 end // end of [mergesort]
 ")</pre>
 
-where the function
-[myseq_length], [myseq_split] and [myseq_merge]
-are assigned the following types:
+where the functions [myseq_length], [myseq_split] and [myseq_merge] are
+assigned the following types:
 
 <pre
 class="patsyntax">
@@ -85,7 +85,7 @@ and their functionalities are briefly explained below:
 Even for someone who is unfamiliar with the syntax of ATS, it is probably
 fair to say that the above specification-like implementation of [mergesort] is
 often preferrable to a description of mergesort in English or other natural
-langauges.
+languages.
 
 <h2>
 Specifying with Dependent Types
@@ -305,7 +305,9 @@ modified as follows:
 class="patsyntax">
 #pats2xhtml_sats("\
 fun{a:t0p}
-mergesort{n:nat} (xs: arrayref(a, n), n: int n): arrayref(a, n)
+mergesort
+  {n:nat}
+  (xs: arrayref(a, n), n: int n): arrayref(a, n)
 ")</pre>
 
 This interface means that [mergesort] takes both an array and the size of
@@ -355,8 +357,10 @@ Have fun!
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
+#patspage_script()
 </body>
 </html>
 

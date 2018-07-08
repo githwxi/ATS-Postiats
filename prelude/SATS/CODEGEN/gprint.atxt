@@ -26,8 +26,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-vtypedef
-RD(a:vt0p) = a // for commenting: read-only
 \#define NSH (x) x // for commenting: no sharing
 \#define SHR (x) x // for commenting: it is shared
 
@@ -38,22 +36,31 @@ sortdef t0p = t@ype
 #atscode_separator()
 
 fun{}
-gprint$out (): FILEref
+gprint$out(): FILEref
 
 #atscode_separator()
 
 fun{}
-gprint_newline (): void
+gprint_flush(): void
+
+#atscode_separator()
+
+fun{}
+gprint_newline(): void
 
 #atscode_separator()
 
 fun{a:t0p}
 gprint_val (x: a): void
+fun{a:vt0p}
+gprint_ref (x: &INV(a)): void
 
 #atscode_separator()
 
 fun{}
 gprint_int (x: int): void
+fun{}
+gprint_bool (x: bool): void
 fun{}
 gprint_char (x: char): void
 fun{}
@@ -64,58 +71,71 @@ fun{}
 gprint_string (x: string): void
 
 #atscode_separator()
-
-fun{}
-gprint_list$beg (): void
-fun{}
-gprint_list$end (): void
-fun{}
-gprint_list$sep (): void
 //
-fun{a:t0p}
-gprint_list (xs: List (a)): void
-
+overload gprint with gprint_int
+overload gprint with gprint_bool
+overload gprint with gprint_char
+overload gprint with gprint_float
+overload gprint with gprint_double
+overload gprint with gprint_string
+//
 #atscode_separator()
 
-fun{}
-gprint_listlist$beg1 (): void
-fun{}
-gprint_listlist$end1 (): void
-fun{}
-gprint_listlist$sep1 (): void
-//
-fun{}
-gprint_listlist$beg2 (): void
-fun{}
-gprint_listlist$end2 (): void
-fun{}
-gprint_listlist$sep2 (): void
+fun{} gprint_list$beg(): void
+fun{} gprint_list$end(): void
+fun{} gprint_list$sep(): void
 //
 fun{a:t0p}
-gprint_listlist (xss: List (List (a))): void
-
+gprint_list (xs: List(a)): void
+//
+overload gprint with gprint_list
+//
 #atscode_separator()
 
-fun{}
-gprint_array$beg (): void
-fun{}
-gprint_array$end (): void
-fun{}
-gprint_array$sep (): void
+fun{} gprint_listlist$beg1(): void
+fun{} gprint_listlist$end1(): void
+fun{} gprint_listlist$sep1(): void
+//
+fun{} gprint_listlist$beg2(): void
+fun{} gprint_listlist$end2(): void
+fun{} gprint_listlist$sep2(): void
+//
+fun{a:t0p}
+gprint_listlist (xss: List(List(a))): void
+
+#atscode_separator()
+//
+fun{} gprint_array$beg(): void
+fun{} gprint_array$end(): void
+fun{} gprint_array$sep(): void
 //
 fun{a:t0p}
 gprint_array
-  {n:int} (A: &RD(@[INV(a)][n]), n: size_t n): void
-// end of [gprint_array]
+  {n:int}
+(
+  &(@[INV(a)][n]), size_t(n)
+) : void // end-of-function
+//
 fun{a:t0p}
 gprint_arrayptr
-  {n:int} (A: !arrayptr (INV(a), n), n: size_t n): void
-// end of [gprint_arrayptr]
+  {n:int}
+(
+  !arrayptr(INV(a), n), size_t(n)
+) : void // end-of-function
+//
 fun{a:t0p}
 gprint_arrayref
-  {n:int} (ref: arrayref (INV(a), n), n: size_t n): void
+  {n:int}
+  (arrayref(a, n), size_t(n)): void
 // end of [gprint_arrayref]
-
+//
+#atscode_separator()
+//
+fun{a:t0p}
+gprint_arrszref(ASZ: arrszref(a)): void
+//
+overload gprint with gprint_arrayref
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

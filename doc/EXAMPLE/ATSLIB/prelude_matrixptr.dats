@@ -9,18 +9,20 @@
 //
 (* ****** ****** *)
 
-staload "prelude/lmacrodef.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload "prelude/lmacrodef.hats"
+//
 (* ****** ****** *)
-
+//
 postfix 0 sz SZ
+//
 macdef sz (x) = i2sz ,(x)
 macdef SZ (x) = i2sz ,(x)
-
+//
 (* ****** ****** *)
 
 val () =
@@ -52,7 +54,8 @@ val () = M[1, n, 3] :=/ 2
 val () = M[1, n, 4] :=/ 2
 //
 val () =
-  fprint_matrixptr (out, M, (m)sz, (n)sz)
+fprint_matrixptr(out, M, (m)sz, (n)sz)
+//
 val () = fprint_newline (out)
 //
 val () = matrixptr_free (M)
@@ -61,7 +64,7 @@ val () = matrixptr_free (M)
 
 (* ****** ****** *)
 
-implement main0 () = ()
+implement main0((*void*)) = {(*void*)}
 
 (* ****** ****** *)
 

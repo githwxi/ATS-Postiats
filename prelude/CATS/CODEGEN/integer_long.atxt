@@ -1,0 +1,127 @@
+%{
+//
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_CATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_long.cats"
+val ((*void*)) =
+theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_GPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("January, 2013")
+*/
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/integer_long.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSLIB_PRELUDE_CATS_INTEGER_LONG
+\#define ATSLIB_PRELUDE_CATS_INTEGER_LONG
+
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
+\#define \\
+atspre_g1int2int_int_lint(x) atspre_g0int2int_int_lint(x)
+//
+\#define \\
+atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
+\#define \\
+atspre_g1int2int_int_llint(x) atspre_g0int2int_int_llint(x)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2int_lint_int(x) ((atstype_int)(x))
+\#define \\
+atspre_g1int2int_lint_int(x) atspre_g0int2int_lint_int(x)
+//
+\#define \\
+atspre_g0int2int_lint_lint(x) ((atstype_lint)(x))
+\#define \\
+atspre_g1int2int_lint_lint(x) atspre_g0int2int_lint_lint(x)
+//
+\#define \\
+atspre_g0int2int_lint_llint(x) ((atstype_llint)(x))
+\#define \\
+atspre_g1int2int_lint_llint(x) atspre_g0int2int_lint_llint(x)
+//
+#atscode_separator_for_C()
+//
+\#define \\
+atspre_g0int2uint_int_ulint(x) ((atstype_ulint)(x))
+\#define \\
+atspre_g1int2uint_int_ulint(x) atspre_g0int2uint_int_ulint(x)
+//
+\#define \\
+atspre_g0int2uint_int_ullint(x) ((atstype_ullint)(x))
+\#define \\
+atspre_g1int2uint_int_ullint(x) atspre_g0int2uint_int_ullint(x)
+//
+\#define \\
+atspre_g0int2uint_lint_ulint(x) ((atstype_ulint)(x))
+\#define \\
+atspre_g1int2uint_lint_ulint(x) atspre_g0int2uint_lint_ulint(x)
+//
+\#define \\
+atspre_g0int2uint_lint_ullint(x) ((atstype_ullint)(x))
+\#define \\
+atspre_g1int2uint_lint_ullint(x) atspre_g0int2uint_lint_ullint(x)
+//
+\#define \\
+atspre_g0int2uint_llint_ullint(x) ((atstype_ullint)(x))
+\#define \\
+atspre_g1int2uint_llint_ullint(x) atspre_g0int2uint_llint_ullint(x)
+//
+#atscode_separator_for_C()
+
+\#define atspre_g0uint2int_uint_lint(x) ((atstype_lint)(x))
+\#define atspre_g0uint2int_uint_llint(x) ((atstype_llint)(x))
+\#define atspre_g1uint2int_uint_int atspre_g0uint2int_uint_int
+\#define atspre_g1uint2int_uint_lint atspre_g0uint2int_uint_lint
+\#define atspre_g1uint2int_uint_llint atspre_g0uint2int_uint_llint
+\#define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
+\#define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))
+\#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
+\#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSLIB_PRELUDE_CATS_INTEGER_LONG
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement
+main(argc, argv) =
+fprint_filsub(stdout_ref, "integer_long_atxt.txt")
+%}\
+

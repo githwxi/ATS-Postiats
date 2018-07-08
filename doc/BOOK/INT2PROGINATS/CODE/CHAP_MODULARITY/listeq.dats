@@ -54,7 +54,8 @@ implement
 main0 ((*void*)) =
 {
 //
-val xs = (list0)$arrpsz{int}(1, 2, 3)
+val xs =
+list0($arrpsz{int}(1, 2, 3))
 //
 val iseq = listeq<int> (xs, xs)
 val ((*void*)) = assertloc (iseq)

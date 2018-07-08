@@ -67,55 +67,55 @@ gpred_val<llint> (x) = pred (x)
 #atscode_separator()
 
 implement
-gadd_val<int> (x, y) = x + y
+gadd_val_val<int> (x, y) = x + y
 implement
-gadd_val<lint> (x, y) = x + y
+gadd_val_val<lint> (x, y) = x + y
 implement
-gadd_val<llint> (x, y) = x + y
+gadd_val_val<llint> (x, y) = x + y
 implement
-gadd_val<ssize_t> (x, y) = x + y
+gadd_val_val<ssize_t> (x, y) = x + y
 
 #atscode_separator()
 
 implement
-gsub_val<int> (x, y) = x - y
+gsub_val_val<int> (x, y) = x - y
 implement
-gsub_val<lint> (x, y) = x - y
+gsub_val_val<lint> (x, y) = x - y
 implement
-gsub_val<llint> (x, y) = x - y
+gsub_val_val<llint> (x, y) = x - y
 
 #atscode_separator()
 
 implement
-gmul_val<int> (x, y) = x * y
+gmul_val_val<int> (x, y) = x * y
 implement
-gmul_val<lint> (x, y) = x * y
+gmul_val_val<lint> (x, y) = x * y
 implement
-gmul_val<llint> (x, y) = x * y
+gmul_val_val<llint> (x, y) = x * y
 implement
-gmul_val<ssize_t> (x, y) = x * y
+gmul_val_val<ssize_t> (x, y) = x * y
 
 #atscode_separator()
 
 implement
-gdiv_val<int> (x, y) = x / y
+gdiv_val_val<int> (x, y) = x / y
 implement
-gdiv_val<lint> (x, y) = x / y
+gdiv_val_val<lint> (x, y) = x / y
 implement
-gdiv_val<llint> (x, y) = x / y
+gdiv_val_val<llint> (x, y) = x / y
 implement
-gdiv_val<ssize_t> (x, y) = x / y
+gdiv_val_val<ssize_t> (x, y) = x / y
 
 #atscode_separator()
 
 implement
-gmod_val<int> (x, y) = x mod y
+gmod_val_val<int> (x, y) = x mod y
 implement
-gmod_val<lint> (x, y) = x mod y
+gmod_val_val<lint> (x, y) = x mod y
 implement
-gmod_val<llint> (x, y) = x mod y
+gmod_val_val<llint> (x, y) = x mod y
 implement
-gmod_val<ssize_t> (x, y) = x mod y
+gmod_val_val<ssize_t> (x, y) = x mod y
 
 #atscode_separator()
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.2.4</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.2.4:
+</H2>
+
+<pre>
+
+This is the 27th release of ATS2, the successor of the ATS
+(currently referred to as ATS1) programming language. The compiler
+for ATS2 is given the name ATS/Positats, ATS2/Postiats or simply
+Postiats.
+
+The official website for ATS is:
+
+<a href="http://www.ats-lang.org">http://www.ats-lang.org</a>
+
+ATS-Postiats is hosted at github:
+
+<a href="https://github.com/githwxi/ATS-Postiats">https://github.com/githwxi/ATS-Postiats</a>
+
+Major releases of ATS2 are available at:
+
+<a href="https://sourceforge.net/projects/ats2-lang">https://sourceforge.net/projects/ats2-lang</a>
+
+Major releases of external packages for ATS2 are available at:
+
+<a href="https://sourceforge.net/projects/ats2-lang-contrib">https://sourceforge.net/projects/ats2-lang-contrib</a>
+
+Here is a list of major additions and changes since the last release:
+
+1. Fixing a bug due to abstract types being given the 'empty' name.
+2. Adding libats/theGetters
+3. Fixing a bug in ATS-extsolve (involving the s2rtdatmap generation)
+4. Fixing a minor parsing bug in CATS-parsemit
+5. Adding libatsopt, the library version of patsopt; see utils/libatsopt
+6. Adding some ifdef-guards:
+   ATS_EXTERN_DEF__ for guarding the definition of ATSextern()
+   ATS_STATIC_DEF__ for guarding the definition of ATSstatic()
+   ATS_INLINE_DEF__ for guarding the definition of ATSinline()
+7. Adding some examples to illustrate a way of using ATS+Emscripten
+8. Supporting evaluated expressions (of the form %(...)) in statics
+9. Generally improving libatscc2js and libatscc2erl
+10. With libatsopt(JS), patsopt can now run entirely inside the browser.
+11. Adding char2int1 and fixing add_bool_bool and mul_bool_bool
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

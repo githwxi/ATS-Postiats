@@ -41,7 +41,7 @@ exception FatalErrorExn_interr of ()
 // HX:
 // raising FatalErrorException
 //
-fun abort {a:viewt@ype} ():<!exn> (a)
+fun abort{a:viewt@ype}():<!exn> (a)
 //
 (* ****** ****** *)
 //

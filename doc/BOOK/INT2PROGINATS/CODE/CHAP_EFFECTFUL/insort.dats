@@ -45,7 +45,6 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -56,7 +55,7 @@ insertion_sort
   A: arrszref (a)
 , cmp: (a, a) -> int
 ) : void = let
-  val n = g0uint2int_size_int (A.size)
+  val n = g0uint2int_size_int(A.size())
   fun ins (x: a, i: int):<cloref1> void =
     if i >= 0 then
       if cmp (x, A[i]) < 0 then (A[i+1] := A[i]; ins (x, i-1))
@@ -71,21 +70,23 @@ in
 end // end of [insertion_sort]
 
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
-
-staload "libc/SATS/stdlib.sats"
-
+//
+staload
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 //
 #define
 ATSCNTRB_sourceloc
 "http://www.ats-lang.org/LIBRARY/contrib"
 #define
-ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+ATSCNTRB_targetloc "./../.INT2PROGINATS-atscntrb"
 //
 staload RG =
 "{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"

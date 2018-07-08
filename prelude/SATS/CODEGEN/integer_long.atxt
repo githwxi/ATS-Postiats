@@ -1,0 +1,221 @@
+%{
+//
+#define
+ATSCODEFORMAT "txt"
+//
+#if
+(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_SATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_long.sats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("January, 2013")
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/integer_long.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+sortdef tk = tkind
+
+#atscode_separator()
+//
+stadef lintknd = lint_kind
+stadef ulintknd = ulint_kind
+//
+stadef llintknd = llint_kind
+stadef ullintknd = ullint_kind
+//
+#atscode_separator()
+//
+fun g0int2int_int_lint(int):<> lint = "mac\#%"
+fun g0uint2int_uint_lint(uint):<> lint = "mac\#%"
+//
+fun g0int2uint_int_ulint(int):<> ulint = "mac\#%"
+fun g0uint2uint_uint_ulint(uint):<> ulint = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0int2int_lint_int(lint):<> int = "mac\#%"
+fun g0int2int_lint_lint(lint):<> lint = "mac\#%"
+fun g0int2int_lint_llint(lint):<> llint = "mac\#%"
+//
+fun g0int2uint_lint_uint(lint):<> uint = "mac\#%"
+fun g0int2uint_lint_ulint(lint):<> ulint = "mac\#%"
+fun g0int2uint_lint_ullint(lint):<> ullint = "mac#%"
+//
+#atscode_separator()
+//
+fun g0uint2int_ulint_int(ulint):<> int = "mac\#%"
+fun g0uint2int_ulint_lint(ulint):<> lint = "mac\#%"
+fun g0uint2int_ulint_llint(ulint):<> llint = "mac\#%"
+//
+fun g0uint2uint_ulint_uint(ulint):<> uint = "mac\#%"
+fun g0uint2uint_ulint_ulint(ulint):<> ulint = "mac\#%"
+fun g0uint2uint_ulint_ullint(ulint):<> ullint = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0int2int_int_llint(int):<> llint = "mac\#%"
+fun g0uint2int_uint_llint(uint):<> llint = "mac\#%"
+//
+fun g0int2uint_int_ullint(int):<> ullint = "mac\#%"
+fun g0uint2uint_uint_ullint(uint):<> ullint = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0int2int_llint_int(llint):<> int = "mac\#%"
+fun g0int2int_llint_lint(llint):<> lint = "mac\#%"
+fun g0int2int_llint_llint(llint):<> llint = "mac\#%"
+//
+fun g0int2uint_llint_uint(llint):<> uint = "mac\#%"
+fun g0int2uint_llint_ulint(llint):<> ulint = "mac\#%"
+fun g0int2uint_llint_ullint(llint):<> ullint = "mac\#%"
+//
+#atscode_separator()
+//
+fun g0uint2int_ullint_int(ullint):<> int = "mac\#%"
+fun g0uint2int_ullint_lint(ullint):<> lint = "mac\#%"
+fun g0uint2int_ullint_llint(ullint):<> llint = "mac\#%"
+//
+fun g0uint2uint_ullint_uint(ullint):<> uint = "mac\#%"
+fun g0uint2uint_ullint_ulint(ullint):<> ulint = "mac\#%"
+fun g0uint2uint_ullint_ullint(ullint):<> ullint = "mac\#%"
+//
+#atscode_separator()
+//
+fun
+g0int2string_lint(i0: lint):<!wrt> Strptr1 = "mac\#%"
+fun
+g0int2string_llint(i0: llint):<!wrt> Strptr1 = "mac\#%"
+//
+fun
+g0uint2string_ulint(u0: ulint):<!wrt> Strptr1 = "mac\#%"
+fun
+g0uint2string_ullint(u0: ullint):<!wrt> Strptr1 = "mac\#%"
+//
+#atscode_separator()
+//
+fun
+g0string2int_lint(rep: NSH(string)):<> lint = "mac\#%"
+fun
+g0string2int_llint(rep: NSH(string)):<> llint = "mac\#%"
+//
+fun
+g0string2uint_ulint(rep: NSH(string)):<> ulint = "mac\#%"
+fun
+g0string2uint_ullint(rep: NSH(string)):<> ullint = "mac\#%"
+//
+#atscode_separator()
+//
+#fprint_print_prerr_decl("lint", "lint")\
+//
+#fprint_print_prerr_decl("ulint", "ulint")\
+//
+#fprint_print_prerr_decl("llint", "llint")\
+//
+#fprint_print_prerr_decl("ullint", "ullint")\
+//
+#atscode_separator()
+//
+#g0int_type_aop_cmp_decl("lint", "lint")\
+//
+#g0uint_type_aop_cmp_decl("ulint", "ulint")\
+//
+#g0int_type_aop_cmp_decl("llint", "llint")\
+//
+#g0uint_type_aop_cmp_decl("ullint", "ullint")\
+//
+#atscode_separator()
+//
+#g1int_type_aop_cmp_decl("lint", "lint")\
+//
+#g1uint_type_aop_cmp_decl("ulint", "ulint")\
+//
+#g1int_type_aop_cmp_decl("llint", "llint")\
+//
+#g1uint_type_aop_cmp_decl("ullint", "ullint")\
+//
+#atscode_separator()
+//
+fun
+g1int2int_int_lint:
+g1int2int_type(intknd, lintknd) = "mac\#%"
+fun
+g1int2int_int_llint:
+g1int2int_type(intknd, llintknd) = "mac\#%"
+//
+fun
+g1int2int_lint_lint:
+g1int2int_type(lintknd, lintknd) = "mac\#%"
+fun
+g1int2int_lint_llint:
+g1int2int_type(lintknd, llintknd) = "mac\#%"
+//
+#atscode_separator()
+//
+fun
+g1int2uint_int_ulint:
+g1int2uint_type(intknd, ulintknd) = "mac\#%"
+fun
+g1int2uint_int_ullint:
+g1int2uint_type(intknd, ullintknd) = "mac\#%"
+//
+#atscode_separator()
+//
+fun
+g1uint2int_uint_lint:
+g1uint2int_type(uintknd, lintknd) = "mac\#%"
+fun
+g1uint2int_uint_llint:
+g1uint2int_type(uintknd, llintknd) = "mac\#%"
+//
+fun
+g1uint2uint_uint_ulint:
+g1uint2uint_type(uintknd, ulintknd) = "mac\#%"
+fun
+g1uint2uint_uint_ullint:
+g1uint2uint_type(uintknd, ullintknd) = "mac\#%"
+//
+fun
+g1uint2uint_ulint_uint:
+g1uint2uint_type(uintknd, uintknd) = "mac\#%"
+fun
+g1uint2uint_ulint_ulint:
+g1uint2uint_type(uintknd, ulintknd) = "mac\#%"
+fun
+g1uint2uint_ulint_ullint:
+g1uint2uint_type(uintknd, ullintknd) = "mac\#%"
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_long_atxt.txt")
+%}\

@@ -50,11 +50,13 @@ UN = "prelude/SATS/unsafe.sats"
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_lvalres"
-
+//
+implement
+prerr_FILENAME<> () = prerr "pats_trans3_lvalres"
+//
 (* ****** ****** *)
 
 staload "./pats_syntax.sats"
@@ -176,7 +178,8 @@ end // end of [local]
 
 local
 
-fun auxerr_linold
+fun
+auxerr_linold
 (
   loc0: loc_t
 , d3e: d3exp, d3ls: d3lablst, s2e_old: s2exp
@@ -189,7 +192,8 @@ in
   the_trans3errlst_add (T3E_d3lval_exch_type_linold (loc0, d3e, d3ls))
 end // end of [auxerr_linold]
 
-fun d2var_refval_check
+fun
+d2var_refval_check
 (
   loc0: loc_t, d2v: d2var, refval: int
 ) : void = 
@@ -224,7 +228,8 @@ val () =
 //
 in
 //
-case+ d3e0.d3exp_node of
+case+
+d3e0.d3exp_node of
 //
 | D3Evar (d2v)
     when d2var_is_mutabl (d2v) => let
@@ -324,15 +329,21 @@ case+ d3e0.d3exp_node of
   end // end of [D2Eviewat]
 //
 (*
-| _ => let
+| D3Eapp_sta(d3e) =>
+    d3lval_set_type_err (refval, d3e, s2e_new, err)
+  // end of [D3Eapp_sta]
+*)
+//
+| _ (*D3E...: non-left-values*) => (err := err + 1)
+//
+(*
+| _ (*D3E...: non-left-values*) => let
     val () = prerr_error3_loc (loc0)
-    val () = prerr ": type-restoration cannot be applied to a non-left-value."
-    val () = prerr_newline ()
+    val () = prerrln! ": type-restoration cannot be applied to a non-left-value."
   in
     the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
   end // end of [_]
 *)
-| _ => (err := err + 1)
 //
 end // end of [d3lval_set_type_err]
 
@@ -408,10 +419,19 @@ auxerr
 (
   d3e0: d3exp
 ) : void = let
-  val loc0 = d3e0.d3exp_loc
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the function argument needs to be a left-value."
-  val () = prerr_newline ()
+//
+val
+loc0 = d3e0.d3exp_loc
+//
+(*
+val () = prerr_error3_loc (loc0)
+val () = prerrln! (": auxerr: d3e0 = ", d3e0)
+*)
+//
+val () = prerr_error3_loc (loc0)
+val () =
+  prerrln! (": the function argument needs to be a left-value.")
+//
 in
   the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
 end // end of [_]
@@ -470,7 +490,9 @@ case+ s2e_fun.s2exp_node of
   (
   case+ fc of
   | FUNCLOclo (knd) =>
-      if knd > 0 then (if lin <= 0 then true else false) else false
+      if knd > 0
+        then (if lin <= 0 then true else false) else false
+      // end of [if]
   | _ (*non-clofun*) => false
   ) // end of [S2Efun]
 | _ (*non-fun-type*) => false
@@ -488,7 +510,7 @@ auxerr
 ) : void = let
   val loc0 = d3e0.d3exp_loc
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the function needs to be a left-value."
+  val () = prerr ": the function itself needs to be a left-value."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3lval_fun (d3e0))
@@ -582,31 +604,20 @@ end // end of [local]
 
 local
 
-fun auxerr
-(
-  d3e0: d3exp
-) : void = let
-  val loc0 = d3e0.d3exp_loc
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the function argument needs to be a left-value."
-  val () = prerr_newline ()
-in
-  the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
-end // end of [_]
-
-fun auxlst1
+fun
+auxlst1
 (
   d3es: d3explst
 , s2es_arg: s2explst
 , wths2es: wths2explst
 ) : d3explst =
   case d3es of
-  | list_cons _ =>
-      auxlst2 (d3es, s2es_arg, wths2es)
   | list_nil () => list_nil ()
+  | list_cons _ => auxlst2 (d3es, s2es_arg, wths2es)
 // end of [auxlst1]
 
-and auxlst2
+and
+auxlst2
 (
   d3es: d3explst
 , s2es_arg: s2explst
@@ -615,6 +626,9 @@ and auxlst2
 in
 //
 case+ wths2es of
+//
+| WTHS2EXPLSTnil
+    ((*void*)) => list_nil ()
 //
 | WTHS2EXPLSTcons_invar
     (_, _, wths2es) => let
@@ -660,8 +674,6 @@ case+ wths2es of
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_none]
-//
-| WTHS2EXPLSTnil () => list_nil ()
 //
 end // end of [d3explst_arg_restore]
 

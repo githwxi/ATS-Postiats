@@ -124,13 +124,26 @@ neq_label_label
 implement
 compare_label_label
   (l1, l2) = let
+(*
+val () =
+println!
+  ("compare_label_label: l1 = ", l1)
+val () =
+println!
+  ("compare_label_label: l2 = ", l2)
+*)
 in
 //
-case+ (l1, l2) of
-  | (LABint i1, LABint i2) => compare (i1, i2)
-  | (LABsym s1, LABsym s2) => compare (s1, s2)
-  | (LABint _, LABsym _) => ~1
-  | (LABsym _, LABint _) =>  1
+case+
+(l1, l2)
+of // case+
+//
+| (LABint i1, LABint i2) => compare(i1, i2)
+| (LABsym s1, LABsym s2) => compare(s1, s2)
+//
+| (LABint _, LABsym _) => ~1
+//
+| (LABsym _, LABint _) =>  1
 //
 end // end of [compare_label_label]
 
@@ -142,26 +155,28 @@ tostring_label
 in
 //
 case+ l of
-| LABint (int) =>
-    string_of_strptr (tostrptr_int (int))
-| LABsym (sym) => $SYM.symbol_get_name (sym)
+| LABint(int) =>
+    string_of_strptr(tostrptr_int(int))
+  // end of [LABint]
+| LABsym(sym) => $SYM.symbol_get_name(sym)
 //
 end // end of [tostring_label]
 
 (* ****** ****** *)
-
+//
+implement
+print_label(x) = fprint_label(stdout_ref, x)
+implement
+prerr_label(x) = fprint_label(stderr_ref, x)
+//
 implement
 fprint_label (out, x) =
+(
   case+ x of
-  | LABint (int) => fprint_int (out, int)
-  | LABsym (sym) => $SYM.fprint_symbol (out, sym)
-// end of [fprint_label]
-
-implement
-print_label (x) = fprint_label (stdout_ref, x)
-implement
-prerr_label (x) = fprint_label (stderr_ref, x)
-
+  | LABint(int) => fprint_int(out, int)
+  | LABsym(sym) => $SYM.fprint_symbol(out, sym)
+) (* end of [fprint_label] *)
+//
 (* ****** ****** *)
 
 (* end of [pats_label.dats] *)

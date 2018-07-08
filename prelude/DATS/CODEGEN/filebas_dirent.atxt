@@ -1,0 +1,92 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"filebas_dirent.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/filebas_dirent.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("December, 2017")
+
+#atscode_separator()
+
+\#define
+ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+#atscode_separator()
+
+\#staload
+UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+\#staload
+_(*INT*) = "prelude/DATS/integer.dats"
+
+#atscode_separator()
+//
+\#staload
+DIR = "libats/libc/SATS/dirent.sats"
+\#staload
+_(*DIR*) = "libats/libc/DATS/dirent.dats"
+//
+#atscode_separator()
+
+vtypedef dirent = $DIR.dirent
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+streamize_dirname_fname
+  (dirname) = let
+//
+val
+dirp = $DIR.opendir(dirname)
+//
+val ents =
+(
+if
+$DIR.DIRptr2ptr(dirp) > 0
+then
+$DIR.streamize_DIRptr_dirent<>(dirp)
+else let
+//
+prval() =
+$DIR.DIRptr_free_null(dirp) in stream_vt_make_nil()
+//
+end // end of [else]
+) : stream_vt(dirent)
+//
+in
+//
+stream_vt_map_cloptr<dirent><Strptr1>
+  (ents, lam(ent) => $DIR.dirent_get_d_name_gc<>(ent))
+//
+end // end of [streamize_dirname_fname]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "filebas_dirent_atxt.txt")
+%}\

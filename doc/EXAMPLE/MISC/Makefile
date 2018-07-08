@@ -34,18 +34,7 @@ LNS=ln -s
 RMF=rm -f
 
 ######
-
-all:: autodiff
-autodiff: autodiff.exe
-autodiff.exe: autodiff_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -lm -lgc
-autodiff_dats.c: autodiff.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output autodiff_dats.c --dynamic autodiff.dats
-clean:: ; $(RMF) autodiff_dats.o
-clean:: ; $(RMF) autodiff_dats.c
-cleanall:: ; $(RMF) autodiff autodiff.exe
-
-
-######
-
+#
 all:: arith_overflow
 arith_overflow: arith_overflow.exe
 arith_overflow.exe: arith_overflow_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
@@ -86,6 +75,31 @@ clean:: ; $(RMF) fibver_trec_dats.o
 clean:: ; $(RMF) fibver_trec_dats.c
 cleanall:: ; $(RMF) fibver_trec fibver_trec.exe
 
+all:: matrixops
+matrixops: matrixops.exe
+matrixops.exe: matrixops_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
+matrixops_dats.c: matrixops.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output matrixops_dats.c --dynamic matrixops.dats
+clean:: ; $(RMF) matrixops_dats.o
+clean:: ; $(RMF) matrixops_dats.c
+cleanall:: ; $(RMF) matrixops matrixops.exe
+
+#
+all:: autodiff
+autodiff: autodiff.exe
+autodiff.exe: autodiff_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -lm -lgc
+autodiff_dats.c: autodiff.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output autodiff_dats.c --dynamic autodiff.dats
+clean:: ; $(RMF) autodiff_dats.o
+clean:: ; $(RMF) autodiff_dats.c
+cleanall:: ; $(RMF) autodiff autodiff.exe
+
+all:: fib_memo
+fib_memo: fib_memo.exe
+fib_memo.exe: fib_memo_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
+fib_memo_dats.c: fib_memo.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output fib_memo_dats.c --dynamic fib_memo.dats
+clean:: ; $(RMF) fib_memo_dats.o
+clean:: ; $(RMF) fib_memo_dats.c
+cleanall:: ; $(RMF) fib_memo fib_memo.exe
+
 all:: fourslot
 fourslot: fourslot.exe
 fourslot.exe: fourslot_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -102,21 +116,29 @@ clean:: ; $(RMF) hanoi_dats.o
 clean:: ; $(RMF) hanoi_dats.c
 cleanall:: ; $(RMF) hanoi hanoi.exe
 
-all:: isqrt
-isqrt: isqrt.exe
-isqrt.exe: isqrt_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-isqrt_dats.c: isqrt.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output isqrt_dats.c --dynamic isqrt.dats
-clean:: ; $(RMF) isqrt_dats.o
-clean:: ; $(RMF) isqrt_dats.c
-cleanall:: ; $(RMF) isqrt isqrt.exe
+all:: intsqrt_cps
+intsqrt_cps: intsqrt_cps.exe
+intsqrt_cps.exe: intsqrt_cps_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+intsqrt_cps_dats.c: intsqrt_cps.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intsqrt_cps_dats.c --dynamic intsqrt_cps.dats
+clean:: ; $(RMF) intsqrt_cps_dats.o
+clean:: ; $(RMF) intsqrt_cps_dats.c
+cleanall:: ; $(RMF) intsqrt_cps intsqrt_cps.exe
 
-all:: matrixops
-matrixops: matrixops.exe
-matrixops.exe: matrixops_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2 -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -o $@ $<
-matrixops_dats.c: matrixops.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output matrixops_dats.c --dynamic matrixops.dats
-clean:: ; $(RMF) matrixops_dats.o
-clean:: ; $(RMF) matrixops_dats.c
-cleanall:: ; $(RMF) matrixops matrixops.exe
+all:: intsqrt_prf
+intsqrt_prf: intsqrt_prf.exe
+intsqrt_prf.exe: intsqrt_prf_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+intsqrt_prf_dats.c: intsqrt_prf.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output intsqrt_prf_dats.c --dynamic intsqrt_prf.dats
+clean:: ; $(RMF) intsqrt_prf_dats.o
+clean:: ; $(RMF) intsqrt_prf_dats.c
+cleanall:: ; $(RMF) intsqrt_prf intsqrt_prf.exe
+
+all:: monad_list
+monad_list: monad_list.exe
+monad_list.exe: monad_list_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+monad_list_dats.c: monad_list.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output monad_list_dats.c --dynamic monad_list.dats
+clean:: ; $(RMF) monad_list_dats.o
+clean:: ; $(RMF) monad_list_dats.c
+cleanall:: ; $(RMF) monad_list monad_list.exe
 
 all:: monad_maybe
 monad_maybe: monad_maybe.exe
@@ -142,6 +164,30 @@ clean:: ; $(RMF) morse_enum_dats.o
 clean:: ; $(RMF) morse_enum_dats.c
 cleanall:: ; $(RMF) morse_enum morse_enum.exe
 
+all:: memoization
+memoization: memoization.exe
+memoization.exe: memoization_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+memoization_dats.c: memoization.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output memoization_dats.c --dynamic memoization.dats
+clean:: ; $(RMF) memoization_dats.o
+clean:: ; $(RMF) memoization_dats.c
+cleanall:: ; $(RMF) memoization memoization.exe
+
+all:: myfixptcomb
+myfixptcomb: myfixptcomb.exe
+myfixptcomb.exe: myfixptcomb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+myfixptcomb_dats.c: myfixptcomb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output myfixptcomb_dats.c --dynamic myfixptcomb.dats
+clean:: ; $(RMF) myfixptcomb_dats.o
+clean:: ; $(RMF) myfixptcomb_dats.c
+cleanall:: ; $(RMF) myfixptcomb myfixptcomb.exe
+
+all:: mysendmailist
+mysendmailist: mysendmailist.exe
+mysendmailist.exe: mysendmailist_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+mysendmailist_dats.c: mysendmailist.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output mysendmailist_dats.c --dynamic mysendmailist.dats
+clean:: ; $(RMF) mysendmailist_dats.o
+clean:: ; $(RMF) mysendmailist_dats.c
+cleanall:: ; $(RMF) mysendmailist mysendmailist.exe
+
 all:: passwdgen
 passwdgen: passwdgen.exe
 passwdgen.exe: passwdgen_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -165,6 +211,22 @@ queens_loop_dats.c: queens_loop.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --
 clean:: ; $(RMF) queens_loop_dats.o
 clean:: ; $(RMF) queens_loop_dats.c
 cleanall:: ; $(RMF) queens_loop queens_loop.exe
+
+all:: queens_comb
+queens_comb: queens_comb.exe
+queens_comb.exe: queens_comb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_comb_dats.c: queens_comb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_comb_dats.c --dynamic queens_comb.dats
+clean:: ; $(RMF) queens_comb_dats.o
+clean:: ; $(RMF) queens_comb_dats.c
+cleanall:: ; $(RMF) queens_comb queens_comb.exe
+
+all:: queens_lincomb
+queens_lincomb: queens_lincomb.exe
+queens_lincomb.exe: queens_lincomb_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+queens_lincomb_dats.c: queens_lincomb.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output queens_lincomb_dats.c --dynamic queens_lincomb.dats
+clean:: ; $(RMF) queens_lincomb_dats.o
+clean:: ; $(RMF) queens_lincomb_dats.c
+cleanall:: ; $(RMF) queens_lincomb queens_lincomb.exe
 
 all:: randerlin
 randerlin: randerlin.exe
@@ -214,6 +276,22 @@ clean:: ; $(RMF) strmat_dats.o
 clean:: ; $(RMF) strmat_dats.c
 cleanall:: ; $(RMF) strmat strmat.exe
 
+all:: tempfunctor
+tempfunctor: tempfunctor.exe
+tempfunctor.exe: tempfunctor_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+tempfunctor_dats.c: tempfunctor.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output tempfunctor_dats.c --dynamic tempfunctor.dats
+clean:: ; $(RMF) tempfunctor_dats.o
+clean:: ; $(RMF) tempfunctor_dats.c
+cleanall:: ; $(RMF) tempfunctor tempfunctor.exe
+
+all:: totient
+totient: totient.exe
+totient.exe: totient_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -lm
+totient_dats.c: totient.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output totient_dats.c --dynamic totient.dats
+clean:: ; $(RMF) totient_dats.o
+clean:: ; $(RMF) totient_dats.c
+cleanall:: ; $(RMF) totient totient.exe
+
 all:: wclines
 wclines: wclines.exe
 wclines.exe: wclines_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
@@ -230,7 +308,7 @@ clean:: ; $(RMF) word-chain_dats.o
 clean:: ; $(RMF) word-chain_dats.c
 cleanall:: ; $(RMF) word-chain word-chain.exe
 
-
+#
 ######
 
 clean:: ; $(RMF) *~

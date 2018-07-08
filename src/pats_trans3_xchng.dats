@@ -173,34 +173,79 @@ end // end of [local]
 
 local
 
-fun auxerr_nonderef (
+(*
+fun
+auxck_tszeq
+(
+  loc0: loc_t
+, s2f1: s2hnf, s2f2: s2hnf
+) : void = let
+//
+val s2e1 = s2hnf2exp(s2f1)
+val s2e2 = s2hnf2exp(s2f2)
+//
+val
+tszeq = s2exp_tszeq(s2e1, s2e2)
+//
+in
+//
+if ~tszeq then let
+//
+  val () =
+  prerr_error3_loc (loc0)
+//
+  val () = prerr ": assignment cannot be performed"
+  val () = prerr ": mismatch of bef/aft type-sizes:\n"
+  val () = (prerr "bef: ["; prerr_s2exp (s2e1); prerr "]")
+  val () = prerr_newline ((*void*))
+  val () = (prerr "aft: ["; prerr_s2exp (s2e2); prerr "]")
+  val () = prerr_newline ((*void*))
+//
+in
+  the_trans3errlst_add(T3E_s2exp_assgn_tszeq(loc0, s2e1, s2e2))
+end // end of [if] // end of [val]
+//
+end // end of [auxck_tszeq]
+*)
+
+fun
+auxerr_nonderef
+(
   d3e: d3exp
 ) : void = let
-  val loc = d3e.d3exp_loc
-  val () = prerr_error3_loc (loc)
-  val () = prerr ": the dynamic expression cannot be dereferenced."
-  val () = prerr_newline ()
+  val
+  loc = d3e.d3exp_loc
+  val () =
+  prerr_error3_loc (loc)
+  val () =
+  prerrln! ": the dynamic expression cannot be dereferenced."
 in
-  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+  the_trans3errlst_add(T3E_d3exp_nonderef(d3e))
 end // end of [auxerr_nonderef]
 
-fun auxerr1
+fun
+auxerr1
 (
   loc0: loc_t // all
 , loc1: loc_t // right
 , s2f0_sel: s2hnf // left
 , s2f1_sel: s2hnf // right
 ) : void = let
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the RHS of exchange cannot be given its LHS type."
-  val () = prerr_newline ()
-  val () = prerr_the_staerrlst ()
-  val s2e0_sel = s2hnf2exp (s2f0_sel)
-  val s2e1_sel = s2hnf2exp (s2f1_sel)
+  val () =
+  prerr_error3_loc(loc0)
+  val () =
+  prerrln!
+  (": the RHS of exchange cannot be given its LHS type.")
+  val () = prerr_the_staerrlst()
+  val s2e0_sel = s2hnf2exp(s2f0_sel)
+  val s2e1_sel = s2hnf2exp(s2f1_sel)
 in
-  the_trans3errlst_add (T3E_s2addr_xchng_check_LHS (loc1, s2e0_sel, s2e1_sel))
+  the_trans3errlst_add
+    (T3E_s2addr_xchng_check_LHS(loc1, s2e0_sel, s2e1_sel))
+  // the_trans3errlst_add
 end // end of [auxerr1]
 
+(*
 fun auxerr2
 (
   loc0: loc_t // all
@@ -208,40 +253,59 @@ fun auxerr2
 , s2f0_sel: s2hnf // left
 , s2f1_sel: s2hnf // right
 ) : void = let
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the LHS of exchange cannot be given its RHS type."
-  val () = prerr_newline ()
-  val () = prerr_the_staerrlst ()
-  val s2e0_sel = s2hnf2exp (s2f0_sel)
-  val s2e1_sel = s2hnf2exp (s2f1_sel)
+  val () =
+  prerr_error3_loc(loc0)
+  val () =
+  prerrln!
+  (": the LHS of exchange cannot be given its RHS type.")
+  val () = prerr_the_staerrlst()
+  val s2e0_sel = s2hnf2exp(s2f0_sel)
+  val s2e1_sel = s2hnf2exp(s2f1_sel)
 in
-  the_trans3errlst_add (T3E_s2addr_xchng_check_RHS (loc0, s2e0_sel, s2e1_sel))
+  the_trans3errlst_add
+    (T3E_s2addr_xchng_check_RHS (loc0, s2e0_sel, s2e1_sel))
+  // the_trans3errlst_add
 end // end of [auxerr2]
+*)
 
 fun aux1
 (
   loc0: loc_t // all
 , loc1: loc_t // right
 , s2f0: s2hnf // right
-, d3e: d3exp, d3ls: d3lablst
+, d3e: d3exp
+, d3ls: d3lablst
 , s2f0_sel: s2hnf // left
 ) : d3exp = let
-  val opt = un_s2exp_ptr_addr_type (s2f0)
+  val opt = un_s2exp_ptr_addr_type(s2f0)
 in
 //
 case+ opt of
-| ~Some_vt (s2l) => let
+| ~Some_vt(s2l) => let
     var s2rt: s2exp
     val s2e_sel =
-      s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel, s2rt)
+    s2addr_xchng_check
+      (loc0, loc1, s2l, d3ls, s2f0_sel, s2rt)
     // end of [val]
-    val s2f_sel = s2exp2hnf (s2e_sel)
-    val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
-    val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
+    val s2f_sel = s2exp2hnf(s2e_sel)
+//
+    val err =
+    $SOL.s2hnf_tyleq_solve
+      (loc0, s2f_sel, s2f0_sel)
+    // end of [val]
+    val () =
+    if err > 0
+    then auxerr1(loc0, loc1, s2f0_sel, s2f_sel)
+    // end of [if]
+//
+(*
+    val () = auxck_tszeq(loc0, s2f_sel, s2f0_sel)
+*)
+//
   in
-    d3exp_sel_ptr (loc1, s2e_sel, d3e, s2rt, d3ls)
+    d3exp_sel_ptr( loc1, s2e_sel, d3e, s2rt, d3ls )
   end // end of [Some_vt]
-| ~None_vt () => aux2 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
+| ~None_vt () => aux2(loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 //
 end // end of [aux1]
 
@@ -253,26 +317,41 @@ and aux2
 , d3e: d3exp, d3ls: d3lablst
 , s2f0_sel: s2hnf // left
 ) : d3exp = let
-  val opt = un_s2exp_ref_vt0ype_type (s2f0)
+  val opt = un_s2exp_ref_vt0ype_type(s2f0)
 in
 //
 case+ opt of
-| ~Some_vt (s2e) => let
+| ~Some_vt(s2e) => let
     val s2rt = s2e
-    var linrest: int = 0 and sharing: int = 0
-    val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest_sharing (loc1, s2e, d3ls, linrest, sharing)
-    val s2f_sel = s2exp2hnf (s2e_sel)
-    val () = trans3_env_add_proplst_vt (loc1, s2ps)
-    val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
-    val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
-    val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
-    val () = if err > 0 then auxerr2 (loc0, loc1, s2f0_sel, s2f_sel)
-    val _(*err*) = the_effenv_check_ref (loc0)
+    var linrest: int = 0
+    and sharing: int = 0
+    val
+    (s2e_sel, s2ps) =
+    s2exp_get_dlablst_linrest_sharing
+      (loc1, s2e, d3ls, linrest, sharing)
+    // end of [val]
+    val s2f_sel = s2exp2hnf(s2e_sel)
+    val () =
+    trans3_env_add_proplst_vt(loc1, s2ps)
+//
+    val err =
+    $SOL.s2hnf_tyleq_solve
+      (loc1, s2f0_sel, s2f_sel)
+    // end of [val]
+    val () =
+    if err > 0
+    then auxerr1(loc0, loc1, s2f0_sel, s2f_sel)
+    // end of [if]
+//
+(*
+    val () = auxck_tszeq(loc0, s2f_sel, s2f0_sel)
+*)
+//
+    val _(*error*) = the_effenv_check_ref( loc0 )
   in
-    d3exp_sel_ref (loc1, s2e_sel, d3e, s2rt, d3ls)
+    d3exp_sel_ref( loc1, s2e_sel, d3e, s2rt, d3ls )
   end // end of [Some_vt]
-| ~None_vt () => aux3 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
+| ~None_vt () => aux3(loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 //
 end // end of [aux2]
 
@@ -291,7 +370,7 @@ in (* in of [local] *)
 
 implement
 d2exp_trdn_xchng_deref
-  (loc0, loc1, d2e, d2ls, s2f0_sel) = let
+(loc0, loc1, d2e, d2ls, s2f0_sel) = let
 //
 val d3e = d2exp_trup (d2e)
 val () = d3exp_open_and_add (d3e)
@@ -300,7 +379,7 @@ val s2e0 = d3exp_get_type (d3e)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
 in
-  aux1 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
+  aux1(loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 end // end of [d2exp_trdn_xchng_deref]
 
 implement
@@ -308,7 +387,7 @@ d2exp_trdn_xchng
   (loc0, d2e, s2f0_sel) = let
 //
 val loc1 = d2e.d2exp_loc
-val d2lv = d2exp_lvalize (d2e)
+val d2lv = d2exp_lvalize(d2e)
 //
 in
 //
@@ -318,22 +397,39 @@ case+ d2lv of
     val d3ls = d2lablst_trup (d2ls)
     val-Some (s2l) = d2var_get_addr (d2v)
     var s2rt: s2exp
-    val s2e_sel = s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel, s2rt)
+    val s2e_sel =
+    s2addr_xchng_check
+      (loc0, loc1, s2l, d3ls, s2f0_sel, s2rt)
+    // end of [val]
     val s2f_sel = s2exp2hnf (s2e_sel)
     val s2e_sel = s2hnf2exp (s2f_sel)
-    val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
-    val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
+//
+    val err =
+    $SOL.s2hnf_tyleq_solve
+      (loc0, s2f_sel, s2f0_sel)
+    // end of [val]
+    val ((*void*)) =
+    if err > 0
+    then auxerr1(loc0, loc1, s2f0_sel, s2f_sel)
+    // end of [if]
+//
+(*
+    val () = auxck_tszeq(loc0, s2f_sel, s2f0_sel)
+*)
+//
   in
-    d3exp_sel_var (loc1, s2e_sel, d2v, s2rt, d3ls)
+    d3exp_sel_var(loc1, s2e_sel, d2v, s2rt, d3ls)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e, d2ls) =>
-    d2exp_trdn_xchng_deref (loc0, loc1, d2e, d2ls, s2f0_sel)
-| _ => let
-    val () = prerr_error3_loc (loc1)
-    val () = prerr ": a left-value is required but a non-left-value is given."
-    val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e))
+    d2exp_trdn_xchng_deref(loc0, loc1, d2e, d2ls, s2f0_sel)
+| _ (* error *) => let
+    val () =
+    prerr_error3_loc (loc1)
+    val () =
+    prerrln!
+    (": a left-value is required but a non-left-value is given.")
+    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e) )
   in
     d3exp_errexp (loc1)
   end // end of [_]
@@ -544,30 +640,31 @@ in
 case+ d2lv_l of
 | D2LVALvar_mut
     (d2v_l, d2ls) => let
-    val d3ls = d2lablst_trup (d2ls)
-    val-Some (s2l) = d2var_get_addr (d2v_l)
+    val d3ls = d2lablst_trup(d2ls)
+    val-Some(s2l) = d2var_get_addr(d2v_l)
     var s2rt: s2exp
-    val d3e_r = s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r, s2rt)
-    val () = auxerr_wrt_if (loc0)
+    val d3e_r =
+    s2addr_xchng_deref(loc0, s2l, d3ls, d2e_r, s2rt)
+    val ((*if-error*)) = auxerr_wrt_if(loc0)
   in
-    d3exp_xchng_var (loc0, d2v_l, s2rt, d3ls, d3e_r)
+    d3exp_xchng_var(loc0, d2v_l, s2rt, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e_l, d2ls) => let
-    val () = auxerr_wrt_if (loc0)
+    val ((*if-error*)) = auxerr_wrt_if(loc0)
   in
-    d2exp_trup_xchng_deref (loc0, d2e_l, d2ls, d2e_r)
+    d2exp_trup_xchng_deref(loc0, d2e_l, d2ls, d2e_r)
   end // end of [D2LVALderef]
 //
 | D2LVALvar_lin _ => let
-    val () = auxerr_lproof (d2e_l) in d3exp_errexp_void (loc0)
+    val () = auxerr_lproof(d2e_l) in d3exp_errexp_void(loc0)
   end // end of [_]
 | D2LVALviewat _ => let
-    val () = auxerr_lproof (d2e_l) in d3exp_errexp_void (loc0)
+    val () = auxerr_lproof(d2e_l) in d3exp_errexp_void(loc0)
   end // end of [_]
 //
 | _ => let
-    val () = auxerr_nonlval (d2e_l) in d3exp_errexp_void (loc0)
+    val () = auxerr_nonlval(d2e_l) in d3exp_errexp_void(loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_xchng]

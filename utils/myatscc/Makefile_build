@@ -1,0 +1,100 @@
+#
+# A simple Makefile
+#
+
+######
+
+CC=gcc
+
+######
+
+NPM=npm
+
+######
+
+PATSCC=$(PATSHOME)/bin/patscc
+PATSOPT=$(PATSHOME)/bin/patsopt
+PATSLIB=$(PATSHOME)/ccomp/atslib/lib
+
+######
+
+PATSCC2=\
+$(PATSCC) -verbose -atsccomp "$(CC)" \
+-O2 -I$(PATSHOME) -I$(PATSHOME)/ccomp/runtime -D_GNU_SOURCE -DATS_MEMALLOC_LIBC
+
+######
+#
+export \
+PATSHOMELOCS=\
+./node_modules:./../../node_modules
+#
+######
+
+all::
+regress::
+cleanall::
+
+######
+
+MAIN =
+MAIN += myatscc_main_dats.c
+# MAIN += myatscc_loc_t_dats.c
+# MAIN += myatscc_lexer_dats.c
+# MAIN += myatscc_parser_dats.c
+# MAIN += myatscc_evaler_dats.c
+# MAIN += myatscc_getdef_dats.c
+
+PARCOMB =
+PARCOMB += myatscc_parcomb_sats.c
+PARCOMB += myatscc_parcomb_dats.c
+
+# MYLIBATS =
+# MYLIBATS += myatscc_libats.dats
+
+######
+#
+all:: \
+myatscc
+#
+myatscc: \
+$(MAIN) \
+$(PARCOMB) ; \
+$(PATSCC2) -o $@ $(MAIN) $(PARCOMB)
+#
+cleanall:: ; $(RMF) myatscc
+#
+######
+
+%_sats.c: %.sats; $(PATSOPT) --output $@ --static $<
+%_dats.c: %.dats; $(PATSOPT) --output $@ --dynamic $<
+
+######
+#
+npm-install:: ; \
+$(NPM) install atscntrb-hx-parcomb
+#
+######
+
+testall:: all
+testall:: regress
+testall:: cleanall
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) *_?ats.o
+
+######
+#
+cleanall:: clean
+#
+# cleanall:: ; $(RMF) -r node_modules
+#
+######
+
+###### end of [Makefile] ######

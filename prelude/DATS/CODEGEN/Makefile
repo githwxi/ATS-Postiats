@@ -41,14 +41,42 @@ pointer_atxt.dats: pointer.atxt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.dats
 
-all:: memory.dats
-memory.dats: memory_atxt.exe ; ./$< > $@
-memory_atxt.exe: memory_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ memory_atxt.dats -latsdoc
-memory_atxt.dats: memory.atxt
-	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
-clean:: ; $(RMF) memory_atxt.exe
-cleanall:: ; $(RMF) memory.dats
+
+all:: arith_prf.dats
+arith_prf.dats: arith_prf_atxt.exe ; ./$< > $@
+arith_prf_atxt.exe: arith_prf_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ arith_prf_atxt.dats -latsdoc
+arith_prf_atxt.dats: arith_prf.atxt
+	$(ATSDOC) --outcode $@ -i arith_prf.atxt > arith_prf_atxt.txt
+clean:: ; $(RMF) arith_prf_atxt.exe
+cleanall:: ; $(RMF) arith_prf.dats
+
+all:: integer_long.dats
+integer_long.dats: integer_long_atxt.exe ; ./$< > $@
+integer_long_atxt.exe: integer_long_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_long_atxt.dats -latsdoc
+integer_long_atxt.dats: integer_long.atxt
+	$(ATSDOC) --outcode $@ -i integer_long.atxt > integer_long_atxt.txt
+clean:: ; $(RMF) integer_long_atxt.exe
+cleanall:: ; $(RMF) integer_long.dats
+
+all:: integer_size.dats
+integer_size.dats: integer_size_atxt.exe ; ./$< > $@
+integer_size_atxt.exe: integer_size_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_size_atxt.dats -latsdoc
+integer_size_atxt.dats: integer_size.atxt
+	$(ATSDOC) --outcode $@ -i integer_size.atxt > integer_size_atxt.txt
+clean:: ; $(RMF) integer_size_atxt.exe
+cleanall:: ; $(RMF) integer_size.dats
+
+all:: integer_short.dats
+integer_short.dats: integer_short_atxt.exe ; ./$< > $@
+integer_short_atxt.exe: integer_short_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ integer_short_atxt.dats -latsdoc
+integer_short_atxt.dats: integer_short.atxt
+	$(ATSDOC) --outcode $@ -i integer_short.atxt > integer_short_atxt.txt
+clean:: ; $(RMF) integer_short_atxt.exe
+cleanall:: ; $(RMF) integer_short.dats
 
 
 all:: bool.dats
@@ -96,36 +124,6 @@ strptr_atxt.dats: strptr.atxt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.dats
 
-
-all:: tuple.dats
-tuple.dats: tuple_atxt.exe ; ./$< > $@
-tuple_atxt.exe: tuple_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ tuple_atxt.dats -latsdoc
-tuple_atxt.dats: tuple.atxt
-	$(ATSDOC) --outcode $@ -i tuple.atxt > tuple_atxt.txt
-clean:: ; $(RMF) tuple_atxt.exe
-cleanall:: ; $(RMF) tuple.dats
-
-
-all:: reference.dats
-reference.dats: reference_atxt.exe ; ./$< > $@
-reference_atxt.exe: reference_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ reference_atxt.dats -latsdoc
-reference_atxt.dats: reference.atxt
-	$(ATSDOC) --outcode $@ -i reference.atxt > reference_atxt.txt
-clean:: ; $(RMF) reference_atxt.exe
-cleanall:: ; $(RMF) reference.dats
-
-
-all:: arith_prf.dats
-arith_prf.dats: arith_prf_atxt.exe ; ./$< > $@
-arith_prf_atxt.exe: arith_prf_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ arith_prf_atxt.dats -latsdoc
-arith_prf_atxt.dats: arith_prf.atxt
-	$(ATSDOC) --outcode $@ -i arith_prf.atxt > arith_prf_atxt.txt
-clean:: ; $(RMF) arith_prf_atxt.exe
-cleanall:: ; $(RMF) arith_prf.dats
-
 all:: integer_ptr.dats
 integer_ptr.dats: integer_ptr_atxt.exe ; ./$< > $@
 integer_ptr_atxt.exe: integer_ptr_atxt.dats
@@ -143,6 +141,36 @@ integer_fixed_atxt.dats: integer_fixed.atxt
 	$(ATSDOC) --outcode $@ -i integer_fixed.atxt > integer_fixed_atxt.txt
 clean:: ; $(RMF) integer_fixed_atxt.exe
 cleanall:: ; $(RMF) integer_fixed.dats
+
+
+all:: tuple.dats
+tuple.dats: tuple_atxt.exe ; ./$< > $@
+tuple_atxt.exe: tuple_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ tuple_atxt.dats -latsdoc
+tuple_atxt.dats: tuple.atxt
+	$(ATSDOC) --outcode $@ -i tuple.atxt > tuple_atxt.txt
+clean:: ; $(RMF) tuple_atxt.exe
+cleanall:: ; $(RMF) tuple.dats
+
+
+all:: memory.dats
+memory.dats: memory_atxt.exe ; ./$< > $@
+memory_atxt.exe: memory_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ memory_atxt.dats -latsdoc
+memory_atxt.dats: memory.atxt
+	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
+clean:: ; $(RMF) memory_atxt.exe
+cleanall:: ; $(RMF) memory.dats
+
+
+all:: reference.dats
+reference.dats: reference_atxt.exe ; ./$< > $@
+reference_atxt.exe: reference_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ reference_atxt.dats -latsdoc
+reference_atxt.dats: reference.atxt
+	$(ATSDOC) --outcode $@ -i reference.atxt > reference_atxt.txt
+clean:: ; $(RMF) reference_atxt.exe
+cleanall:: ; $(RMF) reference.dats
 
 
 all:: unsafe.dats
@@ -164,6 +192,16 @@ clean:: ; $(RMF) checkast_atxt.exe
 cleanall:: ; $(RMF) checkast.dats
 
 
+all:: intrange.dats
+intrange.dats: intrange_atxt.exe ; ./$< > $@
+intrange_atxt.exe: intrange_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ intrange_atxt.dats -latsdoc
+intrange_atxt.dats: intrange.atxt
+	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
+clean:: ; $(RMF) intrange_atxt.exe
+cleanall:: ; $(RMF) intrange.dats
+
+
 all:: filebas.dats
 filebas.dats: filebas_atxt.exe ; ./$< > $@
 filebas_atxt.exe: filebas_atxt.dats
@@ -182,14 +220,14 @@ filebas_prf_atxt.dats: filebas_prf.atxt
 clean:: ; $(RMF) filebas_prf_atxt.exe
 cleanall:: ; $(RMF) filebas_prf.dats
 
-all:: intrange.dats
-intrange.dats: intrange_atxt.exe ; ./$< > $@
-intrange_atxt.exe: intrange_atxt.dats
-	$(ATSCC) $(GCFLAG) -o $@ intrange_atxt.dats -latsdoc
-intrange_atxt.dats: intrange.atxt
-	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
-clean:: ; $(RMF) intrange_atxt.exe
-cleanall:: ; $(RMF) intrange.dats
+all:: filebas_dirent.dats
+filebas_dirent.dats: filebas_dirent_atxt.exe ; ./$< > $@
+filebas_dirent_atxt.exe: filebas_dirent_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ filebas_dirent_atxt.dats -latsdoc
+filebas_dirent_atxt.dats: filebas_dirent.atxt
+	$(ATSDOC) --outcode $@ -i filebas_dirent.atxt > filebas_dirent_atxt.txt
+clean:: ; $(RMF) filebas_dirent_atxt.exe
+cleanall:: ; $(RMF) filebas_dirent.dats
 
 
 all:: basics.dats
@@ -219,6 +257,15 @@ gnumber_atxt.dats: gnumber.atxt
 	$(ATSDOC) --outcode $@ -i gnumber.atxt > gnumber_atxt.txt
 clean:: ; $(RMF) gnumber_atxt.exe
 cleanall:: ; $(RMF) gnumber.dats
+
+all:: grandom.dats
+grandom.dats: grandom_atxt.exe ; ./$< > $@
+grandom_atxt.exe: grandom_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ grandom_atxt.dats -latsdoc
+grandom_atxt.dats: grandom.atxt
+	$(ATSDOC) --outcode $@ -i grandom.atxt > grandom_atxt.txt
+clean:: ; $(RMF) grandom_atxt.exe
+cleanall:: ; $(RMF) grandom.dats
 
 
 all:: list.dats
@@ -362,6 +409,15 @@ gprint_atxt.dats: gprint.atxt
 	$(ATSDOC) --outcode $@ -i gprint.atxt > gprint_atxt.txt
 clean:: ; $(RMF) gprint_atxt.exe
 cleanall:: ; $(RMF) gprint.dats
+
+all:: tostring.dats
+tostring.dats: tostring_atxt.exe ; ./$< > $@
+tostring_atxt.exe: tostring_atxt.dats
+	$(ATSCC) $(GCFLAG) -o $@ tostring_atxt.dats -latsdoc
+tostring_atxt.dats: tostring.atxt
+	$(ATSDOC) --outcode $@ -i tostring.atxt > tostring_atxt.txt
+clean:: ; $(RMF) tostring_atxt.exe
+cleanall:: ; $(RMF) tostring.dats
 
 
 ######

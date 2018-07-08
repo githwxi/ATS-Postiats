@@ -1,10 +1,20 @@
 %{
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#define
+ATSCODEFORMAT "txt"
+//
+#if
+(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"array_prf.sats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+val
+_thisfilename = atext_strcst"array_prf.sats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
 %}\
 \
 #atscode_banner()
@@ -51,6 +61,8 @@ array_v_split_at
 ) :<prf> @(
   array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
 ) // end of [array_v_split_at]
+
+#atscode_separator()
 
 prfun
 array_v_unsplit

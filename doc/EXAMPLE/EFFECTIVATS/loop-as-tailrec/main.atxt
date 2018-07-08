@@ -1,15 +1,14 @@
+<!DOCTYPE html>
 %{
-#include "./../ATEXT/atextfun.hats"
+#include "./../MYTEXT/mytextfun.hats"
 %}
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-loop-as-tailrec</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
@@ -347,12 +346,12 @@ and isodd (n: int): bool =
 ")</pre>
 
 The call to [isodd] in the body of [isevn] and the call to [isevn] in the
-body of [isadd] are both tail-calls. As they are also mutually recursive
+body of [isodd] are both tail-calls. As they are also mutually recursive
 calls, they are referred to as mutually tail-recursive calls.
 
 <p>
 
-When compiling this implementation of [isevn] and [isadd], the ATS compiler
+When compiling this implementation of [isevn] and [isodd], the ATS compiler
 (ATS/Postiats) handles [isevn] and [isodd] separately and thus
 is <em>unable</em> to turn the call to [isodd] ([isevn]) in the body of
 [isevn] ([isodd]) into a local jump. In order to indicate to the compiler
@@ -378,8 +377,10 @@ whereas the function [isodd] is not.
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
+#patspage_script()
 </body>
 </html>
 

@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 //
 // A program to solve the 8-queens problem
@@ -6,7 +8,14 @@
 // Modern Compiler Design and Implementation in ML
 //
 *)
-
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
 (* ****** ****** *)
 //
 #include "share/atspre_staload.hats"

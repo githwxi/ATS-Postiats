@@ -28,8 +28,8 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: gmmhwxiATgmailDOTcom *)
 (* Start time: July, 2013 *)
+(* Authoremail: gmmhwxiATgmailDOTcom *)
 
 (* ****** ****** *)
 //
@@ -38,47 +38,59 @@
 //
 (* ****** ****** *)
 
-implement{}
-monad_unit () = monad_return<unit> (unit)
-
-(* ****** ****** *)
-
-implement{a}
-monad_nil ((*void*)) =
-  monad_return<list0(a)> (list0_nil{a}())
-// end of [monad_nil]
-
-implement{a}
-monad_cons (m, ms) =
-  monad_liftm2<a,list0(a)><list0(a)> (lam (x, xs) => list0_cons{a}(x, xs), m, ms)
-// end of [monad_cons]
-
-(* ****** ****** *)
-
 implement
-{a1,a2}
-monad_seq (m1, m2) = monad_bind<a1><a2> (m1, lam _ => m2)
+{}(*tmp*)
+monad_unit() = monad_return<unit>(unit)
 
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-monad_join (mm) = monad_bind<monad(a)><a> (mm, lam m => m)
+monad_nil((*void*)) =
+  monad_return<list0(a)>(list0_nil{a}())
+// end of [monad_nil]
+
+implement
+{a}(*tmp*)
+monad_cons(m, ms) =
+(
+monad_liftm2<a,list0(a)><list0(a)>
+  (lam (x, xs) => list0_cons{a}(x, xs), m, ms)
+) // end of [monad_cons]
+
+(* ****** ****** *)
+//
+implement
+{a1,a2}
+monad_seq
+  (m1, m2) =
+  monad_bind<a1><a2> (m1, lam _ => m2)
+//
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
+monad_join(mm) =
+monad_bind<monad(a)><a>(mm, lam m => m)
 
 (* ****** ****** *)
 
 implement
 {a}{b}
-monad_fmap (f, m) =
-  monad_bind<a><b> (m, lam x => monad_return<b> (f(x)))
-// end of [monad_fmap]
+monad_fmap(f, m) =
+(
+  monad_bind<a><b>
+    (m, lam x => monad_return<b>(f(x)))
+  // monad_bind
+) // end of [monad_fmap]
 
 (* ****** ****** *)
 
 implement
 {a}{b}
-monad_liftm (f, m) =
-  monad_bind<a><b> (m, lam x => monad_return<b> (f(x)))
+monad_liftm(f, m) =
+  monad_bind<a><b>
+    (m, lam x => monad_return<b>(f(x)))
 // end of [monad_liftm]
 
 (* ****** ****** *)
@@ -89,7 +101,9 @@ monad_liftm2
   (f, m1, m2) =
 (
   monad_bind2<a1,a2><b>
-    (m1, m2, lam (x1, x2) => monad_return<b> (f(x1, x2)))
+  ( m1, m2
+  , lam (x1, x2) => monad_return<b>(f(x1, x2))
+  ) (* monad_liftm2 *)
 ) // end of [monad_liftm2]
 
 implement
@@ -98,25 +112,28 @@ monad_liftm3
   (f, m1, m2, m3) =
 (
   monad_bind3<a1,a2,a3><b>
-    (m1, m2, m3, lam (x1, x2, x3) => monad_return<b> (f(x1, x2, x3)))
+  ( m1, m2, m3
+  , lam (x1, x2, x3) => monad_return<b>(f(x1, x2, x3))
+  ) (* monad_bind3 *)
 ) // end of [monad_liftm3]
 
 (* ****** ****** *)
 
 implement
 {a}{b}
-monad_mapm (f, ms) = let
+monad_mapm(f, ms) = let
 in
 //
 case+ ms of
+| list0_nil
+    () => monad_nil<b>()
 | list0_cons
     (m, ms) => let
-    val m = monad_fmap (f, m)
-    val ms = monad_mapm (f, ms)
+    val m = monad_fmap<a><b>(f, m)
+    val ms = monad_mapm<a><b>(f, ms)
   in
     monad_cons<b> (m, ms)
   end // list0_cons
-| list0_nil () => monad_nil<b> ()
 //
 end // end of [monad_mapm]
 
@@ -124,18 +141,19 @@ end // end of [monad_mapm]
 
 implement
 {a}{b}
-monad_mapm_ (f, xs) = let
+monad_mapm_(f, xs) = let
 in
 //
 case+ xs of
+| list0_nil
+    () => monad_unit()
 | list0_cons
     (x, xs) => let
-    val m = f (x)
-    val mu = monad_mapm_ (f, xs)
+    val m = f(x)
+    val mu = monad_mapm_<a><b>(f, xs)
   in
-    monad_seq (m, mu)
+    monad_seq<b,unit>(m, mu)
   end // end of [list0_cons]
-| list0_nil () => monad_unit ()
 //
 end // end of [monad_mapm_]
 
@@ -143,10 +161,10 @@ end // end of [monad_mapm_]
 
 implement
 {a}(*tmp*)
-monad_seqlist (ms) = monad_mapm<a><a> (lam x => x, ms)
+monad_seqlist(ms) = monad_mapm<a><a>(lam x => x, ms)
 implement
 {a}(*tmp*)
-monad_seqlist_ (ms) = monad_mapm_<monad(a)><a> (lam m => m, ms)
+monad_seqlist_(ms) = monad_mapm_<monad(a)><a>(lam m => m, ms)
 
 (* ****** ****** *)
 

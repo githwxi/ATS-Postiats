@@ -40,13 +40,6 @@ void *memset(void *bufp, int c, size_t n) ;
 
 #atscode_separator_for_C()
 
-\#ifndef fprintf
-extern
-int fprintf (FILE *stream, const char *format, ...) ;
-\#endif // end of [ifndef]
-
-#atscode_separator_for_C()
-
 ATSinline()
 atstype_ptr
 atspre_ptr_null () { return (void*)0 ; }
@@ -94,7 +87,7 @@ atspre_sub_ptr_bsz
 ATSinline()
 atstype_ssize
 atspre_sub_ptr_ptr
-  (atstype_ptr p1, atstype_ptr p2) { return (p1 - p2) ; }
+  (atstype_ptr p1, atstype_ptr p2) { return ((char*)p1 - (char*)p2) ; }
 // end of [atspre_sub_ptr_ptr]
 \#define atspre_sub_ptr0_ptr0 atspre_sub_ptr_ptr
 \#define atspre_sub_ptr1_ptr1 atspre_sub_ptr_ptr
@@ -175,7 +168,7 @@ atspre_eq_ptr_intz
 } // end of [atspre_eq_ptr_intz]
 \#define atspre_eq_ptr0_intz atspre_eq_ptr_intz
 \#define atspre_eq_ptr1_intz atspre_eq_ptr_intz
-
+  
 ATSinline()
 atstype_bool
 atspre_neq_ptr_intz
@@ -188,11 +181,24 @@ atspre_neq_ptr_intz
 
 #atscode_separator_for_C()
 //
+\#define atspre_aptr_null() atsptr_null
+//
+\#define atspre_aptr_is_null atspre_ptr_is_null
+\#define atspre_aptr_isnot_null atspre_ptr_isnot_null
+//
+#atscode_separator_for_C()
+//
 \#define atspre_cptr_null() atsptr_null
 //
 \#define atspre_cptr_is_null atspre_ptr_is_null
 \#define atspre_cptr_isnot_null atspre_ptr_isnot_null
 //
+#atscode_separator_for_C()
+
+\#define atspre_gt_cptr_intz atspre_gt_ptr_intz
+\#define atspre_eq_cptr_intz atspre_eq_ptr_intz
+\#define atspre_neq_cptr_intz atspre_neq_ptr_intz
+
 #atscode_separator_for_C()
 //
 \#define atspre_ptr_free atspre_mfree_gc
@@ -208,21 +214,6 @@ atspre_ptr_nullize_tsz
 ) {
   memset (p, 0, tsz) ; return /*void*/ ;
 } // end of [atspre_ptr_nullize_tsz]
-
-#atscode_separator_for_C()
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_ptr (
-  atstype_ref out, atstype_ptr x
-) {
-  int err ;
-  err = fprintf((FILE*)out, "%p", x) ;
-  return ;
-} // end [atspre_fprint_ptr]
-
-\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout, (x))
-\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr, (x))
 
 #atscode_separator_for_C()
 

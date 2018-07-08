@@ -29,7 +29,7 @@ end // end of [from]
 val () =
 {
 //
-val ns = from (0)
+val ns = from(0)
 //
 val nns =
   stream_vt_map_fun<int><int> (ns, lam x => x * x)
@@ -47,8 +47,13 @@ val () = assertloc (nn = 100 * 100)
 val () =
 {
 //
-val ns1 = from (1)
-val ns2 = from (2)
+val ns1 =
+  stream_vt_unfold<int><int>
+    (1, lam(st) => let val n = st in st := n+1; n end)
+val ns2 =
+  stream_vt_unfold<int><int>
+    (2, lam(st) => let val n = st in st := n+1; n end)
+//
 val nns =
   stream_vt_map2_fun<int,int><int> (ns1, ns2, lam (x1, x2) => x1 * x2)
 //
@@ -57,6 +62,34 @@ val-~Some_vt(nns) =
 val-~stream_vt_cons (nn, nns) = !nns
 val () = ~nns
 val () = assertloc (nn = 101 * 102)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+overload ! with streamer_vt_eval_exn
+overload .eval with streamer_vt_eval_exn
+overload .eval_opt with streamer_vt_eval_opt
+
+val () =
+{
+//
+fun
+int_from
+(
+n : int
+) : stream_vt(int) = $ldelay
+  (stream_vt_cons(n, int_from(n+1)))
+//
+val xser =
+  streamer_vt_make(int_from(0))
+//
+val () = println! (xser[])
+val () = println! (xser[])
+val () = println! (xser.eval())
+val () = println! (xser.eval())
+val () = println! (xser.eval())
+//
+val ((*freed*)) = streamer_vt_free(xser)
 //
 } (* end of [val] *)
 

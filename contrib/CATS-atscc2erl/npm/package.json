@@ -1,0 +1,26 @@
+{
+"name":
+"atsccomp-atscc2erl"
+,
+"version": "1.0.1"
+,
+"description":
+"For transpiling into Erlang the C code generated from ATS source via patsopt"
+,
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "Erlang",
+    "atsopt",
+    "patsopt",
+    "atscc2erl"
+  ],
+  "dependencies" : {
+    "catsparsemit" : ">=1.0.0"
+  },
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "This package is stored at ${PATSHOME}/contrib/CATS-atscc2erl/."
+}

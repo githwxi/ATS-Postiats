@@ -44,9 +44,11 @@ UN =
 "prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
-
+//
 staload "./pats_jsonize.sats"
-
+staload
+_(*anon*) = "./pats_jsonize.dats"
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -54,7 +56,7 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "./pats_synent2_jsonize.sats"
+staload "./pats_jsonize_synent2.sats"
 
 (* ****** ****** *)
 
@@ -68,10 +70,10 @@ staload "./pats_constraint3.sats"
 #define cons list_cons
 
 (* ****** ****** *)
-
+//
 macdef
 jsonize_loc (x) = jsonize_location (,(x))
-
+//
 (* ****** ****** *)
 
 (*
@@ -79,6 +81,10 @@ jsonize_loc (x) = jsonize_location (,(x))
 // HX-2013-12-24:
 // this does not seem to be really useful
 //
+// HX-2015-06-06:
+// Change-of-mind!
+//
+*)
 extern
 fun
 jsonize_c3nstrkind
@@ -90,59 +96,62 @@ in
 //
 case+ knd of
 //
-| C3NSTRKmain () =>
-    jsonval_conarg0 ("C3NSTRKmain")
+| C3TKmain() =>
+    jsonval_conarg0 ("C3TKmain")
 //
-| C3NSTRKcase_exhaustiveness
+| C3TKcase_exhaustiveness
     (knd, p2tcss) => let
     val knd = jsonize_caskind (knd)
     val p2tcss = jsonize_ignored (p2tcss)
   in
     jsonval_conarg2
-      ("C3NSTRKcase_exhaustiveness", knd, p2tcss)
-  end // end of [C3NSTRKcase_exhaustiveness]
+      ("C3TKcase_exhaustiveness", knd, p2tcss)
+    // end of [jsonval_conarg2]
+  end // end of [C3TKcase_exhaustiveness]
 //
-| C3NSTRKtermet_isnat () =>
-    jsonval_conarg0 ("C3NSTRKtermet_isnat")
-| C3NSTRKtermet_isdec () =>
-    jsonval_conarg0 ("C3NSTRKtermet_isdec")
+| C3TKtermet_isnat() =>
+    jsonval_conarg0 ("C3TKtermet_isnat")
+| C3TKtermet_isdec() =>
+    jsonval_conarg0 ("C3TKtermet_isdec")
 //
-| C3NSTRKsome_fin
+| C3TKsome_fin
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize1_s2exp (s2e1)
     val s2e2 = jsonize1_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKsome_fin", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKsome_fin]
-| C3NSTRKsome_lvar
+    jsonval_conarg3 ("C3TKsome_fin", d2v, s2e1, s2e2)
+  end // end of [C3TKsome_fin]
+| C3TKsome_lvar
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize1_s2exp (s2e1)
     val s2e2 = jsonize1_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKsome_lvar", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKsome_lvar]
-| C3NSTRKsome_vbox
+    jsonval_conarg3 ("C3TKsome_lvar", d2v, s2e1, s2e2)
+  end // end of [C3TKsome_lvar]
+| C3TKsome_vbox
     (d2v, s2e1, s2e2) => let
     val d2v = jsonize_d2var (d2v)
     val s2e1 = jsonize1_s2exp (s2e1)
     val s2e2 = jsonize1_s2exp (s2e2)
   in
-    jsonval_conarg3 ("C3NSTRKsome_vbox", d2v, s2e1, s2e2)
-  end // end of [C3NSTRKsome_vbox]
+    jsonval_conarg3 ("C3TKsome_vbox", d2v, s2e1, s2e2)
+  end // end of [C3TKsome_vbox]
 //
-| C3NSTRKlstate () =>
-    jsonval_conarg0 ("C3NSTRKlstate")
-| C3NSTRKlstate_var (d2v) =>
-    jsonval_conarg1 ("C3NSTRKlstate_var", jsonize_d2var (d2v))
-  // end of [C3NSTRKlstate_var]
+| C3TKlstate() =>
+    jsonval_conarg0 ("C3TKlstate")
+| C3TKlstate_var(d2v) =>
+    jsonval_conarg1 ("C3TKlstate_var", jsonize_d2var (d2v))
+  // end of [C3TKlstate_var]
 //
-| C3NSTRKloop (knd) =>
-    jsonval_conarg1 ("C3NSTRKlloop", jsonval_int (knd))
+| C3TKloop(knd) =>
+    jsonval_conarg1 ("C3TKloop", jsonval_int (knd))
+  // end of [C3TKloop]
+//
+| C3TKsolverify() => jsonval_conarg0 ("C3TKsolverify")
 //
 end // end of [jsonize_c3nstrkind]
-*)
 
 (* ****** ****** *)
 
@@ -167,23 +176,23 @@ in
 //
 case+ s3i of
 //
-| S3ITMsvar (s2v) =>
-    jsonval_conarg1 ("S3ITMsvar", jsonize_s2var (s2v))
+| S3ITMsvar(s2v) =>
+    jsonval_conarg1 ("S3ITMsvar", jsonize_s2var(s2v))
   // end of [S3ITMsvar]
 //
-| S3ITMhypo (h3p) =>
-    jsonval_conarg1 ("S3ITMhypo", jsonize_h3ypo (h3p))
+| S3ITMhypo(h3p) =>
+    jsonval_conarg1 ("S3ITMhypo", jsonize_h3ypo(h3p))
   // end of [S3ITMhypo]
 //
-| S3ITMsVar (s2V) =>
-    jsonval_conarg1 ("S3ITMsVar", jsonize_s2Var (s2V))
+| S3ITMsVar(s2V) =>
+    jsonval_conarg1 ("S3ITMsVar", jsonize_s2Var(s2V))
   // end of [S3ITMsVar]
 //
-| S3ITMcnstr (c3t) =>
-    jsonval_conarg1 ("S3ITMcnstr", jsonize_c3nstr (c3t))
+| S3ITMcnstr(c3t) =>
+    jsonval_conarg1 ("S3ITMcnstr", jsonize_c3nstr(c3t))
   // end of [S3ITMcnstr]
 //
-| S3ITMcnstr_ref (c3tr) => let
+| S3ITMcnstr_ref(c3tr) => let
     val loc = c3tr.c3nstroptref_loc
     val ref = c3tr.c3nstroptref_ref
     val loc = jsonize_location (loc)
@@ -192,9 +201,13 @@ case+ s3i of
     jsonval_conarg2 ("S3ITMcnstr_ref", loc, opt)
   end // end of [S3ITMcnstr_ref]
 //
-| S3ITMdisj (s3iss) =>
-    jsonval_conarg1 ("S3ITMdisj", jsonize_s3itmlstlst (s3iss))
+| S3ITMdisj(s3iss) =>
+    jsonval_conarg1 ("S3ITMdisj", jsonize_s3itmlstlst(s3iss))
   // end of [S3ITMdisj]
+//
+| S3ITMsolassert(s2e_prop) =>
+    jsonval_conarg1 ("S3ITMsolassert", jsonize1_s2exp(s2e_prop))
+  // end of [S3ITMsolassert]
 //
 end // end of [jsonize_s3itm]
 
@@ -202,10 +215,10 @@ end // end of [jsonize_s3itm]
 //
 implement
 jsonize_s3itmlst
-  (s3is) = jsonize_list_fun (s3is, jsonize_s3itm)
+  (s3is) = jsonize_list_fun<s3itm>(s3is, jsonize_s3itm)
 implement
 jsonize_s3itmlstlst
-  (s3iss) = jsonize_list_fun (s3iss, jsonize_s3itmlst)
+  (s3iss) = jsonize_list_fun<s3itmlst>(s3iss, jsonize_s3itmlst)
 //
 (* ****** ****** *)
 
@@ -274,30 +287,147 @@ in
 case+
 c3t0.c3nstr_node of
 //
-| C3NSTRprop (s2e) =>
+| C3NSTRprop(s2e) =>
     jsonval_conarg1 ("C3NSTRprop", jsonize1_s2exp (s2e))
   // end of [C3NSTRprop]
 //
-| C3NSTRitmlst (s3is) =>
+| C3NSTRitmlst(s3is) =>
     jsonval_conarg1 ("C3NSTRitmlst", jsonize_s3itmlst (s3is))
   // end of [C3NSTRitmlst]
+//
+| C3NSTRsolverify(s2e_prop) =>
+    jsonval_conarg1 ("C3NSTRsolverify", jsonize1_s2exp(s2e_prop))
+  // end of [C3NSTRsolverify]
 //
 end // end of [auxmain]
 //
 val loc0 = c3t0.c3nstr_loc
 val loc0 = jsonize_loc (loc0)
+//
+val ctk0 = jsonize_c3nstrkind(c3t0.c3nstr_kind)
+//
 val c3t0 = auxmain (c3t0)
 //
 in
-  jsonval_labval2 ("c3nstr_loc", loc0, "c3nstr_node", c3t0)
+//
+jsonval_labval3
+(
+  "c3nstr_loc", loc0, "c3nstr_kind", ctk0, "c3nstr_node", c3t0
+) (* jsonval_labval3 *) 
+//
 end // end of [jsonize_c3nstr]
 
 (* ****** ****** *)
 
 implement
 jsonize_c3nstropt
-  (opt) = jsonize_option_fun (opt, jsonize_c3nstr)
+  (opt) = jsonize_option_fun<c3nstr>(opt, jsonize_c3nstr)
 // end of [jsonize_c3nstropt]
+
+(* ****** ****** *)
+
+local
+//
+typedef s2tds = s2rtdatset
+//
+fun
+aux_s2rt
+(
+  s2t0: s2rt, res: s2tds
+) : s2tds =
+(
+case+ s2t0 of
+| S2RTbas(s2tb) => aux_s2rtbas(s2tb, res)
+| S2RTfun(s2ts, s2t) => let
+    val res = aux_s2rtlst(s2ts, res) in aux_s2rt(s2t, res)
+  end // end of [S2RTfun]
+| S2RTtup(s2ts) => aux_s2rtlst(s2ts, res)
+| S2RTVar _ => res
+| S2RTerr _ => res
+)
+//
+and
+aux_s2rtlst
+(
+  s2ts: s2rtlst, res: s2tds
+) : s2tds =
+(
+case+ s2ts of
+| list_nil() => res
+| list_cons(s2t, s2ts) => let
+    val res = aux_s2rt(s2t, res) in aux_s2rtlst(s2ts, res)
+  end // end of [list_cons]
+)
+//
+and
+aux_s2rtbas
+(
+  s2tb: s2rtbas, res: s2tds
+) : s2tds =
+(
+case+ s2tb of
+| S2RTBASpre _ => res
+| S2RTBASimp _ => res
+| S2RTBASdef(s2td) => s2rtdatset_add(res, s2td)
+)
+//
+fun
+aux_s2cst
+(
+  s2c: s2cst, res: s2tds
+) : s2tds =
+(
+  aux_s2rt(s2cst_get_srt(s2c), res)
+)
+fun
+aux_s2cstlst
+(
+  s2cs: s2cstlst, res: s2tds
+) : s2tds =
+(
+case+ s2cs of
+| list_nil() => res
+| list_cons(s2c, s2cs) =>
+    aux_s2cstlst(s2cs, aux_s2cst(s2c, res))
+  // end of [list_cons]
+)
+//
+fun
+aux_s2var
+(
+  s2v: s2var, res: s2tds
+) : s2tds =
+(
+  aux_s2rt(s2var_get_srt(s2v), res)
+)
+fun
+aux_s2varlst
+(
+  s2vs: s2varlst, res: s2tds
+) : s2tds =
+(
+case+ s2vs of
+| list_nil() => res
+| list_cons(s2v, s2vs) =>
+    aux_s2varlst(s2vs, aux_s2var(s2v, res))
+  // end of [list_cons]
+)
+//
+in (* in-of-local *)
+
+fun
+c3nstr_get_s2rtdatlst
+(
+  s2cs: s2cstlst, s2vs: s2varlst
+) : List_vt(s2rtdat) = let
+  val res = s2rtdatset_nil()
+  val res = aux_s2cstlst(s2cs, res)
+  val res = aux_s2varlst(s2vs, res)
+in
+  s2rtdatset_listize(res)
+end // end of [c3nstr_get_s2rtdatlst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -313,13 +443,25 @@ val
 val s2cs = s2cstset_vt_listize_free (s2cs)
 val s2vs = s2varset_vt_listize_free (s2vs)
 //
-val jsv_s2cs =
-  jsonize_list_fun{s2cst}($UN.linlst2lst(s2cs), jsonize_s2cst_long)
-val () = list_vt_free (s2cs)
+val
+jsv_s2cs =
+jsonize_list_fun<s2cst>($UN.linlst2lst(s2cs), jsonize_s2cst_long)
+val
+jsv_s2vs =
+jsonize_list_fun<s2var>($UN.linlst2lst(s2vs), jsonize_s2var_long)
 //
-val jsv_s2vs =
-  jsonize_list_fun{s2var}($UN.linlst2lst(s2vs), jsonize_s2var_long)
+val
+s2tds =
+c3nstr_get_s2rtdatlst
+  ($UN.linlst2lst(s2cs), $UN.linlst2lst(s2vs))
+//
+val
+jsv_s2tds =
+jsonize_list_fun<s2rtdat>($UN.linlst2lst(s2tds), jsonize_s2rtdat_long)
+//
+val () = list_vt_free (s2cs)
 val () = list_vt_free (s2vs)
+val () = list_vt_free (s2tds)
 //
 val jsv_c3t0 = jsonize_c3nstr (c3t0)
 //
@@ -333,6 +475,12 @@ val () =
   fprint_string (out, ",\n\"s2varmap\":\n")
 //
 val ((*void*)) = fprint_jsonval (out, jsv_s2vs)
+val ((*void*)) = fprint_newline (out)
+//
+val () =
+  fprint_string (out, ",\n\"s2rtdatmap\":\n")
+//
+val ((*void*)) = fprint_jsonval (out, jsv_s2tds)
 val ((*void*)) = fprint_newline (out)
 //
 val () =

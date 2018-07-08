@@ -38,22 +38,27 @@
 
 (* ****** ****** *)
 //
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
+// HX-2012-12:
+// It is ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.funmap_avltree"
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.funmap_avltree"
+//
 (* ****** ****** *)
 
 #include "./SHARE/funmap.hats"
 
 (* ****** ****** *)
-
+//
+// HX: for the purpose of gathering statics
+//
 fun{
 key:t0p;itm:t0p
-} funmap_avltree_height (map: map (key, itm)):<> intGte (0)
-
+} funmap_avltree_height (map: map (key, itm)):<> intGte(0)
+//
 (* ****** ****** *)
 
 (* end of [funmap_avltree.sats] *)

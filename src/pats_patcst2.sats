@@ -177,9 +177,11 @@ fun p2atcstlst_comp (xs: p2atcstlst): p2atcstlstlst_vt
 fun labp2atcstlst_comp (xs: labp2atcstlst): labp2atcstlstlst_vt
 
 (* ****** ****** *)
-
+//
+fun c2lau_pat_any (c2l: c2lau): p2atcstlstlst_vt
+//
 fun c2lau_pat_comp (c2l: c2lau): p2atcstlstlst_vt
-
+//
 (* ****** ****** *)
 
 fun p2atcst_inter_test (x1: p2atcst, x2: p2atcst): bool

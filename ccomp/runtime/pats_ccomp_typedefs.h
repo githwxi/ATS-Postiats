@@ -40,7 +40,11 @@
 
 /* ****** ****** */
 
-struct atstype_struct ; /* of indefinite size */
+/*
+** HX:
+** of indefinite size
+*/
+struct atstype_struct ;
 
 /* ****** ****** */
 
@@ -119,18 +123,23 @@ typedef void* atstype_datcontyp ;
 
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifdef \
+_ATS_CCOMP_EXCEPTION_NONE_
 //
-typedef
-struct
+// HX: should a message be issued?
+//
+#else
+//
+typedef struct
 {
-  int exntag ; char *exnmsg ;
+  atstype_int exntag ;
+  atstype_string exnmsg ;
 } atstype_exncon ;
 //
 typedef
 atstype_exncon *atstype_exnconptr ;
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 /*
@@ -161,29 +170,29 @@ typedef void* atstype_cloptr ;
 // making it unusable unless
 // _ATS_ARRAY_FIELD is defined
 //
-#ifdef _ATS_ARRAY_FIELD
+#ifdef _ATS_ARRAY_FIELD_
 #define atstyarr_field(fname) fname[]
 #else
 #define atstyarr_field(fname) atstyarr_field_undef(fname)
-#endif // end of [_ATS_ARRAY_FIELD]
+#endif // end of [_ATS_ARRAY_FIELD_]
 //
 /* ****** ****** */
 //
 // HX-2014-05:
 // making it not usable!!!
 //
-#ifdef _ATSTYPE_VAR_SIZE
+#ifdef _ATSTYPE_VAR_SIZE_
 // HX: it is set by the user
 #else
-#define _ATSTYPE_VAR_SIZE 0X10000
+#define _ATSTYPE_VAR_SIZE_ 0X10000
 #endif // end of [#ifdef]
 //
 // HX-2014-05:
 // for 8-bit or 16-bit march,
-// _ATSTYPE_VAR_SIZE can be set to 0x100
+// _ATSTYPE_VAR_SIZE can be set to 0X100
 //
 typedef
-struct{char _[_ATSTYPE_VAR_SIZE];} atstype_var[0] ;
+struct{char _[_ATSTYPE_VAR_SIZE_];} atstype_var[0] ;
 //
 /* ****** ****** */
 
@@ -197,6 +206,10 @@ struct{char _[_ATSTYPE_VAR_SIZE];} atstype_var[0] ;
 
 #define atstyclo_top struct{ void *cfun; }
 #define atstyclo_type(flab) flab##__closure_t0ype
+
+/* ****** ****** */
+
+#define atsvararg_type(hit) ...
 
 /* ****** ****** */
 

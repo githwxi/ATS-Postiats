@@ -332,16 +332,30 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Etop () => prstr "D1Etop()"
+| D1Eempty () => prstr "D1Eempty()"
+//
 | D1Ecstsp (x) => {
     val () = prstr "D1Ecstsp("
     val () = $SYN.fprint_cstsp (out, x)
     val () = prstr ")"
   }
 //
-| D1Eempty () => {
-    val () = prstr "D1Eempty()"
-  } // end of [D1Eempty]
-| D1Etop () => prstr "D1Etop()"
+| D1Etyrep (s1e) => {
+    val () =
+    (
+      prstr "D1Etyrep(";
+      fprint_s1exp (out, s1e); prstr ")"
+    ) (* end of [val] *)
+  } (* end of [D1Etyrep] *)
+//
+| D1Eliteral (lit) => {
+    val () =
+    (
+      prstr "D1Eliteral(";
+      fprint_d1exp (out, lit); prstr ")"
+    ) (* end of [val] *)
+  } (* end of [D1Eliteral] *)
 //
 | D1Eextval
     (s1e, name) => {
@@ -436,11 +450,17 @@ case+ d1e0.d1exp_node of
     val () = fprint_s1exparglst (out, s1as)
     val () = prstr ")"
   }
-| D1Elist (npf, xs) => {
+//
+| D1Esing (d1e) => {
+    val () = prstr "D1Esing("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+| D1Elist (npf, d1es) => {
     val () = prstr "D1Elist("
     val () = fprint_int (out, npf)
     val () = prstr "; "
-    val () = fprint_d1explst (out, xs)
+    val () = fprint_d1explst (out, d1es)
     val () = prstr ")"
   }
 //
@@ -466,6 +486,13 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1exp (out, _else)
     val () = prstr ")"
   }
+//
+| D1Eifcasehd _ => {
+    val () = prstr "D1Eifcasehd("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | D1Ecasehead _ => {
     val () = prstr "D1Ecasehead("
     val () = prstr "..."
@@ -529,18 +556,8 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eraise (d1e) => {
-    val () = prstr "D1Eraise("
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr ")"
-  }
-| D1Eeffmask _ => {
-    val () = prstr "D1Eeffmask("
-    val () = fprint_string (out, "...")
-    val () = prstr ")"
-  }
-//
-| D1Eselab (knd, d1e, d1l) => {
+| D1Eselab
+    (knd, d1e, d1l) => {
     val () = prstr "D1Eselab("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -561,16 +578,35 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eshowtype (d1e) => {
-    val () = prstr "D1Eshowtype("
+| D1Eraise (d1e) => {
+    val () = prstr "D1Eraise("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+| D1Eeffmask _ => {
+    val () = prstr "D1Eeffmask("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| D1Evararg(d1es) =>
+  {
+    val () = prstr "D1Evararg("
+    val () = fprint_d1explst (out, d1es)
+    val ((*closing*)) = prstr ")"
+  }
+//
+| D1Evcopyenv
+    (knd, d1e) => {
+    val () = prstr "D1Evcopyenv("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }
 //
-| D1Evcopyenv (knd, d1e) => {
-    val () = prstr "D1Evcopyenv("
-    val () = fprint_int (out, knd)
-    val () = prstr ", "
+| D1Eshowtype (d1e) => {
+    val () = prstr "D1Eshowtype("
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }
@@ -650,15 +686,36 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Emacsyn
-    (knd, d1e) => {
+| D1Eann_type(d1e, s1e) => {
+    val () = prstr "D1Eann_type("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr " : "
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr ")"
+  }
+| D1Eann_effc(d1e, efc) => {
+    val () = prstr "D1Eann_effc("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr " : "
+    val () = fprint_effcst (out, efc)
+    val () = prstr ")"
+  }
+| D1Eann_funclo(d1e, fc) => {
+    val () = prstr "D1Eann_funclo("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr " : "
+    val () = fprint_funclo (out, fc)
+    val () = prstr ")"
+  }
+//
+| D1Emacsyn(knd, d1e) => {
     val () = prstr "D1Emacsyn("
     val () = $SYN.fprint_macsynkind (out, knd)
     val () = prstr "; "
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }
-| D1Emacfun (name, d1es) => {
+| D1Emacfun(name, d1es) => {
     val () = prstr "D1Emacfun("
     val () = $SYM.fprint_symbol (out, name)
     val () = prstr "; "
@@ -666,25 +723,14 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eann_type (d1e, s1e) => {
-    val () = prstr "D1Eann_type("
+| D1Esolassert(d1e) => {
+    val () = prstr "D1Esolassert("
     val () = fprint_d1exp (out, d1e)
-    val () = prstr " : "
+    val () = prstr ")"
+  }
+| D1Esolverify(s1e) => {
+    val () = prstr "D1Esolverify("
     val () = fprint_s1exp (out, s1e)
-    val () = prstr ")"
-  }
-| D1Eann_effc (d1e, efc) => {
-    val () = prstr "D1Eann_effc("
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr " : "
-    val () = fprint_effcst (out, efc)
-    val () = prstr ")"
-  }
-| D1Eann_funclo (d1e, fc) => {
-    val () = prstr "D1Eann_funclo("
-    val () = fprint_d1exp (out, d1e)
-    val () = prstr " : "
-    val () = fprint_funclo (out, fc)
     val () = prstr ")"
   }
 //
@@ -866,7 +912,8 @@ case+ d1c0.d1ecl_node of
     val () = prstr ")"
   } // end of [D1Coverload]
 //
-| D1Ce1xpdef (id, def) =>
+| D1Ce1xpdef
+    (id, def) =>
   {
     val () = prstr "D1Ce1xpdef("
     val () = $SYM.fprint_symbol (out, id)
@@ -880,6 +927,23 @@ case+ d1c0.d1ecl_node of
     val () = $SYM.fprint_symbol (out, id)
     val () = prstr ")"
   }
+//
+| D1Cpragma(xs) =>
+  {
+    val () =
+    prstr "D1Cpragma("
+    val () = $UT.fprintlst (out, xs, ", ", fprint_e1xp)
+    val () = prstr (")")  
+  }
+| D1Ccodegen
+    (knd, xs) => {
+    val () =
+    prstr "D1Ccodegen("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, xs, ", ", fprint_e1xp)
+    val () = prstr (")")
+  } (* end of [D1Ccodegen] *)
 //
 | D1Cdatsrts (xs) =>
   {

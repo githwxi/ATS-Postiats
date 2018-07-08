@@ -1,0 +1,626 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../stdio.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_libc_stdio")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/stdio\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [stdio.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+See #myatscodelink("libc/SATS/stdio.sats", "stdio.sats") for the SATS
+file in ATSLIB where these functions are declared.
+
+")
+
+(* ****** ****** *)
+//
+#declnamesynop("FILE_v")
+//
+#declname("FILEptr")
+#declsynop2("\
+#pats2xhtmls("\
+absvtype
+FILEptr_viewtype (addr, file_mode) = ptr
+vtypedef
+FILEptr (l:addr, fm:file_mode) = FILEptr_viewtype (l, fm)
+")")
+//
+#declnamesynop("FILEptr0")
+//
+#declname("FILEptr1")
+#declsynop2("\
+#pats2xhtmls("\
+vtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
+vtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
+")
+")
+
+%{
+(*
+#declnamesynop("FILEref") // this one is declared in prelude/basic_sta.sats
+*)
+%}
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr_encode")
+#declnamesynop("FILEptr_decode")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr_free_null")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr_refize")
+#decldescrpt("\
+
+This cast function is called to turn a linear FILEptr-value into a
+non-linear FILEref-value. ")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEref_vttakeout")
+#decldescrpt("\
+
+This cast function is called on a FILEref-value filr to get the linear
+FILEptr-value of filr for temporary use. ")
+
+(* ****** ****** *)
+
+#declnamesynop("fopen")
+#declexample("\
+
+The following code opens a file of the name \"foo.txt\", writes into it the
+string \"Hello, world!\", and then closes it:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main () = let
+//
+val filp = fopen ("foo.txt", file_mode_w)
+//
+in
+//
+if FILEptr2ptr(filp) != 0 then let
+  val _ = fputs (file_mode_lte_w_w | "Hello, world!", filp)
+  val () = fclose_exn (filp)
+in
+  0
+end else let
+  val () = perror ("Can\'t open file")
+  val () = FILEptr_free_null (filp)
+in
+  1
+end // end of [if]
+//
+end // end of [main]
+')
+")
+
+#declnamesynop("fopen_exn")
+#declnamesynop("fopen_ref_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fclose")
+#declnamesynop("fclose0")
+#declnamesynop("fclose1")
+
+#declnamesynop("fclose_exn")
+#declnamesynop("fclose0_exn")
+#declnamesynop("fclose1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("freopen")
+
+#declnamesynop("freopen0")
+#decldescrpt("\
+This function directly corresponds to the libc-function of the name
+#dyncode("freopen").")
+#declnamesynop("freopen1")
+#decldescrpt("\
+This function directly corresponds to the libc-function of the name
+#dyncode("freopen").")
+
+#declnamesynop("freopen_exn")
+
+#declnamesynop("freopen0_exn")
+#decldescrpt("\
+This function is a slight variant of #dyncode("freopen0_exn"): It exits
+immediately if calling #dyncode("freopen") leads to an error.  ")
+#declexample("\
+
+The following code creates a file named foo.txt and writes into it the
+string \"Hello, world!\" plus a newline:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main0 () = () where
+{
+  val () = freopen0_exn ("foo.txt", file_mode_w, stdout_ref)
+  val () = puts_exn ("Hello, world!")
+  val () = fclose0_exn (stdout_ref)
+} (* end of [main] *)
+')
+")
+%{
+(*
+#declnamesynop("freopen_stdin")
+#declnamesynop("freopen_stdout")
+#declnamesynop("freopen_stderr")
+*)
+%}
+
+(* ****** ****** *)
+
+#declnamesynop("fileno")
+
+#declnamesynop("fileno0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fileno"). ")
+#declexample("\
+
+The following code checks that the file descriptors of the standard input,
+the standard output, and the standard error are numbered by default as 0,
+1, and 2, respectively:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main () = let
+  val () = assertloc (fileno0 (stdin_ref) = 0)
+  val () = assertloc (fileno0 (stdout_ref) = 1)
+  val () = assertloc (fileno0 (stderr_ref) = 2)
+in
+  0(*normal*)
+end // end of [main]
+')
+")
+
+#declnamesynop("fileno1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fileno"). ")
+
+(* ****** ****** *)
+
+#declnamesynop("fdopen")
+#declnamesynop("fdopen_v")
+#declnamesynop("fdopen_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("feof")
+
+#declnamesynop("feof0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("feof"). It returns a nonzero if and only if the end-of-file
+indicator for the stream associated with its argument is set.
+
+")
+#declnamesynop("feof1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("feof"). It returns a nonzero if and only if the end-of-file
+indicator is set for the stream associated with its argument.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("ferror")
+
+#declnamesynop("ferror0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("ferror"). ")
+
+#declnamesynop("ferror1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("ferror"). ")
+
+(* ****** ****** *)
+
+#declnamesynop("clearerr")
+
+#declnamesynop("clearerr0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("clearerr"). It clears the end-of-file and error indicators for the stream
+associated with its argument. \
+
+")
+
+#declnamesynop("clearerr1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("clearerr"). It clears the end-of-file and error indicators for the stream
+associated with its argument. \
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("fflush")
+#declnamesynop("fflush0")
+#declnamesynop("fflush1")
+
+#declnamesynop("fflush_exn")
+#declnamesynop("fflush0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fgetc")
+
+#declnamesynop("fgetc0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fgetc"). ")
+#declexample("\
+
+The following code copies chars read from the standard input channel to the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+local
+
+fun loop (
+  inp: FILEref, out: FILEref
+) : void =
+  if feof0 (inp) = 0 then let
+    val _(*err*) = fputc0_int (fgetc0 (inp), out) in loop (inp, out)
+  end else () // end of [if]
+// end of [loop]
+
+in // in of [local]
+
+implement
+main0 () = {
+  val () = loop (stdin_ref, stdout_ref)
+} // end of [main]
+
+end // end of [local]
+')
+")
+
+#declnamesynop("fgetc1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fgetc"). ")
+
+(* ****** ****** *)
+
+#declnamesynop("getc")
+#declnamesynop("getchar0")
+#declnamesynop("getchar1")
+
+(* ****** ****** *)
+
+#declnamesynop("fgets")
+
+#declnamesynop("fgets0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fgets"). ")
+#declexample("\
+
+The following code copies lines read from the standard input channel to the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload
+UN="prelude/SATS/unsafe.sats"
+staload "libc/SATS/stdio.sats"
+//
+local
+
+fun loop
+  {sz:pos} (
+  inp: FILEref
+, out: FILEref
+, buf: &bytes(sz)? >> _
+, sz: int sz
+) : void = let
+  val p = fgets0 (buf, sz, inp)
+in
+  if p > 0 then let // p=addr@(buf) or NULL
+    val _(*err*) = fputs0 ($UN.cast{string}(p), out)
+  in
+    loop (inp, out, buf, sz)
+  end else () // end of [if]
+end // end of [loop]
+
+in // in of [local]
+
+implement
+main0 () = {
+  \#define BUFSZ 1024
+  var buf = @[byte][BUFSZ]()
+  val () = loop (stdin_ref, stdout_ref, buf, BUFSZ)
+} // end of [main]
+
+end // end of [local]
+')
+")
+
+#declnamesynop("fgets1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fgets"). ")
+
+(* ****** ****** *)
+
+#declname("fputc")
+#declsynop2('\
+#pats2xhtmls('\
+overload fputc with fputc0_int of 0
+overload fputc with fputc0_char of 0
+overload fputc with fputc1_int of 10
+overload fputc with fputc1_char of 10
+')
+')
+#declnamesynop("fputc0_int")
+#declnamesynop("fputc0_char")
+#declnamesynop("fputc1_int")
+#declnamesynop("fputc1_char")
+
+#declnamesynop("fputc_exn")
+#declnamesynop("fputc0_exn_int")
+#declnamesynop("fputc0_exn_char")
+
+(* ****** ****** *)
+
+#declnamesynop("putc")
+#declnamesynop("putchar0")
+#declnamesynop("putchar1")
+
+(* ****** ****** *)
+
+#declnamesynop("fputs")
+
+#declnamesynop("fputs0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fputs").  ")
+#declnamesynop("fputs1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fputs").  ")
+
+#declnamesynop("fputs_exn")
+#declnamesynop("fputs0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("puts")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("puts").  Note that a call to this function puts a trailing
+newline after its argument.
+")
+
+#declnamesynop("puts_exn")
+#decldescrpt("\
+
+This function is a slight variant of #dyncode("puts"): It exits
+immediately if calling #dyncode("puts") leads to an error.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("fread")
+#declnamesynop("fread0")
+#declnamesynop("fread1")
+
+#declnamesynop("fread_exn")
+#declnamesynop("fread0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fwrite")
+#declnamesynop("fwrite0")
+#declnamesynop("fwrite1")
+
+#declnamesynop("fwrite_exn")
+#declnamesynop("fwrite0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fgetpos")
+#declnamesynop("fgetpos0")
+#declnamesynop("fgetpos1")
+
+#declnamesynop("fgetpos_exn")
+#declnamesynop("fgetpos0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fsetpos")
+#declnamesynop("fsetpos0")
+#declnamesynop("fsetpos1")
+
+#declnamesynop("fsetpos_exn")
+#declnamesynop("fsetpos0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fseek")
+#declnamesynop("fseek0")
+#declnamesynop("fseek1")
+
+#declnamesynop("fseek_exn")
+#declnamesynop("fseek0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("ftell")
+#declnamesynop("ftell0")
+#declnamesynop("ftell1")
+
+#declnamesynop("ftell_exn")
+#declnamesynop("ftell0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("perror")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the same name.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("remove")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("remove").  ")
+
+#declnamesynop("remove_exn")
+#decldescrpt("\
+
+This function is a slight variant of #dyncode("remove"): It exits
+immediately if calling #dyncode("remove") leads to an error.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("rename")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("rename").  ")
+
+#declnamesynop("rename_exn")
+#decldescrpt("\
+
+This function is a slight variant of #dyncode("rename"): It exits
+immediately if calling #dyncode("rename") leads to an error.  ")
+#declexample("\
+
+The following code opens a file handle for a file named foo.txt, writes
+into it the string \"Hello, world!\" plus a newline, closes the file handle,
+and then renames the file as foo2.txt:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main0 () = {
+  val out =
+    fopen_ref_exn ("foo.txt", file_mode_w)
+  val () = fputs0_exn ("Hello, world!\\\n", out)
+  val () = fclose0_exn (out)
+  val () = rename_exn ("foo.txt", "foo2.txt")
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("rewind")
+#declnamesynop("rewind0")
+#declnamesynop("rewind1")
+
+(* ****** ****** *)
+
+#declnamesynop("tmpfile")
+#declnamesynop("tmpfile_exn")
+#declnamesynop("tmpfile_ref_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("ungetc")
+#declnamesynop("ungetc0")
+#declnamesynop("ungetc1")
+
+#declnamesynop("ungetc_exn")
+#declnamesynop("ungetc0_exn")
+
+(* ****** ****** *)
+//
+#declnamesynop("bufmode_t")
+//
+#declnamesynop("_IOFBF")
+#declnamesynop("_IOLBF")
+#declnamesynop("_IONBF")
+//
+(* ****** ****** *)
+
+#declnamesynop("setbuf_null")
+#declnamesynop("setbuf0_null")
+#declnamesynop("setbuf1_null")
+
+(* ****** ****** *)
+
+#declnamesynop("setbuffer")
+#declnamesynop("setbuffer0")
+#declnamesynop("setbuffer1")
+
+(* ****** ****** *)
+
+#declnamesynop("setlinebuf")
+#declnamesynop("setlinebuf0")
+#declnamesynop("setlinebuf1")
+
+(* ****** ****** *)
+
+#declnamesynop("setvbuf")
+#declnamesynop("setvbuf0")
+#declnamesynop("setvbuf1")
+
+(* ****** ****** *)
+
+(* end of [stdio.atxt] *)

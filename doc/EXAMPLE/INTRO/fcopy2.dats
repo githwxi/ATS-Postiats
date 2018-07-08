@@ -1,32 +1,37 @@
 //
-// A naive implementation of file copying
+// A naive
+// implementation of file copying
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
-//
+// Author: Hongwei Xi
+// Authoremail: gmhwxiATgmailDOTcom
 // Start time: April 2013
 //
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload _(*anon*) = "prelude/DATS/integer.dats"
-
-(* ****** ****** *)
+UN =
+"prelude/SATS/unsafe.sats"
 //
-staload "libc/SATS/stdio.sats"
+staload
+_(*INT*) =
+"prelude/DATS/integer.dats"
 //
 (* ****** ****** *)
+//
+staload
+"libats/libc/SATS/stdio.sats"
+//
+(* ****** ****** *)
+//
 
 #define N 1024
 
 (* ****** ****** *)
 
-fun fcopy2
+fun
+fcopy2
 (
   filr: FILEref, filr2: FILEref
 ) : void = let
@@ -50,7 +55,7 @@ end // end of [loop]
 val
 (
   pfat, pfgc | p
-) = malloc_gc ((i2sz)N)
+) = malloc_gc (i2sz(N))
 val () = loop (!p, N, filr, filr2)
 val () = mfree_gc (pfat, pfgc | p)
 //

@@ -38,6 +38,11 @@ LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
+
+fun{} prerr_ERROR_beg(): void
+fun{} prerr_ERROR_end(): void
+
+(* ****** ****** *)
 //
 fun{} prerr_FILENAME (): void // specific
 //

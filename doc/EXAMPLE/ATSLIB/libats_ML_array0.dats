@@ -15,6 +15,7 @@ UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
+staload "libats/ML/SATS/list0.sats"
 staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
@@ -26,11 +27,9 @@ staload _(*anon*) = "libats/ML/DATS/array0.dats"
 val () =
 {
 //
-val out = stdout_ref
-//
 val asz = i2sz(3)
 val A_elt = array0_make_elt<int> (asz, 0)
-val () = fprintln! (out, "A_elt = ", A_elt)
+val ((*void*)) = println! ("A_elt = ", A_elt)
 //
 } (* end of [val] *)
 
@@ -72,16 +71,45 @@ val () = fprintln! (out, "rsum(45) = ", rsum)
 val () =
 {
 //
+val xs =
+  $list{int}(3, 9, 7, 8, 6, 0, 4, 2, 1, 5)
+//
+val A0 = array0_make_list(g0ofg1_list(xs))
+//
+val () = println! ("A0(bef) = ", A0)
+//
+val () = array0_quicksort<int> (A0, lam(x, y) => compare(x, y))
+//
+val () = println! ("A0(aft) = ", A0)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
 val out = stdout_ref
 //
 val asz = (i2sz)10
 //
-val A =
-  array0_tabulate<int> (asz, lam i => $UN.cast{int}(i))
+val A0 =
+  array0_tabulate<int>
+    (asz, lam(i) => $UN.cast{int}(i))
+  // array0_tabulate
 //
-val A2 =
-  array0_make_subarray (A, i2sz(3), i2sz(5))
-val ((*void*)) = fprintln! (out, "A2(A[3,5]) = ", A2)
+val A2 = array0_make_subarray (A0, i2sz(3), i2sz(5))
+val ((*void*)) = fprintln!(out, "A2(A[3,5]) = ", A2)
+//
+val () =
+assertloc
+( 0+1+2+3+4+5+6+7+8+9
+= A0.foldleft(TYPE{int})(0, lam(res, x) => res + x))
+//
+val () =
+assertloc
+( 0+1+2+3+4+5+6+7+8+9
+= A0.foldright(TYPE{int})(lam(x, res) => x + res, 0))
 //
 } (* end of [val] *)
 
@@ -94,9 +122,10 @@ array0_make_fileref
 ) : array0 (char) = A0 where
 {
   val cs =
-    fileref_get_file_charlst (inp)
-  val A0 = array0_make_list ($UN.castvwtp1{list0(char)}(cs))
-  val ((*freed*)) = list_vt_free (cs)
+    fileref_get_file_charlst(inp)
+  val A0 =
+    array0_make_list($UN.castvwtp1{list0(char)}(cs))
+  val ((*freed*)) = list_vt_free(cs)
 } (* end of [array0_make_fileref] *)
 
 (* ****** ****** *)
@@ -108,9 +137,9 @@ fileref_open_opt
 (
 "./libats_ML_array0.dats", file_mode_r
 )
-val-~Some_vt (inp) = opt
-val A0 = array0_make_fileref (inp)
-val ((*closed*)) = fileref_close (inp)
+val-~Some_vt(inp) = opt
+val A0 = array0_make_fileref(inp)
+val ((*closed*)) = fileref_close(inp)
 implement
 fprint_array$sep<> (out) = ()
 val () = fprintln! (stdout_ref, "A0 =\n", A0)

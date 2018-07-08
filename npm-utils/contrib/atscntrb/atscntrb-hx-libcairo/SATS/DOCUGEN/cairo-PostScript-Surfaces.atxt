@@ -1,0 +1,24 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get (
+) = "../Surfaces/cairo-PostScript-Surfaces.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/cairo/Surfaces/cairo-PostScript-Surfaces\
+")
+
+(* ****** ****** *)
+
+(* end of [cairo-PostScript-Surfaces.atxt] *)

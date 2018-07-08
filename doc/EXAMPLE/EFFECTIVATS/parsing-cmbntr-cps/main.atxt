@@ -1,0 +1,594 @@
+%{
+#include "./../MYTEXT/mytextfun.hats"
+%}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-parsing-cmbntr-cps</title>
+#patscode_style()
+#patspage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Combinators for Parsing in CPS-style
+</h1>
+
+<p>
+In this article, I present a brief introduction to parsing combinators
+that are designed to facilitate parser implementation in CPS-style. This
+is also an occassion for me to advocate the use of abstract types in
+programming via a concrete case.
+</p>
+
+<h2>
+Parsers of CPS-style
+</h2>
+
+<p>
+Let us first take a look at the following two type definitions:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+typedef
+parcont
+  (a:t@ype) = (a, parinp) -<cloref1> parout
+//
+typedef
+parinp_nullify
+  (a:t@ype) = (parinp, parcont(a)) -<cloref1> parout
+//
+')</pre>
+
+The types #stacode("parinp") and #stacode("parout") are abstract at this
+stage. Intuitively, #stacode("parinp") is meant to be the type for parsing
+input and #stacode("parout") the type for parsing output.  Given a type T,
+the type #stacode("parcont(T)") is for a continuation taking a value of the
+type T and another value representing parsing input; the type
+#stacode("parinp_nullify(T)") is for a parser of CPS-style that parses some
+input into a value of the type T and then passes the value and the
+remaining input to a continuation of the type #stacode("parcont(T)").
+If a parser of the type #stacode("parinp_nullify(T)") cannot turn
+the given parsing input into a value of the type T, then a raised exception
+#dyncode("ParFailExn()") is issued as the parsing result.
+</p>
+
+<p>
+
+The type constructor #stacode("kparser") is declared to be abstract.
+Given a type T, #stacode("kparser(T)") and #stacode("parcont(T)") are two
+types that are equivalent:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+extern
+castfn
+kparser_encode
+  {a:t@ype}(parinp_nullify(a)): kparser(a)
+//
+extern
+castfn
+kparser_decode{a:t@ype}(kparser(a)): parinp_nullify(a)
+//
+')</pre>
+
+Each value of the type #stacode("kparser(T)") represents a parser of
+CPS-style. For the sake of brevity, I will only state that such a parser
+parses some input into a value of the type T, omitting the part that the
+value obtained from parsing and the remaining input need to be passed to a
+continuation of the type #stacode("parcont(T)").
+
+</p>
+
+<h2>
+Parsing Combinators
+</h2>
+
+<p>
+Generally speaking, parsing combinators are functions designed
+for constructing parsers. While a parsing combinator is often called
+on some existing parsers to construct a new parser, it is not uncommon
+to see one that takes as its arguments values that are not parsers.
+I present as follows some common parsing combinators.
+</p>
+
+<p>
+Two combinators
+#dyncode("kparser_fail") and #dyncode("kparser_just")
+are given the following types:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_fail(): kparser(a)
+//
+fun
+{a:t@ype}
+kparser_just(x: a): kparser(a)
+//
+')</pre>
+
+Calling #dyncode("kparser_fail") simply raises an exception.
+Given a value, #dyncode("kparser_just") simply returns the value
+without consuming any input.
+
+</p>
+
+<p>
+Given a parser and a predicate,
+the combinator #dyncode("kparser_satisfy") constructs
+another parser that only returns if the value returned
+by the given parser satisfies the predicate:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_satisfy
+(
+  kparser(a), test: cfun1(a, bool)
+) : kparser(a) // end-of-fun
+//
+')</pre>
+</p>
+
+<p>
+Given two parsers, the combinator #dyncode("kparser_join2")
+constructs a new parser that essentially calls the two parsers
+consecutively and then combines the values returned by them to form
+a tuple:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a1
+,a2:t@ype}
+kparser_join2
+(
+  kp1: kparser(a1), kp2: kparser(a2)
+) : kparser(@(a1, a2)) // end-of-fun
+//
+')</pre>
+</p>
+
+<p>
+Given a parser and a function, the combinator #dyncode("kparser_fmap")
+constructs another parser that returns a value obtained from applying
+the given function to the value returned by the given parser:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+{b:t@ype}
+kparser_fmap
+  (kp: kparser(a), fmap: cfun1(a, b)) : kparser(b)
+//
+')</pre>
+</p>
+
+<p>
+The combinator #dyncode("kparser_fmap2") is essentially
+a composition of #dyncode("kparser_join2") and #dyncode("kparser_fmap"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a1
+,a2:t@ype}
+{b:t@ype}
+kparser_fmap2
+  (kp1: kparser(a1), kp2: kparser(a2), fmap: cfun1(a1, a2, b)): kparser(b)
+//
+')</pre>
+</p>
+
+<p>
+Given two parsers, the combinator #dyncode("kparser_orelse") constructs
+a new parser that calls the first parser and then, if parsing fails, calls
+the second parser:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_orelse
+  (kp1: kparser(a), kp2: kparser(a)): kparser(a)
+//
+')</pre>
+
+If the second parser is called, then the input passed to
+it is the same as the input passed to the first one.
+</p>
+
+<p>
+Given a parser, the combinator #dyncode("kparser_repeat0")
+constructs another one that applies the given parser repeatedly
+(until a parsing failure occurs):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_repeat0(kp: kparser(a)): kparser(List0(a))
+//
+')</pre>
+
+The values obtained from applying the given parser repeatedly are gathered
+in a list and then the list is returned.  The combinator
+#dyncode("kparser_repeat1") is a slight variant of #dyncode("kparser_repeat0"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+{a:t@ype}
+kparser_repeat1(kp: kparser(a)): kparser(List1(a))
+//
+')</pre>
+
+Given a parser, #dyncode("kparser_repeat1") constructs another one
+that applies the given parser to obtain a value and then applies it repeated
+(until a parsing failure occurs).
+
+</p>
+
+<p>
+Let us now see certain combinators
+desiged to construct parsers for parsing a sequence of characters
+(of the type #stacode("char")):
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+(* ****** ****** *)
+//
+fun{}
+kparser_char((*void*)): kparser(char)
+//
+(* ****** ****** *)
+//
+fun{}
+kparser_alpha((*void*)): kparser(char)
+fun{}
+kparser_alnum((*void*)): kparser(char)
+fun{}
+kparser_digit((*void*)): kparser(char)
+//
+(* ****** ****** *)
+//
+fun{}
+kparser_litchar(c0: char): kparser(char)
+fun{}
+kparser_literal(lit: string): kparser(int)
+//
+(* ****** ****** *)
+')</pre>
+
+The combinator #stacode("kparser_char") cannot be implemented yet
+at this stage as the type #stacode("parinp") is abstract. The rest of the
+combinators can be implemented as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+kparser_alpha
+  ((*void*)) = let
+  val kp = kparser_char<>()
+in
+  kparser_satisfy(kp, lam(c) => isalpha(c))
+end // end of [kparser_alpha]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+kparser_alnum
+  ((*void*)) = let
+  val kp = kparser_char<>()
+in
+  kparser_satisfy(kp, lam(c) => isalnum(c))
+end // end of [kparser_alnum]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+kparser_digit
+  ((*void*)) = let
+  val kp = kparser_char<>()
+in
+  kparser_satisfy(kp, lam(c) => isdigit(c))
+end // end of [kparser_digit]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+kparser_litchar
+  (c0) = let
+  val kp = kparser_char<>()
+in
+  kparser_satisfy<char>(kp, lam(c1) => c0 = c1)
+end // end of [kparser_litchar]
+
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+kparser_literal
+  (lit) = let
+//
+val
+[n:int]
+lit = g1ofg0(lit)
+//
+val
+ncs = sz2i(string_length(lit))
+//
+fun
+loop(i: natLte(n)): kparser(int) =
+if i < ncs
+  then kparser_litchar(lit[i]) >> loop(i+1) else kparser_just(0)
+// end of [if]
+//
+in
+  loop(0)
+end // end of [kparser_literal]
+
+(* ****** ****** *)
+')</pre>
+
+Given a character #dyncode("ch"), #dyncode("kparser_litchar(ch)") returns a
+parser for recognizing the character. Given a string #dyncode("str"),
+#dyncode("kparser_literal(str)") returns a parser for recognizing the
+sequence of the characters contained in the string #dyncode("str").  </p>
+
+<p>
+For those interested in studying parsing combinators in more depth, the
+following links should be helpful:
+
+<ul>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/HATS/kparcomb.hats">Interface and Implementation</a>
+</li>
+</ul>
+</p>
+
+<h2>
+Parsing Combinators in Action
+</h2>
+
+<p>
+In the rest of this article, I briefly mention the implementation of a
+tokenizer that turns a sequence of characters into tokens, showing a
+concrete case of parsing combinators in action.  </p>
+
+<p>
+Assume that #stacode("parinp") equals #stacode("charlst") (which is defined
+as #stacode("List0(char)")). That is, parsing input is just a list of
+characters. Then the combinator #dyncode("kparser_char") can be implemented
+as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+assume
+parinp_type = List0(char)
+//
+implement
+{}(*tmp*)
+kparser_char
+  ((*void*)) =
+kparser_encode
+  {char}(
+//
+lam(inp, kont) =>
+(
+  case+ inp of
+  | cons(c, inp2) => kont(c, inp2) | nil() => $raise ParFailExn()
+)
+//
+) (* kparser_char *)
+//
+')</pre>
+</p>
+
+<p>
+Assume that a legal integer token consists of a non-empty sequence of
+digits. Then a parser for integer tokens can be implement as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val
+kp_digit = kparser_digit<>()
+//
+val
+kp_int =
+kparser_fmap<charlst><int>
+(
+  kparser_repeat1(kp_digit), lam(cs) => charlst2int(cs)
+)
+//
+')</pre>
+</p>
+
+<p>
+Assume that a legal identifier token consists of a letter followed by a
+(possibly empty) sequence of letters or digits. Then a parser for
+identifiers can be implement as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val
+kp_alpha = kparser_alpha<>()
+val
+kp_alnum = Kparser_alnum<>()
+//
+val
+kp_ident = // parsing identifiers
+kparser_fmap2<char,charlst><string>
+( kp_alpha
+, kparser_repeat0(kp_alnum), lam(c, cs) => charlst2str(cons(c, cs))
+)
+//
+')</pre>
+</p>
+
+<p>
+The datatype #stacode("token") is declared for tokens as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+datatype token =
+  | TOKeof of () // the end
+  | TOKint of int // integer
+  | TOKident of string // identifier
+  | TOKspchr of char // special char
+  | TOKcomment of () // comment
+//
+')</pre>
+
+The parser #dyncode("kp_token")
+for turning sequences of characters into tokens
+is implemented below:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+val
+kp_TOKeof =
+kparser_fmap(kp_eof, lam(x) => TOKeof())
+//
+val
+kp_TOKint =
+kparser_fmap(kp_int, lam(x) => TOKint(x))
+//
+val
+kp_TOKident =
+kparser_fmap(kp_ident, lam(x) => TOKident(x))
+//
+val
+kp_TOKspchr =
+kparser_fmap(kp_spchr, lam(x) => TOKspchr(x))
+//
+val
+kp_TOKcomment =
+kparser_fmap(kp_comment, lam(x) => TOKcomment())
+//
+val
+kp_token =
+kp_TOKint || kp_TOKident ||
+kp_TOKcomment || kp_TOKspchr || kp_TOKeof
+//
+')</pre>
+
+Note that #dyncode("kp_eof"), #dyncode("kp_spchr") and
+#dyncode("kp_comment") are not presented here. A comment consisits of a
+sequence of characters starting with #dyncode("(*") and ending with
+#dyncode("*)"), and embedded comments are allowed. I suggest that the
+reader pay close attention to the implementation of #dyncode("kp_comment")
+in #filename("tokenizer.dats"), which is not based on parsing combinators.
+Instead, #dyncode("kp_comment") is implemented in a direct style.  Parsing
+combinators can often help implement elegant parsers but not always.  There
+is really no point sticking to parsing combinators if one can find a
+simpler and/or cleaner solution otherwise.
+</p>
+
+<p>
+A tokenizer is implemented as follows that turns a list of characters into
+a (lazy) stream of tokens:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+assume
+parout_type = stream_con(token)
+//
+fun
+tokenizer
+(
+cs: List0(char)
+) : stream(token) = let
+//
+val
+kp_token = kparser_decode(kp_token)
+//
+in
+//
+$delay
+(
+//
+case+ cs of
+| nil() =>
+  stream_nil()
+| cons _ =>
+  kp_token(cs, lam(tok, inp) => stream_cons(tok, tokenizer(inp)))
+//
+) : stream_con(token)
+//
+end // end of [tokenizer]
+//
+')</pre>
+</p>
+
+<p>
+Please find the entirety of the code for this example in the file
+#filename("tokenizer.dats"). A good exercise to solidify one's
+understanding of parsing combinators of CPS-style is to simply implement a
+parser for arithmetic expressions based on the tokenizer presented here.
+</p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+#patspage_script()
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}
+

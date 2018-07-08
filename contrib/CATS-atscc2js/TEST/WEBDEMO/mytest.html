@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script
+  src="https://ats-lang.github.io/LIBRARY/libatscc2js/libatscc2js_all.js">
+</script>
+<script>
+//
+function
+fact_eval()
+{
+//
+  var form =
+    document.getElementById("factarg") ;
+//
+  var answer =
+    fact(parseInt(form.elements.namedItem("funarg").value, 10)) ;
+//
+  document.getElementById("fact_demo").innerHTML = answer.toString() ;
+//
+  return ;
+} /* end of [fact_eval] */
+//
+</script>
+<script>
+//
+function
+fibats_eval()
+{
+//
+  var form =
+    document.getElementById("fibatsarg") ;
+//
+  var answer =
+    fibats(parseInt(form.elements.namedItem("funarg").value, 10)) ;
+//
+  document.getElementById("fibats_demo").innerHTML = answer.toString() ;
+//
+  return ;
+} /* end of [fibats_eval] */
+//
+</script>
+<script>
+//
+function
+acker_eval()
+{
+//
+  var form =
+    document.getElementById("ackerarg") ;
+//
+  var arg1 = parseInt(form.elements.namedItem("funarg1").value, 10) ;
+  var arg2 = parseInt(form.elements.namedItem("funarg2").value, 10) ;
+  var demo = document.getElementById("acker_demo") ;
+  try {
+    demo.innerHTML =
+    acker(arg1, arg2).toString() ;
+  } catch(err) {
+    demo.innerHTML = err.message ;
+  } /* end-of-try */
+//
+  return ;
+} /* end of [acker_eval] */
+//
+</script>
+<script src="./DATS_JS/mytest_dats.js"></script>
+</head>
+
+<body>
+
+<h1>Some Famous Recursive Functions</h1>
+
+<h2>atscc2js</h2>
+<p>
+The tool <em>atscc2js</em> translates into JavaScript the C code
+generated from ATS source by ATS/Postiats (atsopt).
+</p>
+
+<h2>Factorial</h2>
+
+<form id="factarg">
+fact <input type="text" name="funarg" value="10"><br>
+</form> 
+
+<p id="fact_demo"></p>
+
+<button type="button" onclick="fact_eval()">Evaluate</button>
+
+<h2>Fibonacci</h2>
+
+<form id="fibatsarg">
+fibats <input type="text" name="funarg" value="10"><br>
+</form> 
+
+<p id="fibats_demo"></p>
+
+<button type="button" onclick="fibats_eval()">Evaluate</button>
+
+<h2>Ackermann</h2>
+
+<form id="ackerarg">
+acker
+<input type="text" name="funarg1" value="0">
+<input type="text" name="funarg2" value="0"> <br>
+</form> 
+
+<p id="acker_demo"></p>
+
+<button type="button" onclick="acker_eval()">Evaluate</button>
+
+<p id="demo_finish"></p>
+
+<hr>
+
+<table>
+<tr>
+<td style="width: 100%;">
+This page is created with
+<a href="http://www.ats-lang.org">ATS</a>
+by
+<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>
+and also maintained by
+<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</td>
+<td style="width: 0%;"><!--pushed to the right-->
+<a href="http://sourceforge.net">
+<img
+src="http://sflogo.sourceforge.net/sflogo.php?group_id=205722&amp;type=2"
+width="120"
+height="36"
+alt="SourceForge.net Logo"
+/>
+</a>
+</td>
+</tr>
+</table>
+
+</body>
+</html> 

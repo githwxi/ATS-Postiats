@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-linear-streams</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Linear Streams for Memory-Clean Programs
+</h1>
+
+<p>I find that linear streams are a true gem in ATS. It seems a bit
+unfortunate that this gem is largely hidden from most programmers. I
+would like to present a few short examples in this article that
+can demonstrate a typical use of linear streams in the construction of
+memory-clean programs. Note that a program being memory-clean means
+that the program must free every byte of memory allocated during its
+execution at the point when it terminates. It should be soon clear that
+the presented memory-clean programs also have a very small memory
+footprint, making them suitable to run on devices where memory is extremely
+limited (e.g., Arduino Uno).
+</p>
+
+<h2>A stream of Fibonacci numbers</h2>
+
+<p>
+A (functional) stream of Fibonacci numbers can be constructed
+by calling the following function <span style="color: #F00000;">fibseq</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fn</span> fibseq<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="keyword">(</span><span class="keyword">fix</span> f<span class="keyword">(</span>n0<span class="keyword">:</span><span class="staexp">int</span><span class="keyword">,</span> n1<span class="keyword">:</span><span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">stream</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp"><span class="keyword">$delay</span><span class="keyword">(</span>stream_cons<span class="keyword">(</span>n0<span class="keyword">,</span> f<span class="keyword">(</span>n1<span class="keyword">,</span> n0+n1<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+For someone who may not be familiar with streams in ATS, please find
+a chapter on <em>stream-based lazy evaluation</em> in
+this <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">tutorial</a>
+on programming features in ATS.
+
+</p>
+
+<p>
+Given a stream <span style="color: #F00000;">xs</span> and a natural number <span style="color: #F00000;">n</span>,
+the function <span style="color: #F00000;">stream_nth_exn</span> returns element <span style="color: #F00000;">n</span> in <span style="color: #F00000;">xs</span>
+(or it raises an exception if there is no such an element in <span style="color: #F00000;">xs</span>).
+As an example, the value of the 10th Fibonacci number can be computed as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">val</span> fib10 <span class="keyword">=</span> stream_nth_exn<span class="keyword">(</span>fibseq<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> <span class="dynexp">10</span><span class="keyword">)</span></span>
+</pre>
+
+After <span style="color: #F00000;">stream_nth_exn</span> returns, the stream returned by
+<span style="color: #F00000;">fibseq()</span> is in an expanded form that contains at least
+element 0, element 1, ..., element 10. In order to compute element
+<span style="color: #F00000;">n</span> in the stream, we need memory of size proportional to
+<span style="color: #F00000;">n</span>.
+
+</p>
+
+<h2>A linear stream of Fibonacci numbers</h2>
+
+<p>
+A linear stream of Fibonacci numbers can be constructed
+by calling the following function <span style="color: #F00000;">fibseq_vt</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fn</span> fibseq_vt<span class="keyword">(</span><span class="keyword">)</span>  <span class="keyword">=</span>
+  <span class="keyword">(</span><span class="keyword">fix</span> f<span class="keyword">(</span>n0<span class="keyword">:</span><span class="staexp">int</span><span class="keyword">,</span> n1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">stream_vt</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp"><span class="keyword">$ldelay</span><span class="keyword">(</span>stream_vt_cons<span class="keyword">(</span>n0<span class="keyword">,</span> f<span class="keyword">(</span>n1<span class="keyword">,</span> n0+n1<span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">1</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+For someone who may not be familiar with linear streams in ATS, please find
+a chapter on <em>linear stream-based lazy evaluation</em> in
+this <a href="http://ats-lang.sourceforge.net/DOCUMENT/ATS2TUTORIAL/HTML/HTMLTOC/book1.html">tutorial</a>
+on programming features in ATS.
+
+</p>
+
+<p>
+Given a linear stream <span style="color: #F00000;">xs</span> and a natural number <span style="color: #F00000;">n</span>,
+the function <span style="color: #F00000;">stream_vt_nth_exn</span> returns element <span style="color: #F00000;">n</span> in <span style="color: #F00000;">xs</span>
+(or it raises an exception if there is no such an element in <span style="color: #F00000;">xs</span>).
+As an example, the value of the 10th Fibonacci number can be computed as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">val</span> fib10 <span class="keyword">=</span> stream_vt_nth_exn<span class="keyword">(</span>fibseq_vt<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> <span class="dynexp">10</span><span class="keyword">)</span></span>
+</pre>
+
+After <span style="color: #F00000;">stream_vt_nth_exn</span> returns, the linear stream returned by
+<span style="color: #F00000;">fibseq_vt()</span> is completely freed. In order to compute element
+<span style="color: #F00000;">n</span> in the linear stream, we only need memory of size O(1). In general,
+a node in a linear stream is freed before the next node is generated, implying
+that only one node is present during the processing of the linear stream. For instance,
+the function <span style="color: #F00000;">stream_vt_nth_exn</span> can be implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+stream_vt_nth_exn
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">stream_vt</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">intGte</span><span class="keyword">(</span><span class="staexp">0</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">=</span> loop<span class="keyword">(</span>xs<span class="keyword">,</span> n<span class="keyword">)</span> <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+loop<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">stream_vt</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">a</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+  <span class="keyword">case+</span> <span class="keyword">!</span>xs <span class="keyword">of</span>
+  <span class="keyword">|</span> <span class="keyword">~</span>stream_vt_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span>
+      <span class="dynexp"><span class="keyword">$raise</span> StreamSubscriptExn<span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="keyword">|</span> <span class="keyword">~</span>stream_vt_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+      <span class="keyword">if</span> n <span class="keyword">=</span> <span class="dynexp">0</span> <span class="keyword">then</span> <span class="keyword">(</span><span class="keyword">~</span>xs<span class="keyword">;</span> x<span class="keyword">)</span> <span class="keyword">else</span> loop<span class="keyword">(</span>xs<span class="keyword">,</span> pred<span class="keyword">(</span>n<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [loop] *)</span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [stream_vt_nth_exn] *)</span>
+</pre>
+
+A linear stream is represented as a linear thunk (that is, a nullary
+closure-function); the thunk evaluates to either a null node (indicating
+the end of the stream) or a non-null node containing both an element and
+another thunk (for subsequent use), and it then frees itself. Therefore,
+processing the linear stream constructed by a call to
+<span style="color: #F00000;">fibseq_vt</span> only needs memory for storing one node and two
+thunks; each node contains one value of the type <span style="color: #0000F0;">int</span> and one
+pointer; each thunk contains two values of the type <span style="color: #0000F0;">int</span> and
+one pointer. In order to test that this is indeed the case, I give as
+follows an implementation of two functions in C for freeing and allocating
+memory:
+
+<pre
+class="patsyntax">
+<span class="extcode"><span class="extcode">%{^
+//
+#define NM 3
+//
+int used[NM];
+//
+typedef
+struct{ void* _[2]; } block_t;
+block_t smem[NM];
+//
+void
+atsruntime_mfree_user(void *p) {
+  void *p0 = &amp;smem[0];
+  used[((char*)p - (char*)p0)/sizeof(block_t)] = 0;
+}
+//
+void*
+atsruntime_malloc_user(size_t bsz) {
+  int i;
+  for (i = 0; i &lt; NM; i += 1)
+  {
+    if (used[i] == 0) { used[i] = 1; return &amp;smem[i]; }
+  }
+  return 0;
+}
+//
+%}</span></span> <span class="comment">// end of [%{^]</span>
+</pre>
+
+By passing the compilation flag <em>-DATS_MEMALLOC_USER</em> to
+<em>atscc</em>, one can generate C code from ATS source that makes
+use of the functions <span style="color: #F00000;">atsruntime_mfree_user</span> and
+<span style="color: #F00000;">atsruntime_malloc_user</span> for freeing and allocating memory,
+respectively. A simple experiment can confirm that only 3 blocks of
+memory is needed for processing the linear stream returned by
+<span style="color: #F00000;">fibseq_vt()</span>, where each block consists of two consecutive
+words.
+
+</p>
+
+<h2>A stream-based solution to the eight-queen puzzle</h2>
+
+<p>
+The eight-queen puzzle asks a player to find one
+way to put 8 queen pieces on a chess board such that there exists
+no piece that can capture another one.
+
+</p>
+
+<p>
+Let us use an integer list of length n for a (partial) chess board
+consisting of the first n rows such that there is a queen piece on
+each row; each integer in the list represents the column number of the
+queen piece on the corresponding row.  The following declaration
+introduces a function <span style="color: #F00000;">qsolve</span> that takes a given natural
+number n and returns a stream of lists containing all the possible
+ways to put n queen pieces on the first n rows of a chess board such
+that no piece can capture another one:
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> qsolve<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">stream</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+Clearly, calling <span style="color: #F00000;">qsolve</span>
+on 8 returns all of the solutions to the eight-queen puzzle.
+
+</p>
+
+<p>
+An implementation of <span style="color: #F00000;">qsolve</span> is given a follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#define</span> N 8</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+qsolve<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span>
+n <span class="keyword">=</span> <span class="dynexp">0</span>
+<span class="keyword">then</span>
+<span class="keyword">(</span>
+  stream_make_sing<span class="keyword">(</span>list_nil<span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* end of [then] *)</span>
+<span class="keyword">else</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+test
+<span class="staexp"><span class="keyword">{</span> i<span class="keyword">:</span>int
+<span class="keyword">|</span> 0 <span class="keyword">&lt;</span> i<span class="keyword">;</span> i &lt;= n
+<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">i</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  x<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">,</span> i<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">,</span> xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">i</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:&lt;</span><span class="keyword">&gt;</span> <span class="staexp">bool</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> true
+<span class="keyword">|</span> list_cons<span class="keyword">(</span>x1<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    <span class="keyword">if</span> <span class="keyword">(</span>x != x1 &amp;&amp; abs<span class="keyword">(</span>x-x1<span class="keyword">)</span> != i<span class="keyword">)</span>
+      <span class="keyword">then</span> test<span class="keyword">(</span>x<span class="keyword">,</span> i+<span class="dynexp">1</span><span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">else</span> false
+  <span class="comment">// end of [list_cons]</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+extend
+<span class="staexp"><span class="keyword">{</span>x<span class="keyword">:</span>nat <span class="keyword">|</span> x &lt;= N<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">N</span><span class="staexp">-</span><span class="staexp">x</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  x<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">x</span><span class="keyword">)</span><span class="keyword">,</span> xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:&lt;</span><span class="keyword">&gt;</span> <span class="staexp">stream</span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$delay</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> x <span class="keyword">&lt;</span> N <span class="keyword">then</span> <span class="keyword">(</span>
+  <span class="keyword">if</span> test<span class="keyword">(</span>x<span class="keyword">,</span> 1<span class="keyword">,</span> xs<span class="keyword">)</span>
+    <span class="keyword">then</span> <span class="keyword">(</span>
+      stream_cons<span class="keyword">(</span>list_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">,</span> extend<span class="keyword">(</span>x+1<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span>
+    <span class="keyword">)</span> <span class="keyword">else</span> <span class="keyword">!</span><span class="keyword">(</span>extend<span class="keyword">(</span>x+1<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="comment">// end of [if]</span>
+<span class="keyword">)</span> <span class="keyword">else</span> stream_nil<span class="comment">(*void*)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [extend] *)</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+stream_concat
+<span class="keyword">(</span>
+  stream_map_fun<span class="keyword">(</span>qsolve<span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=&gt;</span> extend<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* end of [stream_concat] *)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [qsolve] *)</span>
+<span class="comment">//</span>
+</pre>
+
+The function <span style="color: #F00000;">test</span> checks whether a given row can be added
+to a (partial) solution (to form another solution containing one more
+row).  Given a (partial) solution, the function <span style="color: #F00000;">extend</span>
+returns a stream of lists containing all of the valid solutions that
+extend the given one with one more row. Note that calling the function
+<span style="color: #F00000;">stream_map_fun</span> returns a stream of elements, where each
+element is a stream of lists such that each list represents a
+(partial) solution to the eight-queen puzzle, and calling the function
+<span style="color: #F00000;">stream_concat</span> on the stream of streams returned by
+<span style="color: #F00000;">stream_map_fun</span> yields a stream of lists containing all
+the possible ways to put n queen pieces on the first n rows such that
+no piece can capture another one.
+
+</p>
+
+<h2>A linear stream-based solution to the eight-queen puzzle</h2>
+
+<p>
+We declare the interface for a linear version of
+<span style="color: #F00000;">qsolve</span> as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> qsolve_vt<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">stream_vt</span><span class="keyword">(</span><span class="staexp">list_vt</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Given a natural number n, <span style="color: #F00000;">qsolve_vt</span> returns a linear
+stream of linear lists containing all the (partial) solutions to
+putting n queen pieces on the first n rows (of a chess board) such
+that no piece can capture another one.
+
+</p>
+
+<p>
+The following implementation of <span style="color: #F00000;">qsolve_vt</span>
+is largely parallel to the above one for <span style="color: #F00000;">qsolve</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#define</span> N 8</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+qsolve<span class="staexp"><span class="keyword">{</span>n<span class="keyword">}</span></span><span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span>
+n <span class="keyword">=</span> <span class="dynexp">0</span>
+<span class="keyword">then</span>
+<span class="dynexp"><span class="keyword">$ldelay</span>
+stream_vt_cons
+<span class="keyword">(</span>
+  list_vt_nil
+<span class="keyword">,</span> stream_vt_make_nil<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [then] *)</span>
+<span class="keyword">else</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+test
+<span class="staexp"><span class="keyword">{</span> i<span class="keyword">:</span>int
+<span class="keyword">|</span> 0 <span class="keyword">&lt;</span> i<span class="keyword">;</span> i &lt;= n
+<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">i</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  x<span class="keyword">:</span> <span class="staexp">int</span>
+<span class="keyword">,</span> i<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">,</span> xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">list_vt</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">i</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:&lt;</span><span class="keyword">&gt;</span> <span class="staexp">bool</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_vt_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> true
+<span class="keyword">|</span> list_vt_cons<span class="keyword">(</span>x1<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    <span class="keyword">if</span> <span class="keyword">(</span>x != x1 &amp;&amp; abs<span class="keyword">(</span>x-x1<span class="keyword">)</span> != i<span class="keyword">)</span>
+      <span class="keyword">then</span> test<span class="keyword">(</span>x<span class="keyword">,</span> i+<span class="dynexp">1</span><span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">else</span> false
+  <span class="comment">// end of [list_cons]</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+extend
+<span class="staexp"><span class="keyword">{</span>x<span class="keyword">:</span>nat <span class="keyword">|</span> x &lt;= N<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">N</span><span class="staexp">-</span><span class="staexp">x</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  x<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">x</span><span class="keyword">)</span><span class="keyword">,</span> xs<span class="keyword">:</span> <span class="staexp">list_vt</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:&lt;</span><span class="keyword">!</span><span class="staexp">wrt</span><span class="keyword">&gt;</span> <span class="staexp">stream_vt</span><span class="keyword">(</span><span class="staexp">list_vt</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$ldelay</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span> x <span class="keyword">&lt;</span> N <span class="keyword">then</span> <span class="keyword">(</span>
+  <span class="keyword">if</span> test<span class="keyword">(</span>x<span class="keyword">,</span> 1<span class="keyword">,</span> xs<span class="keyword">)</span>
+    <span class="keyword">then</span>
+    stream_vt_cons
+    <span class="keyword">(</span>
+      list_vt_cons<span class="keyword">(</span>x<span class="keyword">,</span> list_vt_copy<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span>
+    <span class="keyword">,</span> extend<span class="keyword">(</span>x+1<span class="keyword">,</span> xs<span class="keyword">)</span>
+    <span class="keyword">)</span>
+    <span class="keyword">else</span> <span class="keyword">!</span><span class="keyword">(</span>extend<span class="keyword">(</span>x+1<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="comment">// end of [if]</span>
+<span class="keyword">)</span> <span class="keyword">else</span> <span class="keyword">(</span>list_vt_free<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">;</span> stream_vt_nil<span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> stream_vt_con<span class="keyword">(</span>list_vt<span class="keyword">(</span>int<span class="keyword">,</span> n<span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">,</span>
+<span class="comment">//</span>
+list_vt_free<span class="keyword">(</span>xs<span class="keyword">)</span> <span class="comment">// it is called when the stream is freed</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span></span>  <span class="comment">(* end of [extend] *)</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+stream_vt_concat
+<span class="keyword">(</span>
+  stream_vt_map_fun<span class="keyword">(</span>qsolve<span class="keyword">(</span>n-<span class="dynexp">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=&gt;</span> extend<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* end of [stream_vt_concat] *)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [qsolve_vt] *)</span>
+<span class="comment">//</span>
+</pre>
+
+While it is difficult to analyze <em>statically</em> how many
+bytes of memory are needed in order to process all the elements in the
+stream returned by <span style="color: #F00000;">qsolve_vt(8)</span>, we can readily obtain an
+estimate of this number experimentally. For instance, some data
+gathered at run-time indicate that 97 blocks of memory is adequate, where
+each block consists of 3 consecutive words.
+
+</p>
+
+<p>
+If we try to call <span style="color: #F00000;">qsolve_vt(N)</span> for a large N (e.g., choosing
+N to be 100), then we can see that the run-time execution of the call immediately
+reaches a steady state of memory consumption. While the call itself can never return
+(due to the algorithm for <span style="color: #F00000;">qsolve_vt</span> being exponential in terms of N), its
+execution goes on smoothly without causing any dreadful page faults. This is
+truly a thing of beauty to observe!
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+Fibonacci.dats
+Fibonacci_vt.dats
+QueensPuzzle.dats
+QueensPuzzle_vt.dats
+</pre>
+
+In addition, there is an accompanying <tt>Makefile</tt> for compiling
+and testing the code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

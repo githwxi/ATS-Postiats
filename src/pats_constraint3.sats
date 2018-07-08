@@ -311,7 +311,7 @@ s3exp2myintvec{n:nat}
 
 (* ****** ****** *)
 
-fun c3nstr_solve (c3t: c3nstr): void
+fun c3nstr_ats2_solve (c3t: c3nstr): void
 
 (* ****** ****** *)
 //
@@ -322,7 +322,8 @@ c3nstr_mapgen_scst_svar
   s2cstset_vt, s2varset_vt
 ) (* end of [c3nstr_mapgen_scst_svar] *)
 //
-fun jsonize_c3nstr (c3t: c3nstr): jsonval
+fun
+jsonize_c3nstr (c3t: c3nstr): jsonval
 //
 fun c3nstr_export (out: FILEref, c3t: c3nstr): void
 //

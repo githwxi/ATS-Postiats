@@ -1,0 +1,2038 @@
+####################################
+#
+# This is the library
+# used for ATS2FUNCRASH
+#
+####################################
+[name]: \
+[interface]: \
+[implement]: \
+[description]: \
+####################################
+#
+# For integers
+#
+####################################
+[name]: \
+int_foreach
+[interface]: \
+fun{}
+int_foreach
+( n0: int
+, fwork: cfun(int, void)): void
+[implement]: \
+implement
+{}(*tmp*)
+int_foreach
+  (n0, fwork) =
+  loop(0) where
+{
+//
+fun
+loop(i: int): void =
+if i < n0 then (fwork(i); loop(i+1))
+//
+} (* end of [int_foreach] *)
+[description]: \
+Given an integer n0 and a closure-function
+fwork, this function applies fwork to the integers
+between 0 and n0-1, inclusive.
+####################################
+[name]: \
+int_foreach_method
+[interface]: \
+fun{}
+int_foreach_method
+(n0: int)
+(fwork: cfun(int, void)): void
+//
+overload
+.foreach with int_foreach_method of 100
+//
+[implement]: \
+implement
+{}(*tmp*)
+int_foreach_method(n0) =
+lam(fwork) => int_foreach<>(n0, fwork)
+[description]: \
+This function is a curried version of ##dyncode("int_foreach")
+for supporting dot-notation.
+####################################
+[name]: \
+int_foldleft
+[interface]: \
+fun
+{res:t@ype}
+int_foldleft
+( n0: int
+, res: res
+, fopr: cfun(res, int, res)): res
+[implement]: \
+implement
+{res}(*tmp*)
+int_foldleft
+  (n0, res, fopr) =
+  loop(res, 0) where
+{
+//
+fun loop(res: res, i: int): res =
+  if i < n0
+    then loop(fopr(res, i), i+1) else res
+  // end of [if]
+//
+} (* end of [int_foldleft] *)
+[description]: \
+This function essentially treats its
+first argument n0 as the list of integers between
+0 and n0-1, inclusive and then performs left list-folding.
+####################################
+[name]: \
+int_foldleft_method
+[interface]: \
+fun
+{res:t@ype}
+int_foldleft_method
+(n0: int, ty: TYPE(res))
+(res: res, fopr: cfun(res, int, res)): res
+//
+overload
+.foldleft with int_foldleft_method of 100
+//
+[implement]: \
+implement
+{res}(*tmp*)
+int_foldleft_method(n0, ty) =
+lam(res, fopr) => int_foldleft<res>(n0, res, fopr)
+[description]: \
+This function is a curried version of ##dyncode("int_foldleft")
+for supporting dot-notation.
+####################################
+[name]: \
+int_cross_foreach
+[interface]: \
+fun{}
+int_cross_foreach
+( m: int
+, n: int
+, fwork: cfun(int, int, void)): void
+[implement]: \
+implement
+{}(*tmp*)
+int_cross_foreach
+( m, n
+, fwork) =
+(
+int_foreach
+( m
+, lam(i) =>
+  int_foreach(n, lam(j) => fwork(i, j)))
+)
+[description]: \
+Given two integers m and n and a closure-function fwork, this function
+applies fwork in the row-major fashion to all the pairs (i, j) such that
+i ranges between 0 and m-1, inclusive, and j between 0 and n-1, inclusive.
+####################################
+[name]: \
+int_cross_foreach_method
+[interface]: \
+fun{}
+int_cross_foreach_method
+( m: int, n: int )
+( fwork: cfun(int, int, void) ): void
+//
+overload
+.cross_foreach with int_cross_foreach_method of 100
+//
+[implement]: \
+implement
+{}(*tmp*)
+int_cross_foreach_method
+(m, n) =
+lam(fwork) => int_cross_foreach(m, n, fwork)
+[description]: \
+This function is a curried version of #dyncode("int_cross_foreach")
+for supporting dot-notation.
+####################################
+#
+# For list0-values
+#
+####################################
+[name]: \
+list0_is_nil
+[interface]: \
+fun{}
+list0_is_nil{a:t@ype}(list0(a)): bool
+//
+overload iseqz with list0_is_nil of 100
+//
+[implement]: \
+implement
+{}(*tmp*)
+list0_is_nil(xs) =
+(case+ xs of list0_nil() => true | _ => false)
+[description]: \
+This function tests whether a given list0-value
+is empty.
+####################################
+[name]: \
+list0_is_cons
+[interface]: \
+fun{}
+list0_is_cons{a:t@ype}(list0(a)): bool
+//
+overload isneqz with list0_is_cons of 100
+//
+[implement]: \
+implement
+{}(*tmp*)
+list0_is_cons(xs) =
+(case+ xs of list0_cons _ => true | _ => false)
+[description]: \
+This function tests whether a given list0-value
+is non-empty.
+####################################
+[name]: \
+list0_length
+[interface]: \
+fun
+{a:t@ype}
+list0_length(xs0: list0(INV(a))): int
+//
+overload length with list0_length of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_length(xs) =
+list0_foldleft<int><a>(xs, 0, lam(r, _) => r + 1)
+[description]: \
+This function computes the length of a given list0-value.
+####################################
+[name]: \
+list0_head_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_head_exn(list0(INV(a))): (a)
+//
+overload .head with list0_head_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_head_exn(xs) =
+let val-list0_cons(x0, _) = xs in x0 end
+[description]: \
+This function returns the head of a given list0-value xs
+if xs is non-empty or terminates abnormally due to pattern
+matching failure.
+####################################
+[name]: \
+list0_tail_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_tail_exn(list0(INV(a))): list0(a)
+//
+overload .tail with list0_tail_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_tail_exn(xs) =
+let val-list0_cons(_, xs) = xs in xs end
+[description]: \
+This function returns the tail of a given list0-value xs
+if xs is non-empty or terminates abnormally due to pattern
+matching failure.
+####################################
+[name]: \
+list0_get_at_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_get_at_exn
+(xs: list0(INV(a)), n: int): a
+//
+overload [] with list0_get_at_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_get_at_exn
+  (xs, n) =
+(
+case+ xs of
+| list0_nil() =>
+  $raise ListSubscriptExn()
+| list0_cons(x, xs) =>
+  if n <= 0
+    then x else list0_get_at_exn<a>(xs, n-1)
+  // end of [list0_cons]
+)
+[description]: \
+Given a list0-value xs and an integer n, this function
+returns xs[n] if it is defined or raises ##dyncode(ListSubscriptExn).
+####################################
+[name]: \
+list0_drop_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_drop_exn
+(list0(INV(a)), int): list0(a)
+//
+overload .drop with list0_drop_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_drop_exn
+  (xs, n) =
+(
+if
+n > 0
+then let
+//
+val-
+list0_cons(_, xs) = xs
+//
+in
+  list0_drop_exn<a>(xs, pred(n))
+end // end of [then]
+else (xs) // end of [else]
+//
+) (* list0_drop_exn *)
+[description]: \
+Given a list0-value xs and an integer n, this function
+returns the suffix of xs starting from element n (i.e.,
+xs[n]). If n is negative, it is treated as 0.
+In the case where n is greater than length(xs), the function
+terminates abnormally due to pattern matching failure.
+####################################
+[name]: \
+list0_take_exn
+[interface]: \
+fun
+{a:t@ype}
+list0_take_exn
+(list0(INV(a)), int): list0(a)
+//
+overload .take with list0_take_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_take_exn
+  (xs, n) =
+(
+if
+n > 0
+then let
+//
+val-
+list0_cons(x, xs) = xs
+//
+in
+  list0_cons(x, list0_take_exn(xs, n-1))
+end // end of [then]
+else list0_nil() // end of [else]
+//
+) (* list0_take_exn *)
+[description]: \
+Given a list0-value xs and an integer n, this function
+returns the prefix of xs consisting of the first n elements.
+If n is negative, it is treated as 0. In the case
+where n is greater than length(xs), the function terminates
+abnormally due to pattern matching failure.
+####################################
+[name]: \
+list0_append
+[interface]: \
+fun
+{a:t@ype}
+list0_append
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_append(xs, ys) =
+  list0_foldright<a><list0(a)>
+  (xs, lam(x, ys) => list0_cons(x, ys), ys)
+[description]: \
+Given two list0-values xs and ys, this function returns
+another list0-value that is the concatenation of xs and ys.
+####################################
+[name]: \
+list0_concat
+[interface]: \
+fun
+{a:t@ype}
+list0_concat(xs: list0(list0(INV(a)))): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_concat(xss) =
+list0_foldright<list0(a)><list0(a)>
+(xss, lam(xs, res) => list0_append(xs, res), list0_nil())
+[description]: \
+Given a list0-value xss in which each element is also
+a list0-value, this function returns another list0-value
+that is formed by concatenating all of the elements in xss.
+####################################
+[name]: \
+list0_reverse
+[interface]: \
+fun
+{a:t@ype}
+list0_reverse
+  (xs: list0(INV(a))): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_reverse(xs) =
+list0_revappend<a>(xs, list0_nil())
+[description]: \
+Given a list0-value xs, this function returns
+another list0-value ys that is the reverse of xs.
+####################################
+[name]: \
+list0_revappend
+[interface]: \
+fun
+{a:t@ype}
+list0_revappend
+(xs: list0(INV(a)), ys: list0(a)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_revappend(xs, ys) =
+list0_foldleft<list0(a)><a>
+(xs, ys, lam(ys, x) => list0_cons(x, ys))
+[description]: \
+Given two list0-values xs and ys, this function returns
+another list0-value that is the concatenation of the reverse
+of xs and ys.
+####################################
+[name]: \
+list0_foldleft
+[interface]: \
+fun
+{r:t@ype}
+{a:t@ype}
+list0_foldleft
+( xs: list0(INV(a))
+, r0: r, fopr: cfun(r, a, r)
+) : (r) // end of [list0_foldleft]
+[implement]: \
+implement
+{r}{a}
+list0_foldleft
+(xs, r0, fopr) =
+  loop(xs, r0) where
+{
+fun
+loop
+(xs: list0(a), r: r): r =
+(
+case+ xs of
+| list0_nil() => r
+| list0_cons(x, xs) => loop(xs, fopr(r, x))
+)
+}
+[description]: \
+This function performs so-called left list-folding:
+Given a list xs, an initial value r0, and a closure-function
+fopr, it returns r0 if xs is empty or it applies fopr to r0
+and xs[0] to generate a new value to be used for processing
+the tail of xs.
+####################################
+[name]: \
+list0_foldright
+[interface]: \
+fun
+{a:t@ype}
+{r:t@ype}
+list0_foldright
+( xs: list0(INV(a))
+, fopr: cfun(a, r, r), r0: r
+) : (r) // end of [list0_foldright]
+[implement]: \
+implement
+{a}{r}
+list0_foldright
+( xs
+, fopr, r0) =
+auxlst(xs) where
+{
+fun
+auxlst
+(xs: list0(a)): r =
+(
+case+ xs of
+| list0_nil() => r0
+| list0_cons(x, xs) => fopr(x, auxlst(xs))
+) (* end of [auxlst] *)
+}
+[description]: \
+This function performs so-called right list-folding
+on a given list, which is essentially left list-folding
+on the reverse of the list.
+####################################
+[name]: \
+list0_map
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map
+( xs: list0(INV(a))
+, fopr: cfun(a, b)): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_map
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(fopr(x), auxlst(xs))
+)
+//
+} (* end of [list0_map] *)
+[description]: \
+Given a list0-value xs and a closure-function f, this function
+returns another list0-value consisting of f(xs[0]), ..., f(xs[n-1]),
+where n is the length of xs. The implementation of this function in
+ATSLIB is tail-recursive.
+[code-sample]: \
+####################################
+[name]: \
+list0_map_method
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_map_method
+( xs: list0(INV(a)) )
+( fopr: cfun1(a, b) ): list0(b)
+//
+overload
+.map with list0_map_method of 100
+//
+[implement]: \
+implement
+{a}{b}
+list0_map_method
+  (xs) =
+(
+  lam(fopr) => list0_map<a><b>(xs, fopr)
+)
+[description]: \
+This function is
+a curried version of #dyncode("list0_map")
+for supporting dot-notation.
+####################################
+[name]: \
+list0_mapopt
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt
+( xs: list0(INV(a))
+, fopr: cfun(a, option0(b))): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_mapopt
+(
+  xs, fopr
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+  case+ fopr(x) of
+  | None0() => auxlst(xs)
+  | Some0(y) => list0_cons(y, auxlst(xs))
+  )
+)
+//
+} (* end of [list0_mapopt] *)
+[description]: \
+Given a list0-value xs and a closure-function f, this function
+returns another list0-value consisting of the join of the option
+values f(xs[0]), ..., f(xs[n-1]), where n is the length of xs. The
+implementation of this function in ATSLIB is tail-recursive.
+####################################
+[name]: \
+list0_mapopt_method
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapopt_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, option0(b)) ): list0(b)
+//
+overload
+.mapopt with list0_mapopt_method of 100
+//
+[implement]: \
+implement
+{a}{b}
+list0_mapopt_method
+  (xs) =
+(
+  lam(fopr) => list0_mapopt<a><b>(xs, fopr)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("list0_mapopt") for supporting dot-notation.
+####################################
+[name]: \
+list0_mapcons
+[interface]: \
+fun
+{a:t@ype}
+list0_mapcons
+( x0: a
+, xss: list0(list0(a))): list0(list0(a))
+[implement]: \
+implement
+{a}(*tmp*)
+list0_mapcons
+  (x0, xss) =
+(
+list0_map<list0(a)><list0(a)>(xss, lam(xs) => list0_cons(x0, xs))
+) (* list0_mapcons *)
+####################################
+[name]: \
+list0_mapjoin
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin
+( xs: list0(INV(a))
+, fopr: cfun(a, list0(b))): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_mapjoin
+  (xs, fopr) =
+(
+  list0_concat<b>(list0_map<a><list0(b)>(xs, fopr))
+)
+[description]: \
+This function applies ##dyncode("list0_map") to generate
+a list0-value yss in which each element is also a list0-value
+and then applies ##dyncode("list0_concat") to flatten yss.
+####################################
+[name]: \
+list0_mapjoin_method
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_mapjoin_method
+( xs: list0(INV(a)) )
+( fopr: cfun(a, list0(b)) ): list0(b)
+//
+overload
+.mapjoin with list0_mapjoin_method of 100
+//
+[implement]: \
+implement
+{a}{b}
+list0_mapjoin_method
+  (xs) =
+(
+  lam(fopr) => list0_mapjoin<a><b>(xs, fopr)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("list0_mapjoin") for supporting dot-notation.
+####################################
+[name]: \
+int_list0_map
+[interface]: \
+fun
+{a:t@ype}
+int_list0_map
+( n: int
+, fopr: cfun(int, a)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+int_list0_map
+  (n, fopr) =
+  auxmain(0) where
+{
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i < n)
+then
+(
+  list0_cons(fopr(i), auxmain(i+1))
+) else list0_nil((*void*))
+} (* end of [int_list0_map] *)
+[description]: \
+Given an integer n and a closure-function f,
+this function returns a list0-value consisting of
+f(i) where i ranges between 0 and n-1, inclusive.
+####################################
+[name]: \
+int_list0_mapopt
+[interface]: \
+fun
+{a:t@ype}
+int_list0_mapopt
+( n: int
+, fopr: cfun(int, option0(a))): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+int_list0_mapopt
+  (n, fopr) =
+  auxmain(0) where
+{
+//
+fun
+auxmain
+(
+ i: int
+) : list0(a) =
+if
+(i < n)
+then
+(
+  case+ fopr(i) of
+  | None0() => auxmain(i+1)
+  | Some0(x) => list0_cons(x, auxmain(i+1))
+) else list0_nil((*void*))
+//
+} (* end of [int_list0_mapopt] *)
+[description]: \
+Given an integer n and a closure-function f,
+this function returns a list0-value obtained from joining
+the option0-values f(i) where i ranges between 0 and n-1, inclusive.
+The actual implementation of this function in ATSLIB is tail-recursive.
+####################################
+[name]: \
+int_cross_list0_map
+[interface]: \
+fun
+{a:t@ype}
+int_cross_list0_map
+( m: int
+, n: int
+, fopr: cfun(int, int, a)): list0(a)
+[implement]: \
+implement
+{a:t@ype}
+int_cross_list0_map
+(m, n, fopr) =
+list0_concat<a>
+(
+int_list0_map<list0(a)>
+( m
+, lam(i) =>
+  int_list0_map<a>(n, lam(j) => fopr(i, j))
+) (* int_list0_map *)
+) (* int_cross_list0_map *)
+[description]: \
+Given two integers m and n and a closure-function f,
+this function returns a list0-value consisting of f(i,j)
+enumerated in the row-major fashion for i ranging between
+0 and m-1 and j between 0 and n-1.
+####################################
+[name]: \
+list0_filter_method
+[interface]: \
+fun
+{a:t@ype}
+list0_filter_method
+( xs: list0(INV(a)) )
+( pred: cfun(a, bool) ): list0(a)
+//
+overload
+.filter with list0_filter_method of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_filter_method
+  (xs) =
+(
+  lam(pred) => list0_filter<a>(xs, pred)
+)
+####################################
+[name]: \
+list0_foreach
+[interface]: \
+fun
+{a:t@ype}
+list0_foreach
+( xs: list0(INV(a))
+, fwork: cfun(a, void)): void
+[implement]: \
+implement
+{a}(*tmp*)
+list0_foreach
+(
+  xs, fwork
+) = loop(xs) where
+{
+//
+fun
+loop
+(xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(x); loop(xs))
+)
+//
+} (* end of [list0_foreach] *)
+[description]: \
+Given a list0-value xs and a closure-function fwork,
+this function traverses xs from left to right, applying fwork
+to each encountered element.
+####################################
+[name]: \
+list0_foreach_method
+[interface]: \
+fun
+{a:t@ype}
+list0_foreach_method
+( xs: list0(INV(a)) )
+( fwork: cfun(a, void) ): void
+//
+overload
+.foreach with list0_foreach_method of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+list0_foreach_method
+  (xs) =
+(
+lam(fwork) => list0_foreach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("list0_foreach") for supporting dot-notation.
+####################################
+[name]: \
+list0_find_index
+[interface]: \
+fun
+{a:t@ype}
+list0_find_index
+( xs: list0(INV(a))
+, test: cfun(a, bool)): int
+[implement]: \
+implement
+{a}(*tmp*)
+list0_find_index
+  (xs, test) = let
+//
+fun
+loop
+(xs: list0(a), i: int): int =
+(
+case+ xs of
+| list0_nil() => ~1
+| list0_cons(x, xs) =>
+  if test(x) then i else loop(xs, i+1)
+)
+//
+in
+  loop(xs, 0)
+end // end of [list0_find_index]
+[description]: \
+Given a list0-value xs and a predicate, this function
+returns the position of the first element in xs that satisfies
+the predicate or -1 if there exists no element as such.
+####################################
+[name]: \
+list0_exists
+[interface]: \
+fun
+{a:t@ype}
+list0_exists
+( xs: list0(INV(a))
+, test: cfun(a, bool)): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_exists(xs, test) =
+list0_find_index<a>(xs, test) >= 0
+[description]: \
+Given a list0-value xs and a predicate, this function
+returns true if and only if there exists in xs one element
+satisfying the predicate.
+####################################
+[name]: \
+list0_exists_method
+[interface]: \
+fun
+{a:t@ype}
+list0_exists_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_exists_method(xs) =
+lam(test) => list0_exists<a>(xs, test)
+[description]: \
+This function is a curried version of ##dyncode("list0_exists")
+for supporting dot-notation.
+####################################
+[name]: \
+list0_forall
+[interface]: \
+fun
+{a:t@ype}
+list0_forall
+(xs: list0(INV(a)), test: cfun(a, bool)): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_forall(xs, test) =
+list0_find_index<a>(xs, lam(x) => not(test(x))) < 0
+[description]: \
+Given a list0-value xs and a predicate, this function
+returns true if and only if every element in xs satisfies
+the predicate.
+####################################
+[name]: \
+list0_forall_method
+[interface]: \
+fun
+{a:t@ype}
+list0_forall_method
+( xs: list0(INV(a)) )
+( test: cfun(a, bool) ): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_forall_method(xs) =
+lam(test) => list0_forall<a>(xs, test)
+[description]: \
+This function is a curried version of ##dyncode("list0_forall")
+for supporting dot-notation.
+####################################
+[name]: \
+list0_cross
+[interface]: \
+fun
+{a,b:t@ype}
+list0_cross
+( xs: list0(INV(a))
+, ys: list0(INV(b))): list0($tup(a, b))
+[implement]: \
+implement
+{a,b}(*tmp*)
+list0_cross
+  (xs, ys) = let
+//
+typedef ab = $tup(a, b)
+//
+in
+//
+list0_concat
+(
+list0_map<a><list0(ab)>
+  (xs, lam(x) => list0_map<b><ab>(ys, lam(y) => $tup(x, y)))
+) (* end of [list0_concat] *)
+//
+end // end of [list0_cross]
+####################################
+[name]: \
+list0_filter
+[interface]: \
+fun
+{a:t@ype}
+list0_filter
+( xs: list0(INV(a))
+, pred: cfun(a, bool)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_filter
+(
+  xs, test
+) = auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: list0(a)): list0(a) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  if test(x)
+    then list0_cons(x, auxlst(xs)) else auxlst(xs)
+  // end of [if]
+)
+//
+} (* end of [list0_filter] *)
+####################################
+[name]: \
+list0_imap
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_imap
+( xs: list0(INV(a))
+, fopr: cfun(int, a, b)): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_imap
+(
+  xs, fopr
+) = auxlst(0, xs) where
+{
+//
+fun
+auxlst
+(i: int, xs: list0(a)): list0(b) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  list0_cons(fopr(i, x), auxlst(i+1, xs))
+)
+//
+} (* end of [list0_imap] *)
+[description]: \
+This function is
+the standard indexed version of ##dyncode("list0_map").
+####################################
+[name]: \
+list0_imap_method
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_imap_method
+(list0(INV(a)), TYPE(b))
+( fopr: cfun(int, a, b) ): list0(b)
+[implement]: \
+implement
+{a}{b}
+list0_imap_method
+  (xs, _(*type*)) =
+(
+  lam(fopr) => list0_imap<a><b>(xs, fopr)
+)
+[description]: \
+This function is a curried version of ##dyncode("list0_imap")
+for supporting dot-notation.
+####################################
+[name]: \
+list0_iforeach
+[interface]: \
+fun
+{a:t@ype}
+list0_iforeach
+( xs: list0(INV(a))
+, fwork: cfun(int, a, void)): void
+[implement]: \
+implement
+{a}(*tmp*)
+list0_iforeach
+(
+  xs, fwork
+) = loop(0, xs) where
+{
+//
+fun
+loop
+(i: int, xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) => (fwork(i, x); loop(i+1, xs))
+)
+//
+} (* end of [list0_iforeach] *)
+[description]: \
+This function is
+the standard indexed version of ##dyncode("list0_foreach").
+####################################
+[name]: \
+list0_iforeach_method
+[interface]: \
+fun
+{a:t@ype}
+list0_iforeach_method
+( xs: list0(INV(a)) )
+( fwork: cfun(int, a, void) ): void
+[implement]: \
+implement
+{a}(*tmp*)
+list0_iforeach_method
+  (xs) =
+(
+  lam(fwork) => list0_iforeach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("list0_iforeach") for supporting dot-notation.
+####################################
+[name]: \
+list0_ifoldleft
+[interface]: \
+fun
+{r:t@ype}
+{a:t@ype}
+list0_ifoldleft
+( xs: list0(INV(a))
+, r0: r, fopr: cfun(r, int, a, r)
+) : (r) // end of [list0_ifoldleft]
+[implement]: \
+implement
+{r}{a}
+list0_ifoldleft
+(xs, r0, fopr) =
+  loop(xs, 0(*i*), r0) where
+{
+fun
+loop
+(xs: list0(a), i: int, r: r): r =
+(
+case+ xs of
+| list0_nil() => r
+| list0_cons(x, xs) => loop(xs, i+1, fopr(r, i, x))
+)
+} (* end of [list0_ifoldleft] *)
+[description]: \
+This function is
+the standard indexed version of ##dyncode("list0_foldleft").
+####################################
+[name]: \
+list0_iexists
+[interface]: \
+fun
+{a:t@ype}
+list0_iexists
+( xs: list0(INV(a))
+, test: cfun(int, a, bool)): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_iexists
+(xs, test) =
+loop(0, xs) where
+{
+fun loop(i: int, xs: list0(a)): bool =
+  case+ xs of
+  | list0_nil() => false
+  | list0_cons(x, xs) =>
+    if test(i, x) then true else loop(i+1, xs)
+}
+[description]: \
+This function is
+the standard indexed version of ##dyncode("list0_exists").
+####################################
+[name]: \
+list0_iforall
+[interface]: \
+fun
+{a:t@ype}
+list0_iforall
+( xs: list0(INV(a))
+, test: cfun(int, a, bool)): bool
+[implement]: \
+implement
+{a}(*tmp*)
+list0_iforall
+(xs, test) =
+loop(0, xs) where
+{
+fun loop(i: int, xs: list0(a)): bool =
+  case+ xs of
+  | list0_nil() => true
+  | list0_cons(x, xs) =>
+    if test(i, x) then loop(i+1, xs) else false
+}
+[description]: \
+This function is
+the standard indexed version of ##dyncode("list0_forall").
+####################################
+[name]: \
+list0_zip
+[interface]: \
+fun {
+a,b:t@ype
+} list0_zip
+  (xs: list0(a), ys: list0(b)): list0($tup(a, b))
+[implement]: \
+implement
+{a,b}
+list0_zip(xs, ys) =
+(
+case xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+    case+ ys of
+    | list0_nil() =>
+      list0_nil()
+    | list0_cons(y, ys) =>
+      list0_cons($tup(x, y), list0_zip<a,b>(xs, ys))
+  )
+)
+[description]: \
+Given two list0-values xs and ys, this function returns another
+list0-value xys such that xys[i] is the tuple $tup(xs[i], ys[i])
+for i ranging between 0 and length(xys)-1, where length(xys) is
+the minimum of length(xs) and length(ys).
+####################################
+[name]: \
+list0_map2
+[interface]: \
+fun
+{a
+,b:t@ype}
+{c:t@ype}
+list0_map2
+( xs: list0(a)
+, ys: list0(b), fopr: cfun(a, b, c)): list0(c)
+[implement]: \
+implement
+{a,b}{c}
+list0_map2
+(xs, ys, fopr) =
+(
+case xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x, xs) =>
+  (
+    case+ ys of
+    | list0_nil() =>
+      list0_nil()
+    | list0_cons(y, ys) =>
+      list0_cons(fopr(x, y), list0_map2<a,b><c>(xs, ys, fopr))
+  ) (* end of [list0_cons] *)
+)
+####################################
+[name]: \
+list0_merge
+[interface]: \
+fun
+{a:t@ype}
+list0_merge
+( xs: list0(a)
+, ys: list0(a)
+, cmp: cfun(a, a, int)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_merge
+(xs0, ys0, cmp) = let
+//
+fun
+auxlst
+( xs0: list0(a)
+, ys0: list0(a)
+) : list0(a) = (
+//
+case+ xs0 of
+| list0_nil() => ys0
+| list0_cons
+    (x1, xs1) => (
+    case+ ys0 of
+    | list0_nil() => xs0
+    | list0_cons
+        (y1, ys1) => let
+        val sgn = cmp(x1, y1)
+      in
+        if (sgn <= 0)
+          then list0_cons(x1, auxlst(xs1, ys0))
+          else list0_cons(y1, auxlst(xs0, ys1))
+        // end of [if]
+      end // end of [list0_cons]
+  ) (* end of [list0_cons] *)
+//
+) (* end of [auxlst] *)
+//
+in
+  auxlst(xs0, ys0)
+end // end of [list0_merge]
+####################################
+[name]: \
+list0_mergesort
+[interface]: \
+fun
+{a:t@ype}
+list0_mergesort
+( xs: list0(a)
+, cmp: cfun(a, a, int)): list0(a)
+[implement]: \
+implement
+{a}(*tmp*)
+list0_mergesort
+  (xs, cmp) = let
+//
+// It is assumed
+// that length(xs) = n
+//
+fun
+msort
+(xs: list0(a), n: int): list0(a) =
+if
+(n >= 2)
+then let
+  val n1 = n / 2
+  val xs1 = list0_take_exn(xs, n1)
+  val xs2 = list0_drop_exn(xs, n1)
+in
+  list0_merge<a>(msort(xs1, n1), msort(xs2, n-n1), cmp)
+end // end of [then]
+else (xs) // end of [else]
+//
+in
+  msort(xs, list0_length<a>(xs))
+end // end of [list0_mergesort]
+####################################
+[name]: \
+list0_choose2
+[interface]: \
+fun
+{a:t@ype}
+list0_choose2
+(xs: list0(a)): list0($tup(a, a))
+[implement]: \
+implement
+{a}(*tmp*)
+list0_choose2
+  (xs) = let
+//
+typedef aa = $tup(a, a)
+//
+in
+//
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) =>
+  list0_append<aa>
+  (list0_map<a><aa>
+    (xs, lam(x) => $tup(x0, x)), list0_choose2(xs)
+  ) (* end of [list0_append] *)
+//
+end // end of [list0_choose2]
+####################################
+[name]: \
+list0_nchoose
+[interface]: \
+fun
+{a:t@ype}
+list0_nchoose
+(xs: list0(a), n: int): list0(list0(a))
+[implement]: \
+implement
+{a}(*tmp*)
+list0_nchoose
+  (xs, n) =
+  auxlst(xs, n) where
+{
+//
+typedef xs = list0(a)
+//
+fun
+auxlst
+(
+xs: xs, n: int
+) : list0(xs) =
+(
+if
+(n <= 0)
+then
+list0_sing(list0_nil())
+else
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) =>
+  list0_append<xs>(list0_mapcons(x0, auxlst(xs, n-1)), auxlst(xs, n))
+) (* end of [else] *)
+)
+//
+} (* end of [list0_nchoose] *)
+####################################
+[name]: \
+list0_nchoose_rest
+[interface]: \
+fun
+{a:t@ype}
+list0_nchoose_rest
+(xs: list0(INV(a)), n: int): list0($tup(list0(a), list0(a)))
+[implement]: \
+implement
+{a}(*tmp*)
+list0_nchoose_rest
+  (xs, n) =
+  auxlst(xs, n) where
+{
+//
+typedef xs = list0(a)
+typedef xsxs = $tup(xs, xs)
+//
+fun
+auxlst
+(
+xs: xs, n: int
+) : list0(xsxs) =
+(
+if
+(n <= 0)
+then
+list0_sing
+($tup(list0_nil(), xs))
+else
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x0, xs) => let
+    val res1 =
+    list0_map<xsxs><xsxs>
+    ( auxlst(xs, n-1)
+    , lam($tup(xs1, xs2)) => $tup(list0_cons(x0, xs1), xs2)
+    )
+    val res2 =
+    list0_map<xsxs><xsxs>
+    ( auxlst(xs, n-0)
+    , lam($tup(xs1, xs2)) => $tup(xs1, list0_cons(x0, xs2))
+    )
+  in
+    list0_append<xsxs>(res1, res2)
+  end // end of [list0_cons]
+) (* end of [else] *)
+)
+//
+} (* end of [list0_nchoose_rest] *)
+####################################
+#
+# For stream-values
+#
+####################################
+[name]: \
+int_stream_from
+[interface]: \
+fun
+int_stream_from(n: int): stream(int)
+[implement]: \
+implement
+int_stream_from(n) =
+$delay(stream_cons(n, int_stream_from(n+1)))
+[description]: \
+Given an integer n, this function
+returns the stream of integers n, n+1, n+2, etc.
+####################################
+[name]: \
+stream_make_list0
+[interface]: \
+fun
+{a:t@ype}
+stream_make_list0(list0(INV(a))): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_make_list0
+  (xs) = $delay
+(
+case+ xs of
+| list0_nil() =>
+  stream_nil()
+| list0_cons(x, xs) =>
+  stream_cons(x, stream_make_list0<a>(xs))
+)
+[description]: \
+This function turns a given
+list0-value into the corresponding stream-value.
+####################################
+[name]: \
+stream_get_at_exn
+[interface]: \
+fun
+{a:t@ype}
+stream_get_at_exn(stream(a), n: int): a
+//
+overload [] with stream_get_at_exn of 100
+//
+[implement]: \
+implement
+{a}(*tmp*)
+stream_get_at_exn
+  (xs, n) =
+(
+case- !xs of
+(*
+| stream_nil() =>
+  (
+    $raise StreamSubscriptExn()
+  )
+*)
+| stream_cons(x, xs) =>
+  (
+    if n <= 0
+      then x else stream_get_at_exn<a>(xs, n-1)
+    // end of [if]
+  )
+)
+[description]: \
+This function is
+the corresponding version
+of ##dyncode("list0_get_at_exn") on streams.
+####################################
+[name]: \
+stream_takeLte
+[interface]: \
+fun
+{a:t@ype}
+stream_takeLte
+  (xs: stream(a), n: int): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_takeLte
+  (xs, n) = $delay
+(
+if
+n > 0
+then
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_takeLte(xs, n-1))
+)
+else stream_nil((*void*))
+) (* end of [stream_takeLte] *)
+[description]: \
+Given a stream-value xs and an integer n, this function
+returns another stream-value consisting of the first n
+elements in xs if xs contains so many elements or all of
+the elements in xs otherwise.
+####################################
+[name]: \
+stream_append
+[interface]: \
+fun
+{a:t@ype}
+stream_append
+(xs: stream(a), ys: stream(a)): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_append
+(xs, ys) = $delay
+(
+case+ !xs of
+| stream_nil() => !ys
+| stream_cons(x, xs) =>
+  stream_cons(x, stream_append<a>(xs, ys))
+)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_append") on streams.
+####################################
+[name]: \
+stream_concat
+[interface]: \
+fun
+{a:t@ype}
+stream_concat
+  (xss: stream(stream(a))): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_concat(xss) = $delay
+(
+case+ !xss of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(xs, xss) => !
+  (
+   stream_append<a>(xs, stream_concat<a>(xss))
+  ) (* end of [stream_cons] *)
+)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_concat") on streams.
+####################################
+[name]: \
+stream_map
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+stream_map
+(xs: stream(a)
+, fopr: cfun(a, b)): stream(b)
+[implement]: \
+implement
+{a}{b}
+stream_map
+  (xs, fopr) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons
+    (fopr(x), stream_map<a><b>(xs, fopr))
+  // end of [stream_cons]
+)
+[description]: \
+This function is the corresponding
+version of ##dyncode("list0_map") on streams.
+####################################
+[name]: \
+stream_imap
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+stream_imap
+(xs: stream(a)
+, fopr: cfun(int, a, b)): stream(b)
+[implement]: \
+implement
+{a}{b}
+stream_imap
+  (xs, fopr) = let
+//
+fun
+auxmain
+(
+xs: stream(a), i: int
+) : stream(b) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  stream_cons(fopr(i, x), auxmain(xs, i+1))
+)
+//
+in
+  auxmain(xs, 0(*i*))
+end // end of [stream_imap]
+[description]: \
+This function is the corresponding
+version of ##dyncode("list0_imap") on streams.
+####################################
+[name]: \
+stream_filter
+[interface]: \
+fun
+{a:t@ype}
+stream_filter
+( xs: stream(a)
+, test: cfun(a, bool)): stream(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_filter
+  (xs, test) = $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x, xs) =>
+  if test(x)
+    then
+    stream_cons
+      (x, stream_filter<a>(xs, test))
+    // end of [then]
+    else !(stream_filter<a>(xs, test))
+  // end of [if]
+)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_filter") on streams.
+####################################
+[name]: \
+stream_foreach
+[interface]: \
+fun
+{a:t@ype}
+stream_foreach
+( xs: stream(a)
+, fwork: cfun(a, void)
+) : void // end-of-function
+[implement]: \
+implement
+{a}(*tmp*)
+stream_foreach(xs, fwork) =
+(
+//
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) =>
+  (fwork(x); stream_foreach<a>(xs, fwork))
+//
+) (* end of [stream_foreach] *)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_foreach") on streams.
+####################################
+[name]: \
+stream_foreach_method
+[interface]: \
+fun
+{a:t@ype}
+stream_foreach_method
+( xs: stream(INV(a)) )
+( fwork: cfun(a, void) ): void
+[implement]: \
+implement
+{a}(*tmp*)
+stream_foreach_method
+  (xs) =
+(
+  lam(fwork) => stream_foreach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("stream_foreach") for supporting dot-notation.
+####################################
+[name]: \
+stream_iforeach
+[interface]: \
+fun
+{a:t@ype}
+stream_iforeach
+(
+xs: stream(a),
+fwork: cfun(int, a, void)
+) : void // end-of-function
+[implement]: \
+implement
+{a}(*tmp*)
+stream_iforeach
+  (xs, fwork) =
+  loop(xs, 0(*i*)) where
+{
+//
+fun
+loop
+(xs: stream(a), i: int): void =
+(
+case+ !xs of
+| stream_nil() => ()
+| stream_cons(x, xs) => (fwork(i, x); loop(xs, i+1))
+)
+//
+} (* end of [stream_iforeach] *)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_iforeach") on streams.
+####################################
+[name]: \
+stream_iforeach_method
+[interface]: \
+fun
+{a:t@ype}
+stream_iforeach_method
+( xs: stream(INV(a)) )
+( fwork: cfun(int, a, void) ): void
+[implement]: \
+implement
+{a}(*tmp*)
+stream_iforeach_method
+  (xs) =
+(
+  lam(fwork) => stream_iforeach<a>(xs, fwork)
+)
+[description]: \
+This function is a curried version of
+\##dyncode("stream_iforeach") for supporting dot-notation.
+####################################
+[name]: \
+stream_foldleft
+[interface]: \
+fun{
+res:t@ype
+}{a:t@ype}
+stream_foldleft
+(
+xs: stream(a),
+r0: res, fopr: cfun(res, a, res)
+) : res // end-of-function
+[implement]: \
+implement
+{res}{a}
+stream_foldleft(xs, r0, fopr) =
+(
+//
+case+ !xs of
+| stream_nil() => r0
+| stream_cons(x, xs) =>
+  stream_foldleft<res><a>(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_foldleft] *)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_foldleft") on streams.
+####################################
+#
+# For linear stream-values
+#
+####################################
+[name]: \
+stream_vt_append
+[interface]: \
+fun
+{a:t@ype}
+stream_vt_append
+(stream_vt(a), stream_vt(a)): stream_vt(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_vt_append
+(xs, ys) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() => !ys
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(x, stream_vt_append<a>(xs, ys))
+, (lazy_vt_free(xs); lazy_vt_free(ys)) // for freeing
+)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_append") on linear streams.
+####################################
+[name]: \
+stream_vt_concat
+[interface]: \
+fun
+{a:t@ype}
+stream_vt_concat
+(xss: stream_vt(stream_vt(a))): stream_vt(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_vt_concat
+(xss) = $ldelay
+(
+case+ !xss of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(xs, xss) => !
+  (
+   stream_vt_append<a>(xs, stream_vt_concat<a>(xss))
+  )
+, lazy_vt_free(xss) // called when the stream is freed
+)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_concat") on linear streams.
+####################################
+[name]: \
+int_stream_vt_from
+[interface]: \
+fun
+int_stream_vt_from(n: int): stream_vt(int)
+[implement]: \
+implement
+int_stream_vt_from(n) =
+$ldelay(stream_vt_cons(n, int_stream_vt_from(n+1)))
+[description]: \
+Given an integer n, this function returns
+the linear stream of integers n, n+1, n+2, etc.
+####################################
+[name]: \
+stream_vt_takeLte
+[interface]: \
+fun
+{a:t@ype}
+stream_vt_takeLte
+  (xs: stream_vt(a), n: int): stream_vt(a)
+[implement]: \
+implement
+{a}(*tmp*)
+stream_vt_takeLte
+  (xs, n) = $ldelay
+(
+if
+n > 0
+then
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(x, stream_vt_takeLte(xs, n-1))
+)
+else (~xs; stream_vt_nil((*void*)))
+,
+lazy_vt_free(xs) // called when the stream is freed
+) (* end of [stream_vt_takeLte] *)
+[description]: \
+This function is
+the corresponding version of ##dyncode("list0_takeLte")
+on linear streams.
+####################################
+[name]: \
+stream_vt_map
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+stream_vt_map
+( xs: stream_vt(a)
+, fopr: cfun(a, b)): stream_vt(b)
+[implement]: \
+implement
+{a}{b}
+stream_vt_map
+  (xs, fopr) = $ldelay
+(
+case+ !xs of
+| ~stream_vt_nil() =>
+   stream_vt_nil()
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_cons(fopr(x), stream_vt_map<a><b>(xs, fopr))
+, lazy_vt_free(xs)
+)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_map") on linear streams.
+####################################
+[name]: \
+stream_vt_foldleft
+[interface]: \
+fun{
+res:t@ype
+}{a:t@ype}
+stream_vt_foldleft
+( xs: stream_vt(a)
+, r0: res, fopr: cfun(res, a, res)): res
+[implement]: \
+implement
+{res}{a}
+stream_vt_foldleft
+  (xs, r0, fopr) =
+(
+//
+case+ !xs of
+| ~stream_vt_nil() => r0
+| ~stream_vt_cons(x, xs) =>
+   stream_vt_foldleft<res><a>(xs, fopr(r0, x), fopr)
+//
+) (* end of [stream_vt_foldleft] *)
+[description]: \
+This function is
+the corresponding version of
+\##dyncode("list0_foldleft") on linear streams.
+####################################
+#
+# For continuation-passing
+#
+####################################
+[name]: \
+list0_kmap
+[interface]: \
+fun
+{a:t@ype}
+{b:t@ype}
+list0_kmap
+( xs: list0(INV(a))
+, f0: cfun(a, cont1(b), void)
+, k0: cont1(list0(b))) : void
+[implement]: \
+implement
+{a}{b}
+list0_kmap
+  (xs, f0, k0) =
+(
+case+ xs of
+| list0_nil() =>
+  k0(list0_nil())
+| list0_cons(x, xs) =>
+  f0
+  ( x
+  , lam(y) =>
+    list0_kmap<a><b>
+      (xs, f0, lam(ys) => k0(list0_cons(y, ys)))
+    // end of [list0_kmap]
+  )
+)
+[description]: \
+This function is a CPS variant of ##dyncode("list0_map").
+####################################
+[name]: \
+stream_kforeach
+[interface]: \
+fun
+{a:t@ype}
+stream_kforeach
+( xs: stream(INV(a))
+, f0: cfun(a, cont1(bool), void)
+, k0: cont0((*void*))) : void
+[implement]: \
+implement
+{a}(*tmp*)
+stream_kforeach
+  (xs, f0, k0) =
+(
+case+ !xs of
+| stream_nil() => k0()
+| stream_cons(x, xs) =>
+  f0
+  ( x
+  , lam(y) =>
+    if y then stream_kforeach<a>(xs, f0, k0) else k0()
+  )
+) (* end of [stream_kforeach] *)
+[description]: \
+This function is a CPS variant of ##dyncode("stream_foreach").
+######### end of [mylib.arec] #########

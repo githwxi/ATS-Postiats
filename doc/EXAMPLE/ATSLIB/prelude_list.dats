@@ -19,7 +19,7 @@ val+cons (x, xs) = xs
 val () = assertloc (x = x0)
 val+cons (x, xs) = xs
 val () = assertloc (x = x1)
-val+nil () = xs
+val+nil() = xs
 } (* end of [val] *)
 
 (* ****** ****** *)
@@ -78,25 +78,38 @@ in
 val () = fprintln! (out, "ys = ", ys)
 end // end of [local]
 //
-val rys = list_reverse (ys)
-val rys = list_vt2t{int}(rys)
+val rys =
+  list_vt2t{int}(list_reverse(ys))
+//
 val () = fprintln! (out, "rys = ", rys)
 //
 val xsys =
-list_concat<int> (cons{List(int)}(xs, cons{List(int)}(ys, nil)))
-val xsys = list_vt2t{int}(xsys)
-val () = fprintln! (out, "xsys = ", xsys)
+list_concat<int>
+  (cons{List(int)}(xs, cons{List(int)}(ys, nil)))
 //
-val xsys_sorted = list_vt2t (list_mergesort (xsys))
-val () = fprintln! (out, "xsys_sorted = ", xsys_sorted)
-val xsys_sorted = list_vt2t (list_quicksort (xsys))
-val () = fprintln! (out, "xsys_sorted = ", xsys_sorted)
+val xsys = list_vt2t{int}(xsys)
+val ((*void*)) = fprintln! (out, "xsys = ", xsys)
+//
+val xsys_sorted = list_vt2t(list_mergesort<int>(xsys))
+val ((*void*)) = fprintln! (out, "xsys_msorted = ", xsys_sorted)
+val xsys_sorted = list_vt2t(list_mergesort_fun<int>(xsys, lam(x, y) => compare(x, y)))
+val ((*void*)) = fprintln! (out, "xsys_msorted = ", xsys_sorted)
+val xsys_sorted = list_vt2t(list_mergesort_cloref<int>(xsys, lam(x, y) => compare(x, y)))
+val ((*void*)) = fprintln! (out, "xsys_msorted = ", xsys_sorted)
+//
+val xsys_sorted = list_vt2t(list_quicksort<int>(xsys))
+val ((*void*)) = fprintln! (out, "xsys_qsorted = ", xsys_sorted)
+val xsys_sorted = list_vt2t(list_quicksort_fun<int>(xsys, lam(x, y) => compare(x, y)))
+val ((*void*)) = fprintln! (out, "xsys_qsorted = ", xsys_sorted)
+val xsys_sorted = list_vt2t(list_quicksort_cloref<int>(xsys, lam(x, y) => compare(x, y)))
+val ((*void*)) = fprintln! (out, "xsys_qsorted = ", xsys_sorted)
 //
 } (* end of [val] *)
 
 (* ****** ****** *)
 
-val () = {
+val () = () where
+{
 //
 val xs = list_nil{int}()
 //
@@ -137,7 +150,16 @@ list_find$pred<int> (x) = x mod 2 = 1
 val () = assertloc (1 = list_find_exn<int> (xs))
 val () = assertloc (3 = list_find_exn<int> (rxs))
 //
-} (* end of [main] *)
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () = {
+//
+val xs = $list{int}(0, 1, 2, 3, 4)
+val () = assertloc(xs = list_insert_at(list_remove_at(xs, 2), 2, 2))
+//
+} (* end of [val] *)
 
 (* ****** ****** *)
 

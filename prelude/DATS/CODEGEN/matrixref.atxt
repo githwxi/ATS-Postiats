@@ -84,7 +84,8 @@ matrixref_set_at_int
 //
 #atscode_separator()
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_matrixref
   {m,n}
 (
@@ -92,15 +93,19 @@ fprint_matrixref
 ) = {
 //
 val M =
-$UN.castvwtp1{matrixptr(a, m, n)}(M)
+$UN.castvwtp1
+{matrixptr(a, m, n)}(M)
 //
-val () = fprint_matrixptr<a> (out, M, nrow, ncol)
+val () =
+fprint_matrixptr<a>(out, M, nrow, ncol)
 //
-prval ((*void*)) = $UN.cast2void (M)
+prval
+((*void*)) = $UN.cast2void(M)
 //
 } (* end of [fprint_matrixref] *)
 
-implement{a}
+implement
+{a}(*tmp*)
 fprint_matrixref_sep
   {m,n}
 (
@@ -111,7 +116,7 @@ val M =
 $UN.castvwtp1{matrixptr(a, m, n)}(M)
 //
 val () =
-fprint_matrixptr_sep<a> (out, M, nrow, ncol, sep1, sep2)
+fprint_matrixptr_sep<a>(out, M, nrow, ncol, sep1, sep2)
 //
 prval ((*void*)) = $UN.cast2void (M)
 //
@@ -127,7 +132,10 @@ matrixref_copy
 val A = $UN.cast{arrayref(a,m*n)}(M)
 //
 in
-  $UN.castvwtp0{matrixptr(a,m,n)}(arrayref_copy<a> (A, m*n))
+//
+$UN.castvwtp0
+{matrixptr(a,m,n)}(arrayref_copy<a>(A, m*n))
+//
 end // end of [matrixref_copy]
 
 #atscode_separator()
@@ -136,14 +144,8 @@ implement{a}
 matrixref_tabulate
   (nrow, ncol) =
 (
-  matrixptr_refize (matrixptr_tabulate<a> (nrow, ncol))
+  matrixptr_refize(matrixptr_tabulate<a>(nrow, ncol))
 ) (* end of [matrixref_tabulate] *)
-
-implement{a}
-matrixref_tabulate_cloref
-  (nrow, ncol, f) =
-  matrixptr_refize (matrixptr_tabulate_cloref<a> (nrow, ncol, f))
-// end of [matrixref_tabulate_cloref]
 
 #atscode_separator()
 
@@ -154,16 +156,19 @@ matrixref_foreach
 var env: void = ()
 //
 in
-  matrixref_foreach_env<a><void> (A, m, n, env)
+  matrixref_foreach_env<a><void>(A, m, n, env)
 end // end of [matrixref_foreach]
 
 implement
 {a}{env}
 matrixref_foreach_env
-  (A, m, n, env) = let
-  val (vbox pf | p) = matrixref_get_viewptr (A)
+  (M, m, n, env) = let
+//
+val
+(vbox pf | p) = matrixref_get_viewptr(M)
+//
 in
-  $effmask_ref (matrix_foreach_env<a><env> (!p, m, n, env))
+  $effmask_ref(matrix_foreach_env<a><env>(!p, m, n, env))
 end // end of [matrixref_foreach_env]
 
 #atscode_separator()
@@ -384,6 +389,32 @@ end // end of [fprint_mtrxszref_sep]
 #atscode_separator()
 
 implement{a}
+mtrxszref_foreach
+  (A) = let
+//
+var env: void = ()
+//
+in
+  mtrxszref_foreach_env<a><void> (A, env)
+end // end of [mtrxszref_foreach]
+
+implement
+{a}{env}
+mtrxszref_foreach_env
+  (MSZ, env) = let
+//
+var nrow: size_t and ncol: size_t
+//
+val MAT = mtrxszref_get_refsize(MSZ, nrow, ncol)
+//
+in
+  matrixref_foreach_env<a><env> (MAT, nrow, ncol, env)
+end // end of [mtrxszref_foreach_env]
+
+#atscode_separator()
+
+implement
+{a}(*tmp*)
 mtrxszref_tabulate
   (nrow, ncol) = let
 //
@@ -397,27 +428,86 @@ in
 end // end of [mtrxszref_tabulate]
 
 #atscode_separator()
-
-implement{a}
-mtrxszref_tabulate_cloref
-(
-  nrow, ncol, fclo
-) = let
 //
-val M =
-matrixref_tabulate_cloref<a>
-(
-  nrow, ncol, fclo
-) (* end of [val] *)
+implement
+{a}(*tmp*)
+streamize_mtrxszref_row_elt
+  (MSZ) = let
+//
+var m: size_t and n: size_t
+//
+val M0 = mtrxszref_get_refsize(MSZ, m, n)
 //
 in
+  streamize_matrixref_row_elt<a>(M0, m, n)
+end // end of [streamize_mtrxszref_row_elt]
 //
-mtrxszref_make_matrixref (M, nrow, ncol)
+implement
+{a}(*tmp*)
+streamize_mtrxszref_col_elt
+  (MSZ) = let
 //
-end // end of [mtrxszref_tabulate_cloref]
-
+var m: size_t and n: size_t
+//
+val M0 = mtrxszref_get_refsize(MSZ, m, n)
+//
+in
+  streamize_matrixref_col_elt<a>(M0, m, n)
+end // end of [streamize_mtrxszref_col_elt]
+//
 #atscode_separator()
-
+//
+implement
+{a}(*tmp*)
+streamize_matrixref_row_elt
+  {m,n}(M0, m, n) = let
+//
+val A0 = $UN.cast{arrayref(a,m*n)}(M0)
+//
+in
+  streamize_arrayref_elt<a>(A0, m * n)
+end // end of [streamize_matrixref_row_elt]
+//
+implement
+{a}(*tmp*)
+streamize_matrixref_col_elt
+  {m,n}
+  (M0, m, n) =
+  auxmain(i2sz(0)) where
+{
+//
+prval () = lemma_g1uint_param(m)
+prval () = lemma_g1uint_param(n)
+//
+fun
+auxmain
+(
+j : sizeLte(n)
+) : stream_vt(a) =
+(
+if (j < n)
+then auxmain2(j, i2sz(0)) else stream_vt_make_nil()
+)
+//
+and
+auxmain2
+(
+j : sizeLt(n),
+i : sizeLte(m)
+) : stream_vt(a) = $ldelay
+(
+if
+(i < m)
+then
+stream_vt_cons{a}
+  (matrixref_get_at<a>(M0, i, n, j), auxmain2(j, i+1))
+else !(auxmain(j+1))
+) (* end of [auxmain2] *)
+//
+} (* end of [streamize_matrixref_col_elt] *)
+//
+#atscode_separator()
+//
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

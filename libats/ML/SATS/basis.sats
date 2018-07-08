@@ -92,32 +92,80 @@ stadef cfun = cfun8
 stadef cfun = cfun9
 
 (* ****** ****** *)
-
-datatype // t@ype+: covariant
-list0_t0ype_type (a: t@ype+) =
-  | list0_nil of () | list0_cons of (a, list0_t0ype_type a)
-stadef list0 = list0_t0ype_type
-
+//
+// t0ype+: covariant
+// vt0ype+: covariant
+//
+datatype
+list0_t0ype_type
+(
+  a: t0ype+
+) =
+  | list0_nil of
+      ((*void*))
+  | list0_cons of
+      (a, list0_t0ype_type(a))
+    // end of [list0_cons]
+//
+datavtype
+list0_vt0ype_vtype
+(
+  a: vt0ype+
+) =
+  | list0_vt_nil of
+      ((*void*))
+  | list0_vt_cons of
+      (a, list0_vt0ype_vtype(a))
+    // end of [list0_vt_cons]
+//
 #define nil0 list0_nil
 #define cons0 list0_cons
-
+#define nil0_vt list0_vt_nil
+#define cons0_vt list0_vt_cons
+//
+typedef
+list0(a:t0ype) = list0_t0ype_type(a)
+vtypedef
+list0_vt(a:vt0ype) = list0_vt0ype_vtype(a)
+//
 (* ****** ****** *)
-
-datatype // t@ype+: covariant
+//
+// t0ype+: covariant
+// vt0ype+: covariant
+//
+datatype
 option0_t0ype_type
-  (a: t@ype+) = Some0 of (a) | None0 of ()
-stadef option0 = option0_t0ype_type
-
+(
+  a: t0ype+
+) =
+  | None0 of () | Some0 of (a)
+//
+datavtype
+option0_vt0ype_vtype
+(
+  a: vt0ype+
+) =
+  | None0_vt of () | Some0_vt of (a)
+//
+typedef
+option0(a:t0ype) = option0_t0ype_type(a)
+vtypedef
+option0_vt(a:vt0ype) = option0_vt0ype_vtype(a)
+//
 (* ****** ****** *)
 //
 abstype
 array0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr
-stadef array0 = array0_vt0ype_type
+  (a: vt0ype(*invariant*)) = ptr
+//
+typedef
+array0
+(a:vt0ype) = array0_vt0ype_type(a)
+//
 (*
 abstype
 subarray0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr
+  (a: vt0ype(*invariant*)) = ptr
 stadef subarray0 = subarray0_vt0ype_type
 *)
 //
@@ -125,16 +173,93 @@ stadef subarray0 = subarray0_vt0ype_type
 //
 abstype
 matrix0_vt0ype_type
-  (a: vt@ype(*invariant*)) = ptr
-stadef matrix0 = matrix0_vt0ype_type
+  (a: vt0ype(*invariant*)) = ptr
+//
+typedef
+matrix0
+(a:vt0ype) = matrix0_vt0ype_type(a)
 //
 (* ****** ****** *)
 //
 abstype strarr_type = ptr
 typedef strarr = strarr_type
+//
 (*
 abstype substrarr_type = ptr
 typedef substrarr = substrarr_type
+*)
+//
+(* ****** ****** *)
+//
+abstype
+dynarray_type(a:vt0ype) = ptr
+//
+typedef
+dynarray(a:vt0ype) = dynarray_type(a)
+//
+(* ****** ****** *)
+//
+// HX:
+// for elements of type (a)
+//
+abstype
+hashtbl_type
+(key:t0ype, itm:t0ype+) = ptr
+//
+typedef
+hashtbl
+( key:t0ype
+, itm:t0ype) = hashtbl_type(key, itm)
+//
+(* ****** ****** *)
+//
+// HX-2015-12-01:
+// G-values for generic programming
+//
+(* ****** ****** *)
+//
+datatype gvalue =
+//
+  | GVnil of ()
+//
+  | GVint of (int)
+//
+  | GVptr of (ptr)
+//
+  | GVbool of (bool)
+  | GVchar of (char)
+//
+  | GVfloat of (double)
+//
+  | GVstring of (string)
+//
+  | GVref of (gvref)
+//
+  | GVlist of (gvlist)
+//
+  | GVarray of (gvarray)
+//
+  | GVdynarr of (gvdynarr)
+//
+  | GVhashtbl of (gvhashtbl)
+//
+  | GVfunclo_fun of ((gvalue) -<fun1> gvalue)
+  | GVfunclo_clo of ((gvalue) -<cloref1> gvalue)
+//
+where
+gvref = ref(gvalue)
+and
+gvlist = list0(gvalue)
+and
+gvarray = array0(gvalue)
+and
+gvdynarr = dynarray(gvalue)
+and
+gvhashtbl = hashtbl(string, gvalue)
+//
+(*
+typedef gvopt = Option(gvalue)
+vtypedef gvopt_vt = Option_vt(gvalue)
 *)
 //
 (* ****** ****** *)

@@ -1,0 +1,88 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../pcre.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_pcre_pcre")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/pcre/pcre\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS for the <a href="http://www.pcre.org/">pcre</a> package.\
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("pcreptr")
+#declnamesynop("pcreptr0")
+#declnamesynop("pcreptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("pcreptr_extra")
+#declnamesynop("pcreptr0_extra")
+#declnamesynop("pcreptr1_extra")
+
+(* ****** ****** *)
+
+#declnamesynop("pcreptr2ptr")
+#declnamesynop("pcreptr2ptr_extra")
+
+(* ****** ****** *)
+
+#declnamesynop("pcre_compile")
+#declnamesynop("pcre_compile2")
+
+(* ****** ****** *)
+
+#declnamesynop("pcre_free")
+
+(* ****** ****** *)
+
+#declnamesynop("pcre_study")
+
+(* ****** ****** *)
+
+#declnamesynop("pcre_free_study")
+
+(* ****** ****** *)
+
+#declnamesynop("pcre_exec")
+
+(* ****** ****** *)
+
+#declnamesynop("pcre_match_string")
+#declnamesynop("pcre_match_substring")
+#declnamesynop("pcre_match2_substring")
+#declnamesynop("pcre_match3_substring")
+
+(* ****** ****** *)
+
+#declname2("pcre_ML.sats", "pcre_ML.html")
+//
+#declsynop2('\
+
+This file contains an API in ATS of quasi ML-style that is directly
+based on the pcre package. ')
+
+(* ****** ****** *)
+
+(* end of [pcre.atxt] *)

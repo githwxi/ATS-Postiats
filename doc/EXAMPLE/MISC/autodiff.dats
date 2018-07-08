@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 **
 ** Automatic Differentiation
@@ -8,7 +10,6 @@
 ** Time: January, 2008
 **
 *)
-
 (* ****** ****** *)
 //
 // HX-2012-11-26: ported to ATS/Postiats
@@ -26,12 +27,21 @@
 //
 (* ****** ****** *)
 //
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
-staload M = "libc/SATS/math.sats"
+staload M =
+"libats/libc/SATS/math.sats"
 
 (* ****** ****** *)
 
@@ -659,7 +669,7 @@ in
   multivariate_argmin (f, $lst{dualnum}(w0))
 end // end of [val]
 
-val list_sing (w_star) = ws_star
+val+list_sing(w_star) = ws_star
 
 in (* in of [let] *)
 //

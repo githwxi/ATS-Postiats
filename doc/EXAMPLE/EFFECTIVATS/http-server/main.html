@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EFFECTIVATS-HttpServer</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+
+
+<!--php-->
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Implementing a minimal http-server
+</h1>
+
+<p>
+In this article, I would like to present an implementation
+of a minimal http-server. This is also a good occasion for me
+to advocate refinement-based programming.
+</p>
+
+<h2>
+A simplistic abstract server
+</h2>
+
+<p>
+As I have said repeatedly, I, like many others, feel that the most
+challenging issue in programming (and many other forms of engineering) is
+to keep the inherent complexity of the implemented system under
+control. What may sound ironic is that keeping-it-simple is probably the
+hardest thing to do. I hope that programmers can rely on the support for
+abstract types in ATS to make this hardest thing significantly easier to
+manage.
+</p>
+
+<p>
+Let us first take a look at the following self-explanatory implementation
+of a simplistic abstract server:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> myserver <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> myserver_init <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> myserver_loop <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+myserver <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> myserver_init <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> myserver_loop <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [myserver] *)</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+myserver_init <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="comment">// HX: it is a dummy for now</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp">println!</span> <span class="keyword">(</span><span class="dynstr">"myserver_init: start"</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp">println!</span> <span class="keyword">(</span><span class="dynstr">"myserver_init: finish"</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [myserver_init] *)</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="staexp"><span class="keyword">abstype</span> request</span>
+
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> myserver_waitfor_request <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">request</span></span>
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> myserver_process_request <span class="keyword">(</span><span class="staexp">request</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+myserver_loop <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> req <span class="keyword">=</span>
+myserver_waitfor_request <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+myserver_process_request <span class="keyword">(</span>req<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> myserver_loop <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [myserver_loop] *)</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+Basically, [myserver] implements a server; it does some form of
+initialization by calling [myserver_init] and then starts a loop for
+handling requests by calling [myserver_loop]. The function
+[myserver_waitfor_request] is supposed to be blocked until a request
+is available, and the function [myserver_process_request] processes a
+given request.
+</p>
+
+<h2>
+Turning abstract into concrete
+</h2>
+
+<p>
+The three functions that need to be implemented
+(in order to get a running server)
+are [myserver_init], [myserver_waitfor_request], and
+[myserver_waitfor_process]. For someone familiar with
+BSD sockets, the following code should be readily accessible:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="extcode"><span class="extcode">%{^
+int theSockID = -1;
+%}</span></span> <span class="comment">// end of [%{^]</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="neuexp"><span class="keyword">#define</span> MYPORT 8888</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+myserver_init <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> inport <span class="keyword">=</span> in_port_nbo<span class="keyword">(</span>MYPORT<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> inaddr <span class="keyword">=</span> in_addr_hbo2nbo<span class="keyword">(</span>INADDR_ANY<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">var</span> servaddr
+  <span class="keyword">:</span> <span class="staexp">sockaddr_in_struct</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span>
+sockaddr_in_init
+  <span class="keyword">(</span>servaddr<span class="keyword">,</span> AF_INET<span class="keyword">,</span> inaddr<span class="keyword">,</span> inport<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+sockfd <span class="keyword">=</span>
+<span class="dynexp"><span class="keyword">$extfcall</span>
+<span class="keyword">(</span>
+  int<span class="keyword">,</span> "socket"<span class="keyword">,</span> AF_INET<span class="keyword">,</span> SOCK_STREAM<span class="keyword">,</span> 0
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [val] *)</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> assertloc <span class="keyword">(</span>sockfd &gt;= <span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="extcode"><span class="keyword">extvar</span> "theSockID" <span class="keyword">=</span> sockfd</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="dynexp"><span class="keyword">$extfcall</span>
+<span class="keyword">(</span>
+  void<span class="keyword">,</span> "atslib_bind_exn"<span class="keyword">,</span> sockfd<span class="keyword">,</span> <span class="keyword">addr@</span>servaddr<span class="keyword">,</span> socklen_in
+<span class="keyword">)</span></span></span> <span class="comment">(* end of [val] *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="dynexp"><span class="keyword">$extfcall</span><span class="keyword">(</span>void<span class="keyword">,</span> "atslib_listen_exn"<span class="keyword">,</span> sockfd<span class="keyword">,</span> 5<span class="comment">(*LISTENQSZ*)</span><span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* end of [myserver_init] *)</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+Essentially, [myserver_init] creates a server-side socket
+that is allowed to accept connection from any party, and then
+listens on the socket. Note that the file descriptor of the
+created socket is stored in a global variable [theSockID].
+The function [atslib_bind_exn] calls [bind]; it
+exits if the call to [bind] results in an error; otherwise,
+it returns normally.
+Similarly, the function [atslib_listen_exn] calls [listen]; it
+exits if the call to [listen] results in an error; otherwise,
+it returns normally.
+</p>
+
+<p>
+The function [myserver_waitfor_request] can be implemented
+as follows:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+myserver_waitfor_request
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> fd <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>int<span class="keyword">,</span> "theSockID"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> fd2 <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extfcall</span><span class="keyword">(</span>int<span class="keyword">,</span> "accept"<span class="keyword">,</span> fd<span class="keyword">,</span> 0<span class="comment">(*addr*)</span><span class="keyword">,</span> 0<span class="comment">(*addrlen*)</span><span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  $UN<span class="keyword">.</span>cast<span class="staexp"><span class="keyword">{</span>request<span class="keyword">}</span></span><span class="keyword">(</span>fd2<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [myserver_waitfor_request]</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+A call to [accept] is blocked until a connection between the server and a
+client is established. What is returned by [accept] is the file descriptor of
+a socket that can be used to communicate with the client.
+</p>
+
+<p>
+The function [myserver_process_request] is implemented as follows:
+</p>
+
+<pre class="patsyntax">
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#define</span> BUFSZ 1024</span>
+<span class="neuexp"><span class="keyword">#define</span> BUFSZ2 1280</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">val</span>
+theRespFmt <span class="keyword">=</span> <span class="dynstr">"HTTP/1.0 200 OK\r\n\
+Content-type: text/html\r\n\r\n\
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=\"UTF-8\"&gt;
+&lt;meta http-equiv=\"Content-Type\" content=\"text/html\"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;
+Hello from myserver!
+&lt;/h1&gt;
+&lt;pre&gt;
+%s
+&lt;/pre&gt;
+&lt;pre&gt;
+&lt;u&gt;The time stamp&lt;/u&gt;: &lt;b&gt;%s&lt;/b&gt;
+&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"</span></span> <span class="comment">// end of [val]</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="extcode"><span class="extcode">%{^
+typedef char *charptr;
+%}</span></span> <span class="comment">// end of [%{^]</span>
+<span class="staexp"><span class="keyword">abstype</span> charptr <span class="keyword">=</span> <span class="keyword">$extype</span>"charptr"</span>
+
+<span class="comment">(* ****** ****** *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+myserver_process_request
+  <span class="keyword">(</span>req<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> fd2 <span class="keyword">=</span> $UN<span class="keyword">.</span>cast<span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="keyword">(</span>req<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">var</span> buf <span class="keyword">=</span> <span class="dynexp"><span class="keyword">@[</span>byte<span class="keyword">]</span><span class="keyword">[</span>BUFSZ<span class="keyword">]</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="keyword">var</span> buf2 <span class="keyword">=</span> <span class="dynexp"><span class="keyword">@[</span>byte<span class="keyword">]</span><span class="keyword">[</span>BUFSZ2<span class="keyword">]</span><span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> bufp <span class="keyword">=</span> <span class="dynexp"><span class="keyword">addr@</span></span>buf <span class="keyword">and</span> bufp2 <span class="keyword">=</span> <span class="dynexp"><span class="keyword">addr@</span></span>buf2</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> nread <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extfcall</span> <span class="keyword">(</span>ssize_t<span class="keyword">,</span> "read"<span class="keyword">,</span> fd2<span class="keyword">,</span> bufp<span class="keyword">,</span> BUFSZ<span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="comment">(*
+val () = println! ("myserver_process_request: nread = ", nread)
+*)</span>
+<span class="comment">//</span>
+<span class="keyword">var</span> time <span class="keyword">=</span> time_get<span class="keyword">(</span><span class="keyword">)</span>
+<span class="dynexp"><span class="keyword">val</span> tmstr <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extfcall</span><span class="keyword">(</span>charptr<span class="keyword">,</span> "ctime"<span class="keyword">,</span> <span class="keyword">addr@</span>time<span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">if</span>
+nread &gt;= <span class="dynexp">0</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">[</span><span class="staexp">n<span class="keyword">:</span>int</span><span class="keyword">]</span> n <span class="keyword">=</span> $UN<span class="keyword">.</span>cast<span class="staexp"><span class="keyword">{</span>Size<span class="keyword">}</span></span><span class="keyword">(</span>nread<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> $UN<span class="keyword">.</span>ptr0_set_at&lt;<span class="staexp">char</span><span class="keyword">&gt;</span> <span class="keyword">(</span>bufp<span class="keyword">,</span> n<span class="keyword">,</span> <span class="dynexp">'000'</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> nbyte <span class="keyword">=</span>
+    <span class="dynexp"><span class="keyword">$extfcall</span><span class="keyword">(</span>int<span class="keyword">,</span> "snprintf"<span class="keyword">,</span> bufp2<span class="keyword">,</span> BUFSZ2<span class="keyword">,</span> theRespFmt<span class="keyword">,</span> bufp<span class="keyword">,</span> tmstr<span class="keyword">)</span></span></span>
+  <span class="comment">// end of [val]</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> nwrit <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extfcall</span><span class="keyword">(</span>ssize_t<span class="keyword">,</span> "write"<span class="keyword">,</span> fd2<span class="keyword">,</span> bufp2<span class="keyword">,</span> min<span class="keyword">(</span>nbyte<span class="keyword">,</span> BUFSZ2<span class="keyword">)</span><span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">// end of [then]</span>
+<span class="comment">//</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> err <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extfcall</span> <span class="keyword">(</span>int<span class="keyword">,</span> "close"<span class="keyword">,</span> fd2<span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">// end of [myserver_process_request]</span>
+<span class="comment">//</span></pre>
+<!--php-->
+
+<p>
+The implementation of [myserver_process_request] reads from a
+buffer whatever is sent by the client; it generates an HTML page
+containing the content of the buffer plus a time stamp and then
+sends the page to the client.
+</p>
+
+<h2>
+Testing
+</h2>
+
+<p>
+The entirety of the code for this implementation is contained in
+<u>myserver.dats</u>. There is also a Makefile available for building
+the server. Please click the link
+<a href="http://127.0.0.1:8888">http://127.0.0.1:8888</a>
+to test after the server is started running locally.
+</p>
+
+<h2>
+A side note
+</h2>
+
+<p>
+For someone interested in <a href="http://www.zeromq.org">ZMQ</a>,
+please find a ZMQ-based implementation of a minimal http-server in the
+file <u>myserver2.dats</u> that is essentially equivalent to the one
+given above.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

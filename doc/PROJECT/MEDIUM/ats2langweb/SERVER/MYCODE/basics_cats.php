@@ -41,7 +41,7 @@ atslangweb_exec_retval
 //
 $atslangweb_patsopt_tcats_preamble = "
 #include
-\"share/atspre_define.hats\"
+\"share/atspre_staload.hats\"
 #include
 \"share/HATS/atspre_staload_libats_ML.hats\"
 " ; // end of [$atslangweb_patsopt_tcats_preamble]
@@ -52,7 +52,7 @@ $atslangweb_patsopt_tcats_postamble = "" ;
 //
 $atslangweb_patsopt_ccats_preamble = "
 #include
-\"share/atspre_define.hats\"
+\"share/atspre_staload.hats\"
 #include
 \"share/HATS/atspre_staload_libats_ML.hats\"
 " ; // end of [$atslangweb_patsopt_ccats_preamble]
@@ -62,8 +62,12 @@ $atslangweb_patsopt_ccats_postamble = "" ;
 /* ****** ****** */
 //
 $atslangweb_patsopt_atscc2js_preamble = "
-#include
-\"share/atspre_define.hats\"
+//
+#define
+LIBATSCC2JS_targetloc
+\"\$PATSHOME\\
+/contrib/libatscc2js/ATS2-0.3.2\"
+//
 #include
 \"{\$LIBATSCC2JS}/staloadall.hats\"
 //

@@ -1,0 +1,212 @@
+%{
+//
+dynload
+"libatsdoc/dynloadall.dats"
+//
+staload
+"libatsdoc/SATS/libatsdoc_atext.sats"
+//
+extern
+fun comment (x: string): atext
+//
+extern
+fun packpreamble (): atext
+extern
+fun packpostamble (): atext
+extern
+fun packtitle (x: string): atext
+extern
+fun packfilename (x: string): atext
+extern
+fun packfilesynop (x: string): atext
+//
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+comment (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+%{
+
+implement
+packpreamble () = let
+//
+val out = stdout_ref
+val () = fprint_string (out, "\
+#!/bin/bash\n\
+#\n\
+# This script is automatically generated.\n\
+#\n\
+\n\
+SOURCE=../../libats/libc\n\
+TARGET=ATS-Postiats/libats/libc\n\
+\n\
+srcget ()\n\
+{\n\
+cp -f ${SOURCE}/$1 ${TARGET}/$1 ;\n\
+}\n\
+\n\
+") // end of [val]
+//
+in
+  atext_nil ()
+end // end of [packpreamble]
+
+implement
+packpostamble () = let
+val out = stdout_ref
+val () = fprint_string (out, "\
+#\n\
+echo \"The ATSLIB-libats-libc files have been copied.\"\n\
+#\n\
+# end of the automatically generated script\n\
+#\n\
+")
+in
+  atext_nil ()
+end // end of [packpostamble]
+
+implement
+packtitle (x) = atext_nil ()
+
+implement
+packfilename (x) = let
+//
+val out = stdout_ref
+val () = fprintf (out, "srcget \"%s\" ;\n", @(x))
+//
+in
+  atext_nil ()
+end // end of [packfilename]
+
+implement
+packfilesynop (x) = atext_nil ()
+
+%}
+
+(* ****** ****** *)
+
+#packpreamble()
+
+(* ****** ****** *)
+
+#packtitle("\
+The ATSLIB/libc library\
+")
+
+(* ****** ****** *)
+
+#packfilename("CATS/alloca.cats")
+#packfilename("CATS/dirent.cats")
+#packfilename("CATS/dlfcn.cats")
+#packfilename("CATS/errno.cats")
+#packfilename("CATS/fcntl.cats")
+#packfilename("CATS/float.cats")
+#packfilename("CATS/fnmatch.cats")
+#packfilename("CATS/malloc.cats")
+#packfilename("CATS/math.cats")
+#packfilename("CATS/signal.cats")
+#packfilename("CATS/stdio.cats")
+#packfilename("CATS/stdlib.cats")
+#packfilename("CATS/string.cats")
+#packfilename("CATS/strings.cats")
+#packfilename("CATS/time.cats")
+#packfilename("CATS/unistd.cats")
+
+#packfilename("CATS/sys/mman.cats")
+#packfilename("CATS/sys/socket.cats")
+#packfilename("CATS/sys/socket_in.cats")
+#packfilename("CATS/sys/stat.cats")
+#packfilename("CATS/sys/time.cats")
+#packfilename("CATS/sys/types.cats")
+#packfilename("CATS/sys/wait.cats")
+
+#packfilename("CATS/arpa/inet.cats")
+
+#packfilename("CATS/netinet/in.cats")
+
+#packfilename("CATS/gdbm/gdbm.cats")
+#packfilename("CATS/gdbm/datum.cats")
+
+(* ****** ****** *)
+
+#packfilename("SATS/alloca.sats")
+#packfilename("SATS/dirent.sats")
+#packfilename("SATS/dlfcn.sats")
+#packfilename("SATS/errno.sats")
+#packfilename("SATS/fcntl.sats")
+#packfilename("SATS/float.sats")
+#packfilename("SATS/fnmatch.sats")
+#packfilename("SATS/malloc.sats")
+#packfilename("SATS/math.sats")
+#packfilename("SATS/signal.sats")
+#packfilename("SATS/stddef.sats")
+#packfilename("SATS/stdio.sats")
+#packfilename("SATS/stdlib.sats")
+#packfilename("SATS/string.sats")
+#packfilename("SATS/strings.sats")
+#packfilename("SATS/time.sats")
+#packfilename("SATS/unistd.sats")
+#packfilename("SATS/unistd_sysconf.sats")
+#packfilename("SATS/unistd_pathconf.sats")
+
+#packfilename("SATS/sys/mman.sats")
+#packfilename("SATS/sys/socket.sats")
+#packfilename("SATS/sys/socket_in.sats")
+#packfilename("SATS/sys/stat.sats")
+#packfilename("SATS/sys/time.sats")
+#packfilename("SATS/sys/types.sats")
+#packfilename("SATS/sys/wait.sats")
+
+#packfilename("SATS/arpa/inet.sats")
+
+#packfilename("SATS/netinet/in.sats")
+
+#packfilename("SATS/gdbm/gdbm.sats")
+#packfilename("SATS/gdbm/SHARE/datum.hats")
+
+(* ****** ****** *)
+
+#packfilename("DATS/dirent.dats")
+#packfilename("DATS/errno.dats")
+#packfilename("DATS/fcntl.dats")
+#packfilename("DATS/float.dats")
+#packfilename("DATS/math.dats")
+#packfilename("DATS/stdio.dats")
+#packfilename("DATS/stdlib.dats")
+#packfilename("DATS/string.dats")
+#packfilename("DATS/strings.dats")
+#packfilename("DATS/time.dats")
+#packfilename("DATS/unistd.dats")
+
+#packfilename("DATS/sys/socket.dats")
+#packfilename("DATS/sys/socket_in.dats")
+#packfilename("DATS/sys/stat.dats")
+#packfilename("DATS/sys/types.dats")
+
+%{
+(*
+#packfilename("DATS/gdbm/gdbm.dats")
+*)
+%}
+
+(* ****** ****** *)
+
+#packpostamble()
+
+(* ****** ****** *)
+
+%{
+implement main (argc, argv) = ()
+%}
+
+(* ****** ****** *)
+
+(* end of [atslib_libc.atxt] *)

@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 // Linear Lazy-evaluation:
 // Erathosthene's sieve for primes
@@ -16,14 +18,22 @@
 
 (* ****** ****** *)
 //
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
+(* ****** ****** *)
+//
 #include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
 
+#define nil stream_vt_nil
 #define :: stream_vt_cons
 #define cons stream_vt_cons
-#define nil stream_vt_nil
 
 (* ****** ****** *)
 

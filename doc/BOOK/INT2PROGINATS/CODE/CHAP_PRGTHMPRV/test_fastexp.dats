@@ -1,3 +1,4 @@
+(* ****** ****** *)
 (*
 ** Copyright (C) 2011 Hongwei Xi, Boston University
 **
@@ -22,7 +23,6 @@
 ** FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 ** OTHER DEALINGS IN THE SOFTWARE.
 *)
-
 (* ****** ****** *)
 
 (*
@@ -36,12 +36,18 @@
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
-
+//
 typedef
-mat2x2_def = (int, int, int, int)
+mat2x2_def =
+  (int, int, int, int)
+//
 abst@ype mat2x2 = mat2x2_def
+//
+(* ****** ****** *)
 
 extern
 fun make_mat2x2
@@ -107,8 +113,8 @@ fun fprint_mat2x2
 
 (* ****** ****** *)
 
-staload "fastexp.sats"
-staload _(*anon*) = "fastexp.dats"
+staload "./fastexp.sats"
+staload _(*anon*) = "./fastexp.dats"
 
 local
 

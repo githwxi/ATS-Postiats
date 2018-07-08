@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta
+ http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-DivideConquerPar</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Doing Divide-and-Conquer in Parallel
+</h1>
+
+##para('\
+
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. In this article, I intend to present a template-based
+approach to facilitating parallel computation. More specifically, I
+would like to demonstrate how a template-based package (of the name
+##emphasis("atscntrb-bucs320-divideconquerpar")) can be readily
+employed to parallelize a program that one constructs based on the
+so-called divide-and-conquer problem-solving strategy.
+
+')##comment("para")
+
+<h2>Divide-and-Conquer</h2>
+
+##para('\
+
+In problem-solving, divide-and-conquer (D&amp;C) is a strategy that
+divides a given problem of certain size into a collection of
+subproblems of lesser size and then solves the subproblems (recursively)
+and then combines the obtained solutions to the subproblems to form a
+solution to the original given problem. Please find a template-based
+approach to (D&amp;C) <a href="./../DivideConquer/index.html">on-line</a>.
+
+')##comment("para")
+
+<h2>D&amp;C Parallelization</h2>
+
+##para('\
+
+For parallelizing D&amp;C, we are to make use of a
+##emphasis("workshop"), which can be thought of as a collection of
+workers (where each worker is just a running thread). For example, we
+may create a workshop of 4 workers on a machine of 4 cores so that
+each worker can run as a thread on one distinct core.
+
+')##comment("para")
+
+##para('\
+
+As D&amp;C is inherently recursive, we must address the potential
+issue of a worker becoming blocked when waiting for a recursive call
+to return if we implement D&amp;C in the direct style (in contrast to
+the continuation-passing style (CPS)).  In addition, using the direct
+style means that we have to insert code to perform synchronization
+explicitly (for instance, to notify a blocked worker to continue once
+all of the recursive calls made by it have returned). On the other
+hand, the issue of a worker becoming blocked can be completely
+avoided if we are to implement D&amp;C in the CPS-style. Without
+blocking, the need for explicit synchronization is also gone.
+
+')##comment("para")
+
+##para('\
+
+Please find the entirety of the code for the template-based package
+##emphasis("atscntrb-bucs320-divideconquerpar") plus some examples
+<a
+ href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquerPar/."
+>on-line</a>,
+where an implementation of D&amp;C in parallel is given in the CPS-style.
+And further explanation on parallelization via CPS can be found in
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/parallel-sorting/index.html">this article</a>.
+The rest of this article focuses on demonstrating a typical use of this
+package in the construction of certain parallel recursive programs.
+
+')##comment("para")
+
+<h2>Example: Fibonacci Numbers</h2>
+
+##para('\
+
+The following simple recursive function
+##dyncode("Fibo") computes Fibonacci numbers:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+fun
+Fibo(n: int): int =
+if (n >= 2) then Fibo(n-1)+Fibo(n-2) else n\
+')
+</pre>
+
+Suppose that we want to parallelize ##dyncode("Fibo") so as to
+allow multiple cores to be utilized together to perform computation.
+One simple way to proceed is to first install the following npm packages:
+
+<pre>
+atscntrb-hx-fworkshop
+atscntrb-hx-threadkit
+atscntrb-bucs320-divideconquer
+atscntrb-bucs320-divideconquerpar
+</pre>
+
+Please visit <a href="https://www.npmjs.com/">www.npmjs.com</a> for
+authoritative information on npm packages if needed.
+
+')##comment("para")
+
+##para('\
+
+The following lines are typically included in a setting for gaining
+access to functions declared in the packages
+##emphasis("atscntrb-bucs320-divideconquer") and
+##emphasis("atscntrb-bucs320-divideconquerpar"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+(* ****** ****** *)
+//
+#include
+"$PATSHOMELOCS\
+/atscntrb-bucs320-divideconquerpar/mydepies.hats"
+#include
+"$PATSHOMELOCS\
+/atscntrb-bucs320-divideconquerpar/mylibies.hats"
+//
+(* ****** ****** *)
+//
+#staload $DivideConquer // opening namespace
+#staload $DivideConquerPar // opening namespace
+//
+(* ****** ****** *)\
+')
+</pre>
+
+Conventionally, the file ##filename("mydepies.hats") in a package is
+for statically loading namespaces in various packages the current
+package depends on, which may not be present, and the file
+##filename("mylibies.hats") for namespaces the current package provides,
+which should always be present.
+
+')##comment("para")
+
+##para('\
+
+Let us choose the name ##dyncode("ParFibo") for the parallelized
+version of ##dyncode("Fibo"), which is given the following interface:
+
+<pre
+class="patsyntax">
+##sats2xhtml('\
+fun ParFibo(fws: fworkshop, n: int): int\
+')
+</pre>
+
+The type ##stacode("fworkshop") is for a workshop of workers (of which
+each is just a running thread).  For implementation, please study the
+package ##emphasis("atscntrb-hx-fworkshop"). An implementation of
+##dyncode("ParFibo") is given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+ParFibo
+(fws, n) =
+DivideConquer$solve<>(n) where
+{
+//
+// $tempenver indicates
+// to the compiler that [fws]
+// needs to be inserted into the
+// environment of each closure-function
+// generated during the compilation of
+// the following body of [ParFibo]
+//
+val () = $tempenver(fws)
+//
+implement
+DivideConquer$base_test<>(n) =
+  (n <= CUTOFF)
+implement
+DivideConquer$base_solve<>(n) =
+  Fibo(   n   )
+//
+implement
+DivideConquer$divide<>(n) = g0ofg1($list{int}(n-1, n-2))
+implement
+DivideConquer$conquer$combine<>(_(*n*), rs) = rs[0] + rs[1]
+//
+implement
+DivideConquerPar$fworkshop<>((*void*)) = FWORKSHOP_chanlst(fws)
+//
+} (* end of [ParFibo] *)\
+')
+</pre>
+
+Note that some detailed explanation of this style of template-based
+programming can be found <a
+href="./../DivideConquer/index.html">on-line</a>.  The given
+implementation of the function template
+##dyncode("DivideConquerPar$fworkshop") indicates that a list-based
+channel (##stacode("chanlst")) is used for storing the subproblems
+created during the divide phase in D&amp;C: Each worker fetches
+from the channel the next subproblem to solve and also inserts into the
+channel the subproblems it creates when solving one. It is also possible
+for one to choose an array-based channel (##stacode("channel")) for storing subproblems,
+and more relevant details can be found in some examples available
+<a href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/DivideConquerPar/.">on-line</a>.
+
+')##comment("para")
+
+##para('\
+
+In the following code, a workshop ##dyncode("fws") is first created
+and then two workers are added into the workshop:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+main0(argc, argv) =
+{
+//
+#define N 2
+//
+val
+fws =
+$FWS.fworkshop_create_exn()
+//
+val
+added = $FWS.fworkshop_add_nworker(fws, N)
+val () =
+prerrln!("the number of workers = ", added)
+//
+val
+n0 =
+(
+if argc >= 2
+  then g0string2int(argv[1]) else 45
+) : int // end of [root]
+//
+val () =
+println!("ParFibo(", n0, ") = ", ParFibo(fws, n0))
+//
+} (* end of [main0] *)\
+')
+</pre>
+
+Calling
+##dyncode("ParFibo") on the workshop ##dyncode("fws") and a chosen
+integer ##dyncode("n0") makes use of the two workers in a parallel
+computation that yields the value of ##dyncode("Fibo(n0)").
+
+For instance,
+the following times were reported when I called ##dyncode("ParFibo") to
+compute ##dyncode("Fibo(45)") (which equals 102334155):
+
+<pre>
+real: 0m0.417s
+user: 0m0.828s
+</pre>
+
+The real time being about half of the user time is due to two workers
+running on two cores in parallel.\
+
+')##comment("para")
+
+<h2>Example: Directory Traversal</h2>
+
+##para('\
+
+Computing Fibonacci numbers is a bit boring. As another example of
+D&amp;C in parallel, let us implement a higher-order function
+##dyncode("DirWalk") for recursively traversing a given directory and
+processing the files encountered during the traversal. The interface
+of ##dyncode("DirWalk") is given as follows:
+
+<pre
+class="patsyntax">
+##sats2xhtml('\
+fun
+DirWalk
+( fws: fworkshop
+, fname: string, fopr: cfun(string, int)): int\
+')
+</pre>
+
+The argument ##dyncode("fopr")
+is supposed to process a non-directory
+file to which a path (represented as a string) is given. That
+##dyncode("fopr") returns an int-value is just an arbitrary
+choice made to simplify the presentation.
+
+')##comment("para")
+
+##para('\
+
+An implementation of ##dyncode("DirWalk") is given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+DirWalk
+(fws, fname, fopr) =
+let
+//
+val () = $tempenver(fws)
+val () = $tempenver(fopr)
+//
+implement
+DivideConquer$base_test<>
+  (fname) =
+(
+test_file_isdir(fname) <= 0
+) // DivideConquer$base_test<>
+//
+implement
+DivideConquer$base_solve<>
+  (fname) = fopr(fname)
+//
+//
+implement
+DivideConquer$divide<>
+  (dir) = (
+//
+let
+//
+val
+files =
+streamize_dirname_fname(dir)
+val
+files =
+stream_vt_filter_cloptr<string>
+  (files, lam(x) => ~dir_skipped(x))
+val
+files =
+stream_vt_map_cloptr<string><string>
+  (files, lam(file) => string_append3(dir, "/", file))
+//
+in
+  list0_of_list_vt(stream2list_vt(files))
+end // end of [let]
+//
+) (* end of [DivideConquer$divide<>] *)
+//
+implement
+DivideConquer$conquer$combine<>
+  (_, rs) =
+(
+  list0_foldleft<int><int>(rs, 0, lam(res, r) => res + r)
+)
+//
+implement
+DivideConquerPar$fworkshop<>((*void*)) = FWORKSHOP_chanlst(fws)
+//
+in
+  DivideConquer$solve<>( fname )
+end // end of [DirWalk]\
+')
+</pre>
+
+')##comment("para")
+
+##para('\
+
+Let us focus on the implementation of
+##dyncode("DivideConquer$divide"); given a path to a directory, the
+function ##dyncode("streamize_dirname_fname") returns a (linear)
+stream of names of the files residing inside the directory; the following
+call to ##dyncode("stream_vt_filter_cloptr") removes the special names "."
+and ".." from the stream; the following call to
+##dyncode("stream_vt_map_cloptr") maps each name in the stream to a
+path formed by joining the name of the directory, the special
+separator "/" and the name; and finally the stream is turned into a list
+to be returned.
+
+')##comment("para")
+
+##para('\
+
+The implementation of
+##dyncode("DivideConquer$conquer$combine") simply returns
+the tally of all of the int-values obtained from solving subproblems
+(by recursively calling ##dyncode("DirWalk") on them).
+
+')##comment("para")
+
+##para('\
+
+The testing code for ##dyncode("DirWalk") returns the number of
+(non-directory) files in a given directory while printing (onto the
+stdout) the path to each file followed by the number of lines in the
+file.
+
+')##comment("para")
+
+##para('\
+
+While ##dyncode("DirWalk") can indeed traverse a given directory
+recursively in parallel, there is no guarantee that parallel traversal
+is more efficient than sequential traversal. A reasonable expectation
+would be that the time saved by calling ##dyncode("fopr") in parallel
+can compensate the overhead incurred due to parallelism.  Unlike the
+previous example of ##dyncode("ParFibo"), there can be a lot of I/O
+operations during the evaluation of a call to ##dyncode("DirWalk"),
+adding another layer of uncertainty.
+
+')##comment("para")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+ParFibo.dats
+DirWalk.dats
+</pre>
+
+There is also an accompanying ##filename("Makefile") that can be used
+for compiling and testing the code (via the make utility).\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

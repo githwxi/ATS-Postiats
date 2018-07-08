@@ -1,0 +1,41 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../printbuf.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_json-c_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/printbuf\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("printbuf2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("printbuf_new")
+#declnamesynop("printbuf_free")
+#declnamesynop("printbuf_reset")
+#declnamesynop("printbuf_length")
+#declnamesynop("printbuf_memappend")
+#declnamesynop("printbuf_memset")
+
+(* ****** ****** *)
+
+(*
+int sprintbuf (struct printbuf *p, const char *msg,...)
+*)
+    
+(* ****** ****** *)
+
+(* end of [printbuf.atxt] *)

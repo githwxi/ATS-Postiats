@@ -19,7 +19,6 @@
 
 (* ****** ****** *)
 //
-#include "share/atspre_define.hats"
 #include "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -60,7 +59,7 @@ fun{
 a:t@ype
 } list0_length
   (xs: list0 (a)): int =
-  try 1 + list0_length<a> (xs.tail) with ~ListSubscriptExn() => 0
+  try 1 + list0_length<a> (xs.tail()) with ~ListSubscriptExn() => 0
 // end of [list0_length]
 
 (* ****** ****** *)
@@ -110,13 +109,21 @@ in '{
 fun{
 a:t@ype
 } mtrxszref_transpose
-  (M: mtrxszref a): void = let
+(
+ M: mtrxszref(a)
+) : void = loop1(0sz) where
+{
 //
-val nrow = mtrxszref_get_nrow (M)
+postfix sz
+#define sz(x) i2sz(x)
+//
+val
+nrow =
+mtrxszref_get_nrow(M)
 //
 fnx loop1
   (i: size_t): void =
-  if i < nrow then loop2 (i, i2sz(0)) else ()
+  if i < nrow then loop2(i, 0sz) else ()
 //
 and loop2
   (i: size_t, j: size_t): void =
@@ -124,23 +131,21 @@ and loop2
     then let
       val tmp = M[i,j]
     in
-      M[i,j] := M[j,i]; M[j,i] := tmp; loop2 (i, succ(j))
+      M[i,j] := M[j,i]; M[j,i] := tmp; loop2(i, succ(j))
     end // end of [then]
-    else loop1 (succ(i))
+    else loop1(succ(i))
   // end of [if]
 //
-in
-  loop1 (i2sz(0))
-end // end of [mtrxszref_transpose]
+} (* end of [mtrxszref_transpose] *)
 
 (* ****** ****** *)
 
-staload "libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/stdlib.sats"
 
 (* ****** ****** *)
 
 implement
-main0 () =
+main0((*void*)) =
 {
 //
 val xs =

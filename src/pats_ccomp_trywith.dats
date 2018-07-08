@@ -37,6 +37,11 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+GLOBAL = "./pats_global.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -59,29 +64,48 @@ hidexp_ccomp_ret_trywith
   (env, res, tmpret, hde0) = let
 //
 val loc0 = hde0.hidexp_loc
-val lvl0 = the_d2varlev_get ()
+val lvl0 = the_d2varlev_get()
 val-HDEtrywith
   (hde_try, hicls_with) = hde0.hidexp_node
 //
 val hse_exn = hisexp_exnconptr
-val tmp_exn = tmpvar_make (loc0, hse_exn)
-val pmv_exn = primval_make_tmp (loc0, tmp_exn)
+val tmp_exn = tmpvar_make(loc0, hse_exn)
+val pmv_exn = primval_make_tmp(loc0, tmp_exn)
 //
-val res_try = instrseq_make_nil ()
-val (pfpush | ()) = ccompenv_push (env)
-val ((*void*)) = hidexp_ccomp_ret (env, res_try, tmpret, hde_try)
-val () = ccompenv_pop (pfpush | env)
-val inss_try = instrseq_get_free (res_try)
+val res_try = instrseq_make_nil()
+//
+val
+(pfpush | ()) = ccompenv_push(env)
+//
+// HX-2017-06-21:
+// Tail-call optimization is disabled
+val f0 = $GLOBAL.the_CCOMPATS_tlcalopt_get()
+val () = $GLOBAL.the_CCOMPATS_tlcalopt_set(0)
+//
+val () = hidexp_ccomp_ret(env, res_try, tmpret, hde_try)
+//
+// Tail-call optimization is restored
+val () = $GLOBAL.the_CCOMPATS_tlcalopt_set(f0)
+//
+val
+((*popped*)) = ccompenv_pop(pfpush | env)
+//
+val inss_try = instrseq_get_free(res_try)
 //
 val fail =
-  PTCKNTraise (tmpret, pmv_exn)
-val ibrs_with = hiclaulst_ccomp
+  PTCKNTraise(tmpret, pmv_exn)
+//
+val
+ibrs_with =
+hiclaulst_ccomp
 (
   env, lvl0, list_sing(pmv_exn), hicls_with, tmpret, fail
 ) (* end of [val] *)
 //
-val ins_trywith = instr_trywith (loc0, tmp_exn, inss_try, ibrs_with)
-val ((*void*)) = instrseq_add (res, ins_trywith)
+val
+ins_trywith = instr_trywith(loc0, tmp_exn, inss_try, ibrs_with)
+//
+val ((*void*)) = instrseq_add(res, ins_trywith)
 //
 in
   // nothing

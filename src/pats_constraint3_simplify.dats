@@ -132,7 +132,8 @@ s3exp_bneq
 
 (* ****** ****** *)
 
-fun uns3exp_intinf
+fun
+uns3exp_intinf
   (s3e: s3exp): Option_vt (intinf) =
   case+ s3e of
   | S3Enull () => Some_vt (intinf_0)
@@ -266,12 +267,15 @@ in
 //
 case+ x1 of
 // nonlinear terms go first
-| S3Eiatm (s2vs1) => (
+| S3Eiatm
+    (s2vs1) => (
   case+ x2 of
-  | S3Eiatm (s2vs2) => s2varmset_gte (s2vs1, s2vs2)
+  | S3Eiatm(s2vs2) =>
+      s2varmset_gte (s2vs1, s2vs2)
+    // end of [S3Eiatm]
   | _ => true
   ) (* end of [S3Eiatm] *)
-| S3Evar (s2v1) => (
+| S3Evar(s2v1) => (
   case+ x2 of
   | S3Eiatm _ => false
   | S3Evar s2v2 =>
@@ -279,7 +283,7 @@ case+ x1 of
     // end of [S3Ecst]
   | _ => true
   ) (* end of [S3Evar] *)
-| S3Ecst (s2c1) => (
+| S3Ecst(s2c1) => (
   case+ x2 of
   | S3Eiatm _ => false
   | S3Evar s2v2 => false
@@ -288,7 +292,7 @@ case+ x1 of
     // end of [S3Ecst]
   | _ => true
   ) (* end of [S3Evar] *)
-| S3Eunit () => (
+| S3Eunit((*void*)) => (
   case+ x2 of
   | S3Eiatm _ => false
   | S3Evar s2v2 => false

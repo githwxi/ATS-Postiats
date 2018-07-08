@@ -32,11 +32,6 @@
 (* Start time: August, 2013 *)
 
 (* ****** ****** *)
-//
-// HX-2012-12:
-// the map implementation is based on AVL trees
-//
-(* ****** ****** *)
 
 staload
 UN = "prelude/SATS/unsafe.sats"
@@ -46,6 +41,10 @@ UN = "prelude/SATS/unsafe.sats"
 staload HT =
 "libats/SATS/hashtbl_chain.sats"
 //
+(* ****** ****** *)
+
+staload "libats/ML/SATS/basis.sats"
+
 (* ****** ****** *)
 
 staload "libats/ML/SATS/list0.sats"
@@ -67,15 +66,31 @@ hash_key = ghash_val<key>
 
 implement
 {key}(*tmp*)
-equal_key_key = gequal_val<key>
+equal_key_key = gequal_val_val<key>
 
+(* ****** ****** *)
+//
+implement
+hash_key<int> (key) = let
+  val key = $UN.cast{uint32}(key)
+in
+  $UN.cast{ulint}(inthash_jenkins<>(key))
+end // end of [hash_key<int>]
+//
+implement
+hash_key<uint> (key) = let
+  val key = $UN.cast{uint32}(key)
+in
+  $UN.cast{ulint}(inthash_jenkins<>(key))
+end // end of [hash_key<uint>]
+//
 (* ****** ****** *)
 //
 // HX: 31 and 37 are top choices
 //
 implement
-hash_key<string> (str) =
-  string_hash_multiplier (31UL, 31415926536UL, str)
+hash_key<string> (key) =
+  string_hash_multiplier (31UL, 31415926536UL, key)
 //
 (* ****** ****** *)
 //
@@ -93,12 +108,15 @@ extern
 castfn
 hashtbl_encode
   {key,itm:t0p}
-  ($HT.hashtbl (key, INV(itm))): hashtbl (key, itm)
+(
+  $HT.hashtbl(key, INV(itm))
+) : hashtbl(key, itm)
+//
 extern
 castfn
 hashtbl_decode
   {key,itm:t0p}
-  (hashtbl (key, INV(itm))): $HT.hashtbl (key, itm)
+  (hashtbl(key, INV(itm))): $HT.hashtbl(key, itm)
 //
 (* ****** ****** *)
 
@@ -109,32 +127,39 @@ hashtbl_decode
 //
 implement
 {key,itm}
-hashtbl_make_nil (cap) =
-  htencode($HT.hashtbl_make_nil<key,itm> (cap))
+hashtbl_make_nil(cap) =
+htencode
+(
+$HT.hashtbl_make_nil<key,itm>(cap)
+) (* end of [htencode] *)
 //
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 hashtbl_get_size
   (tbl) = nitm where
 {
 //
-val tbl = htdecode (tbl)
-val nitm = $HT.hashtbl_get_size (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val nitm = $HT.hashtbl_get_size<>(tbl)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_get_size] *)
 
 (* ****** ****** *)
 
-implement{}
+implement
+{}(*tmp*)
 hashtbl_get_capacity
   (tbl) = cap where
 {
 //
-val tbl = htdecode (tbl)
-val cap = $HT.hashtbl_get_capacity (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val cap = $HT.hashtbl_get_capacity<>(tbl)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_get_capacity] *)
 
@@ -146,9 +171,11 @@ hashtbl_search
   (tbl, k) = opt where
 {
 //
-val tbl = htdecode (tbl)
-val opt = $HT.hashtbl_search_opt (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val opt =
+  $HT.hashtbl_search_opt<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_search] *)
 
@@ -160,9 +187,12 @@ hashtbl_search_ref
   (tbl, k) = cptr where
 {
 //
-val tbl = htdecode (tbl)
-val cptr = $HT.hashtbl_search_ref (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val cptr =
+  $HT.hashtbl_search_ref<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_search_ref] *)
 
@@ -174,8 +204,11 @@ hashtbl_insert
   (tbl, k, x) = opt where
 {
 //
-val tbl = htdecode (tbl)
-val opt = $HT.hashtbl_insert_opt<key,itm> (tbl, k, x)
+val tbl = htdecode(tbl)
+//
+val opt =
+  $HT.hashtbl_insert_opt<key,itm>(tbl, k, x)
+//
 prval () = $UN.cast2void (tbl)
 //
 } (* hashtbl_insert *)
@@ -188,8 +221,11 @@ hashtbl_insert_any
   (tbl, k, x) = () where
 {
 //
-val tbl = htdecode (tbl)
-val () = $HT.hashtbl_insert_any<key,itm> (tbl, k, x)
+val tbl = htdecode(tbl)
+//
+val () =
+  $HT.hashtbl_insert_any<key,itm>(tbl, k, x)
+//
 prval () = $UN.cast2void (tbl)
 //
 } (* hashtbl_insert_any *)
@@ -202,9 +238,12 @@ hashtbl_takeout
   (tbl, k) = opt where
 {
 //
-val tbl = htdecode (tbl)
-val opt = $HT.hashtbl_takeout_opt (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val opt =
+  $HT.hashtbl_takeout_opt<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_takeout] *)
 
@@ -216,9 +255,10 @@ hashtbl_remove
   (tbl, k) = ans where
 {
 //
-val tbl = htdecode (tbl)
-val ans = $HT.hashtbl_remove (tbl, k)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val ans = $HT.hashtbl_remove<key,itm>(tbl, k)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_remove] *)
 
@@ -230,10 +270,11 @@ hashtbl_takeout_all
   (tbl) = kxs where
 {
 //
-val tbl = htdecode (tbl)
-val kxs = $HT.hashtbl_takeout_all (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+val kxs = $HT.hashtbl_takeout_all<key,itm>(tbl)
 val kxs = list0_of_list_vt{(key,itm)}(kxs)
+//
+prval () = $UN.cast2void(tbl)
 //
 } (* end of [hashtbl_takeout_all] *)
 
@@ -258,12 +299,64 @@ in
 end // end of [fprint_hashtbl]
 
 (* ****** ****** *)
-
+//
 implement{}
-fprint_hashtbl$sep (out) = fprint (out, "; ")
+fprint_hashtbl$sep(out) = fprint(out, "; ")
 implement{}
-fprint_hashtbl$mapto (out) = fprint (out, "->")
+fprint_hashtbl$mapto(out) = fprint(out, "->")
+//
+(* ****** ****** *)
 
+implement
+{key,itm}
+fprint_hashtbl_sep_mapto
+  (out, tbl, sep, mapto) = let
+//
+implement
+fprint_hashtbl$sep<>(out) = fprint(out, sep)
+implement
+fprint_hashtbl$mapto<>(out) = fprint(out, mapto)
+//
+in
+  fprint_hashtbl<key,itm>(out, tbl)
+end // end of [fprint_hashtbl_sep_mapto]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+hashtbl_foreach_cloref
+  (tbl, fwork) = () where
+{
+//
+var env: void = ((*void*))
+//
+implement
+(env)(*tmp*)
+$HT.hashtbl_foreach$fwork<key,itm><env>
+  (k, x, env) = fwork(k, x)
+//
+val tbl = htdecode(tbl)
+//
+val
+((*void*)) =
+$HT.hashtbl_foreach_env<key,itm><void>
+  (tbl, env)
+//
+prval ((*returned*)) = $UN.cast2void(tbl)
+//
+} (* end of [hashtbl_foreach_cloref] *)
+
+(* ****** ****** *)
+//
+implement
+{key,itm}
+hashtbl_listize0
+  (tbl) =
+(
+hashtbl_takeout_all<key,itm>(tbl)
+)
+//
 (* ****** ****** *)
 
 implement
@@ -274,9 +367,13 @@ hashtbl_listize1
 //
 typedef ki = @(key, itm)
 //
-val tbl = htdecode (tbl)
-val kxs = $HT.hashtbl_listize1 (tbl)
-prval () = $UN.cast2void (tbl)
+val tbl = htdecode(tbl)
+//
+val kxs = $HT.hashtbl_listize1(tbl)
+//
+prval
+((*returned*)) = $UN.cast2void(tbl)
+//
 val kxs = list0_of_list_vt{(key,itm)}(kxs)
 //
 } (* end of [hashtbl_listize1] *)

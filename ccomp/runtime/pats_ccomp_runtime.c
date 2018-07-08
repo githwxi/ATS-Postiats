@@ -50,7 +50,8 @@ extern void exit (int) ; // in [stdlib.h]
 //
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifndef \
+_ATS_CCOMP_EXCEPTION_NONE_
 //
 atstype_exncon
 ATSLIB_056_prelude__AssertExn = { 10, "AssertException" } ;
@@ -59,14 +60,17 @@ ATSLIB_056_prelude__GenerallyExn = { 20, "GenerallyException" } ;
 atstype_exncon
 ATSLIB_056_prelude__IllegalArgExn = { 30, "IllegalArgException" } ;
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifndef \
+_ATS_CCOMP_EXCEPTION_NONE_
 //
 atstype_exncon
-ATSLIB_056_prelude__NotFoundExn = { 40, "NotFoundException" } ;
+ATSLIB_056_prelude__NotSomeExn = { 40, "NotSomeException" } ;
+atstype_exncon
+ATSLIB_056_prelude__NotFoundExn = { 41, "NotFoundException" } ;
 //
 atstype_exncon
 ATSLIB_056_prelude__ListSubscriptExn = { 50, "ListSubscriptException" } ;
@@ -78,13 +82,12 @@ ATSLIB_056_prelude__ArraySubscriptExn = { 60, "ArraySubscriptException" } ;
 atstype_exncon
 ATSLIB_056_prelude__MatrixSubscriptExn = { 61, "MatrixSubscriptException" } ;
 //
-atstype_exncon ATSLIB_056_prelude__NotSomeExn = { 70, "NotSomeException" } ;
-//
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+#ifndef \
+_ATS_CCOMP_EXCEPTION_NONE_
 //
 extern
 void
@@ -105,7 +108,7 @@ the_atsexncon_initize
   return ;
 } // end of [the_atsexncon_initize]
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
+#endif // end of [_ATS_CCOMP_EXCEPTION_NONE_]
 
 /* ****** ****** */
 //
@@ -117,12 +120,14 @@ void
 atsruntime_handle_unmatchedval
   (char *msg0)
 {
-  fprintf(
-    stderr
+  fprintf
+  ( stderr
   , "exit(ATS): unmatched value at run-time:\n%s\n", msg0
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_unmatchedval] */
+//
+/* ****** ****** */
 //
 // HX-2014-06:
 // for reporting funarg-pattern matching failure
@@ -132,31 +137,30 @@ void
 atsruntime_handle_unmatchedarg
   (char *msg0)
 {
-  fprintf(
-    stderr
+  fprintf
+  ( stderr
   , "exit(ATS): unmatched funarg at run-time:\n%s\n", msg0
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_unmatchedarg] */
-
+//
 /* ****** ****** */
-
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
+//
+// HX-2014-06:
+// for reporting failure due to uncaught exception
 //
 extern
 void
 atsruntime_handle_uncaughtexn_rest
   (atstype_exncon *exn0)
 {
-  fprintf(
-    stderr
-  , "exit(ATS): uncaught exception at run-time: %s(%d)\n", exn0->exnmsg, exn0->exntag
+  fprintf
+  ( stderr
+  , "exit(ATS): uncaught exception at run-time:\n%s(%d)\n", exn0->exnmsg, exn0->exntag
   ) ; exit(1) ;
   return ; // deadcode
 } /* end of [atsruntime_handle_uncaughtexn_rest] */
 //
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
-
 /* ****** ****** */
 
 /* end of [pats_ccomp_runtime.c] */

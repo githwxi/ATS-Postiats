@@ -6,34 +6,38 @@
 *)
 
 (* ****** ****** *)
-
+//
 staload
-STDIO = "libc/SATS/stdio.sats"
-
+STDIO =
+"libc/SATS/stdio.sats"
+//
 (* ****** ****** *)
-
-staload SYM = "src/pats_symbol.sats"
-staload FIL = "src/pats_filename.sats"
-
+//
+staload
+SYM = "src/pats_symbol.sats"
+staload
+FIL = "src/pats_filename.sats"
+//
 (* ****** ****** *)
 
 staload "./../SATS/pats2xhtml.sats"
 
 (* ****** ****** *)
-
+//
 implement
-fileref2charlst (fil) = char_list_vt_make_file (fil)
-
+fileref2charlst
+  (fil) = char_list_vt_make_file(fil)
+//
 (* ****** ****** *)
 
 (*
 ** HX-2012-06:
 ** prfexp: text-decoration: line-through for erasure?
 *)
-#define PSYNMARK_HTML_FILE_BEG "\
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\
-\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
-<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\
+#define
+PSYNMARK_HTML_FILE_BEG "\
+<!DOCTYPE html>\n\
+<html>\n\
 <head>\n\
   <title></title>\n\
   <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n\
@@ -65,64 +69,76 @@ fileref2charlst (fil) = char_list_vt_make_file (fil)
 " // end of [PSYNMARK_HTML_FILE_END]
 
 (* ****** ****** *)
-
-fun pats2xhtml_file_beg
+//
+fun
+pats2xhtml_file_beg
   (out: FILEref): void = 
-  fprint_string (out, PSYNMARK_HTML_FILE_BEG)
-fun pats2xhtml_file_end
+  fprint_string(out, PSYNMARK_HTML_FILE_BEG)
+fun
+pats2xhtml_file_end
   (out: FILEref): void = 
-  fprint_string (out, PSYNMARK_HTML_FILE_END)
-
+  fprint_string(out, PSYNMARK_HTML_FILE_END)
+//
 (* ****** ****** *)
-
-#define PSYNMARK_HTML_PRE_BEG "<pre class=\"patsyntax\">\n"
+//
 #define PSYNMARK_HTML_PRE_END "</pre>\n"
-
-fun pats2xhtml_pre_beg
+#define PSYNMARK_HTML_PRE_BEG "<pre class=\"patsyntax\">\n"
+//
+(* ****** ****** *)
+//
+fun
+pats2xhtml_pre_beg
   (out: FILEref): void = 
-  fprint_string (out, PSYNMARK_HTML_PRE_BEG)
+  fprint_string(out, PSYNMARK_HTML_PRE_BEG)
+//
 fun pats2xhtml_pre_end
   (out: FILEref): void = 
-  fprint_string (out, PSYNMARK_HTML_PRE_END)
-
+  fprint_string(out, PSYNMARK_HTML_PRE_END)
+//
 (* ****** ****** *)
 //
 staload "src/pats_comarg.sats"
 //
-viewtypedef comarglst (n: int) = list_vt (comarg, n)
+vtypedef
+comarglst(n: int) = list_vt(comarg, n)
 //
 (* ****** ****** *)
 
 datatype
 waitkind =
   | WTKnone of ()
+  | WTKoutput of () // -o ...
   | WTKinput_sta of () // -s ...
   | WTKinput_dyn of () // -d ...
-  | WTKoutput of () // -o ...
   | WTKdefine of () // -DATS ...
   | WTKinclude of () // -IATS ...
 // end of [waitkind]
 
-fn waitkind_get_stadyn
+(* ****** ****** *)
+
+fun
+waitkind_get_stadyn
   (knd: waitkind): int =
   case+ knd of
-  | WTKinput_sta () => 0
-  | WTKinput_dyn () => 1
+  | WTKinput_sta() => 0
+  | WTKinput_dyn() => 1
   | _ (*erroneous*) => ~1 // this is not a valid input kind
 // end of [cmdkind_get_stadyn]
 
 (* ****** ****** *)
-
-datatype OUTCHAN =
+//
+datatype outchan =
   | OUTCHANref of (FILEref) | OUTCHANptr of (FILEref)
-// end of [OUTCHAN]
-
-fun outchan_get_fileref
-  (x: OUTCHAN): FILEref = (
+// end of [outchan]
+//
+fun
+outchan_get_fileref
+  (x: outchan): FILEref =
+(
   case+ x of
-  | OUTCHANref (filr) => filr | OUTCHANptr (filp) => filp
-) // end of [outchan_get_fileref]
-
+  | OUTCHANref(filr) => filr | OUTCHANptr(filp) => filp
+) (* end of [outchan_get_fileref] *)
+//
 (* ****** ****** *)
 
 typedef
@@ -132,7 +148,7 @@ cmdstate = @{
 , waitkind= waitkind
 // number of processed input files;
 , ninputfile= int // waiting for STDIN if it is 0
-, outchan= OUTCHAN // current output channel
+, outchan= outchan // current output channel
 , standalone= bool (* output is a stand-alone file *)
 , nerror= int // number of accumulated errors
 } // end of [cmdstate]
@@ -142,7 +158,7 @@ cmdstate = @{
 fun
 cmdstate_set_outchan
 (
-  state: &cmdstate, chan_new: OUTCHAN
+  state: &cmdstate, chan_new: outchan
 ) : void = let
 //
 val chan_old = state.outchan
@@ -150,9 +166,9 @@ val ((*void*)) = state.outchan := chan_new
 //
 in
   case+ chan_old of
-  | OUTCHANref (filr) => ()
-  | OUTCHANptr (filp) => let
-      val err = $STDIO.fclose0_err (filp) in (*nothing*)
+  | OUTCHANref(filr) => ()
+  | OUTCHANptr(filp) => let
+      val err = $STDIO.fclose0_err(filp) in (*nothing*)
     end // end of [OUTCHANptr]
 end // end of [cmdstate_set_outchan]
 
@@ -165,52 +181,60 @@ cmdstate_set_outchan_basename
 ) : void = let
 //
 val [l:addr] (pfopt | p) =
-  $STDIO.fopen_err (basename, file_mode_w)
+  $STDIO.fopen_err(basename, file_mode_w)
 // end of [val]
 in
 //
-if p > null then let
-  prval Some_v (pf) = pfopt
-  val filp = __cast (pf | p) where {
-    extern castfn __cast (pf: FILE w @ l | p: ptr l):<> FILEref
-  } // end of [val]
+if
+(p > null)
+then let
+  prval
+  Some_v(pf) = pfopt
+  val filp = let
+    extern
+    castfn
+    __cast__
+    (pf: FILE w @ l | p: ptr(l)):<> FILEref
+  in
+    __cast__(pf | p)
+  end // end of [val]
 in
-  cmdstate_set_outchan (state, OUTCHANptr (filp))
+  cmdstate_set_outchan(state, OUTCHANptr(filp))
 end else let
   prval None_v () = pfopt
   val () = state.nerror := state.nerror + 1
 in
-  cmdstate_set_outchan (state, OUTCHANref (stderr_ref))
+  cmdstate_set_outchan(state, OUTCHANref(stderr_ref))
 end // end of [if]
 //
 end // end of [cmdstate_set_outchan_basename]
 
 (* ****** ****** *)
 
-fn isinpwait
-  (state: cmdstate): bool =
-  case+ state.waitkind of
-  | WTKinput_sta () => true
-  | WTKinput_dyn () => true
-  | _ => false
-// end of [isinpwait]
-
 fn isoutwait
   (state: cmdstate): bool =
   case+ state.waitkind of
-  | WTKoutput () => true | _ => false
+  | WTKoutput() => true | _ => false
 // end of [isoutwait]
+
+fn isinpwait
+  (state: cmdstate): bool =
+  case+ state.waitkind of
+  | WTKinput_sta() => true
+  | WTKinput_dyn() => true
+  | _ (*non-WTKinput*) => false
+// end of [isinpwait]
 
 fn isdatswait
   (state: cmdstate): bool =
   case+ state.waitkind of
-  | WTKdefine () => true | _ => false
+  | WTKdefine() => true | _ => false
 // end of [isdatswait]
 
 fn isiatswait
   (state: cmdstate): bool =
   case+ state.waitkind of
-  | WTKinclude () => true | _ => false
+  | WTKinclude() => true | _ => false
 // end of [isiatswait]
 
 (* ****** ****** *)
@@ -222,26 +246,28 @@ pats2xhtml_level1_state_fileref
 ) : void = let
 //
 val stadyn =
-  waitkind_get_stadyn (state.waitkind)
-val out = outchan_get_fileref (state.outchan)
+  waitkind_get_stadyn(state.waitkind)
+val out = outchan_get_fileref(state.outchan)
 val putc =
   lam (c: char)
-    : int =<cloref1> $STDIO.fputc0_err (c, out)
+    : int =<cloref1> $STDIO.fputc0_err(c, out)
   // end of [lam]
 //
 val () =
-  if state.standalone then pats2xhtml_file_beg (out)
+  if state.standalone then pats2xhtml_file_beg(out)
 //
-val () = pats2xhtml_pre_beg (out)
-val () = pats2xhtml_level1_fileref (stadyn, inp, putc)
-val () = pats2xhtml_pre_end (out)
+val () = pats2xhtml_pre_beg(out)
+val () = pats2xhtml_level1_fileref(stadyn, inp, putc)
+val () = pats2xhtml_pre_end(out)
 //
 val () =
-  if state.standalone then pats2xhtml_file_end (out)
+  if state.standalone then pats2xhtml_file_end(out)
 //
 in
   // nothing
 end // end of [pats2xhtml_level1_state_fileref]
+
+(* ****** ****** *)
 
 fun
 pats2xhtml_level1_state_basename
@@ -257,15 +283,15 @@ case+ opt of
 | ~Some_vt (fil) => let
     prval pfmod = file_mode_lte_r_r
     val fsym =
-      $FIL.filename_get_fullname (fil)
-    val fname = $SYM.symbol_get_name (fsym)
+      $FIL.filename_get_fullname(fil)
+    val fname = $SYM.symbol_get_name(fsym)
     val [l:addr] (pf | p) =
-      $STDIO.fopen_exn (fname, file_mode_r)
+      $STDIO.fopen_exn(fname, file_mode_r)
     val inp = __cast (pf | p) where {
       extern castfn __cast (pf: FILE r @ l | p: ptr l): FILEref
     } // end of [val]
-    val () = pats2xhtml_level1_state_fileref (state, inp)
-    val _err = $STDIO.fclose0_err (inp)
+    val () = pats2xhtml_level1_state_fileref(state, inp)
+    val _err = $STDIO.fclose0_err(inp)
   in
     // nothing
   end // end of [Some_vt]
@@ -280,31 +306,39 @@ end // end of [pats2xhtml_level1_state_basename]
 
 (* ****** ****** *)
 
-fn pats2xhtml_usage
+fn
+pats2xhtml_usage
   (cmd: string): void = {
-  val () = printf
-    ("usage: %s <command> ... <command>\n\n", @(cmd))
-  val () = printf
-    ("where each <command> is of one of the following forms:\n\n", @())
-  val () = printf
-    ("  -o <filename> : output into <filename>\n", @())
-  val () = printf
-    ("  --output <filename> : output into <filename>\n", @())
-  val () = printf
-    ("  -s <filename> : for processing static <filename>\n", @())
-  val () = printf
-    ("  --static <filename> : for processing static <filename>\n", @())
-  val () = printf
-    ("  -d <filename> : for processing dynamic <filename>\n", @())
-  val () = printf
-    ("  --dynamic <filename> : for processing dynamic <filename>\n", @())
-  val () = printf
-    ("  --embedded : for outputing xhtml code to be embedded\n", @())
-  val () = printf
-    ("  -h : for printing out this help usage\n", @())
-  val () = printf
-    ("  --help : for printing out this help usage\n", @())
-} // end of [pats2xhtml_usage]
+//
+val () =
+printf("usage: %s <command> ... <command>\n\n", @(cmd))
+val () =
+printf("where each <command> is of one of the following forms:\n\n", @())
+//
+val () =
+printf("  -h : for printing out this help usage\n", @())
+val () =
+printf("  --help : for printing out this help usage\n", @())
+//
+val () =
+printf("  -o <filename> : output into <filename>\n", @())
+val () =
+printf("  --output <filename> : output into <filename>\n", @())
+//
+val () =
+printf("  -s <filename> : for processing static <filename>\n", @())
+val () =
+printf("  --static <filename> : for processing static <filename>\n", @())
+//
+val () =
+printf("  -d <filename> : for processing dynamic <filename>\n", @())
+val () =
+printf("  --dynamic <filename> : for processing dynamic <filename>\n", @())
+//
+val () =
+printf("  --embedded : for outputing xhtml code to be embedded\n", @())
+//
+} (* end of [pats2xhtml_usage] *)
 
 (* ****** ****** *)
 
@@ -324,7 +358,7 @@ case+ arglst of
       state.ncomarg := state.ncomarg + 1
     // end of [val]
   in
-    process_cmdline2 (state, arg, arglst)
+    process_cmdline2(state, arg, arglst)
   end (* end of [list_vt_cons] *)
 //
 | ~list_vt_nil () => let
@@ -333,7 +367,7 @@ case+ arglst of
     if nif = 0
       then let
         val stadyn =
-          waitkind_get_stadyn (state.waitkind)
+          waitkind_get_stadyn(state.waitkind)
         // end of [val]
       in
         case+ 0 of
@@ -341,12 +375,12 @@ case+ arglst of
             stadyn >= 0 => {
             val inp = stdin_ref
             val ((*void*)) =
-              pats2xhtml_level1_state_fileref (state, inp)
+              pats2xhtml_level1_state_fileref(state, inp)
             // end of [val]
           } // end of [_ when ...]
         | _ (*non-wait*) =>
           (
-            if state.ncomarg = 0 then pats2xhtml_usage ("pats2xhtml")
+            if state.ncomarg = 0 then pats2xhtml_usage("pats2xhtml")
           )
       end // end of [then]
       else () // end of [else]
@@ -366,171 +400,191 @@ in
 //
 case+ arg of
 //
-| _ when isinpwait (state) => let
+| _ when
+    isinpwait(state) => let
 //
 // HX: the [inpwait] state stays unchanged
 //
     val nif = state.ninputfile
   in
     case+ arg of
-    | COMARGkey (1, key) when nif > 0 =>
-        process_cmdline2_COMARGkey1 (state, arglst, key)
-    | COMARGkey (2, key) when nif > 0 =>
-        process_cmdline2_COMARGkey2 (state, arglst, key)
-    | COMARGkey (_, basename) => let
-        val () = state.ninputfile := nif + 1
-        val () = pats2xhtml_level1_state_basename (state, basename)
+    | COMARG(1, key) when nif > 0 =>
+        process_cmdline2_comarg1(state, arglst, key)
+    | COMARG(2, key) when nif > 0 =>
+        process_cmdline2_comarg2(state, arglst, key)
+    | COMARG(_, basename) => let
+        val () =
+        (state.ninputfile := nif + 1)
+        val () =
+        pats2xhtml_level1_state_basename(state, basename)
       in
-        process_cmdline (state, arglst)
+        process_cmdline(state, arglst)
       end (* end of [_] *)
   end // end of [_ when isinpwait]
 //
-| _ when isoutwait (state) => let
-    val () = state.waitkind := WTKnone ()
-    val COMARGkey (_, fname) = arg
-    val () = cmdstate_set_outchan_basename (state, fname)
+| _ when
+    isoutwait(state) => let
+    val () =
+    state.waitkind := WTKnone()
+    val COMARG(_, fname) = arg
+    val () = cmdstate_set_outchan_basename(state, fname)
   in
-    process_cmdline (state, arglst)
+    process_cmdline(state, arglst)
   end // end of [_ when isoutwait]
 //
-| _ when isdatswait (state) => let
-    val () = state.waitkind := WTKnone ()
-    val COMARGkey (_, def) = arg
-    val () = process_DATS_def (def)
+| _ when
+    isdatswait(state) => let
+    val () =
+    state.waitkind := WTKnone()
+    val COMARG(_, def) = arg
+    val () = process_DATS_def(def)
   in
-    process_cmdline (state, arglst)
+    process_cmdline(state, arglst)
   end // end of [_ when isdatswait]
 //
-| _ when isiatswait (state) => let
-    val () = state.waitkind := WTKnone ()
-    val COMARGkey (_, dir) = arg
-    val () = process_IATS_dir (dir)
+| _ when
+    isiatswait(state) => let
+    val () =
+    state.waitkind := WTKnone()
+    val COMARG(_, dir) = arg
+    val () = process_IATS_dir(dir)
   in
-    process_cmdline (state, arglst)
+    process_cmdline(state, arglst)
   end
 //
-| COMARGkey (1, key) =>
-    process_cmdline2_COMARGkey1 (state, arglst, key)
-| COMARGkey (2, key) =>
-    process_cmdline2_COMARGkey2 (state, arglst, key)
-| COMARGkey (_, key) => let
-    val () = comarg_warning (key)
-    val () = state.waitkind := WTKnone ()
-  in
-    process_cmdline (state, arglst)
-  end // end of [COMARGkey]
+| COMARG(1, key) =>
+    process_cmdline2_comarg1(state, arglst, key)
+| COMARG(2, key) =>
+    process_cmdline2_comarg2(state, arglst, key)
+| COMARG(_, key) => let
+    val () =
+    comarg_warning(key)
+    val () =
+    state.waitkind := WTKnone() in process_cmdline(state, arglst)
+  end // end of [COMARG]
 //
 end // end of [process_cmdline2]
 
 and
-process_cmdline2_COMARGkey1
-  {i:nat} .<i,1>. (
+process_cmdline2_comarg1
+  {i:nat} .<i,1>.
+(
   state: &cmdstate
-, arglst: comarglst (i)
-, key: string // the string following [-]
+, arglst: comarglst(i), key: string
 ) :<fun1> void = let
 //
 val () = (
 //
 case+ key of
-//
-| "-s" => {
-    val () = state.ninputfile := 0
-    val () = state.waitkind := WTKinput_sta
-  }
-| "-d" => {
-    val () = state.ninputfile := 0
-    val () = state.waitkind := WTKinput_dyn
-  }
 //
 | "-o" => {
-    val () = state.waitkind := WTKoutput ()
-  }
+    val () =
+    state.waitkind := WTKoutput()
+  } (* -o *)
+//
+| "-s" => {
+    val () =
+    state.ninputfile := 0
+    val () =
+    state.waitkind := WTKinput_sta
+  } (* -s *)
+| "-d" => {
+    val () =
+    state.ninputfile := 0
+    val () =
+    state.waitkind := WTKinput_dyn
+  } (* -d *)
 //
 | "-h" => {
-    val () = state.waitkind := WTKnone ()
-    val () = pats2xhtml_usage ("pats2xhtml")
-  }
+    val () =
+    state.waitkind := WTKnone()
+    val () =
+    pats2xhtml_usage("pats2xhtml")
+  } (* -h *)
 //
 | _ when
-    is_DATS_flag (key) => let
-    val def = DATS_extract (key)
-    val issome = stropt_is_some (def)
+    is_DATS_flag(key) => let
+    val def = DATS_extract(key)
+    val issome = stropt_is_some(def)
   in
     if issome then let
-      val def = stropt_unsome (def)
-      val () = state.waitkind := WTKnone ()
+      val () =
+        state.waitkind := WTKnone()
+      // end of [val]
     in
-      process_DATS_def (def)
+      process_DATS_def(stropt_unsome(def))
     end else let
-      val () = state.waitkind := WTKdefine ()
+      val () = state.waitkind := WTKdefine()
     in
       // nothing
     end // end of [if]
-  end
+  end // is_DATS_flag
 | _ when
-    is_IATS_flag (key) => let
-    val dir = IATS_extract (key)
-    val issome = stropt_is_some (dir)
+    is_IATS_flag(key) => let
+    val dir = IATS_extract(key)
+    val issome = stropt_is_some(dir)
   in
     if issome then let
-      val dir = stropt_unsome (dir)
-      val () = state.waitkind := WTKnone ()
+      val () =
+        state.waitkind := WTKnone()
+      // end of [val]
     in
-      process_IATS_dir (dir)
+      process_IATS_dir(stropt_unsome(dir))
     end else let
-      val () = state.waitkind := WTKinclude ()
+      val () = state.waitkind := WTKinclude()
     in
       // nothing
     end // end of [if]
-  end
-| _ (*unrecognized*) => comarg_warning (key)
+  end // is_IATS_flag
+| _ (*unrecognized*) => comarg_warning(key)
 //
 ) : void // end of [val]
 //
 in
-  process_cmdline (state, arglst)
-end // end of [process_cmdline2_COMARGkey1]
+  process_cmdline(state, arglst)
+end // end of [process_cmdline2_comarg1]
 
 and
-process_cmdline2_COMARGkey2
-  {i:nat} .<i,1>. (
+process_cmdline2_comarg2
+  {i:nat} .<i,1>.
+(
   state: &cmdstate
-, arglst: comarglst (i)
-, key: string // the string following [--]
+, arglst: comarglst(i), key: string
 ) :<fun1> void = let
 //
 val () = (
 //
 case+ key of
 //
-| "--static" =>
-    state.waitkind := WTKinput_sta
-| "--dynamic" =>
-    state.waitkind := WTKinput_dyn
-//
-| "--output" =>
-    state.waitkind := WTKoutput ()
-//
-| "--embedded" => state.standalone := false
-| "--help" => let
-    val () =
-      state.waitkind := WTKnone ()
-    // end of [val]
+| "--help" =>
+  let val () =
+    state.waitkind := WTKnone()
   in
-    pats2xhtml_usage ("pats2xhtml")
+    pats2xhtml_usage("pats2xhtml")
   end // end of ["--help"]
 //
-| _ (*unrecognized*) => comarg_warning (key)
+| "--output" =>
+    state.waitkind := WTKoutput()
+//
+| "--static" =>
+    state.waitkind := WTKinput_sta()
+| "--dynamic" =>
+    state.waitkind := WTKinput_dyn()
+//
+| "--embedded" =>
+    state.standalone := false
+//
+| _ (*unrecognized*) => comarg_warning(key)
 //
 ) : void // end of [val]
 //
 in
-  process_cmdline (state, arglst)
-end // end of [process_cmdline2_COMARGkey2]
+  process_cmdline(state, arglst)
+end // end of [process_cmdline2_comarg2]
 
 (* ****** ****** *)
-
+//
+(*
 dynload "src/pats_global.dats"
 dynload "src/pats_errmsg.dats"
 dynload "src/pats_effect.dats"
@@ -538,41 +592,53 @@ dynload "src/pats_symmap.dats"
 dynload "src/pats_symenv.dats"
 dynload "src/pats_comarg.dats"
 dynload "src/pats_staexp1.dats"
+dynload "src/pats_staexp1_print.dats"
+dynload "src/pats_dynexp1.dats"
+dynload "src/pats_dynexp1_print.dats"
 dynload "src/pats_trans1_env.dats"
 dynload "src/pats_e1xpval.dats"
 dynload "src/pats_e1xpval_error.dats"
 dynload "src/pats_trans1_e0xp.dats"
 dynload "src/pats_trans1_error.dats"
-
+*)
+//
+(* ****** ****** *)
+//
+dynload
+"utils/libatsynmark/dynloadall.dats"
+//
 (* ****** ****** *)
 
-dynload "libatsynmark/dynloadall.dats"
-
-(* ****** ****** *)
-
-dynload "./pats2xhtml_level1.dats"
+(*
+// dynload "./pats2xhtml_level1.dats"
+*)
 
 (* ****** ****** *)
 
 implement
-main (argc, argv) = let
+main(argc, argv) = let
 //
-val arglst = comarglst_parse (argc, argv)
-val+~list_vt_cons (arg0, arglst) = arglst
+val
+arglst =
+comarglst_parse(argc, argv)
+//
+val+
+~list_vt_cons(arg0, arglst) = arglst
 //
 var
-state = @{
-  comarg0= arg0
-, ncomarg= 0 // counting from 0
-, waitkind= WTKnone ()
-// number of prcessed
-, ninputfile= 0 // input files
-, outchan= OUTCHANref (stdout_ref)
-, standalone= true (* standalone output *)
-, nerror= 0 // number of accumulated errors
-} : cmdstate // end of [var]
+state =
+@{
+  comarg0    = arg0
+, ncomarg    = 0 // counting from 0
+, waitkind   = WTKnone() // no wait
+// the current number of
+, ninputfile = 0 // prcessed input files
+, outchan    = OUTCHANref(stdout_ref)
+, standalone = true (* standalone output *)
+, nerror     = 0 // the number of accumulated errors
+} : cmdstate // end of [var state]
 //
-val () = process_cmdline (state, arglst)
+val () = process_cmdline(state, arglst)
 //
 in
   // nothing

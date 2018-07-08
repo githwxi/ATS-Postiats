@@ -1,0 +1,33 @@
+{
+"name":
+"atscntrb-hx-intinf", "version": "1.0.8"
+,
+"description":
+"A simple package based on libgmp for arithmetic operations (plus some other common operations on integers)"
+,
+  "main": "N/A"
+,
+  "scripts": {}
+,
+"repository": {
+  "url":
+  "https://github.com/githwxi/ATS-Postiats/tree/master/contrib/atscntrb/atscntrb-hx-intinf"
+}
+,
+"keywords": [
+  "ATS",
+  "GMP",
+  "libgmp",
+  "intinf"
+]
+,
+"dependencies": {
+  "atscntrb-hx-libgmp" : ">=1.0.0"
+}
+,
+  "author": "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+,
+  "note-for-me": "The package is stored at ${PATSHOME}/contrib/atscntrb/atscntrb-hx-intinf/."
+}

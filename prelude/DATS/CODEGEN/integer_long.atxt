@@ -1,0 +1,186 @@
+%{
+//
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_DATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_long.dats"
+val ((*void*)) =
+theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("February, 2014")
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/integer_long.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+\#define
+ATS_DYNLOADFLAG 0 // no dynloading
+
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+//
+implement
+g0int2int<intknd,lintknd> = g0int2int_int_lint
+implement
+g1int2int<intknd,lintknd> = g1int2int_int_lint
+//
+implement
+g0uint2int<uintknd,lintknd> = g0uint2int_uint_lint
+implement
+g1uint2int<uintknd,lintknd> = g1uint2int_uint_lint
+//
+#atscode_separator()
+//
+implement
+g0int2uint<intknd,ulintknd> = g0int2uint_int_ulint
+implement
+g1int2uint<intknd,ulintknd> = g1int2uint_int_ulint
+//
+implement
+g0uint2uint<uintknd,ulintknd> = g0uint2uint_uint_ulint
+implement
+g1uint2uint<uintknd,ulintknd> = g1uint2uint_uint_ulint
+//
+#atscode_separator()
+//
+implement
+g0int2int<intknd,llintknd> = g0int2int_int_llint
+implement
+g1int2int<intknd,llintknd> = g1int2int_int_llint
+//
+implement
+g0uint2int<uintknd,llintknd> = g0uint2int_uint_llint
+implement
+g1uint2int<uintknd,llintknd> = g1uint2int_uint_llint
+//
+#atscode_separator()
+//
+implement
+g0int2uint<intknd,ullintknd> = g0int2uint_int_ullint
+implement
+g1int2uint<intknd,ullintknd> = g1int2uint_int_ullint
+//
+implement
+g0uint2uint<uintknd,ullintknd> = g0uint2uint_uint_ullint
+implement
+g1uint2uint<uintknd,ullintknd> = g1uint2uint_uint_ullint
+//
+#atscode_separator()
+//
+implement
+g0int2int<lintknd,lintknd> = g0int2int_lint_lint
+implement
+g0int2int<lintknd,llintknd> = g0int2int_lint_llint
+//
+implement
+g0int2uint<lintknd,ulintknd> = g0int2uint_lint_ulint
+implement
+g0int2uint<lintknd,ullintknd> = g0int2uint_lint_ullint
+//
+#atscode_separator()
+//
+implement
+g0uint2int<ulintknd,lintknd> = g0uint2int_ulint_lint
+implement
+g0uint2int<ulintknd,llintknd> = g0uint2int_ulint_llint
+//
+implement
+g0uint2uint<ulintknd,ulintknd> = g0uint2uint_ulint_ulint
+implement
+g0uint2uint<ulintknd,ullintknd> = g0uint2uint_ulint_ullint
+//
+#atscode_separator()
+//
+implement
+g0int2int<llintknd,llintknd> = g0int2int_llint_llint
+//
+implement
+g0int2uint<llintknd,ullintknd> = g0int2uint_llint_ullint
+//
+#atscode_separator()
+//
+implement
+g0uint2int<ullintknd,llintknd> = g0uint2int_ullint_llint
+//
+implement
+g0uint2uint<ullintknd,ullintknd> = g0uint2uint_ullint_ullint
+//
+#atscode_separator()
+//
+implement g0int2string<lintknd> = g0int2string_lint
+implement g0int2string<llintknd> = g0int2string_llint
+//
+implement g0string2int<lintknd> = g0string2int_lint
+implement g0string2int<llintknd> = g0string2int_llint
+implement g0string2uint<ulintknd> = g0string2uint_ulint
+implement g0string2uint<ullintknd> = g0string2uint_ullint
+//
+#atscode_separator()
+//
+#g0int_implist("lintknd", "lint", "lint")\
+//
+#g1int_implist("lintknd", "lint", "lint")\
+//
+#atscode_separator()
+//
+#g0int_implist("llintknd", "llint", "llint")\
+//
+#g1int_implist("llintknd", "llint", "llint")\
+//
+#atscode_separator()
+//
+#g0uint_implist("ulintknd", "ulint", "ulint")\
+//
+#g1uint_implist("ulintknd", "ulint", "ulint")\
+//
+#atscode_separator()
+//
+#g0uint_implist("ullintknd", "ullint", "ullint")\
+//
+#g1uint_implist("ullintknd", "ullint", "ullint")\
+//
+#atscode_separator()
+//
+implement
+nmod_g1int_int1<lintknd>
+  (x, y) = g1i2i(g1int_nmod<lintknd>(x, g1i2i(y)))
+implement
+nmod_g1int_int1<llintknd>
+  (x, y) = g1i2i(g1int_nmod<llintknd>(x, g1i2i(y)))
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_long_atxt.txt")
+%}\

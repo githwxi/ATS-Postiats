@@ -28,14 +28,16 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: gmhwxi AT gmail DOT com
 // Start Time: April, 2011
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
-
-staload UT = "./pats_utils.sats"
-staload _(*anon*) = "./pats_utils.dats"
-
+//
+staload
+UT = "./pats_utils.sats"
+staload
+_(*anon*) = "./pats_utils.dats"
+//
 (* ****** ****** *)
 
 staload EFF = "./pats_effect.sats"
@@ -46,53 +48,70 @@ staload "./pats_syntax.sats"
 staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
-
-macdef fprint_symbol = $SYM.fprint_symbol
-
+//
+macdef
+fprint_symbol = $SYM.fprint_symbol
+//
 (* ****** ****** *)
-
+//
 implement
-fprint_v1al (out, v0) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_v1al
+  (out, v0) = let
+//
+macdef
+prstr(str) =
+fprint_string(out, ,(str))
+//
 in
 //
 case+ v0 of
-| V1ALint (x) => {
+| V1ALint(x) => {
     val () = prstr "V1ALint("
     val () = fprint_int (out, x)
     val () = prstr ")"
   }
-| V1ALchar (x) => {
+| V1ALchar(x) => {
     val () = prstr "V1ALchar("
     val () = fprint_char (out, x)
     val () = prstr ")"
   }
-| V1ALstring (x) => {
+| V1ALstring(x) => {
     val () = prstr "V1ALstring("
     val () = fprint_string (out, x)
     val () = prstr ")"
   }  
-| V1ALfloat (x) => {
+| V1ALfloat(x) => {
     val () = prstr "V1ALdouble("
     val () = fprint_double (out, x)
     val () = prstr ")"
   }
-| V1ALerr () => prstr "V1ALerr()"
+| V1ALerr((*void*)) => prstr "V1ALerr()"
 //
 end // end of [fprint_v1al]
-
-implement print_v1al (x) = fprint_v1al (stdout_ref, x)
-implement prerr_v1al (x) = fprint_v1al (stderr_ref, x)
-
+//
+implement
+print_v1al(x) = fprint_v1al(stdout_ref, x)
+implement
+prerr_v1al(x) = fprint_v1al(stderr_ref, x)
+//
 (* ****** ****** *)
 
 implement
-fprint_e1xp (out, e0) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+fprint_e1xp
+  (out, e0) = let
+//
+macdef
+prstr(str) = fprint_string (out, ,(str))
+//
 in
 //
-case+ e0.e1xp_node of
-| E1XPide (id) => fprint_symbol (out, id)
+case+
+e0.e1xp_node
+of // case+
+//
+| E1XPide (id) =>
+    fprint_symbol (out, id)
+  // end of [E1XPide]
 //
 | E1XPint (int) => {
     val () = prstr "E1XPint("
@@ -356,9 +375,21 @@ case+ x.s1exp_node of
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }
+//
 | S1Echar (char) => {
     val () = prstr "S1Echar("
     val () = fprint_char (out, char)
+    val () = prstr ")"
+  }
+//
+| S1Efloat (rep) => {
+    val () = prstr "S1Efloat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+| S1Estring (str) => {
+    val () = prstr "S1Estring("
+    val () = fprint_string (out, str)
     val () = prstr ")"
   }
 //
@@ -509,10 +540,12 @@ case+ x.s1exp_node of
     val () = prstr ")"
   }
 //
+| S1Ed2ctype (d2ctp) => prstr "S1Ed2ctype(...)"
+//
 | S1Eerr () => prstr "S1Eerr()"
 //
 (*
-| _ => prstr "S0E...(...)"
+| _ => prstr "S1E...(...)"
 *)
 //
 end // end of [fprint_s1exp]

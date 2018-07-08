@@ -45,12 +45,17 @@
 #include <stddef.h>
 //
 /* ****** ****** */
-
-extern void atsruntime_mfree_undef (void *ptr) ;
-extern void *atsruntime_malloc_undef (size_t bsz) ;
-extern void *atsruntime_calloc_undef (size_t asz, size_t tsz) ;
-extern void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
-
+//
+extern
+void atsruntime_mfree_undef (void *ptr) ;
+//
+extern
+void *atsruntime_malloc_undef (size_t bsz) ;
+extern
+void *atsruntime_calloc_undef (size_t asz, size_t tsz) ;
+extern
+void *atsruntime_realloc_undef (void *ptr, size_t bsz) ;
+//
 /* ****** ****** */
 
 #ifdef ATS_MEMALLOC_FLAG

@@ -57,10 +57,10 @@ ATS_PACKNAME "ATSLIB.libats.hashtbl_linprb"
 //
 fun{
 key,itm:vt0p
-} hashtbl_linprb_keyitm_nullize (&(key,itm)? >> _): void
+} hashtbl_linprb_keyitm_nullize(&(key,itm)? >> _): void
 fun{
 key,itm:vt0p
-} hashtbl_linprb_keyitm_is_null (kx: &(key, itm)): bool
+} hashtbl_linprb_keyitm_is_null(kx: &(key, itm)): bool
 //
 (* ****** ****** *)
 

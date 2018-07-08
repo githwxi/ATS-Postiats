@@ -15,7 +15,11 @@ function()
 {
     var input = document.getElementById("input");
     input.addEventListener("keypress", function(event) {
-        _ATSJS_fact_handle_keypress_fun(MyDocument.objadd(event));
+        _ATSJS_fact_handle_keypress_(MyDocument.objadd(event));
     });
 }
 )(/*void*/);
+
+/* ****** ****** */
+
+/* end of [fact_post.js] */

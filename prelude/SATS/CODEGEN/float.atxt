@@ -15,6 +15,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("September, 2011")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/SATS/CODEGEN/float.atxt
@@ -23,152 +29,192 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("September, 2011")
-
-#atscode_separator()
-
 stadef fltknd = float_kind
 stadef dblknd = double_kind
 stadef ldblknd = ldouble_kind
 
 #atscode_separator()
-
-fun{
-tk1,tk2:tk
-} g0int2float (x: g0int (tk1)):<> g0float (tk2)
-
-fun g0int2float_int_float (x: int):<> float = "mac\#%"
-fun g0int2float_int_double (x: int):<> double = "mac\#%"
-fun g0int2float_lint_double (x: lint):<> double = "mac\#%"
-
-#atscode_separator()
-
-fun{
-tk1,tk2:tk
-} g0float2int (x: g0float (tk1)):<> g0int (tk2)
-
-fun g0float2int_float_int (x: float):<> int = "mac\#%"
-fun g0float2int_float_lint (x: float):<> lint = "mac\#%"
-fun g0float2int_double_int (x: double):<> int = "mac\#%"
-fun g0float2int_double_lint (x: double):<> lint = "mac\#%"
-fun g0float2int_double_llint (x: double):<> llint = "mac\#%"
-
-#atscode_separator()
-
-fun{
-tk1,tk2:tk
-} g0float2float (x: g0float (tk1)):<> g0float (tk2)
-
-fun g0float2float_float_float (x: float):<> float = "mac\#%"
-fun g0float2float_float_double (x: float):<> double = "mac\#%"
-fun g0float2float_double_float (x: double):<> float = "mac\#%"
-fun g0float2float_double_double (x: double):<> double = "mac\#%"
-
-#atscode_separator()
 //
-fun{tk:tk}
-g0string2float (str: NSH(string)):<> g0float (tk)
+fun
+{tk1,tk2:tk}
+g0int2float(x: g0int(tk1)):<> g0float(tk2)
 //
-fun g0string2float_double (x: NSH(string)):<> double = "mac\#%"
+fun
+g0int2float_int_float(x: int):<> float = "mac\#%"
+fun
+g0int2float_int_double(x: int):<> double = "mac\#%"
+fun
+g0int2float_lint_double(x: lint):<> double = "mac\#%"
 //
 #atscode_separator()
-
+//
+fun
+{tk1,tk2:tk}
+g0float2int(x: g0float(tk1)):<> g0int(tk2)
+//
+fun
+g0float2int_float_int(x: float):<> int = "mac\#%"
+fun
+g0float2int_float_lint(x: float):<> lint = "mac\#%"
+fun
+g0float2int_double_int(x: double):<> int = "mac\#%"
+fun
+g0float2int_double_lint(x: double):<> lint = "mac\#%"
+fun
+g0float2int_double_llint(x: double):<> llint = "mac\#%"
+//
+#atscode_separator()
+//
+fun
+{tk1,tk2:tk}
+g0float2float(x: g0float(tk1)):<> g0float(tk2)
+//
+fun
+g0float2float_float_float(x: float):<> float = "mac\#%"
+fun
+g0float2float_float_double(x: float):<> double = "mac\#%"
+fun
+g0float2float_double_float(x: double):<> float = "mac\#%"
+fun
+g0float2float_double_double(x: double):<> double = "mac\#%"
+//
+#atscode_separator()
+//
+fun
+{tk:tk}
+g0string2float(rep: NSH(string)):<> g0float(tk)
+//
+fun
+g0string2float_double(rep: NSH(string)):<> double = "mac\#%"
+//
+#atscode_separator()
+//
 typedef
 g0float_uop_type
-  (tk:tk) = g0float (tk) -<fun0> g0float (tk)
-
+  (tk:tk) =
+  g0float(tk) -<fun0> g0float(tk)
+//
 #atscode_separator()
-
-fun{tk:tk}
-g0float_neg : g0float_uop_type (tk)
+//
+fun
+{tk:tk}
+g0float_abs : g0float_uop_type(tk)
+fun
+{tk:tk}
+g0float_neg : g0float_uop_type(tk)
+//
+overload abs with g0float_abs of 0
 overload ~ with g0float_neg of 0 // ~ for uminus
 overload neg with g0float_neg of 0
-
-fun{tk:tk}
-g0float_abs : g0float_uop_type (tk)
-overload abs with g0float_abs of 0
-
+//
 #atscode_separator()
-
-fun{tk:tk}
-g0float_succ : g0float_uop_type (tk)
+//
+fun
+{tk:tk}
+g0float_succ : g0float_uop_type(tk)
+fun
+{tk:tk}
+g0float_pred : g0float_uop_type(tk)
+//
 overload succ with g0float_succ of 0
-fun{tk:tk}
-g0float_pred : g0float_uop_type (tk)
 overload pred with g0float_pred of 0
-
+//
 #atscode_separator()
-
+//
 typedef
-g0float_aop_type (tk:tk) =
-  (g0float (tk), g0float (tk)) -<fun0> g0float (tk)
+g0float_aop_type
+  (tk:tk) =
+  (g0float(tk), g0float(tk)) -<fun0> g0float(tk)
 // end of [g0float_aop_type]
-
-#fun_g0float_aop_decl("add")
-#fun_g0float_aop_decl("sub")
-#fun_g0float_aop_decl("mul")
-#fun_g0float_aop_decl("div")
-#fun_g0float_aop_decl("mod")
+//
+#atscode_separator()
+//
+#g0float_aop_decl("add")
+#g0float_aop_decl("sub")
+#g0float_aop_decl("mul")
+#g0float_aop_decl("div")
+#g0float_aop_decl("mod")
 overload mod with g0float_mod of 0
-
+//
 #atscode_separator()
-
-fun{tk:tk}
-g0float_isltz (x: g0float (tk)):<> bool
+//
+fun
+{tk:tk}
+g0float_isltz(g0float(tk)):<> bool
+fun
+{tk:tk}
+g0float_isltez(g0float(tk)):<> bool
+//
 overload isltz with g0float_isltz of 0
-fun{tk:tk}
-g0float_isltez (x: g0float (tk)):<> bool
 overload isltez with g0float_isltez of 0
-fun{tk:tk}
-g0float_isgtz (x: g0float (tk)):<> bool
+//
+fun
+{tk:tk}
+g0float_isgtz(g0float(tk)):<> bool
+fun
+{tk:tk}
+g0float_isgtez(g0float(tk)):<> bool
+//
 overload isgtz with g0float_isgtz of 0
-fun{tk:tk}
-g0float_isgtez (x: g0float (tk)):<> bool
 overload isgtez with g0float_isgtez of 0
-fun{tk:tk}
-g0float_iseqz (x: g0float (tk)):<> bool
+//
+fun
+{tk:tk}
+g0float_iseqz(g0float(tk)):<> bool
+fun
+{tk:tk}
+g0float_isneqz(g0float(tk)):<> bool
+//
 overload iseqz with g0float_iseqz of 0
-fun{tk:tk}
-g0float_isneqz (x: g0float (tk)):<> bool
 overload isneqz with g0float_isneqz of 0
-
+//
 #atscode_separator()
-
+//
 typedef
-g0float_cmp_type (tk:tk) =
-  (g0float (tk), g0float (tk)) -<fun0> bool
+g0float_cmp_type
+  (tk:tk) =
+  (g0float(tk), g0float(tk)) -<fun0> bool
 // end of [g0float_cmp_type]
-
-#fun_g0float_cmp_decl("lt")
-#fun_g0float_cmp_decl("lte")
-#fun_g0float_cmp_decl("gt")
-#fun_g0float_cmp_decl("gte")
-#fun_g0float_cmp_decl("eq")
-#fun_g0float_cmp_decl("neq")
+//
+#atscode_separator()
+//
+#g0float_cmp_decl("lt")
+#g0float_cmp_decl("lte")
+#g0float_cmp_decl("gt")
+#g0float_cmp_decl("gte")
+#g0float_cmp_decl("eq")
+#g0float_cmp_decl("neq")
 overload <> with g0float_neq of 0
-
+//
 #atscode_separator()
-
+//
 typedef
-g0float_compare_type (tk:tk) =
-  (g0float (tk), g0float (tk)) -<fun0> (int)
+g0float_compare_type
+  (tk:tk) =
+  (g0float(tk), g0float(tk)) -<fun0> int
 // end of [g0float_compare_type]
-
-fun{tk:tk}
-g0float_compare : g0float_compare_type (tk)
-overload compare with g0float_compare of 0
-
+//
 #atscode_separator()
-
-fun{tk:tk}
-g0float_max : g0float_aop_type (tk)
+//
+fun
+{tk:tk}
+g0float_compare
+  : g0float_compare_type(tk)
+//
+overload compare with g0float_compare of 0
+//
+#atscode_separator()
+//
+fun
+{tk:tk}
+g0float_max : g0float_aop_type(tk)
+fun
+{tk:tk}
+g0float_min : g0float_aop_type(tk)
+//
 overload max with g0float_max of 0
-fun{tk:tk}
-g0float_min : g0float_aop_type (tk)
 overload min with g0float_min of 0
-
+//
 #atscode_separator()
 
 #g0float_declist("fltknd", "float")\
@@ -193,19 +239,20 @@ overload min with g0float_min of 0
 //
 fun
 add_int_float
-  (x: int, y: float): float = "mac\#%"
+  (int, float):<> float = "mac\#%"
 fun
 add_float_int
-  (x: float, y: int): float = "mac\#%"
-overload + with add_int_float of 0
-overload + with add_float_int of 0
+  (float, int):<> float = "mac\#%"
 //
 fun
 add_int_double
-  (x: int, y: double): double = "mac\#%"
+  (int, double):<> double = "mac\#%"
 fun
 add_double_int
-  (x: double, y: int): double = "mac\#%"
+  (double, int):<> double = "mac\#%"
+//
+overload + with add_int_float of 0
+overload + with add_float_int of 0
 overload + with add_int_double of 0
 overload + with add_double_int of 0
 //
@@ -213,19 +260,20 @@ overload + with add_double_int of 0
 //
 fun
 sub_int_float
-  (x: int, y: float): float = "mac\#%"
+  (int, float):<> float = "mac\#%"
 fun
 sub_float_int
-  (x: float, y: int): float = "mac\#%"
-overload - with sub_int_float of 0
-overload - with sub_float_int of 0
+  (float, int):<> float = "mac\#%"
 //
 fun
 sub_int_double
-  (x: int, y: double): double = "mac\#%"
+  (int, double):<> double = "mac\#%"
 fun
 sub_double_int
-  (x: double, y: int): double = "mac\#%"
+  (double, int):<> double = "mac\#%"
+//
+overload - with sub_int_float of 0
+overload - with sub_float_int of 0
 overload - with sub_int_double of 0
 overload - with sub_double_int of 0
 //
@@ -233,19 +281,20 @@ overload - with sub_double_int of 0
 //
 fun
 mul_int_float
-  (x: int, y: float): float = "mac\#%"
+  (int, float):<> float = "mac\#%"
 fun
 mul_float_int
-  (x: float, y: int): float = "mac\#%"
-overload * with mul_int_float of 0
-overload * with mul_float_int of 0
+  (float, int):<> float = "mac\#%"
 //
 fun
 mul_int_double
-  (x: int, y: double): double = "mac\#%"
+  (int, double):<> double = "mac\#%"
 fun
 mul_double_int
-  (x: double, y: int): double = "mac\#%"
+  (double, int):<> double = "mac\#%"
+//
+overload * with mul_int_float of 0
+overload * with mul_float_int of 0
 overload * with mul_int_double of 0
 overload * with mul_double_int of 0
 //
@@ -253,21 +302,150 @@ overload * with mul_double_int of 0
 //
 fun
 div_int_float
-  (x: int, y: float): float = "mac\#%"
+  (int, float):<> float = "mac\#%"
 fun
 div_float_int
-  (x: float, y: int): float = "mac\#%"
-overload / with div_int_float of 0
-overload / with div_float_int of 0
+  (float, int):<> float = "mac\#%"
 //
 fun
 div_int_double
-  (x: int, y: double): double = "mac\#%"
+  (int, double):<> double = "mac\#%"
 fun
 div_double_int
-  (x: double, y: int): double = "mac\#%"
+  (double, int):<> double = "mac\#%"
+//
+overload / with div_int_float of 0
+overload / with div_float_int of 0
 overload / with div_int_double of 0
 overload / with div_double_int of 0
+//
+#atscode_separator()
+//
+fun
+lt_int_float
+  (int, float):<> bool = "mac\#%"
+fun
+lt_float_int
+  (float, int):<> bool = "mac\#%"
+fun
+lt_int_double
+  (int, double):<> bool = "mac\#%"
+fun
+lt_double_int
+  (double, int):<> bool = "mac\#%"
+//
+overload < with lt_int_float of 0
+overload < with lt_float_int of 0
+overload < with lt_int_double of 0
+overload < with lt_double_int of 0
+//
+fun
+lte_int_float
+  (int, float):<> bool = "mac\#%"
+fun
+lte_float_int
+  (float, int):<> bool = "mac\#%"
+fun
+lte_int_double
+  (int, double):<> bool = "mac\#%"
+fun
+lte_double_int
+  (double, int):<> bool = "mac\#%"
+//
+overload <= with lte_int_float of 0
+overload <= with lte_float_int of 0
+overload <= with lte_int_double of 0
+overload <= with lte_double_int of 0
+//
+#atscode_separator()
+//
+fun
+gt_int_float
+  (int, float):<> bool = "mac\#%"
+fun
+gt_float_int
+  (float, int):<> bool = "mac\#%"
+fun
+gt_int_double
+  (int, double):<> bool = "mac\#%"
+fun
+gt_double_int
+  (double, int):<> bool = "mac\#%"
+//
+overload > with gt_int_float of 0
+overload > with gt_float_int of 0
+overload > with gt_int_double of 0
+overload > with gt_double_int of 0
+//
+fun
+gte_int_float
+  (int, float):<> bool = "mac\#%"
+fun
+gte_float_int
+  (float, int):<> bool = "mac\#%"
+fun
+gte_int_double
+  (int, double):<> bool = "mac\#%"
+fun
+gte_double_int
+  (double, int):<> bool = "mac\#%"
+//
+overload >= with gte_int_float of 0
+overload >= with gte_float_int of 0
+overload >= with gte_int_double of 0
+overload >= with gte_double_int of 0
+//
+#atscode_separator()
+//
+fun
+eq_int_float
+  (int, float):<> bool = "mac\#%"
+fun
+eq_float_int
+  (float, int):<> bool = "mac\#%"
+fun
+eq_int_double
+  (int, double):<> bool = "mac\#%"
+fun
+eq_double_int
+  (double, int):<> bool = "mac\#%"
+//
+overload = with eq_int_float of 0
+overload = with eq_float_int of 0
+overload = with eq_int_double of 0
+overload = with eq_double_int of 0
+//
+fun
+neq_int_float
+  (int, float):<> bool = "mac\#%"
+fun
+neq_float_int
+  (float, int):<> bool = "mac\#%"
+fun
+neq_int_double
+  (int, double):<> bool = "mac\#%"
+fun
+neq_double_int
+  (double, int):<> bool = "mac\#%"
+//
+overload != with neq_int_float of 0
+overload <> with neq_int_float of 0
+overload != with neq_float_int of 0
+overload <> with neq_float_int of 0
+//
+overload != with neq_int_double of 0
+overload <> with neq_int_double of 0
+overload != with neq_double_int of 0
+overload <> with neq_double_int of 0
+//
+#atscode_separator()
+//
+fun
+{tk:tk}
+g0float_npow
+  (x: g0float(tk), n: intGte(0)):<> g0float(tk)
+//
+overload ** with g0float_npow of 0
 //
 #atscode_separator()
 

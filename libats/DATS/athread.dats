@@ -43,10 +43,10 @@ staload "libats/SATS/athread.sats"
 
 implement
 {}(*tmp*)
-spin_create_exn () = let
+spin_create_exn() = let
 //
-val spn = spin_create ()
-val p_spn = spin2ptr (spn)
+val spn = spin_create()
+val p_spn = spin2ptr(spn)
 val () =
 if p_spn = the_null_ptr then
 {
@@ -55,7 +55,7 @@ val () =
 fprintln! (
   stderr_ref, "libats/athread: [spin_create]: failed."
 ) (* end of [val] *)
-val ((*void*)) = assertloc (false)
+val ((*void*)) = assertloc(false)
 //
 }
 //
@@ -67,10 +67,10 @@ end // end of [spin_create_exn]
 
 implement
 {}(*tmp*)
-mutex_create_exn () = let
+mutex_create_exn() = let
 //
-val mtx = mutex_create ()
-val p_mtx = mutex2ptr (mtx)
+val mtx = mutex_create()
+val p_mtx = mutex2ptr(mtx)
 val () =
 if p_mtx = the_null_ptr then
 {
@@ -80,7 +80,7 @@ fprintln!
 (
   stderr_ref, "libats/athread: [mutex_create]: failed."
 ) (* end of [val] *)
-val ((*void*)) = assertloc (false)
+val ((*void*)) = assertloc(false)
 //
 } (* end of [if] *) // end of [val]
 //
@@ -92,11 +92,11 @@ end // end of [mutex_create_exn]
 
 implement
 {}(*tmp*)
-condvar_create_exn () = let
+condvar_create_exn() = let
 //
-val cvr = condvar_create ()
+val cvr = condvar_create()
 //
-val p_cvr = condvar2ptr (cvr)
+val p_cvr = condvar2ptr(cvr)
 val () =
 if p_cvr = the_null_ptr then
 {
@@ -105,7 +105,7 @@ val () =
 fprintln! (
   stderr_ref, "libats/athread: [condvar_create]: failed."
 ) (* end of [val] *)
-val ((*void*)) = assertloc (false)
+val ((*void*)) = assertloc(false)
 //
 }
 //
@@ -129,7 +129,7 @@ fun app
 end // end of [app]
 //
 val f = $UN.castvwtp1{ptr}(fwork)
-val err = athread_create_funenv (tid, app, fwork)
+val err = athread_create_funenv<>(tid, app, fwork)
 val () = if (err != 0) then cloptr_free($UN.castvwtp0{cloptr0}(f))
 //
 } (* end of [athread_create_cloptr] *)
@@ -144,7 +144,7 @@ athread_create_cloptr_exn
 //
 var tid: lint
 val err =
-athread_create_cloptr (tid, fwork)
+athread_create_cloptr<>(tid, fwork)
 //
 val () =
 if (err != 0) then

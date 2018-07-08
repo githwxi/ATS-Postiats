@@ -46,22 +46,29 @@ UN = "prelude/SATS/unsafe.sats"
 staload "libats/SATS/refcount.sats"
 
 (* ****** ****** *)
-
+//
 datavtype
-refcnt (a:vt@ype) = REFCNT (a) of (uint, a)
+refcnt(a:vt@ype) =
+  | REFCNT (a) of (uint, a)
+//
+(* ****** ****** *)
+
+assume
+refcnt_vt0ype_vtype(a) = refcnt(a)
 
 (* ****** ****** *)
 
-assume refcnt_vt0ype_vtype (a) = refcnt (a)
+implement
+{a}(*tmp*)
+refcnt (x) = REFCNT (1u, x)
+implement
+{a}(*tmp*)
+refcnt_make_elt (x) = REFCNT (1u, x)
 
 (* ****** ****** *)
 
-implement{a}
-refcnt_make (x) = REFCNT (1u, x)
-
-(* ****** ****** *)
-
-implement{a}
+implement
+{a}(*tmp*)
 refcnt_get_count
   (rfc) = let
 //
@@ -73,7 +80,23 @@ end // end of [refcnt_get_count]
 
 (* ****** ****** *)
 
-implement{a}
+implement
+{a}(*tmp*)
+refcnt_incref
+  (rfc) = let
+//
+val+@REFCNT (u, _) = rfc
+val ((*void*)) = u := succ (u)
+prval () = fold@(rfc)
+//
+in
+  $UN.castvwtp1{refcnt(a)}(rfc)
+end // end of [refcnt_incref]
+
+(* ****** ****** *)
+
+implement
+{a}(*tmp*)
 refcnt_decref
   (rfc, x0) = let
 //
@@ -101,7 +124,8 @@ end // end of [if]
 //
 end // end of [refcnt_decref]
 
-implement{a}
+implement
+{a}(*tmp*)
 refcnt_decref_opt
   (rfc) = let
 //
@@ -121,21 +145,8 @@ end // end of [refcnt_decref_opt]
 
 (* ****** ****** *)
 
-implement{a}
-refcnt_incref
-  (rfc) = let
-//
-val+@REFCNT (u, _) = rfc
-val ((*void*)) = u := succ (u)
-prval () = fold@(rfc)
-//
-in
-  $UN.castvwtp1{refcnt(a)}(rfc)
-end // end of [refcnt_incref]
-
-(* ****** ****** *)
-
-implement{a}
+implement
+{a}(*tmp*)
 refcnt_vtakeout
   (rfc) = let
 //

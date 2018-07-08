@@ -1,13 +1,14 @@
+(* ****** ****** *)
 //
 // ProjectEuler: Problem 2
-// Finding the sum of all even Fibonacci numbers not exceeding 4M
+// Finding the sum of all even
+// Fibonacci numbers not exceeding 4M
 //
-
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
-// Authoremail: hwxi AT cs DOT bu DOT edu
 // Time: August, 2010
+// Authoremail: hwxiATcsDOTbuDOTedu
 //
 (* ****** ****** *)
 //
@@ -16,19 +17,21 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "{$LIBGMP}/SATS/gmp.sats"
-
+//
+#define
+LIBGMP_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libgmp"
+#staload"{$LIBGMP}/SATS/gmp.sats"
+//
 (* ****** ****** *)
 
 fun loop
 (
-  N: ulint, i: ulint, ifib: &mpz, sum: &mpz
+  N: ulint, i: uint, ifib: &mpz, sum: &mpz
 ) : void = let
 //
 val () = mpz_fib (ifib, i)
@@ -62,7 +65,7 @@ macdef N = 4000000UL
 //
 var ifib: mpz; val () = mpz_init (ifib)
 var fibsum: mpz; val () = mpz_init_set (fibsum, 0UL)
-val () = loop (N, 2UL, ifib, fibsum) // starting from the 2nd Fib number
+val () = loop (N, 2U, ifib, fibsum) // starting from the 2nd Fib number
 val () = assertloc (mpz_get_ulint (fibsum) = 4613732UL)
 val () = fprintln! (out, "The sum of all even Fibonacci numbers < 4 million = ", fibsum)
 val () = mpz_clear (ifib)

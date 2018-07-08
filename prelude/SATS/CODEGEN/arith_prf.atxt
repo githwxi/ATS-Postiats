@@ -1,10 +1,20 @@
 %{
-#define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#define
+ATSCODEFORMAT "txt"
+//
+#if
+(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"arith_prf.sats"
-val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+//
+val
+_thisfilename = atext_strcst"arith_prf.sats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+//
 %}\
 \
 #atscode_banner()
@@ -26,120 +36,149 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#if(0)
+//
+// It is available in [basic_dyn.sats]
+//
 dataprop
-MUL (int, int, int) =
+MUL_prop
+(
+  int, int, int
+) = // MUL_prop
   | {n:int}
     MULbas (0, n, 0)
   | {m:nat}{n:int}{p:int}
-    MULind (m+1, n, p+n) of MUL (m, n, p)
+    MULind (m+1, n, p+n) of MUL_prop (m, n, p)
   | {m:pos}{n:int}{p:int}
-    MULneg (~m, n, ~p) of MUL (m, n, p)
-// end of [MUL]
+    MULneg (~(m), n, ~(p)) of MUL_prop (m, n, p)
+//
+propdef MUL = MUL_prop
+//
+\#endif
 
 #atscode_separator()
 
-praxi mul_make : {m,n:int} () -<prf> MUL (m, n, m*n)
-praxi mul_elim : {m,n:int} {p:int} MUL (m, n, p) -<prf> [p == m*n] void
+praxi
+mul_make : {m,n:int} () -<prf> MUL (m, n, m*n)
+praxi
+mul_elim : {m,n:int} {p:int} MUL (m, n, p) -<prf> [p == m*n] void
 
 #atscode_separator()
-
-prfun mul_istot {m,n:int} ():<prf> [p:int] MUL (m, n, p)
-
-prfun mul_isfun {m,n:int} {p1,p2:int}
-  (pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)):<prf> [p1==p2] void
-prfun mul_isfun2 {m,n:int} {p1,p2:int}
-  (pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)):<prf> EQINT (p1, p2)
-
+//
+prfun
+mul_istot{m,n:int}():<prf> [p:int] MUL(m, n, p)
+//
+prfun
+mul_isfun
+{m,n:int}{p1,p2:int}
+(
+  MUL(m, n, p1), MUL(m, n, p2)
+) :<prf> [p1==p2] void // endfun
+prfun
+mul_isfun2{m,n:int}{p1,p2:int}
+  (MUL(m, n, p1), MUL(m, n, p2)):<prf> EQINT(p1, p2)
+//
 #atscode_separator()
 //
 // HX: (m+i)*n = m*n+i*n
 //
-praxi mul_add_const {i:int}
-  {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (m+i, n, p+i*n)
+praxi
+mul_add_const
+  {i:int}{m,n:int}{p:int}
+  (pf: MUL (m, n, p)):<prf> MUL(m+i, n, p+i*n)
 // end of [mul_add_const]
-
+//
 #atscode_separator()
 //
 // HX: (ax+b)*(cy+d) = ac*xy + ad*x + bc*y + bd
 //
-praxi mul_expand_linear // a,b,c,d: constants!
+praxi
+mul_expand_linear // a,b,c,d: constants!
   {a,b:int}
   {c,d:int}
-  {x,y:int}
-  {xy:int} (
-  pf: MUL (x, y, xy)
-) :<prf> MUL (a*x+b, c*y+d, a*c*xy+a*d*x+b*c*y+b*d)
+  {x,y:int}{xy:int}
+(
+  pf: MUL(x, y, xy)
+) :<prf> MUL(a*x+b, c*y+d, a*c*xy+a*d*x+b*c*y+b*d)
 // end of [mul_expand_linear]
 
 #atscode_separator()
 //
 // HX: (a1x1+a2x2+b)*(c1y1+c2y2+d) = ...
 //
-praxi mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
+praxi
+mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
   {a1,a2,b:int}
   {c1,c2,d:int}
-  {x1,x2:int}
-  {y1,y2:int}
-  {x1y1,x1y2,x2y1,x2y2:int} (
-  pf11: MUL (x1, y1, x1y1), pf12: MUL (x1, y2, x1y2)
-, pf21: MUL (x2, y1, x2y1), pf22: MUL (x2, y2, x2y2)
-) :<prf> MUL (
+  {x1,x2:int}{y1,y2:int}
+  {x1y1,x1y2,x2y1,x2y2:int}
+(
+  MUL(x1, y1, x1y1), MUL(x1, y2, x1y2)
+, MUL(x2, y1, x2y1), MUL(x2, y2, x2y2)
+) :<prf>
+MUL_prop (
   a1*x1+a2*x2+b
 , c1*y1+c2*y2+d
 , a1*c1*x1y1 + a1*c2*x1y2 +
   a2*c1*x2y1 + a2*c2*x2y2 +
-  a1*d*x1 + a2*d*x2 +
-  b*c1*y1 + b*c2*y2 +
-  b*d
-) // end of [mul_expand2_linear]
+  a1*d*x1 + a2*d*x2 + b*c1*y1 + b*c2*y2 + b*d
+) (* end of [mul_expand2_linear] *)
 
 #atscode_separator()
-
-prfun mul_gte_gte_gte
+//
+prfun
+mul_gte_gte_gte
   : {m,n:int | m >= 0; n >= 0} () -<prf> [m*n >= 0] void
-prfun mul_lte_gte_lte
+prfun
+mul_lte_gte_lte
   : {m,n:int | m <= 0; n >= 0} () -<prf> [m*n <= 0] void
-prfun mul_gte_lte_lte
+prfun
+mul_gte_lte_lte
   : {m,n:int | m >= 0; n <= 0} () -<prf> [m*n <= 0] void
-prfun mul_lte_lte_gte
+prfun
+mul_lte_lte_gte
   : {m,n:int | m <= 0; n <= 0} () -<prf> [m*n >= 0] void
-
+//
 #atscode_separator()
-
-prfun mul_nat_nat_nat :
-  {m,n:nat} {p:int} MUL (m, n, p) -<prf> [p >= 0] void
-prfun mul_pos_pos_pos :
-  {m,n:pos} {p:int} MUL (m, n, p) -<prf> [p >= m+n-1] void
-
+//
+prfun
+mul_nat_nat_nat :
+  {m,n:nat} {p:int} MUL(m, n, p) -<prf> [p >= 0] void
+prfun
+mul_pos_pos_pos :
+  {m,n:pos} {p:int} MUL(m, n, p) -<prf> [p >= m+n-1] void
+//
 #atscode_separator()
-
+//
 prfun mul_negate
-  {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (~m, n, ~p)
+  {m,n:int}{p:int}(pf: MUL(m, n, p)):<prf> MUL(~m, n, ~p)
 prfun mul_negate2
-  {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (m, ~n, ~p)
-
+  {m,n:int}{p:int}(pf: MUL(m, n, p)):<prf> MUL(m, ~n, ~p)
+//
 #atscode_separator()
 //
 // HX: m*n = n*m
 //
 prfun mul_commute
-  {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (n, m, p)
+  {m,n:int}{p:int}(pf: MUL(m, n, p)):<prf> MUL(n, m, p)
 prfun mul_is_commutative
-  {m,n:int} {p,q:int} (pf1: MUL (m, n, p), pf2: MUL (n, m, q)): [p==q] void
-
+  {m,n:int}{p,q:int}(pf1: MUL(m, n, p), pf2: MUL(n, m, q)): [p==q] void
+//
 #atscode_separator()
 //
 // HX: m*(n1+n2) = m*n1+m*n2
 //
-prfun mul_distribute
-  {m:int} {n1,n2:int} {p1,p2:int}
-  (pf1: MUL (m, n1, p1), pf2: MUL (m, n2, p2)):<prf> MUL (m, n1+n2, p1+p2)
+prfun
+mul_distribute
+  {m:int}{n1,n2:int}{p1,p2:int}
+  (pf1: MUL(m, n1, p1), pf2: MUL(m, n2, p2)):<prf> MUL(m, n1+n2, p1+p2)
 //
 // HX: (m1+m2)*n = m1*n + m2*n
 //
-prfun mul_distribute2
-  {m1,m2:int} {n:int} {p1,p2:int}
-  (pf1: MUL (m1, n, p1), pf2: MUL (m2, n, p2)):<prf> MUL (m1+m2, n, p1+p2)
+prfun
+mul_distribute2
+  {m1,m2:int}{n:int}{p1,p2:int}
+  (pf1: MUL(m1, n, p1), pf2: MUL(m2, n, p2)):<prf> MUL(m1+m2, n, p1+p2)
 //
 #atscode_separator()
 
@@ -154,23 +193,17 @@ mul_is_associative
 
 #atscode_separator()
 //
-// HX-2010-12-30: 
-//
-absprop DIVMOD (
-  x:int, y: int, q: int, r: int // x = q * y + r
-) // end of [DIVMOD]
-
-propdef DIV (x:int, y:int, q:int) = [r:int] DIVMOD (x, y, q, r)
-propdef MOD (x:int, y:int, r:int) = [q:int] DIVMOD (x, y, q, r)
-
-#atscode_separator()
-
 praxi
-div_istot {x,y:int | x >= 0; y > 0} (): DIV (x, y, x/y)
-
+div_istot
+  {x,y:int | x >= 0; y > 0} (): DIV(x, y, x/y)
+//
 praxi
 divmod_istot
-  {x,y:int | x >= 0; y > 0} (): [q,r:nat | r < y] DIVMOD (x, y, q, r)
+{ x,y:int
+| x >= 0; y > 0
+} ((*void*)): [q,r:nat | r < y] DIVMOD(x, y, q, r)
+//
+#atscode_separator()
 
 praxi
 divmod_isfun
@@ -180,19 +213,22 @@ divmod_isfun
 , pf2: DIVMOD (x, y, q2, r2)
 ) : [q1==q2;r1==r2] void // end of [divmod_isfun]
 
+#atscode_separator()
+
 praxi
 divmod_elim
   {x,y:int | x >= 0; y > 0}
   {q,r:int}
 (
   pf: DIVMOD (x, y, q, r)
-) : [qy:int | 0 <= r; r < y; x==qy+r] MUL (q, y, qy)
+) : [qy:nat | 0 <= r; r < y; x==qy+r] MUL (q, y, qy)
 
 praxi
 divmod_mul_elim
   {x,y:int | x >= 0; y > 0}
   {q,r:int}
-  (pf: DIVMOD (x, y, q, r)): [0 <= r; r < y; x==q*y+r] void
+  (pf: DIVMOD (x, y, q, r))
+: [0 <= q; 0 <= r; r < y; q==ndiv_int_int(x, y); x==q*y+r] void
 // end of [divmod_mul_elim]
 
 #atscode_separator()

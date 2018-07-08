@@ -41,17 +41,6 @@ dynvalist-implementation(end)
 /*
 exnconlst-declaration(beg)
 */
-#ifndef _ATS_CCOMP_EXCEPTION_NONE
-ATSextern()
-atsvoid_t0ype
-the_atsexncon_initize
-(
-  atstype_exnconptr d2c, atstype_string exnmsg
-) ;
-#endif // end of [_ATS_CCOMP_EXCEPTION_NONE]
-/*
-exnconlst-declaration(end)
-*/
 /*
 assumelst-declaration(beg)
 */
@@ -64,11 +53,8 @@ extypelst-declaration(beg)
 /*
 extypelst-declaration(end)
 */
-#if(0)
-ATSextern()
-atsvoid_t0ype
-atsruntime_handle_uncaughtexn(atstype_exnconptr) ;
-#endif // end of [QUALIFIED]
+
+/* ****** ****** */
 
 /*
 /home/hwxi/research/Postiats/git/ccomp/runtime/pats_ccomp_runtime2.dats: 1541(line=43, offs=3) -- 2287(line=72, offs=4)

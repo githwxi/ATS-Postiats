@@ -1,16 +1,16 @@
 #
 # CMakeLists.txt for patsopt
 #
-# cd BUILD; cmake ..; cd ..
+# cd CMKBLD; cmake ..; cd ..
 #
-# make -j8 -C BUILD -f Makefile
-# The file [BUILD/patsopt] is to be generated
+# make -j8 -C CMKBLD -f Makefile
+# The file [CMKBLD/patsopt] is to be generated
 #
 
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 
 #
-# Poject Name: postiats
+# Poject: Postiats
 #
 PROJECT (POSTIATS C)
 
@@ -129,7 +129,6 @@ pats_stacst2.sats
 pats_stacst2.dats
 pats_staexp2_print.dats
 pats_staexp2_pprint.dats
-pats_staexp2_jsonize.dats
 pats_staexp2_sort.dats
 pats_staexp2_scst.dats
 pats_staexp2_svar.dats
@@ -154,11 +153,21 @@ pats_dynexp2.dats
 pats_dyncst2.sats
 pats_dyncst2.dats
 pats_dynexp2_print.dats
-pats_dynexp2_jsonize.dats
 pats_dynexp2_dcst.dats
 pats_dynexp2_dvar.dats
 pats_dynexp2_dmac.dats
 pats_dynexp2_util.dats
+pats_staexp2_appenv.hats
+pats_dynexp2_appenv.hats
+pats_dynexp2_mapgen.dats
+pats_codegen2.sats
+pats_codegen2.dats
+pats_codegen2_util.dats
+pats_codegen2_absrec.dats
+pats_codegen2_datype.dats
+pats_codegen2_fprint.dats
+pats_jsonize_synent2.sats
+pats_jsonize_synent2.dats
 pats_trans2.sats
 pats_namespace.sats
 pats_namespace.dats
@@ -221,6 +230,8 @@ pats_constraint3.sats
 pats_constraint3.dats
 pats_constraint3_init.dats
 pats_constraint3_print.dats
+pats_constraint3_appenv.hats
+pats_constraint3_mapgen.dats
 pats_constraint3_jsonize.dats
 pats_constraint3_simplify.dats
 pats_constraint3_icnstr.dats

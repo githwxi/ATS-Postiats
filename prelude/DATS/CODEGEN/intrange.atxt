@@ -26,34 +26,66 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement{env}
-intrange_foreach$cont (i, env) = true
-(*
-implement{env}
-intrange_foreach$fwork (i, env) = ((*void*))
-*)
+implement
+{}(*tmp*)
+intrange_forall
+  (l, r) =
+  loop(l, r) where
+{
+//
+fun
+loop
+(l: int, r: int): bool =
+(
+if
+(l < r)
+  then (
+    if
+    intrange_forall$pred<>(l)
+    then loop(l+1, r) else false
+  ) else true // end of [if]
+// end of [if]
+)
+//
+} (* end of [intrange_forall] *)
 
-implement{}
-intrange_foreach (l, r) = let
-  var env: void = () in intrange_foreach_env<void> (l, r, env)
+#atscode_separator()
+
+implement
+{}(*tmp*)
+intrange_foreach
+  (l, r) = let
+  var env: void = ()
+in
+  intrange_foreach_env<void>(l, r, env)
 end // end of [intrange_foreach]
 
-implement{tenv}
+implement
+{tenv}(*tmp*)
 intrange_foreach_env
   (l, r, env) = let
 //
 fun loop
 (
-  l: int, r: int, env: &tenv
+  l: int, r: int, env: &tenv >> _
 ) : int =
 (
-  if l < r then let
-    val cont = intrange_foreach$cont<tenv> (l, env)
-  in
-    if cont then let
-      val () = intrange_foreach$fwork<tenv> (l, env) in loop (succ(l), r, env)
-    end else l // end of [if]
-  end else l // end of [if]
+//
+if
+l < r
+then let
+  val cont = intrange_foreach$cont<tenv>(l, env)
+in
+//
+if
+cont
+then (
+  intrange_foreach$fwork<tenv>(l, env); loop(succ(l), r, env)
+) else l // end of [if]
+//
+end // end of [then]
+else l // end of [else]
+//
 ) // end of [loop]
 //
 in
@@ -62,19 +94,28 @@ end // end of [intrange_foreach_env]
 
 #atscode_separator()
 
-implement{env}
-intrange_rforeach$cont (i, env) = true
+implement
+{tenv}(*tmp*)
+intrange_foreach$cont(i, env) = true
 (*
-implement{env}
-intrange_rforeach$fwork (i, env) = ((*void*))
+implement
+{tenv}(*tmp*)
+intrange_foreach$fwork(i, env) = ((*void*))
 *)
 
-implement{}
-intrange_rforeach (l, r) = let
-  var env: void = () in intrange_rforeach_env<void> (l, r, env)
+#atscode_separator()
+
+implement
+{}(*tmp*)
+intrange_rforeach
+  (l, r) = let
+  var env: void = ()
+in
+  intrange_rforeach_env<void>(l, r, env)
 end // end of [intrange_rforeach]
 
-implement{tenv}
+implement
+{tenv}(*tmp*)
 intrange_rforeach_env
   (l, r, env) = let
 //
@@ -83,19 +124,127 @@ fun loop
   l: int, r: int, env: &tenv
 ) : int =
 (
-  if l < r then let
-    val r1 = pred (r)
-    val cont = intrange_rforeach$cont<tenv> (r1, env)
-  in
-    if cont then let
-      val () = intrange_rforeach$fwork<tenv> (r1, env) in loop (l, r1, env)
-    end else r // end of [if]
-  end else r // end of [if]
+//
+if
+l < r
+then let
+  val r1 = pred (r)
+  val cont = intrange_rforeach$cont<tenv>(r1, env)
+in
+//
+if
+cont
+then (
+  intrange_rforeach$fwork<tenv>(r1, env); loop(l, r1, env)
+) else r // end of [if]
+//
+end // end of [then]
+else r // end of [else]
+//
 ) // end of [loop]
 //
 in
   loop (l, r, env)
 end // end of [intrange_rforeach_env]
+
+#atscode_separator()
+
+implement
+{tenv}(*tmp*)
+intrange_rforeach$cont(i, env) = true
+(*
+implement
+{tenv}(*tmp*)
+intrange_rforeach$fwork(i, env) = ((*void*))
+*)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+intrange2_foreach
+  (l1, r1, l2, r2) = let
+  var env: void = () in
+  intrange2_foreach_env<void>(l1, r1, l2, r2, env)
+end // end of [intrange2_foreach]
+
+#atscode_separator()
+
+implement
+{tenv}(*tmp*)
+intrange2_foreach_env
+  (l1, r1, l2, r2, env) = let
+//
+fnx
+loop1
+(
+  i: int, env: &(tenv) >> _
+) : void =
+(
+if i < r1 then loop2(i, l2, env) else ()
+)
+//
+and
+loop2
+(
+  i: int, j: int, env: &(tenv) >> _
+) : void =
+(
+if
+j < r2
+then (
+  intrange2_foreach$fwork(i, j, env); loop2(i, j+1, env)
+) else loop1 (i+1, env)
+)
+//
+in
+  loop1 (l1, env)
+end // end of [intrange2_foreach]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+streamize_intrange_l
+  (m) = aux0(m) where
+{
+//
+vtypedef res_vt = stream_vt(int)
+//
+fun aux0
+(
+  m: int
+) : res_vt = $ldelay(stream_vt_cons(m, aux0(m+1)))
+//
+} (* end of [streamize_intrange_l] *)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+streamize_intrange_0r(n) = streamize_intrange_lr<>(0, n)
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
+streamize_intrange_lr
+  (m, n) = aux0(m) where
+{
+//
+vtypedef res_vt = stream_vt(int)
+//
+fun aux0
+(
+  m: int
+) : res_vt = $ldelay
+(
+  if m < n
+    then stream_vt_cons(m, aux0(m+1)) else stream_vt_nil()
+  // end of [if]
+) : stream_vt_con(int) // [aux0]
+//
+} (* end of [streamize_intrange_lr] *)
 
 #atscode_separator()
 

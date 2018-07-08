@@ -31,7 +31,7 @@ in
 end // end of [loop]
 //
 in
-  loop (A, n, (i2sz)0)
+  loop (A, n, i2sz(0))
 end // end of [arrayref_reverse]
 
 (* ****** ****** *)
@@ -55,7 +55,7 @@ in
 end // end of [loop]
 //
 in
-  loop (A, n, (i2sz)0)
+  loop (A, n, i2sz(0))
 end // end of [arrayref_reverse]
 
 (* ****** ****** *)
@@ -67,7 +67,7 @@ arrayref_foldleft{n:int}
 ) : a =
 (
 if n > 0
-  then arrayref_foldleft<a,b> (f, f (x, A.head), A.tail, pred(n))
+  then arrayref_foldleft<a,b> (f, f (x, A.head()), A.tail(), pred(n))
   else x
 // end of [if]
 ) (* end of [arrayref_foldleft] *)

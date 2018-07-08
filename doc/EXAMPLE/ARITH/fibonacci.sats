@@ -38,35 +38,41 @@ staload "./basics.sats"
 //
 dataprop
 FIB (int, int) =
-  | FIBbas1 (0, 0) of ()
-  | FIBbas2 (1, 1) of ()
+  | FIBbas0 (0, 0) of ()
+  | FIBbas1 (1, 1) of ()
   | {n:nat}{r0,r1:int}
-    FIBind (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
+    FIBind2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
 // end of [FIB]
-
+//
 (* ****** ****** *)
 //
 // HX: [FIB] is a total functional relation
 //
-prfun fib_istot {n:nat} (): [r:nat] FIB (n, r)
-
-prfun fib_isfun
-  {n:nat}{r1,r2:int}
+prfun
+fib_istot{n:nat}((*void*)): [r:nat] FIB (n, r)
+//
+prfun
+fib_isfun
+{n:nat}{r1,r2:int}
   (pf1: FIB (n, r1), pf2: FIB (n, r2)): [r1==r2] void
 // end of [fib_isfun]
-prfun fib_isfun2
-  {n:nat}{r1,r2:int}
+//
+prfun
+fib_isfun2
+{n:nat}{r1,r2:int}
   (pf1: FIB (n, r1), pf2: FIB (n, r2)): EQINT (r1, r2)
 // end of [fib_isfun2]
-
+//
 (* ****** ****** *)
 //
 // HX-2012-03:
 // fib(m+n+1)=fib(m)*fib(n)+fib(m+1)*fib(n+1)
 //
-prfun fibeq1
-  {m,n:nat}
-  {r1,r2,r3,r4:int} (
+prfun
+fibeq1
+{m,n:nat}
+{r1,r2,r3,r4:int}
+(
   pf1: FIB (m, r1) // r1 = fib(m)
 , pf2: FIB (n, r2) // r2 = fib(n)
 , pf3: FIB (m+1, r3) // r3 = fib(m+1)
@@ -76,21 +82,60 @@ prfun fibeq1
 (* ****** ****** *)
 //
 // Cassini's formula states:
-//
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
-(* ****** ****** *)
-
 prfun
-fibeq2
-  {n:nat}{i:int}
-  {f0,f1,f2:int} (
+fib_cassini
+{n:nat}
+{f0,f1,f2:int}
+{i:int}
+(
   pf0: FIB (n, f0)
 , pf1: FIB (n+1, f1)
 , pf2: FIB (n+2, f2)
 , pf3: SGN (n, i)
 ) : [f0*f2 + i == f1*f1] void
-
+//
+(* ****** ****** *)
+//
+// Catalan's formula states:
+// (fib(n))^2 - fib(n-r)*fib(n+r) = (-1)^(n-r)*(fib(r))^2
+//
+prfun
+fib_catalan
+{n:nat}
+{r:nat | n >= r}
+{f_n,f_r,f_rn,f_nr:int}
+{sgn:int}
+(
+  pf_n: FIB (n, f_n)
+, pf_r: FIB (r, f_r)
+, pf_rn: FIB (n-r, f_rn)
+, pf_nr: FIB (n+r, f_nr)
+, sgn: SGN (n-r, sgn)
+) : [f_n*f_n - f_rn*f_nr == sgn*f_r*f_r] void
+//
+(* ****** ****** *)
+//
+// Vajda's formula states:
+// fib(n+i)*fib(n+j)-fib(n)*fib(n+i+j) = (-1)^n*fib(i)*fib(j)
+//
+prfun
+fib_vajda
+{n:nat}
+{i,j:nat}
+{f_n,f_i,f_j,f_ni,f_nj,f_nij:int}
+{sgn:int}
+(
+  pf_n: FIB (n, f_n)
+, pf_i: FIB (i, f_i)
+, pf_j: FIB (j, f_j)
+, pf_ni: FIB (n+i, f_ni)
+, pf_nj: FIB (n+j, f_nj)
+, pf_nij: FIB (n+i+j, f_nij)
+, sgn: SGN (n, sgn)
+) : [f_ni*f_nj - f_n*f_nij == sgn*f_i*f_j] void
+//
 (* ****** ****** *)
 
 (* end of [fibonacci.sats] *)

@@ -34,36 +34,40 @@
 (* ****** ****** *)
 //
 staload
-ATSPRE = "./pats_atspre.dats"
+ATSPRE =
+"./pats_atspre.dats"
 //
 (* ****** ****** *)
-
+//
 staload
-UN = "prelude/SATS/unsafe.sats"
-
+UN =
+"prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+staload
+STMP = "./pats_stamp.sats"
+//
+overload = with $STMP.eq_stamp_stamp
+//
+(* ****** ****** *)
+//
+staload
+LEX = "./pats_lexing.sats"
+//
+(* ****** ****** *)
+//
+staload
+EFF = "./pats_effect.sats"
+//
+macdef
+effset_isnil = $EFF.effset_isnil
+macdef
+effset_isall = $EFF.effset_isall
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
-
-(* ****** ****** *)
-
-staload LEX = "./pats_lexing.sats"
-
-(* ****** ****** *)
-
-staload
-STMP = "./pats_stamp.sats"
-macdef eq_stamp_stamp = $STMP.eq_stamp_stamp
-
-(* ****** ****** *)
-//
-staload EFF = "./pats_effect.sats"
-//
-macdef effset_isnil = $EFF.effset_isnil
-macdef effset_isall = $EFF.effset_isall
-//
-(* ****** ****** *)
-
 staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -73,56 +77,56 @@ staload "./pats_staexp2.sats"
 (* ****** ****** *)
 
 implement
-tyreckind_is_box (knd) =
-  case+ knd of TYRECKINDbox () => true | _ => false
+tyreckind_is_box(knd) =
+  case+ knd of TYRECKINDbox() => true | _ => false
 // end of [tyreckind_is_box]
 
 implement
-tyreckind_is_boxlin (knd) =
-  case+ knd of TYRECKINDbox_lin () => true | _ => false
+tyreckind_is_boxlin(knd) =
+  case+ knd of TYRECKINDbox_lin() => true | _ => false
 // end of [tyreckind_is_boxlin]
 
 implement
-tyreckind_is_boxed (knd) = let
-in
+tyreckind_is_boxed(knd) =
+(
 //
 case+ knd of
 | TYRECKINDbox _ => true | TYRECKINDbox_lin _ => true | _ => false
 //
-end // end of [tyreckind_is_boxed]
+) (* end of [tyreckind_is_boxed] *)
 
 (* ****** ****** *)
 
 implement
-tyreckind_is_flted
-  (knd) = let
+tyreckind_is_flted(knd) = let
 in
   case+ knd of
   | TYRECKINDflt0 _ => true
   | TYRECKINDflt1 _ => true
   | TYRECKINDflt_ext _ => true
-  | _ => false
+  | _ (*non-flted*) => false
 end // end of [tyreckind_is_flt]
 
 implement
-tyreckind_is_fltext (knd) =
+tyreckind_is_fltext(knd) =
+(
   case+ knd of TYRECKINDflt_ext _ => true | _ => false
-// end of [tyreckind_is_fltext]
+) (* end of [tyreckind_is_fltext] *)
 
 (* ****** ****** *)
 
 implement
-tyreckind_is_nameless (knd) = let
-in
+tyreckind_is_nameless(knd) =
+(
 //
 case+ knd of
-| TYRECKINDbox () => true
-| TYRECKINDbox_lin () => true
-| TYRECKINDflt0 () => true
-| TYRECKINDflt1 (stmp) => false
-| TYRECKINDflt_ext (name) => false
+| TYRECKINDbox() => true
+| TYRECKINDbox_lin() => true
+| TYRECKINDflt0() => true
+| TYRECKINDflt1(stmp) => false
+| TYRECKINDflt_ext(name) => false
 //
-end // end of [tyreckind_is_nameless]
+) (* end of [tyreckind_is_nameless] *)
 
 (* ****** ****** *)
 
@@ -131,42 +135,55 @@ eq_tyreckind_tyreckind
   (knd1, knd2) = let
 in
 //
-case+ (knd1, knd2) of
-| (TYRECKINDbox (), TYRECKINDbox ()) => true
-| (TYRECKINDbox_lin (), TYRECKINDbox_lin ()) => true
-| (TYRECKINDflt0 (), TYRECKINDflt0 ()) => true
-| (TYRECKINDflt1 (s1), TYRECKINDflt1 (s2)) => eq_stamp_stamp (s1, s2)
-| (TYRECKINDflt_ext name1, TYRECKINDflt_ext name2) => name1 = name2
-| (_, _) => false
+case+
+(knd1, knd2)
+of // case+
+//
+| (TYRECKINDbox(),
+   TYRECKINDbox()) => true
+| (TYRECKINDbox_lin(),
+   TYRECKINDbox_lin()) => true
+| (TYRECKINDflt0(),
+   TYRECKINDflt0()) => true
+| (TYRECKINDflt1(stmp1),
+   TYRECKINDflt1(stmp2)) => stmp1 = stmp2
+| (TYRECKINDflt_ext(name1),
+   TYRECKINDflt_ext(name2)) => name1 = name2
+| (_(*rest*), _(*rest*)) => false
 //
 end // end of [eq_tyreckind_tyreckind]
 
 implement
 neq_tyreckind_tyreckind
-  (knd1, knd2) = not (eq_tyreckind_tyreckind (knd1, knd2))
-// end of [neq_tyreckind_tyreckind]
+  (knd1, knd2) =
+(
+  not(eq_tyreckind_tyreckind (knd1, knd2))
+) // end of [neq_tyreckind_tyreckind]
 
 (* ****** ****** *)
 
 implement
 sp2at_con
   (loc, s2c, s2vs) = let
-  val s2fs =
-    l2l (list_map_fun (s2vs, s2exp_var))
-  val s2e_pat = s2exp_cstapp (s2c, s2fs)
+//
+val s2fs =
+  l2l(list_map_fun(s2vs, s2exp_var))
+//
+val s2e_pat = s2exp_cstapp(s2c, s2fs)
+//
 in '{
   sp2at_loc= loc
-, sp2at_exp= s2e_pat, sp2at_node = SP2Tcon (s2c, s2vs)
+, sp2at_exp= s2e_pat
+, sp2at_node = SP2Tcon(s2c, s2vs)
 } end // end of [sp2at_con]
 
 implement
 sp2at_err (loc) = let
-  val s2t_pat = s2rt_err ()
-  val s2e_pat = s2exp_err (s2t_pat)
+  val s2t_pat = s2rt_err()
+  val s2e_pat = s2exp_errexp(s2t_pat)
 in '{
   sp2at_loc= loc
-, sp2at_exp= s2e_pat
-, sp2at_node= SP2Terr ()
+, sp2at_exp= s2e_pat, sp2at_node= SP2Terr()
 } end // end of [sp2at_err]
 
 (* ****** ****** *)
@@ -178,11 +195,12 @@ s2qua_make
 } // end of [s2qua_make]
 
 (* ****** ****** *)
-
+//
 extern
 castfn s2exp_of_s2exp (x: s2exp): s2exp
-macdef hnf = s2exp_of_s2exp // HX: it for commenting
-
+//
+macdef hnf = s2exp_of_s2exp // HX: for commenting
+//
 (* ****** ****** *)
 
 implement
@@ -197,6 +215,24 @@ implement
 s2exp_int_char (c) = s2exp_int (int_of_char(c))
 implement
 s2exp_int_uchar (c) = s2exp_int (int_of_uchar(c))
+
+(* ****** ****** *)
+
+implement
+s2exp_float
+  (rep) = hnf '{
+  s2exp_srt= s2rt_float, s2exp_node= S2Efloat(rep)
+} (* end of [s2exp_float] *)
+
+(* ****** ****** *)
+
+implement
+s2exp_string
+  (str) = hnf '{
+  s2exp_srt= s2rt_string, s2exp_node= S2Estring(str)
+} (* end of [s2exp_string] *)
+
+(* ****** ****** *)
 
 implement
 s2exp_cst (s2c) = let
@@ -294,10 +330,12 @@ s2exp_app_srt
   s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
 } // end of [s2exp_app_srt]
 
+(* ****** ****** *)
+
 implement
 s2exp_lam
   (s2vs, s2e_body) = let
-  val s2ts = l2l (list_map_fun (s2vs, s2var_get_srt))
+  val s2ts = l2l(list_map_fun(s2vs, s2var_get_srt))
   val s2t_fun = s2rt_fun (s2ts, s2e_body.s2exp_srt)
 in
   s2exp_lam_srt (s2t_fun, s2vs, s2e_body)
@@ -309,14 +347,21 @@ s2exp_lam_srt
   s2exp_srt= s2t_fun, s2exp_node= S2Elam (s2vs_arg, s2e_body)
 } // end of [s2exp_lam_srt]
 
+(* ****** ****** *)
+
 implement
 s2exp_lamlst (
   s2vss, s2e_body
-) = case+ s2vss of
-  | list_cons (s2vs, s2vss) =>
-      s2exp_lamlst (s2vss, s2exp_lam (s2vs, s2e_body))
-  | list_nil () => s2e_body
-// end of [s2exp_lamlst]
+) = 
+(
+case+ s2vss of
+| list_nil() => s2e_body
+| list_cons(s2vs, s2vss) =>
+    s2exp_lam (s2vs, s2exp_lamlst (s2vss, s2e_body))
+  // end of [list_cons]
+) (* end of [s2exp_lamlst] *)
+
+(* ****** ****** *)
 
 implement
 s2exp_fun_srt (
@@ -424,7 +469,7 @@ implement
 s2exp_tyarr
   (s2e_elt, dim) = let
   val s2t = (
-    if s2exp_is_lin (s2e_elt) then s2rt_vt0ype else s2rt_t0ype
+    if s2exp_is_lin(s2e_elt) then s2rt_vt0ype else s2rt_t0ype
   ) : s2rt // end of [val
 in
   s2exp_tyarr_srt (s2t, s2e_elt, dim)
@@ -533,40 +578,40 @@ s2exp_wthtype
 } // end of [s2exp_wthtype]
 
 (* ****** ****** *)
-
+//
 implement
-s2exp_err (s2t) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eerr ()
-} // end of [s2exp_err]
-
+s2exp_errexp(s2t) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eerrexp()
+} (* end of [s2exp_err] *)
+//
 implement
-s2exp_s2rt_err () = s2exp_err (s2rt_err ())
+s2exp_s2rt_err() = s2exp_errexp(s2rt_err())
 implement
-s2exp_t0ype_err () = s2exp_err (s2rt_t0ype)
-
+s2exp_t0ype_err() = s2exp_errexp(s2rt_t0ype)
+//
 (* ****** ****** *)
 
 implement
 s2exp_refeq
   (s2e1, s2e2) = (
-  $UN.cast2ptr (s2e1) = $UN.cast2ptr (s2e2)
+  $UN.cast2ptr(s2e1) = $UN.cast2ptr(s2e2)
 ) // end of [s2exp_refeq]
 
 (* ****** ****** *)
 
 implement
 s2exp_is_prf
-  (s2e) = s2rt_is_prf (s2e.s2exp_srt)
+  (s2e) = s2rt_is_prf(s2e.s2exp_srt)
 // end of [s2exp_is_prf]
 implement
-s2exp_is_nonprf (s2e) = not (s2exp_is_prf (s2e))
+s2exp_is_nonprf(s2e) = not(s2exp_is_prf(s2e))
 
 implement
 s2exp_is_lin
-  (s2e) = s2rt_is_lin (s2e.s2exp_srt)
+  (s2e) = s2rt_is_lin(s2e.s2exp_srt)
 // end of [s2exp_is_lin]
 implement
-s2exp_is_nonlin (s2e) = not (s2exp_is_lin (s2e))
+s2exp_is_nonlin(s2e) = not(s2exp_is_lin(s2e))
 
 implement
 s2exp_is_boxed
@@ -656,26 +701,29 @@ s2exparg_all (loc) = '{
 implement
 s2exparg_seq (loc, s2fs) = '{
   s2exparg_loc= loc, s2exparg_node= S2EXPARGseq (s2fs)
-}
+} (* end of [s2exparg_seq] *)
 
 (* ****** ****** *)
 
 implement
-t2mpmarg_make (loc, s2fs) = '{
+t2mpmarg_make
+  (loc, s2fs) = '{
   t2mpmarg_loc= loc, t2mpmarg_arg= s2fs
-} // end of [t2mpmarg_make]
+} (* end of [t2mpmarg_make] *)
 
 (* ****** ****** *)
 
 implement
-s2tavar_make (loc, s2v) = '{
+s2tavar_make
+  (loc, s2v) = '{
   s2tavar_loc= loc, s2tavar_var= s2v
-} // end of [s2tavar_make]
+} (* end of [s2tavar_make] *)
 
 implement
-s2aspdec_make (loc, s2c, def) = '{
+s2aspdec_make
+  (loc, s2c, def) = '{
   s2aspdec_loc= loc, s2aspdec_cst= s2c, s2aspdec_def= def
-} // end of [s2aspdec_make]
+} (* end of [s2aspdec_make] *)
 
 (* ****** ****** *)
 

@@ -19,10 +19,10 @@ HTML_targetloc
 "$PATSHOMERELOC/contrib/HTML-emscripten"
 //
 (* ****** ****** *)
-
+//
 #define
 ATS_EXTERN_PREFIX "ATSJS_"
-
+//
 (* ****** ****** *)
 
 staload "{$HTML}/SATS/document.sats"
@@ -40,15 +40,16 @@ fun fact (n: int): int =
 
 extern
 fun
-fact_handle_keypress_fun
+fact_handle_keypress_
   (event: event1): void = "ext#%"
 implement
-fact_handle_keypress_fun
+fact_handle_keypress_
   (event) = let
 //
-val key = document_event_get_keyCode (event)
-val (
-) = if key = ENTER then
+val key =
+document_event_get_keyCode (event)
+val () =
+if key = ENTER then
 {
   val input = document_event_get_target (event)
   val funarg = document_element_get_value_int (input)
@@ -58,7 +59,7 @@ val (
 //
 in
   document_event_free (event)
-end // end of [fact_handle_keypress_fun]
+end // end of [fact_handle_keypress_]
 
 (* ****** ****** *)
 

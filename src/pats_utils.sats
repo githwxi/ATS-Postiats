@@ -33,12 +33,14 @@
 //
 (* ****** ****** *)
 
-fun eqref_type {a:type} (x1: a, x2: a):<> bool
+fun
+eqref_type{a:type}(x1: a, x2: a):<> bool
 
 (* ****** ****** *)
 //
-// HX: the [base] of the representation is contained
-fun llint_make_string (rep: string): llint // in the [rep]
+// HX: the [base] is stored inside [rep]
+//
+fun llint_make_string (rep: string): llint
 //
 (* ****** ****** *)
 
@@ -60,14 +62,20 @@ fun float_get_nsfx (rep: string): uint // in the [rep]
 //
 (* ****** ****** *)
 
-fun dirpath_append
-  (dir: string, path: string, sep: char) : Strptr1
+fun
+dirpath_append
+  (dir: string, path: string, sep: char): Strptr1
 // end of [dirpath_append]
 
 (* ****** ****** *)
-
-fun fprint_stropt (out: FILEref, opt: Stropt): void
-
+//
+fun
+print_stropt(opt: Stropt): void
+fun
+prerr_stropt(opt: Stropt): void
+fun
+fprint_stropt(out: FILEref, opt: Stropt): void
+//
 (* ****** ****** *)
 
 fun{
@@ -161,7 +169,7 @@ local
 
 staload FCNTL = "libc/SATS/fcntl.sats"
 
-in (*in-of-local]*)
+in (*in-of-local*)
 
 stadef fildes_v = $FCNTL.fildes_v
 
@@ -190,7 +198,7 @@ a:t@ype
 (* ****** ****** *)
 //
 fun
-ptr_as_volatile (p: ptr): void // for stoping optimization
+ptr_as_volatile (p: ptr): void // for stopping optimization
 //
 (* ****** ****** *)
 

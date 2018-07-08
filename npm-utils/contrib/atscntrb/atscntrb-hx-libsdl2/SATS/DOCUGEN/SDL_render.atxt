@@ -1,0 +1,43 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../SDL_render.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_SDL2_SDL")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/SDL2/SDL\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_CreateRenderer")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_DestroyRenderer")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_SetRenderDrawColor")
+#declnamesynop("SDL_GetRenderDrawColor")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_RenderClear")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_RenderPresent")
+
+(* ****** ****** *)
+
+(* end of [SDL_render.atxt] *)

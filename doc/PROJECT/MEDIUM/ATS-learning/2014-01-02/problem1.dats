@@ -17,6 +17,8 @@ patscc -o problem1 problem1.dats
 #include
 "share/atspre_staload.hats"
 
+(* ****** ****** *)
+
 fun
 count2 (i: int): int =
 (
@@ -30,6 +32,8 @@ if i > 0
   else 0 // end of [else]
 // end of [if]
 )
+
+(* ****** ****** *)
 
 implement
 main0 () = let

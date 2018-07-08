@@ -2,6 +2,14 @@
 #thePageLeft
 {
   color: #483D8B;
+/*
+  color: rgba(72,61,140,0.750);
+*/
+}
+#thePageLeft
+{
+  position: fixed;
+  min-width: 14%;
 }
 #thePageLeft td.self
 {

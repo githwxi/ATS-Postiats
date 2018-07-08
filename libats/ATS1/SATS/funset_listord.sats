@@ -131,10 +131,11 @@ funset_foreach_funenv
 (* ****** ****** *)
 //
 castfn
-funset2list{a:t0p} (xs: set(INV(a))):<> List (a)
+funset2list
+  {a:t0p}(xs: set(INV(a))):<> List (a)
 //
 fun{a:t0p}
-funset_listize (xs: set (a)):<!wrt> List0_vt (a) // = list_copy
+funset_listize(xs: set(a)):<!wrt> List0_vt (a) // = list_copy
 //
 (* ****** ****** *)
 

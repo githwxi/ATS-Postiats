@@ -12,14 +12,6 @@
 //
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
 #define ATS_DYNLOADFLAG 0
 //
 (* ****** ****** *)
@@ -31,12 +23,24 @@ ATS_STATIC_PREFIX "Patsoptaas_"
 
 (* ****** ****** *)
 //
+#define
+LIBATSCC2JS_targetloc
+"$PATSHOME\
+/contrib/libatscc2js/ATS2-0.3.2"
+//
+(* ****** ****** *)
+//
+#staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
 #include
 "{$LIBATSCC2JS}/staloadall.hats"
 //
 (* ****** ****** *)
 //
-staload "./../SATS/atslangweb.sats"
+#staload "./../SATS/atslangweb.sats"
 //
 (* ****** ****** *)
 //
@@ -68,11 +72,11 @@ return msg;
 //
 (* ****** ****** *)
 //
-staload _(*anon*) = "./patsopt_tcats.dats"
-staload _(*anon*) = "./patsopt_ccats.dats"
-staload _(*anon*) = "./patsopt_atscc2js.dats"
+#staload _(*anon*) = "./patsopt_tcats.dats"
+#staload _(*anon*) = "./patsopt_ccats.dats"
+#staload _(*anon*) = "./patsopt_atscc2js.dats"
 //
-staload _(*anon*) = "./file_get_contents.dats"
+#staload _(*anon*) = "./file_get_contents.dats"
 //
 (* ****** ****** *)
 //
@@ -302,7 +306,9 @@ Patsoptaas_Compile_patsopttc_reply
   (reply)
 {
 //
-  var comparr = JSON.parse(reply);
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
 //
   var msg0 = "Patsoptaas: [patsopt-tcats] passed!"
   var msg1 = "Patsoptaas: [patsopt-tcats] failed!"
@@ -329,10 +335,11 @@ patsopt_tcats_rpc$cname<> () =
   "SERVER/MYCODE/atslangweb_patsopt_tcats_0_.php"
 //
 implement
-patsopt_tcats_rpc$reply<> (reply) = Compile_patsopttc_reply (reply)
+patsopt_tcats_rpc$reply<>
+  (reply) = Compile_patsopttc_reply(reply)
 //
-val mycode = thePatsopt_source_get2 ()
-val ((*void*)) = patsopt_tcats_rpc (mycode)
+val mycode = thePatsopt_source_get2()
+val ((*void*)) = patsopt_tcats_rpc(mycode)
 //
 in
   // nothing
@@ -356,7 +363,9 @@ Patsoptaas_Compile_patsoptcc_reply
   (reply)
 {
 //
-  var comparr = JSON.parse(reply);
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
 //
   var msg0 = "Patsoptaas: [patsopt-ccats] passed!"
   var msg1 = "Patsoptaas: [patsopt-ccats] failed!"
@@ -415,17 +424,32 @@ Patsoptaas_Compile_patsopt2js_reply
   (reply)
 {
 //
-  var comparr = JSON.parse(reply);
+  var comparr =
+    JSON.parse(decodeURIComponent(reply));
+  // end of [var]
 //
   var msg0 = "Patsoptaas: [patsopt-atscc2js] passed!"
   var msg1 = "Patsoptaas: [patsopt-atscc2js] failed!"
 //
   if(comparr[0]===0)
   {
+//
     Patsoptaas_thePatsopt_stderr_set(msg0);
     Patsoptaas_thePatsopt2js_output_set2(comparr[1]);
-    if(!Patsoptaas_Compile_stderr_flag()) alert(msg0);
-    if(Patsoptaas_Patsopt2js_eval_flag()) eval(comparr[1]);
+//
+    if(
+     !Patsoptaas_Compile_stderr_flag()
+    ) alert(msg0);
+//
+    if(Patsoptaas_Patsopt2js_eval_flag())
+    {
+      try {
+        eval(comparr[1]);
+      } catch(error) {
+        alert("ERROR!!!\n" + String(error));
+      } /* end of [try] */
+    }
+//
   }
   if(comparr[0] > 0)
   {
@@ -446,10 +470,11 @@ patsopt_atscc2js_rpc$cname<> () =
   "SERVER/MYCODE/atslangweb_patsopt_atscc2js_0_.php"
 //
 implement
-patsopt_atscc2js_rpc$reply<> (reply) = Compile_patsopt2js_reply (reply)
+patsopt_atscc2js_rpc$reply<>
+  (reply) = Compile_patsopt2js_reply(reply)
 //
-val mycode = thePatsopt_source_get2 ()
-val ((*void*)) = patsopt_atscc2js_rpc (mycode)
+val mycode = thePatsopt_source_get2()
+val ((*void*)) = patsopt_atscc2js_rpc(mycode)
 //
 in
   // nothing
@@ -473,12 +498,59 @@ Patsoptaas_Evaluate_JS_onclick()
 //
   if(mycode)
   {
-    eval(mycode);
+    try {
+      eval(mycode);
+    } catch(error) {
+      alert("ERROR!!!\n" + String(error));
+    } /* end of [try] */
   } else {
     alert("There is no generated JS code yet!");
   } // end of [if]
 //
 } // end of [Patsoptaas_Evaluate_JS_onclick]
+//
+%} // end of [%{^]
+//
+(* ****** ****** *)
+//
+extern
+fun
+Help_about_onclick(): void = "mac#%"
+//
+%{^
+//
+function
+Patsoptaas_Help_about_onclick()
+{
+//
+var
+theHelp = "\n\
+Patsoptaas is a service for trying ATS on-line.\n\
+\n\
+Compile/Patsopt: for compiling the ATS source into C.\n\
+Compile/Patsopt2js: for compiling the ATS source into JS.\n\
+\n\
+Evaluate/EvalJS: for evaluating the generated JS code.\n\
+\n\
+Patsopt-tcats:\n\
+  If set, Patsopt does type-checking only;\n\
+  If not set, Patsopt translates ATS into C after type-checking\n\
+\n\
+Patsopt2js-eval:\n\
+  If set, Patsopt2js evaluates the generated JS code automatically;\n\
+  If not set, Patsopt2js does not try to evaluate the generated JS code.\n\
+\n\
+Compile-stderr:\n\
+  If set, compilation messages output to a designated window.\n\
+\n\
+Evaluate-canvas:\n\
+  If set, a canvas of the id 'Patsoptaas-Evaluate-canvas' is shown.\n\
+\n\
+" // end of [var]
+//
+alert(theHelp); return;
+//
+} // end of [Patsoptaas_Help_about_onclick]
 //
 %} // end of [%{^]
 //
@@ -493,15 +565,71 @@ implement
 File_loadurl_input_doWork(url) = let
 //
 implement
-file_get_contents_rpc$cname<> () =
+file_get_contents_rpc$cname<>
+(
+// argumentless
+) =
+(
   "SERVER/MYCODE/atslangweb_file_get_contents.php"
+) (* file_get_contents_rpc$cname<> *)
 //
 implement
-file_get_contents_rpc$reply<> (reply) = thePatsopt_editor_set(reply)
+file_get_contents_rpc$reply<>
+  (reply) = thePatsopt_editor_set(reply)
 //
 in
   file_get_contents_rpc<> (url)
 end (* end of [File_loadurl_input_doWork] *)
+//
+(* ****** ****** *)
+//
+extern
+fun
+patsoptaas_mycode_trigger
+  (mycode: string): void = "mac#"
+//
+%{^
+//
+function
+patsoptaas_mycode_trigger
+  (mycode)
+{
+//
+var
+form =
+document.createElement("form");
+//
+form.setAttribute("method", "POST");
+/*
+//
+// HX: data is already encoded
+//
+form.setAttribute
+( "enctype"
+, "application/x-www-form-urlencoded"
+); // form.setAttribute
+*/
+//
+form.setAttribute
+( "action"
+, "http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php"
+); // form.setAttribute
+//
+form.setAttribute("target", "_blank");
+//
+var
+input =
+document.createElement("input");
+//
+input.setAttribute("type", "hidden");
+input.setAttribute("name", "mycode");
+input.setAttribute("value", encodeURIComponent(mycode));
+//
+form.appendChild(input); document.body.appendChild(form); form.submit(); return;
+//
+} /* end of [patsoptaas_mycode_trigger] */
+//
+%} // end of [%{^]
 //
 (* ****** ****** *)
 

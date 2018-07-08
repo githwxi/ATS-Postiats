@@ -7,20 +7,24 @@
 
 (* ****** ****** *)
 //
-#include
-"share/atspre_define.hats"
-//
-staload
-UN = "prelude/SATS/unsafe.sats"
-//
-(* ****** ****** *)
-//
 #define ATS_DYNLOADFLAG 0
 //
 #define
 ATS_EXTERN_PREFIX "atslangweb_"
 #define
 ATS_STATIC_PREFIX "_atslangweb_patsopt_tcats_"
+//
+(* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+#define
+LIBATSCC2PHP_targetloc
+"$PATSHOME\
+/contrib/libatscc2php/ATS2-0.3.2"
 //
 (* ****** ****** *)
 //
@@ -37,21 +41,35 @@ implement
 {}(*tmp*)
 patsopt_tcats_command
 (
-  fname_dats, fname_dats_log
+  stadyn
+, fname_dats, fname_dats_log
 ) = let
 //
-val patsopt = patsopt_command<> ()
+val
+patsopt = patsopt_command<> ()
 //
-val fname_dats = $UN.castvwtp1{string}(fname_dats)
-val fname_dats_log = $UN.castvwtp1{string}(fname_dats_log)
+val
+fname_dats =
+  $UN.castvwtp1{string}(fname_dats)
+val
+fname_dats_log =
+  $UN.castvwtp1{string}(fname_dats_log)
+//
+val
+stadyn =
+(
+if
+(stadyn = 0) then "--static" else "--dynamic"
+// end of [if]
+) : string // end of [val]
 //
 in
 //
 $extfcall
 (
   string, "sprintf"
-, "%s 2>%s --typecheck --dynamic %s"
-, patsopt, fname_dats_log, fname_dats
+, "%s 2>%s --typecheck %s %s"
+, patsopt, fname_dats_log, stadyn, fname_dats
 ) (* end of [$extfcall] *)
 //
 end // end of [patsopt_tcats_command]
@@ -61,16 +79,19 @@ end // end of [patsopt_tcats_command]
 implement
 {}(*tmp*)
 patsopt_tcats_code
-  (ptext) =
-  tcats_res where
+(
+  stadyn, ptext
+) = tcats_res where
 {
 //
 val pfx = "patsopt_tcats_"
 //
-val fname_dats =
-  tmpfile_make_string (pfx, ptext)
+val
+fname_dats =
+tmpfile_make_string (pfx, ptext)
 //
-val tcats_res = patsopt_tcats_file (fname_dats)
+val tcats_res =
+  patsopt_tcats_file (stadyn, fname_dats)
 //
 val unlink_ret = tmpfile_unlink (fname_dats)
 //
@@ -81,20 +102,25 @@ val unlink_ret = tmpfile_unlink (fname_dats)
 implement
 {}(*tmp*)
 patsopt_tcats_file
-  (fname_dats) =
-  tcats_res where
+(
+  stadyn, fname_dats
+) = tcats_res where
 {
 //
-val fname_dats_log =
-  tmpfile_make_nil ("patsopt_tcats_")
+val
+fname_dats_log =
+tmpfile_make_nil ("patsopt_tcats_")
 //
 val
 command =
 patsopt_tcats_command
-  (fname_dats, fname_dats_log)
+(
+  stadyn
+, fname_dats, fname_dats_log
+) (* patsopt_tcats_command *)
 //
 val
-exec_ret = exec_retval (command)
+exec_ret = exec_retval(command)
 //
 val
 tcats_res = (

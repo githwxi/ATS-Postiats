@@ -11,9 +11,14 @@
 "share/atspre_define.hats"
 
 (* ****** ****** *)
-
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/channel.sats"
-
+//
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME/npm-utils/contrib/libats-hwxi"
+//
+#staload
+"{$LIBATSHWXI}/threadkit/SATS/channel_t.sats"
+//
 (* ****** ****** *)
 
 %{#

@@ -1,0 +1,58 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get () = "../mybasis.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_SDL2_SDL")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/mybasis\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("Sint8")
+#declnamesynop("Sint16")
+#declnamesynop("Sint32")
+
+(* ****** ****** *)
+
+#declnamesynop("Uint8")
+#declnamesynop("Uint16")
+#declnamesynop("Uint32")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_Event")
+#declnamesynop("SDL_EventType")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_Window_ptr")
+#declnamesynop("SDL_Window_ptr0")
+#declnamesynop("SDL_Window_ptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_Surface_ptr")
+#declnamesynop("SDL_Surface_ptr0")
+#declnamesynop("SDL_Surface_ptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("SDL_Renderer_ptr")
+#declnamesynop("SDL_Renderer_ptr0")
+#declnamesynop("SDL_Renderer_ptr1")
+
+(* ****** ****** *)
+
+(* end of [mybasis.atxt] *)

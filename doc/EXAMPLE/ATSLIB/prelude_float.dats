@@ -32,6 +32,21 @@ val () =
 
 val () =
 {
+//
+  val () = assertloc (1.0 < 2)
+  val () = assertloc (1.0 <= 2)
+  val () = assertloc (~1.0 > ~2)
+  val () = assertloc (~1.0 >= ~2)
+  val () = assertloc (1.0 = 1)
+  val () = assertloc (0.0 != 1)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
   val () = assertloc (1.0 < 2.0)
   val () = assertloc (1.0 <= 2.0)
   val () = assertloc (~1.0 > ~2.0)
@@ -39,9 +54,20 @@ val () =
   val () = assertloc (1.0 = 1.0)
   val () = assertloc (0.0 != 1.0)
   val () = assertloc (1.0 <> 0.0)
+//
   val () = assertloc (compare (1.0, 9.0) = ~1)
   val () = assertloc (compare (5.0, 5.0) =  0)
   val () = assertloc (compare (9.0, 1.0) =  1)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val () = assertloc(3.1416 = g0string2float_double("3.1416"))
+//
 } (* end of [val] *)
 
 (* ****** ****** *)

@@ -1073,7 +1073,7 @@ end // end of [rtfind]
 Given a function from integers to integers, #code("rtfind") searches
 for the first natural number that is a root of the function. For instance,
 calling #code("rtfind") on the polynomial function #code("lam x => x * x
-- x + 110") returns #code("11").  Note that #code("rtfind")
+- x - 110") returns #code("11").  Note that #code("rtfind")
 loops forever if it is applied to a function that does not have a root.
 ")#comment("para")
 

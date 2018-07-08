@@ -133,25 +133,27 @@ staload_file_insert
 (* ****** ******* *)
 //
 datatype
-pkgrelocitm =
-  | PKGRELOCITM of (d0ecl, string(*given*))
-  | PKGRELOCITM2 of (d0ecl, string(*source*), string(*target*))
-typedef pkgrelocitmlst = List (pkgrelocitm)
+atsrelocitm =
+  | ATSRELOCITM of (d0ecl, string(*given*))
+  | ATSRELOCITM2 of (d0ecl, string(*source*), string(*target*))
+// end of [atsrelocitm]
+//
+typedef atsrelocitmlst = List (atsrelocitm)
 //
 fun
-fprint_pkgrelocitm (out: FILEref, x: pkgrelocitm): void
+fprint_atsrelocitm (out: FILEref, x: atsrelocitm): void
 fun
-fprint_pkgrelocitmlst (out: FILEref, xs: pkgrelocitmlst): void
+fprint_atsrelocitmlst (out: FILEref, xs: atsrelocitmlst): void
 //
 (* ****** ******* *)
 //
-fun the_pkgrelocitmlst_get (): pkgrelocitmlst
+fun the_atsrelocitmlst_get (): atsrelocitmlst
 //
 fun
-the_pkgreloc_insert
+the_atsreloc_insert
   (d0c: d0ecl, given: string): void
 fun
-the_pkgreloc_insert2
+the_atsreloc_insert2
   (d0c: d0ecl, given_s: string, given_t: string): void
 //
 (* ****** ******* *)

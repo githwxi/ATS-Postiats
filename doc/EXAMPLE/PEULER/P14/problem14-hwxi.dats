@@ -14,19 +14,27 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload "{$LIBGMP}/SATS/gmp.sats"
-
+//
+#define
+LIBGMP_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libgmp"
+#staload "{$LIBGMP}/SATS/gmp.sats"
+//
 (* ****** ****** *)
 
 #define N 1000000
-val theTable = arrayref_make_elt<int> (i2sz(N), ~1)
-val () = theTable[1] := 0
+
+(* ****** ****** *)
+
+val
+theTable =
+arrayref_make_elt<int>(i2sz(N), ~1)
+val ((*void*)) = (theTable[1] := 0)
 
 (* ****** ****** *)
 

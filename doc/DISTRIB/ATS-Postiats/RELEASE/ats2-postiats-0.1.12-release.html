@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ATS2-0.1.12</title>
+</head><!--head-->
+
+<body>
+
+<H2>
+ats2-postiats-0.1.12:
+</H2>
+
+<pre>
+
+This is the 21st release of ATS2, the successor of the ATS
+programming language. The compiler for ATS2 is given the name
+ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Fixing a bug involving the sequentiality of pattern matching.
+   Please see doc/BUGS/bug-2015-04-15.dats for more on this one.
+2. Improving s2exp_syneq2 by adding a couple of missing cases:
+   S2Edatcontyp and S2Edatconptr
+3. Adding patterns of the form: $tup(...) and $rec(...)
+4. Renaming the option -CSignore as --constraint-ignore:
+   patscc --constaint-ignore
+5. Supporting the option to disable tail-call optimization:
+   patscc --tlcalopt-disable
+   patsopt --tlcalopt-disable
+6. Supporting s2rt_float and static floating-points
+7. Supporting s2rt_string and static string constants
+8. If undefined, ATS_EXTERN_PREFIX is assumed to have the value:
+   "__ATS_EXTERN_PREFIX__".
+9. no exporting of r(), w() and rw() from prelude/basics_dyn.sats
+10. Fixing bug-2015-05-13:
+    Handling of staloaded template implementations was incorrect
+11. Dot-symbol overloading is required to be of functional style.
+    For instance,
+    point.x changes to point.x()
+    point.y changes to point.y()
+
+</pre>
+
+</body><!--body-->
+</html><!--html-->

@@ -42,11 +42,14 @@ staload
 UN = "./prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
-
+//
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_hidynexp_util"
-
+//
+implement
+prerr_FILENAME<>
+  ((*void*)) = prerr "pats_hidynexp_util"
+//
 (* ****** ****** *)
 
 staload "./pats_basics.sats"
@@ -264,23 +267,25 @@ case+
 | (HIPrefas (_, hip1), _) => hipat_subtest (hip1, hip2)
 //
 | (HIPcon
-    (_, d2c1, _, lxs1), _) => (
+    (_, d2c1, _, lxs1), _) =>
+  (
   case+ hipn2 of
-  | HIPcon (_, d2c2, _, lxs2) =>
+  | HIPcon(_, d2c2, _, lxs2) =>
     (
       if d2c1 = d2c2
         then labhipatlst_subtest (lxs1, lxs2) else false
       // end of [if]
     )
-  | HIPcon_any (_, d2c2) => d2c1 = d2c2
-  | _ => false
+  | HIPcon_any(_, d2c2) => d2c1 = d2c2
+  | _ (*non-HIPcon*) => false
   )
-| (HIPcon_any (_, d2c1), _) => (
+| (HIPcon_any(_, d2c1), _) =>
+  (
   case+ hipn2 of
-  | HIPcon (_, d2c2, _, lxs2) =>
+  | HIPcon(_, d2c2, _, lxs2) =>
       if d2c1 = d2c2 then labhipatlst_is_wild (lxs2) else false
-  | HIPcon_any (_, d2c2) => d2c1 = d2c2
-  | _ => false
+  | HIPcon_any(_, d2c2) => d2c1 = d2c2
+  | _ (*non-HIPcon*) => false
   )
 //
 | (HIPint i1, _) => (
@@ -292,15 +297,17 @@ case+
 | (HIPchar c1, _) => (
   case+ hipn2 of HIPchar c2 => c1 = c2 | _ => false
   )
-| (HIPstring str1, _) => (
-  case+ hipn2 of HIPstring str2 => str1 = str2 | _ => false
+| (HIPstring str1, _) =>
+  (
+  case+ hipn2 of
+  | HIPstring str2 => str1 = str2 | _ => false
   )
 | (HIPfloat f1, _) => (
   case+ hipn2 of HIPfloat f2 => f1 = f2 | _ => false
   )
 //
-| (HIPempty (), _) => (
-  case+ hipn2 of HIPempty () => true | _ => false
+| (HIPempty((*void*)), _) => (
+  case+ hipn2 of HIPempty((*void*)) => true | _ => false
   )
 //
 (*
@@ -313,9 +320,11 @@ case+
   )
 *)
 //
-| (HIPrec (_, lxs1, _), _) => (
+| (HIPrec(_, _, lxs1, _), _) =>
+  (
   case+ hipn2 of
-  | HIPrec (_, lxs2, _) => labhipatlst_subtest (lxs1, lxs2) | _ => false
+  | HIPrec(_, _, lxs2, _) =>
+    labhipatlst_subtest(lxs1, lxs2) | _ => false
   )
 //
 | (_, _) (*rest-of-hipat-hipat*) => false
@@ -391,15 +400,48 @@ end // end of [labhipatlst_subtest]
 end // end of [local]
 
 (* ****** ****** *)
+//
+implement
+hidexp_is_empty
+  (x0) = let
+(*
+val () =
+println!
+(
+"hidexp_is_empty: x0 = ", x0
+) (* println! *)
+*)
+in
+//
+case+
+x0.hidexp_node
+of (* case+ *)
+| HDEempty() => true
+| HDEfoldat() => true
+| HDEseq(hdes) => hidexplst_isall_empty(hdes)
+| _ (*rest-of-hidexp*) => false
+//
+end // end of [hidexp_is_empty]
+//
+implement
+hidexplst_isall_empty
+  (xs) = list_forall_fun(xs, hidexp_is_empty)
+implement
+hidexplst_isexi_empty
+  (xs) = list_exists_fun(xs, hidexp_is_empty)
+//
+(* ****** ****** *)
 
 local
 
-fun hidexplst_is_value
+fun
+hidexplst_is_value
   (xs: hidexplst): bool =
   list_forall_fun (xs, hidexp_is_value)
 // end of [hidexplst_is_value]
 
-fun labhidexplst_is_value
+fun
+labhidexplst_is_value
   (lxs: labhidexplst): bool = let
 //
 fun ftest (lx: labhidexp) = let
@@ -410,6 +452,44 @@ in
   list_forall_fun (lxs, ftest)
 end // end of [labhidexplst_is_value]
 
+fun
+hidecl_is_value
+  (hid0: hidecl): bool = let
+in
+//
+case+
+hid0.hidecl_node
+of // case+
+| HIDnone() => true
+//
+| HIDlist(hids) =>
+    hideclist_is_value(hids)
+//
+| HIDfundecs _ => true
+| HIDvaldecs
+    (_, hvds) => hivaldecs_is_value(hvds)
+  // end of [HIDvaldecs]
+//
+| _(*rest-of-hidecl*) => false
+//
+end // end of [hidecl_is_value]
+
+and
+hideclist_is_value
+  (hids: hideclist): bool =
+  list_forall_fun(hids, hidecl_is_value)
+// end of [hideclist_is_value]
+
+and
+hivaldec_is_value
+  (hvd: hivaldec): bool =
+  hidexp_is_value(hvd.hivaldec_def)
+//
+and
+hivaldecs_is_value
+  (hvds: hivaldeclst): bool =
+  list_forall_fun(hvds, hivaldec_is_value)
+
 in (* in of [local] *)
 
 implement
@@ -418,7 +498,8 @@ hidexp_is_value
 in
 //
 case+
-  hde0.hidexp_node of
+hde0.hidexp_node
+of // case+
 //
   | HDEvar _ => true
   | HDEcst _ => true
@@ -438,7 +519,10 @@ case+
   | HDEtmpcst _ => true
   | HDEtmpvar _ => true
 //
-  | _ => false
+  | HDElet(hids, hde) =>
+    if hideclist_is_value(hids) then hidexp_is_value(hde) else false
+//
+  | _ (*rest-of-hidexp*) => false
 //
 end // end of [hidexp_is_value]
 
@@ -518,9 +602,47 @@ case+
 (*
 | HIDvardecs (xs) => list_is_nil (xs)
 *)
-| _ => false
+| _ (* rest-of-hidecl *) => false
 //
 end // end of [hidecl_is_empty]
+
+(* ****** ****** *)
+
+implement
+hidexp_seq_simplify
+  (loc, hse0, hdes) = let
+//
+val isexi =
+  hidexplst_isexi_empty(hdes)
+//
+val hdes = (
+//
+if
+isexi
+then let
+//
+val
+hdes =
+list_filter_fun
+( hdes
+, lam(x) =<1>
+  not(hidexp_is_empty(x))
+) (* list_filter_fun *)
+//
+in
+  list_of_list_vt{hidexp}(hdes)
+end // end of [then]
+else hdes // end of [else]
+//
+) : hidexplst // end of [val]
+//
+in
+  case+ hdes of
+  | list_cons
+      (hde, list_nil()) => hde
+    // list_sing
+  | _(* non-singleton *) => hidexp_seq(loc, hse0, hdes)
+end // end of [hidexp_seq_simplify]
 
 (* ****** ****** *)
 
@@ -573,36 +695,47 @@ fun aux
 ) : hianybind = let
 in
 //
-case+ hip0.hipat_node of
+case+
+hip0.hipat_node
+of (* case+ *)
+//
 | HIPany _ => HABNDsome_any (hde)
-| HIPvar (d2v) => HABNDsome_var (d2v, hde)
-| HIPempty () => HABNDsome_emp (hde)
+//
+| HIPvar(d2v) => HABNDsome_var(d2v, hde)
+//
+| HIPempty((*void*)) => HABNDsome_emp(hde)
+//
 | HIPrec
   (
-    knd, lhips, hse_rec
+    knd, pck, lhips, hse_rec
   ) => (
-    if knd = 0 then (
-      case+ lhips of
-      | list_cons (lhip, list_nil ()) =>
-          let val+LABHIPAT (lab, hip) = lhip in aux (hip, hde) end
-      | _ => HABNDnone ()
+    if knd = 0 then
+    (
+    case+ lhips of
+    | list_cons(lhip, list_nil()) =>
+        let val+LABHIPAT(lab, hip) = lhip in aux(hip, hde) end
+    | _ (*non-list_sing*) => HABNDnone ()
     ) else HABNDnone () // end of [if]
   ) (* end of [HIPrec] *)
-| _ => HABNDnone ((*void*))
+| _ (* rest-of-hipat *) => HABNDnone ((*void*))
 //
 end // end of [aux]
 //
 in
 //
-case+ hid0.hidecl_node of
-| HIDvaldecs (_, hvds) => (
+case+
+hid0.hidecl_node
+of (* case+ *)
+| HIDvaldecs
+    (_, hvds) =>
+  (
   case+ hvds of
   | list_cons (
-      hvd, list_nil ()
-    ) => aux (hvd.hivaldec_pat, hvd.hivaldec_def)
-  | _ => HABNDnone ((*void*))
+      hvd, list_nil()
+    ) => aux(hvd.hivaldec_pat, hvd.hivaldec_def)
+  | _ (* non-list_sing*) => HABNDnone ((*void*))
   ) (* end of [HIDvaldecs] *)
-| _ => HABNDnone ()
+| _ (*non-HIDvaldecs*) => HABNDnone((*void*))
 //
 end // end of [hidecl_is_anybind]
 
@@ -627,6 +760,12 @@ in (* in of [local] *)
 implement
 hidexp_let_simplify
   (loc, hse, hids, hde) = let
+//
+(*
+val () =
+println! ("hidexp_let_simplify")
+*)
+//
 in
 //
 case+ hids of

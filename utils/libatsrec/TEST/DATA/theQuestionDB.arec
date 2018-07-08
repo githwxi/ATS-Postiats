@@ -1,0 +1,55 @@
+################################################
+#
+# theQuestionDB.arec
+#
+################################################
+
+[name]: \
+Q100-2016-05-06
+[description]: \
+Let function $f$ be defined as follows:
+\##dyncode("fun f(x: int): int = f(x)")
+What happens if we evaluate the expression $f(0)$
+in ATS?
+[points]: 10
+[choice(1)]: \
+It loops forever
+[choice(3)]: \
+It returns an integer value
+[choice(2)]: \
+It raises a run-time exception
+[choice(4)]: \
+It exceeds a fixed maximum recursion depth and then crashes
+[choice(5)]: \
+None of the above
+################################################
+
+[name]: \
+Q101-2016-05-06
+[description]:
+Let us define the following function $f$:
+\##dyncode("fun f(x: int): int = f(x) + 1")
+What happens if we evaluate the expression $f(0)$
+in ATS?
+[points]: 10
+[choice(1)]: \
+It loops forever
+[choice(2)]: \
+It returns an integer value
+[choice(3)]: \
+It raises a run-time exception
+[choice(4)]: \
+It exceeds a fixed maximum recursion depth and then crashes
+[choice(5)]: \
+None of the above
+################################################
+
+[name]:
+-[name-1]:
+--[name-11]: name-11
+--[name-12]: name-12
+-[name-2]:
+--[name-21]: name-21
+--[name-22]: name-22
+
+################################################

@@ -1,0 +1,51 @@
+(*
+##ctime()\
+*)
+(* ****** ****** *)
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
+(* ****** ****** *)
+//
+abst@ype
+litdouble(f:float) = double
+//
+abstype litstring(s:string) = string0 
+//
+stacst
+add_float_float : (float, float) -> float
+//
+stadef + = add_float_float
+//
+(* ****** ****** *)
+//
+#define PI 3.1416
+//
+val _PI_ = ##litdouble(PI)
+val _PI_ = ##litdouble("3.1416")
+val _PI2_ = ##litdouble("PI+PI")
+//
+val _PIlit_ = ##litstring('"3.1416"')
+//
+(* ****** ****** *)
+//
+##patsyntax()\
+//
+##sats2xhtml("\
+fun sats2xhtml : (atextlst) -> void\
+")
+//
+##dats2xhtml("\
+extern
+fun dats2xhtml : (atextlst) -> void\
+")
+//
+(* ****** ****** *)
+
+##int_foreach(i, 3, "<li>(##i)</li>##eol()")
+##int_foreach(i, 3, "##int_foreach(j, ##i, "<li>(##j, ##i)</li>")##eol()")
+
+(* ****** ****** *)
+
+(* end of [data.atxt] *)

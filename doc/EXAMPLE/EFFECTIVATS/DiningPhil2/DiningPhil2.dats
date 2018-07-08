@@ -21,33 +21,35 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
-staload
-UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
 //
-staload "libc/SATS/stdlib.sats"
-staload "libc/SATS/unistd.sats"
-//
-(* ****** ****** *)
-
-staload "{$LIBATSHWXI}/teaching/mythread/SATS/channel.sats"
-
-(* ****** ****** *)
-//
-staload _ = "libats/DATS/deqarray.dats"
+#staload
+UN =
+"prelude/SATS/unsafe.sats"
 //
 (* ****** ****** *)
 //
-staload _ = "libats/DATS/athread.dats"
-staload _ = "libats/DATS/athread_posix.dats"
+#staload
+"libats/libc/SATS/stdlib.sats"
+#staload
+"libats/libc/SATS/unistd.sats"
 //
-staload _ = "{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
+(* ****** ****** *)
+//
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME\
+/npm-utils/contrib/libats-hwxi"
+//
+#include
+"{$LIBATSHWXI}/threadkit/mylibies.hats"
 //
 (* ****** ****** *)
 
-staload "./DiningPhil2.sats"
+#staload $CHANNEL_t
+
+(* ****** ****** *)
+
+#staload "./DiningPhil2.sats"
 
 (* ****** ****** *)
 

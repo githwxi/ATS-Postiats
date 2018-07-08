@@ -47,15 +47,17 @@ staload UT = "./pats_utils.sats"
 staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
-
+//
 staload
 CNTR = "./pats_counter.sats"
+//
+staload SYM = "./pats_symbol.sats"
+typedef symbol = $SYM.symbol
+//
 staload STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 overload compare with $STMP.compare_stamp_stamp
-staload SYM = "./pats_symbol.sats"
-typedef symbol = $SYM.symbol
-
+//
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
@@ -350,9 +352,12 @@ staload
 MSET = "libats/SATS/funmset_listord.sats"
 staload _ = "libats/DATS/funmset_listord.dats"
 
-assume s2varmset_type = $MSET.mset (s2var)
+assume
+s2varmset_type = $MSET.mset (s2var)
 
-val cmp = lam (
+val
+cmp =
+lam (
   s2v1: s2var, s2v2: s2var
 ) : int =<cloref>
   compare_s2var_s2var (s2v2, s2v1) // first-in-first-occur
@@ -405,9 +410,11 @@ s2varmset_listize (xs) = $MSET.funmset_listize (xs)
 implement
 fprint_s2varmset
   (out, xs) = let
-  val xs = $MSET.funmset_mlistize (xs)
-  val () = fprint_s2varlst (out, $UN.castvwtp1 {s2varlst} (xs))
-  val () = list_vt_free (xs)
+//
+val xs = $MSET.funmset_mlistize(xs)
+val () = fprint_s2varlst (out, $UN.castvwtp1 {s2varlst} (xs))
+val ((*freed*)) = list_vt_free (xs)
+//
 in
 end // end of [fprint_s2varmset]
 
@@ -421,62 +428,84 @@ staload
 MAP = "libats/SATS/linmap_avltree.sats"
 staload _ = "libats/DATS/linmap_avltree.dats"
 
-val cmp = lam (
+val
+cmp =
+lam (
   s2v1: s2var, s2v2: s2var
 ) : int =<cloref>
   compare_s2var_s2var (s2v1, s2v2)
 // end of [val]
 
-assume s2varbindmap_vtype = $MAP.map (s2var, s2exp)
+assume
+s2varbindmap_vtype = $MAP.map (s2var, s2exp)
 
 in // in of [local]
-
+//
 implement
-s2varbindmap_make_nil () = $MAP.linmap_make_nil ()
-
+s2varbindmap_make_nil
+  ((*void*)) = $MAP.linmap_make_nil ()
+//
 implement
-s2varbindmap_search (map, k) = let
+s2varbindmap_search
+  (map, k) = let
 (*
-  val () = (
-    print "s2varbindmap_search: k = "; print_s2var (k); print_newline ();
-  ) // end of [val]
+val () = (
+  println! ("s2varbindmap_search: k = ", k)
+) (* end of [val] *)
 *)
-  var res: s2exp? // uninitialized
-  val found = $MAP.linmap_search<s2var,s2exp> (map, k, cmp, res)
+//
+var res: s2exp? // uninitized
+val found =
+  $MAP.linmap_search<s2var,s2exp> (map, k, cmp, res)
+//
 in
-  if found then let
-    prval () = opt_unsome {s2exp} (res) in Some_vt (res)
-  end else let
-    prval () = opt_unnone {s2exp} (res) in None_vt ()
-  end // end of [if]
+//
+if
+found
+then let
+  prval() = opt_unsome{s2exp}(res) in Some_vt(res)
+end // end of [then]
+else let
+  prval() = opt_unnone{s2exp}(res) in None_vt(*void*)
+end // end of [else]
+//
 end (* end of [s2varbindmap_search] *)
-
+//
 implement
-s2varbindmap_insert (map, k, x) = let
+s2varbindmap_insert
+  (map, k, x) = let
 (*
-  val () = (
-    print "s2varbindmap_insert: k = "; print_s2var (k); print_newline ();
-    print "s2varbindmap_insert: x = "; print_s2hnf (x); print_newline ();
-  ) // end of [val]
+val () =
+(
+  println! ("s2varbindmap_insert: k = ", k);
+  println! ("s2varbindmap_insert: x = ", x);
+) (* end of [val] *)
 *)
-  val x = s2hnf2exp (x)
-  var res: s2exp? // unintialized
-  val replaced = $MAP.linmap_insert<s2var,s2exp> (map, k, x, cmp, res)
-  prval () = opt_clear (res)
+//
+val x = s2hnf2exp (x)
+var res: s2exp? // unintialized
+//
+val
+replaced =
+  $MAP.linmap_insert<s2var,s2exp> (map, k, x, cmp, res)
+//
+prval () = opt_clear (res)
+//
 in
   // nothing
 end // end of [s2varbindmap_insert]
-
+//
 implement
-s2varbindmap_remove (map, k) = let
+s2varbindmap_remove
+  (map, k) = let
   val _(*removed*) = $MAP.linmap_remove<s2var,s2exp> (map, k, cmp)
 in
   (*nothing*)
 end // end of [s2varbindmap_remove]
-
+//
 implement
 s2varbindmap_listize (map) = $MAP.linmap_listize<s2var,s2exp> (map)
-
+//
 end // end of [local]
 
 (* ****** ****** *)

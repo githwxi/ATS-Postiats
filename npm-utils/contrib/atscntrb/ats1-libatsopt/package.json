@@ -1,0 +1,31 @@
+{
+"name":
+"ats1-libatsopt"
+,
+"version": "0.3.5-3"
+,
+"description":
+"This package is for libatsopt (the library version of patsopt)."
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url":
+  "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/ats1-libatsopt"
+}
+,
+"keywords": [
+  "ATS",
+  "libatsopt",
+  "Anairiats", "Postiats"
+]
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "GPLv3"
+,
+"note-for-me": "The package is stored at ${PATSHOME}/npm-utils/contrib/ats1-libatsopt/."
+}

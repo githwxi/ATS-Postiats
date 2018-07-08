@@ -43,10 +43,12 @@ staload "libats/ML/SATS/matrix0.sats"
 
 (* ****** ****** *)
 //
-implement{}
+implement
+{}(*tmp*)
 matrix0_of_mtrxszref{a}(A) = $UN.cast{matrix0(a)}(A)
 //
-implement{}
+implement
+{}(*tmp*)
 mtrxszref_of_matrix0{a}(A) = $UN.cast{mtrxszref(a)}(A)
 //
 (* ****** ****** *)
@@ -55,36 +57,58 @@ implement{
 } matrix0_get_ref (M) =
   mtrxszref_get_ref (mtrxszref_of_matrix0(M))
 //
-implement{
-} matrix0_get_nrow (M) =
-  mtrxszref_get_nrow (mtrxszref_of_matrix0(M))
-implement{
-} matrix0_get_ncol (M) =
-  mtrxszref_get_ncol (mtrxszref_of_matrix0(M))
+implement
+{}(*tmp*)
+matrix0_get_nrow(M) =
+  mtrxszref_get_nrow(mtrxszref_of_matrix0(M))
+implement
+{}(*tmp*)
+matrix0_get_ncol (M) =
+  mtrxszref_get_ncol(mtrxszref_of_matrix0(M))
 //
 (* ****** ****** *)
 
 implement{
-} matrix0_get_refsize (M) = let
-  var nrow: size_t and ncol: size_t
-  val Mref =
-  $effmask_wrt
-  (
-    mtrxszref_get_refsize(mtrxszref_of_matrix0(M), nrow, ncol)
-  ) (* end of [val] *)
+} matrix0_get_refsize
+  (M) = let
+//
+var nrow: size_t // uninitized
+and ncol: size_t // uninitized
+//
+val Mref =
+$effmask_wrt
+(
+mtrxszref_get_refsize(mtrxszref_of_matrix0(M), nrow, ncol)
+) (* end of [val] *)
+//
 in
   (Mref, nrow, ncol)
 end // end of [matrix0_get_refsize]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-matrix0_make_elt
+matrix0_make_elt_int
+  (nrow, ncol, x0) = let
+//
+val
+nrow = i2sz(max(0, g1ofg0(nrow)))
+and
+ncol = i2sz(max(0, g1ofg0(ncol)))
+//
+in
+  matrix0_of_mtrxszref(mtrxszref_make_elt<a>(nrow, ncol, x0))
+end // end of [matrix0_make_elt_int]
+//
+implement
+{a}(*tmp*)
+matrix0_make_elt_size
   (nrow, ncol, x0) =
-  matrix0_of_mtrxszref (mtrxszref_make_elt<a> (nrow, ncol, x0))
-// end of [matrix0_make_elt]
-
+(
+  matrix0_of_mtrxszref(mtrxszref_make_elt<a>(nrow, ncol, x0))
+) (* end of [matrix0_make_elt_size] *)
+//
 (* ****** ****** *)
 
 implement
@@ -95,10 +119,11 @@ matrix0_get_at_int
   and j = g1ofg0_int(j)
 in
 //
-if i >= 0
+if
+i >= 0
 then (
 if j >= 0 then
-  matrix0_get_at_size<a> (M0, i2sz(i), i2sz(j))
+  matrix0_get_at_size<a>(M0, i2sz(i), i2sz(j))
 else
   $raise MatrixSubscriptExn((*void*)) // neg index
 // end of [if]
@@ -114,9 +139,13 @@ implement
 {a}(*tmp*)
 matrix0_get_at_size
   (M0, i, j) = let
-  val MSZ =
-    mtrxszref_of_matrix0 (M0) in mtrxszref_get_at_size (MSZ, i, j)
-  // end of [val]
+//
+val
+MSZ = mtrxszref_of_matrix0(M0)
+//
+in
+  mtrxszref_get_at_size<a>(MSZ, i, j)
+// end of [val]
 end // end of [matrix0_get_at_size]
 
 (* ****** ****** *)
@@ -129,10 +158,13 @@ matrix0_set_at_int
   and j = g1ofg0_int(j)
 in
 //
-if i >= 0
+if
+i >= 0
 then (
-if j >= 0 then
-  matrix0_set_at_size<a> (M0, i2sz(i), i2sz(j), x)
+if
+j >= 0
+then
+  matrix0_set_at_size<a>(M0, i2sz(i), i2sz(j), x)
 else
   $raise MatrixSubscriptExn((*void*)) (* neg index *)
 // end of [if]
@@ -148,34 +180,55 @@ implement
 {a}(*tmp*)
 matrix0_set_at_size
   (M0, i, j, x) = let
-  val MSZ =
-    mtrxszref_of_matrix0 (M0) in mtrxszref_set_at_size (MSZ, i, j, x)
-  // end of [val]
+//
+val
+MSZ =
+mtrxszref_of_matrix0{a}(M0)
+//
+in
+  mtrxszref_set_at_size<a>(MSZ, i, j, x)
 end // end of [matrix0_set_at_size]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-fprint_matrix0 (out, M) =
-fprint_mtrxszref (out, mtrxszref_of_matrix0 (M))
-
+print_matrix0 (A) =
+  fprint_matrix0<a>(stdout_ref, A)
+//
+implement
+{a}(*tmp*)
+prerr_matrix0 (A) =
+  fprint_matrix0<a>(stderr_ref, A)
+//
+implement
+{a}(*tmp*)
+fprint_matrix0(out, M) =
+  fprint_mtrxszref<a>(out, mtrxszref_of_matrix0(M))
+//
+implement
+{a}(*tmp*)
+fprint_matrix0_sep(out, M, sep1, sep2) =
+  fprint_mtrxszref_sep<a>(out, mtrxszref_of_matrix0(M), sep1, sep2)
+//
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
-matrix0_copy (M0) = let
+matrix0_copy(M0) = let
 //
-val M = matrix0_get_ref (M0)
-val [m:int] m = g1ofg0 (M0.nrow)
-val [n:int] n = g1ofg0 (M0.ncol)
+val M = matrix0_get_ref(M0)
+//
+val [m:int] m = g1ofg0(M0.nrow())
+val [n:int] n = g1ofg0(M0.ncol())
+//
 val M =
-  matrixref_copy<a> ($UN.cast{matrixref(a,m,n)}(M), m, n)
+  matrixref_copy<a>($UN.cast{matrixref(a,m,n)}(M), m, n)
 // end of [val]
 in
 //
 matrix0_of_mtrxszref
-  (mtrxszref_make_matrixref (matrixptr_refize{a}(M), m, n))
+  (mtrxszref_make_matrixref{a}(matrixptr_refize{a}(M), m, n))
 //
 end // end of [matrix0_copy]
 
@@ -184,42 +237,80 @@ end // end of [matrix0_copy]
 implement
 {a}(*tmp*)
 matrix0_tabulate
-  (nrow, ncol, f) = let
+{m,n}
+(nrow, ncol, fopr) = let
 //
-implement{a2}
+implement
+{a2}(*tmp*)
 matrix_tabulate$fopr
-  (i, j) = $UN.castvwtp0{a2}(f(i,j))
-//
-val MSZ = mtrxszref_tabulate<a> (nrow, ncol)
+  (i, j) = let
+  val i =
+  $UN.cast{sizeLt(m)}(i)
+  val j =
+  $UN.cast{sizeLt(n)}(j)
+in  
+  $UN.castvwtp0{a2}(fopr(i,j))
+end // end of [matrix_tabulate$fopr]
 //
 in
-  matrix0_of_mtrxszref (MSZ)  
+  matrix0_of_mtrxszref{a}(mtrxszref_tabulate<a>(nrow, ncol))
 end // end of [matrix0_tabulate]
 
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+matrix0_tabulate_method_int
+  (nrow, ncol) =
+(
+lam(fopr) =>
+matrix0_tabulate<a>
+( i2sz(nrow)
+, i2sz(ncol), lam(i, j) => fopr(sz2i(i), sz2i(j))
+)
+)
+//
+implement
+{a}(*tmp*)
+matrix0_tabulate_method_size
+  (nrow, ncol) =
+(
+lam(fopr) => matrix0_tabulate<a>(nrow, ncol, fopr)
+)
+//
 (* ****** ****** *)
 
 implement
 {a}(*tmp*)
 matrix0_foreach
-  (M0, f) = let
+  (M0, fwork) = let
 //
-fun loop
+fun
+loop
 (
   p: ptr, i: size_t
 ) : void = (
-if i > 0 then let
-  val (pf, fpf | p) = $UN.ptr0_vtake (p)
-  val ((*void*)) = f (!p)
-  prval ((*void*)) = fpf (pf)
+if
+(i > 0)
+then let
+//
+  val
+  (pf, fpf | p) =
+  $UN.ptr0_vtake(p)
+//
+  val ((*void*)) = fwork(!p)
+//
+  prval ((*returned*)) = fpf(pf)
+//
 in
-  loop (ptr_succ<a> (p), pred (i))
+  loop(ptr_succ<a>(p), pred(i))
 end else ((*void*)) // end of [if]
 ) (* end of [loop] *)
 //
-val (M, m, n) = matrix0_get_refsize (M0)
+val (M, m, n) = matrix0_get_refsize(M0)
 //
 in
-  loop (ptrcast(M), m * n)
+  loop(ptrcast(M), m * n)
 end // end of [matrix0_foreach]
 
 (* ****** ****** *)
@@ -227,7 +318,7 @@ end // end of [matrix0_foreach]
 implement
 {a}(*tmp*)
 matrix0_iforeach
-  (M0, f) = let
+  (M0, fwork) = let
 //
 val (M, m, n) =
   matrix0_get_refsize (M0)
@@ -237,26 +328,33 @@ fun loop
   p: ptr
 , k: size_t, i: size_t, j: size_t
 ) : void = (
-if k > 0 then let
-  val (
-    pf, fpf | p
-  ) = $UN.ptr0_vtake (p)
-  val () = f (i, j, !p)
-  prval ((*void*)) = fpf (pf)
-  val p = ptr_succ<a> (p)
+if
+(k > 0)
+then let
+//
+  val
+  (pf, fpf | p) =
+  $UN.ptr0_vtake (p)
+//
+  val () = fwork(i, j, !p)
+//
+  prval ((*returned*)) = fpf(pf)
+//
+  val p = ptr_succ<a>(p)
   val k = pred(k) and j = succ(j)
+//
 in
 //
 if j < n
-  then loop (p, k, i, j)
-  else loop (p, k, succ(i), i2sz(0))
+  then loop(p, k, i, j)
+  else loop(p, k, succ(i), i2sz(0))
 // end of [if]
 //
 end else ((*void*)) // end of [if]
 ) (* end of [loop] *)
 //
 in
-  loop (ptrcast(M), m * n, i2sz(0), i2sz(0))
+  loop(ptrcast(M), m * n, i2sz(0), i2sz(0))
 end // end of [matrix0_iforeach]
 
 (* ****** ****** *)
@@ -264,43 +362,47 @@ end // end of [matrix0_iforeach]
 implement
 {res}{a}(*tmp*)
 matrix0_foldleft
-  (M0, ini, f) = let
+(
+M0, ini, fopr
+) = ini where
+{
 //
 var ini: res = ini
 val p_ini = addr@(ini)
 //
-var f2 =
-lam@ (x: &a): void =>
-  $UN.ptr0_set<res> (p_ini, f ($UN.ptr0_get<res> (p_ini), x))
+var fopr2 =
+lam@(x: &a): void =>
+  $UN.ptr0_set<res>(p_ini, fopr($UN.ptr0_get<res>(p_ini), x))
 //
 val () =
-matrix0_foreach<a> (M0, $UN.cast{(&a)-<cloref1>void}(addr@f2))
+matrix0_foreach<a>(M0, $UN.cast{(&a)-<cloref1>void}(addr@fopr2))
 //
-in
-  ini
-end // end of [matrix0_foldleft]
+} (* end of [matrix0_foldleft] *)
 
 (* ****** ****** *)
 
 implement
 {res}{a}(*tmp*)
 matrix0_ifoldleft
-  (M0, ini, f) = let
+(
+M0, ini, fopr
+) = ini where
+{
 //
 var ini: res = ini
 val p_ini = addr@(ini)
 //
-var f2 =
-lam@ (i: size_t, j: size_t, x: &a): void =>
-  $UN.ptr0_set<res> (p_ini, f ($UN.ptr0_get<res> (p_ini), i, j, x))
+var fopr2 =
+lam@(i: size_t, j: size_t, x: &a): void =>
+  $UN.ptr0_set<res>
+  (p_ini, fopr($UN.ptr0_get<res>(p_ini), i, j, x))
 //
 val () =
-matrix0_iforeach<a> (M0, $UN.cast{(size_t,size_t,&a)-<cloref1>void}(addr@f2))
+matrix0_iforeach<a>
+(M0, $UN.cast{(size_t,size_t,&a)-<cloref1>void}(addr@fopr2))
 //
-in
-  ini
-end // end of [matrix0_ifoldleft]
+} (* end of [matrix0_ifoldleft] *)
 
 (* ****** ****** *)
 
-(* end of [matrix.dats] *)
+(* end of [matrix0.dats] *)

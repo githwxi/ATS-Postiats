@@ -63,35 +63,35 @@ viewtypedef tokbuf = tokbuf_vt0ype
 (* ****** ****** *)
 
 fun
-tokbuf_initialize_filp
+tokbuf_initize_filp
   {m:file_mode} {l:addr} (
   pfmod: file_mode_lte (m, r)
 , pffil: FILE m @ l
 | r: &tokbuf? >> tokbuf, p: ptr l
-) : void // end of [tokbuf_initialize_filp]
+) : void // end of [tokbuf_initize_filp]
 
 fun
-tokbuf_initialize_getc
+tokbuf_initize_getc
 (
   buf: &tokbuf? >> tokbuf, getc: () -<cloptr1> int
-) : void // end of [tokbuf_initialize_getc]
+) : void // end of [tokbuf_initize_getc]
 
 fun
-tokbuf_initialize_string
+tokbuf_initize_string
 (
   buf: &tokbuf? >> tokbuf, inp: string
-) : void // end of [tokbuf_initialize_string]
+) : void // end of [tokbuf_initize_string]
 
 fun
-tokbuf_initialize_lexbuf
+tokbuf_initize_lexbuf
 (
   buf: &tokbuf? >> tokbuf, lbf: &lexbuf >> lexbuf?
-) : void // end of [tokbuf_initialize_lexbuf]
+) : void // end of [tokbuf_initize_lexbuf]
 
 (* ****** ****** *)
 //
 fun
-tokbuf_uninitialize (buf: &tokbuf >> tokbuf?) : void
+tokbuf_uninitize (buf: &tokbuf >> tokbuf?) : void
 //
 (* ****** ****** *)
 

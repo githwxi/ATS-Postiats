@@ -8,11 +8,14 @@ PATSCC=$(PATSHOME)/bin/patscc
 
 ######
 
-all::tailrec
+all::
 
 ######
 
-tailrec: tailrec.dats ; $(PATSCC) -tcats $@ $<
+all:: \
+tailrec
+tailrec: \
+tailrec.dats ; $(PATSCC) -tcats $@ $<
 
 ######
 
@@ -22,15 +25,29 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
-main.exe: \
-  main_atxt.dats ; \
-  $(ATSCC) \
-  -IATS $(PATSHOME) -IATS $(ATSHOME) \
-  -I$(PATSHOME)/src -D_ATS_GCATS -o $@ $< \
-  -L$(PATSHOME)/libatsynmark -latsynmark -latsdoc
+INPATH :=
+INPATH += -I$(PATSHOME)/src
+INPATH += -IATS $(PATSHOME) -IATS $(ATSHOME)
 
-main_atxt.dats: \
-  main.atxt; $(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+LDPATH :=
+LDPATH += -L$(PATSHOME)/ccomp/atslib/lib
+
+LIBRARY :=
+LIBRARY := -latsynmark -latsdoc -latsopt -lats -lgmp
+
+######
+#
+main.exe: \
+main_atxt.dats ; \
+$(ATSCC) \
+  -D_ATS_GCATS \
+  $(INPATH) -o $@ $< $(LDPATH) $(LIBRARY)
+#
+main_atxt.dats: main.atxt; \
+$(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+#
+######
+
 main.html: main.exe ; ./main.exe > $@
 
 ######
@@ -47,6 +64,7 @@ RMF=rm -f
 ######
 
 clean:: ; $(RMF) *~
+clean:: ; $(RMF) main.exe
 clean:: ; $(RMF) main_atxt.txt
 clean:: ; $(RMF) main_atxt.dats
 clean:: ; $(RMF) main_atxt_dats.c
@@ -54,7 +72,6 @@ clean:: ; $(RMF) main_atxt_dats.c
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) main.exe
 cleanall:: ; $(RMF) main.html
 
 ######

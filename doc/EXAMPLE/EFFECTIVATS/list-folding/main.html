@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-list-folding</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+List-folding Combinators
+</h1>
+
+<p>A list-folding combinator is a (higher-order) function that
+traverses a given list to process the elements contained in the
+list. In this very light article (based on a lecture of mine on
+introductory functional programming), I present some code implementing
+3 list-folding combinators as well as several examples making use
+of these combinators.</p>
+
+
+<h2>List_fold_left</h2>
+
+<p>
+The function <span style="color: #F00000;">list_fold_left</span> of the following
+interface folds a given list from left to right:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">,</span>b<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_fold_left
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">,</span> init<span class="keyword">:</span> <span class="staexp">b</span><span class="keyword">,</span> fopr<span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">b</span><span class="keyword">,</span> <span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">b</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">b</span></span> <span class="comment">// end-of-function</span>
+</pre>
+
+Applied to a list of n elements (x<sub>1</sub>, ..., x<sub>n</sub>),
+<span style="color: #F00000;">list_fold_left</span> essentially returns the value of the
+following (informal) expression: <span style="color: #F00000;">fopr(...fopr(init,
+x<sub>1</sub>), ..., x<sub>n</sub>)</span>.  The following code gives a typical
+implementation of <span style="color: #F00000;">list_fold_left</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a<span class="keyword">,</span>b</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+list_fold_left
+  <span class="keyword">(</span>xs<span class="keyword">,</span> init<span class="keyword">,</span> fopr<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+auxmain
+<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  init<span class="keyword">:</span> <span class="staexp">b</span><span class="keyword">,</span> xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">b</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> init
+<span class="keyword">|</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+    auxmain<span class="keyword">(</span>fopr<span class="keyword">(</span>init<span class="keyword">,</span> x<span class="keyword">)</span><span class="keyword">,</span> xs<span class="keyword">)</span>
+  <span class="comment">// end of [list_cons]</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* auxmain *)</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_list_param<span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  auxmain<span class="keyword">(</span>init<span class="keyword">,</span> xs<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [list_fold_left]</span>
+</pre>
+
+Note that <span style="color: #F00000;">auxmain</span> is tail-recursive.
+
+</p>
+
+<p>
+As an example, the list-length function can be
+implemented with a direct call to <span style="color: #F00000;">list_fold_left</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_length
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+list_fold_left&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">int</span><span class="keyword">&gt;</span>
+  <span class="keyword">(</span>xs<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xs<span class="keyword">,</span> x<span class="keyword">)</span> <span class="keyword">=&gt;</span> xs + <span class="dynexp">1</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* list_length *)</span>
+</pre>
+
+However, it should be noted that this implementation
+of <span style="color: #F00000;">list_length</span> cannot be assigned the following
+interface:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_length<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span><span class="keyword">(</span><span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+In order to do so, a more accurate interface needs to be given to
+<span style="color: #F00000;">list_fold_left</span>.
+
+<br></br>
+
+As another example, the list-reverse function can be implemented
+with a direct call to <span style="color: #F00000;">list_fold_left</span> as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_reverse
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+list_fold_left&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+  <span class="keyword">(</span>xs<span class="keyword">,</span> list_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xs<span class="keyword">,</span> x<span class="keyword">)</span> <span class="keyword">=&gt;</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* list_reverse *)</span>
+</pre>
+
+Note that the type constructor <span style="color: #0000F0;">List0</span> is defined as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span> <span class="staexp">List0<span class="keyword">(</span><span class="staexp">a<span class="keyword">:</span><span class="keyword">t@ype</span></span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp"><span class="keyword">[</span>n<span class="keyword">:</span>nat<span class="keyword">]</span></span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+</pre>
+
+
+</p>
+
+<h2>List_fold_right</h2>
+
+<p>
+The function <span style="color: #F00000;">list_fold_right</span> of the following
+interface folds a given list from right to left:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">,</span>b<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_fold_right
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">,</span> fopr<span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">b</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">b</span><span class="keyword">,</span> sink<span class="keyword">:</span> <span class="staexp">b</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">b</span></span> <span class="comment">// end-of-function</span>
+</pre>
+
+Applied to a list of n elements (x<sub>1</sub>, ..., x<sub>n</sub>),
+<span style="color: #F00000;">list_fold_right</span> essentially returns the value of the
+followng (informal) expression: <span style="color: #F00000;">fopr(x<sub>1</sub>,...fopr(x<sub>n</sub>, sink)...)</span>.
+The following code gives a typical implementation of <span style="color: #F00000;">list_fold_right</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a<span class="keyword">,</span>b</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+list_fold_right
+  <span class="keyword">(</span>xs<span class="keyword">,</span> fopr<span class="keyword">,</span> sink<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+auxmain
+<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">b</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> sink
+<span class="keyword">|</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span> fopr<span class="keyword">(</span>x<span class="keyword">,</span> auxmain<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* auxmain *)</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_list_param<span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  auxmain<span class="keyword">(</span>xs<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [list_fold_right]</span>
+</pre>
+
+Note that <span style="color: #F00000;">auxmain</span> is recursive but not tail-recursive.
+
+</p>
+
+<p>
+As an example, the list-length function can be implemented with
+a direct call to <span style="color: #F00000;">list_fold_right</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_length
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+list_fold_right&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">int</span><span class="keyword">&gt;</span>
+  <span class="keyword">(</span>xs<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span> xs + <span class="dynexp">1</span><span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* list_length *)</span>
+</pre>
+
+Compared to the implementation of <span style="color: #F00000;">list_length</span> based on
+<span style="color: #F00000;">list_fold_left</span>, this one is much less attractive as it is
+not tail-recursive and thus may cause a call-stack overflow when
+applied to a long list (for instance, one containing 1 million
+elements).
+
+<br></br>
+
+As another example, the list-append function (for concatenating two given
+lists) can be implemented with a direct call to <span style="color: #F00000;">list_fold_right</span>
+as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_append
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> ys<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_list_param<span class="keyword">(</span>ys<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+list_fold_right&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+  <span class="keyword">(</span>xs<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span><span class="keyword">,</span> ys<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* list_append *)</span>
+</pre>
+
+In practice, it is not uncommon to see an
+implementation of the list-reverse function (for reversing a given list)
+of the following style (usually by a novice functional programmer):
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_reverse
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+list_fold_right&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span> xs
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  list_append&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>xs<span class="keyword">,</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> list_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">,</span> list_nil<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* end of [list_fold_right] *)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* list_reverse *)</span>
+</pre>
+
+This is a terribly inefficient implementation of
+O(n<sup>2</sup>)-complexity both time-wise and memory-wise, and any
+programmer who writes this kind of code is surely in need of
+solidifying his/her own understanding of the call-by-value semantics.
+</p>
+
+<p>
+The following code implements based on <span style="color: #F00000;">list_fold_right</span> a
+function searching for the rightmost element satisfying a given prediate
+in a given list:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_find_rightmost
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">,</span> p<span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">bool</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">Option</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="keyword">exception</span> <span class="dynexp">Found <span class="keyword">of</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">try</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="keyword">val</span> _ <span class="keyword">=</span>
+list_fold_right&lt;a<span class="keyword">,</span>int<span class="keyword">&gt;</span>
+<span class="keyword">(</span> xs
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">,</span> xs<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  <span class="keyword">if</span> p<span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">then</span> <span class="keyword">$raise</span><span class="keyword">(</span>Found<span class="keyword">(</span>x<span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">else</span> <span class="keyword">(</span>0<span class="keyword">)</span>
+<span class="keyword">,</span> 0<span class="comment">(*nominal*)</span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  None<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">end</span> <span class="keyword">with</span> <span class="keyword">~</span>Found<span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> Some<span class="keyword">(</span>x<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [list_find_rightmost] *)</span>
+</pre>
+
+Note that the <span style="color: #F00000;">fopr</span> argument passed to
+<span style="color: #F00000;">list_fold_right</span> in this case is a function that raises an
+exception carrying the element being processed if the element
+satsifies the given predicate. As the type <span style="color: #0000F0;">void</span> may cause
+difficulty for the generated C code to be compiled properly, the type
+<span style="color: #0000F0;">int</span> is chosen instead for the result returned by the call
+to <span style="color: #F00000;">list_fold_right</span>.
+
+</p>
+
+<h2>List_fold_split</h2>
+
+<p>
+Lists are inherently sequential, and traversing a list is mostly
+likely done in a from-left-to-right or from-right-to-left
+manner. There are however realistic occasions where one may want to
+traverse a list in a tree-like manner. For instance, list-mergesort
+can be implemented by first splitting a given list into two halves and
+then recursively sorting them and merging the two obtained sorted
+lists into one. The following function <span style="color: #F00000;">list_fold_split</span>
+can be seen as a form of abtraction over mergesort:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">,</span>b<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_fold_split
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">,</span> fopr<span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">b</span><span class="keyword">,</span> <span class="staexp">b</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">b</span>
+<span class="keyword">,</span> sink0<span class="keyword">:</span> <span class="staexp">b</span><span class="keyword">,</span> fsink1<span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">b</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">b</span></span> <span class="comment">// end-of-function</span>
+</pre>
+
+If a given list contains at least two elements,
+<span style="color: #F00000;">list_fold_split</span> splits it into two halves and then
+applies recursively to them to yield two results that are subsequently
+combined together by a call to <span style="color: #F00000;">fopr</span>; if the given list is
+empty, then <span style="color: #F00000;">sink0</span> is the result; if the given list is a
+singleton, the <span style="color: #F00000;">fsink1</span> is called on the only element to
+yield the result. The following code gives an implementation of
+<span style="color: #F00000;">list_fold_split</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a<span class="keyword">,</span>b</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+list_fold_split
+  <span class="keyword">(</span>xs<span class="keyword">,</span> fopr<span class="keyword">,</span> sink0<span class="keyword">,</span> fsink1<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+aux
+<span class="staexp"><span class="keyword">{</span> n1<span class="keyword">,</span>n2<span class="keyword">:</span>nat
+<span class="keyword">|</span> n1 &gt;= n2 <span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n2</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> n2<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n2</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">b</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">if</span>
+<span class="keyword">(</span>n2 &gt;= <span class="dynexp">2</span><span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> n21 <span class="keyword">=</span> half<span class="keyword">(</span>n2<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  fopr<span class="keyword">(</span>aux<span class="keyword">(</span>xs<span class="keyword">,</span> n21<span class="keyword">)</span><span class="keyword">,</span> aux<span class="keyword">(</span>list_drop<span class="keyword">(</span>xs<span class="keyword">,</span> n21<span class="keyword">)</span><span class="keyword">,</span> n2-n21<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> xs <span class="keyword">of</span>
+<span class="keyword">|</span> list_nil<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> sink0
+<span class="keyword">|</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> _<span class="keyword">)</span> <span class="keyword">=&gt;</span> fsink1<span class="keyword">(</span>x<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span> <span class="comment">(* end of [else] *)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [aux] *)</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_list_param<span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  aux<span class="keyword">(</span>xs<span class="keyword">,</span> length<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [list_fold_split]</span>
+</pre>
+
+Given a list and a natural number n less than or equal to the length
+of the list, <span style="color: #F00000;">list_drop</span> returns another list obtained from
+removing the first n elements from the given list. Clearly,
+<span style="color: #F00000;">list_drop</span> is O(n)-time. Assume that <span style="color: #F00000;">fsink1</span> is
+O(1)-time. If <span style="color: #F00000;">fopr</span> is O(1)-time, then
+<span style="color: #F00000;">list_fold_split</span> is O(n(log(n)))-time. If <span style="color: #F00000;">fopr</span>
+is O(n)-time, then <span style="color: #F00000;">list_fold_split</span> is O(n(log(n)))-time
+as well.
+</p>
+
+<p>
+Unsuprisingly, list-mergesort can be implemented with a direct call to
+<span style="color: #F00000;">list_fold_split</span> where the <span style="color: #F00000;">fopr</span> argument is the
+standard function for merging two sorted lists into one:
+
+<pre
+class="patsyntax">
+<span class="keyword">local</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>
+a<span class="keyword">:</span><span class="keyword">t@ype</span>
+<span class="keyword">}</span></span> merge
+<span class="keyword">(</span>
+  xs0<span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">,</span> ys0<span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="keyword">case+</span> <span class="keyword">(</span>xs0<span class="keyword">,</span> ys0<span class="keyword">)</span> <span class="keyword">of</span>
+<span class="keyword">|</span> <span class="keyword">(</span>list0_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> _<span class="keyword">)</span> <span class="keyword">=&gt;</span> ys0
+<span class="keyword">|</span> <span class="keyword">(</span>_<span class="keyword">,</span> list0_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> xs0
+<span class="keyword">|</span> <span class="keyword">(</span>list0_cons<span class="keyword">(</span>x0<span class="keyword">,</span> xs1<span class="keyword">)</span><span class="keyword">,</span> 
+   list0_cons<span class="keyword">(</span>y0<span class="keyword">,</span> ys1<span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> sgn <span class="keyword">=</span> gcompare_val_val&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>x0<span class="keyword">,</span> y0<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    <span class="keyword">if</span> sgn &lt;= <span class="dynexp">0</span>
+      <span class="keyword">then</span> list0_cons<span class="keyword">(</span>x0<span class="keyword">,</span> merge<span class="keyword">(</span>xs1<span class="keyword">,</span> ys0<span class="keyword">)</span><span class="keyword">)</span>
+      <span class="keyword">else</span> list0_cons<span class="keyword">(</span>y0<span class="keyword">,</span> merge<span class="keyword">(</span>xs0<span class="keyword">,</span> ys1<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [cons _, cons _]</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span> <span class="comment">(* in-of-local *)</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+mergesort<span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span> <span class="keyword">=</span>
+list_fold_split&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">list0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span> xs
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xs<span class="keyword">,</span> ys<span class="keyword">)</span> <span class="keyword">=&gt;</span> merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span><span class="keyword">(</span>xs<span class="keyword">,</span> ys<span class="keyword">)</span>
+<span class="keyword">,</span> list0_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> list0_sing<span class="keyword">(</span>x<span class="keyword">)</span>
+<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">end</span> <span class="comment">// end of [local]</span>
+</pre>
+
+As another example, the list-reverse function can be implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+<span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span><span class="keyword">t@ype</span><span class="keyword">}</span></span>
+list_reverse
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">List</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+<span class="comment">//</span>
+list_fold_split&lt;<span class="staexp">a</span><span class="keyword">,</span><span class="staexp">List0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">&gt;</span>
+<span class="keyword">(</span> xs
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>xs<span class="keyword">,</span> ys<span class="keyword">)</span> <span class="keyword">=&gt;</span> list_append<span class="keyword">(</span>ys<span class="keyword">,</span> xs<span class="keyword">)</span>
+<span class="keyword">,</span> list_nil<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> list_cons<span class="keyword">(</span>x<span class="keyword">,</span> list_nil<span class="keyword">)</span>
+<span class="keyword">)</span> <span class="comment">(* list_fold_split *)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* list_reverse *)</span>
+</pre>
+
+Note that this implementation of <span style="color: #F00000;">list_reverse</span> is
+O(n(log(n)))-time. While it is better than the previous one of
+O(n<sup>2</sup>)-time, it is still unacceptably poor as reversing a list
+can be readily given a tail-recursive implementation of O(n)-time.
+
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+list_fold_left.dats
+list_fold_right.dats
+list_fold_split.dats
+</pre>
+
+In addition, there is an accompanying <tt>Makefile</tt> for compiling
+and testing the code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

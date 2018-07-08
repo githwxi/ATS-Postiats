@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/int2proginats.dats"
+#include "./../MYTEXT/int2proginats.dats"
 //
 %}\
 #comment("\n\
@@ -31,7 +31,8 @@ features in ATS, which will be presented in this book later.\
 #para("\
 
 The code employed for illustration in this chapter plus some additional
-code for testing is available #mycodelink("CHAP_FUNCTION/", "on-line").
+code for testing is available #mycodelink("CHAP_FUNCTION/", "on-line").\
+
 ")
 
 <sect1
@@ -54,7 +55,7 @@ clearly not modular, and it is of little chance to scale. To address this
 problem, we can implement a function as follows to compute the square of a
 given floating point number:
 
-#atscode("\
+#dats2xhtml("\
 fn square (x: double): double = x * x
 ")
 
@@ -77,7 +78,7 @@ If #dyncode("square") is a name, what is the expression it refers to? It
 turns out that the above function definition can also be written as
 follows:
 
-#atscode("\
+#dats2xhtml("\
 val square = lam (x: double): double => x * x
 ")
 
@@ -88,7 +89,7 @@ and the expression following the symbol #dyncode("=>") is the body of the
 function. If we wish, we can change the name of the function argument as
 follows:
 
-#atscode("\
+#dats2xhtml("\
 val square = lam (y: double): double => y * y
 ")
 
@@ -131,17 +132,17 @@ circles centered at the same point. If the radii of the outer and inner
 circles are R and r, respectively, then the area of the ring can be
 computed by the following function #dyncode("area_of_ring"):
 
-#atscode("\
+#dats2xhtml("\
 fn area_of_ring
   (R: double, r: double): double = 3.1416 * (square(R) - square(r))
 // end of [area_of_ring]
 ")
 
-Given that the subtraction and multiplication functions (on floating point
-numbers) are of the type #dyncode("(double, double) -> double") and
-#dyncode("square") is of the type #dyncode("(double) -> double"), it is a
-simple routine to verify that the body of #dyncode("area_of_ring") can be
-assigned the type #dyncode("double").\
+Note that the subtraction and multiplication functions
+are of the type #dyncode("(double, double) -> double")
+and #dyncode("square") is of the type #dyncode("(double) ->
+double"). It is thus a simple routine to verify that the body of
+#dyncode("area_of_ring") can be assigned the type #dyncode("double").\
 
 ")#comment("para")
 
@@ -161,12 +162,12 @@ binary and ternary functions, respectively. For example, the following
 function #dyncode("sqrsum1") is a binary function such that its two
 arguments are of the type #dyncode("int"):
 
-#atscode("\
+#dats2xhtml("\
 fn sqrsum1 (x: int, y: int): int = x * x + y * y
 ")
 
 We can define a unary function #dyncode("sqrsum2") as follows:
-#atscode("\
+#dats2xhtml("\
 //
 typedef int2 = (int, int)
 //
@@ -216,7 +217,7 @@ The interface for a function specifies the type assigned to the
 function. Given a binary function foo of the type (T1, T2) -> T3, its
 interface can be written as follows:
 
-#atscode("\
+#sats2xhtml("\
 fun foo (arg1: T1, arg2: T2): T3
 ")
 
@@ -226,7 +227,7 @@ fewer arguments, interfaces can be written in a similar fashion.  For
 instance, we have the following interfaces for various functions on
 integers:
 
-#atscode("\
+#sats2xhtml("\
 fun succ_int (x: int): int // successor
 fun pred_int (x: int): int // predecessor
 
@@ -274,8 +275,8 @@ Evaluating a function call is straightforward. Assume that we are to
 evaluate the function call #dyncode("abs(0.0 - 1.0)") under some
 environment ENV0, where the function #dyncode("abs") is defined as follows:
 
-#atscode("\
-fn abs (x: double): double = if x >= 0 then x else ~x
+#dats2xhtml("\
+fn abs (x: double): double = if x >= 0.0 then x else ~x
 ")
 
 We first evaluate the argument of the call to #dyncode("~1.0") under ENV0;
@@ -326,8 +327,11 @@ Suppose that we want to sum up all the integers ranging from 1 to n,
 where n is a given integer. This can be readily done by implementing the
 following recursive function #dyncode("sum1"):
 
-#atscode("\
-fun sum1 (n: int): int = if n >= 1 then sum1 (n-1) + n else 0
+#dats2xhtml("\
+fun sum1
+  (n: int): int =
+  if n >= 1 then sum1 (n-1) + n else 0
+// end of [sum1]
 ")
 
 To find out the sum of all the integers ranging from #dyncode("1") to
@@ -344,8 +348,11 @@ We can also solve the problem by implementing the following
 recursive function #dyncode("sum2") that sums up all the integers in a
 given range:
 
-#atscode("\
-fun sum2 (m: int, n: int): int = if m <= n then m + sum2 (m+1, n) else 0
+#dats2xhtml("\
+fun sum2
+  (m: int, n: int): int =
+  if m <= n then m + sum2 (m+1, n) else 0
+// end of [sum2]
 ")
 
 This time, we call #dyncode("sum2 (1, n)") in order to find out the sum of
@@ -366,17 +373,21 @@ from (m+n)/2+1 to n and then sum up these two sums and (m+n)/2. The
 following recursive function #dyncode("sum3") is implemented precisely
 according to this strategy:
 
-#atscode("\
+#dats2xhtml("\
 fun sum3
   (m: int, n: int): int =
-  if m <= n then let
-    val mn2 = (m+n)/2 in sum3 (m, mn2-1) + mn2 + sum3 (mn2+1, n)
-  end else 0 // end of [if]
+  if m <= n
+    then let
+      val mn2 = (m+n)/2
+    in
+      sum3 (m, mn2-1) + mn2 + sum3 (mn2+1, n)
+    end // end of [then]
+    else 0 // end of [else]
 // end of [sum3]
 ")
 
 It should be noted that the division involved in the expression
-#dyncode("(m+n)/2 ") is integer division for which rounding is done by
+#dyncode("(m+n)/2") is integer division for which rounding is done by
 truncation.\
 
 ")#comment("para")
@@ -394,9 +405,11 @@ Evaluating a call to a recursive function is not much different from
 evaluating one to a non-recursive function.  Let #dyncode("fib") be the
 following defined function for computing the Fibonacci numbers:
 
-#atscode("\
-fun fib (n: int): int =
+#dats2xhtml("\
+fun fib
+  (n: int): int =
   if n >= 2 then fib(n-1) + fib(n-2) else n
+// end of [fib]
 ")
 
 Suppose that we are to evaluate #dyncode("fib(2)") under some environment
@@ -474,20 +487,23 @@ where S<subscript>1</subscript> is the set formed by removing c from S.
 In the following implementation, we fix S to be the set consisting of
 1, 5, 10 and 25.
 
-#atscode("\
-typedef int4 = (int, int, int, int)
-
+#dats2xhtml("\
+//
+typedef
+int4 = (int, int, int, int)
+//
 val theCoins = (1, 5, 10, 25): int4
-
+//
 fun coin_get
   (n: int): int =
+(
   if n = 0 then theCoins.0
   else if n = 1 then theCoins.1
   else if n = 2 then theCoins.2
   else if n = 3 then theCoins.3
   else ~1 (* erroneous value *)
-// end of [coin_get]
-
+) (* end of [coin_get] *)
+//
 fun coin_change
   (sum: int): int = let
   fun aux (sum: int, n: int): int =
@@ -498,6 +514,7 @@ fun coin_change
 in
   aux (sum, 3)
 end // end of [coin_change]
+//
 ")
 
 The auxiliary function #dyncode("aux") defined in the body of
@@ -530,9 +547,9 @@ tail-call. If foo and bar are the same, then this is a (recursive) self
 tail-call. For instance, there are two recursive calls in the body of the
 function #dyncode("f91") defined as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun f91 (n: int): int =
-  if n >= 101 then n - 10 else f91 (f91 (n+11))
+  if n >= 101 then n - 10 else f91(f91(n+11))
 ")
 
 where the outer recursive call is a self tail-call while the inner one is
@@ -546,10 +563,10 @@ If each recursive call in the body of a function is a tail-call,
 then this function is a tail-recursive function. For instance, the
 following function #dyncode("sum_iter") is tail-recursive:
 
-#atscode("\
+#dats2xhtml("\
 fun sum_iter
   (n: int, res: int): int =
-  if n > 0 then sum_iter (n-1, n+res) else res
+  if n > 0 then sum_iter(n-1, n+res) else (res)
 // end of [sum_iter]
 ")
 
@@ -591,7 +608,7 @@ every recursive function implemented in this solution is tail-recursive.
 #para("\
 First, let us introduce a name for the integer constant 8 as follows:
 
-#atscode("\
+#sats2xhtml("\
 \#define N 8
 ")
 
@@ -599,7 +616,7 @@ After this declaration, each occurrence of the name #dyncode("N") is to
 be replaced with 8. For representing board configurations, we define
 a type #dyncode("int8") as follows:
 
-#atscode("\
+#sats2xhtml("\
 typedef int8 =
 (
   int, int, int, int, int, int, int, int
@@ -616,14 +633,14 @@ piece on the second row (row 1), and so on.
 In order to print out a board configuration, we define the following
 functions:
 
-#atscode('\
+#dats2xhtml('\
 fun print_dots (i: int): void =
   if i > 0 then (print ". "; print_dots (i-1)) else ()
 // end of [print_dots]
 
 fun print_row (i: int): void =
 (
-  print_dots (i); print "Q "; print_dots (N-i-1); print "\\\n";
+  print_dots (i); print "Q "; print_dots (N-i-1); print "\\\\\\\\n";
 ) // end of [print_row]
 
 fun print_board (bd: int8): void =
@@ -664,7 +681,7 @@ Q . . . . . . .
 Given a board and the row number of a queen piece on the board, the
 following function #dyncode("board_get") returns the column number of the piece:
 
-#atscode("\
+#dats2xhtml("\
 fun board_get
   (bd: int8, i: int): int =
   if i = 0 then bd.0
@@ -686,7 +703,7 @@ Given a board, a row number i and a column number j, the following function
 #dyncode("board_set") returns a new board that are the same as the original
 board except for j being the column number of the queen piece on row i:
 
-#atscode("\
+#dats2xhtml("\
 fun board_set
   (bd: int8, i: int, j:int): int8 = let
   val (x0, x1, x2, x3, x4, x5, x6, x7) = bd
@@ -724,7 +741,7 @@ simpler and cleaner. However, we have not yet covered arrays at this point.\
 Let us now implement two testing functions #dyncode("safety_test1") and
 #dyncode("safety_test2") as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun safety_test1
 (
   i0: int, j0: int, i1: int, j1: int
@@ -777,41 +794,51 @@ given board with a row number less than or equal to #dyncode("i").\
 We are now ready to implement the following function
 #dyncode("search") based on a standard depth-first search (DFS) algorithm:
 
-#atscode('\
+#dats2xhtml('\
 fun search
 (
   bd: int8, i: int, j: int, nsol: int
-) : int =
-  if j < N then let
-    val test = safety_test2 (i, j, bd, i-1)
-  in
-    if test then let
+) : int = (
+//
+if
+(j < N)
+then let
+  val test = safety_test2 (i, j, bd, i-1)
+in
+  if test
+    then let
       val bd1 = board_set (bd, i, j)
     in
-      if i+1 = N then let
-        val () = print! ("Solution #", nsol+1, ":\\\n\\\n")
-        val () = print_board (bd1)
-      in
-        search (bd, i, j+1, nsol+1)
-      end else
-        search (bd1, i+1, 0(*j*), nsol) // positioning next piece
+      if i+1 = N
+        then let
+          val () = print! ("Solution #", nsol+1, ":\\\\\\\\n\\\\\\\\n")
+          val () = print_board (bd1)
+        in
+          search (bd, i, j+1, nsol+1)
+        end // end of [then]
+        else (
+          search (bd1, i+1, 0(*j*), nsol) // positioning next piece
+        ) (* end of [else] *)
       // end of [if]
-    end else
-      search (bd, i, j+1, nsol)
-  end else
-  (
-    if i > 0 then
-      search (bd, i-1, board_get (bd, i-1) + 1, nsol)
-    else nsol // end of [if]
-  )
-// end of [search]
+    end // end of [then]
+    else search (bd, i, j+1, nsol)
+  // end of [if]
+end // end of [then]
+else (
+  if i > 0
+    then search (bd, i-1, board_get (bd, i-1) + 1, nsol) else nsol
+  // end of [if]
+) (* end of [else] *)
+//
+) (* end of [search] *)
 ')
 
 The return value of #dyncode("search") is the number of distinct solutions
 to the eight queens puzzle. The symbol #dyncode("print!") in the body of
 #dyncode("search") is a special identifier in ATS: It takes an indefinite
-number of arguments and then applies #dyncode("print") to each of them. Here
-is the first solution printed out by a call to the function #dyncode("search"):
+number of arguments and then applies #dyncode("print") to each of
+them. Following is the first solution printed out by
+#dyncode("print_board") during a call to the function #dyncode("search"):
 
 #atscode("\
 Q . . . . . . . 
@@ -889,7 +916,7 @@ defined mutually recursively as follows:
 The following implementation of P and Q is a direct translation of their
 definitions into ATS:
 
-#atscode("\
+#dats2xhtml("\
 fun P (n:int): int = if n > 0 then 1 + Q(n-1) else 1
 and Q (n:int): int = if n > 0 then Q(n-1) + n * P(n) else 0
 ")
@@ -905,7 +932,7 @@ definitions.\
 
 <sect1
 id="mutual-tail-recursion">
-#title("Mutual Tail-Recursion")
+#title("Mutually Defined Tail-Recursion")
 
 #para("\
 
@@ -914,9 +941,14 @@ the body of foo or bar, a tail-call to foo or bar is a mutually recursive
 tail-call. For instance, the following two functions #dyncode("isevn") and
 #dyncode("isodd") are mutually recursive:
 
-#atscode("\
-fun isevn (n: int): bool = if n > 0 then isodd (n-1) else true
-and isodd (n: int): bool = if n > 0 then isevn (n-1) else false
+#dats2xhtml("\
+//
+fun
+isevn (n: int): bool = if n > 0 then isodd (n-1) else true
+//
+and
+isodd (n: int): bool = if n > 0 then isevn (n-1) else false
+//
 ")
 
 The mutually recursive call to #dyncode("isodd") in the body of
@@ -926,9 +958,14 @@ we want that these two tail-calls be compiled into local jumps, we should
 replace the keyword #dyncode("fun") with the keyword #dyncode("fnx") as
 follows:
 
-#atscode("\
-fnx isevn (n: int): bool = if n > 0 then isodd (n-1) else true
-and isodd (n: int): bool = if n > 0 then isevn (n-1) else false
+#dats2xhtml("\
+//
+fnx
+isevn (n: int): bool = if n > 0 then isodd (n-1) else true
+//
+and
+isodd (n: int): bool = if n > 0 then isevn (n-1) else false
+//
 ")
 
 What the ATS compiler does in this case is to combine these two functions
@@ -945,23 +982,32 @@ mutually recursive tail-calls are compiled into local jumps. The following
 function #dyncode("print_multable") is implemented to print out a standard
 multiplication table for nonzero digits:
 
-#atscode('\
-fun print_multable () = let
+#dats2xhtml('\
+fun
+print_multable
+  ((*void*)) = let
 //
 \#define N 9
 //
-fnx loop1 (i: int): void =
+fnx
+loop1
+  (i: int): void =
   if i <= N then loop2 (i, 1) else ()
 //
-and loop2 (i: int, j: int): void =
-  if j <= i then let
-    val () = if j >= 2 then print " "
-    val () = printf ("%dx%d=%2.2d", @(j, i, j*i))
-  in
-    loop2 (i, j+1) 
-  end else let
-    val () = print_newline () in loop1 (i+1)
-  end // end of [if]
+and
+loop2
+  (i: int, j: int): void =
+  if j <= i
+    then let
+      val () = if j >= 2 then print " "
+      val () = $extfcall(void, "printf", "%dx%d=%2.2d", j, i, j*i)
+    in
+      loop2 (i, j+1) 
+    end // end of [then]
+    else let
+      val () = print_newline () in loop1 (i+1)
+    end // end of [else]
+  // end of [if]
 //
 in
   loop1 (1)
@@ -1045,7 +1091,7 @@ In the following example, the function #dyncode("sum"), which is assigned
 the type #dyncode("(int) -> int"), sums up all the integers between 1 and a
 given natural number:
 
-#atscode("\
+#dats2xhtml("\
 fun sum
   (n: int): int = let
   fun loop
@@ -1079,7 +1125,7 @@ of the arguments of #dyncode("loop") itself. It is straightforward to make
 #dyncode("loop") an envless function by including #dyncode("n") as an
 argument in addition to the original ones:
 
-#atscode("\
+#dats2xhtml("\
 fun sum
   (n: int): int = let
   fun loop
@@ -1109,12 +1155,13 @@ also be a function. In the following code, the defined function
 #dyncode("x"), and the returned function is a closure-function, which
 always adds the integer #dyncode("x") to its own argument:
 
-
-#atscode("\
+#dats2xhtml("\
+//
 fun addx (x: int): int -<cloref1> int = lam y => x + y
-
+//
 val plus1 = addx (1) // [plus1] is of the type int -<cloref1> int
 val plus2 = addx (2) // [plus2] is of the type int -<cloref1> int
+//
 ")
 
 It should be clear that #dyncode("plus1(0)") and #dyncode("plus2(0)")
@@ -1154,7 +1201,7 @@ A higher-order function is a function that take another function as
 its argument. For instance, the following defined function
 #dyncode("rtfind") is a higher-order one:
 
-#atscode("\
+#dats2xhtml("\
 fun rtfind
   (f: int -> int): int = let
   fun loop (
@@ -1170,7 +1217,7 @@ end // end of [rtfind]
 Given a function from integers to integers, #dyncode("rtfind") searches
 for the first natural number that is a root of the function. For instance,
 calling #dyncode("rtfind") on the polynomial function #dyncode("lam x => x * x
-- x + 110") returns #dyncode("11").  Note that #dyncode("rtfind")
+- x - 110") returns #dyncode("11").  Note that #dyncode("rtfind")
 loops forever if it is applied to a function that does not have a root.
 ")#comment("para")
 
@@ -1181,7 +1228,7 @@ functions #dyncode("sum") and #dyncode("prod") compute the sum and
 product of the integers ranging from 1 to a given natural number,
 respectively:
 
-#atscode("\
+#dats2xhtml("\
 fun sum (n: int): int = if n > 0 then sum (n-1) + n else 0
 fun prod (n: int): int = if n > 0 then prod (n-1) * n else 1
 ")
@@ -1191,21 +1238,22 @@ is evident.  We can define a higher-function #dyncode("ifold") and then
 implement #dyncode("sum") and #dyncode("prod") based on
 #dyncode("ifold"):
 
-#atscode("\
+#dats2xhtml("\
+//
 fun ifold
   (n: int, f: (int, int) -> int, ini: int): int =
   if n > 0 then f (ifold (n-1, f, ini), n) else ini
-// end of [ifold]
-
+//
 fun sum (n: int): int = ifold (n, lam (res, x) => res + x, 0)
 fun prod (n: int): int = ifold (n, lam (res, x) => res * x, 1)
+//
 ")
 
 If we ever want to compute the sum of the squares of the integers ranging
 from 1 to a given natural number n, we can readily do it by defining a
 function based on #dyncode("ifold") as follows:
 
-#atscode("\
+#dats2xhtml("\
 fun sqrsum (n: int): int = ifold (n, lam (res, x) => res + x * x, 0)
 ")
 
@@ -1213,9 +1261,10 @@ Suppose we generalize #dyncode("sqrsum") to the following function
 #dyncode("sqrmodsum") in order to compute the sum of the squares of the
 integers ranging from 1 to n that are multiples of a given number d:
 
-#atscode("\
-fun sqrmodsum (n: int, d: int): int =
-  ifold (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+#dats2xhtml("\
+fun sqrmodsum
+  (n: int, d: int): int =
+  ifold (n, lam (res, x) => if x mod d = 0 then res + x * x else res, 0)
 // end of [sqrmodsum]
 ")
 
@@ -1229,17 +1278,22 @@ the function passed to #dyncode("ifold") in the body of
 #dyncode("ifold") as follows and then implement #dyncode("sqrmodsum") based
 on this variant:
 
-#atscode("\
-fun ifold2
+#dats2xhtml("\
+//
+fun
+ifold2
 (
   n: int, f: (int, int) -<cloref1> int, ini: int
 ) : int =
   if n > 0 then f (ifold2 (n-1, f, ini), n) else ini
 // end of [ifold2]
-
-fun sqrmodsum (n: int, d: int): int =
-  ifold2 (n, lam (res, x) => if x mod d then res + x * x else res, 0)
+//
+fun
+sqrmodsum
+(n: int, d: int): int =
+  ifold2(n, lam (res, x) => if x mod d = 0 then res + x * x else res, 0)
 // end of [sqrmodsum]
+//
 ")
 
 While #dyncode("ifold2") is indeed more general than #dyncode("ifold"),
@@ -1280,7 +1334,7 @@ following code, the defined function #dyncode("bsearch_fun") returns an
 integer i0 such that f(i) <= x0 holds for i ranging from lb to i0,
 inclusive, and x0 < f(i) holds for i ranging from i0+1 to ub, inclusive:
 
-#atscode("\
+#dats2xhtml("\
 //
 // The type [uint] is for unsigned integers
 //
@@ -1306,14 +1360,19 @@ on #dyncode("bsearch_fun") to compute the integer square root of a given
 natural number, that is, the largest integer whose square is less than or
 equal to the given natural number:
 
-#atscode("\
+#dats2xhtml("\
 //
 // Assuming that [uint] is of 32 bits
 //
-val ISQRT_MAX = (1 << 16) - 1 // = 65535
+val
+ISQRT_MAX = (1 << 16) - 1 // = 65535
+//
+fun
+square(x: uint): uint = x * x
+//
 fun isqrt
   (x: uint): int =
-  bsearch_fun (lam i => square ((g0i2u)i), x, 0, ISQRT_MAX)
+  bsearch_fun(lam i => square(g0i2u(i)), x, 0, ISQRT_MAX)
 // end of [isqrt]
 ")
 
@@ -1340,8 +1399,8 @@ id="example-a-higher-order-fun-puzzle">
 
 Let us first introduce a type definition as follows:
 
-#atscode("\
-typedef I (a:t@ype) = a -<cloref1> a
+#sats2xhtml("\
+typedef I(a:t@ype) = (a) -<cloref1> a
 ")
 
 Given a type T, I(T) is for a closure-function that maps a given input
@@ -1350,7 +1409,7 @@ of type I(T), we can compose f with itself to form another function, which
 just applies f twice to a given argument. The following function template
 #dyncode("twice") does precisely the described function composition:
 
-#atscode("\
+#dats2xhtml("\
 fn{a:t0p}
 twice (f: I(a)):<cloref> I(a) = lam (x) => f (f (x))
 ")
@@ -1358,7 +1417,7 @@ twice (f: I(a)):<cloref> I(a) = lam (x) => f (f (x))
 Let us now take a look at some interesting code involving #dyncode("twice")
 that is also likely to be puzzling:
 
-#atscode("\
+#dats2xhtml("\
 //
 typedef I0 = int
 typedef I1 = I(I0)
@@ -1422,7 +1481,7 @@ defined functions #dyncode("acker1") and #dyncode("acker2") implement the
 Ackermann's function (which is famous for being recursive but not primitive
 recursive):
 
-#atscode('\
+#dats2xhtml('\
 fun acker1
   (m: int, n: int): int =
 (

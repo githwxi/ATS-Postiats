@@ -50,16 +50,19 @@ s2ctxt_make (s2e, s2h) = S2CTXT (s2e, s2h)
 (* ****** ****** *)
 
 extern
-fun s2exp_hrepl_flag
+fun
+s2exp_hrepl_flag
   (s2e0: s2exp, repl: s2exp, flag: &int): s2exp
 // end of [s2exp_hrepl_flag]
 extern
-fun labs2explst_hrepl_flag
+fun
+labs2explst_hrepl_flag
   (ls2es: labs2explst, repl: s2exp, flag: &int): labs2explst
 // end of [labs2explst_hrepl_flag]
 
 implement
-s2exp_hrepl_flag (
+s2exp_hrepl_flag
+(
   s2e0, repl, flag
 ) = let
 in
@@ -79,16 +82,21 @@ s2e0.s2exp_node of
   end // end of [S2Eat]
 | S2Etyrec (knd, npf, ls2es) => let
     val flag0 = flag
-    val ls2es = labs2explst_hrepl_flag (ls2es, repl, flag)
+    val ls2es =
+      labs2explst_hrepl_flag (ls2es, repl, flag)
+    // end of [val]
   in
     if flag > flag0 then let
-      val s2t = s2e0.s2exp_srt
+      val s2t = (
+      if s2exp_is_lin(repl)
+        then s2rt_linearize(s2e0.s2exp_srt) else s2e0.s2exp_srt
+      ) : s2rt // end of [val]
     in
       s2exp_tyrec_srt (s2t, knd, npf, ls2es)
     end else s2e0 // end of [if]
   end // end of [S2Etyrec]
 //
-| _ => s2e0
+| _ (* rest-of-s2exp*) => s2e0
 //
 end // end of [s2exp_hrepl_flag]
 

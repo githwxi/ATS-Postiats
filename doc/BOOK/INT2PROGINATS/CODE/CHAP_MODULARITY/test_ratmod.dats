@@ -9,15 +9,17 @@
 //
 (* ****** ****** *)
 
-staload "ratmod.sats"
+staload "./ratmod.sats"
 
 (* ****** ****** *)
 
 (*
+//
 // HX: not any more
-dynload "ratmod.sats"
+//
+dynload "./ratmod.sats"
 *)
-dynload "ratmod.dats"
+dynload "./ratmod.dats"
 
 (* ****** ****** *)
 

@@ -89,7 +89,9 @@ staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-fun p1at_tr_ide (
+fun
+p1at_tr_ide
+(
   p1t0: p1at, id: symbol
 ) : p2at = let
   val loc0 = p1t0.p1at_loc
@@ -122,18 +124,23 @@ end // end of [p1at_tr_ide]
 (* ****** ****** *)
 
 extern
-fun p1at_tr_app_dyn (
+fun
+p1at_tr_app_dyn
+(
   p1t0: p1at, p1t_fun: p1at, npf: int, darg: p1atlst
 ) : p2at // end of [p1at_tr_app_dyn]
 extern
-fun p1at_tr_app_sta_dyn (
+fun
+p1at_tr_app_sta_dyn
+(
   p1t0: p1at, p1t1: p1at
 , p1t_fun: p1at, sarg: s1vararglst, npf: int, darg: p1atlst
 ) : p2at // end of [p1at_tr_app_sta_dyn]
 
 (* ****** ****** *)
 
-fun p1atconarg_is_omit
+fun
+p1atconarg_is_omit
   (arg: p1atlst): bool = let
 in
 //
@@ -148,7 +155,8 @@ case+ arg of
 end // end of [p1atconarg_is_omit]
 
 fun
-p1at_tr_con_sapp1 (
+p1at_tr_con_sapp1
+(
   loc0: location // p1t1.p1at_loc
 , d2c: d2con, sub: &stasub
 , s2qs: s2qualst, out: &List_vt(s2qua)
@@ -190,7 +198,8 @@ case+ s2qs of
 end // end of [p1at_tr_con_sapp1]
 
 fun
-p1at_tr_con_sapp2 (
+p1at_tr_con_sapp2
+(
   p1t1: p1at
 , d2c: d2con, sub: &stasub, s2qs: s2qualst, s1as: s1vararglst
 , out: &s2qualst_vt
@@ -226,7 +235,8 @@ end // end of [auxerr2]
 in
 //
 case+ s1as of
-| list_cons (s1a, s1as) => (
+| list_cons
+    (s1a, s1as) => (
   case+ s1a of
   | S1VARARGone (loc) => begin
     case+ s2qs of
@@ -270,11 +280,15 @@ case+ s1as of
       end (* end of [list_nil] *)
     end // end of [S1VARARGseq]
   ) // end of [list_cons]
-| list_nil () =>  p1at_tr_con_sapp1 (p1t1.p1at_loc, d2c, sub, s2qs, out)
+| list_nil () => p1at_tr_con_sapp1 (p1t1.p1at_loc, d2c, sub, s2qs, out)
 //
 end // end of [p1at_tr_con_sapp2]
 
-fun p1at_tr_con (
+(* ****** ****** *)
+
+fun
+p1at_tr_con
+(
   p1t0: p1at, p1t1: p1at
 , d2cs: d2conlst, sarg: s1vararglst, npf: int, darg: p1atlst
 ) : p2at = let
@@ -319,19 +333,26 @@ end // end of [p1at_tr_con]
 (* ****** ****** *)
 
 extern
-fun p1at_tr_app_dyn_e1xp (
+fun
+p1at_tr_app_dyn_e1xp
+(
   p1t0: p1at, p1t1: p1at
 , e0: e1xp, npf: int, p1ts_arg: p1atlst
 ) : p2at // end of [p1at_tr_app_dyn_e1xp]
 
 extern
-fun p1at_tr_app_dyn_dqid (
+fun
+p1at_tr_app_dyn_dqid
+(
   p1t0: p1at, p1t1: p1at
 , dq: d0ynq, id: symbol, npf: int, darg: p1atlst
 ) : p2at // end of [p1at_tr_app_dyn_dqid]
 
+(* ****** ****** *)
+
 implement
-p1at_tr_app_dyn_e1xp (
+p1at_tr_app_dyn_e1xp
+(
   p1t0, p1t1, e0, npf, darg
 ) = let
 (*
@@ -379,13 +400,16 @@ end // end of [p1at_tr_app_dyn_e1xp]
 
 local
 
-fun dqid_is_vbox (
+fun
+dqid_is_vbox
+(
   dq: d0ynq, id: symbol
 ) : bool =
   if $SYN.d0ynq_is_none (dq) then id = $SYM.symbol_VBOX else false
 // end of [dqid_is_vbox]
 
-fun auxerr1 (
+fun
+auxerr1 (
   p1t0: p1at, p1t1: p1at, dq: d0ynq, id: symbol
 ) : void = let
   val () = prerr_error2_loc (p1t1.p1at_loc)
@@ -398,7 +422,8 @@ in
   the_trans2errlst_add (T2E_p1at_tr (p1t0))
 end // end of [auxerr1]
 
-fun auxerr2 (
+fun
+auxerr2 (
   p1t0: p1at, p1t1: p1at, dq: d0ynq, id: symbol
 ) : void = let
   val () = prerr_error2_loc (p1t1.p1at_loc)
@@ -411,7 +436,11 @@ in
   the_trans2errlst_add (T2E_p1at_tr (p1t0))
 end // end of [auxerr2]
 
-fun p2at_vbox_err (
+(* ****** ****** *)
+
+fun
+p2at_vbox_err
+(
   p1t0: p1at, p2ts: p2atlst
 ) : p2at = let
   val loc0 = p1t0.p1at_loc
@@ -448,10 +477,11 @@ in
     end // end of [list_nil]
 end // end of [p2at_vbox_err]
 
-in // in of [local]
+in (* in-of-local *)
 
 implement
-p1at_tr_app_dyn_dqid (
+p1at_tr_app_dyn_dqid
+(
   p1t0, p1t1, dq, id, npf, darg
 ) = let
   val ans = the_d2expenv_find_qua (dq, id)
@@ -469,14 +499,15 @@ case+ ans of
       auxerr1 (p1t0, p1t1, dq, id) in p2at_errpat (p1t0.p1at_loc)
     end // end of [_]
   ) // end of [Some_vt]
-| ~None_vt () => (
+| ~None_vt ((*void*)) => (
   case+ 0 of
   | _ when dqid_is_vbox (dq, id) => let
       val p2ts = p1atlst_tr (darg) in p2at_vbox_err (p1t0, p2ts)
     end // end of [vbox]
   | _ => let
       val () =
-      auxerr2 (p1t0, p1t1, dq, id) in p2at_errpat (p1t0.p1at_loc)
+        auxerr2 (p1t0, p1t1, dq, id) in p2at_errpat (p1t0.p1at_loc)
+      // end of [val]
     end // end of [_]
   ) // end of [None_vt]
 //
@@ -487,7 +518,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-p1at_tr_app_dyn (
+p1at_tr_app_dyn
+(
   p1t0, p1t_fun, npf, darg
 ) = let
 (*
@@ -497,7 +529,8 @@ p1at_tr_app_dyn (
 *)
 in
 //
-case+ p1t_fun.p1at_node of
+case+
+p1t_fun.p1at_node of
 | P1Tide (id) => let
     val dq = $SYN.the_d0ynq_none in
     p1at_tr_app_dyn_dqid (p1t0, p1t_fun, dq, id, npf, darg)
@@ -517,7 +550,9 @@ end // end of [p1at_tr_app_dyn]
 
 (* ****** ****** *)
 
-fun p1at_tr_app_sta_dyn_itm (
+fun
+p1at_tr_app_sta_dyn_itm
+(
   p1t0: p1at, p1t1: p1at, p1t2: p1at
 , d2i: d2itm, sarg: s1vararglst, npf: int, darg: p1atlst
 ) : p2at = let
@@ -548,11 +583,13 @@ case+ d2i of
 end // end of [p1at_tr_app_sta_dyn_itm]
 
 implement
-p1at_tr_app_sta_dyn (
+p1at_tr_app_sta_dyn
+(
   p1t0, p1t1, p1t_fun, sarg, npf, darg
 ) = let
 //
-fn auxerr (
+fun
+auxerr .<>. (
   p1t0: p1at, p1t1: p1at, p1t_fun: p1at, dq: d0ynq, id: symbol
 ) : void = let
   val loc = p1t_fun.p1at_loc
@@ -617,7 +654,8 @@ val p2t = p1at_tr (p1t)
 //
 in
 //
-case+ p2t.p2at_node of
+case+
+p2t.p2at_node of
 //
 | P2Tcon (
     PCKcon (), d2c, s2qs, s2e, npf, darg
@@ -642,31 +680,19 @@ end // end of [p1at_tr_free_unfold]
 
 (* ****** ****** *)
 
-fun p1at_tr_tup (
+fun
+p1at_tr_tup (
   p1t0: p1at
 , knd: int, npf: int, p1ts: p1atlst
 ) : p2at = let
-  val loc0 = p1t0.p1at_loc
-  val p2ts = list_map_fun (p1ts, p1at_tr)
-  val lp2ts = let
-    fun aux (
-      p2ts: List_vt (p2at), n: int
-    ) : labp2atlst =
-      case+ p2ts of
-      | ~list_vt_cons
-          (p2t, p2ts) => let
-          val loc = p2t.p2at_loc
-          val l = label_make_int (n)
-          val l0 = $SYN.l0ab_make_label (loc, l)
-          val lp2t = LABP2ATnorm (l0, p2t)
-        in
-          list_cons (lp2t, aux (p2ts, n+1))
-        end // end of [list_vt_cons]
-      | ~list_vt_nil () => list_nil ()
-    // end of [aux]
-  in
-    aux (p2ts, 0)
-  end // end of [val]
+//
+val loc0 = p1t0.p1at_loc
+val p2ts =
+  list_map_fun (p1ts, p1at_tr)
+val lp2ts =
+  p2atlst_tupize ($UN.list_vt2t(p2ts))
+val ((*freed*)) = list_vt_free (p2ts)
+//
 in
   p2at_rec (loc0, knd, npf, lp2ts)
 end // end of [p1at_tr_tup]
@@ -675,10 +701,17 @@ end // end of [p1at_tr_tup]
 
 implement
 p1at_tr (p1t0) = let
-  val loc0 = p1t0.p1at_loc
+//
+val loc0 = p1t0.p1at_loc
+//
+(*
+val () = println! ("p1at_tr: p1t0 = ", p1t0)
+*)
+//
 in
 //
-case+ p1t0.p1at_node of
+case+
+p1t0.p1at_node of
 | P1Tany _ => p2at_any (loc0)
 | P1Tany2 _ => p2at_any (loc0)
 | P1Tide (id) => p1at_tr_ide (p1t0, id)
@@ -706,8 +739,8 @@ case+ p1t0.p1at_node of
     | P1Tapp_sta (p1t_fun, sarg) =>
         p1at_tr_app_sta_dyn (p1t0, p1t1, p1t_fun, sarg, npf, darg)
       // end of [P1Tapp_sta]
-    | _ => p1at_tr_app_dyn (p1t0, p1t1, npf, darg)
-  ) // end of [P1Tapp_dyn]
+    | _ (*non-P1Tapp_sta*) => p1at_tr_app_dyn (p1t0, p1t1, npf, darg)
+  ) (* end of [P1Tapp_dyn] *)
 | P1Tapp_sta (p1t_fun, sarg) =>
     p1at_tr_app_sta_dyn (p1t0, p1t_fun, p1t_fun, sarg, ~1(*npf*), list_nil)
 //
@@ -715,8 +748,8 @@ case+ p1t0.p1at_node of
   case+ p1ts of
   | list_cons _ =>
       p1at_tr_tup (p1t0, 0(*tupknd*), npf, p1ts)
-  | list_nil _ => p2at_empty (loc0)
-  ) // end of [P1Tlist]
+  | list_nil () => p2at_empty (loc0)
+  ) (* end of [P1Tlist] *)
 //
 | P1Ttup (knd, npf, p1ts) => p1at_tr_tup (p1t0, knd, npf, p1ts)
 | P1Trec (
@@ -766,7 +799,7 @@ case+ p1t0.p1at_node of
     val ann = s2exp_hnfize (ann)
   in
     p2at_ann (loc0, p2t, ann)
-  end
+  end // end of [P1Tann]
 //
 | P1Terrpat () => p2at_errpat (loc0)
 //
@@ -810,7 +843,7 @@ val loc0 = p1t0.p1at_loc
 in
 //
 case+
-  p1t0.p1at_node of
+p1t0.p1at_node of
 //
 | P1Tann
     (p1t, ann) => let
@@ -830,13 +863,41 @@ case+
     p2at_list (loc0, npf, p2ts)
   end // end of [P1Tlist]
 //
-| _ => let
+| _ (*P1T-rest*) => let
     val () = ws1es := WTHS1EXPLSTcons_none (ws1es)
   in
     p1at_tr (p1t0)
-  end // end of [_]
+  end // end of [P1T-rest]
 //
 end // end of [p1at_tr_arg]
+
+
+local
+
+fun
+p1at_tr_arg_2
+(
+  p1t: p1at, w1ts: &wths1explst
+) : p2at = let
+//
+val p2t = p1at_tr_arg (p1t, w1ts)
+//
+in
+//
+case+
+p2t.p2at_node of
+| P2Tlist
+    (npf, p2ts) => let
+    val loc0 = p2t.p2at_loc
+    val lp2ts = p2atlst_tupize (p2ts)
+  in
+    p2at_rec (loc0, 0(*tupknd*), npf, lp2ts)
+  end // end of [P2Tlist]
+| _ (*non-P2Tlist*) => p2t
+//
+end // end of [p1at_tr_arg_2]
+
+in (* in-of-local *)
 
 implement
 p1atlst_tr_arg
@@ -846,7 +907,7 @@ in
 case+ p1ts of
 | list_cons
     (p1t, p1ts) => let
-    val p2t = p1at_tr_arg (p1t, ws1es)
+    val p2t = p1at_tr_arg_2 (p1t, ws1es)
     val p2ts = p1atlst_tr_arg (p1ts, ws1es)
   in
     list_cons (p2t, p2ts)
@@ -854,6 +915,8 @@ case+ p1ts of
 | list_nil () => list_nil ()
 //
 end // end of [p1atlst_tr_arg]
+
+end // end of [local]
 
 (* ****** ****** *)
 

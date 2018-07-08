@@ -27,7 +27,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
-gcompare_val<char> = compare_char0_char0
+gcompare_val_val<char> = compare_char0_char0
 
 #atscode_separator()
 

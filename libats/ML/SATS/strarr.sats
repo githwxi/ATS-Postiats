@@ -32,25 +32,29 @@
 (* Start time: February, 2013 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.ML"
-#define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.ML"
+#define // prefix for external
+ATS_EXTERN_PREFIX "atslib_ML_" // names
+//
+(* ****** ****** *)
+//
+#staload "libats/ML/SATS/basis.sats"
+//
 (* ****** ****** *)
 
 %{#
+//
 #include "libats/ML/CATS/strarr.cats"
+//
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-staload "libats/ML/SATS/basis.sats"
-
-(* ****** ****** *)
-
+(*
 typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
-
+*)
 (* ****** ****** *)
 //
 // HX-2013-02:
@@ -66,54 +70,67 @@ typedef NSH(a:type) = a // for commenting purpose
 abstype strarr_type = ptr
 typedef strarr = strarr_type
 //
-#endif
+#endif // #if(0)
 
 (* ****** ****** *)
-
-castfn array2strarr (cs: array0 (char)):<> strarr
-castfn strarr2array (cs: strarr):<> array0 (char)
-
+//
+castfn
+array2strarr
+  (cs: array0(char)):<> strarr
+castfn
+strarr2array
+  (cs: strarr):<> array0(char)
+//
 (* ****** ****** *)
-
+//
 fun{}
 strarr_get_ref (str: strarr):<> Ptr1
 fun{}
 strarr_get_size (str: strarr):<> size_t
-
+//
+(* ****** ****** *)
+//
 fun{}
 strarr_get_refsize
-  (A: strarr):<> [n:nat] (arrayref (char, n), size_t (n))
+(
+A0: strarr
+) :<> [n:nat] (arrayref (char, n), size_t (n))
 // end of [strarr_get_refsize]
-
+//
 (* ****** ****** *)
 //
 fun
-strarr_make_string (str: string):<!wrt> strarr
+strarr_make_string
+  (str: string):<!wrt> strarr
 //
-fun strarr_make_substring
-  (string, st: size_t, ln: size_t):<!wrt> strarr
+fun
+strarr_make_substring
+  (str: string, st: size_t, ln: size_t):<!wrt> strarr
 //
 symintr strarr_make
+//
 overload strarr_make with strarr_make_string
 overload strarr_make with strarr_make_substring
 //
 (* ****** ****** *)
 //
 // HX-2013:
-// naming convention: xxx_imake_yyy -> yyy_make_xxx
+// naming convention:
+// xxx_imake_yyy -> yyy_make_xxx
 //
-fun strarr_imake_string (str: strarr):<!wrt> string
+fun
+strarr_imake_string(str: strarr):<!wrt> string
 //
 (* ****** ****** *)
-
+//
 fun{}
-strarr_is_empty (strarr):<> bool
+strarr_is_empty(strarr):<> bool
+fun{}
+strarr_isnot_empty(strarr):<> bool
+//
 overload iseqz with strarr_is_empty
-
-fun{}
-strarr_isnot_empty (strarr):<> bool
 overload isneqz with strarr_isnot_empty
-
+//
 (* ****** ****** *)
 //
 fun{tk:tk}
@@ -126,91 +143,140 @@ strarr_get_at_guint
 symintr strarr_get_at
 //
 overload [] with strarr_get_at_gint of 0
-overload strarr_get_at with strarr_get_at_gint of 0
 overload [] with strarr_get_at_guint of 0
-overload strarr_get_at with strarr_get_at_guint of 0
+//
+overload
+strarr_get_at with strarr_get_at_gint of 0
+overload
+strarr_get_at with strarr_get_at_guint of 0
 //
 (* ****** ****** *)
-
-fun strarr_get_range
-  (strarr, i0: size_t, i1: size_t): string
-// end of [strarr_get_range]
-
+//
+fun
+strarr_get_range
+(
+  strarr, i0: size_t, i1: size_t
+) : string // end-of-strarr_get_range
+//
 (* ****** ****** *)
-
-fun lt_strarr_strarr
-  (str1: strarr, str2: strarr):<> bool
-overload < with lt_strarr_strarr
-fun lte_strarr_strarr
-  (str1: strarr, str2: strarr):<> bool
-overload <= with lte_strarr_strarr
-
-fun gt_strarr_strarr
-  (str1: strarr, str2: strarr):<> bool
-overload > with gt_strarr_strarr
-fun gte_strarr_strarr
-  (str1: strarr, str2: strarr):<> bool
-overload >= with gte_strarr_strarr
-
-fun eq_strarr_strarr
-  (str1: strarr, str2: strarr):<> bool
-overload = with eq_strarr_strarr
-fun neq_strarr_strarr
-  (str1: strarr, str2: strarr):<> bool
-overload != with neq_strarr_strarr
-overload <> with neq_strarr_strarr
-
+//
+fun
+lt_strarr_strarr
+  (x1: strarr, x2: strarr):<> bool
+fun
+lte_strarr_strarr
+  (x1: strarr, x2: strarr):<> bool
+//
 (* ****** ****** *)
-
+//
+fun
+gt_strarr_strarr
+  (x1: strarr, x2: strarr):<> bool
+fun
+gte_strarr_strarr
+  (x1: strarr, x2: strarr):<> bool
+//
+(* ****** ****** *)
+//
+fun
+eq_strarr_strarr
+  (x1: strarr, x2: strarr):<> bool
+fun
+neq_strarr_strarr
+  (x1: strarr, x2: strarr):<> bool
+//
+(* ****** ****** *)
+//
 fun
 strarr_compare
-  (str1: strarr, str2: strarr):<> int
-overload compare with strarr_compare
-
+  (x1: strarr, x2: strarr):<> int
+//
 (* ****** ****** *)
 //
 fun
-strarr_length (strarr):<> size_t
-//
-overload length with strarr_length
+strarr_length(strarr):<> size_t
 //
 (* ****** ****** *)
 //
-fun print_strarr (str: strarr): void
-fun prerr_strarr (str: strarr): void
+fun
+print_strarr(str: strarr): void
+fun
+prerr_strarr(str: strarr): void
+//
+fun
+fprint_strarr
+(
+  out: FILEref, str: strarr
+) : void // end-of-fprint_strarr
+//
+(* ****** ****** *)
+//
+fun
+strarr_contains
+  (str: strarr, c: char):<> bool
+//
+(* ****** ****** *)
+//
+fun
+strarr_copy(str: strarr):<!wrt> strarr
+//
+(* ****** ****** *)
+//
+fun
+strarr_append
+  (x1: strarr, x2: strarr):<!wrt> strarr
+//
+(* ****** ****** *)
+//
+fun
+strarr_tabulate
+  {n:int}
+(
+  n: size_t(n), f: cfun(sizeLt(n), char)
+) : strarr // end of [strarr_tabulate]
+//
+(* ****** ****** *)
+//
+fun
+strarr_foreach
+  (str: strarr, fwork: cfun(char, void)): void
+//
+fun
+strarr_iforeach
+  (str: strarr, fwork: cfun2(size_t, char, void)): void
+//
+fun
+strarr_rforeach
+  (str: strarr, fwork: cfun(char, void)): void
+//
+(* ****** ****** *)
+//
+// Some common overloading
+//
+(* ****** ****** *)
+//
+overload + with strarr_append
+//
+overload < with lt_strarr_strarr
+overload <= with lte_strarr_strarr
+overload > with gt_strarr_strarr
+overload >= with gte_strarr_strarr
+overload = with eq_strarr_strarr
+overload != with neq_strarr_strarr
+overload <> with neq_strarr_strarr
+//
+(* ****** ****** *)
 //
 overload print with print_strarr
 overload prerr with prerr_strarr
 //
-fun
-fprint_strarr (out: FILEref, str: strarr): void
-//
 overload fprint with fprint_strarr
 //
 (* ****** ****** *)
-
-fun strarr_contains (str: strarr, c: char):<> bool
-
-(* ****** ****** *)
-
-fun strarr_copy (str: strarr):<!wrt> strarr
-
-(* ****** ****** *)
-
-fun strarr_append
-  (str1: strarr, str2: strarr):<!wrt> strarr
-overload + with strarr_append
-
-(* ****** ****** *)
 //
-fun strarr_tabulate
-  (n: size_t, f: cfun (size_t, char)): strarr
+overload length with strarr_length
 //
-(* ****** ****** *)
-//
-fun strarr_foreach (str: strarr, f: cfun (char, void)): void
-fun strarr_iforeach (str: strarr, f: cfun2 (size_t, char, void)): void
-fun strarr_rforeach (str: strarr, f: cfun (char, void)): void
+overload compare with strarr_compare
 //
 (* ****** ****** *)
 

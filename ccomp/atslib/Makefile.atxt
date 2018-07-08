@@ -56,13 +56,15 @@ in
   $UN.castvwtp0{string}(sbuf)
 end // end of [stringrepl]
 
-fun make_entry
+fun
+make_entry
 (
   lib: string, fnm: string
 ) : atext = let
 //
 val lib2 = stringrepl (lib, '/', '_')
-val fnm2 = stringrepl (fnm, '.', '_')
+val fnm2 = stringrepl (fnm, '/', '_')
+val fnm2 = stringrepl (fnm2, '.', '_')
 val libfnm2 = sprintf ("%s_%s", @(lib2, fnm2))
 val libfnm2 = string_of_strptr (libfnm2)
 //
@@ -70,7 +72,7 @@ val ent = sprintf
 ("\
 atslib_%s:: atslib_%s\n\
 atslib_%s: output/atslib_%s.o ; $(ARR) lib/libatslib.a $<\n\
-output/atslib_%s.c: ../../%s/DATS/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
+output/atslib_%s.c: $(PATSHOME0)/%s/%s ; $(PATSOPT) -o $@ --dynamic $<\n\
 output/atslib_%s.o: output/atslib_%s.c ; \\\n\
   $(CCOMP) -I$(PATSHOMEQ) -I$(PATSRUNTIME) $(DATSMEMALLOC) $(CCFLAGS) -c -o $@ $<\n\
 clean:: ; $(RMF) output/atslib_%s.c\n\
@@ -87,6 +89,7 @@ in
 end // end of [make_entry]
 
 %}\
+######
 #
 #
 # This Makefile is automatically generated
@@ -95,15 +98,16 @@ end // end of [make_entry]
 # make -f Makefile.gen
 #
 #
-
 ######
 
+PATSHOME0=$(PATSHOME)
 PATSHOMEQ="$(PATSHOME)"
-PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
+PATSCC=$(PATSHOMEQ)/bin/patscc
 PATSOPT=$(PATSHOMEQ)/bin/patsopt
+PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 
 ######
 
@@ -128,42 +132,28 @@ atslib:: atslib_prelude
 
 ######
 
-#make_entry("prelude", "bool.dats")
-#make_entry("prelude", "char.dats")
-#make_entry("prelude", "integer.dats")
-#make_entry("prelude", "float.dats")
-#make_entry("prelude", "string.dats")
-#make_entry("prelude", "strptr.dats")
+#make_entry("prelude", "DATS/basics.dats")
 
 ######
 
-#make_entry("prelude", "filebas.dats")
+#make_entry("prelude", "DATS/integer.dats")
+#make_entry("prelude", "DATS/pointer.dats")
+
+#make_entry("prelude", "DATS/integer_long.dats")
+#make_entry("prelude", "DATS/integer_size.dats")
+#make_entry("prelude", "DATS/integer_short.dats")
+
+#make_entry("prelude", "DATS/bool.dats")
+#make_entry("prelude", "DATS/char.dats")
+#make_entry("prelude", "DATS/float.dats")
+#make_entry("prelude", "DATS/string.dats")
+#make_entry("prelude", "DATS/strptr.dats")
+#make_entry("prelude", "DATS/integer_ptr.dats")
+#make_entry("prelude", "DATS/integer_fixed.dats")
 
 ######
 
-atslib:: atslib_libc
-
-######
-
-#make_entry("libc", "dirent.dats")
-#make_entry("libc", "fcntl.dats")
-#make_entry("libc", "stdio.dats")
-#make_entry("libc", "stdlib.dats")
-#make_entry("libc", "string.dats")
-#make_entry("libc", "strings.dats")
-#make_entry("libc", "time.dats")
-#make_entry("libc", "unistd.dats")
-
-######
-
-atslib:: atslib_libc_sys
-
-######
-
-#make_entry("libc/sys", "socket.dats")
-#make_entry("libc/sys", "socket_in.dats")
-#make_entry("libc/sys", "stat.dats")
-#make_entry("libc/sys", "types.dats")
+#make_entry("prelude", "DATS/filebas.dats")
 
 ######
 
@@ -171,29 +161,30 @@ atslib:: atslib_libats
 
 ######
 
-#make_entry("libats", "stringbuf.dats")
+#make_entry("libats", "DATS/stringbuf.dats")
 
 ######
 
-#make_entry("libats", "funset_avltree.dats")
-#make_entry("libats", "funset_listord.dats")
-#make_entry("libats", "funmap_list.dats")
-#make_entry("libats", "funmap_avltree.dats")
-#make_entry("libats", "fundeque_fngtree.dats")
-#make_entry("libats", "funralist_nested.dats")
+#make_entry("libats", "DATS/funmap_list.dats")
+#make_entry("libats", "DATS/funmap_avltree.dats")
+#make_entry("libats", "DATS/funset_listord.dats")
+#make_entry("libats", "DATS/funset_avltree.dats")
+#make_entry("libats", "DATS/funarray_braunt.dats")
+#make_entry("libats", "DATS/fundeque_fngtree.dats")
+#make_entry("libats", "DATS/funralist_nested.dats")
 
 ######
 
-#make_entry("libats", "linmap_list.dats")
-#make_entry("libats", "linmap_randbst.dats")
-#make_entry("libats", "linmap_skiplist.dats")
-#make_entry("libats", "linset_listord.dats")
-#make_entry("libats", "linset_avltree.dats")
-#make_entry("libats", "linralist_nested.dats")
+#make_entry("libats", "DATS/linmap_list.dats")
+#make_entry("libats", "DATS/linmap_randbst.dats")
+#make_entry("libats", "DATS/linmap_skiplist.dats")
+#make_entry("libats", "DATS/linset_listord.dats")
+#make_entry("libats", "DATS/linset_avltree.dats")
+#make_entry("libats", "DATS/linralist_nested.dats")
 
 ######
 
-#make_entry("libats", "hashtbl_chain.dats")
+#make_entry("libats", "DATS/hashtbl_chain.dats")
 
 ######
 
@@ -201,17 +192,63 @@ atslib:: atslib_libats_ML
 
 ######
 
-#make_entry("libats/ML", "list0.dats")
-#make_entry("libats/ML", "option0.dats")
-#make_entry("libats/ML", "array0.dats")
-#make_entry("libats/ML", "matrix0.dats")
-#make_entry("libats/ML", "string.dats")
-#make_entry("libats/ML", "strarr.dats")
+#make_entry("libats/ML", "DATS/list0.dats")
+#make_entry("libats/ML", "DATS/option0.dats")
+#make_entry("libats/ML", "DATS/array0.dats")
+#make_entry("libats/ML", "DATS/matrix0.dats")
+#make_entry("libats/ML", "DATS/string.dats")
+#make_entry("libats/ML", "DATS/strarr.dats")
 
 ######
 
-#make_entry("libats/ML", "filebas.dats")
-#make_entry("libats/ML", "filebas_dirent.dats")
+#make_entry("libats/ML", "DATS/argvec.dats")
+
+######
+
+#make_entry("libats/ML", "DATS/gvalue.dats")
+
+######
+
+#make_entry("libats/ML", "DATS/dynarray.dats")
+#make_entry("libats/ML", "DATS/hashtblref.dats")
+
+######
+
+#make_entry("libats/ML", "DATS/filebas.dats")
+#make_entry("libats/ML", "DATS/filebas_dirent.dats")
+
+######
+
+#make_entry("libats/ML", "COMPILE/DATS/array0.dats")
+#make_entry("libats/ML", "COMPILE/DATS/string.dats")
+#make_entry("libats/ML", "COMPILE/DATS/funmap.dats")
+#make_entry("libats/ML", "COMPILE/DATS/funarray.dats")
+#make_entry("libats/ML", "COMPILE/DATS/hashtblref.dats")
+
+######
+
+atslib:: atslib_libats_libc
+
+######
+
+#make_entry("libats/libc", "DATS/math.dats")
+#make_entry("libats/libc", "DATS/float.dats")
+#make_entry("libats/libc", "DATS/errno.dats")
+#make_entry("libats/libc", "DATS/fcntl.dats")
+#make_entry("libats/libc", "DATS/dirent.dats")
+#make_entry("libats/libc", "DATS/stdio.dats")
+#make_entry("libats/libc", "DATS/stdlib.dats")
+#make_entry("libats/libc", "DATS/string.dats")
+#make_entry("libats/libc", "DATS/strings.dats")
+#make_entry("libats/libc", "DATS/time.dats")
+#make_entry("libats/libc", "DATS/unistd.dats")
+
+######
+
+#make_entry("libats/libc", "DATS/sys/stat.dats")
+#make_entry("libats/libc", "DATS/sys/types.dats")
+#make_entry("libats/libc", "DATS/sys/socket.dats")
+#make_entry("libats/libc", "DATS/sys/socket_in.dats")
 
 ######
 
@@ -227,7 +264,6 @@ clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
-cleanall:: ; $(RMF) output/*
 cleanall:: ; $(RMF) Makefile.exe
 cleanall:: ; $(RMF) lib/libatslib.a
 

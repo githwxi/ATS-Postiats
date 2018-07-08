@@ -52,21 +52,35 @@ macdef prstr (x) = fprint_string (out, ,(x))
 //
 in
 //
-case+ c3t.c3nstr_node of
-| C3NSTRprop s2p => {
-    val () = prstr "C3NSTRprop("
+case+
+c3t.c3nstr_node
+of // case+
+| C3NSTRprop
+    (s2p) => {
+    val () =
+      prstr "C3NSTRprop("
     val () = fprint_c3nstrkind (out, c3t.c3nstr_kind)
     val () = prstr "; "
     val () = fpprint_s2exp (out, s2p)
-    val () = prstr ")"
-  } // end of [C3NSTRprop]
-| C3NSTRitmlst s3is => {
-    val () = prstr "C3NSTRitmlst("
+    val ((*closing*)) = prstr ")"
+  } (* end of [C3NSTRprop] *)
+| C3NSTRitmlst
+    (s3is) => {
+    val () =
+      prstr "C3NSTRitmlst("
     val () = fprint_c3nstrkind (out, c3t.c3nstr_kind)
     val () = prstr "; "
     val () = fprint_s3itmlst (out, s3is)
-    val () = prstr ")"
-  } // end of [C3NSTRitmlst]
+    val ((*closing*)) = prstr ")"
+  } (* end of [C3NSTRitmlst] *)
+//
+| C3NSTRsolverify
+    (s2e_prop) => {
+    val () =
+      prstr "C3NSTRsolverify("
+    val () = fprint_s2exp (out, s2e_prop)
+    val ((*closing*)) = prstr ")"
+  } (* end of [C3NSTRsolverify] *)
 //
 end // end of [fprint_c3nstr]
 
@@ -86,26 +100,36 @@ macdef prstr (x) = fprint_string (out, ,(x))
 in
 //
 case+ knd of
-| C3NSTRKmain () => prstr "main"
-| C3NSTRKcase_exhaustiveness _ =>
-    prstr "case_exhaustiveness(...)"
+| C3TKmain() =>
+    prstr "C3TKmain()"
+| C3TKcase_exhaustiveness _ =>
+    prstr "C3TKcase_exhaustiveness(...)"
 //
-| C3NSTRKtermet_isnat () => prstr "termet_isnat"
-| C3NSTRKtermet_isdec () => prstr "termet_isdec"
+| C3TKtermet_isnat() =>
+    prstr "C3TKtermet_isnat()"
+| C3TKtermet_isdec() =>
+    prstr "C3TKtermet_isdec()"
 //
-| C3NSTRKsome_fin _ => prstr "some_fin"
-| C3NSTRKsome_lvar _ => prstr "some_lvar"
-| C3NSTRKsome_vbox _ => prstr "some_vbox"
+| C3TKsome_fin _ =>
+    prstr "C3TKsome_fin()"
+| C3TKsome_lvar _ =>
+    prstr "C3TKsome_lvar()"
+| C3TKsome_vbox _ =>
+    prstr "C3TKsome_vbox()"
 //
-| C3NSTRKlstate ((*void*)) => prstr "lstate"
-| C3NSTRKlstate_var (d2v) =>
+| C3TKlstate() =>
+    prstr "C3TKlstate()"
+| C3TKlstate_var(d2v) =>
   (
-    prstr "lstate("; fprint_d2var (out, d2v); prstr ")"
-  ) (* end of [C3NSTRKlstate_var] *)
+    fprint!
+      (out, "C3TKlstate(", d2v, ")")
+    // fprint!
+  ) (* C3TKlstate_var *)
 //
-| C3NSTRKloop (knd) => (
-    prstr "loop("; fprint_int (out, knd); prstr ")"
-  ) (* end of [C3NSTRKloop] *)
+| C3TKloop(knd) =>
+    fprint! (out, "C3TKloop(", knd, ")")
+//
+| C3TKsolverify() => prstr "C3TKsolverify()"
 //
 end // end of [fprint_c3nstrkind]
 
@@ -116,7 +140,8 @@ fprint_h3ypo
   (out, h3p) = let
 //
 macdef
-prstr (x) = fprint_string (out, ,(x))
+prstr (x) =
+  fprint_string (out, ,(x))
 //
 in
 //
@@ -204,6 +229,14 @@ case+ s3i of
     val () = fprint_s3itmlstlst (out, s3iss)
     val () = prstr ")"
   }
+//
+| S3ITMsolassert
+    (s2e_prop) => {
+    val () =
+      prstr "S3ITMsolassert("
+    val () = fprint_s2exp (out, s2e_prop)
+    val ((*closing*)) = prstr ")"
+  } (* end of [S3ITMsolassert] *)
 //
 end // end of [fprint_s3itm]
 

@@ -27,11 +27,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
-gcompare_val<float> = g0float_compare_float
+gcompare_val_val<float> = g0float_compare_float
 implement
-gcompare_val<double> = g0float_compare_double
+gcompare_val_val<double> = g0float_compare_double
 implement
-gcompare_val<ldouble> = g0float_compare_ldouble
+gcompare_val_val<ldouble> = g0float_compare_ldouble
 
 #atscode_eof_strsub("\#thisfilename$")\
 

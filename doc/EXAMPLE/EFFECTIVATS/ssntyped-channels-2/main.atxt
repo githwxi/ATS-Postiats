@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+%{
+#include "./../MYTEXT/mytextfun.hats"
+%}
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-ssntyped-channels-session-combinators</title>
+#patscode_style()
+#patspage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Session-typed Channels:<br>
+Let us combine sessions together!
+</h1>
+
+<p>
+In this article, I present several session combinators
+for combining existing sessions together to form new sessions.
+In this regard, session combinators are similar to parsing combinators,
+which combine existing parsers to form new parsers.
+</p>
+
+<h2>
+Sessions in CPS-style
+</h2>
+
+<p>
+In the following presentation, sessions are represented as
+closure-functions in CPS-style. Let us first see two abstract
+types:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+abstype chanpos_session(ss:type)
+abstype channeg_session(ss:type)
+//
+')</pre>
+
+<p>
+The abstract types #stacode("chanpos_session") and
+#stacode("channeg_session") are actually defined as
+#stacode("chanpos_nullify") and #stacode("channeg_nullify"),
+respectively:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+typedef
+chanpos_nullify(ss:type) =
+  (chanpos(ss), chpcont0_nil) -<cloref1> void
+typedef
+channeg_nullify(ss:type) =
+  (channeg(ss), chncont0_nil) -<cloref1> void
+//
+')</pre>
+
+<p> A server-session of the type #stacode("chanpos_session(ss)") takes
+as its two arguments a positive channel of the type
+#stacode("chanpos(ss)") and a continuation; it turns the positive
+channel into one of the type #stacode("chanpos(chnil)") and then
+passes it to the continuation. The meaning of a client-session of the
+type #stacode("channeg_session(ss)") can be similarly construed.  </p>
+
+<p>
+Let us now recall the implementation of the server process in a
+<a href="./../ssntyped-channels-1/index.html">previous article</a> 
+on session-typed channels:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+typedef
+Q_ssn =
+chrcv(int)::chrcv(int)::chsnd(bool)::chnil
+//
+fun
+Q (
+  chp: chanpos(Q_ssn)
+) : void = (
+//
+chanpos1_recv
+( chp
+, lam(chp, i1) => let
+  val i1 = chmsg_parse<int>(i1) in
+  chanpos1_recv
+  ( chp
+  , lam(chp, i2) => let
+    val i2 = chmsg_parse<int>(i2) in
+    chanpos1_send
+    ( chp, i1 < i2
+    , lam(chp) => chanpos1_close(chp)
+    )
+    end // end-of-let // end-of-lam
+  )
+  end // end-of-let // end-of-lam
+)
+//
+) (* end of [Q] *)
+')</pre>
+
+<p>
+A server-session corresponding to #dyncode("Q") can be implemented
+as follows by making use of certain session combinators:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+overload :: with chanpos1_session_cons
+//
+fun
+Q_session(): chanpos_session(Q_ssn) = let
+//
+val i1_ref = ref{int}(0)
+val i2_ref = ref{int}(0)
+//
+val ss1 =
+  chanpos1_session_recv<int>(lam(i) => i1_ref[] := i)
+val ss2 =
+  chanpos1_session_recv<int>(lam(i) => i2_ref[] := i)
+val ss3 =
+  chanpos1_session_send<bool>(lam() => i1_ref[] < i2_ref[])
+//
+in
+  ss1 :: ss2 :: ss3 :: chanpos1_session_nil()
+end // end of [Q_session]
+//
+')</pre>
+
+<p>
+The session combinator #dyncode("chanpos1_session_send") is
+called to form a single-action session which only sends a message on
+a given positive channel before passing the channel to a continuation.
+Note that I may also refer to such a session as a singleton session.
+Similarly, the session combinator #dyncode("chanpos1_session_recv")
+is called to form a single-action session which only receives a
+message on a given positive channel before passing the channel to a
+continuation.
+</p>
+
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{
+a:t@ype
+} chanpos1_session_send
+  (cfun0(a)): chanpos_session(chsnd(a)::chnil)
+fun{
+a:t@ype
+} chanpos1_session_recv
+  (cfun1(a, void)): chanpos_session(chrcv(a)::chnil)
+//
+')</pre>
+
+<p>
+The session combinators #dyncode("chanpos1_session_nil") and
+#dyncode("chanpos1_session_cons") should remind one of the standard
+list constructors:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun
+chanpos1_session_nil(): chanpos_session(chnil)
+//
+fun{}
+chanpos1_session_cons
+  {a:type}{ss:type}
+(
+  chanpos_session(chcons(a, chnil)), chanpos_session(ss)
+) : chanpos_session(a::ss)
+//
+')</pre>
+
+<p>
+As indicated by the types, #dyncode("chanpos1_session_nil") is
+called to form an empty session and #dyncode("chanpos1_session_cons")
+to combine a singleton session with a (general) session.  </p>
+
+<p> Please study the code in #filename("introxmpl1_server.dats") to
+see how the session constructed by calling #dyncode("Q_session") can
+be executed. The following code implements a client-session
+#dyncode("P_session") that corresponds to the server-session
+#dyncode("Q_session"): </p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+//
+fun
+P_session
+(
+// argless
+) : channeg_session(Q_ssn) = let
+//
+fun
+theResult_process
+  (lt: bool): void = let
+  val () = Start_output("Session over!")
+in
+  theResult_set(if lt then "true" else "false")
+end // end of [theResult_process]
+//
+val ss1 =
+  channeg1_session_recv<int>(lam() => theArg1_get())
+val ss2 =
+  channeg1_session_recv<int>(lam() => theArg2_get())
+val ss3 =
+  channeg1_session_send<bool>(lam(lt) => theResult_process(lt))
+//
+in
+  ss1 :: ss2 :: ss3 :: channeg1_session_nil((*void*))
+end // end of [P_session]
+//
+')</pre>
+
+<p>
+However, the session constructed by calling #dyncode("P_session") is
+not suitable for being used directly as it ignores GUI issues. Please
+study the code in #filename("introxmpl1_client.dats") for details on
+handling GUI issues.
+</p>
+
+<p>
+A simple demo based on the code for #dyncode("P_session") and
+#dyncode("Q_session") is available
+<a href="./introxmpl1.html">on-line</a>. The entirety of the code
+for this demo can be found in four files of the following names:
+
+<pre>
+introxmpl1.html
+introxmpl1_prctl.sats
+introxmpl1_client.dats
+introxmpl1_server.dats
+</pre>
+
+I strongly encourage the reader to use the provided Makefile to build
+the demo on his/her own.
+</p>
+
+<h2>
+Various Session Combinators
+</h2>
+
+Some commonly used session combinators are briefly mentioned as follows.
+
+<h3>
+Joining Sessions: ssappend
+</h3>
+
+<p>
+Given two session types #stacode("ss1") and #stacode("ss2"),
+#stacode("ssappend(ss1, ss2)") is a session type for specifying a
+session that is the concatenation of one specified by #stacode("ss1")
+and another one by #stacode("ss2"). The following functions
+#dyncode("chanpos1_session_append") and
+#dyncode("channeg1_session_append") can be called to join
+server-sessions and client-sessions, respectively:
+</p>
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+//
+fun{}
+chanpos1_session_append
+  {ss1,ss2:type}
+(
+  ssp1: chanpos_session(ss1)
+, ssp2: chanpos_session(ss2)
+) : chanpos_session(ssappend(ss1, ss2))
+//
+fun{}
+channeg1_session_append
+  {ss1,ss2:type}
+(
+  ssn1: channeg_session(ss1)
+, ssn2: channeg_session(ss2)
+) : channeg_session(ssappend(ss1, ss2))
+//
+')</pre>
+
+<h3>
+Server-selected Session : sschoose_disj
+</h3>
+
+<p>
+Given two session types #stacode("ss0") and #stacode("ss1") the
+session type #stacode("sschoose_disj(ss0,ss1)") is for classifying a
+session that can behave like one classified by either #stacode("ss0")
+or #stacode("ss1"); the choice as to whether it is classified by
+#stacode("ss0") or #stacode("ss1") is determined by the server.
+</p>
+
+<h3>
+Client-selected Session : sschoose_conj
+</h3>
+
+<p>
+Given two session types #stacode("ss0") and #stacode("ss1") the
+session type #stacode("sschoose_conj(ss0,ss1)") is for classifying a
+session that can behave like one classified by either #stacode("ss0")
+or #stacode("ss1"); the choice as to whether it is classified by
+#stacode("ss0") or #stacode("ss1") is determined by the client.
+</p>
+
+<h3>
+Server-Optional Session : ssoption_disj
+</h3>
+
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssoption_disj(ss)") is essentially the same as
+#stacode("sschoose_disj(ss, chnil)").
+</p>
+
+<h3>
+Client-Optional Session : ssoption_conj
+</h3>
+
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssoption_conj(ss)") is essentially the same as
+#stacode("sschoose_conj(ss, chnil)").
+</p>
+
+<h3>
+Server-Repeated Session : ssrepeat_disj
+</h3>
+
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssrepeat_disj(ss)") is for classifying one that repeats a
+session classified by #stacode("ss"); the choice is made by the
+server as to whether repetition should continue.
+</p>
+
+<h3>
+Client-Repeated Session : ssrepeat_conj
+</h3>
+
+<p>
+Given a session type #stacode("ss"), the session type
+#stacode("ssrepeat_conj(ss)") is for classifying one that repeats a
+session classified by #stacode("ss"); the choice is made by the
+client as to whether repetition should continue.
+</p>
+
+<h2>
+A Service for Multiplication Test
+</h2>
+
+<p>
+As an example for demonstrating certain typical use of session
+combinators, I present as follows the construction of a service for
+testing one's ability to do multiplication mentally.  Please click <a
+href="./multest.html">here</a> to give the service a try.  </p>
+
+<h3>
+Login Session
+</h3>
+
+<p>
+To use the service, one needs to first perform login.
+The session type for classifying the login session is
+given as follows:
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_login = chrcv(string)::ss_pass_try
+')</pre>
+
+where the session type #stacode("ss_pass_try") is defined
+below:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_pass =
+chrcv(string)::chsnd(bool)::chnil
+typedef
+ss_pass_try = ssrepeat_disj(ss_pass)
+')</pre>
+
+During the login session, the server receives a string (representing
+the ID of the user) and enters a session for password-checking; one
+round of password-checking involves receiving a string (password) from
+the user and sending the result of checking to the user; the service
+may initiate another round of password-checking if the current round
+fails (that is, the boolean value #dyncode("false") is sent to the
+user).
+</p>
+
+<h3>
+Answer-Checking Session
+</h3>
+
+<p>
+Checking the received answer to a given question is essentially the
+same as password-checking, and the session type #stacode("ss_answer_try")
+is for classifying such a session is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_answer =
+chrcv(int)::chsnd(bool)::chnil
+typedef
+ss_answer_try = ssrepeat_disj(ss_answer)
+')</pre>
+
+Like password-checking, the server may request the user to send another
+answer if the current given answer is incorrect.
+</p>
+
+
+<h3>
+Session for a Single Test
+</h3>
+
+<p>
+The session type for a single round of test is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_test_one =
+chsnd(int)::chsnd(int)::ss_answer_try
+')</pre>
+
+Essentially, the server sends two integers (generated randomly) to the
+client and then enters the answer-checking session described above.
+</p>
+
+<h3>
+Session for Repeated Tests
+</h3>
+
+<p>
+The session type for repeated rounds of tests is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_test_loop = ssrepeat_conj(ss_test_one)
+')</pre>
+
+Notice that the client decides whether a fresh round of test should
+take place.
+</p>
+
+<h3>
+Session for Multiplication Test
+</h3>
+
+<p>
+Finally, the session type #stacode("ss_multest") for the overall session
+is given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_multest =
+ssappend(ss_login, ss_test_loop_opt)
+')</pre>
+
+where the session type #stacode("ss_test_loop_opt") (for a server-optional
+session) is given below:
+
+<pre
+class="patsyntax">
+#pats2xhtml_sats('\
+typedef
+ss_test_loop_opt = ssoption_disj(ss_test_loop)
+')</pre>
+
+Essentially, the overall session starts with the login session
+described above; whether the session for repeated tests follows
+depends on whether the login session succeeds or fails.
+</p>
+
+<h3>
+Implementing State-carrying Sessions
+</h3>
+
+<p>
+A state-carrying session carries a state represented as a (possibly
+extensible) record with mutable fields, and the carried state is meant
+to be updated during the execution of the session. Let us see a concrete
+example given as follows:
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+extern
+fun
+f_ss_pass
+  (state: state)
+: chanpos_session(ss_pass)
+//
+implement
+f_ss_pass
+  (state) = let
+//
+val
+pass = ref{string}("")
+//
+fun
+pass_check
+(
+  x: string
+) : bool = passed where
+{
+//
+val
+passed = 
+(
+  if x = "multest" then true else false
+) : bool
+//
+val ((*void*)) =
+  if passed then state.pass_result(true)
+//
+} (* pass-check *)
+//
+typedef str = string
+//
+val ss1 =
+  chanpos1_session_recv<str>(lam(x) => pass[] := x)
+val ss2 =
+  chanpos1_session_send<bool>(lam() => pass_check(pass[]))
+//
+in
+  ss1 :: ss2 :: chanpos1_session_nil()
+end // end of [f_ss_pass]
+')</pre>
+
+Applying to a state (which is just a reference to a record), the
+function #dyncode("f_ss_pass") returns a state-carrying server-session
+classified by the session type #stacode("ss_pass").  Note that
+#dyncode("pass_check") sets the field #dyncode("pass_result") of the
+carried state to #dyncode("true") if the received password passes
+checking.
+</p>
+
+<p>
+The following function #dyncode("f_ss_pass_try") builds on the top of #dyncode("f_ss_pass"):
+
+<pre
+class="patsyntax">
+#pats2xhtml_dats('\
+extern
+fun
+f_ss_pass_try
+  (state: state)
+: chanpos_session(ss_pass_try)
+implement
+f_ss_pass_try
+  (state) = let
+//
+val mtry = 3
+val ntry = ref{int}(0)
+//
+val ((*void*)) =
+  state.pass_result(false)
+//
+implement
+chanpos1_repeat_disj$choose<>() = let
+  val n0 = ntry[]
+  val () = ntry[] := n0 + 1
+in
+//
+if state.pass_result()
+  then 0 else (if (n0 >= mtry) then 0 else 1)
+//
+end // end of [chanpos1_repeat_disj$choose]
+//
+in
+  chanpos1_session_repeat_disj(f_ss_pass(state))
+end // end of [f_ss_pass_try]
+')</pre>
+
+The session returned by a call to #dyncode("f_ss_pass_try") allows the
+client to try at most 3 times to supply a valid password. Note that
+the function template #dyncode("chanpos1_repeat_disj$choose") is
+called inside the session combinator
+#dyncode("chanpos1_session_repeat_disj") to determine whether the given
+session needs to be repeated.
+</p>
+
+
+<p>
+The entire code for this <a href="./multest.html">demo</a> can be found
+in four files of the following names:
+
+<pre>
+multest.html
+multest_prctl.sats // protocol
+multest_client.dats // client-session
+multest_server.dats // server-session
+</pre>
+
+The implementation of server-session in
+#filename("multest_server.dats") is largely straightforward while the
+implementation of client-session in #filename("multest_client.dats")
+is more involved due to the need for handling certain GUI issues.  For
+those interested in studying session types and session combinators
+in more depth, the following links should be helpful:
+
+<ul>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libatscc/libatscc2js/SATS/Worker">Interface</a>
+</li>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libatscc/libatscc2js/DATS/Worker">Implementation</a>
+</li>
+</ul>
+
+Naturally, one should expect that session combinators can be further lifted to higher forms of
+combinators (e.g., those for combining services together conveniently).
+
+</p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+#patspage_script()
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "main_atxt.txt")
+%}

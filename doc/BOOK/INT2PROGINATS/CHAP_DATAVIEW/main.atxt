@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/int2proginats.dats"
+#include "./../MYTEXT/int2proginats.dats"
 //
 %}\
 #comment("\n\
@@ -39,7 +39,7 @@ id="optional_views">
 
 The dataview #stacode("option_v") is declared as follows:
 
-#atscode('\
+#dats2xhtml('\
 dataview option_v (v:view+, bool) =
   | Some_v (v, true) of (v) | None_v (v, false) of ()
 ')
@@ -59,7 +59,7 @@ false)") contains nothing.
 As an example, the following function interface involves a typical use of
 optional view:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype}
 ptr_alloc_opt (): [l:addr] (option_v (a? @ l, l > null) | ptr l)
 ')
@@ -82,7 +82,7 @@ id="disjunctive_views">
 
 The dataview #stacode("VOR") is declared as follows:
 
-#atscode('\
+#sats2xhtml('\
 dataview VOR (v0:view+, v1:view+, int) =
   | VORleft (v0, v1, 0) of (v0) | VORright (v0, v1, 1) of (v1)
 ')
@@ -103,14 +103,14 @@ Let T be some type. The following function interface states that
 #dyncode("getopt") takes an unintialized pointer and returns an integers
 indicating whether the pointer is initialized:
 
-#atscode('\
+#sats2xhtml('\
 fun getopt{l:addr}
   (pf: T? @ l | ptr (l)): [i:int] (VOR (T? @ l, T @ l, i) | int (i))
 ')
 
 The following code shows a typical use of #dyncode("getopt"):
 
-#atscode('\
+#dats2xhtml('\
 fun foo (): void = let
   var x: T?
   val (pfor | i) = getopt (view@(x) | addr@(x))
@@ -138,13 +138,13 @@ a boolean B to form an opt-type #dyncode("opt(T, B)") such that
 The function #dyncode("getopt") can be given the following interface
 that makes use of an opt-type:
 
-#atscode('\
+#sats2xhtml('\
 fun getopt (x: &T? >> opt (T, b)): #[b:bool] bool(b)
 ')
 
 The code that calls #dyncode("getopt") can now be implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 fun foo (): void = let
   var x: T?
   val ans = getopt (x)
@@ -165,7 +165,7 @@ end // end of [foo]
 where the proof functions #dyncode("opt_unsome") and #dyncode("opt_unnone")
 are assgined the following types:
 
-#atscode('\
+#sats2xhtml('\
 prfun opt_unsome{a:t@ype} (x: !opt (a, true) >> a): void
 prfun opt_unnone{a:t@ype} (x: !opt (a, false) >> a?): void
 ')
@@ -179,7 +179,7 @@ opt-type is considerably less verbose.
 
 <sect1
 id="linear_arrays">
-#title("Views for Linear Arrays")
+#title("Dataview for Linear Arrays")
 
 #para('\
 
@@ -196,9 +196,13 @@ declared dataview #stacode("array_v") precisely captures this intuituion:
 
 ')
 
-#atscode('\
-dataview array_v
-  (a:t@ype+, addr(*beg*), int(*size*)) =
+#sats2xhtml('\
+dataview
+array_v (
+  a:t@ype+ // covariant argument
+, addr(*beg*)
+, int(*size*)
+) = // array_v
   | {l:addr}
     array_v_nil (a, l, 0)
   | {l:addr}{n:nat}
@@ -215,18 +219,20 @@ array-updating are given the following interfaces:
 
 ')
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{
 a:t@ype
 } arrget{l:addr}{n,i:nat | i < n}
   (pf: !array_v (a, l, n) | p: ptr l, i: int i): a
 // end of [arrget] // end of [fun]
-
+//
 fun{
 a:t@ype
 } arrset{l:addr}{n,i:nat | i < n}
   (pf: !array_v (a, l, n) | p: ptr l, i: int i, x: a): void
 // end of [arrset] // end of [fun]
+//
 ')
 
 #para('\
@@ -237,7 +243,7 @@ element of a nonempty array:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 fun{
 a:t@ype
 } arrgetfst{l:addr}{n:pos}
@@ -258,7 +264,7 @@ based on #dyncode("arrgetfst"):
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 implement
 {a}(*tmp*)
 arrget (pf | p, i) =
@@ -293,7 +299,7 @@ encoded in the type of the proof function #dyncode("array_v_split"):
 
 ')
 
-#atscode('\
+#sats2xhtml('\
 prfun
 array_v_split
   {a:t@ype}
@@ -310,7 +316,7 @@ the proof function #dyncode("array_v_unsplit"):
 
 ')
 
-#atscode('\
+#sats2xhtml('\
 prfun
 array_v_unsplit
   {a:t@ype}
@@ -328,7 +334,7 @@ that are O(1)-time:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 implement
 {a}(*tmp*)
 arrget{l}{n,i}
@@ -370,7 +376,7 @@ of a function template for array intialization:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 typedef natLt (n:int) = [i:nat | i < n] int (i)
 
 fun{a:t@ype}
@@ -423,14 +429,16 @@ N)").  By making use of the feature of call-by-reference, we can also
 assign the following interfaces to the previously presented functions
 #dyncode("arrget") and #dyncode("arrset"):
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{
 a:t@ype
-} arrget {n,i:nat | i < n} (A: &(@[a][n]), i: int i): a
-
+} arrget {n,i:nat | i < n} (A: &(@[a][n]), i: int i): (a)
+//
 fun{
 a:t@ype
 } arrset {n,i:nat | i < n} (A: &(@[a][n]), i: int i, x: a): void
+//
 ')
 
 These interfaces are more concise as they obviate the need to mention
@@ -450,22 +458,176 @@ Please find the entirety of the above presented code
 <!-- ****** ****** -->
 
 <sect1
+id="linear_strings">
+#title("Dataview for Linear Strings")
+
+#para('\
+
+The following dataview #stacode("strbuf_v") captures the notion of a
+string in C, which consisits a sequence of non-null characters followed by the
+null character:
+
+#sats2xhtml('\
+dataview
+strbuf_v(addr, int) =
+  | {l:addr}
+    strbuf_v_nil(l, 0) of (char(0) @ l)
+  | {l:addr}{n:nat}
+    strbuf_v_cons(l, n+1) of (charNZ @ l, strbuf_v(l+sizeof(char), n))
+')
+
+Let us define a linear type #stacode("strptr") as follows:
+
+#sats2xhtml('\
+vtypedef strptr(l:addr, n:int) = (strbuf_v(l, n) | ptr(l))
+')
+
+Then a C-string of length N that is stored at location L can be assigned
+the type #stacode("strptr(L, N)").
+
+')#comment("para")
+
+#para('\
+
+Given a C-string, one can always access its first character; if the
+character is null, then the C-string is empty; if it is not, then the
+C-string is non-empty. The following implementation of
+#dyncode("strptr_is_nil") precisely follows this simple way of testing
+whether a C-string is empty or not:
+
+#dats2xhtml('\
+//
+fun
+strptr_is_nil
+  {l:addr}{n:int}
+(
+  str: !strptr(l, n)
+) : bool(n==0) = let
+//
+  prval
+  (pf_at, fpf) =
+    strbuf_v_getfst(str.0)
+  // prval
+  val c0 = !(str.1)
+  prval () = str.0 := fpf(pf_at)
+in
+  iseqz(c0) // testing whether [c0] is null
+end // end of [strptr_is_nil]
+//
+')
+
+where the proof function #dyncode("strbuf_v_getfst")
+is declared and implemented as follows:
+
+#dats2xhtml('\
+extern
+prfun
+strbuf_v_getfst
+  {l:addr}{n:int}
+(
+  pf: strbuf_v(l, n)
+) : [
+  c:int | (c==0 && n==0) || (c != 0 && n > 0)
+] (char(c) @ l, char(c) @ l -<lin,prf> strbuf_v(l, n))
+
+(* ****** ****** *)
+
+primplmnt
+strbuf_v_getfst
+  (pf) =
+(
+case+ pf of
+| strbuf_v_nil(pf_at) => #[.. | (pf_at, llam(pf_at) => strbuf_v_nil(pf_at))]
+| strbuf_v_cons(pf_at, pf2) => #[.. | (pf_at, llam(pf_at) => strbuf_v_cons(pf_at, pf2))]
+)
+')
+
+')#comment("para")
+
+#para('\
+
+The following implementation gives another example of handling the dataview
+#stacode("strbuf_v"):
+
+#dats2xhtml('\
+fun
+strptr_length
+  {l:addr}{n:int}
+(
+  str: !strptr(l, n)
+) : size_t(n) = let
+//
+fun
+loop
+{l:addr}
+{i,j:int}
+(
+  pf: !strbuf_v(l, i)
+| p0: ptr(l), j: size_t(j)
+) : size_t(i+j) = let
+//
+prval
+[c:int]
+(pf_at, fpf) = strbuf_v_getfst(pf)
+//
+val c0 = !p0
+//
+prval ((*return*)) = pf := fpf(pf_at)
+//
+in
+//
+if
+iseqz(c0)
+then j
+else res where
+{
+  prval
+  strbuf_v_cons(pf_at, pf2) = pf
+  val res = loop(pf2 | ptr_succ<char>(p0), succ(j))
+  prval ((*folded*)) = pf := strbuf_v_cons(pf_at, pf2)
+} (* end of [else] *)
+//
+end // end of [loop]
+//
+in
+  loop(str.0 | str.1, i2sz(0))
+end // end of [strptr_length]  
+')
+
+Clearly,
+the implemented function #dyncode("strptr_length")
+computes the length of a given C-string.
+
+')#comment("para")
+
+#para('\
+
+Please find the entirety of the above presented code
+#mycodelink("CHAP_DATAVIEW/strbuf.dats", "on-line").
+
+')#comment("para")
+
+</sect1>#comment("sect1/id=linear_strings")
+
+<!-- ****** ****** -->
+
+<sect1
 id="singly-linked_lists">
-#title("Views for Singly-Linked Lists")
+#title("Dataview for Singly-Linked Lists")
 
 #para('\
 
 The following dataview #stacode("slseg_v") captures the notion of a
 singly-linked list segment:\
 
-#atscode('\
+#sats2xhtml('\
 dataview
 slseg_v (
   a:t@ype+ // covariant argument
 , addr(*beg*)
 , addr(*end*)
-, int(*len*)
-) =
+, int(*length*)
+) = // slseg_v
   | {l:addr}
     slseg_v_nil (a, l, l, 0) of ()
   | {l_fst:agz}{l_nxt,l_end:addr}{n:nat}
@@ -478,15 +640,18 @@ There are two proof constructors #dyncode("slseg_v_nil") and
 #dyncode("slseg_v_cons") associated with #stacode("slseg_v"), which are
 assigned the following types:
 
-')
-
 #atscode('\
+//
 slseg_v_nil :
   {a:t@ype}{l:addr} () -> slseg_v (a, l, l, 0)
+//
 slseg_v_cons :
   {a:t@ype}{l_fst:agz}{l_nxt,l_end:addr}{n:nat}
   ((a, ptr l_nxt) @ l_fst, slseg_v (a, l_nxt, l_end, n)) -> slseg_v (a, l_fst, l_end, n+1)
+//
 ')
+
+')#comment("para")
 
 #para('\
 
@@ -497,13 +662,13 @@ containing N elements of the type T that starts at L1 and finishes at L2.
 In the case where L2 is the null pointer, then the list segment is considered
 a list as is formally defined below:
 
-')
-
-#atscode('\
+#dats2xhtml('\
 viewdef slist_v
   (a:t@ype, l:addr, n:int) = slseg_v (a, l, null, n)
 // end of [slist_v]
 ')
+
+')#comment("para")
 
 #para('\
 
@@ -511,8 +676,6 @@ Given a type T, a pointer pointing to L plus a proof of the view
 #stacode("slist_v(T, L, N)") for some natural number N is essentially the
 same as a pointer to a struct of the following declared type
 #stacode("slist_struct") in C:
-
-')
 
 #atscode('\
 typedef
@@ -522,11 +685,13 @@ struct slist {
 } slist_struct ;
 ')
 
+')#comment("para")
+
 #para('\
 
 Let us now see a simple example involving singly-linked lists:
 
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 slist_ptr_length
   {l:addr}{n:nat}
@@ -558,22 +723,26 @@ given singly-linked list. Note that the inner function #dyncode("loop") is
 tail-recursive. The above implementation of #dyncode("slist_ptr_length")
 essentially corresponds to the following implementation in C:
 
-')
-
 #atscode('\
-int slist_ptr_length (slist_struct *p) {
+int
+slist_ptr_length
+(
+  slist_struct *p
+) {
   int res = 0 ;
   while (p != NULL) { res = res + 1 ; p = p->next ; }
   return res ;
 } // end of [slist_ptr_length]
 ')
 
+')#comment("para")
+
 #para('\
 
 As another example, the following function template
 #dyncode("slist_ptr_reverse") turns a given linked list into its reverse:
 
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 slist_ptr_reverse
   {l:addr}{n:nat}
@@ -608,8 +777,10 @@ C:
 
 #atscode('\
 slist_struct*
-slist_ptr_reverse (slist_struct *p)
-{
+slist_ptr_reverse
+(
+  slist_struct *p
+) {
   slist_struct *tmp, *res = NULL ;
   while (p != NULL) {
     tmp = p->next ; p->next = res ; res = p ; p = tmp ;
@@ -618,7 +789,7 @@ slist_ptr_reverse (slist_struct *p)
 } // end of [slist_ptr_reverse]
 ')
 
-')
+')#comment("para")
 
 #para('\
 
@@ -644,9 +815,7 @@ then replaced with #dyncode("q").  This implementation of
 #dyncode("slist_ptr_append") in C can be translated directly into to
 the following one in ATS:
 
-')
-
-#atscode('\
+#dats2xhtml('\
 fn{a:t@ype}
 slist_ptr_append
   {l1,l2:addr}{n1,n2:nat}
@@ -687,6 +856,8 @@ in
 end // end of [slist_ptr_append]
 ')
 
+')#comment("para")
+
 #para('\
 
 In the above examples, it is evident that the code in ATS is a lot more
@@ -698,8 +869,6 @@ changed code is typechecked. On the other hand, the same thing cannot be
 said about the code written in C. For instance, the following erroneous
 implementation of #dyncode("slist_ptr_reverse") in C is certainly
 type-correct:
-
-')
 
 #atscode('\
 /*
@@ -717,6 +886,8 @@ slist_ptr_reverse
 } // end of [slist_ptr_reverse]
 ')
 
+')#comment("para")
+
 #para('\
 
 I now point out that the dataview #stacode("slseg_v") is declared here in a
@@ -730,7 +901,7 @@ general and flexible than dataviewtypes, and there are many common data
 structures (e.g. doubly-linked lists) that can only be properly handled
 with dataviews in ATS.
 
-')
+')#comment("para")
 
 </sect1>#comment("sect1/id=singly-linked_lists")
 
@@ -763,7 +934,8 @@ functions #dyncode("array_v_split") and #dyncode("array_v_unsplit"):
 
 ")
 
-#atscode('\
+#sats2xhtml('\
+//
 prfun
 array_v_split
   {a:t@ype}
@@ -771,7 +943,7 @@ array_v_split
 (
   pfarr: array_v (a, l, n)
 ) : (array_v (a, i, l), array_v (a, n-i, l+i*sizeof(a)))
-
+//
 prfun
 array_v_unsplit
   {a:t@ype}
@@ -779,6 +951,7 @@ array_v_unsplit
 (
   pf1arr: array_v (a, l, n1), pf2arr: array_v (a, l+n1*sizeof(a), n2)
 ) : array_v (a, l, n1+n2)
+//
 ')
 
 #para('\
@@ -787,7 +960,7 @@ An implementation of #dyncode("array_v_split") is given as follows:
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 primplmnt
 array_v_split
   {a}{l}{n,i}(pfarr) = let
@@ -823,7 +996,7 @@ One can also choose to use the keyword #keycode("primplement") in place of
 directly encodes a proof based on mathematical induction. Following is an
 implementation of #dyncode("array_v_unsplit"):
 
-#atscode('\
+#dats2xhtml('\
 primplmnt
 array_v_unsplit
   {a}{l}{n1,n2}
@@ -861,7 +1034,8 @@ is given as follows:
 
 ')
 
-#atscode('\
+#sats2xhtml('\
+//
 prfun
 array_v_takeout
   {a:t@ype}
@@ -869,6 +1043,7 @@ array_v_takeout
 (
   pfarr: array_v (a, l, n)
 ) : (a @ l+i*sizeof(a), a @ l+i*sizeof(a) -<lin,prf> array_v (a, l, n))
+//
 ')
 
 #para('\
@@ -886,7 +1061,7 @@ array into an at-view (for one cell) and a view for the rest of the array.
 By making use of #dyncode("array_v_takeout"), we can give another
 implementation of #dyncode("arrget"):
 
-#atscode('\
+#dats2xhtml('\
 implement
 {a}(*tmp*)
 arrget{l}{n,i}
@@ -906,7 +1081,7 @@ The proof function #dyncode("array_v_takeout") can be implemented as follows:\
 
 ')
 
-#atscode('\
+#dats2xhtml('\
 primplmnt
 array_v_takeout
   {a}{l}{n,i}(pfarr) = let
@@ -949,7 +1124,8 @@ The proof functions presented so far for view-changes are all manipulating
 array-views. The following one is different in this regard as it combines
 two views for singly-linked list segments into one:
 
-#atscode('\
+#sats2xhtml('\
+//
 prfun
 slseg_v_unsplit
   {a:t@ype}
@@ -957,6 +1133,7 @@ slseg_v_unsplit
 (
   pf1lst: slseg_v (a, l1, l2, n1), pf2lst: slseg_v (a, l2, l3, n2)
 ) : slseg_v (a, l1, l3, n1+n2)
+//
 ')
 
 The type of #dyncode("slseg_v_unsplit") essentially states that a list
@@ -966,7 +1143,7 @@ L3 that is of length N1+N2. The following implementation of
 #dyncode("slseg_v_unsplit") is largely parallel to that of
 #dyncode("array_v_unsplit"):
 
-#atscode('\
+#dats2xhtml('\
 primplmnt
 slseg_v_unsplit
   {a}(pf1lst, pf2lst) = let

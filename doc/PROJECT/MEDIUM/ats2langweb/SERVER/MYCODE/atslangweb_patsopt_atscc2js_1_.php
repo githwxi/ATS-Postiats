@@ -14,18 +14,21 @@ include "./$MYPHPDIR/basics_dats.php";
 include "./$MYPHPDIR/atslangweb_utils_dats.php";
 //
 $HOME = getenv("HOME");
-$PATSHOME = "$HOME/app-root/repo/ats2-lang";
-putenv("PATSHOME=$PATSHOME");
-$PATSHOMERELOC = "$HOME/app-root/repo/ats2-lang-contrib";
-putenv("PATSHOMERELOC=$PATSHOMERELOC");
-//
 $PATH = getenv("PATH");
+//
+$PATSHOME = "$HOME/ats2-lang";
+$PATSCONTRIB = "$HOME/ats2-lang-contrib";
+//
+putenv("PATSHOME=$PATSHOME");
+putenv("PATSCONTRIB=$PATSCONTRIB");
 putenv("PATH=$PATH:$PATSHOME/bin");
 //
-$mycode = rawurldecode($_REQUEST["mycode"]);
-$mycode_res = atslangweb_patsopt_atscc2js_code_1_($mycode);
+$mycode =
+rawurldecode($_REQUEST["mycode"]);
+$mycode_res =
+atslangweb_patsopt_atscc2js_code_1_($mycode);
 //
-echo rawurldecode(json_encode($mycode_res));
+echo rawurlencode(json_encode($mycode_res));
 //
 /* end of [atslangweb_patsopt_atscc2js_1_.php] */
 //

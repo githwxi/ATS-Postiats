@@ -1,183 +1,160 @@
 (*
-** For ATS2-package relocation
+** For package reloc
 *)
 (* ****** ****** *)
 //
 // HX-2014-08:
 // PATSHOME is pre-defined
-// PATSHOMERELOC is pre-defined
+// PATSCONTRIB is pre-defined
 //
 #define
 PATSHOME_targetloc "$PATSHOME"
 #define
-PATSHOMERELOC_targetloc "$PATSHOMERELOC"
+PATSCONTRIB_targetloc "$PATSCONTRIB"
+//
+// HX-2016-01-05:
+// PATSHOMERELOCS is *SPECIALLY* treated!
+//
+#define
+PATSHOMERELOCS_targetloc "$PATSHOMERELOCS"
 //
 (* ****** ****** *)
 //
 #define
 PATSPRE_targetloc "$PATSHOME/prelude"
 #define
-PATSLIBC_targetloc "$PATSHOME/libc"
-#define
 PATSLIBATS_targetloc "$PATSHOME/libats"
+#define
+PATSLIBATSML_targetloc "$PATSHOME/libats/ML"
+#define
+PATSLIBATSLIBC_targetloc "$PATSHOME/libats/libc"
 //
 (* ****** ****** *)
 //
+(*
 #define
 ATSLANGWEB "http://www.ats-lang.org"
 #define
-ATSLANGWEBLIB "http://www.ats-lang.org/LIBRARY"
+ATSLANGORG "http://www.ats-lang.org"
+#define
+ATSLANGCOM "http://www.ats-lang.com"
+*)
 //
 (* ****** ****** *)
+(*
 //
 #define
-PCRE_sourceloc "$ATSLANGWEBLIB/contrib/pcre"
-#define
-PCRE_targetloc "$PATSHOMERELOC/contrib/pcre"
+LIBGMP_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-libgmp"
 //
+#define
+LIBPCRE_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-libpcre"
+//
+#define
+LIBCURL_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-libcurl"
+//
+#define
+LIBJSONC_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-libjson-c"
+#define
+LIBJSON_C_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-libjson-c"
+//
+*)
+(* ****** ****** *)
+(*
+//
+#define
+HX_INTINF_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-intinf"
+//
+#define
+HX_CSTREAM_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-cstream"
+//
+#define
+HX_GLOBALS_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-globals"
+//
+#define
+HX_MYTESTING_targetloc
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-mytesting"
+//
+*)
 (* ****** ****** *)
 //
-#define
-LIBGMP_sourceloc "$ATSLANGWEBLIB/contrib/libgmp"
-#define
-LIBGMP_targetloc "$PATSHOMERELOC/contrib/libgmp"
-//
-(* ****** ****** *)
-//
-#define
-ZLOG_targetloc "$PATSHOMERELOC/contrib/zlog"
-//
-(* ****** ****** *)
-//
-#define
-ZEROMQ_targetloc "$PATSHOMERELOC/contrib/zeromq"
-//
-(* ****** ****** *)
-//
-#define
-JSONC_sourceloc "$ATSLANGWEBLIB/contrib/json-c"
-#define
-JSONC_targetloc "$PATSHOMERELOC/contrib/json-c"
-//
-(* ****** ****** *)
-//
-#define
-HIREDIS_sourceloc "$ATSLANGWEBLIB/contrib/hiredis"
-#define
-HIREDIS_targetloc "$PATSHOMERELOC/contrib/hiredis"
-//
-(* ****** ****** *)
-//
-#define
-OPENSSL_sourceloc "$ATSLANGWEBLIB/contrib/OpenSSL"
-#define
-OPENSSL_targetloc "$PATSHOMERELOC/contrib/OpenSSL"
-//
-(* ****** ****** *)
-//
-#define
-LIBCURL_sourceloc "$ATSLANGWEBLIB/contrib/libcurl"
-#define
-LIBCURL_targetloc "$PATSHOMERELOC/contrib/libcurl"
-//
-(* ****** ****** *)
-//
-#define
-GTK_sourceloc "$ATSLANGWEBLIB/contrib/GTK"
-#define
-GTK_targetloc "$PATSHOMERELOC/contrib/GTK"
-//
-(* ****** ****** *)
-//
-#define
-GLIB_sourceloc "$ATSLANGWEBLIB/contrib/glib"
-#define
-GLIB_targetloc "$PATSHOMERELOC/contrib/glib"
-//
-(* ****** ****** *)
-//
-#define
-CAIRO_sourceloc "$ATSLANGWEBLIB/contrib/cairo"
-#define
-CAIRO_targetloc "$PATSHOMERELOC/contrib/cairo"
-//
-(* ****** ****** *)
-//
-#define
-JNI_targetloc "$PATSHOMERELOC/contrib/JNI"
-//
-(* ****** ****** *)
-//
-#define
-SDL2_targetloc "$PATSHOMERELOC/contrib/SDL2"
-//
-(* ****** ****** *)
-//
-#define
-GUROBI_targetloc "$PATSHOMERELOC/contrib/gurobi"
-//
-(* ****** ****** *)
-//
-#define
-KERNELATS_targetloc "$PATSHOMERELOC/contrib/kernelats"
-//
-(* ****** ****** *)
-//
+(*
 #define
 LIBATSCC_targetloc
-"$PATSHOMERELOC/contrib/libatscc"
+"$PATSHOME/contrib/libatscc"
+//
+(* ****** ****** *)
 //
 #define
 LIBATSCC2JS_targetloc
-"$PATSHOMERELOC/contrib/libatscc/libatscc2js"
+"$PATSHOME/contrib/libatscc2js"
+*)
+//
+(* ****** ****** *)
+(*
 //
 #define
-LIBATSCC2PHP_targetloc
-"$PATSHOMERELOC/contrib/libatscc/libatscc2php"
+LIBATSCC2JS_targetloc
+"$PATSCONTRIB/contrib/libatscc2js/ATS2-0.3.2"
 //
 #define
 LIBATSCC2PL_targetloc
-"$PATSHOMERELOC/contrib/libatscc/libatscc2pl"
+"$PATSCONTRIB/contrib/libatscc2pl/ATS2-0.3.2"
 //
 #define
-LIBATSCC2PY_targetloc
-"$PATSHOMERELOC/contrib/libatscc/libatscc2py"
+LIBATSCC2PY3_targetloc
+"$PATSCONTRIB/contrib/libatscc2py3/ATS2-0.3.2"
 //
 #define
-LIBATSCC2CIL_targetloc
-"$PATSHOMERELOC/contrib/libatscc/libatscc2cil"
+LIBATSCC2PHP_targetloc
+"$PATSCONTRIB/contrib/libatscc2php/ATS2-0.3.2"
 //
+#define
+LIBATSCC2ERL_targetloc
+"$PATSCONTRIB/contrib/libatscc2erl/ATS2-0.3.2"
+//
+#define
+LIBATSCC2SCM_targetloc
+"$PATSCONTRIB/contrib/libatscc2scm/ATS2-0.3.2"
+#define
+LIBATSCC2CLJ_targetloc
+"$PATSCONTRIB/contrib/libatscc2clj/ATS2-0.3.2"
+//
+*)
 (* ****** ****** *)
+(*
 //
 // HX-2014-05-12:
 // This is for backward compatibility
 //
 #define
-LIBATSHWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
+LIBATSHWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 #define
-LIBATSHWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
+LIBATS_HWXI_targetloc "$PATSCONTRIB/contrib/libats-/hwxi"
 //
-#define
-LIBATS_HWXI_sourceloc "$ATSLANGWEBLIB/contrib/libats-/hwxi"
-#define
-LIBATS_HWXI_targetloc "$PATSHOMERELOC/contrib/libats-/hwxi"
-//
-(* ****** ****** *)
-//
-// For applying ATS to AVR programming
-//
-#define AVR_sourceloc "$ATSLANGWEBLIB/contrib/AVR"
-#define AVR_targetloc "$PATSHOMERELOC/contrib/AVR"
-//
-#define ARDUINO_sourceloc "$ATSLANGWEBLIB/contrib/arduino"
-#define ARDUINO_targetloc "$PATSHOMERELOC/contrib/arduino"
-//
+*)
 (* ****** ****** *)
 //
 // For applying ATS to Linux kernel programming
 //
-#define LINUX_sourceloc "$ATSLANGWEBLIB/contrib/linux"
-#define LINUX_targetloc "$PATSHOMERELOC/contrib/linux"
+#define LINUX_targetloc "$PATSCONTRIB/contrib/linux"
+//
+(* ****** ****** *)
+//
+// For exporting constraints for solving externally
+//
+#define EXTSOLVE_targetloc "$PATSCONTRIB/contrib/extsolve"
+//
+(* ****** ****** *)
+//
+#define LIBATSEXT_LIBC_targetloc "$PATSCONTRIB/libatsext/libc"
 //
 (* ****** ****** *)
 

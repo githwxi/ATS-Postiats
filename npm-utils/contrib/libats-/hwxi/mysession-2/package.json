@@ -1,0 +1,33 @@
+{
+"name":
+"atscntrb-hx-mysession-2"
+,
+"version": "1.0.1"
+,
+"description":
+"This package is for experimenting with session types"
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/libats-/hwxi/mysession-2"
+}
+,
+  "keywords": [
+    "ATS",
+    "session",
+    "session-types"
+  ]
+,
+  "dependencies": {}
+,
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>"
+,
+  "license": "MIT"
+,
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/mysession-2/."
+}

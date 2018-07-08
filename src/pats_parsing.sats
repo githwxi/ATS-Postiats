@@ -47,17 +47,26 @@ staload "./pats_syntax.sats"
 datatype
 parerr_node =
 //
-  | PE_AND
-  | PE_END
   | PE_AS
-  | PE_OF
-  | PE_IN
+//
+  | PE_AND
+//
+  | PE_END
+//
+  | PE_IN | PE_OF 
+//
   | PE_IF | PE_SIF
   | PE_CASE | PE_SCASE
+//
+  | PE_IFCASE
+//
   | PE_THEN
   | PE_ELSE
+//
   | PE_REC
+//
   | PE_WHEN
+//
   | PE_WITH
 //
   | PE_FOR
@@ -121,8 +130,8 @@ parerr_node =
   | PE_funarrow
   | PE_colonwith
 //
-  | PE_atme0xp
   | PE_e0xp
+  | PE_atme0xp
 //
   | PE_s0rt
   | PE_atms0rt
@@ -140,9 +149,13 @@ parerr_node =
   | PE_atmp0at
   | PE_labp0at
   | PE_p0at_as
+//
+  | PE_i0fcl // for ifcase-clauses
+//
   | PE_gm0at
   | PE_guap0at
-  | PE_c0lau
+  | PE_c0lau // for case-clauses
+  | PE_sc0lau // for scase-clauses
 //
   | PE_d0exp
   | PE_d0exp0
@@ -170,7 +183,9 @@ parerr = '{
 , parerr_node= parerr_node
 } // end of [parerr]
 
-fun parerr_make (
+fun
+parerr_make
+(
   loc: location, node: parerr_node
 ) : parerr // end of [parerr_make]
 
@@ -178,22 +193,26 @@ fun the_parerrlst_clear (): void
 
 (* ****** ****** *)
 //
-fun the_parerrlst_add (x: parerr): void
+fun
+the_parerrlst_add(x: parerr): void
 //
 fun
 the_parerrlst_add_ifnbt
-  (bt: int, loc: location, node: parerr_node): void
-// end of [the_parerrlst_add_ifnbt]
+(
+  bt: int, loc: location, node: parerr_node
+) : void // end-of-function
 //
 fun
-the_parerrlst_add_ifunclosed (loc: location, name: string): void
+the_parerrlst_add_ifunclosed
+  (loc: location, content: string): void
 //
 (* ****** ****** *)
 //
 fun
-fprint_parerr (out: FILEref, x: parerr): void
+fprint_parerr(out: FILEref, x: parerr): void
+//
 fun
-fprint_the_parerrlst (out: FILEref): int(*err*) // 0/1
+fprint_the_parerrlst(out: FILEref): int(*err*) // 0/1
 //
 (* ****** ****** *)
 //
@@ -204,12 +223,12 @@ tokbuf_set_ntok_null{a:type}(buf: &tokbuf, n0: uint): (a)
 
 typedef
 parser (a:type) =
-  (&tokbuf, int(*bt*), &int(*err*)) -> a
+  (&tokbuf(*>> _*), int(*bt*), &int(*err*)) -> a
 // end of [parser]
 
 typedef
 parser_tok (a:type) =
-  (&tokbuf, int(*bt*), &int(*err*), token) -> a
+  (&tokbuf(*>> _*), int(*bt*), &int(*err*), token) -> a
 // end of [parser_tok]
 
 (* ****** ****** *)
@@ -245,6 +264,9 @@ fun p_CASE : parser (token)
 fun is_CASE (x: tnode): bool
 fun p_SCASE : parser (token)
 fun is_SCASE (x: tnode): bool
+
+fun p_IFCASE : parser (token)
+fun is_IFCASE  (x: tnode): bool
 
 fun p_REC : parser (token)
 fun is_REC (x: tnode): bool
@@ -471,24 +493,28 @@ fun popt_fun
 
 (* ****** ****** *)
 
-dataviewtype
+datavtype
 synent2 (
   a1: viewtype, a2:viewtype
 ) = SYNENT2 (a1, a2) of (a1, a2)
 
-fun pseq2_fun
+fun
+pseq2_fun
   {a1,a2:type} (
   buf: &tokbuf
 , bt: int, err: &int
 , f1: parser (a1), f2: parser (a2)
 ) : synent2 (a1, a2)
 
-dataviewtype
+(* ****** ****** *)
+
+datavtype
 synent3 (
   a1: viewtype, a2:viewtype, a3:viewtype
 ) = SYNENT3 (a1, a2, a3) of (a1, a2, a3)
 
-fun pseq3_fun
+fun
+pseq3_fun
   {a1,a2,a3:type} (
   buf: &tokbuf
 , bt: int, err: &int
@@ -497,7 +523,8 @@ fun pseq3_fun
 
 (* ****** ****** *)
 
-fun ptest_fun
+fun
+ptest_fun
   {a:type} (
   buf: &tokbuf, f: parser (a), ent: &synent? >> synent
 ) : bool // end of [ptest_fun]
@@ -530,6 +557,8 @@ pif_fun
   buf: &tokbuf
 , bt: int, err: &int, f: parser (a), err0: int
 ) : (a) // end of [pif_fun]
+
+(* ****** ****** *)
 
 fun
 ptokwrap_fun
@@ -575,6 +604,10 @@ fun p_extnamopt : parser (s0tringopt)
 (* ****** ****** *)
 
 fun p_e0xp : parser (e0xp)
+fun p_e0xpseq : parser (e0xplst)
+
+(* ****** ****** *)
+
 fun p_datsdef : parser (datsdef)
 
 (* ****** ****** *)
@@ -612,12 +645,17 @@ fun p_eqs0expopt : parser (s0expopt) // EQ s0exp
 fun p_ofs0expopt : parser (s0expopt) // OF s0exp
 fun p_colons0expopt : parser (s0expopt) // OF s0exp
 //
-// quantifier-like multi-argument
+(*
+HX: argument type
+*)
+fun p_a0typ : parser (a0typ)
 //
+(*
+HX:
+quantifier-like multi-argument
+*)
 fun p_q0marg : parser (q0marg)
 fun p_q0margseq : parser (q0marglst)
-//
-fun p_a0typ : parser (a0typ) // argument type
 //
 fun p_e0xndec : parser (e0xndec)
 fun p_d0atconseq : parser (d0atconlst)
@@ -640,7 +678,7 @@ fun p_f0arg1 : parser (f0arg)
 fun p_f0arg2 : parser (f0arg)
 
 (* ****** ****** *)
-
+//
 fun p_d0exp : parser (d0exp)
 fun p_di0de : parser (i0de) // dynamic identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
@@ -653,8 +691,16 @@ fun p_eqd0expopt : parser (d0expopt) // EQ d0exp
 //
 fun p_d0expsemiseq : parser (d0explst)
 //
+(* ****** ****** *)
+//
+fun p_i0fclseq : parser (i0fclist)
+//
 fun p_c0lauseq : parser (c0laulst) // pattern-matching clauses
 fun p_sc0lauseq : parser (sc0laulst) // static pattern-matching clauses
+//
+(* ****** ****** *)
+
+fun p_S0Ed2ctype : parser (d0exp)
 
 (* ****** ****** *)
 
@@ -694,37 +740,55 @@ fun p_m0acdef : parser (m0acdef)
 fun p_d0cstdecseq : parser (d0cstdeclst)
 //
 (* ****** ****** *)
-
+//
 fun p_toplevel_sta
   (buf: &tokbuf, nerr: &int? >> int): d0eclist
 // end of [p_toplevel_sta]
-
+//
 fun p_toplevel_dyn
   (buf: &tokbuf, nerr: &int? >> int): d0eclist
 // end of [p_toplevel_dyn]
-
+//
 (* ****** ****** *)
-
-fun parse_from_string
-  {a:type} (inp: string, f: parser a): Option_vt (a)
-// end of [parse_from_string]
-
+//
+fun
+parse_from_string_parser
+  {a:type}
+(
+  inp: string, fparse: parser(a)
+) : Option_vt(a) // end-of-fun
+//
 (* ****** ****** *)
 
 fun
 parse_from_tokbuf_toplevel
-  (stadyn: int, buf: &tokbuf): d0eclist
-// end of [parse_from_tokbuf_toplevel]
+(
+  stadyn: int, buf: &tokbuf
+) : d0eclist // end-of-function
 
+(* ****** ****** *)
+//
+// HX-2015-10-04:
+// This one is for libatsopt
+//
+fun
+parse_from_string_toplevel
+(
+  stadyn: int, inp: string
+) : d0eclist =
+  "ext#libatsopt_parse_from_string_toplevel"
+//
+(* ****** ****** *)
+//
+fun
+parse_from_stdin_toplevel
+  (stadyn: int): d0eclist
+//
 fun
 parse_from_fileref_toplevel
   (stadyn: int, inp: FILEref): d0eclist
 // end of [parse_from_fileref_toplevel]
-
-(* ****** ****** *)
-
-fun parse_from_stdin_toplevel (stadyn: int): d0eclist
-
+//
 (* ****** ****** *)
 //
 fun
@@ -735,13 +799,33 @@ parse_from_filename_toplevel2
   (stadyn: int, fil: filename): d0eclist
 //
 (* ****** ****** *)
-
+//
 fun
 parse_from_givename_toplevel
 (
-  stadyn: int, given: string, filref: &filename? >> filename
-) : d0eclist // end of [parse_from_givename_toplevel]
-
+  stadyn: int
+, givename: string, filref: &filename? >> filename
+) : d0eclist // end-of-function
+fun
+parse_from_givename_toplevel2
+(
+  stadyn: int
+, givename: string, filref: &filename? >> filename
+) : d0eclist // end-of-function
+//
+(* ****** ****** *)
+//
+// HX-2017-05-26:
+// [filref] is set
+// by the first [givename]
+//
+fun
+parse_from_givenames_toplocal2
+(
+  stadyn: int
+, givenames: List(string), filref: &filename? >> filename
+) : d0eclist // end of [parse_from_givename_toplocal2]
+//
 (* ****** ****** *)
 
 (* end of [pats_parsing.sats] *)

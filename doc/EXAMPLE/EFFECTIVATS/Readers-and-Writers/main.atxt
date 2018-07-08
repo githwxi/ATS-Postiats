@@ -1,27 +1,28 @@
 %{
-#include "./../ATEXT/atextfun.hats"
+#include "./../MYTEXT/mytextfun.hats"
 %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>EFFECTIVATS-Producer-Consumer</title>
 #patscode_style()
+#patspage_style()
 </head>
 
 <body>
 
 <h1>
-Effective ATS: Readers-and-Writers
+Effective ATS:<br>
+Readers-and-Writers
 </h1>
 
 In general, ATS shines much more brightly in contexts where dynamic testing
 becomes more difficult to perform and/or control.  In this article, I
-present in ATS an implementation of the classical Readers-and-Writers
-problem in concurrent programming.
+present in ATS an implementation of the classic Readers-and-Writers problem
+in concurrent programming.
 
 <h2>
 Description of the Problem 
@@ -54,16 +55,16 @@ fun DBwrite (pf: !DBwrite_v | db: DB): void
 //
 ')</pre>
 
-For calling [DBread] to
-read from a database, a proof of the (abstract) view [DBread_v] is needed.
-For calling [DBwrite] to
-write to a database, a proof of the (abstract) view [DBwrite_v] is needed.
+For calling #dyncode("DBread") to
+read from a database, a proof of the (abstract) view #stacode("DBread_v") is needed.
+For calling #dyncode("DBwrite") to
+write into a database, a proof of the (abstract) view #stacode("DBwrite_v") is needed.
 
 <h2>
 Databases-with-state
 </h2>
 
-Let us introduce a linear abstract type [DBshell] for a database
+Let us introduce a linear abstract type #stacode("DBshell") for a database
 with some linear state:
 
 <pre
@@ -77,10 +78,11 @@ vtypedef DBshell = [r,w:int] DBshell (r, w)
 //
 ')</pre>
 
-Given integer r and w, a value of the type [DBshell(r, w)] is referred
-to as a database-with-state in which the associated database is currently
-granting r read-accesses and w write-accesses. The following two proof functions
-mention explicitly some constraints on parameters r and w:
+Given integer r and w, a value of the type #stacode("DBshell(r, w)")
+is referred to as a database-with-state in which the associated
+database is currently granting r read-accesses and w
+write-accesses. The following two proof functions mention explicitly
+some constraints on parameters r and w:
 
 <pre
 class="patsyntax">
@@ -95,10 +97,11 @@ lemma_DBshell_param2
 //
 ')</pre>
 
-Given a type [DBshell(r, w)], the proof function [lemma_DBshell_param]
-states that r is a natural number and w is between 0 and 1, inclusive;
-the proof function [lemma_DBshell_param2] states that w must equal 0 if
-r is positive. 
+Given a type #stacode("DBshell(r, w)"), the proof function
+#dyncode("lemma_DBshell_param") states that r is a natural number and
+w is between 0 and 1, inclusive; the proof function
+#dyncode("lemma_DBshell_param2") states that w must equal 0 if r is
+positive.
 
 <p>
 
@@ -115,9 +118,10 @@ fun DBshell_nwrite {r,w:int} (x: !DBshell (r, w)): int (w)
 //
 ')</pre>
 
-Clearly, [DBshell_dbget] is meant to return the database associated with a
-given database-with-state. As for [DBshell_nread] and [DBshell_nwrite],
-they can be called on a database-with-state of type [DBshell(r, w)] to
+Clearly, #dyncode("DBshell_dbget") is meant to return the database
+associated with a given database-with-state. As for
+#dyncode("DBshell_nread") and #dyncode("DBshell_nwrite"), they can be
+called on a database-with-state of type #stacode("DBshell(r, w)") to
 obtain the values of r and w, respectively.
 
 <h2>
@@ -143,11 +147,11 @@ fun DBshell_release_write
 //
 ')</pre>
 
-A proof of the view [DBread_v] is needed for reading from a database.  In
-order to obtain it, [DBshell_acquire_read] needs to be called on a
+A proof of the view #stacode("DBread_v") is needed for reading from a database.  In
+order to obtain it, #dyncode("DBshell_acquire_read") needs to be called on a
 database-with-state that is currently granting no write-access.  Similarly,
-a proof of the view [DBwrite_v] is needed for writing to a database.  In
-order to obtain it, [DBshell_acquire_write] needs to be called on a
+a proof of the view #stacode("DBwrite_v") is needed for writing to a database.  In
+order to obtain it, #dyncode("DBshell_acquire_write") needs to be called on a
 database-with-state that is currently granting neither read-access nor
 write-access.
 
@@ -158,7 +162,7 @@ Shared Databases-with-state
 
 A shared database-with-state essentially wraps a protection mechanism
 around a database-with-state. Let
-introduce a non-linear abstract type [SDBshell] for shared databases-with-state:
+introduce a non-linear abstract type #stacode("SDBshell") for shared databases-with-state:
 
 <pre
 class="patsyntax">
@@ -197,7 +201,7 @@ programming (without causing race conditions).
 <p>
 
 There is a conditional variable (CV) inside a shared database-with-state.
-The following function [SDBshell_wait_read] can be called by a process to
+The following function #dyncode("SDBshell_wait_read") can be called by a process to
 wait on the CV if it wants to read but the database is currently granting a
 write-access to another process:
 
@@ -215,7 +219,7 @@ fun SDBshell_wait_read
 ')</pre>
 
 Similarly,
-the following function [SDBshell_wait_write] can be called by a process to
+the following function #dyncode("SDBshell_wait_write") can be called by a process to
 wait on the CV if it wants to write but the database is currently granting a
 read-access or write-access to another process:
 
@@ -231,7 +235,7 @@ fun SDBshell_wait_write
 ')</pre>
 
 In order to wake up a process waiting on the conditional variable, the
-following function [SDBshell_signal] can be called:
+following function #dyncode("SDBshell_signal") can be called:
 
 <pre
 class="patsyntax">
@@ -242,7 +246,7 @@ extern fun SDBshell_signal (sx: SDBshell): void
 ')</pre>
 
 Furthermore, two auxiliary functions are declared as follows to facilitate
-the implementation of [SDBshell_acquire_read] and [SDBshell_acquire_write]:
+the implementation of #dyncode("SDBshell_acquire_read") and #dyncode("SDBshell_acquire_write"):
 
 <pre
 class="patsyntax">
@@ -255,7 +259,7 @@ fun SDBshell_acquire_write2
   (sx: SDBshell, x: !DBshell >> _): (DBwrite_v | void)
 ')</pre>
 
-The following code implements [SDBshell_acquire_read]:
+The following code implements #dyncode("SDBshell_acquire_read"):
 
 <pre
 class="patsyntax">
@@ -289,7 +293,7 @@ if w = 0
 end // end of [SDBshell_acquire_read2]
 ')</pre>
 
-The following code implements [SDBshell_release_read]:
+The following code implements #dyncode("SDBshell_release_read"):
 
 <pre
 class="patsyntax">
@@ -309,7 +313,7 @@ SDBshell_release_read
 }
 ')</pre>
 
-The following code implements [SDBshell_acquire_write]:
+The following code implements #dyncode("SDBshell_acquire_write"):
 
 <pre
 class="patsyntax">
@@ -356,7 +360,7 @@ if r = 0
 end // end of [SDBshell_acquire_write2]
 ')</pre>
 
-The following code implements [SDBshell_release_write]:
+The following code implements #dyncode("SDBshell_release_write"):
 
 <pre
 class="patsyntax">
@@ -391,8 +395,10 @@ features.
 
 <hr size="2">
 
+<p>
 This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-
+</p>
+#patspage_script()
 </body>
 </html>
 

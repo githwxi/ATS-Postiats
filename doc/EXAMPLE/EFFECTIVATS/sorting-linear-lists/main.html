@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-sorting-linear-lists</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Sorting Linear Lists
+</h1>
+
+In this article, I present an implementation of merge-sort for sorting
+linear lists. While quick-sort is often preferred over merge-sort for
+sorting arrays, the latter is likely to be the chosen one for sorting
+lists. When employed to sort an array, a serious weakness of
+merge-sort lies in its need for additional memory (proportional to the
+size of the array) in order to perform merging operations. This
+weakness does not exist when merge-sort is called to sort lists. Some
+strengths of merge-sort include its being a stable sorting algorithm
+and its (worst-case) time-complexity being O(n(log(n)).
+
+<h2>
+An abstract interface for linear lists
+</h2>
+
+In ATS, <span style="color: #0000F0;">list_vt</span> is declared as a dataviewtype (that is,
+linear datatype) for singly-linked lists.  However, I do not want to
+make direct use of <span style="color: #0000F0;">list_vt</span> here as I intend to give an
+implementation of merge-sort for sorting abstract linear lists. So I
+first introduce an abstract interface for linear lists to be used in
+this implementation.
+
+<p>
+
+Two abstract types are introduced as follows:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absvtype</span> mynode<span class="keyword">(</span>l<span class="keyword">:</span>addr<span class="keyword">)</span> <span class="keyword">=</span> ptr<span class="keyword">(</span>l<span class="keyword">)</span></span>
+<span class="staexp"><span class="keyword">absvtype</span> mylist<span class="keyword">(</span>l<span class="keyword">:</span>addr<span class="keyword">,</span> n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> ptr<span class="keyword">(</span>l<span class="keyword">)</span></span>
+</pre>
+
+Given a non-null address L , the type <span style="color: #0000F0;">mynode(L)</span> is for a
+list-node located L. Given a non-null address L and an integer N, the
+type <span style="color: #0000F0;">mylist(L, N)</span> is for a list of length N whose first
+node is located at L.  Some properties on the parameters of
+<span style="color: #0000F0;">mylist</span> are captured by the following two proof functions:
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">praxi</span>
+lemma_mylist_param
+  <span class="staexp"><span class="keyword">{</span>l<span class="keyword">:</span>addr<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>l &gt;= null<span class="keyword">;</span> n &gt;= 0<span class="keyword">]</span></span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">praxi</span>
+lemma_mylist_param2
+  <span class="staexp"><span class="keyword">{</span>l<span class="keyword">:</span>addr<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span><span class="keyword">(</span>l==null &amp;&amp; n==0<span class="keyword">)</span> || <span class="keyword">(</span>l <span class="keyword">&gt;</span> null &amp;&amp; n <span class="keyword">&gt;</span> 0<span class="keyword">)</span><span class="keyword">]</span></span> <span class="staexp">void</span></span>
+</pre>
+
+The two standard list-constructors are assigned the following types:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+mylist_nil <span class="keyword">(</span><span class="keyword">)</span>
+  <span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">null</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span> <span class="keyword">=</span> "mac#atspre_ptr_null"</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_cons
+  <span class="staexp"><span class="keyword">{</span>l1<span class="keyword">,</span>l2<span class="keyword">:</span>addr<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mynode</span><span class="keyword">(</span><span class="staexp">l1</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l1</span><span class="keyword">,</span><span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l2</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:&lt;</span><span class="keyword">!</span><span class="staexp">wrt</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span> <span class="comment">// end of [mylist_cons]</span>
+<span class="comment">//</span>
+</pre>
+
+It is clear that <span style="color: #F00000;">mylist_cons</span> needs to perform some assignments so as to
+connect a given node (its first argument) to a given list (its second
+argument). Sometimes, a given node and a given list are already connected,
+requiring no assignments to be performed.  The following proof function
+<span style="color: #F00000;">_mylist_cons</span> is introduced precisely for handling such a case:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prfun</span>
+_mylist_cons
+  <span class="staexp"><span class="keyword">{</span>l1<span class="keyword">,</span>l2<span class="keyword">:</span>addr<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mynode</span><span class="keyword">(</span><span class="staexp">l1</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l1</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l2</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:&lt;</span><span class="staexp">prf</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span> <span class="comment">// end of [_mylist_cons]</span>
+<span class="comment">//</span>
+</pre>
+
+Also, <span style="color: #F00000;">mylist_cons2</span> is introduced as a variant of <span style="color: #F00000;">mylist_cons</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_cons2
+  <span class="staexp"><span class="keyword">{</span>l1<span class="keyword">,</span>l2<span class="keyword">:</span>addr<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+  <span class="keyword">(</span>x_hd<span class="keyword">:</span> <span class="staexp">mynode</span><span class="keyword">(</span><span class="staexp">l1</span><span class="keyword">)</span><span class="keyword">,</span> xs_tl<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l2</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:&lt;</span><span class="keyword">!</span><span class="staexp">wrt</span><span class="keyword">&gt;</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l1</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+The deconstructors for <span style="color: #0000F0;">mylist</span>, which do the opposite of what the
+constructors do, are declared as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prfun</span>
+mylist_unnil
+  <span class="staexp"><span class="keyword">{</span>l<span class="keyword">:</span>addr<span class="keyword">}</span></span> <span class="keyword">(</span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">,</span><span class="staexp">0</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_uncons
+  <span class="staexp"><span class="keyword">{</span>l<span class="keyword">:</span>addr<span class="keyword">}</span></span>
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int <span class="keyword">|</span> n <span class="keyword">&gt;</span> 0<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">mynode</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span></span> <span class="comment">// end-of-fun</span>
+<span class="comment">//</span>
+</pre>
+
+The meaning of <span style="color: #F00000;">mylist_unnil</span> and <span style="color: #F00000;">mylist_uncons</span>
+can be readily inferred from the types assigned to them. As a variant
+of <span style="color: #F00000;">mylist_uncons</span>, <span style="color: #F00000;">mylist_uncons2</span> is given as
+follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_uncons2
+  <span class="staexp"><span class="keyword">{</span>l<span class="keyword">:</span>addr<span class="keyword">}</span></span>
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int <span class="keyword">|</span> n <span class="keyword">&gt;</span> 0<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">mynode</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+To see how the constructors and deconstructors for <span style="color: #0000F0;">mylist</span>
+can be used, let us implement a function template
+<span style="color: #F00000;">mylist_length</span> for computing the length of a given list:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_length<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+As the implementation for <span style="color: #F00000;">mylist_cons</span> and
+<span style="color: #F00000;">mylist_uncons</span> can be made available only after a concrete
+representation of <span style="color: #0000F0;">mylist</span> is chosen, functions that call
+either <span style="color: #F00000;">mylist_cons</span> or <span style="color: #F00000;">mylist_uncons</span> may not be
+properly compiled. Therefore, it is important to declare
+<span style="color: #F00000;">mylist_length</span> as a function template (so that only its
+instances need to be compiled). An implementation of
+<span style="color: #F00000;">mylist_length</span> is given as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+mylist_length <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> loop
+  <span class="staexp"><span class="keyword">{</span>i<span class="keyword">,</span>j<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">i</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">i</span><span class="keyword">)</span><span class="keyword">,</span> j<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">j</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">i</span><span class="staexp">+</span><span class="staexp">j</span><span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">if</span>
+isneqz <span class="keyword">(</span>xs<span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> xs2 <span class="keyword">=</span> mylist_uncons <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> res <span class="keyword">=</span> loop <span class="keyword">(</span>xs2<span class="keyword">,</span> j + <span class="dynexp">1</span><span class="keyword">)</span></span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> _mylist_cons <span class="keyword">(</span>xs<span class="keyword">,</span> xs2<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  res
+<span class="keyword">end</span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> <span class="keyword">(</span>j<span class="keyword">)</span></span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_mylist_param <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  loop <span class="keyword">(</span>xs<span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mylist_length]</span>
+</pre>
+
+Note that the symbol <span style="color: #F00000;">isneqz</span> is overloaded with the
+following function:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span>
+mylist_isnot_nil
+  <span class="staexp"><span class="keyword">{</span>l<span class="keyword">:</span>addr<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">l</span><span class="keyword">,</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span><span class="keyword">(</span><span class="staexp">n</span> <span class="staexp"><span class="keyword">&gt;</span></span> <span class="staexp">0</span><span class="keyword">)</span> <span class="keyword">=</span> "mac#atspre_ptr_isnot_null"</span>
+</pre>
+
+Please find in <u>mylist.dats</u> the entirety of the presented
+abstract interface for linear lists.
+
+<h2>
+Merge-sort for sorting abstract linear lists
+</h2>
+
+The following
+function template <span style="color: #F00000;">mylist_mergesort</span> performs
+merge-sort on mylist-values (representing linear lists):
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_mergesort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+And an implementation of <span style="color: #F00000;">mylist_mergesort</span> is given below:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+mylist_mergesort
+  <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> n <span class="keyword">=</span> mylist_length <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  mylist_msort <span class="keyword">(</span>xs<span class="keyword">,</span> n<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mylist_mergesort]</span>
+</pre>
+
+where <span style="color: #F00000;">mylist_msort</span> is declared to be of the following type:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_msort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+The code implements <span style="color: #F00000;">mylist_msort</span> is given as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+mylist_msort
+  <span class="keyword">(</span>xs<span class="keyword">,</span> n<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> n &gt;= <span class="dynexp">2</span>
+  <span class="keyword">then</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+    <span class="dynexp"><span class="keyword">val</span> n1 <span class="keyword">=</span> half <span class="keyword">(</span>n<span class="keyword">)</span></span>
+<span class="comment">//</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span> mylist_split <span class="keyword">(</span>xs<span class="keyword">,</span> n1<span class="keyword">)</span></span>
+<span class="comment">//</span>
+    <span class="dynexp"><span class="keyword">val</span> xs1 <span class="keyword">=</span> mylist_msort <span class="keyword">(</span>xs1<span class="keyword">,</span> n1<span class="keyword">)</span>
+    <span class="keyword">and</span> xs2 <span class="keyword">=</span> mylist_msort <span class="keyword">(</span>xs2<span class="keyword">,</span> n-n1<span class="keyword">)</span></span>
+<span class="comment">//</span>
+  <span class="keyword">in</span>
+    mylist_merge <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end of [then]</span>
+  <span class="keyword">else</span> xs <span class="comment">// end of [else]</span>
+<span class="comment">// end of [if]</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mylist_msort]</span>
+</pre>
+
+where <span style="color: #F00000;">mylist_split</span> splits a list into two and
+<span style="color: #F00000;">mylist_merge</span> merges two sorted lists into one.
+
+<p>
+
+The function template <span style="color: #F00000;">mylist_split</span> is declared
+as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_split
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>k<span class="keyword">:</span>nat <span class="keyword">|</span> k &lt;= n<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> k<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">k</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">k</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">k</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+And the following code implements <span style="color: #F00000;">mylist_split</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+mylist_split
+  <span class="keyword">(</span>xs<span class="keyword">,</span> k<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+k <span class="keyword">=</span> <span class="dynexp">0</span>
+<span class="keyword">then</span> <span class="keyword">(</span>mylist_nil <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> xs<span class="keyword">)</span>
+<span class="keyword">else</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> xs_tl <span class="keyword">=</span>
+    mylist_uncons <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span>
+    mylist_split <span class="keyword">(</span>xs_tl<span class="keyword">,</span> k-<span class="dynexp">1</span><span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  <span class="keyword">(</span>mylist_cons2 <span class="keyword">(</span>xs<span class="keyword">,</span> xs1<span class="keyword">)</span><span class="keyword">,</span> xs2<span class="keyword">)</span>
+<span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mylist_split]</span>
+</pre>
+
+<p>
+
+The function template <span style="color: #F00000;">mylist_merge</span> is declared
+as follows:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+mylist_merge
+  <span class="staexp"><span class="keyword">{</span>n1<span class="keyword">,</span>n2<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs1<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> xs2<span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">mylist</span><span class="keyword">(</span><span class="staexp">n1</span><span class="staexp">+</span><span class="staexp">n2</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+And the following code implements <span style="color: #F00000;">mylist_merge</span>:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span><span class="comment">(*tmp*)</span>
+mylist_merge
+  <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_mylist_param <span class="keyword">(</span>xs1<span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_mylist_param <span class="keyword">(</span>xs2<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span>
+isneqz<span class="keyword">(</span>xs1<span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">(</span>
+<span class="keyword">if</span>
+isneqz<span class="keyword">(</span>xs2<span class="keyword">)</span>
+<span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> xs1_tl <span class="keyword">=</span> mylist_uncons <span class="keyword">(</span>xs1<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> xs2_tl <span class="keyword">=</span> mylist_uncons <span class="keyword">(</span>xs2<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> sgn <span class="keyword">=</span> compare_mynode_mynode <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> sgn &lt;= <span class="dynexp">0</span>
+    <span class="keyword">then</span> <span class="keyword">let</span>
+      <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> _mylist_cons <span class="keyword">(</span>xs2<span class="keyword">,</span> xs2_tl<span class="keyword">)</span></span>
+    <span class="keyword">in</span>
+      mylist_cons2 <span class="keyword">(</span>xs1<span class="keyword">,</span> mylist_merge <span class="keyword">(</span>xs1_tl<span class="keyword">,</span> xs2<span class="keyword">)</span><span class="keyword">)</span>
+    <span class="keyword">end</span> <span class="comment">// end of [then]</span>
+    <span class="keyword">else</span> <span class="keyword">let</span>
+      <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> _mylist_cons <span class="keyword">(</span>xs1<span class="keyword">,</span> xs1_tl<span class="keyword">)</span></span>
+    <span class="keyword">in</span>
+      mylist_cons2 <span class="keyword">(</span>xs2<span class="keyword">,</span> mylist_merge <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2_tl<span class="keyword">)</span><span class="keyword">)</span>
+    <span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="keyword">end</span> <span class="comment">// end of [then]</span>
+<span class="keyword">else</span> <span class="keyword">let</span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> mylist_unnil <span class="keyword">(</span>xs2<span class="keyword">)</span></span> <span class="keyword">in</span> xs1
+<span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="keyword">)</span> <span class="comment">(* end of [then] *)</span>
+<span class="keyword">else</span> <span class="keyword">let</span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> mylist_unnil <span class="keyword">(</span>xs1<span class="keyword">)</span></span> <span class="keyword">in</span> xs2
+<span class="keyword">end</span> <span class="comment">// end of [else]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mylist_merge]</span>
+</pre>
+
+Note that <span style="color: #F00000;">compare_mynode_mynode</span> is a function template
+for comparing values stored in two given list-nodes.
+
+<p>
+
+I want to point out that neither <span style="color: #F00000;">merge_split</span> nor
+<span style="color: #F00000;">mylist_merge</span> is currently implemented as a tail-recursive
+function. This is primarily for the sake of giving a more accessible
+presentation.  However, it should be an interesting and rewarding
+exercise to re-implement both <span style="color: #F00000;">merge_split</span> and
+<span style="color: #F00000;">mylist_merge</span> as tail-recursive functions.
+
+<p>
+
+Please find in <u>mylist_mergesort.dats</u> the entirety of the
+presented implementation of merge-sort for sorting abstract linear
+lists.
+
+<h2>
+Merge-sort for sorting singly-linked lists
+</h2>
+
+In order to merge-sort lists of a concrete representation, we need to
+implement <span style="color: #F00000;">mylist_cons</span> and <span style="color: #F00000;">mylist_uncons</span> based
+on that representation.  Also, we need to implement
+<span style="color: #F00000;">compare_mynode_mynode</span> base on the corresponding
+representaton for list-nodes.
+
+<p>
+
+Please see <u>mergesort_list_vt.dats</u> for a case where
+<span style="color: #0000F0;">mylist</span> is interpreted as <span style="color: #0000F0;">list_vt</span>.  Also,
+please see <u>mergesort_sllist.dats</u> where <span style="color: #0000F0;">mylist</span>
+is interpreted as <span style="color: #0000F0;">sllist</span>.
+
+<h2>
+A side note for quick-sort on singly-linked lists
+</h2>
+
+For those interested in quick-sort on linear lists, please study the code
+in the following files:
+
+<pre>
+mylist_quicklist.dats
+quicksort_list_vt.dats
+quicksort_sllist.dats
+</pre>
+
+which is largly parallel to the presented implementation of merge-sort.
+
+<p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

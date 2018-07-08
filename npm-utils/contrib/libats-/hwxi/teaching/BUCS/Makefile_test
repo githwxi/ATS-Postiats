@@ -1,0 +1,36 @@
+#
+# For testing
+#
+
+######
+
+NPM=npm
+RMF=rm -f
+RMRF=rm -rf
+
+######
+
+all::
+
+######
+
+SUBDIRS :=
+SUBDIRS += TEST
+
+######
+
+all:: ; $(NPM) install
+
+######
+
+all:: ; \
+for i in $(SUBDIRS); do $(MAKE) -C $$i testall; done
+
+######
+
+cleanall:: ; $(RMF) ./node_modules -r
+cleanall:: ; $(RMF) ./package-lock.json
+
+######
+
+###### end of [Makefile_test] ######

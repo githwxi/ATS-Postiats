@@ -1,0 +1,91 @@
+%{
+//
+staload
+STDIO = "libc/SATS/stdio.sats"
+staload TIME = "libc/SATS/time.sats"
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
+//
+%}\
+%{
+
+fun comment
+  (x: string): atext = atext_nil ()
+// end of [comment]
+
+fun make_entry
+  (nm: string): atext = let
+//
+val ent = sprintf ("\
+all:: %s.sats\n\
+%s.sats: %s_atxt.exe ; ./$< > $@\n\
+%s_atxt.exe: %s_atxt.dats\n\
+	$(ATSCC) $(GCFLAG) -o $@ %s_atxt.dats -latsdoc\n\
+%s_atxt.dats: %s.atxt\n\
+	$(ATSDOC) --outcode $@ -i %s.atxt > %s_atxt.txt\n\
+clean:: ; $(RMF) %s_atxt.exe\n\
+cleanall:: ; $(RMF) %s.sats\n\
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+) // end of [val]
+//
+val ent = string_of_strptr (ent)
+in
+  atext_strcst (ent)
+end // end of [make_entry]
+
+%}\
+#
+#
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
+#
+#
+
+######
+
+ATSHOMEQ="$(ATSHOME)"
+
+######
+
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSOPT=$(ATSHOMEQ)/bin/atsopt
+ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+
+######
+#
+GCFLAG=
+#
+# GCFLAG=-D_ATS_GCATS
+#
+######
+
+all::
+
+######
+
+#make_entry("giterator")
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+
+cleanall:: clean
+
+###### end of [Makefile] ######
+\
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "Makefile_atxt.txt")
+%}\

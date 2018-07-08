@@ -31,14 +31,10 @@ sortdef t0p = t@ype
 
 (* ****** ****** *)
 //
-// HX: for sets of elements of type a
-//
-abstype set_type (a:t@ype+) = ptr
-//
-(* ****** ****** *)
-
+abstype
+set_type (a:t@ype+) = ptr
 typedef set (a:t0p) = set_type (a)
-
+//
 (* ****** ****** *)
 
 fun{a:t0p}
@@ -100,7 +96,7 @@ funset_getmax
   xs: set(INV(a)), x0: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool(b) // endfun
 fun{a:t0p}
-funset_getmax_opt (xs: set(INV(a))):<> Option_vt (a)
+funset_getmax_opt(xs: set(INV(a))):<> Option_vt(a)
 
 fun{a:t0p}
 funset_getmin
@@ -108,7 +104,7 @@ funset_getmin
   xs: set(INV(a)), x0: &a? >> opt(a, b)
 ) :<!wrt> #[b:bool] bool(b) // endfun
 fun{a:t0p}
-funset_getmin_opt (xs: set(INV(a))):<> Option_vt (a)
+funset_getmin_opt(xs: set(INV(a))):<> Option_vt(a)
 
 (* ****** ****** *)
 
@@ -137,7 +133,7 @@ funset_union (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
 funset_intersect (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
-funset_diff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
+funset_differ (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 fun{a:t0p}
 funset_symdiff (xs1: set(INV(a)), xs2: set(a)):<> set(a)
 
@@ -163,10 +159,15 @@ funset_is_supset (xs1: set(INV(a)), xs2: set(a)):<> bool
 (* ****** ****** *)
 //
 fun{}
-fprint_funset$sep (FILEref): void // ", "
+fprint_funset$sep
+  (out: FILEref): void // ", "
 //
 fun{a:t0p}
-fprint_funset (out: FILEref, xs: set(INV(a))): void
+fprint_funset
+  (out: FILEref, xs: set(INV(a))): void
+fun{a:t0p}
+fprint_funset_sep
+  (out: FILEref, xs: set(INV(a)), sep: string): void
 //
 overload fprint with fprint_funset
 //
@@ -186,19 +187,33 @@ a:t0p}{env:vt0p
 // end of [funset_foreach_env]
 //
 (* ****** ****** *)
-
-fun{a:t0p}
-funset_listize (xs: set(INV(a))):<!wrt> List0_vt (a)
-
+//
+fun
+{a:t0p}
+funset_tabulate{n:nat}(n: int(n)): set(a)
+fun
+{a:t0p}
+funset_tabulate$fopr (index: intGte(0)): (a)
+//
 (* ****** ****** *)
 
-fun{
-a:t0p}{b:t0p
-} funset_flistize$fopr (x: a): b
-fun{
-a:t0p}{b:t0p
-} funset_flistize (xs: set(INV(a))): List0_vt (b)
+fun{a:t0p}
+funset_listize(xs: set(INV(a))):<!wrt> List0_vt(a)
 
+(* ****** ****** *)
+//
+fun{
+a:t0p}{b:t0p
+} funset_flistize$fopr(x: a): b
+fun{
+a:t0p}{b:t0p
+} funset_flistize (xs: set(INV(a))): List0_vt(b)
+//
+(* ****** ****** *)
+//
+fun{a:t0p}
+funset_streamize(xs: set(INV(a))):<!wrt> stream_vt(a)
+//
 (* ****** ****** *)
 
 (* end of [funset.hats] *)

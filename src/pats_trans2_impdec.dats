@@ -498,13 +498,20 @@ in
 end // end of [stasub_add_tmparg]
 
 (* ****** ****** *)
-
+//
+extern
 fun
 i1mpdec_tr_main
 (
   d1c0: d1ecl
 , d2c: d2cst, imparg: i1mparg, impdec: i1mpdec
-) : i2mpdec = let
+) : i2mpdec // end of [i1mpdec_tr_main]
+//
+implement
+i1mpdec_tr_main
+(
+  d1c0, d2c, imparg, impdec
+) = let
 //
 fun
 aux_imparg_sarglst
@@ -522,48 +529,52 @@ aux_imparg_svararg
 , s1v: s1vararg, s2qs: s2qualst, out: &s2varlstlst
 ) : s2qualst = let
 //
-  fn auxerr1
-    ():<cloref1> void = let
-    val () = prerr_error2_loc (d1c0.d1ecl_loc)
-    val () = filprerr_ifdebug "i1mpdec_tr_main"
-    val () = prerr ": the implementation is overly applied."
-    val () = prerr_newline ()
-  in
-    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
-  end // end of [auxerr1]
-  fn auxerr2 (
-    loc: location, serr: int
-  ) :<cloref1> void = let
-    val () = prerr_error2_loc (loc)
-    val () = filprerr_ifdebug "i1mpdec_tr_main"
-    val () = prerr ": the implementation argument group is expected to contain "
-    val () = prerr_string (if serr > 0 then "fewer" else "more")
-    val () = prerr " components."
-    val () = prerr_newline ()
-  in
-    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
-  end // end of [auxerr2]
+fun
+auxerr1 .<>.
+  ():<cloref1> void = let
+  val () = prerr_error2_loc (d1c0.d1ecl_loc)
+  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () = prerr ": the implementation is overly applied."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
+end // end of [auxerr1]
+fun
+auxerr2 .<>.
+(
+  loc: location, serr: int
+) :<cloref1> void = let
+  val () = prerr_error2_loc (loc)
+  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () = prerr ": the implementation argument group is expected to contain "
+  val () = prerr_string (if serr > 0 then "fewer" else "more")
+  val () = prerr " components."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
+end // end of [auxerr2]
 //
-  fun auxseq (
-    s1as: s1arglst, s2vs: s2varlst, serr: &int
-  ) : s2varlst = (
-    case+ (s1as, s2vs) of
-    | (s1a :: s1as,
-       s2v :: s2vs) => let
-        val s2t0 = s2var_get_srt (s2v)
-        val s2v = s1arg_trdn (s1a, s2t0)
-        val s2vs = auxseq (s1as, s2vs, serr)
-      in
-        list_cons (s2v, s2vs)
-      end
-    | (list_nil (), list_nil ()) => list_nil ()
-    | (list_cons _, list_nil ()) => let
-        val () = serr := serr + 1 in list_nil ()
-      end
-    | (list_nil (), list_cons _) => let
-        val () = serr := serr - 1 in list_nil ()
-      end
-  ) (* end of [auxseq] *)
+fun
+auxseq (
+  s1as: s1arglst, s2vs: s2varlst, serr: &int
+) : s2varlst = (
+  case+ (s1as, s2vs) of
+  | (s1a :: s1as,
+     s2v :: s2vs) => let
+      val s2t = s2var_get_srt (s2v)
+      val s2v = s1arg_trdn (s1a, s2t)
+      val s2vs = auxseq (s1as, s2vs, serr)
+    in
+      list_cons (s2v, s2vs)
+    end
+  | (list_nil (), list_nil ()) => list_nil ()
+  | (list_cons _, list_nil ()) => let
+      val () = serr := serr + 1 in list_nil ()
+    end
+  | (list_nil (), list_cons _) => let
+      val () = serr := serr - 1 in list_nil ()
+    end
+) (* end of [auxseq] *)
 //
 in
   case+ s1v of
@@ -778,8 +789,10 @@ end // end of [aux_tmparg]
 fun
 auxerr_tmparg
   (d1c0: d1ecl): void = let
-  val () = prerr_error2_loc (d1c0.d1ecl_loc)
-  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () =
+  prerr_error2_loc (d1c0.d1ecl_loc)
+  val () =
+  filprerr_ifdebug "i1mpdec_tr_main"
   val () = prerr ": the redundantly provided template arguments are ignored."
   val () = prerr_newline ((*void*))
 in
@@ -789,8 +802,10 @@ end // end of [auxerr_tmparg]
 fun
 auxerr_nontop
   (d1c0: d1ecl): void = let
-  val () = prerr_error2_loc (d1c0.d1ecl_loc)
-  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () =
+  prerr_error2_loc (d1c0.d1ecl_loc)
+  val () =
+  filprerr_ifdebug "i1mpdec_tr_main"
   val () = prerr ": the implementation should be at the top-level but it is not."
   val () = prerr_newline ((*void*))
 in
@@ -860,7 +875,7 @@ in
 i2mpdec_make (loc, locid, d2c, imparg, tmparg, tmpgua, d2e)
 //
 end // end of [i1mpdec_tr_main]
-
+//
 (* ****** ****** *)
 
 implement

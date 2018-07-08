@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/ats2tutorial.dats"
+#include "./../MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
@@ -68,8 +68,10 @@ initiates the evaluation of exp2 (to free linear values contained in exp1).
 The interface for the
 function template #dyncode("lazy_vt_force") is given as follows:
 
-#atscode('\
-fun{a:vt@ype} lazy_vt_force (lazyval: lazy_vt(a)): (a)
+#sats2xhtml('\
+fun
+{a:vt@ype}
+lazy_vt_force(lazyval: lazy_vt(a)): (a)
 ')
 
 Note that the special prefix operator #keycode("!") in ATS is overloaded
@@ -82,8 +84,9 @@ with #dyncode("lazy_vt_force").\
 The interface for the
 function #dyncode("lazy_vt_free") is given as follows:
 
-#atscode('\
-fun lazy_vt_free {a:vt@ype} (lazyval: lazy_vt(a)): void
+#sats2xhtml('\
+fun
+lazy_vt_free{a:vt@ype}(lazyval: lazy_vt(a)): void
 ')
 
 Note that the special prefix operator #keycode("~") in ATS is overloaded
@@ -98,9 +101,9 @@ the following viewtypes #stacode("stream_vt_con") and
 #stacode("stream_vt") are declared mutually recursively for representing
 linear lazy streams:
 
-#atscode("\
+#sats2xhtml("\
 datavtype
-stream_vt_con (a:vt@ype+) =
+stream_vt_con(a:vt@ype+) =
   | stream_vt_nil of ((*void*)) | stream_vt_cons of (a, stream_vt(a))
 where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con(a))
 ")
@@ -117,27 +120,38 @@ The following code gives an implementation of the sieve
 of Eratosthenes in which a linear stream of all the prime numbers is
 constructed:
 
-#atscode('\
+#dats2xhtml('\
 //
 fun
-from (n: int): stream_vt (int) =
-  $ldelay (stream_vt_cons (n, from (n+1)))
+from(n: int): stream_vt(int) =
+  $ldelay(stream_vt_cons(n, from(n+1)))
 //
-fun sieve
+fun
+sieve
 (
-  ns: stream_vt(int)
+ns: stream_vt(int)
 ) : stream_vt(int) = $ldelay
 (
 let
 //
-// [val-] means no warning message from the compiler
+(*
+[val-]: no warning message
+*)
 //
-  val ns_con = !ns
-  val-@stream_vt_cons(n, ns1) = ns_con
-  val n = n
-  val ns1_ = ns1
-  val ((*void*)) = ns1 := sieve (stream_vt_filter_cloptr<int> (ns1_, lam x => x mod n > 0))
-  prval ((*void*)) = fold@(ns_con)
+  val
+  ns_con = !ns
+  val-
+  @stream_vt_cons(n0, ns1) = ns_con
+//
+  val n0_val = n0
+  val ns1_val = ns1
+//
+  val ((*void*)) =
+    (ns1 := sieve(stream_vt_filter_cloptr<int>(ns1_val, lam x => x mod n0_val > 0)))
+  // end of [val]
+//
+  prval ((*folded*)) = fold@(ns_con)
+//
 in
   ns_con
 end // end of [let]
@@ -156,19 +170,109 @@ val thePrimes = sieve(from(2))
 The function template #dyncode("stream_vt_filter_cloptr") is given
 the following interface:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t0p}
 stream_vt_filter_cloptr
-  (xs: stream_vt (a), pred: (&a) -<cloptr> bool): stream_vt (a)
+  (xs: stream_vt(a), pred: (&a) -<cloptr> bool): stream_vt(a)
 // end of [stream_vt_filter_cloptr]
 ')
 
-Given a stream xs and a predicate pred, #dyncode("stream_vt_filter_cloptr")
-returns another stream consisting of all the elements in the stream xs
-satisfying the predicate pred.  Note that both xs and pred are consumed by
-the call to #dyncode("stream_vt_filter_cloptr").
+Given a stream #dyncode("xs") and a predicate #dyncode("pred"), the
+function #dyncode("stream_vt_filter_cloptr") returns another stream
+consisting of all the elements in the stream #dyncode("xs") satisfying
+the predicate #dyncode("pred").  Note that both #dyncode("xs") and
+#dyncode("pred") are consumed by the call to #dyncode("stream_vt_filter_cloptr").
 
+')#comment("para")
+
+#para('\
+
+Given a linear stream #dyncode("xs"), the following function
+#dyncode("stream2list_vt") turns #dyncode("xs") into a (linear) list:
+
+#sats2xhtml('\
+fun{a:vt0p}
+stream2list_vt(xs: stream_vt(INV(a))): List0_vt(a)
+// end of [stream2list_vt]
 ')
+
+Of course the given stream #dyncode("xs") should only contain finitely
+many elements for otherwise the call on #dyncode("xs") cannot
+terminate. The function #dyncode("stream2list_vt") can handle long
+streams without concern of stack overflow as it is implemented in a
+tail-recursive manner. As an example, let us assume that the standard
+list-map function #dyncode("list_map_cloref") is implemented as
+follows:
+
+#dats2xhtml('\
+fun
+{a:t0p}
+{b:t0p}
+list_map_cloref
+(
+xs: List0(a), fopr: (a) -<cloref1> b
+) : List0(b) =
+  auxlst(xs) where
+{
+//
+fun
+auxlst
+(xs: List0(a)): List0(b) =
+(
+case+ xs of
+| list_nil() =>
+  list_nil()
+| list_cons(x, xs) =>
+  list_cons(fopr(x), auxlst(xs))
+)
+} (* end of [list_map_cloref] *)
+')
+
+Clearly, the inner function #dyncode("auxlst") is not tail-recursive.
+Therefore, this implementation of #dyncode("list_map_cloref") runs the
+risk of causing stack overflow when called on a long list (e.g., one
+that contains 1 million elements). We can address the issue of potential
+stack overflow by modifying the implementation of #dyncode("auxlst") as follows:
+
+#dats2xhtml('\
+fun
+{a:t0p}
+{b:t0p}
+list_map_cloref
+(
+xs: List0(a), fopr: (a) -<cloref1> b
+) : List0(b) = let
+//
+fun
+auxlst
+(
+xs: List0(a)
+) : stream_vt(b) = $ldelay
+(
+case+ xs of
+| list_nil() =>
+  stream_vt_nil()
+| list_cons(x, xs) =>
+  stream_vt_cons(fopr(x), auxlst(xs))
+)
+//
+in
+//
+// list_vt2t: for turning
+// a linear list into a non-linear one
+//
+  list_vt2t(stream2list_vt(auxlst(xs)))
+end (* end of [list_map_cloref] *)
+')
+
+As #dyncode("stream2list_vt") is tail-recursive, the stream-based
+implementation of #dyncode("list_map_cloref") can readily handle long
+lists without concern of stack overflow. In practice, this
+stream-based approach to eliminating risk of stack overflow (for large
+inputs) can play a very effective role in a programming domain (e.g.,
+machine learning) where non-tail-recursion is often used extensively.\
+
+')#comment("para")  
 
 #para('\
 
@@ -189,14 +293,17 @@ implementation given above leaks no memory.
 //
 staload STDIO = "libc/SATS/stdio.sats"
 //
-implement main () = {
+implement
+main((*void*)) = {
 //
   val filr =
-    $STDIO.fopen_ref_exn ("../TEMP/chap_stream_vt.dats", file_mode_w)
-  val () = fprint_theCodeLst (filr)
-  val () = $STDIO.fclose_exn (filr)
+  $STDIO.fopen_ref_exn
+    ("../TEMP/chap_stream_vt.dats", file_mode_w)
+  // end of [val]
+  val () = fprint_theCodeLst(filr)
+  val () = $STDIO.fclose_exn(filr)
 //
   val () = fprint_filsub (stdout_ref, "main_atxt.txt")
 //
-}
+} (* end of [main] *)
 %}

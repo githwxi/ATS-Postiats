@@ -58,9 +58,13 @@ staload "./pats_hidynexp.sats"
 // during the level-4 translation
 //
 datatype trans4err =
-  | T4E_d3exp_tyer_isprf of (d3exp)
+//
+  | T4E_p3at_tyer_isprf of (p3at) // [p3at] is partial
+//
+  | T4E_d3exp_tyer_isprf of (d3exp) // [d3exp] should be erased
+//
 (*
-  | T4E_d3exp_tyer_isnotval of (d3exp) // HX: warning
+  | T4E_d3exp_tyer_isnotval of (d3exp) // HX: it is only a warning!
 *)
 // end of [trans4err]
 //
@@ -75,18 +79,15 @@ fun the_trans4errlst_finalize (): void // cleanup all the errors
 // [s2exp_tyer] is essentially for
 // measuring the size of a given type
 //
-fun s2exp_tyer // flag=0/1:shallow/deep
+fun
+s2exp_tyer // flag=0/1:shallow/deep
   (loc: location, flag: int, s2e0: s2exp): hisexp
-// end of [s2exp_tyer]
-
-fun s2exp_tyer_deep
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_deep]
-
-fun s2exp_tyer_shallow
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_shallow]
-
+//
+fun
+s2exp_tyer_deep(loc: location, s2e0: s2exp): hisexp
+fun
+s2exp_tyer_shallow(loc: location, s2e0: s2exp): hisexp
+//
 (* ****** ****** *)
 
 fun s2zexp_tyer (loc: location, s2ze: s2zexp): hisexp
@@ -110,6 +111,7 @@ fun d2cst_tyer (d2c: d2cst): d2cst
 
 fun p3at_tyer (p3t: p3at): hipat
 fun p3atlst_tyer (p3ts: p3atlst): hipatlst
+fun p3atlst_tyer2 (d3es: d3explst, p3ts: p3atlst): hipatlst
 
 (* ****** ****** *)
 

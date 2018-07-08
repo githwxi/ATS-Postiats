@@ -96,12 +96,14 @@ The ATS/Postiats (ATS2) Compiler\
 (* ****** ****** *)
 
 #packfilename("pats_main.dats")
-#packfilesynop("\
-")
 
 (* ****** ****** *)
 
 #packfilename("pats_params.hats")
+
+(* ****** ****** *)
+
+#packfilename("pats_atspre.dats")
 
 (* ****** ****** *)
 
@@ -378,8 +380,17 @@ The ATS/Postiats (ATS2) Compiler\
 
 (* ****** ****** *)
 
-#packfilename("pats_synent2_jsonize.sats")
-#packfilename("pats_synent2_jsonize.dats")
+#packfilename("pats_codegen2.sats")
+#packfilename("pats_codegen2.dats")
+#packfilename("pats_codegen2_util.dats")
+#packfilename("pats_codegen2_absrec.dats")
+#packfilename("pats_codegen2_datype.dats")
+#packfilename("pats_codegen2_fprint.dats")
+
+(* ****** ****** *)
+
+#packfilename("pats_jsonize_synent2.sats")
+#packfilename("pats_jsonize_synent2.dats")
 
 (* ****** ****** *)
 

@@ -1,0 +1,34 @@
+{
+"name":
+"atscntrb-bucs520-divideconquer"
+,
+"version": "1.0.0"
+,
+"description":
+"A generic implementation of the divide-and-conquer strategy"
+,
+"main": "N/A"
+,
+"scripts": {}
+,
+"repository": {
+  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS520/DivideConquer"
+}
+,
+"keywords": [
+  "ATS",
+  "BUCS",
+  "divide-conquer"
+]
+,
+"dependencies": {
+}
+,
+"author":
+"Hongwei Xi <gmhwxi@gmail.com>"
+,
+"license": "MIT"
+,
+"note-for-me":
+"The package is stored at ${PATSHOME}/libats/BUCS520/DivideConquer/."
+}

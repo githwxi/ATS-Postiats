@@ -134,8 +134,8 @@ main0 () =
 #define N1 5
 #define N2 5
 //
-val xs1 = list_vt2t((list)$arrpsz{T}(0, 1, 2, 3, 4))
-val xs2 = list_vt2t((list)$arrpsz{T}(5, 6, 7, 8, 9))
+val xs1 = list_vt2t(list($arrpsz{T}(0, 1, 2, 3, 4)))
+val xs2 = list_vt2t(list($arrpsz{T}(5, 6, 7, 8, 9)))
 //
 val () =
 assertloc (

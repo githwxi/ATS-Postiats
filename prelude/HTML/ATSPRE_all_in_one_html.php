@@ -35,7 +35,7 @@ include 'basics_dyn_sats.html';
 include 'basics_gen_sats.html';
 //
 include 'macrodef_sats.html';
-include 'lmacrodef_sats.html';
+include 'lmacrodef_hats.html';
 //
 // SATS
 //
@@ -54,6 +54,9 @@ include 'SATS/integer_fixed_sats.html';
 //
 include 'SATS/unsafe_sats.html';
 include 'SATS/checkast_sats.html';
+//
+include 'SATS/tuple_sats.html';
+include 'SATS/reference_sats.html';
 //
 include 'SATS/filebas_sats.html';
 include 'SATS/intrange_sats.html';
@@ -75,6 +78,9 @@ include 'SATS/matrix_sats.html';
 include 'SATS/matrixptr_sats.html';
 include 'SATS/matrixref_sats.html';
 //
+include 'SATS/gprint_sats.html';
+include 'SATS/tostring_sats.html';
+//
 // DATS
 //
 include 'DATS/basics_dats.html';
@@ -91,6 +97,9 @@ include 'DATS/strptr_dats.html';
 //
 include 'DATS/unsafe_dats.html';
 include 'DATS/checkast_dats.html';
+//
+include 'DATS/tuple_dats.html';
+include 'DATS/reference_dats.html';
 //
 include 'DATS/filebas_dats.html';
 include 'DATS/intrange_dats.html';
@@ -112,6 +121,9 @@ include 'DATS/arrayref_dats.html';
 include 'DATS/matrix_dats.html';
 include 'DATS/matrixptr_dats.html';
 include 'DATS/matrixref_dats.html';
+//
+include 'DATS/gprint_dats.html';
+include 'DATS/tostring_dats.html';
 //
 ?><!--php-->
 

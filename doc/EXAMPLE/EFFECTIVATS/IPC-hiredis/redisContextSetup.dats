@@ -1,0 +1,106 @@
+(* ****** ****** *)
+//
+// For setting up redis connection
+//
+(* ****** ****** *)
+//  
+// Author: Hongwei Xi
+// Start time: December, 2013
+// Authoremail: gmhwxiATgmailDOTcom
+//
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+//
+(* ****** ****** *)
+
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+//
+#define
+HIREDIS_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-libhiredis"
+//
+(* ****** ****** *)
+//
+#include "./params.hats"
+
+(* ****** ****** *)
+//
+#include
+"{$HIREDIS}/mylibies.hats"
+//
+#staload $HIREDIS // opening it!
+#staload $HIREDIS_ML // opening it!
+//
+#include
+"{$HIREDIS}/mylibies_link.hats"
+//
+(* ****** ****** *)
+//
+extern
+fun
+the_redisContext_set (redisContext1): void
+//
+extern
+fun the_redisContext_unset ((*void*)): void
+extern
+fun the_redisContext_reset ((*void*)): void
+//
+extern
+fun the_redisContext_vtget ((*void*))
+  :<!ref> [l:addr] vttakeout0 (redisContext(l))
+//
+(* ****** ****** *)
+
+local
+
+val r0 =
+ref<ptr> (the_null_ptr)
+
+vtypedef vt0 = [l:addr] vttakeout0(redisContext(l))
+
+in (* in of [local] *)
+
+implement
+the_redisContext_set
+  (ctx) =
+(
+  !r0 := $UN.castvwtp0{ptr}(ctx)
+)
+
+implement
+the_redisContext_unset () = let
+  val ctx = !r0
+  val ((*void*)) = !r0 := the_null_ptr
+in
+  redisFree ($UN.castvwtp0{redisContext0}(ctx))
+end // end of [the_redisContext_unset]
+
+implement
+the_redisContext_reset () = let
+//
+  val ctx = !r0
+  val () =
+    redisFree ($UN.castvwtp0{redisContext0}(ctx))
+  val ip = "127.0.0.1"
+  val ctx = redisConnectWithTimeout (ip, 6379, TIMEOUT)
+  val () = !r0 := $UN.castvwtp0{ptr}(ctx)
+//
+in
+  // nothing
+end // end of [the_redisContext_reset]
+
+implement
+the_redisContext_vtget () = $UN.castvwtp0{vt0}(!r0)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [redisContextSetup.hats] *)

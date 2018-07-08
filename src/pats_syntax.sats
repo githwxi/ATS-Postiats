@@ -36,18 +36,21 @@
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
-
+//
 staload
 LOC = "./pats_location.sats"
+typedef loc_t = $LOC.location
 typedef location = $LOC.location
+//
 staload LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
 typedef tokenopt = Option (token)
+//
 staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolist = $SYM.symbolist
 typedef symbolopt = $SYM.symbolopt
-
+//
 (* ****** ****** *)
 
 staload
@@ -66,12 +69,18 @@ typedef filename = $FIL.filename
 //
 abstype synent // a boxed union
 //
-castfn synent_encode {a:type} (x: a): synent
-castfn synent_decode {a:type} (x: synent): (a)
+(* ****** ****** *)
 //
-fun synent_null {a:type} (): a // = null
-fun synent_is_null {a:type} (x: a):<> bool
-fun synent_isnot_null {a:type} (x: a):<> bool
+castfn
+synent_encode{a:type}(x: a): synent
+castfn
+synent_decode{a:type}(x: synent): (a)
+//
+(* ****** ****** *)
+//
+fun synent_null{a:type}(): a // = null
+fun synent_is_null{a:type}(x: a):<> bool
+fun synent_isnot_null{a:type}(x: a):<> bool
 //
 (* ****** ****** *)
 
@@ -81,7 +90,7 @@ srpifkind =
 // end of [srpifkind]
 
 (* ****** ****** *)
-
+//
 datatype
 macsynkind =
   | MSKencode of ()
@@ -89,11 +98,11 @@ macsynkind =
 // HX: cross-stage persistence:
   | MSKxstage of () // = decode(lift(.))
 // end of [macsynkind]
-
+//
 fun print_macsynkind (x: macsynkind): void
 fun prerr_macsynkind (x: macsynkind): void
 fun fprint_macsynkind : fprint_type (macsynkind)
-
+//
 (* ****** ****** *)
 
 (*
@@ -146,23 +155,26 @@ fun fprint_f0loat : fprint_type (f0loat)
 fun fprint_s0tring : fprint_type (s0tring)
 
 (* ****** ****** *)
-
+//
 typedef
 i0de = '{
-  i0de_loc= location, i0de_sym= symbol
+  i0de_loc= loc_t, i0de_sym= symbol
 } (* end of [i0de] *)
-
+//
 typedef i0delst = List (i0de)
 typedef i0deopt = Option (i0de)
-
-fun i0de_make_sym (loc: location, sym: symbol): i0de
-fun i0de_make_string (loc: location, name: string): i0de
-fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
-
+//
+fun
+i0de_make_sym(loc: loc_t, sym: symbol): i0de
+fun
+i0de_make_string(loc: loc_t, name: string): i0de
+fun
+i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
+//
 fun print_i0de (x: i0de): void
 fun prerr_i0de (x: i0de): void
 fun fprint_i0de : fprint_type (i0de)
-
+//
 (* ****** ****** *)
 
 datatype
@@ -219,7 +231,10 @@ datatype
 s0taq_node =
   | S0TAQnone
   | S0TAQsymdot of symbol
+(*
+// HX-2017-01-24:
   | S0TAQsymcolon of symbol
+*)
 (*
   | S0TAQfildot of string (* filename *)
 *)
@@ -228,12 +243,17 @@ s0taq_node =
 typedef s0taq = '{
   s0taq_loc= location, s0taq_node= s0taq_node
 }
-
+//
 val the_s0taq_none : s0taq
+//
 fun s0taq_none (loc: location): s0taq
 fun s0taq_symdot (ent1: i0de, tok2: token): s0taq
+//
+(*
+// HX-2017-01-24:
 fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
-
+*)
+//
 fun s0taq_is_none (q: s0taq): bool
 
 fun print_s0taq (x: s0taq): void
@@ -245,7 +265,7 @@ fun fprint_s0taq : fprint_type (s0taq)
 typedef sqi0de = '{
   sqi0de_loc= location
 , sqi0de_qua= s0taq, sqi0de_sym= symbol
-} // end of [sqi0de]
+} (* end of [sqi0de] *)
 
 fun sqi0de_make_none (ent: i0de): sqi0de
 fun sqi0de_make_some (ent1: s0taq, ent2: i0de): sqi0de
@@ -258,28 +278,51 @@ datatype
 d0ynq_node =
   | D0YNQnone of ()
   | D0YNQsymdot of symbol
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
   | D0YNQsymcolon of symbol
   | D0YNQsymdotcolon of (symbol, symbol)
+*)
 (*
-  | D0YNQfildot of string (* filename *)
-  | D0YNQfildot_symcolon of (string (* filename *), symbol)
+  | D0YNQfildot of string (*filename*)
+  | D0YNQfildot_symcolon of (string (*filename*), symbol)
 *)
 // end of [d0ynq_node]
 
-typedef d0ynq = '{
-  d0ynq_loc= location, d0ynq_node= d0ynq_node
-} // end of [d0ynq]
+(* ****** ****** *)
 
-val the_d0ynq_none : d0ynq
-fun d0ynq_none (loc: location): d0ynq
+typedef
+d0ynq = '{
+  d0ynq_loc= location, d0ynq_node= d0ynq_node
+} (* end of [d0ynq] *)
+
+(* ****** ****** *)
+//
+val
+the_d0ynq_none : d0ynq
+fun
+d0ynq_none(loc: location): d0ynq
+//
 fun d0ynq_symdot
   (ent1: i0de, tok2: token): d0ynq
+//
+(*
+//
+// HX-2017-01-24:
+// removed due to no use
+//
 fun d0ynq_symcolon
   (ent1: i0de, tok2: token): d0ynq
 fun d0ynq_symdotcolon
   (ent1: i0de, ent2: i0de, ent3: token): d0ynq
-
+*)
+//
 fun d0ynq_is_none (q: d0ynq): bool
+//
+(* ****** ****** *)
 
 fun print_d0ynq (x: d0ynq): void
 fun prerr_d0ynq (x: d0ynq): void
@@ -325,14 +368,17 @@ datatype f0xty =
 fun fprint_f0xty : fprint_type (f0xty)
 
 (* ****** ****** *)
-
+//
 datatype
 e0xpactkind =
-  | E0XPACTassert | E0XPACTerror | E0XPACTprint
-// end of [e0xpactkind]
-
-fun fprint_e0xpactkind : fprint_type (e0xpactkind)
-
+ | E0XPACTerror of ()
+ | E0XPACTprerr of ()
+ | E0XPACTprint of ()
+ | E0XPACTassert of ()
+//
+fun
+fprint_e0xpactkind : fprint_type(e0xpactkind)
+//
 (* ****** ****** *)
 
 datatype
@@ -544,9 +590,18 @@ fun sp0at_cstr
 // end of [sp0at_cstr]
 
 (* ****** ****** *)
+//
+// HX-2015-08:
+// for placeholding
+//
+abstype
+S0Ed2ctype_type = ptr
+typedef
+S0Ed2ctype = S0Ed2ctype_type
+//
+(* ****** ****** *)
 
-datatype
-s0exp_node =
+datatype s0exp_node =
 //
   | S0Eide of symbol
   | S0Esqid of (s0taq, symbol) // qualified
@@ -554,6 +609,8 @@ s0exp_node =
 //
   | S0Eint of i0nt
   | S0Echar of c0har
+  | S0Efloat of f0loat
+  | S0Estring of s0tring
 //
   | S0Eextype of (string(*name*), s0explst(*arg*))
   | S0Eextkind of (string(*name*), s0explst(*arg*))
@@ -564,18 +621,25 @@ s0exp_node =
   | S0Eimp of e0fftaglst // decorated implication
 //
   | S0Elist of s0explst
-  | S0Elist2 of (s0explst (*prop/view*), s0explst (*type/viewtype*))
+  | S0Elist2 of
+      (s0explst(*prop/view*), s0explst(*type/vtype*))
+    // end of [S0Elist2]
 //
-  | S0Etyarr of (* array type *)
+  | S0Etyarr of
       (s0exp (*element*), s0explst (*dimension*))
+    // end of [S0Etyarr]
   | S0Etytup of (int (*knd*), int (*npf*), s0explst)
   | S0Etyrec of (int (*knd*), int (*npf*), labs0explst)
   | S0Etyrec_ext of (string(*name*), int (*npf*), labs0explst)
 //
   | S0Euni of s0qualst // universal quantifiers
-  | S0Eexi of (int(*funres*), s0qualst) // existential quantifiers
+  | S0Eexi of
+      (int(*funres*), s0qualst) // existential quantifiers
+    // end of [S2Eexi]
 //
-  | S0Eann of (s0exp, s0rt)
+  | S0Eann of (s0exp, s0rt(*ann*)) // sort-ascribed staexps
+//
+  | S0Ed2ctype of (S0Ed2ctype(*d0exp*)) // $d2ctype(d2c/tmpcst)
 // end of [s0exp_node]
 
 and s0rtext_node =
@@ -646,22 +710,46 @@ fun s0exp_i0de (_: i0de): s0exp
 fun s0exp_sqid (sq: s0taq, id: i0de): s0exp
 fun s0exp_opid (_1: token, _2: i0de): s0exp
 
+(* ****** ****** *)
+//
 fun s0exp_i0nt (_: i0nt): s0exp
 fun s0exp_c0har (_: c0har): s0exp
+//
+fun s0exp_f0loat (_: f0loat): s0exp
+fun s0exp_s0tring (_: s0tring): s0exp
+//
+(* ****** ****** *)
 
 fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
 
-fun s0exp_imp
-  (t_beg: token, _: e0fftaglst, t_end: token): s0exp
-fun s0exp_imp_nil (t: token): s0exp
+(* ****** ****** *)
+
+fun
+s0exp_imp
+(
+  t_beg: token, _: e0fftaglst, t_end: token
+) : s0exp // end of [s0exp_imp]
+fun
+s0exp_imp_nil (tok: token): s0exp
+
+(* ****** ****** *)
 
 fun s0exp_tkname (str: token): s0exp
-fun s0exp_extype (_1: token, _2: token, xs: s0explst): s0exp
-fun s0exp_extkind (_1: token, _2: token, xs: s0explst): s0exp
+
+(* ****** ****** *)
+
+fun s0exp_extype
+  (_1: token, _2: token, xs: s0explst): s0exp
+fun s0exp_extkind
+  (_1: token, _2: token, xs: s0explst): s0exp
+
+(* ****** ****** *)
 
 fun s0exp_lams (
   _1: token, _2: s0marglst, _3: s0rtopt, _4: s0exp
 ) : s0exp // end of [s0exp_lam]
+
+(* ****** ****** *)
 
 fun s0exp_list (
   t_beg: token, xs: s0explst, t_end: token
@@ -670,31 +758,59 @@ fun s0exp_list2 (
   t_beg: token, xs1: s0explst, xs2: s0explst, t_end: token
 ) : s0exp // end of [s0exp_list2]
 
+(* ****** ****** *)
+
 fun s0exp_tyarr
   (t_beg: token, elt: s0exp, ind: s0arrdim): s0exp
 // end of [s0exp_tyarr]
 
-fun s0exp_tytup (
-  knd: int, t_beg: token, npf: int, ent2: s0explst, t_end: token
+(* ****** ****** *)
+
+fun
+s0exp_tytup
+(
+  knd: int
+, t_beg: token, npf: int, ent2: s0explst, t_end: token
 ) : s0exp // end of [s0exp_tytup]
 
-fun s0exp_tyrec (
-  knd: int, t_beg: token, npf: int, ent2: labs0explst, t_end: token
+(* ****** ****** *)
+
+fun
+s0exp_tyrec
+(
+  knd: int
+, t_beg: token, npf: int, ent2: labs0explst, t_end: token
 ) : s0exp // end of [s0exp_tyrec]
 
-fun s0exp_tyrec_ext (
-  name: string, t_beg: token, npf: int, ent2: labs0explst, t_end: token
+fun
+s0exp_tyrec_ext
+(
+  name: string
+, t_beg: token, npf: int, ent2: labs0explst, t_end: token
 ) : s0exp // end of [s0exp_tyrec_ext]
 
-fun s0exp_uni (
+(* ****** ****** *)
+
+fun
+s0exp_uni (
   t_beg: token, xs: s0qualst, t_end: token
 ) : s0exp // end of [s0exp_uni]
-
-fun s0exp_exi (
+fun
+s0exp_exi (
   funres: int, t_beg: token, xs: s0qualst, t_end: token
 ) : s0exp // end of [s0exp_uni]
 
-fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
+(* ****** ****** *)
+
+fun s0exp_ann (s0e: s0exp, s0t: s0rt): s0exp
+
+(* ****** ****** *)
+//
+fun
+s0exp_d2ctype
+  (t_beg: token, d2ctp: S0Ed2ctype, t_end: token): s0exp
+//
+(* ****** ****** *)
 
 fun fprint_s0exp : fprint_type (s0exp)
 fun fprint_s0explst : fprint_type (s0explst)
@@ -723,18 +839,19 @@ fun fprint_q0marg : fprint_type (q0marg)
 fun fprint_q0marglst : fprint_type (q0marglst)
 
 (* ****** ****** *)
-
+//
 typedef
 a0typ = '{
   a0typ_loc= location
 , a0typ_sym= symbolopt
 , a0typ_typ= s0exp
-} // end of [a0typ]
+} (* end of [a0typ] *)
+//
 typedef a0typlst = List (a0typ)
-
+//
 fun a0typ_make_none (_: s0exp): a0typ
 fun a0typ_make_some (id: i0de, _: s0exp): a0typ
-
+//
 (* ****** ****** *)
 
 datatype
@@ -817,19 +934,34 @@ typedef s0rtdeflst = List s0rtdef
 fun s0rtdef_make (id: i0de, s0te: s0rtext): s0rtdef
 
 (* ****** ****** *)
-
-typedef s0tacst = '{
-  s0tacst_loc= location
+//
+datatype
+scstextdef =
+  | SCSTEXTDEFnone of ()
+  | SCSTEXTDEFsome of string
+// end of [scstextdef]
+//
+typedef
+s0tacst = '{
+  s0tacst_loc= loc_t
 , s0tacst_sym= symbol
 , s0tacst_arg= a0msrtlst
 , s0tacst_res= s0rt
-} // end of [s0tacst]
+, s0tacst_extopt= s0tringopt
+} (* end of [s0tacst] *)
+//
 typedef s0tacstlst = List s0tacst
-
-fun s0tacst_make (id: i0de, arg: a0msrtlst, srt: s0rt): s0tacst
-
+//
+fun
+s0tacst_make
+(
+  id: i0de
+, arg: a0msrtlst, srt: s0rt
+, ext: s0tringopt (* optional external name *)
+) : s0tacst // end of [s0tacst_make]
+//
 (* ****** ****** *)
-
+//
 typedef
 s0tacon = '{
   s0tacon_loc= location
@@ -838,11 +970,12 @@ s0tacon = '{
 , s0tacon_def= s0expopt
 } // end of [s0tacon]
 typedef s0taconlst = List s0tacon
-
-fun s0tacon_make
+//
+fun
+s0tacon_make
   (id: i0de, arg: a0msrtlst, def: s0expopt): s0tacon
 // end of [s0tacon_make]
-
+//
 (* ****** ****** *)
 
 (*
@@ -930,13 +1063,19 @@ d0atcon = '{
 , d0atcon_qua= q0marglst
 , d0atcon_arg= s0expopt
 , d0atcon_ind= s0expopt
-} // end of [d0atcon]
+} (* end of [d0atcon] *)
 
-typedef d0atconlst = List (d0atcon)
+typedef
+d0atconlst = List(d0atcon)
 
-fun d0atcon_make (
-  qua: q0marglst, id: i0de, ind: s0expopt, arg: s0expopt
+fun
+d0atcon_make
+(
+  qua: q0marglst
+, id: i0de, ind: s0expopt, arg: s0expopt
 ) : d0atcon // end of [d0atcon_make]
+
+(* ****** ****** *)
 
 typedef
 d0atdec = '{
@@ -946,16 +1085,19 @@ d0atdec = '{
 , d0atdec_sym= symbol
 , d0atdec_arg= a0msrtlst
 , d0atdec_con= d0atconlst
-} // end of [d0atdec]
+} (* end of [d0atdec] *)
 
-typedef d0atdeclst = List d0atdec
+typedef
+d0atdeclst = List(d0atdec)
 
-fun d0atdec_make (
+fun
+d0atdec_make
+(
   id: i0de, arg: a0msrtlst, con: d0atconlst
 ) : d0atdec // end of [d0atdec_make]
 
 (* ****** ****** *)
-
+//
 datatype
 dcstextdef =
   | DCSTEXTDEFnone of (int) // 0/1 static/extern
@@ -963,15 +1105,15 @@ dcstextdef =
   | DCSTEXTDEFsome_mac of string // macro
   | DCSTEXTDEFsome_sta of string // static
 // end of [dcstextdef]
-
+//
 fun dcstextdef_sta (sym: symbol): dcstextdef
-
+//
 fun dcstextdef_is_ext (x: dcstextdef):<> bool
 fun dcstextdef_is_mac (x: dcstextdef):<> bool
 fun dcstextdef_is_sta (x: dcstextdef):<> bool
-
+//
 fun dcstextdef_is_mainats (x: dcstextdef):<> bool
-
+//
 (* ****** ****** *)
 
 typedef
@@ -1125,16 +1267,20 @@ fun p0at_err (loc: location): p0at // HX: indicating syntax-error
 fun fprint_p0at : fprint_type (p0at)
 
 (* ****** ****** *)
-
-fun labp0at_norm (l: l0ab, p: p0at): labp0at
+//
+fun
+labp0at_norm
+  (lab: l0ab, p: p0at): labp0at
+//
 fun labp0at_omit (tok: token): labp0at
-
+//
 fun fprint_labp0at : fprint_type (labp0at)
-
+//
 (* ****** ****** *)
 
 datatype i0mparg =
-  | I0MPARG_sarglst of s0arglst | I0MPARG_svararglst of s0vararglst
+  | I0MPARG_sarglst of s0arglst
+  | I0MPARG_svararglst of s0vararglst
 // end of [i0mparg]
 
 fun i0mparg_sarglst_none (): i0mparg
@@ -1147,96 +1293,113 @@ fun i0mparg_sarglst_some
 fun i0mparg_svararglst (arg: s0vararglst): i0mparg
 
 (* ****** ****** *)
-
+//
 typedef
 t0mpmarg = '{
   t0mpmarg_loc= location, t0mpmarg_arg= s0explst
-} // end of [t0mpmarg]
-
-typedef t0mpmarglst = List (t0mpmarg)
-
+} (* end of [t0mpmarg] *)
+//
+typedef
+t0mpmarglst = List (t0mpmarg)
+//
 fun t0mpmarg_make (tok: token, arg: s0explst): t0mpmarg
-
+//
 (* ****** ****** *)
-
+//
 typedef
 impqi0de = '{
   impqi0de_loc= location
 , impqi0de_qua= d0ynq
 , impqi0de_sym= symbol
 , impqi0de_arg= t0mpmarglst
-} // end of [impqi0de]
-
-fun impqi0de_make_none (qid: dqi0de): impqi0de
-fun impqi0de_make_some
+} (* end of [impqi0de] *)
+//
+fun
+impqi0de_make_none (qid: dqi0de): impqi0de
+fun
+impqi0de_make_some
   (qid: dqi0de, args: t0mpmarglst, t_gt: token): impqi0de
 // end of [impqi0de_make_some]
-
+//
 (* ****** ****** *)
-
+//
 datatype
 f0arg_node =
   | F0ARGdyn of p0at
-  | F0ARGsta1 of s0qualst | F0ARGsta2 of s0vararg
-  | F0ARGmet of s0explst
+  | F0ARGsta1 of s0qualst
+  | F0ARGsta2 of s0vararg
+  | F0ARGmet3 of s0explst
 // end of [f0arg_node]
-
+//
 typedef
 f0arg = '{
   f0arg_loc= location, f0arg_node= f0arg_node
-} // end of [f0arg]
-
+} (* end of [f0arg] *)
+//
 typedef f0arglst = List (f0arg)
-viewtypedef f0arglst_vt = List_vt (f0arg)
-
+vtypedef f0arglst_vt = List_vt (f0arg)
+//
+(* ****** ****** *)
+//
 fun f0arg_dyn (x: p0at): f0arg
-
-fun f0arg_sta1
-  (t_beg: token, qua: s0qualst, t_end: token): f0arg
-// end of [f0arg_sta1]
-fun f0arg_sta2
-  (t_beg: token, arg: s0vararg, t_end: token): f0arg
-// end of [f0arg_sta2]
-
+//
+fun
+f0arg_sta1
+(
+  t_beg: token, qua: s0qualst, t_end: token
+) : f0arg // end of [f0arg_sta1]
+fun
+f0arg_sta2
+(
+  t_beg: token, arg: s0vararg, t_end: token
+) : f0arg // end of [f0arg_sta2]
+//
 fun f0arg_met
   (t_beg: token, xs: s0explst, t_end: token): f0arg
 // end of [f0arg_met]
+//
 fun f0arg_met_nil (tok: token): f0arg
-
+//
 (* ****** ****** *)
-
-typedef s0elop = '{
+//
+typedef
+s0elop = '{
   s0elop_loc= location
 , s0elop_knd= int // 0/1 : (.)/(->)
-} // end of [s0elop]
-
+} (* end of [s0elop] *)
+//
 fun s0elop_make_dot (tok: token): s0elop
 fun s0elop_make_minusgt (tok: token): s0elop
-
+//
 (* ****** ****** *)
-
+//
 typedef
 i0nvarg = '{
   i0nvarg_loc= location
 , i0nvarg_sym= symbol
 , i0nvarg_typ= s0expopt
-} // end of [i0nvarg]
-
+} (* end of [i0nvarg] *)
+//
 typedef i0nvarglst = List i0nvarg
-
-fun i0nvarg_make (id: i0de, opt: s0expopt): i0nvarg
+//
+fun
+i0nvarg_make (id: i0de, opt: s0expopt): i0nvarg
+//
+(* ****** ****** *)
 
 typedef
 i0nvresstate = '{
   i0nvresstate_loc= location
 , i0nvresstate_qua= s0qualstopt
 , i0nvresstate_arg= i0nvarglst
-} // end of [i0nvresstate]
+} (* end of [i0nvresstate] *)
 
 fun i0nvresstate_make_none (loc: location): i0nvresstate
 fun i0nvresstate_make_some (
   t_beg: token, qua: s0qualstopt, arg: i0nvarglst, t_end: token
 ) : i0nvresstate // end of [i0nvresstate_make_some]
+
+(* ****** ****** *)
 
 typedef
 loopi0nv = '{
@@ -1262,16 +1425,30 @@ loopi0nv_make
 datatype
 d0ecl_node =
 //
-  | D0Cfixity of (f0xty, i0delst)
+(*
+  | D0Clist of d0eclist
+*)
+//
+  | D0Cfixity of
+      (f0xty, i0delst) // prefix, infix, postfix
+    // D0Cfixity
   | D0Cnonfix of (i0delst) // absolving fixity status
 //
-  | D0Csymintr of (i0delst) // introducing symbols for overloading
-  | D0Csymelim of (i0delst) // eliminating symbols for overloading
+  | D0Csymintr of (i0delst) // symbols for overloading
+  | D0Csymelim of (i0delst) // eliminating overloading symbols
   | D0Coverload of (i0de, dqi0de, int(*pval*)) // overloading
 //
-  | D0Ce0xpdef of (symbol, e0xpopt)
-  | D0Ce0xpundef of (symbol) (* undefinition *)
-  | D0Ce0xpact of (e0xpactkind, e0xp)
+  | D0Ce0xpdef of
+      (symbol, e0xpopt) // HX: #define
+    // D0Ce0xpdef
+  | D0Ce0xpundef of (symbol) // HX: #undef
+//
+  | D0Ce0xpact of
+      (e0xpactkind, e0xp) // HX: assert, error, prerr, print, ...
+    // D0Ce0xpact
+//
+  | D0Cpragma of (e0xplst) // #pragma(CATEGORY, ...)
+  | D0Ccodegen of (int(*level*), e0xplst) // #codegen2, #codegen3
 //
   | D0Cdatsrts of d0atsrtdeclst (* datasorts *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
@@ -1279,19 +1456,28 @@ d0ecl_node =
   | D0Cstacsts of (s0tacstlst) (* static constants *)
   | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
 (*
-  | D0Cstavars of (s0tavarlst) (* static constants *) // HX-2012-05-23: removed
+  | D0Cstavars of
+      (s0tavarlst) (* static constants *) // HX-2012-05-23: removed
+    // end of [D0Cstavars]
 *)
   | D0Ctkindef of t0kindef (* primitive tkind *)
-  | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
+  | D0Csexpdefs of
+      (int(*knd*), s0expdeflst) (* staexp definition *)
+    // end of [D0Csexpdefs]
+//
   | D0Csaspdec of s0aspdec (* static assumption *)
+  | D0Creassume of sqi0de(*abstype*) // static re-assumption
 //
   | D0Cexndecs of (e0xndeclst)
   | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
 //
-  | D0Cclassdec of (i0de, s0expopt) // class declaration
+  | D0Cclassdec of
+      (i0de, s0expopt) // class declaration
+    // D0Cclassdec
 //
   | D0Cextype of (string, s0exp) // externally named types
   | D0Cextype of (int(*knd*), string, s0exp) // externally named structs
+//
   | D0Cextvar of (string, d0exp) // externally named left-values
 //
   | D0Cextcode of
@@ -1324,21 +1510,23 @@ d0ecl_node =
   | D0Cstaloadloc of
       (filename(*pfil*), symbol(*nspace*), d0eclist) // HX: { ... }
 //
-  | D0Crequire of (filename(*pfil*), string(*path*)) // HX: for pkgreloc
+  | D0Crequire of (filename(*pfil*), string(*path*)) // HX: for atsreloc
 //
-  | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initialization*)
+  | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initization*)
 //
-  | D0Clocal of (d0eclist, d0eclist)
-  | D0Cguadecl of (srpifkind, guad0ecl)
+  | D0Clocal of (d0eclist, d0eclist) // HX: local ... in ... end
+  | D0Cguadecl of (srpifkind, guad0ecl) // HX: guarded declarations
 // end of [d0ecl_node]
 
-and staloadarg =
+and
+staloadarg =
   | STLDfname of (location, string) // staload "..."
   | STLDnspace of (location, string) // staload $...
   | STLDdeclist of (location, d0eclist) // staload { ... }
 // end of [staloadarg]
 
-and guad0ecl_node =
+and
+guad0ecl_node =
   | GD0Cone of (e0xp, d0eclist)
   | GD0Ctwo of (e0xp, d0eclist, d0eclist)
   | GD0Ccons of (e0xp, d0eclist, srpifkind, guad0ecl_node)
@@ -1346,20 +1534,27 @@ and guad0ecl_node =
 
 and d0exp_node =
 //
-  | D0Eide of symbol // dynamic identifiers
-  | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
-  | D0Eopid of symbol // dynamic op identifiers
+  | D0Eide of symbol // dynamic ids
+  | D0Edqid of
+      (d0ynq, symbol) // qualified dynamic ids
+    // end of [D0Edqid]
 //
-  | D0Eidext of symbol // dynamic external identifiers
+  | D0Eopid of symbol // dynamic operator ids
 //
-  | D0Eint of i0nt
-  | D0Echar of c0har
-  | D0Efloat of f0loat
-  | D0Estring of s0tring
+  | D0Eidext of symbol // dynamic external ids
+//
+  | D0Eint of i0nt // integers
+  | D0Echar of c0har // characters
+  | D0Efloat of f0loat // floats
+  | D0Estring of s0tring // strings
 //
   | D0Eempty of ()
 //
   | D0Ecstsp of cstsp // special constants
+//
+  | D0Etyrep of s0exp // $tyrep(...)
+//
+  | D0Eliteral of (d0exp) // $literal: int, float, string
 //
   | D0Eextval of
       (s0exp(*type*), string(*name*)) // external values
@@ -1377,14 +1572,17 @@ and d0exp_node =
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
-  | D0Ewhere of (d0exp, d0eclist)
+  | D0Ewhere of (d0exp, d0eclist) // dynamic where-expression
 //
   | D0Eapp of (d0exp, d0exp) // functional application
 //
   | D0Elist of (int(*npf*), d0explst)
 //
   | D0Eifhead of (ifhead, d0exp, d0exp, d0expopt)
-  | D0Esifhead of (sifhead, s0exp, d0exp, d0exp) // HX: no dangling else-branch
+  | D0Esifhead of (sifhead, s0exp, d0exp, d0exp(*else*))
+//
+  | D0Eifcasehd of (ifhead, i0fclist(*ifcase-claues*))
+//
   | D0Ecasehead of (casehead, d0exp, c0laulst)
   | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
@@ -1402,19 +1600,10 @@ and d0exp_node =
 //
   | D0Earrsub of // array subscripting
       (dqi0de, location(*ind*), d0explstlst(*ind*))
-  | D0Earrpsz of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
+  | D0Earrpsz of
+      (s0expopt (*elt*), d0exp (*int*)) // arraysize expr
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
-//
-  | D0Eraise of (d0exp) // $raise
-  | D0Eeffmask of (e0fftaglst, d0exp)
-  | D0Eeffmask_arg of (int(*knd*), d0exp)
-//
-  | D0Eshowtype of (d0exp) // $showtype
-//
-  | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
-//
-  | D0Etempenver of (d0exp) // $tempenver for adding environvar
 //
   | D0Eptrof of () // taking the addr of a left-value
   | D0Eviewat of () // taking the view at the addr of a left-value
@@ -1422,9 +1611,23 @@ and d0exp_node =
   | D0Esel_lab of (int(*knd*), label)
   | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
 //
+  | D0Eraise of (d0exp) // $raise
+  | D0Eeffmask of (e0fftaglst, d0exp)
+  | D0Eeffmask_arg of (int(*knd*), d0exp)
+//
+  | D0Evararg of (d0explst) // $vararg for variadicity
+//
+  | D0Evcopyenv of (int(*knd*), d0exp) // $vcopyenv_v/$vcopyenv_vt
+//
+  | D0Eshowtype of (d0exp) // $showtype for static debugging
+//
+  | D0Etempenver of (d0exp) // $tempenver for adding environvar
+//
   | D0Esexparg of s0exparg // static multi-argument
 //
-  | D0Eexist of (location (*qua*), s0exparg, d0exp) // existential sum
+  | D0Eexist of (location(*qua*), s0exparg, d0exp) // existential sum
+//
+  | D0Eann of (d0exp, s0exp) // type-ascribed dynamic expressions
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
@@ -1442,10 +1645,12 @@ and d0exp_node =
 //
   | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
 //
-  | D0Emacsyn of (macsynkind, d0exp) // macro syntax
+  | D0Emacsyn of (macsynkind, d0exp) // macro syntax // HX: not yet in use
 //
-  | D0Eann of (d0exp, s0exp) // ascribed dynamic expressions
-// end of [d0exp_node]
+  | D0Esolassert of (d0exp) // $solver_assert(d0e_prf)
+  | D0Esolverify of (s0exp) // $solver_verify(s0e_prop)
+//
+// end of [d0exp_node] // end of [datatype]
 
 (* ****** ****** *)
 
@@ -1506,27 +1711,32 @@ and guap0at = '{
 
 (* ****** ****** *)
 
-and ifhead = '{
+and
+ifhead = '{
   ifhead_tok= token, ifhead_inv= i0nvresstate
 } // end of [ifhead]
 
-and sifhead = '{
+and
+sifhead = '{
   sifhead_tok= token, sifhead_inv= i0nvresstate
 } // end of [sifhead]
 
 (* ****** ****** *)
 
-and casehead = '{
+and
+casehead = '{
   casehead_tok= token, casehead_inv= i0nvresstate
 } // end of [casehead]
 
-and scasehead = '{
+and
+scasehead = '{
   scasehead_tok= token, scasehead_inv= i0nvresstate
 } // end of [scasehead]
 
 (* ****** ****** *)
 
-and loophead = '{
+and
+loophead = '{
   loophead_tok= token, loophead_inv= loopi0nvopt
 } // end of [lookhead]
 
@@ -1535,6 +1745,16 @@ and loophead = '{
 and tryhead = '{
   tryhead_tok= token, tryhead_inv= i0nvresstate
 } // end of [tryhead]
+
+(* ****** ****** *)
+
+and i0fcl = '{
+  i0fcl_loc= location
+, i0fcl_test= d0exp
+, i0fcl_body= d0exp
+} (* end of [ifcl0] *)
+
+and i0fclist = List(i0fcl)
 
 (* ****** ****** *)
 
@@ -1640,6 +1860,22 @@ fun d0exp_MYFUN (tok: token): d0exp
 
 (* ****** ****** *)
 //
+fun
+d0exp_tyrep
+(
+  t_beg: token, s0e: s0exp, t_end: token
+) : d0exp // end of [d0exp_tyrep]
+//
+(* ****** ****** *)
+//
+fun
+d0exp_literal
+(
+  t_beg: token, lit: d0exp, t_end: token
+) : d0exp // end of [d0exp_literal]
+//
+(* ****** ****** *)
+//
 fun d0exp_extval
 (
   t_beg: token
@@ -1705,26 +1941,36 @@ fun d0exp_list (
 ) : d0exp // end of [d0exp_list]
 
 (* ****** ****** *)
-
-fun d0exp_ifhead (
-  hd: ifhead, _cond: d0exp, _then: d0exp, _else: d0expopt
+//
+fun
+d0exp_ifhead (
+  hd: ifhead, cond: d0exp, _then: d0exp, _else: d0expopt
 ) : d0exp // end of [d0exp_ifhead]
-fun d0exp_sifhead (
-  hd: sifhead, _cond: s0exp, _then: d0exp, _else: d0exp
+fun
+d0exp_sifhead (
+  hd: sifhead, cond: s0exp, _then: d0exp, _else: d0exp
 ) : d0exp // end of [d0exp_sifhead]
-
-fun d0exp_casehead
+//
+(* ****** ****** *)
+//
+fun d0exp_ifcasehd (ifhd: ifhead, ifcls: i0fclist): d0exp
+//
+(* ****** ****** *)
+//
+fun
+d0exp_casehead
   (hd: casehead, d0e: d0exp, t_of: token, c0ls: c0laulst): d0exp
 // end of [d0exp_casehead]
-fun d0exp_scasehead
+fun
+d0exp_scasehead
   (hd: scasehead, s0e: s0exp, t_of: token, c0ls: sc0laulst): d0exp
 // end of [d0exp_scasehead]
-
+//
 (* ****** ****** *)
 
 fun
-d0exp_lst (
-  lin: int
+d0exp_lst
+( lin: int
 , t_beg: token
 , elt: s0expopt
 , t_lp: token
@@ -1732,19 +1978,25 @@ d0exp_lst (
 , t_rp: token
 ) : d0exp // end of [d0exp_lst]
 
-fun d0exp_lst_quote
+fun
+d0exp_lst_quote
   (t_beg: token, elts: d0explst, t_end: token): d0exp
 // end of [d0exp_lst_quote]
 
 (* ****** ****** *)
-
-fun d0exp_tup (
+//
+fun
+d0exp_tup
+(
   knd: int, t_beg: token, npf: int, xs: d0explst, t_end: token
 ) : d0exp // end of [d0exp_tup]
-fun d0exp_rec (
+//
+fun
+d0exp_rec
+(
   knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
 ) : d0exp // end of [d0exp_rec]
-
+//
 (* ****** ****** *)
 
 fun d0exp_seq
@@ -1753,40 +2005,20 @@ fun d0exp_seq
 
 (* ****** ****** *)
 
-fun d0exp_arrsub (qid: dqi0de, ind: d0arrind): d0exp
+fun
+d0exp_arrsub(qid: dqi0de, ind: d0arrind): d0exp
 
-fun d0exp_arrinit (
+fun
+d0exp_arrinit
+(
   t_beg: token, elt: s0exp, dim: d0expopt, ini: d0explst, t_end: token
 ) : d0exp // end of [d0exp_arrinit]
 
-fun d0exp_arrpsz (
+fun
+d0exp_arrpsz
+(
   t_beg: token, elt: s0expopt, t_lp: token, elts: d0explst, t_rp: token
 ) : d0exp // end of [d0exp_arrpsz]
-
-(* ****** ****** *)
-
-fun d0exp_raise (tok: token, d0e: d0exp): d0exp
-
-fun d0exp_effmask (
-  tok: token, eff: e0fftaglst, d0e: d0exp
-) : d0exp // end of [d0exp_effmask]
-
-fun d0exp_effmask_arg
-  (knd: int, tok: token, d0e: d0exp): d0exp
-// end of [d0exp_effmask_arg]
-
-(* ****** ****** *)
-
-fun d0exp_showtype (tok: token, d0e: d0exp): d0exp
-
-(* ****** ****** *)
-
-fun d0exp_vcopyenv
-  (knd: int(*0/1*), tok: token, d0e: d0exp): d0exp
-
-(* ****** ****** *)
-
-fun d0exp_tempenver (tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 
@@ -1795,20 +2027,65 @@ fun d0exp_viewat (t_viewat: token): d0exp // view@
 
 (* ****** ****** *)
 //
-fun d0exp_sel_lab (sel: s0elop, lab: l0ab): d0exp
-fun d0exp_sel_ind (sel: s0elop, ind: d0arrind): d0exp
+fun
+d0exp_sel_lab (sel: s0elop, lab: l0ab): d0exp
+fun
+d0exp_sel_ind (sel: s0elop, ind: d0arrind): d0exp
 //
-fun d0exp_sel_int (tok: token): d0exp // tok=T_DOTINT(...)
+fun
+d0exp_sel_int (tok: token): d0exp // tok=T_DOTINT(...)
+//
+(* ****** ****** *)
+//
+fun
+d0exp_raise(tok: token, d0e: d0exp): d0exp
+//
+(* ****** ****** *)
+//
+fun
+d0exp_effmask
+  (tok: token, eff: e0fftaglst, d0e: d0exp): d0exp
+//
+fun
+d0exp_effmask_arg
+  (knd: int, tok: token, d0e: d0exp): d0exp
+//
+(* ****** ****** *)
+//
+fun
+d0exp_vararg
+(
+  t_beg: token, d0es: d0explst, t_end: token
+) : d0exp // end of [d0exp_vararg]
+//
+(* ****** ****** *)
+//
+fun
+d0exp_vcopyenv
+  (knd: int(*0/1*), tok: token, d0e: d0exp): d0exp
 //
 (* ****** ****** *)
 
-fun d0exp_sexparg
+fun d0exp_showtype(tok: token, d0e: d0exp): d0exp
+
+(* ****** ****** *)
+
+fun d0exp_tempenver(tok: token, d0e: d0exp): d0exp
+
+(* ****** ****** *)
+
+fun
+d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
 // end of [d0exp_sexparg]
 
 fun d0exp_exist (
   t_beg: token, s0a: s0exparg, t_bar: token, d0e: d0exp, t_end: token
 ) : d0exp // end of [d0exp_exist]
+
+(* ****** ****** *)
+
+fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 
@@ -1857,31 +2134,39 @@ fun d0exp_loopexn
 
 (* ****** ****** *)
 
-fun d0exp_trywith_seq (
-  hd: tryhead, d0es: d0explst, t_with: token, c0ls: c0laulst
+fun
+d0exp_trywith_seq
+(
+  hd: tryhead
+, d0es: d0explst, t_with: token, c0ls: c0laulst
 ) : d0exp // end of [d0exp_trywith_seq]
 
 (* ****** ****** *)
+//
+fun d0exp_solassert (tok: token, d0e: d0exp): d0exp
+fun d0exp_solverify (tok: token, s0e: s0exp): d0exp
+//
+(* ****** ****** *)
 
-fun d0exp_macsyn_decode
+fun
+d0exp_macsyn_decode
   (t_beg: token, _: d0exp, t_end: token): d0exp
 // end of [d0exp_macsyn_decode]
 
-fun d0exp_macsyn_encode_seq
+fun
+d0exp_macsyn_encode_seq
   (t_beg: token, _: d0explst, t_end: token): d0exp
 // end of [d0exp_macsyn_encode_seq]
 
-fun d0exp_macsyn_cross
+fun
+d0exp_macsyn_cross
   (t_beg: token, _: d0exp, t_end: token): d0exp
 // end of [d0exp_macsyn_cross]
 
 (* ****** ****** *)
 
-fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
-
-(* ****** ****** *)
-
-fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
+fun
+labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
 
 (* ****** ****** *)
 //
@@ -1897,13 +2182,15 @@ overload fprint with fprint_d0explst
 fun fprint_labd0exp : fprint_type (labd0exp)
 
 (* ****** ****** *)
-
+//
 (*
 ** HX: d0arrind_sing: tok is RBRACKET
 *)
-fun d0arrind_sing (d0es: d0explst, tok: token): d0arrind
-fun d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
-
+fun
+d0arrind_sing (d0es: d0explst, tok: token): d0arrind
+fun
+d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
+//
 (* ****** ****** *)
 
 fun
@@ -1919,54 +2206,85 @@ initestpost_make
 ) : initestpost // end of [initestpost_make]
 
 (* ****** ****** *)
-
-fun gm0at_make (d0e: d0exp, pat: p0atopt): gm0at
-fun guap0at_make (p0t: p0at, mat: Option (gm0atlst)): guap0at
-
+//
+fun
+gm0at_make
+  (d0e: d0exp, pat: p0atopt): gm0at
+fun
+guap0at_make
+  (p0t: p0at, mat: Option (gm0atlst)): guap0at
+//
+(* ****** ****** *)
+//
+fun
+ifhead_make
+  (t_if: token, invopt: Option(i0nvresstate)): ifhead
+fun
+sifhead_make
+  (t_sif: token, invopt: Option(i0nvresstate)): sifhead
+//
 (* ****** ****** *)
 
-fun ifhead_make
-  (t_if: token, invopt: Option (i0nvresstate)): ifhead
-fun sifhead_make
-  (t_sif: token, invopt: Option (i0nvresstate)): sifhead
+fun
+casehead_make
+  (t_case: token, invopt: Option(i0nvresstate)): casehead
+fun
+scasehead_make
+  (t_scase: token, invopt: Option(i0nvresstate)): scasehead
 
-fun casehead_make
-  (t_case: token, invopt: Option (i0nvresstate)): casehead
-fun scasehead_make
-  (t_scase: token, invopt: Option (i0nvresstate)): scasehead
+(* ****** ****** *)
+//
+fun
+loophead_make_none
+  (t_head: token): loophead
+fun
+loophead_make_some
+(
+  t_head: token, inv: loopi0nv, t_eqgt: token
+) : loophead // end of [loophead_make_some]
+//
+(* ****** ****** *)
 
-fun loophead_make_none (t_head: token): loophead
-fun loophead_make_some
-  (t_head: token, inv: loopi0nv, t_eqgt: token): loophead
-// end of [loophead_make_some]
-
-fun tryhead_make
-  (t_try: token, invopt: Option (i0nvresstate)): tryhead
+fun
+tryhead_make
+  (t_try: token, invopt: Option(i0nvresstate)): tryhead
 // end of [tryhead_make]
 
 (* ****** ****** *)
 
-fun c0lau_make (
-  gp0t: guap0at, seq: int, neg: int, body: d0exp
-) : c0lau // end of [c0lau_make]
-
-fun sc0lau_make (sp0t: sp0at, body: d0exp): sc0lau
+fun
+i0fcl_make (test: d0exp, body: d0exp): i0fcl
 
 (* ****** ****** *)
 
-fun m0acdef_make
+fun
+c0lau_make
+(
+  gp0t: guap0at, seq: int, neg: int, body: d0exp
+) : c0lau // end of [c0lau_make]
+
+fun
+sc0lau_make (sp0t: sp0at, body: d0exp): sc0lau
+
+(* ****** ****** *)
+
+fun
+m0acdef_make
   (id: i0de, arg: m0acarglst, def: d0exp): m0acdef
 // end of [m0acdef_make]
 
 (* ****** ****** *)
 
-fun v0aldec_make
+fun
+v0aldec_make
   (p0t: p0at, def: d0exp, ann: witht0ype): v0aldec
 // end of [v0aldec_make]
 
 (* ****** ****** *)
 
-fun f0undec_make (
+fun
+f0undec_make
+(
   fid: i0de
 , arg: f0arglst
 , eff: e0fftaglstopt, res: s0expopt
@@ -1976,7 +2294,8 @@ fun f0undec_make (
   
 (* ****** ****** *)
 
-fun v0ardec_make
+fun
+v0ardec_make
 (
   opt: tokenopt // optional BANG
 , pid: i0de
@@ -1987,12 +2306,15 @@ fun v0ardec_make
 
 (* ****** ****** *)
 
-fun i0mpdec_make (
-  qid: impqi0de, arg: f0arglst, res: s0expopt, def: d0exp
+fun
+i0mpdec_make
+(
+  qid: impqi0de
+, arg: f0arglst, res: s0expopt, def: d0exp
 ) : i0mpdec // end of [i0mpdec_make]
 
 (* ****** ****** *)
-
+//
 fun d0ecl_fixity
   (_1: token, _2: p0rec, _3: i0delst): d0ecl
 // end of [d0ecl_fixity]
@@ -2004,37 +2326,107 @@ fun d0ecl_include (knd: int, _1: token, _2: token): d0ecl
 fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
 fun d0ecl_symelim (_1: token, _2: i0delst): d0ecl
 //
-fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
-fun d0ecl_e0xpundef (_1: token, _2: i0de): d0ecl // HX: undefining
+(* ****** ****** *)
 //
-fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
+fun
+d0ecl_e0xpdef
+(
+  _1: token, _2: i0de, _3: e0xpopt
+) : d0ecl // HX: #define
+//
+fun
+d0ecl_e0xpundef
+  (_1: token, _2: i0de): d0ecl // HX: #undef
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_e0xpact_assert
+  (_1: token, _2: e0xp): d0ecl // HX: #assert
+//
 fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
+fun d0ecl_e0xpact_prerr (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 //
-fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
-fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
-fun d0ecl_stacons (knd: int, _1: token, _2: s0taconlst): d0ecl
-fun d0ecl_stacsts (_1: token, _2: s0tacstlst): d0ecl
-(*
-fun d0ecl_stavars (_1: token, _2: s0tavarlst): d0ecl
-*)
-fun d0ecl_tkindef (_1: token, _2: t0kindef): d0ecl
-fun d0ecl_sexpdefs (knd: int, _1: token, _2: s0expdeflst): d0ecl
-fun d0ecl_saspdec (_1: token, _2: s0aspdec): d0ecl
+(* ****** ****** *)
 //
-fun d0ecl_exndecs (_1: token, _2: e0xndeclst): d0ecl
+fun
+d0ecl_pragma
+(
+  tok_beg: token
+, e0xplst: e0xplst
+, tok_end: token
+) : d0ecl // end-of-fun
+//
+fun
+d0ecl_pragma_process(xs: e0xplst): void
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_codegen2
+  (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
+fun
+d0ecl_codegen3
+  (tok_beg: token, xs: e0xplst, tok_end: token): d0ecl
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_datsrts
+  (_1: token, _2: d0atsrtdeclst): d0ecl
+//
+fun
+d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
+//
+fun
+d0ecl_stacons
+  (knd: int, _1: token, _2: s0taconlst): d0ecl
+//
+fun
+d0ecl_stacsts (_1: token, _2: s0tacstlst): d0ecl
+//
+(*
+fun
+d0ecl_stavars (_1: token, _2: s0tavarlst): d0ecl
+*)
+//
+fun
+d0ecl_tkindef (_1: token, _2: t0kindef): d0ecl
+//
+fun
+d0ecl_sexpdefs
+  (knd: int, _1: token, _2: s0expdeflst): d0ecl
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_saspdec(tok: token, d0: s0aspdec): d0ecl
+fun
+d0ecl_reassume(tok: token, qid: sqi0de): d0ecl
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_exndecs (tok: token, d0: e0xndeclst): d0ecl
+//
+(* ****** ****** *)
 //
 fun
 d0ecl_datdecs_none
 (
-  knd: int, tok: token, ds_dec: d0atdeclst
+  knd: int
+, tok: token, ds_dec: d0atdeclst
 ) : d0ecl // end-of-fun
 fun
 d0ecl_datdecs_some
 (
   knd: int
-, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
+, t1: token, ds_dec: d0atdeclst
+, t2: token, ds_def: s0expdeflst
 ) : d0ecl // end of [d0ecl_datdecs_some]
+//
+(* ****** ****** *)
 //
 fun
 d0ecl_macdefs
@@ -2048,8 +2440,8 @@ d0ecl_overload
   tok: token, id: i0de, dqid: dqi0de, opt: i0ntopt
 ) : d0ecl // end-of-fun
 //
-fun d0ecl_classdec
-  (t: token, id: i0de, sup: s0expopt): d0ecl
+fun
+d0ecl_classdec(t: token, id: i0de, sup: s0expopt): d0ecl
 //
 fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
@@ -2067,21 +2459,37 @@ fun d0ecl_impdec
   (t_implement: token, imparg: i0mparg, d: i0mpdec): d0ecl
 // end of [d0ecl_impdec]
 //
-fun d0ecl_fundecs (
+(* ****** ****** *)
+//
+fun
+d0ecl_fundecs
+(
   knd: funkind, tok: token, arg: q0marglst, ds: f0undeclst
 ) : d0ecl // end of [d0ecl_fundecs]
-fun d0ecl_valdecs (
+fun
+d0ecl_valdecs
+(
   knd: valkind, isrec: bool, tok: token, ds: v0aldeclst
 ) : d0ecl // end of [d0ecl_valdecs]
-fun d0ecl_vardecs (knd: int, tok: token, ds: v0ardeclst): d0ecl
+fun
+d0ecl_vardecs(knd: int, tok: token, ds: v0ardeclst): d0ecl
 //
-fun staloadarg_get_loc (arg: staloadarg): location
-fun staloadarg_declist
+(* ****** ****** *)
+//
+fun
+staloadarg_get_loc (arg: staloadarg): location
+fun
+staloadarg_declist
   (t_lbrace: token, ds: d0eclist, t_rbrace: token): staloadarg
 //
-fun d0ecl_staload_fname (tok: token, tok2: token): d0ecl
-fun d0ecl_staload_nspace (tok: token, tok2: token): d0ecl
-fun d0ecl_staload_some_arg (tok: token, ent2: i0de, arg: staloadarg): d0ecl
+fun
+d0ecl_staload_fname (tok: token, tok2: token): d0ecl
+fun
+d0ecl_staload_nspace (tok: token, tok2: token): d0ecl
+fun
+d0ecl_staload_some_arg (tok: token, ent2: i0de, arg: staloadarg): d0ecl
+//
+(* ****** ****** *)
 //
 fun d0ecl_require (tok: token, ent2: token): d0ecl
 //
@@ -2096,11 +2504,28 @@ fun d0ecl_dcstdecs_extern : d0ecl_dcstdecs_type
 // HX: a static const is not exported
 fun d0ecl_dcstdecs_static : d0ecl_dcstdecs_type
 //
-fun d0ecl_local (
-  t_local: token, ds_head: d0eclist, ds_body: d0eclist, t_end: token
+(* ****** ****** *)
+//
+fun
+d0ecl_local
+(
+  t_beg: token
+, ds_head: d0eclist, ds_body: d0eclist
+, t_end: token
 ) : d0ecl // end of [d0ecl_local]
 //
-fun d0ecl_guadecl (knd: token, gdc: guad0ecl): d0ecl
+fun
+d0ecl_guadecl
+  (knd: token, gdc: guad0ecl): d0ecl
+//
+(* ****** ****** *)
+//
+fun
+d0ecl_list
+  (fil: filename, d0cs: d0eclist): d0ecl
+fun
+d0ecl_toplocal
+  (fil: filename, d0cs: d0eclist): d0ecl
 //
 (* ****** ****** *)
 

@@ -110,6 +110,15 @@ case+ x of
 end // end of [fprint_primcstsp]
 
 (* ****** ****** *)
+//
+implement
+print_primdec
+  (pmd) = fprint_primdec (stdout_ref, pmd)
+implement
+prerr_primdec
+  (pmd) = fprint_primdec (stderr_ref, pmd)
+//
+(* ****** ****** *)
 
 implement
 fprint_primdec
@@ -277,11 +286,6 @@ case+ x.primdec_node of
 //
 end // end of [fprint_primdec]
 
-implement
-print_primdec (pmd) = fprint_primdec (stdout_ref, pmd)
-implement
-prerr_primdec (pmd) = fprint_primdec (stderr_ref, pmd)
-
 (* ****** ****** *)
 
 implement
@@ -295,6 +299,15 @@ in
 end // end of [fprint_primdeclst]
 
 (* ****** ****** *)
+//
+implement
+print_primval
+  (pmv) = fprint_primval (stdout_ref, pmv)
+implement
+prerr_primval
+  (pmv) = fprint_primval (stderr_ref, pmv)
+//
+(* ****** ****** *)
 
 implement
 fprint_primval (out, x) = let
@@ -305,125 +318,135 @@ in
 //
 case+ x.primval_node of
 //
-| PMVtmp (tmp) =>
+| PMVtmp(tmp) =>
   {
     val () = prstr "PMVtmp("
-    val () = fprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar(out, tmp)
     val () = prstr ")"
   }
-| PMVtmpref (tmp) =>
+| PMVtmpref(tmp) =>
   {
     val () = prstr "PMVtmpref("
-    val () = fprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar(out, tmp)
     val () = prstr ")"
   }
 //
-| PMVarg (n) =>
+| PMVarg(n) =>
   {
     val () = prstr "PMVarg("
-    val () = fprint_int (out, n)
+    val () = fprint_int(out, n)
     val () = prstr ")"
   }
-| PMVargref (n) =>
+| PMVargref(n) =>
   {
     val () = prstr "PMVargref("
-    val () = fprint_int (out, n)
+    val () = fprint_int(out, n)
     val () = prstr ")"
   }
-| PMVargtmpref (n) =>
+| PMVargtmpref(n) =>
   {
     val () = prstr "PMVargtmpref("
-    val () = fprint_int (out, n)
+    val () = fprint_int(out, n)
     val () = prstr ")"
   }
-| PMVargenv (nenv) =>
+| PMVargenv(nenv) =>
   {
     val () = prstr "PMVargenv("
-    val () = fprint_int (out, nenv)
+    val () = fprint_int(out, nenv)
     val () = prstr ")"
   }
 //
-| PMVcst (d2c) => {
+| PMVcst(d2c) => {
     val () = prstr "PMVcst("
-    val () = fprint_d2cst (out, d2c)
+    val () = fprint_d2cst(out, d2c)
     val () = prstr ")"
   }
-| PMVenv (d2v) => {
+| PMVenv(d2v) => {
     val () = prstr "PMVenv("
-    val () = fprint_d2var (out, d2v)
+    val () = fprint_d2var(out, d2v)
     val () = prstr ")"
   }
 //
-| PMVint (i) => {
+| PMVint(i) => {
     val () = prstr "PMVint("
-    val () = fprint_int (out, i)
+    val () = fprint_int(out, i)
     val () = prstr ")"
   }
-| PMVintrep (rep) => {
+| PMVintrep(rep) => {
     val () = prstr "PMVintrep("
-    val () = fprint_string (out, rep)
+    val () = fprint_string(out, rep)
     val () = prstr ")"
   }
 //
-| PMVbool (b) => {
+| PMVbool(b) => {
     val () = prstr "PMVbool("
-    val () = fprint_bool (out, b)
+    val () = fprint_bool(out, b)
     val () = prstr ")"
   }
-| PMVchar (c) => {
+| PMVchar(c) => {
     val i = $UN.cast2int(c)
     val () = prstr "PMVchar("
     val () =
     (
     if char_isprint(c)
-      then fprint_char (out, c)
+      then fprint_char(out, c)
       else fprintf (out, "int(%i)", @(i))
     // end of [if]
     ) : void // end of [val]
     val () = prstr ")"
   }
-| PMVfloat (f) => {
+| PMVfloat(f) => {
     val () = prstr "PMVfloat("
-    val () = fprint_double (out, f)
+    val () = fprint_double(out, f)
     val () = prstr ")"
   }
-| PMVstring (str) => {
+| PMVstring(str) => {
     val () = prstr "PMVstring("
-    val () = fprint_string (out, str)
+    val () = fprint_string(out, str)
     val () = prstr ")"
   }
 //
-| PMVi0nt (tok) => {
+| PMVi0nt(tok) => {
     val () = prstr "PMVi0nt("
-    val () = $SYN.fprint_i0nt (out, tok)
-    val () = prstr ")"
+    val () =
+    $SYN.fprint_i0nt(out, tok)
+    val ((*closing*)) = prstr ")"
   }
-| PMVf0loat (tok) => {
+| PMVf0loat(tok) => {
     val () = prstr "PMVf0loat("
-    val () = $SYN.fprint_f0loat (out, tok)
+    val () =
+    $SYN.fprint_f0loat(out, tok)
+    val ((*closing*)) = prstr ")"
+  }
+//
+| PMVcstsp(cst) => {
+    val () = fprint_primcstsp(out, cst)
+  } (* end of [PMVcstsp] *)
+//
+| PMVtyrep(hse) => {
+    val () = prstr "PMVtyrep("
+    val () = fprint_hisexp(out, hse)
     val () = prstr ")"
   }
 //
-| PMVsizeof (hselt) => {
+| PMVsizeof(hse) => {
     val () = prstr "PMVsizeof("
-    val () = fprint_hisexp (out, hselt)
+    val () = fprint_hisexp(out, hse)
     val () = prstr ")"
   }
 //
-| PMVcstsp (x) => {
-    val () = fprint_primcstsp (out, x)
-  }
+| PMVtop() => prstr "PMVtop()"
+| PMVempty() => prstr "PMVempty()"
 //
-| PMVtop () => prstr "PMVtop()"
-| PMVempty () => prstr "PMVempty()"
-//
-| PMVextval (name) => {
+| PMVextval
+    (name) => {
     val () = prstr "PMVextval("
     val () = fprint_string (out, name)
     val ((*closing*)) = prstr ")"
   }
 //
-| PMVcastfn (d2c, arg) => {
+| PMVcastfn
+    (d2c, arg) => {
     val () = prstr "PMVcastfn("
     val () = fprint_d2cst (out, d2c)
     val () = prstr ", "
@@ -431,7 +454,8 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVselcon (
+| PMVselcon
+  (
     pmv, hse_sum, lab
   ) => {
     val () = prstr "PMVselcon("
@@ -443,7 +467,8 @@ case+ x.primval_node of
     val () = prstr ")"
   } // end of [PMVselcon]
 //
-| PMVselect (
+| PMVselect
+  (
     pmv, hse_sel, pml
   ) => {
     val () = prstr "PMVselect("
@@ -454,7 +479,8 @@ case+ x.primval_node of
     val () = fprint_primlab (out, pml)
     val () = prstr ")"
   } // end of [PMVselect]
-| PMVselect2 (
+| PMVselect2
+  (
     pmv, hse_sel, pmls
   ) => {
     val () = prstr "PMVselect2("
@@ -466,7 +492,8 @@ case+ x.primval_node of
     val () = prstr ")"
   } // end of [PMVselect2]
 //
-| PMVselptr (
+| PMVselptr
+  (
     pmv, hse_sel, pmls
   ) => {
     val () = prstr "PMVselptr("
@@ -478,71 +505,88 @@ case+ x.primval_node of
     val () = prstr ")"
   } // end of [PMVselptr]
 //
-| PMVptrof (pmv) => {
+| PMVptrof(pmv) => {
     val () = prstr "PMVptrof("
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
 //
 | PMVptrofsel
-    (pmv, hse_rt, pmls) => {
+  (
+    pmv, hse_rt, pmls
+  ) => {
     val () = prstr "PMVptrofsel("
-    val () = fprint_primval (out, pmv)
+    val () = fprint_primval(out, pmv)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_rt)
+    val () = fprint_hisexp(out, hse_rt)
     val () = prstr "; "
-    val () = fprint_primlablst (out, pmls)
+    val () = fprint_primlablst(out, pmls)
     val () = prstr ")"    
+  } (* PMVptrofsel *)
+//
+| PMVvararg(pmvs) => {
+    val () = prstr "PMVvararg("
+    val () = fprint_primvalist(out, pmvs)
+    val ((*closing*)) = prstr ")"
   }
+//
 | PMVrefarg
     (knd, freeknd, pmv) =>
   {
     val () = prstr "PMVrefarg("
-    val () = fprint_int (out, knd)
+    val () = fprint_int(out, knd)
     val () = prstr "; "
-    val () = fprint_int (out, freeknd)
+    val () = fprint_int(out, freeknd)
     val () = prstr "; "
-    val () = fprint_primval (out, pmv)
-    val () = prstr ")"
-  }
+    val () = fprint_primval(out, pmv)
+    val ((*closing*)) = prstr ")"
+  } (* end of [PMVrefarg] *)
 //
-| PMVfunlab (flab) =>
-  {
+| PMVfunlab(flab) => {
     val () = prstr "PMVfunlab("
-    val () = fprint_funlab (out, flab)
-    val () = prstr ")"
+    val () = fprint_funlab(out, flab)
+    val ((*closing*)) = prstr ")"
   }
-| PMVcfunlab
-    (knd, flab) =>
+| PMVcfunlab(knd, flab) =>
   {
     val () = prstr "PMVcfunlab("
     val () = prstr "knd="
-    val () = fprint_int (out, knd)
+    val () = fprint_int(out, knd)
     val () = prstr "; flab="
-    val () = fprint_funlab (out, flab)
-    val () = prstr ")"
+    val () = fprint_funlab(out, flab)
+    val ((*closing*)) = prstr ")"
   }
 //
-| PMVd2vfunlab
-    (d2v, flab) =>
+| PMVd2vfunlab(d2v, flab) =>
   {
     val () = prstr "PMVd2vfunlab("
     val () = prstr "d2v="
-    val () = fprint_d2var (out, d2v)
+    val () = fprint_d2var(out, d2v)
     val () = prstr ", flab="
-    val () = fprint_funlab (out, flab)
-    val () = prstr ")"
+    val () = fprint_funlab(out, flab)
+    val ((*closing*)) = prstr ")"
   }
 //
-| PMVlamfix (knd, pmv) =>
+| PMVlamfix
+    (knd(*lam/fix*), pmv) =>
   {
-    val () = prstr "PMVlamfix("
-    val () = prstr "knd="
-    val () = fprint_int (out, knd)
-    val () = prstr "; fun="
-    val () = fprint_primval (out, pmv)
-    val () = prstr ")"
-  }
+//
+    val () =
+    prstr "PMVlamfix("
+//
+    val () =
+    (
+      case+ knd of
+      | None() =>
+        fprint! (out, "knd=lam")
+      | Some(d2v) =>
+        fprint! (out, "knd=fix(", d2v, ")")
+    ) : void // end of [val]
+//
+    val () =
+    fprint! (out, "; fun=", pmv, ")")
+//
+  } (* end of [PMVlamfix] *)
 //
 | PMVtmpltcst
     (d2c, t2mas) =>
@@ -552,7 +596,7 @@ case+ x.primval_node of
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 | PMVtmpltvar
     (d2v, t2mas) =>
@@ -562,7 +606,7 @@ case+ x.primval_node of
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 //
 | PMVtmpltcstmat
@@ -575,7 +619,7 @@ case+ x.primval_node of
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 | PMVtmpltvarmat
     (d2c, t2mas, mat) =>
@@ -587,27 +631,39 @@ case+ x.primval_node of
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
-    val () = prstr ")"
+    val ((*closing*)) = prstr ")"
   }
 //
-| PMVerr () => prstr "PMVerr()"
+(*
+| PMVtempenver(d2vs) =>
+  {
+    val () = prstr "PMVtempenver("
+    val () = fprint_d2varlst(out, d2vs)
+    val () = prstr ")"
+  }
+*)
+//
+| PMVerror((*error*)) => prstr "PMVerror()"
 //
 end // end of [fprint_primval]
 
 (* ****** ****** *)
 
 implement
-print_primval (pmv) = fprint_primval (stdout_ref, pmv)
-implement
-prerr_primval (pmv) = fprint_primval (stderr_ref, pmv)
-
-(* ****** ****** *)
-
-implement
 fprint_primvalist
-  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_primval)
+  (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_primval)
 // end of [fprint_primvalist]
 
+(* ****** ****** *)
+//
+implement
+print_primlab
+  (pmv) = fprint_primlab (stdout_ref, pmv)
+implement
+prerr_primlab
+  (pmv) = fprint_primlab (stderr_ref, pmv)
+//
 (* ****** ****** *)
 
 implement
@@ -1207,9 +1263,9 @@ case+ x.instr_node of
   } (* end of [INSupdate_ptrdec] *)
 //
 | INSclosure_initize
-    (tmp, flab) => {
+    (tmp, knd, flab) => {
     val () = prstr "INSclosure_initize("
-    val () = fprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar(out, tmp)
     val () = prstr " <- "
     val () = fprint_funlab (out, flab)
     val ((*closing*)) = prstr ")"
@@ -1239,6 +1295,13 @@ case+ x.instr_node of
     val () = fprint_primval (out, pmv)
     val ((*closing*)) = prstr ")"
   } (* end of [INSdcstdef] *)
+//
+| INStempenver(d2vs) =>
+  {
+    val () = prstr "INStempenver("
+    val () = fprint_d2varlst(out, d2vs)
+    val ((*closing*)) = prstr ")"
+  }
 //
 | _ (*rest-of-instr*) => prstr "INS...(...)"
 //
@@ -1367,10 +1430,11 @@ fprint_tmpcstmat
 in
 //
 case+ opt of
-| TMPCSTMATnone (
-  ) => prstr "TMPCSTMATnone()"
+| TMPCSTMATnone
+    ((*void*)) => prstr "TMPCSTMATnone()"
+  // end of [TMPCSTMATnone]
 | TMPCSTMATsome
-    (imp, tmpsub) => let
+    (imp, tmpsub, knd) => let
     val () = prstr "TMPCSTMATsome("
     val () = fprint_d2cst (out, imp.hiimpdec_cst)
     val () = prstr "; "
@@ -1382,7 +1446,7 @@ case+ opt of
     val () = prstr ")"
   in
     // nothing
-  end // end of [TMPCSTMATnone]
+  end // end of [TMPCSTMATsome]
 | TMPCSTMATsome2
     (d2c, s2ess, flab) => let
     val () = prstr "TMPCSTMATsome2("
@@ -1418,10 +1482,11 @@ fprint_tmpvarmat
 in
 //
 case+ opt of
-| TMPVARMATnone (
-  ) => prstr "TMPVARMATnone()"
+| TMPVARMATnone
+    ((*void*)) => prstr "TMPVARMATnone()"
+  // end of [TMPVARMATnone]
 | TMPVARMATsome
-    (hfd, tmpsub) => let
+    (hfd, tmpsub, knd) => let
     val () = prstr "TMPVARMATsome("
     val () = fprint_d2var (out, hfd.hifundec_var)
     val () = prstr "; "
@@ -1431,7 +1496,7 @@ case+ opt of
     val () = prstr ")"
   in
     // nothing
-  end // end of [TMPVARMATnone]
+  end // end of [TMPVARMATsome]
 | TMPVARMATsome2
     (d2v, s2ess, flab) => let
     val () = prstr "TMPVARMATsome2("

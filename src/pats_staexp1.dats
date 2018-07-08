@@ -323,21 +323,30 @@ sp1at_cstr
 (* ****** ****** *)
 
 implement
-s1exp_char (loc, c) = '{
-  s1exp_loc= loc, s1exp_node= S1Echar (c)
-} // end of [s1exp_char]
+s1exp_ide
+  (loc, id) = '{
+  s1exp_loc= loc, s1exp_node= S1Eide (id)
+} (* end of [s1exp_ide] *)
+
+implement
+s1exp_sqid
+  (loc, sq, id) = '{
+  s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
+} (* end of [s1exp_sqid] *)
+
+(* ****** ****** *)
 
 implement
 s1exp_int
   (loc, int) = '{
   s1exp_loc= loc, s1exp_node= S1Eint (int)
-} // end of [s1exp_int]
+} (* end of [s1exp_int] *)
 
 implement
 s1exp_intrep
   (loc, rep) = '{
   s1exp_loc= loc, s1exp_node= S1Eintrep (rep)
-} // end of [s1exp_intrep]
+} (* end of [s1exp_intrep] *)
 
 implement
 s1exp_i0nt
@@ -349,6 +358,12 @@ in
   s1exp_intrep (loc, rep)
 end // end of [s1exp_i0nt]
 
+(* ****** ****** *)
+
+implement
+s1exp_char (loc, c) = '{
+  s1exp_loc= loc, s1exp_node= S1Echar (c)
+} // end of [s1exp_char]
 implement
 s1exp_c0har (loc, x) = let
   val-$LEX.T_CHAR (c) = x.token_node
@@ -359,36 +374,58 @@ in '{
 (* ****** ****** *)
 
 implement
-s1exp_extype (loc, name, arg) = '{
-  s1exp_loc= loc, s1exp_node= S1Eextype (name, arg)
-}
-
+s1exp_float (loc, x) = '{
+  s1exp_loc= loc, s1exp_node= S1Efloat (x)
+} (* end of [s1exp_float] *)
 implement
-s1exp_extkind (loc, name, arg) = '{
-  s1exp_loc= loc, s1exp_node= S1Eextkind (name, arg)
-}
+s1exp_f0loat (loc, x) = let
+  val-$LEX.T_FLOAT
+    (base, rep, _(*sfx*)) = x.token_node
+in '{
+  s1exp_loc= loc, s1exp_node= S1Efloat (rep)
+} end // end of [s1exp_f0loat]
 
 (* ****** ****** *)
 
 implement
-s1exp_ide (loc, id) = '{
-  s1exp_loc= loc, s1exp_node= S1Eide (id)
-} // end of [s1exp_ide]
-
+s1exp_string (loc, x) = '{
+  s1exp_loc= loc, s1exp_node= S1Estring (x)
+} (* end of [s1exp_string] *)
 implement
-s1exp_sqid (loc, sq, id) = '{
-  s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
+s1exp_s0tring (loc, x) = let
+  val-$LEX.T_STRING (str) = x.token_node
+in '{
+  s1exp_loc= loc, s1exp_node= S1Estring (str)
+} end // end of [s1exp_s0tring]
+
+(* ****** ****** *)
+//
+implement
+s1exp_extype
+  (loc, name, arg) = '{
+  s1exp_loc= loc, s1exp_node= S1Eextype (name, arg)
 }
+//
+implement
+s1exp_extkind
+  (loc, name, arg) = '{
+  s1exp_loc= loc, s1exp_node= S1Eextkind (name, arg)
+}
+//
+(* ****** ****** *)
 
 implement
 s1exp_app (
   loc, _fun, loc_arg, _arg
 ) = '{
-  s1exp_loc= loc, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
+  s1exp_loc= loc
+, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
 } // end of [s1exp_app]
 
 implement
-s1exp_lam (loc, arg, res, body) = '{
+s1exp_lam (
+  loc, arg, res, body
+) = '{
   s1exp_loc= loc, s1exp_node= S1Elam (arg, res, body)
 }
 
@@ -403,15 +440,17 @@ s1exp_imp (
 
 implement
 s1exp_list
-  (loc, s1es) = case+ s1es of
+  (loc, s1es) =
+(
+case+ s1es of
 //
 // HX: singleton elimination is performed
 //
-  | list_cons (s1e, list_nil ()) => s1e
-  | _ => '{
-      s1exp_loc= loc, s1exp_node= S1Elist (~1(*npf*), s1es)
-    } // end of [_]
-// end of [s1exp_list]
+| list_cons (s1e, list_nil()) => s1e
+| _ (*non-sing*) => '{
+    s1exp_loc= loc, s1exp_node= S1Elist (~1(*npf*), s1es)
+  } // end of [non-sing]
+) (* end of [s1exp_list] *)
 
 implement
 s1exp_list2
@@ -424,11 +463,18 @@ in '{
 } end // end of [s1exp_list2]
 
 implement
-s1exp_npf_list (loc, npf, s1es) =
-  if npf >= 0 then '{
-    s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
-  } else s1exp_list (loc, s1es)
-// end of [s1exp_npf_list]
+s1exp_npf_list
+  (loc, npf, s1es) =
+(
+//
+if
+npf >= 0
+then '{
+  s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
+} (* end of [then] *)
+else s1exp_list (loc, s1es)
+//
+) // end of [s1exp_npf_list]
 
 (* ****** ****** *)
 
@@ -437,26 +483,36 @@ s1exp_top (loc, knd, s1e) = '{
   s1exp_loc= loc, s1exp_node= S1Etop (knd, s1e)
 }
 
+(* ****** ****** *)
+//
 implement
 s1exp_invar (loc, knd, s1e) = '{
   s1exp_loc= loc, s1exp_node= S1Einvar (knd, s1e)
 }
+//
 implement
 s1exp_trans (loc, s1e1, s1e2) = '{
   s1exp_loc= loc, s1exp_node= S1Etrans (s1e1, s1e2)
 }
+//
+(* ****** ****** *)
 
 implement
-s1exp_tyarr (loc, s1e_elt, s1es_dim) = '{
-  s1exp_loc= loc, s1exp_node= S1Etyarr (s1e_elt, s1es_dim)
-}
-
-implement
-s1exp_tytup (
-  loc, knd, npf, s1es
+s1exp_tyarr
+(
+  loc, s1e_elt, s1es_dim
 ) = '{
+  s1exp_loc= loc
+, s1exp_node= S1Etyarr (s1e_elt, s1es_dim)
+} (* end of [s1exp_tyarr] *)
+
+implement
+s1exp_tytup
+  (loc, knd, npf, s1es) = '{
   s1exp_loc= loc, s1exp_node= S1Etytup (knd, npf, s1es)
 }
+
+(* ****** ****** *)
 
 implement
 s1exp_tyrec (
@@ -473,22 +529,35 @@ s1exp_tyrec_ext (
 } // end of [s1exp_tyrec_ext]
 
 (* ****** ****** *)
-
+//
 implement
-s1exp_exi (loc, knd, s1qs, s1e) = '{
-  s1exp_loc= loc, s1exp_node= S1Eexi (knd, s1qs, s1e)
-}
-
-implement
-s1exp_uni (loc, s1qs, s1e) = '{
+s1exp_uni
+(
+  loc, s1qs, s1e
+) = '{
   s1exp_loc= loc, s1exp_node= S1Euni (s1qs, s1e)
-}
-
+} (* end of [s1exp_uni] *)
+//
+implement
+s1exp_exi
+(
+  loc, knd, s1qs, s1e
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Eexi (knd, s1qs, s1e)
+} (* end of [s1exp_exi] *)
+//
 (* ****** ****** *)
 
 implement
 s1exp_ann (loc, s1e, s1t) = '{
   s1exp_loc= loc, s1exp_node= S1Eann (s1e, s1t)
+}
+
+(* ****** ****** *)
+
+implement
+s1exp_d2ctype (loc, d2ctp) = '{
+  s1exp_loc= loc, s1exp_node= S1Ed2ctype (d2ctp)
 }
 
 (* ****** ****** *)
@@ -532,6 +601,25 @@ s1qua_vars (loc, ids, s1te) = '{
 (* ****** ****** *)
 
 implement
+s1exp_make_v1al
+  (loc0, v0) = let
+in
+//
+case+ v0 of
+//
+| V1ALint(i) => s1exp_int (loc0, i)
+//
+| V1ALchar(c) => s1exp_char (loc0, c)
+//
+| V1ALstring(str) => s1exp_string (loc0, str)
+//
+| _(*unsupported*) => s1exp_err (loc0)
+//
+end // end of [s1exp_make_v1al]
+
+(* ****** ****** *)
+
+implement
 s1exp_make_e1xp (loc0, e0) = let
 //
 fun aux (
@@ -544,19 +632,37 @@ fun aux (
 *)
 in
   case+ e0.e1xp_node of
-  | E1XPapp (e1, loc_arg, es2) =>
+//
+  | E1XPapp
+      (e1, loc_arg, es2) =>
       s1exp_app (loc0, aux e1, loc_arg, auxlst es2)
     // end of [E1XPapp]
-  | E1XPide ide => s1exp_ide (loc0, ide)
-  | E1XPint (int) => s1exp_int (loc0, int)
-  | E1XPintrep (rep) => s1exp_intrep (loc0, rep)
-  | E1XPchar (c) => s1exp_char (loc0, c)
-  | E1XPlist es => s1exp_list (loc0, auxlst es)
-  | _ => s1exp_err (loc0) where {
-      val () = prerr_error1_loc (loc0)
-      val () = prerr ": the expression cannot be transated into a legal static expression."
-      val () = prerr_newline ()
-    } // end of [_]
+//
+  | E1XPide(id) => s1exp_ide (loc0, id)
+//
+  | E1XPint(int) => s1exp_int (loc0, int)
+  | E1XPintrep(rep) => s1exp_intrep (loc0, rep)
+//
+  | E1XPchar(chr) => s1exp_char (loc0, chr)
+//
+  | E1XPfloat(rep) => s1exp_float (loc0, rep)
+//
+  | E1XPstring(str) => s1exp_string (loc0, str)
+//
+  | E1XPv1al(v1) => s1exp_make_v1al (loc0, v1)
+//
+  | E1XPlist(es) => s1exp_list (loc0, auxlst (es))
+//
+  | _ (*rest-of-E1XP*) =>
+      s1exp_err(loc0) where
+    {
+      val () =
+      prerr_error1_loc (loc0)
+      val () =
+      prerrln! (
+        ": the expression cannot be translated into a legal static expression."
+      ) (* end of [val] *)
+    } (* end of [rest-of-E1XP] *)
 end (* end of [aux] *)
 //
 and auxlst (
@@ -694,21 +800,27 @@ s1rtdef_make (
 (* ****** ****** *)
 
 implement
-s1tacst_make (
-  loc, sym, arg, res
+s1tacst_make
+(
+  loc, fil, sym
+, arg, res, extdef
 ) = '{
   s1tacst_loc= loc
 , s1tacst_sym= sym
+, s1tacst_fil= fil
 , s1tacst_arg= arg
 , s1tacst_res= res
+, s1tacst_extdef= extdef
 } // end of [s1tacst_make]
 
 implement
-s1tacon_make (
-  loc, sym, arg, def
+s1tacon_make
+(
+  loc, fil, sym, arg, def
 ) = '{
   s1tacon_loc= loc
 , s1tacon_sym= sym
+, s1tacon_fil= fil
 , s1tacon_arg= arg
 , s1tacon_def= def
 } // end of [s1tacon_make]
@@ -781,34 +893,43 @@ d1atcon_make (
 } // end of [d1atcon_make]
 
 implement
-d1atdec_make (loc, fil, id, arg, con) = '{
+d1atdec_make
+(
+  loc, fil
+, id0, arg, con
+) = '{
   d1atdec_loc= loc
 , d1atdec_fil= fil
-, d1atdec_sym= id
+, d1atdec_sym= id0
 , d1atdec_arg= arg
 , d1atdec_con= con
-} // end of [d1atdec_make]
+} (* end of [d1atdec_make] *)
 
 implement
-e1xndec_make (loc, fil, id, qua, npf, arg) = '{
+e1xndec_make
+(
+  loc, fil
+, id0, qua, npf, arg
+) = '{
   e1xndec_loc= loc
 , e1xndec_fil= fil
-, e1xndec_sym= id
+, e1xndec_sym= id0
 , e1xndec_qua= qua
 , e1xndec_npf= npf
 , e1xndec_arg= arg
-} // end of [e1xndec_make]
+} (* end of [e1xndec_make] *)
 
 (* ****** ****** *)
 
 implement
 d1cstdec_make
 (
-  loc, fil, id, s1e, extdef
+  loc, fil
+, id0, s1e, extdef
 ) = '{
   d1cstdec_loc= loc
 , d1cstdec_fil= fil
-, d1cstdec_sym= id
+, d1cstdec_sym= id0
 , d1cstdec_type= s1e
 , d1cstdec_extdef= extdef
 } // end of [d1cstdec_make]

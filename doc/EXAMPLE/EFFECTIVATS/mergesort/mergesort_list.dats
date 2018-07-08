@@ -9,11 +9,12 @@
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
-
+//
 extern
 fun{a:t0p}
-mergesort{n:nat} (xs: list (a, n)): list (a, n)
-
+mergesort{n:nat}
+  (xs: list (a, n)): list (a, n)
+//
 (* ****** ****** *)
 
 extern
@@ -30,8 +31,9 @@ extern
 fun{a:t0p}
 myseq_merge
   {n1,n2:nat}
-  (xs1: list(a, n1), xs2: list(a, n2)): list(a, n1+n2)
-// end of [myseq_merge]
+(
+  xs1: list(a, n1), xs2: list(a, n2)
+) : list(a, n1+n2) // end-of-function
 
 (* ****** ****** *)
 
@@ -57,7 +59,7 @@ case+ xs10 of
   (
     case+ xs20 of
     | cons (x2, xs21) => let
-        val sgn = gcompare_val<a> (x1, x2)
+        val sgn = gcompare_val_val<a> (x1, x2)
       in
         if sgn <= 0
           then cons{a}(x1, myseq_merge<a> (xs11, xs20))

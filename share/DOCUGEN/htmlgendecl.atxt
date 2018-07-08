@@ -2,8 +2,8 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-dynload "libatsynmark/dynloadall.dats"
-staload "libatsynmark/SATS/libatsynmark.sats"
+dynload "utils/libatsynmark/dynloadall.dats"
+staload "utils/libatsynmark/SATS/libatsynmark.sats"
 //
 #include "utils/atsdoc/HATS/pats2xhtmlatxt.hats"
 //
@@ -17,7 +17,8 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 //
 extern
-fun theDeclrepLst_initize (fil: FILEref): void
+fun
+theDeclrepLst_initize (fil: FILEref): void
 implement
 theDeclrepLst_initize
   (filr) = let
@@ -67,9 +68,8 @@ val () = theAtextMap_insert_str ("theDeclnameLst_menu", theDeclnameLst_menu)
 val () = theAtextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_content)
 //
 %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 #title(theDecltitle)
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>

@@ -1,12 +1,14 @@
-//
-// ProjectEuler: Problem 2
-// Finding the sum of all even Fibonacci numbers not exceeding 4M
-//
-
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// ProjectEuler: Problem 2
+// Finding the sum of all even
+// Fibonacci numbers not exceeding 4M
+//
+(* ****** ****** *)
+//
+// Author: Hongwei Xi
 // Time: September, 2010
+// Authoremail: hwxiATcsDOTbuDOTedu
 //
 (* ****** ****** *)
 //

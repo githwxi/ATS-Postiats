@@ -34,9 +34,9 @@
 (* ****** ****** *)
 
 typedef
-fprint_type (a: t@ype) = (FILEref, a) -> void
+fprint_type(a:t@ype) = (FILEref, a) -> void
 typedef
-fprint_vtype (a: viewt@ype) = (FILEref, !a) -> void
+fprint_vtype(a:viewt@ype) = (FILEref, !a) -> void
 
 (* ****** ****** *)
 
@@ -94,7 +94,7 @@ funkind =
   | FK_prfn // nonrec proof fun
   | FK_prfun // recursive proof fun
 //
-  | FK_praxi // proof axion
+  | FK_praxi // proof axiom
 //
   | FK_castfn // casting fun
 // end of [funkind]
@@ -150,7 +150,10 @@ fun dcstkind_is_castfn (dck: dcstkind):<> bool
 fun fprint_dcstkind : fprint_type (dcstkind)
 
 (* ****** ****** *)
-
+//
+#define CLOPTR ( 1)
+#define CLOREF (~1)
+//
 datatype
 funclo =
 //
@@ -166,8 +169,6 @@ vtypedef fcopt_vt = Option_vt (funclo)
 //
 (* ****** ****** *)
 
-#define CLOPTR ( 1)
-#define CLOREF (~1)
 macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 
@@ -207,6 +208,25 @@ prerrf_ifdebug
 macdef
 filprerr_ifdebug (x) =
   prerrf_ifdebug (": [%s]: %s", @(#FILENAME, ,(x)))
+//
+(* ****** ****** *)
+//
+#define
+PATS_MAJOR_VERSION 0
+#define
+PATS_MINOR_VERSION 3
+#define
+PATS_MICRO_VERSION 12
+//
+// HX-2011-04-27: this is supported in Postiats:
+//
+macdef
+PATS_fVER(MAJOR, MINOR, MICRO) =
+  (1000 * (1000 * ,(MAJOR) + ,(MINOR)) + ,(MICRO))
+//
+macdef
+PATS_VERSION() =
+  PATS_fVER(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
 //
 (* ****** ****** *)
 

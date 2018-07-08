@@ -1,1 +1,0 @@
-CODEGEN/gorder_string_atxt.dats

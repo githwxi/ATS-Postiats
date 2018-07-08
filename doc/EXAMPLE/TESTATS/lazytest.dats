@@ -1,3 +1,4 @@
+(* ****** ****** *)
 //
 // Test code for lazy-evaluation
 //

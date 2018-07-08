@@ -93,23 +93,43 @@ regress:: SMI
 
 ######
 
-all:: STLC-SN-foas
+all:: \
+STLC-SN-foas
 STLC-SN-foas: STLC-SN-foas.dats ; $(PATSCC) -tcats $<
 regress:: STLC-SN-foas
 
 ######
 
-all:: YonedaLemma
+all:: \
+IsoscelesAngleq
+IsoscelesAngleq: \
+IsoscelesAngleq.dats; $(PATSCC) -verbose -tcats $<
+
+######
+
+all:: \
+F-algebra
+F-algebra: \
+F-algebra.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+regress:: F-algebra ; ./$<
+cleanall:: ; $(RMF) F-algebra
+
+######
+
+all:: \
+YonedaLemma
 YonedaLemma: \
-  YonedaLemma.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
+YonedaLemma.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: YonedaLemma ; ./$<
 cleanall:: ; $(RMF) YonedaLemma
 
 ######
 
-all:: CoYonedaLemma
+all:: \
+CoYonedaLemma
 CoYonedaLemma: \
-  CoYonedaLemma.dats ; $(PATSCC) -CSignore -DATS_MEMALLOC_LIBC -o $@ $<
+CoYonedaLemma.dats ; \
+$(PATSCC) --constraint-ignore -DATS_MEMALLOC_LIBC -o $@ $<
 regress:: CoYonedaLemma ; ./$<
 cleanall:: ; $(RMF) CoYonedaLemma
 

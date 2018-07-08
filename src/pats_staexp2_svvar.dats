@@ -276,6 +276,64 @@ implement s2VarBound_get_val (x) = x.s2VarBound_val
 end // end of [local]
 
 (* ****** ****** *)
+
+implement
+s2Var_lb_insert
+  (loc, s2V, s2e) = let
+//
+fun
+auxins
+(
+// argless
+) :<cloref1> void = let
+  val lb = s2VarBound_make(loc, s2e)
+in
+//
+s2Var_set_lbs
+  (s2V, list_cons(lb, s2Var_get_lbs(s2V)))
+//
+end // end of [auxins]
+//
+in
+//
+case+
+s2e.s2exp_node
+of (* case+ *)
+| S2EVar(s2V2)
+  when (s2V = s2V2) => ()
+| _(*non-S2EVar*) => auxins()
+//
+end // end of [s2Var_lb_insert]
+
+implement
+s2Var_ub_insert
+  (loc, s2V, s2e) = let
+//
+fun
+auxins
+(
+// argless
+) :<cloref1> void = let
+  val ub = s2VarBound_make(loc, s2e)
+in
+//
+s2Var_set_ubs
+  (s2V, list_cons(ub, s2Var_get_ubs(s2V)))
+//
+end // end of [auxins]
+//
+in
+//
+case+
+s2e.s2exp_node
+of (* case+ *)
+| S2EVar(s2V2)
+  when (s2V = s2V2) => ()
+| _(*non-S2EVar*) => auxins()
+//
+end // end of [s2Var_ub_insert]
+
+(* ****** ****** *)
 //
 implement
 lt_s2Var_s2Var(x1, x2) = (compare (x1, x2) < 0)

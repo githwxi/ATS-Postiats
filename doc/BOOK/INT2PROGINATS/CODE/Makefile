@@ -40,5 +40,6 @@ cleanall:: ; $(MAKE) -C CHAP_VVTINTRO cleanall
 cleanall:: ; $(MAKE) -C CHAP_DATAVIEW cleanall
 cleanall:: ; $(MAKE) -C CHAP_DATAVTYPE cleanall
 cleanall:: ; $(MAKE) -C CHAP_ABSVTYPE cleanall
+cleanall:: ; $(MAKE) -C CHAP_FNTMPINT cleanall
 
 ###### end of [Makefile] ######

@@ -25,9 +25,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("April, 2012")
 
 #atscode_separator()
-
-\#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
-
+//
+// HX:
+\#define // there is no need
+ATS_DYNLOADFLAG 0 // for dynloading
+//
 #atscode_separator()
 
 staload UN = "prelude/SATS/unsafe.sats"
@@ -47,56 +49,66 @@ overload + with add_ptr_bsz
 
 #atscode_separator()
 
-implement{}
-strptr_is_null (str) = (strptr2ptr (str) = nullp)
-implement{}
-strptr_isnot_null (str) = (strptr2ptr (str) > nullp)
+implement
+{}(*tmp*)
+strptr_is_null(str) = (strptr2ptr (str) = nullp)
+implement
+{}(*tmp*)
+strptr_isnot_null(str) = (strptr2ptr (str) > nullp)
 
 #atscode_separator()
 
-implement{}
-strptr_is_empty (str) = let
-  val p = strptr2ptr (str) in $UN.ptr1_get<char>(p) = CNUL
+implement
+{}(*tmp*)
+strptr_is_empty(str) = let
+  val p = strptr2ptr(str) in $UN.ptr1_get<char>(p) = CNUL
 end // end of [strptr_is_empty]
-implement{}
-strptr_isnot_empty (str) = let
-  val p = strptr2ptr (str) in $UN.ptr1_get<char>(p) != CNUL
+implement
+{}(*tmp*)
+strptr_isnot_empty(str) = let
+  val p = strptr2ptr(str) in $UN.ptr1_get<char>(p) != CNUL
 end // end of [strptr_isnot_empty]
 
 #atscode_separator()
-
-implement{}
-strnptr_get_at_size (str, i) =
-  $UN.ptr0_get<charNZ>(strnptr2ptr(str) + i)
+//
+implement
+{}(*tmp*)
+strnptr_get_at_size(str, i) =
+  $UN.ptr0_get<charNZ>(strnptr2ptr(str)+i)
 // end of [strnptr_get_at_size]
-
-implement{tk}
-strnptr_get_at_gint (str, i) =
-  strnptr_get_at_size (str, g1int2uint (i))
+//
+implement
+{tk}(*tmp*)
+strnptr_get_at_gint(str, i) =
+  strnptr_get_at_size(str, g1int2uint(i))
 // end of [strnptr_get_at_gint]
-implement{tk}
-strnptr_get_at_guint (str, i) =
-  strnptr_get_at_size (str, g1uint2uint (i))
+implement
+{tk}(*tmp*)
+strnptr_get_at_guint(str, i) =
+  strnptr_get_at_size(str, g1uint2uint(i))
 // end of [strnptr_get_at_guint]
-
+//
 #atscode_separator()
-
-implement{}
-strnptr_set_at_size (str, i, c) =
-  $UN.ptr0_set<charNZ>(strnptr2ptr(str) + i, c)
+//
+implement
+{}(*tmp*)
+strnptr_set_at_size(str, i, c) =
+  $UN.ptr0_set<charNZ>(strnptr2ptr(str)+i, c)
 // end of [strnptr_set_at_size]
-
-implement{tk}
-strnptr_set_at_gint (str, i, c) =
-  strnptr_set_at_size (str, g1int2uint (i), c)
+//
+implement
+{tk}(*tmp*)
+strnptr_set_at_gint(str, i, c) =
+  strnptr_set_at_size (str, g1int2uint(i), c)
 // end of [strnptr_set_at_gint]
-implement{tk}
-strnptr_set_at_guint (str, i, c) =
-  strnptr_set_at_size (str, g1uint2uint (i), c)
+implement
+{tk}(*tmp*)
+strnptr_set_at_guint(str, i, c) =
+  strnptr_set_at_size(str, g1uint2uint(i), c)
 // end of [strnptr_set_at_guint]
-
+//
 #atscode_separator()
-
+\
 %{
 fun
 fun_strptr_cmp_decl
@@ -107,12 +119,17 @@ val fopr_d = (
   | "lt" => "<" | "lte" => "<="
   | "gt" => ">" | "gte" => ">="
   | "eq" => "=" | "neq" => "!="
-  | _ => opr
+  | _(*rest*) => opr
 ) : string // end of [val]
 //
-val ent = sprintf ("\
+val ent =
+sprintf ("\
 implement
-%s_strptr_strptr (x1, x2) = (compare_strptr_strptr (x1, x2) %s 0)\
+%s_strptr_strptr
+  (x1, x2) =
+(
+  compare_strptr_strptr(x1, x2) %s 0
+)\
 ", @(
  opr, fopr_d
 )
@@ -122,13 +139,14 @@ in
 end // end of [fun_char_cmp0_decl]
 %}\
 \
+//
 #fun_strptr_cmp_decl("lt")
 #fun_strptr_cmp_decl("lte")
 #fun_strptr_cmp_decl("gt")
 #fun_strptr_cmp_decl("gte")
 #fun_strptr_cmp_decl("eq")
 #fun_strptr_cmp_decl("neq")
-
+//
 #atscode_separator()
 
 (*
@@ -136,21 +154,29 @@ end // end of [fun_char_cmp0_decl]
 // HX: implemented in [strptr.cats]
 //
 implement
-print_strptr (x) = fprint_strptr (stdout_ref, x)
+print_strptr(x) = fprint_strptr(stdout_ref, x)
 implement
-prerr_strptr (x) = fprint_strptr (stderr_ref, x)
+prerr_strptr(x) = fprint_strptr(stderr_ref, x)
+//
+implement
+print_strnptr(x) = fprint_strnptr(stdout_ref, x)
+implement
+prerr_strnptr(x) = fprint_strnptr(stderr_ref, x)
 *)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strnptr_is_null (str) = (strnptr2ptr (str) = nullp)
-implement{}
+implement
+{}(*tmp*)
 strnptr_isnot_null (str) = (strnptr2ptr (str) > nullp)
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptr_length(x) = let
   val isnot = ptr_isnot_null(strptr2ptr(x))
 in
@@ -161,7 +187,8 @@ if isnot
 //
 end // end of [strptr_length]
 
-implement{}
+implement
+{}(*tmp*)
 strnptr_length(x) = let
   prval () = lemma_strnptr_param (x)
   val isnot = ptr_isnot_null(strnptr2ptr(x))
@@ -175,7 +202,8 @@ end // end of [strnptr_length]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptr0_copy(x) = let
   val isnot = ptr_isnot_null(strptr2ptr(x))
 in
@@ -185,12 +213,14 @@ if isnot
 //
 end // end of [strptr0_copy]
 
-implement{}
+implement
+{}(*tmp*)
 strptr1_copy(x) = string0_copy($UN.strptr2string(x))
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strnptr_copy
   {n}(x) = x2 where
 {
@@ -202,37 +232,68 @@ strnptr_copy
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptr_append
   (x1, x2) = let
 //
-val isnot1 = ptr_isnot_null (strptr2ptr(x1))
-//
-in
-//
-if isnot1 then let
-//
-val isnot2 = ptr_isnot_null (strptr2ptr(x2))
+val
+isnot1 =
+isneqz
+(strptr2ptr(x1))
 //
 in
 //
 if
+isnot1
+then let
+//
+val
+isnot2 =
+isneqz
+(strptr2ptr(x2))
+//
+in
+//
+if (
 isnot2
-then
-  strnptr2strptr(string1_append ($UN.strptr2string(x1), $UN.strptr2string(x2)))
-else
-  strptr1_copy (x1)
+) then (
+  strnptr2strptr(
+    string1_append($UN.strptr2string(x1), $UN.strptr2string(x2))
+  ) (*strnptr2strptr*)
+) else
+(
+  strptr1_copy(x1)
+)
 // end of [if]
 //
 end else
-  strptr0_copy (x2)
-// end of [if]
+(
+  strptr0_copy(x2)
+) (* end of [if] *)
 //
 end // end of [strptr_append]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
+strnptr_append
+{n1,n2}(x1, x2) = let
+//
+  val x1 =
+  $UN.strnptr2string(x1)
+  and x2 =
+  $UN.strnptr2string(x2)
+//
+in
+  string1_append(x1, x2)
+end // end of [strnptr_append]
+
+#atscode_separator()
+
+implement
+{}(*tmp*)
 strptrlst_free (xs) = let
 //
 fun loop
@@ -252,7 +313,8 @@ end // end of [strptrlst_free]
 
 #atscode_separator()
 
-implement{}
+implement
+{}(*tmp*)
 strptrlst_concat (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
@@ -333,7 +395,7 @@ end // end of [strnptr_foreach]
 implement
 {env}(*tmp*)
 strnptr_foreach_env
-  {n} (str, env) = let
+  {n}(str, env) = let
 //
 fun loop
 (
@@ -387,8 +449,13 @@ strnptr_rforeach$cont (c, env) = true
 
 implement
 {}(*tmp*)
-strnptr_rforeach (str) = let
-  var env: void = () in strnptr_rforeach_env<void> (str, env)
+strnptr_rforeach
+  (str) = let
+//
+var env: void = ()
+//
+in
+  strnptr_rforeach_env<void> (str, env)
 end // end of [strnptr_rforeach]
 
 #atscode_separator()
@@ -396,7 +463,7 @@ end // end of [strnptr_rforeach]
 implement
 {env}(*tmp*)
 strnptr_rforeach_env
-  {n} (str, env) = let
+  {n}(str, env) = let
 //
 fun loop
 (

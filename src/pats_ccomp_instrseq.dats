@@ -47,19 +47,31 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-dataviewtype
-instrseq = INSTRSEQ of ($LQ.QUEUE1 (instr))
+datavtype
+instrseq =
+INSTRSEQ of ($LQ.QUEUE1 (instr))
 assume instrseq_vtype = instrseq
 
+(* ****** ****** *)
+//
+macdef
+LQ_queue_initize =
+  $LQ.queue_initialize{instr}
+macdef
+LQ_queue_uninitize =
+  $LQ.queue_uninitialize<instr>
+//
 (* ****** ****** *)
 
 implement
 instrseq_make_nil
   () = res where {
-  val res = INSTRSEQ (?)
+  val res = INSTRSEQ(?)
   val+INSTRSEQ (!p_xs) = res
-  val () = $LQ.queue_initialize (!p_xs)
-  val () = fold@ (res)
+  val () =
+    LQ_queue_initize (!p_xs)
+  // end of [val]
+  prval ((*folded*)) = fold@ (res)
 } // end of [instrseq_make_nil]
 
 (* ****** ****** *)
@@ -183,9 +195,9 @@ end // end of [local]
 implement
 instrseq_get_free
   (res) = let
-  val INSTRSEQ (!p_xs) = res
-  val xs = $LQ.queue_uninitialize (!p_xs)
-  val () = free@ (res)
+  val+INSTRSEQ(!p_xs) = res
+  val xs = LQ_queue_uninitize (!p_xs)
+  val ((*freed*)) = free@ (res)
 in
   list_of_list_vt (xs)
 end // end of [instrseq_get_free]

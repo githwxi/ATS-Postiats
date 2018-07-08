@@ -1,11 +1,13 @@
+(* ****** ****** *)
 (*
 ** For ATS2TUTORIAL
 *)
-
 (* ****** ****** *)
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 
@@ -15,7 +17,7 @@ arrszref_reverse
   A: arrszref (a)
 ) : void = let
 //
-val n = A.size
+val n = A.size()
 val n2 = half (n)
 //
 fun loop

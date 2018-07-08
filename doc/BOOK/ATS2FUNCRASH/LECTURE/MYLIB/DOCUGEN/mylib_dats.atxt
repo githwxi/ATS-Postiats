@@ -1,0 +1,415 @@
+(* ****** ****** *)
+//
+// For use in
+// Crash into ATS
+//
+(* ****** ****** *)
+//
+#include
+"share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
+//
+(* ****** ****** *)
+//
+(*
+symelim iseqz
+symelim isneqz
+*)
+//
+symelim .head
+symelim .tail
+//
+symelim .drop
+symelim .take
+//
+symelim .foreach
+symelim .foldleft
+symelim .foldright
+//
+(* ****** ****** *)
+//
+typedef
+cont0() = cfun(void)
+typedef
+cont1(res:t@ype) = cfun(res, void)
+//
+(* ****** ****** *)
+//
+macdef
+list0_sing(x) =
+list0_cons(,(x), list0_nil())
+//
+(* ****** ****** *)
+//
+// For integers
+//
+(* ****** ****** *)
+
+##interface("int_foreach")
+##interface("int_foreach_method")
+##implement("int_foreach")
+##implement("int_foreach_method")
+
+(* ****** ****** *)
+
+##interface("int_foldleft")
+##interface("int_foldleft_method")
+##implement("int_foldleft")
+##implement("int_foldleft_method")  
+  
+(* ****** ****** *)
+
+##interface("int_cross_foreach")
+##interface("int_cross_foreach_method")
+##implement("int_cross_foreach")
+##implement("int_cross_foreach_method")
+
+(* ****** ****** *)
+//
+// For list0-values
+//
+(* ****** ****** *)
+
+##interface("list0_is_nil")
+##interface("list0_is_cons")
+
+(* ****** ****** *)
+
+##implement("list0_is_nil")
+##implement("list0_is_cons")
+
+(* ****** ****** *)
+//
+##interface("list0_length")
+##interface("list0_head_exn")
+##interface("list0_tail_exn")
+//
+##interface("list0_drop_exn")
+##interface("list0_take_exn")
+//
+##interface("list0_get_at_exn")
+//
+##interface("list0_append")
+##interface("list0_concat")
+##interface("list0_reverse")
+##interface("list0_revappend")
+//
+##interface("list0_foldleft")
+##interface("list0_foldright")
+//
+(* ****** ****** *)
+
+##implement("list0_length")
+
+(* ****** ****** *)
+//
+##implement("list0_head_exn")
+//
+##implement("list0_tail_exn")
+//
+(* ****** ****** *)
+//
+##implement("list0_drop_exn")
+##implement("list0_take_exn")
+//
+(* ****** ****** *)
+//
+##implement("list0_get_at_exn")
+//
+(* ****** ****** *)
+//
+##implement("list0_append")
+##implement("list0_concat")
+//
+(* ****** ****** *)
+//
+##implement("list0_reverse")
+##implement("list0_revappend")
+//
+(* ****** ****** *)
+
+##implement("list0_foldleft")
+##implement("list0_foldright")
+
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+fprint_val
+(out: FILEref, x0: a): void
+//
+(* ****** ****** *)
+//
+extern
+fun
+{a:t@ype}
+print_list0
+(xs: list0(INV(a))): void
+extern
+fun
+{a:t@ype}
+fprint_list0
+(out: FILEref, xs: list0(INV(a))): void
+//
+overload print with print_list0 of 100
+overload fprint with fprint_list0 of 100
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+print_list0(xs) =
+fprint_list0<a>(stdout_ref, xs)
+//
+implement
+{a}(*tmp*)
+fprint_list0(out, xs) = let
+//
+fun
+loop(i: int, xs: list0(a)): void =
+(
+case+ xs of
+| list0_nil() => ()
+| list0_cons(x, xs) =>
+  (
+    if i > 0
+      then fprint(out, ", ");
+    // end of [if]
+    fprint_val<a>(out, x); loop(i+1, xs)
+  )
+)
+//
+in
+  loop(0, xs)
+end // end of [fprint_list0]
+//
+(* ****** ****** *)
+//
+##interface("list0_map")
+##interface("list0_map_method")
+//
+##implement("list0_map")
+##implement("list0_map_method")
+//
+(* ****** ****** *)
+//
+##interface("list0_mapopt")
+##interface("list0_mapopt_method")
+//
+##implement("list0_mapopt")
+##implement("list0_mapopt_method")
+//
+(* ****** ****** *)
+
+##interface("list0_mapcons")
+##implement("list0_mapcons")
+
+(* ****** ****** *)
+
+##interface("list0_mapjoin")
+##implement("list0_mapjoin")
+
+(* ****** ****** *)
+//
+##interface("list0_filter")
+##interface("list0_filter_method")
+//
+##implement("list0_filter")
+##implement("list0_filter_method")
+//
+(* ****** ****** *)
+//
+##interface("list0_foreach")
+##interface("list0_foreach_method")
+//
+##implement("list0_foreach")
+##implement("list0_foreach_method")
+//
+(* ****** ****** *)
+//
+##interface("list0_exists")
+##interface("list0_forall")
+##interface("list0_find_index")
+//
+##interface("list0_exists_method")
+##interface("list0_forall_method")
+//
+(* ****** ****** *)
+//
+##implement("list0_exists")
+##implement("list0_forall")
+//
+##implement("list0_find_index")
+//
+##implement("list0_exists_method")
+##implement("list0_forall_method")
+//
+(* ****** ****** *)
+
+##interface("list0_imap")
+##interface("list0_imap_method")
+
+##interface("list0_iexists")
+##interface("list0_iforall")
+
+##interface("list0_iforeach")
+##interface("list0_iforeach_method")
+
+(* ****** ****** *)
+//
+##implement("list0_imap")
+##implement("list0_imap_method")
+//
+##implement("list0_iexists")
+##implement("list0_iforall")
+//
+##implement("list0_iforeach")
+##implement("list0_iforeach_method")
+//
+(* ****** ****** *)
+
+##interface("list0_zip")
+##interface("list0_map2")
+##interface("list0_cross")
+
+(* ****** ****** *)
+
+##implement("list0_zip")
+##implement("list0_map2")
+##implement("list0_cross")
+
+(* ****** ****** *)
+
+##interface("list0_merge")
+##interface("list0_mergesort")
+
+(* ****** ****** *)
+
+##implement("list0_merge")
+##implement("list0_mergesort")
+
+(* ****** ****** *)
+
+##interface("int_list0_map")
+##interface("int_list0_mapopt")
+##interface("int_cross_list0_map")
+
+(* ****** ****** *)
+
+##implement("int_list0_map")
+##implement("int_list0_mapopt")
+##implement("int_cross_list0_map")
+
+(* ****** ****** *)
+//
+##interface("list0_choose2")
+##interface("list0_nchoose")
+##interface("list0_nchoose_rest")
+//
+##implement("list0_choose2")
+##implement("list0_nchoose")
+##implement("list0_nchoose_rest")
+//
+(* ****** ****** *)
+//
+// For stream-values
+//
+(* ****** ****** *)
+
+##interface("stream_map")
+##interface("stream_imap")
+
+##interface("stream_filter")
+
+##interface("stream_foreach")
+##interface("stream_iforeach")
+
+##interface("stream_foldleft")
+
+(* ****** ****** *)
+
+##interface("stream_append")
+##interface("stream_concat")
+##interface("stream_takeLte")
+
+(* ****** ****** *)
+
+##implement("stream_append")
+##implement("stream_concat")
+##implement("stream_takeLte")
+
+(* ****** ****** *)
+
+##interface("int_stream_from")
+##implement("int_stream_from")
+
+(* ****** ****** *)
+
+##interface("stream_make_list0")
+##implement("stream_make_list0")
+
+##interface("stream_get_at_exn")
+##implement("stream_get_at_exn")
+
+(* ****** ****** *)
+
+##implement("stream_map")
+##implement("stream_imap")
+
+##implement("stream_filter")
+
+##implement("stream_foreach")
+##implement("stream_iforeach")
+
+##implement("stream_foldleft")
+
+(* ****** ****** *)
+//
+// For linear stream-values
+//
+(* ****** ****** *)
+
+##interface("stream_vt_map")
+##interface("stream_vt_foldleft")
+
+(* ****** ****** *)
+
+##interface("stream_vt_append")
+##interface("stream_vt_concat")
+##interface("stream_vt_takeLte")
+
+(* ****** ****** *)
+
+##implement("stream_vt_append")
+##implement("stream_vt_concat")
+##implement("stream_vt_takeLte")
+
+(* ****** ****** *)
+
+##interface("int_stream_vt_from")
+##implement("int_stream_vt_from")
+
+(* ****** ****** *)
+
+##implement("stream_vt_map")
+##implement("stream_vt_foldleft")
+
+(* ****** ****** *)
+//
+// For continuation-passing
+//
+(* ****** ****** *)
+
+##interface("list0_kmap")
+##implement("list0_kmap")
+
+(* ****** ****** *)
+
+##interface("stream_kforeach")
+##implement("stream_kforeach")
+
+(* ****** ****** *)
+
+(* end of [mylib_dats.atxt] *)

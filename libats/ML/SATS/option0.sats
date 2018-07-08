@@ -32,10 +32,12 @@
 (* Start time: May, 2012 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.ML"
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.ML"
+//
 #define ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -49,58 +51,123 @@ typedef NSH(a:type) = a // for commenting purpose
 //
 castfn
 option0_of_option
-  {a:t@ype} (xs: Option a):<> option0 (a)
+  {a:t@ype}
+  (xs: Option(INV(a))):<> option0(a)
 castfn
 option0_of_option_vt
-  {a:t@ype} (xs: Option_vt a):<> option0 (a)
+  {a:t@ype}
+  (xs: Option_vt(INV(a))):<> option0(a)
 //
 (* ****** ****** *)
-
+//
 castfn
-g0ofg1_option {a:t@ype} (xs: Option (a)):<> option0 (a)
+g0ofg1_option
+  {a:t@ype}
+  (xs: Option(INV(a))):<> option0(a)
+castfn
+g1ofg0_option
+  {a:t@ype}
+  (xs: option0(INV(a))):<> Option(a)
+//
 overload g0ofg1 with g0ofg1_option
-
-castfn
-g1ofg0_option {a:t@ype} (xs: option0 (a)):<> Option (a)
 overload g1ofg0 with g1ofg0_option
-
-(* ****** ****** *)
-//
-fun{
-} option0_none
-  {a:t0p} ((*void*)):<> option0 (a)
-//
-fun{
-a:t0p
-} option0_some (x: a):<> option0 (a)
 //
 (* ****** ****** *)
-
+//
 fun{}
-option0_is_none {a:t0p} (x: option0 a):<> bool
+option0_none
+  {a:t0p}((*void*)):<> option0(a)
+//
+fun
+{a:t0p}
+option0_some(x0: a):<> option0(a)
+//
+(* ****** ****** *)
+//
+fun{}
+option0_is_none
+  {a:t0p}(x: option0(a)):<> bool
+//
 overload iseqz with option0_is_none
-
+//
 fun{}
-option0_is_some {a:t0p} (x: option0 a):<> bool
+option0_is_some
+  {a:t0p}(x: option0(a)):<> bool
+//
 overload isneqz with option0_is_some
-
+//
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-option0_unsome_exn (opt: option0 (a)):<!exn> a
-
+option0_unsome_exn(opt: option0(a)):<!exn> a
+//
 (* ****** ****** *)
-
+//
 fun{a:t0p}
-fprint_option0 (out: FILEref, opt: option0 (a)): void
+print_option0
+  (opt: option0(INV(a))): void
+fun{a:t0p}
+prerr_option0
+  (opt: option0(INV(a))): void
+//
+fun{a:t0p}
+fprint_option0
+(
+  out: FILEref, opt: option0(INV(a))
+) : void // end-of-function
+//
+overload print with print_option0
+overload prerr with prerr_option0
 overload fprint with fprint_option0
-
+//
 (* ****** ****** *)
 //
 fun{
 a:t0p}{b:t0p
 } option0_map
-  (xs: option0 (INV(a)), f: cfun (a, b)): option0 (b)
+(
+  opt: option0(INV(a)), fopr: cfun(a, b)
+) : option0(b) // end of [option0_map]
+//
+fun{
+a:t0p}{b:t0p
+} option0_map_method
+(
+  option0(INV(a)), TYPE(b))(fopr: cfun(a, b)
+) : option0(b) // end of [option0_map_method]
+//
+overload .map with option0_map_method
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+option0_filter
+(
+  opt: option0(INV(a)), pred: cfun(a, bool)
+) : option0(a) // end of [option0_map]
+//
+fun
+{a:t0p}
+option0_filter_method
+(
+  opt: option0(INV(a))) (pred: cfun(a, bool)
+) : option0(a) // end of [option0_map_method]
+//
+overload .filter with option0_filter_method
+//
+(* ****** ****** *)
+//
+fun
+{a:t0p}
+option0_foreach
+(opt: option0(INV(a)), fwork: cfun(a, void)): void
+fun
+{a:t0p}
+option0_foreach_method
+(opt: option0(INV(a)))(fwork: cfun(a, void)): void
+//
+overload .foreach with option0_foreach_method
 //
 (* ****** ****** *)
 

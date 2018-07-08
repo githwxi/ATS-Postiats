@@ -42,6 +42,7 @@ FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 staload
 LOC = "./pats_location.sats"
+typedef loc_t = $LOC.location
 typedef location = $LOC.location
 //
 (* ****** ****** *)
@@ -72,6 +73,7 @@ typedef s0taq = $SYN.s0taq
 typedef sqi0de = $SYN.sqi0de
 typedef l0ab = $SYN.l0ab
 typedef l0abeled(a:type) = $SYN.l0abeled (a)
+typedef scstextdef = $SYN.scstextdef
 typedef dcstextdef = $SYN.dcstextdef
 *)
 staload "./pats_syntax.sats"
@@ -139,16 +141,20 @@ and e1xplst: type = List (e1xp)
 (* ****** ****** *)
 //
 fun print_e1xp (_: e1xp): void
-overload print with print_e1xp
 fun prerr_e1xp (_: e1xp): void
-overload prerr with prerr_e1xp
 fun fprint_e1xp : fprint_type (e1xp)
 //
+overload print with print_e1xp
+overload prerr with prerr_e1xp
+overload fprint with fprint_e1xp
+//
 fun print_e1xplst (_: e1xplst): void
-overload print with print_e1xplst
 fun prerr_e1xplst (_: e1xplst): void
-overload prerr with prerr_e1xplst
 fun fprint_e1xplst : fprint_type (e1xplst)
+//
+overload print with print_e1xplst
+overload prerr with prerr_e1xplst
+overload fprint with fprint_e1xplst
 //
 (* ****** ****** *)
 //
@@ -327,9 +333,12 @@ d1atsrtdec = '{
 , d1atsrtdec_con= d1atsrtconlst
 } // end of [d1atsrtdec]
 
-typedef d1atsrtdeclst = List d1atsrtdec
+typedef
+d1atsrtdeclst = List d1atsrtdec
 
-fun d1atsrtdec_make (
+fun
+d1atsrtdec_make
+(
   loc: location, name: symbol, conlst: d1atsrtconlst
 ) : d1atsrtdec // end of [d1atsrtdec]
 
@@ -343,7 +352,9 @@ typedef s1arg = '{
 typedef s1arglst = List s1arg
 typedef s1arglstlst = List s1arglst
 
-fun s1arg_make (
+fun
+s1arg_make
+(
   loc: location, sym: symbol, srtopt: s1rtopt
 ) : s1arg // end of [s1arg_make]
 
@@ -402,36 +413,51 @@ fun fprint_a1msrt : fprint_type (a1msrt)
 fun fprint_a1msrtlst : fprint_type (a1msrtlst)
 
 (* ****** ****** *)
-
-datatype sp1at_node =
+//
+datatype
+sp1at_node =
   | SP1Tcstr of (s0taq, symbol, s1arglst)
-
+//
 where sp1at = '{
   sp1at_loc= location, sp1at_node= sp1at_node
-}
-
+} (* end of [sp1at] *)
+//
 fun sp1at_arg (loc: location, arg: s1arg): sp1at
 fun sp1at_cstr
   (loc: location, q: s0taq, id: symbol, args: s1arglst): sp1at
 // end of [sp1at_cstr]
-
+//
+(* ****** ****** *)
+//
+// HX-2015-08:
+// for placeholding
+//
+abstype
+S1Ed2ctype_type = ptr
+typedef
+S1Ed2ctype = S1Ed2ctype_type
+//
 (* ****** ****** *)
 
-datatype s1exp_node =
+datatype
+s1exp_node =
 //
-  | S1Eide of (symbol) // static identifier
-  | S1Esqid of (s0taq, symbol) // qualified static identifier
+  | S1Eide of (symbol) // identifier
+  | S1Esqid of (s0taq, symbol) // qualified ID
 //
   | S1Eint of int
   | S1Eintrep of string(*rep*)
 //
   | S1Echar of char // character constant
 //
+  | S1Efloat of string // floating-points
+  | S1Estring of string // string constants
+//
   | S1Eextype of (string(*name*), s1explstlst) // extern type
   | S1Eextkind of (string(*name*), s1explstlst) // extern tkind
 //
-  | S1Eapp of (s1exp, location(*arg*), s1explst) // application
-  | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
+  | S1Eapp of (s1exp, loc_t(*arg*), s1explst) // application
+  | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lam-abstraction
   | S1Eimp of (funclo, int (*lin*), int (*prf*), effcstopt)
 //
   | S1Etop of (int(*knd*), s1exp) // 0/1: topization/typization
@@ -439,21 +465,28 @@ datatype s1exp_node =
   | S1Elist of (int(*npf*), s1explst)
 //
   | S1Einvar of (int(*ref/val:1/0*), s1exp) // invariant
-  | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transform
+  | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // transition
 //
-  | S1Etyarr of (s1exp (*element*), s1explst (*dimension*))
-  | S1Etytup of (int(*knd*), int(*npf*), s1explst) // HX: 0/1: flat/boxed
-  | S1Etyrec of (int(*knd*), int(*npf*), labs1explst)// HX: 0/1: flat/boxed
+  | S1Etyarr of
+     (s1exp (*element*), s1explst (*dimension*))
+  | S1Etytup of
+      (int(*knd*), int(*npf*), s1explst) // HX: 0/1: flat/boxed
+  | S1Etyrec of
+      (int(*knd*), int(*npf*), labs1explst) // HX: 0/1: flat/boxed
   | S1Etyrec_ext of
-      (string(*name*), int(*npf*), labs1explst) // external record type
+      (string(*name*), int(*npf*), labs1explst) // external record
     // end of [S1Etyrec_ext]
 //
-  | S1Eexi of (int(*funres*), s1qualst, s1exp) // existentially quantifed
-  | S1Euni of (s1qualst, s1exp) // universal quantified
+  | S1Euni of (s1qualst, s1exp) // universal quantifier
+  | S1Eexi of
+      (int(*funres*), s1qualst, s1exp) // existential quantifier
+    // end of [S1Eexi]
 //
-  | S1Eann of (s1exp, s1rt) // static expression with annotate sort
+  | S1Eann of (s1exp, s1rt(*ann*)) // sort-ascribed staexps
 //
-  | S1Eerr of () // HX: placeholder for error indication
+  | S1Ed2ctype of (S1Ed2ctype(*d1exp*)) // $d2ctype(d2c/tmpcst)
+//
+  | S1Eerr of ((*error*)) // HX: this one is for indication of errors
 // end of [s1exp_node]
 
 and s1rtext_node =
@@ -501,9 +534,6 @@ and s1qualstlst = List (s1qualst)
 
 (* ****** ****** *)
 
-fun s1exp_char (loc: location, c: char): s1exp
-fun s1exp_c0har (loc: location, c: c0har): s1exp
-
 fun s1exp_int
   (loc: location, i: int): s1exp
 fun s1exp_intrep
@@ -511,12 +541,29 @@ fun s1exp_intrep
 fun s1exp_i0nt
   (loc: location, x: i0nt): s1exp
 
-fun s1exp_extype (
+fun s1exp_char (loc: location, c: char): s1exp
+fun s1exp_c0har (loc: location, tok: c0har): s1exp
+
+fun s1exp_float (loc: location, rep: string): s1exp
+fun s1exp_f0loat (loc: location, tok: f0loat): s1exp
+
+fun s1exp_string (loc: location, str: string): s1exp
+fun s1exp_s0tring (loc: location, tok: s0tring): s1exp
+
+(* ****** ****** *)
+
+fun
+s1exp_extype
+(
   loc: location, name: string, arg: s1explstlst
 ) : s1exp // end of [s1exp_extype]
-fun s1exp_extkind (
+fun
+s1exp_extkind
+(
   loc: location, name: string, arg: s1explstlst
 ) : s1exp // end of [s1exp_extkind]
+
+(* ****** ****** *)
 
 fun s1exp_ide (loc: location, id: symbol): s1exp
 fun s1exp_sqid (loc: location, sq: s0taq, id: symbol): s1exp
@@ -557,13 +604,16 @@ fun s1exp_tyrec_ext (
   loc: location, name: string, npf: int, ls1es: labs1explst
 ) : s1exp // end of [s1exp_tyrec_ext]
 
+fun s1exp_uni
+  (loc: location, qua: s1qualst, body: s1exp): s1exp
 fun s1exp_exi
   (loc: location, knd: int, qua: s1qualst, body: s1exp): s1exp
-fun s1exp_uni (loc: location, qua: s1qualst, body: s1exp): s1exp
 
 fun s1exp_ann (loc: location, s1e: s1exp, s1t: s1rt): s1exp
 
-fun s1exp_err (loc: location): s1exp
+fun s1exp_d2ctype (loc: location, d2ctp: S1Ed2ctype): s1exp
+
+fun s1exp_err (loc: location): s1exp // HX: indication of error
 
 (* ****** ****** *)
 
@@ -605,10 +655,12 @@ fun fprint_s1qua : fprint_type (s1qua)
 fun fprint_s1qualst : fprint_type (s1qualst)
 
 (* ****** ****** *)
-
+//
+fun s1exp_make_v1al (loc: location, v: v1al): s1exp
 fun s1exp_make_e1xp (loc: location, e: e1xp): s1exp
+//
 fun e1xp_make_s1exp (loc: location, s1e: s1exp): e1xp
-
+//
 (* ****** ****** *)
 
 fun wths1explst_is_none (wths1es: wths1explst): bool
@@ -695,37 +747,52 @@ fun s1rtdef_make (loc: location, sym: symbol, s0te: s1rtext): s1rtdef
 fun fprint_s1rtdef : fprint_type (s1rtdef)
 
 (* ****** ****** *)
-
+//
 typedef
-s1tacst = '{ // static constant declaration
-  s1tacst_loc= location
+s1tacst = '{
+//
+// static constant declaration
+//
+  s1tacst_loc= loc_t
+//
 , s1tacst_sym= symbol
-, s1tacst_arg= a1msrtlst
-, s1tacst_res= s1rt
-} // end of [s1tacst]
-
+, s1tacst_fil= filename
+//
+, s1tacst_arg= a1msrtlst, s1tacst_res= s1rt
+//
+, s1tacst_extdef= scstextdef
+} (* end of [s1tacst] *)
+//
 typedef s1tacstlst = List s1tacst
-
-fun s1tacst_make (
-  loc: location, sym: symbol, arg: a1msrtlst, res: s1rt
+//
+fun
+s1tacst_make (
+  loc: location
+, fil: filename, sym: symbol
+, arg: a1msrtlst, res: s1rt, extdef: scstextdef
 ) : s1tacst // end of [s1tacst_make]
-
+//
 fun fprint_s1tacst : fprint_type (s1tacst)
-
+//
 (* ****** ****** *)
 
 typedef
-s1tacon = '{ // static constructor declaration
-  s1tacon_loc= location
+s1tacon = '{
+//
+// static constructor declaration
+//
+  s1tacon_loc= loc_t
 , s1tacon_sym= symbol
-, s1tacon_arg= a1msrtlst
-, s1tacon_def= s1expopt
+, s1tacon_fil= filename
+, s1tacon_arg= a1msrtlst, s1tacon_def= s1expopt
 } // end of [s1tacon]
 
 typedef s1taconlst = List s1tacon
 
-fun s1tacon_make (
-  loc: location, sym: symbol, arg: a1msrtlst, def: s1expopt
+fun
+s1tacon_make (
+  loc: location
+, fil: filename, sym: symbol, arg: a1msrtlst, def: s1expopt
 ) : s1tacon // end of [s1tacon]
 
 fun fprint_s1tacon : fprint_type (s1tacon)
@@ -832,16 +899,17 @@ fun i1mparg_svararglst (arg: s1vararglst): i1mparg
 fun fprint_i1mparg : fprint_type (i1mparg)
 
 (* ****** ****** *)
-
+//
 typedef
 t1mpmarg = '{
   t1mpmarg_loc= location, t1mpmarg_arg= s1explst
-} // end of [t1mpmarg]
-
-typedef t1mpmarglst = List (t1mpmarg)
-
+} (* end of [t1mpmarg] *)
+//
+typedef
+t1mpmarglst = List (t1mpmarg)
+//
 fun t1mpmarg_make (loc: location, arg: s1explst): t1mpmarg
-
+//
 (* ****** ****** *)
 
 typedef

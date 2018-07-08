@@ -8,7 +8,7 @@ include './../basics_dyn.sats';
 include './../basics_gen.sats';
 //
 include './../macrodef.sats';
-include './../lmacrodef.sats';
+include './../lmacrodef.hats';
 //
 // SATS
 //
@@ -27,6 +27,9 @@ include './../SATS/integer_fixed.sats';
 //
 include './../SATS/unsafe.sats';
 include './../SATS/checkast.sats';
+//
+include './../SATS/tuple.sats';
+include './../SATS/reference.sats';
 //
 include './../SATS/filebas.sats';
 include './../SATS/intrange.sats';
@@ -48,6 +51,9 @@ include './../SATS/matrix.sats';
 include './../SATS/matrixptr.sats';
 include './../SATS/matrixref.sats';
 //
+include './../SATS/gprint.sats';
+include './../SATS/tostring.sats';
+//
 // DATS
 //
 include './../DATS/basics.dats';
@@ -64,6 +70,9 @@ include './../DATS/strptr.dats';
 //
 include './../DATS/unsafe.dats';
 include './../DATS/checkast.dats';
+//
+include './../DATS/tuple.dats';
+include './../DATS/reference.dats';
 //
 include './../DATS/filebas.dats';
 include './../DATS/intrange.dats';
@@ -85,6 +94,9 @@ include './../DATS/arrayref.dats';
 include './../DATS/matrix.dats';
 include './../DATS/matrixptr.dats';
 include './../DATS/matrixref.dats';
+//
+include './../DATS/gprint.dats';
+include './../DATS/tostring.dats';
 //
 ?>
 

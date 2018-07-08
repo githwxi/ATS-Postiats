@@ -1,0 +1,78 @@
+os:
+  - osx
+  - linux
+sudo: false
+addons:
+  apt:
+    packages:
+    - libgc-dev
+    - libgmp-dev
+    - libgtk-3-dev
+    - libev-dev
+    - libjson0-dev
+    - libjansson-dev
+    - docbook-utils
+before_install:
+  - date
+  - cd ${HOME}
+  # Setting-up
+  - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.12
+  - export ATSHOMERELOC=ATS-0.2.12
+  - export PATSHOME=${TRAVIS_BUILD_DIR}
+  - export PATH=${PATH}:${PATSHOME}/bin
+  # Install pkgs
+  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
+  # Download ATS1
+  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
+  # Download ATS2-contrib
+  - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
+  - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
+  - export GCC=gcc
+  - export CLANG=clang
+script:
+  - ${GCC} --version
+  - ${CLANG} --version
+  # Building ATS1
+  - cd ${ATSHOME}
+  # ./configure&&make CC=${GCC} all
+  - ./configure&&make CC=${GCC} all_ngc
+  # Building ATS2
+  - cd ${TRAVIS_BUILD_DIR}
+  - make -f Makefile_devl CC=${GCC} all
+  # make GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${GCC} all
+  # make C3NSTRINTKND=intknd -f Makefile_devl CC=${CLANG} all
+  # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
+  # Trying-out release process
+  - cd ${TRAVIS_BUILD_DIR}
+  - make -C ${PATSHOME}/src CBOOT
+  - make -C ${PATSHOME}/src/CBOOT/prelude
+  - make -C ${PATSHOME}/src/CBOOT/libc
+  - make -C ${PATSHOME}/src/CBOOT/libats
+  - make -C ${PATSHOME}/doc/DISTRIB -f Makefile atspackaging
+  - make -C ${PATSHOME}/doc/DISTRIB -f Makefile atspacktarzvcf
+  # make -C ${PATSHOME}/doc/DISTRIB -f Makefile atscontribing
+  # make -C ${PATSHOME}/doc/DISTRIB -f Makefile atscntrbtarzvcf
+  # make -C ${PATSHOME}/doc/DISTRIB -f Makefile_include tarzvcf
+  # make -C ${PATSHOME}/doc/DISTRIB cleanall
+  # Running regress test
+  - cd ${TRAVIS_BUILD_DIR}
+  - make -C ${PATSHOME}/doc -f Makefile_test testall > testall_doc.log 2>&1
+  - tail -100 testall_doc.log
+  # Building some utilities
+  - cp ${ATSHOME}/config.h .
+  - make -C src cleanall
+  - make -C src/CBOOT/libc
+  - make -C src/CBOOT/libats
+  - make -C src/CBOOT/prelude
+  - make -C utils/libatsopt copy build
+  - cp -f utils/libatsopt/BUILD/libatsopt.a ${ATSHOME}/ccomp/lib
+  - make -C utils/libatsynmark copy build
+  - cp -f utils/libatsynmark/BUILD/libatsynmark.a ${ATSHOME}/ccomp/lib
+  - make -C utils/atsynmark
+  # make -C utils/atstagging
+  # make -C utils/packeditall
+  # Building books
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/ATS2TUTORIAL; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/INT2PROGINATS; fi
+after_script:
+  - date

@@ -1,9 +1,9 @@
+(* ****** ****** *)
 (*
 //
 // For server-side actions
 //
 *)
-
 (* ****** ****** *)
 //
 #define ATS_PACKNAME "atslangweb"
@@ -13,24 +13,27 @@
 //
 // HX: implemented in CATS/basics_cats.php
 //
-fun fname_dats_c (fname: string): string = "mac#%"
-fun fname_dats_js (fname: string): string = "mac#%"
-fun fname_dats_php (fname: string): string = "mac#%"
+fun fname_dats_c(fname: string): string = "mac#%"
+fun fname_dats_js(fname: string): string = "mac#%"
+fun fname_dats_php(fname: string): string = "mac#%"
 //
 (* ****** ****** *)
 //
-fun exec_retval (command: string): int(*ret*) = "mac#%"
+fun exec_retval(command: string): int(*ret*) = "mac#%"
 //
 (* ****** ****** *)
 //
-absvtype tmpfile
+absvtype
+tmpfile_vtype
+vtypedef
+tmpfile = tmpfile_vtype
 //
-fun tmpfile_unlink (tmpfile): bool
+fun tmpfile_unlink(tmpfile): bool
 //
-fun tmpfile2string (fname: !tmpfile): string
+fun tmpfile2string(fname: !tmpfile): string
 //
-fun tmpfile_make_nil (pfx: string): tmpfile
-fun tmpfile_make_string (pfx: string, content: string): tmpfile
+fun tmpfile_make_nil(pfx: string): tmpfile
+fun tmpfile_make_string(pfx: string, content: string): tmpfile
 //
 (* ****** ****** *)
 //
@@ -39,44 +42,36 @@ datatype compres =
 // HX-2014-09:
 // the order must be maintained!!!
 //
-  | COMPRES0_succ of (string(*target*)) // success
-  | COMPRES1_fail of (string(*target*)) // failure1
-  | COMPRES2_fail of (string(*source*), string(*errmsg*)) // failure2
+| COMPRES0_succ of (string(*target*)) // success
+| COMPRES1_fail of (string(*target*)) // failure1
+| COMPRES2_fail of (string(*source*), string(*errmsg*)) // failure2
 //
 (* ****** ****** *)
 //
 fun{}
-pats2xhtml_command (): string
-fun{}
-pats2xhtml_comp_command
-(
-  stadyn: int
-, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
-) : string // end of [pats2xhtml_comp_command]
-//
-fun{}
-pats2xhtml_comp_code (stadyn: int, code: string): compres
-fun{}
-pats2xhtml_comp_file (stadyn: int, fname: !tmpfile): compres
-//
-(* ****** ****** *)
-//
-fun{}
-patsopt_command (): string
+patsopt_command(): string
 //
 fun{}
 patsopt_tcats_command
-  (!tmpfile(*inp*), !tmpfile(*stderr*)): string
+(
+  stadyn: int
+, !tmpfile(*inp*), !tmpfile(*stderr*)
+) : string // end-of-function
 fun{}
 patsopt_ccats_command
-  (!tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)): string
+(
+  stadyn: int
+, !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
+) : string // end-of-function
 //
 (* ****** ****** *)
 //
 fun{}
-patsopt_tcats_code (ptext: string): compres
+patsopt_tcats_code
+  (stadyn: int, ptext: string): compres
 fun{}
-patsopt_tcats_file (fname: !tmpfile): compres
+patsopt_tcats_file
+  (stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
@@ -85,28 +80,51 @@ patsopt_tcats_file (fname: !tmpfile): compres
 // the output from [patsopt-ccats]
 //
 fun{}
-patsopt_ccats_cont (fname: !tmpfile): compres
+patsopt_ccats_cont
+  (fname: !tmpfile): compres
 //
 fun{}
-patsopt_ccats_code (ptext: string): compres
+patsopt_ccats_code
+  (stadyn: int, ptext: string): compres
 fun{}
-patsopt_ccats_file (fname: !tmpfile): compres
+patsopt_ccats_file
+  (stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
 fun{}
-atscc2js_command (): string
+atscc2js_command(): string
 //
 fun{}
 atscc2js_comp_command
 (
-  !tmpfile(*inp*), !tmpfile(*out*), !tmpfile(*stderr*)
+  inp: !tmpfile
+, out: !tmpfile, err: !tmpfile(*stderr*)
 ) : string // end of [atscc2js_comp_command]
+//
+fun{}
+atscc2js_comp_file(fname: !tmpfile): compres
 //
 (* ****** ****** *)
 //
 fun{}
-atscc2js_comp_file (fname: !tmpfile): compres
+pats2xhtml_command
+  ((*void*)): string
+//
+fun{}
+pats2xhtml_eval_command
+(
+  stadyn: int
+, !tmpfile(*inp*)
+, !tmpfile(*out*), !tmpfile(*stderr*)
+) : string // end of [pats2xhtml_eval_command]
+//
+fun{}
+pats2xhtml_eval_code
+  (stadyn: int, code: string): compres
+fun{}
+pats2xhtml_eval_file
+  (stadyn: int, fname: !tmpfile): compres
 //
 (* ****** ****** *)
 

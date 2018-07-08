@@ -1,0 +1,779 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../MYTEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_CODEGEN2/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="codegen2">
+#title("Automatic Code Generation")
+
+#para("\
+
+In practice, one often encounters a need to write boilerplate code or code
+that tends to follow certain clearly recognizable patterns. It is commonly
+seen that meta-programming (of various forms) is employed to automatically
+generate such code, thus not only increasing programming productivity but
+also potentially eliminating bugs that would otherwise be introduced due to
+manual code construction.
+
+")
+
+#para("\
+
+In the following presentation, I am to show that the ATS compiler can be
+directed to generate the code for certain functions on values of a declared
+datatype. Following is the datatype used for illustration:
+
+#sats2xhtml('\
+//
+datatype expr =
+  | Int of int
+  | Var of string
+  | Add of (expr, expr)
+  | Sub of (expr, expr)
+  | Mul of (expr, expr)
+  | Div of (expr, expr)
+  | Ifgtz of (expr, expr, expr) // if expr > 0 then ... else ...
+  | Ifgtez of (expr, expr, expr) // if expr >= 0 then ... else ...
+//
+')
+
+which is for some kind of abstract syntax trees representing arithmetic
+expressions.
+
+")
+
+<sect1
+ id="codegen2_datcon">
+#title("Generating a datcon-function")
+
+#para("\
+
+Given a datatype, its datcon-function is the one that takes a value of the
+datatype and then returns a string representing the name of the (outmost)
+constructor in the construction of the value.  We can use the following
+directive to indicate (to the ATS compiler) that the datcon-function for
+the datatype #stacode("expr") needs to be generated:
+
+#sats2xhtml('\
+\#codegen2("datcon", expr)
+')
+
+By default, the name of the generated function is #dyncode('datcon_expr_').
+If a different name is needed, it can be supplied as the third argument of
+the #dyncode("\#codegen2")-directive. For instance, the following directive
+indicates that the generated function is of the given name
+#dyncode("my_datcon_expr"):
+
+#sats2xhtml('\
+\#codegen2("datcon", expr, my_datcon_expr)
+')
+
+Assume that a file of the name #filename("expr.dats") contains the following
+directive (as a toplevel declaration):
+
+#sats2xhtml('\
+\#codegen2("datcon", expr)
+')
+
+and the definition for #stacode('expr') is accessible at the point where
+the #dyncode("codegen2")-directive is declared. By executing the
+following command-line:
+
+<informalexample><programlisting>
+<command>patscc</command> --codegen-2 -d expr.dats
+</programlisting></informalexample>
+
+we can see some output of ATS code that implements #dyncode("datcon_expr_"):
+
+#dats2xhtml('\
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+datcon_expr_
+  (arg0) =
+(
+case+ arg0 of
+| Int _ => "Int"
+| Var _ => "Var"
+| Add _ => "Add"
+| Sub _ => "Sub"
+| Mul _ => "Mul"
+| Div _ => "Div"
+| Ifgtz _ => "Ifgtz"
+| Ifgtez _ => "Ifgtez"
+)
+//
+(* ****** ****** *)
+')
+
+If the output needs to be stored in a file of the name
+#dyncode("fprint_expr.hats"), we can issue the following command-line:
+
+<informalexample><programlisting>
+<command>patscc</command> -o fprint_expr.hats --codegen-2 -d expr.dats
+</programlisting></informalexample>
+
+Note that the funtion template #dyncode("datcon_expr_") is required to be
+declared somewhere in order for the generated code to be compiled properly:
+
+#sats2xhtml('\
+fun{}
+datcon_expr_ : (expr) -> string // a function template
+')
+
+")
+
+#para('\
+
+Please find #mycodelink("CHAP_CODEGEN2", "on-line") the entirety of this
+presented example plus a Makefile (for illustrating the code generation
+process).\
+
+')
+
+</sect1><!--"codegen2_datcon"-->
+
+<sect1
+ id="codegen2_datcontag">
+#title("Generating a datcontag-function")
+
+#para("\
+
+A datcontag-function is very similar to a datcon-function.  Given a
+datatype, its datcontag-function is the one that takes a value of the
+datatype and then returns the tag (which is a small integer) assigned to
+the (outmost) constructor in the construction of the value.  We can use the
+following directive to indicate (to the ATS compiler) that the
+datcontag-function for the datatype #stacode("expr") needs to be generated:
+
+#sats2xhtml('\
+\#codegen2("datcontag", expr)
+')
+
+By default, the name of the generated function is
+#dyncode('datcontag_expr_').  If a different name is needed, it can be
+supplied as the third argument of the #dyncode("\#codegen2")-directive. For
+instance, the following directive indicates that the generated function is
+of the given name #dyncode("my_datcontag_expr"):
+
+#sats2xhtml('\
+\#codegen2("datcontag", expr, my_datcontag_expr)
+')
+
+The following ATS code is expected to be generated that implements
+#dyncode("datcontag_expr_"):
+
+#dats2xhtml('\
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+datcontag_expr_
+  (arg0) =
+(
+case+ arg0 of
+| Int _ => 0
+| Var _ => 1
+| Add _ => 2
+| Sub _ => 3
+| Mul _ => 4
+| Div _ => 5
+| Ifgtz _ => 6
+| Ifgtez _ => 7
+)
+//
+(* ****** ****** *)
+')
+
+Note that the funtion template #dyncode("datcontag_expr_") is required
+to be declared somewhere in order for the generated code to be compiled properly:
+
+#sats2xhtml('\
+fun{}
+datcontag_expr_ : (expr) -> intGte(0) // a function template
+')
+
+")
+
+#para('\
+
+Please find #mycodelink("CHAP_CODEGEN2", "on-line")
+the entirety of this presented example plus a Makefile (for illustrating
+the code generation process).\
+
+')
+
+</sect1><!--"codegen2_datcontag"-->
+
+<sect1
+ id="codegen2_fprint">
+#title("Generating a fprint-function")
+
+#para("\
+
+A fprint-function takes a file-handle (of the type
+#stacode("FILEref")) and a value and then outputs a text
+representation of the value to the file-handle.  Given a datatype, one
+is often in need of a function that can output certain kind of text
+representation for values of this datatype. For instance, such a
+function can be of great use in debugging.\
+
+")
+
+#para("\
+
+Let us first declare a function template #dyncode("fprint_expr_") as
+follows:
+
+#sats2xhtml('\
+fun{}
+fprint_expr_ : (FILEref, expr) -> void // a function template
+')
+
+We can then use the directive below to indicate (to the ATS compiler) that
+the fprint-function for the datatype #stacode("expr") needs to be generated:
+
+#sats2xhtml('\
+\#codegen2("fprint", expr, fprint_expr_)
+')
+
+The third argument of the #dyncode("codegen2")-directive can be omitted
+in this case as it coincides with the default. The generated code that
+implements #dyncode("fprint_expr_") is listed as follows:
+
+#dats2xhtml('\
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr_$Int: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Var: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Add: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Sub: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Mul: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Div: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez: $d2ctype(fprint_expr_<>)
+//
+(* ****** ****** *)
+//
+implement{}
+fprint_expr_
+  (out, arg0) =
+(
+case+ arg0 of
+| Int _ => fprint_expr_$Int<>(out, arg0)
+| Var _ => fprint_expr_$Var<>(out, arg0)
+| Add _ => fprint_expr_$Add<>(out, arg0)
+| Sub _ => fprint_expr_$Sub<>(out, arg0)
+| Mul _ => fprint_expr_$Mul<>(out, arg0)
+| Div _ => fprint_expr_$Div<>(out, arg0)
+| Ifgtz _ => fprint_expr_$Ifgtz<>(out, arg0)
+| Ifgtez _ => fprint_expr_$Ifgtez<>(out, arg0)
+)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr_$sep: (FILEref) -> void
+implement{}
+fprint_expr_$sep(out) = fprint(out, ",")
+//
+extern
+fun{}
+fprint_expr_$lpar: (FILEref) -> void
+implement{}
+fprint_expr_$lpar(out) = fprint(out, "(")
+//
+extern
+fun{}
+fprint_expr_$rpar: (FILEref) -> void
+implement{}
+fprint_expr_$rpar(out) = fprint(out, ")")
+//
+extern
+fun{a:t0p}
+fprint_expr_$carg: (FILEref, INV(a)) -> void
+implement{a}
+fprint_expr_$carg(out, arg) = fprint_val<a>(out, arg)
+//
+(* ****** ****** *)
+//
+extern
+fun{}
+fprint_expr_$Int$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Int$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Int$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Int$arg1: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Int(out, arg0) = 
+{
+//
+val () = fprint_expr_$Int$con<>(out, arg0)
+val () = fprint_expr_$Int$lpar<>(out, arg0)
+val () = fprint_expr_$Int$arg1<>(out, arg0)
+val () = fprint_expr_$Int$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Int$con(out, _) = fprint(out, "Int")
+implement{}
+fprint_expr_$Int$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Int$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Int$arg1(out, arg0) =
+  let val-Int(arg1) = arg0 in fprint_expr_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_expr_$Var$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Var$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Var$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Var$arg1: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Var(out, arg0) = 
+{
+//
+val () = fprint_expr_$Var$con<>(out, arg0)
+val () = fprint_expr_$Var$lpar<>(out, arg0)
+val () = fprint_expr_$Var$arg1<>(out, arg0)
+val () = fprint_expr_$Var$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Var$con(out, _) = fprint(out, "Var")
+implement{}
+fprint_expr_$Var$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Var$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Var$arg1(out, arg0) =
+  let val-Var(arg1) = arg0 in fprint_expr_$carg(out, arg1) end
+//
+extern
+fun{}
+fprint_expr_$Add$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Add$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Add$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Add$sep1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Add$arg1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Add$arg2: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Add(out, arg0) = 
+{
+//
+val () = fprint_expr_$Add$con<>(out, arg0)
+val () = fprint_expr_$Add$lpar<>(out, arg0)
+val () = fprint_expr_$Add$arg1<>(out, arg0)
+val () = fprint_expr_$Add$sep1<>(out, arg0)
+val () = fprint_expr_$Add$arg2<>(out, arg0)
+val () = fprint_expr_$Add$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Add$con(out, _) = fprint(out, "Add")
+implement{}
+fprint_expr_$Add$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Add$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Add$sep1(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Add$arg1(out, arg0) =
+  let val-Add(arg1, _) = arg0 in fprint_expr_$carg(out, arg1) end
+implement{}
+fprint_expr_$Add$arg2(out, arg0) =
+  let val-Add(_, arg2) = arg0 in fprint_expr_$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr_$Sub$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Sub$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Sub$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Sub$sep1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Sub$arg1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Sub$arg2: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Sub(out, arg0) = 
+{
+//
+val () = fprint_expr_$Sub$con<>(out, arg0)
+val () = fprint_expr_$Sub$lpar<>(out, arg0)
+val () = fprint_expr_$Sub$arg1<>(out, arg0)
+val () = fprint_expr_$Sub$sep1<>(out, arg0)
+val () = fprint_expr_$Sub$arg2<>(out, arg0)
+val () = fprint_expr_$Sub$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Sub$con(out, _) = fprint(out, "Sub")
+implement{}
+fprint_expr_$Sub$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Sub$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Sub$sep1(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Sub$arg1(out, arg0) =
+  let val-Sub(arg1, _) = arg0 in fprint_expr_$carg(out, arg1) end
+implement{}
+fprint_expr_$Sub$arg2(out, arg0) =
+  let val-Sub(_, arg2) = arg0 in fprint_expr_$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr_$Mul$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Mul$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Mul$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Mul$sep1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Mul$arg1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Mul$arg2: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Mul(out, arg0) = 
+{
+//
+val () = fprint_expr_$Mul$con<>(out, arg0)
+val () = fprint_expr_$Mul$lpar<>(out, arg0)
+val () = fprint_expr_$Mul$arg1<>(out, arg0)
+val () = fprint_expr_$Mul$sep1<>(out, arg0)
+val () = fprint_expr_$Mul$arg2<>(out, arg0)
+val () = fprint_expr_$Mul$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Mul$con(out, _) = fprint(out, "Mul")
+implement{}
+fprint_expr_$Mul$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Mul$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Mul$sep1(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Mul$arg1(out, arg0) =
+  let val-Mul(arg1, _) = arg0 in fprint_expr_$carg(out, arg1) end
+implement{}
+fprint_expr_$Mul$arg2(out, arg0) =
+  let val-Mul(_, arg2) = arg0 in fprint_expr_$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr_$Div$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Div$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Div$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Div$sep1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Div$arg1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Div$arg2: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Div(out, arg0) = 
+{
+//
+val () = fprint_expr_$Div$con<>(out, arg0)
+val () = fprint_expr_$Div$lpar<>(out, arg0)
+val () = fprint_expr_$Div$arg1<>(out, arg0)
+val () = fprint_expr_$Div$sep1<>(out, arg0)
+val () = fprint_expr_$Div$arg2<>(out, arg0)
+val () = fprint_expr_$Div$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Div$con(out, _) = fprint(out, "Div")
+implement{}
+fprint_expr_$Div$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Div$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Div$sep1(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Div$arg1(out, arg0) =
+  let val-Div(arg1, _) = arg0 in fprint_expr_$carg(out, arg1) end
+implement{}
+fprint_expr_$Div$arg2(out, arg0) =
+  let val-Div(_, arg2) = arg0 in fprint_expr_$carg(out, arg2) end
+//
+extern
+fun{}
+fprint_expr_$Ifgtz$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$sep1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$sep2: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$arg1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$arg2: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtz$arg3: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Ifgtz(out, arg0) = 
+{
+//
+val () = fprint_expr_$Ifgtz$con<>(out, arg0)
+val () = fprint_expr_$Ifgtz$lpar<>(out, arg0)
+val () = fprint_expr_$Ifgtz$arg1<>(out, arg0)
+val () = fprint_expr_$Ifgtz$sep1<>(out, arg0)
+val () = fprint_expr_$Ifgtz$arg2<>(out, arg0)
+val () = fprint_expr_$Ifgtz$sep2<>(out, arg0)
+val () = fprint_expr_$Ifgtz$arg3<>(out, arg0)
+val () = fprint_expr_$Ifgtz$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Ifgtz$con(out, _) = fprint(out, "Ifgtz")
+implement{}
+fprint_expr_$Ifgtz$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Ifgtz$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Ifgtz$sep1(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Ifgtz$sep2(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Ifgtz$arg1(out, arg0) =
+  let val-Ifgtz(arg1, _, _) = arg0 in fprint_expr_$carg(out, arg1) end
+implement{}
+fprint_expr_$Ifgtz$arg2(out, arg0) =
+  let val-Ifgtz(_, arg2, _) = arg0 in fprint_expr_$carg(out, arg2) end
+implement{}
+fprint_expr_$Ifgtz$arg3(out, arg0) =
+  let val-Ifgtz(_, _, arg3) = arg0 in fprint_expr_$carg(out, arg3) end
+//
+extern
+fun{}
+fprint_expr_$Ifgtez$con: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$lpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$rpar: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$sep1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$sep2: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$arg1: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$arg2: $d2ctype(fprint_expr_<>)
+extern
+fun{}
+fprint_expr_$Ifgtez$arg3: $d2ctype(fprint_expr_<>)
+//
+implement{}
+fprint_expr_$Ifgtez(out, arg0) = 
+{
+//
+val () = fprint_expr_$Ifgtez$con<>(out, arg0)
+val () = fprint_expr_$Ifgtez$lpar<>(out, arg0)
+val () = fprint_expr_$Ifgtez$arg1<>(out, arg0)
+val () = fprint_expr_$Ifgtez$sep1<>(out, arg0)
+val () = fprint_expr_$Ifgtez$arg2<>(out, arg0)
+val () = fprint_expr_$Ifgtez$sep2<>(out, arg0)
+val () = fprint_expr_$Ifgtez$arg3<>(out, arg0)
+val () = fprint_expr_$Ifgtez$rpar<>(out, arg0)
+//
+}
+implement{}
+fprint_expr_$Ifgtez$con(out, _) = fprint(out, "Ifgtez")
+implement{}
+fprint_expr_$Ifgtez$lpar(out, _) = fprint_expr_$lpar(out)
+implement{}
+fprint_expr_$Ifgtez$rpar(out, _) = fprint_expr_$rpar(out)
+implement{}
+fprint_expr_$Ifgtez$sep1(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Ifgtez$sep2(out, _) = fprint_expr_$sep<>(out)
+implement{}
+fprint_expr_$Ifgtez$arg1(out, arg0) =
+  let val-Ifgtez(arg1, _, _) = arg0 in fprint_expr_$carg(out, arg1) end
+implement{}
+fprint_expr_$Ifgtez$arg2(out, arg0) =
+  let val-Ifgtez(_, arg2, _) = arg0 in fprint_expr_$carg(out, arg2) end
+implement{}
+fprint_expr_$Ifgtez$arg3(out, arg0) =
+  let val-Ifgtez(_, _, arg3) = arg0 in fprint_expr_$carg(out, arg3) end
+//
+(* ****** ****** *)
+')
+
+The code for #dyncode("fprint_expr_") is entirely template-based. This style
+makes the code extremely flexible for adaption through template re-mplementation.
+As the datatype #stacode('expr') is recursively defined, the following template
+implementation needs to be added in order to make #dyncode("fprint_expr_") work:
+
+#dats2xhtml('\
+implement fprint_expr_$card<expr> = fprint_expr_
+')
+
+For instance,
+applying #dyncode("fprint_expr_")
+to the expression #dyncode("Add(Int(10),Mul(Int(1),Int(2)))")
+outputs the same text representation.
+
+As an example of adaptation, let us add the following template implementations:
+
+#dats2xhtml('\
+implement
+fprint_expr_$Add$con<> (_, _) = ()
+implement
+fprint_expr_$Add$sep1<> (out, _) = fprint! (out, "+")
+')
+
+When #dyncode("fprint_expr_") is applied to the expression
+#dyncode("Add(Int(10),Mul(Int(1),Int(2)))") this time, the output is
+expected to read #dyncode("(Int(10)+Mul(Int(1),Int(2)))").
+
+")
+
+#para('\
+
+After proper adaptation is done, one can introduce a (non-template)
+function as follows:
+
+#dats2xhtml('\
+//
+extern
+fun
+fprint_expr
+  (out: FILEref, x: expr): void
+//
+implement
+fprint_expr(out, x) = fprint_expr_<>(out, x)
+//
+')
+
+In this way, only one instance of #dyncode("fprint_expr_") is compiled
+even if repeated calls to #dyncode("fprint_expr") are made.
+
+')
+
+#para('\
+
+Please find #mycodelink("CHAP_CODEGEN2", "on-line")
+the entirety of this presented example plus a Makefile (for illustrating
+the code generation process).\
+
+')
+
+</sect1><!--"codegen2_fprint"-->
+
+</chapter><!--"codegen2"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_funsetmap.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

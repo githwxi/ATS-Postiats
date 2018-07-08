@@ -1,0 +1,113 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../json.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_jsonc_json")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/json-c/json\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para('\
+
+This package contains an API for programming <a
+href="http://json-c.github.io/json-c/">json-c</a> in ATS.  ')
+
+")#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("json_c_version")
+#declnamesynop("json_c_version_num")
+
+(* ****** ****** *)
+
+#declname2("mybasis.sats", "mybasis.html")
+//
+#declsynop2('\
+
+This file, which is included in [json.sats], mostly contains type
+definitions and macros in the json-c package. ')
+
+(* ****** ****** *)
+
+#declname2("arraylist.sats", "arraylist.html")
+//
+#declsynop2('\
+
+This file contains an API for a simple array-list (that is, dynamic array)
+implementation. ')
+
+(* ****** ****** *)
+
+#declname2("linkhash.sats", "linkhash.html")
+//
+#declsynop2('\
+
+This file contains an API for a simple hashtable implementation. ')
+
+(* ****** ****** *)
+
+#declname2("printbuf.sats", "printbuf.html")
+//
+#declsynop2('\
+
+This file contains an API for functions declared in [printbuf.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_util.sats", "json_util.html")
+//
+#declsynop2('\
+
+This file contains an API for functions declared in [json_util.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_object.sats", "json_object.html")
+//
+#declsynop2('\
+
+This file contains an API for functions declared in [json_object.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_object_iterator.sats", "json_object_iterator.html")
+//
+#declsynop2('\
+
+This file contains an API for functions declared in [json_object_iterator.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_tokener.sats", "json_tokener.html")
+//
+#declsynop2('\
+
+This file contains an API for functions declared in [json_tokener.h]. ')
+
+(* ****** ****** *)
+
+#declname2("json_ML.sats", "json_ML.html")
+//
+#declsynop2('\
+
+This file contains an API in ATS of quasi ML-style that is directly
+based on the json-c package. ')
+
+(* ****** ****** *)
+
+(* end of [json.atxt] *)

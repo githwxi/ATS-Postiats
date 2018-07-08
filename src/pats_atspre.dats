@@ -46,5 +46,5 @@
 
 (* ****** ****** *)
 
-(* end of [pats_atslib.dats] *)
+(* end of [pats_atspre.dats] *)
 

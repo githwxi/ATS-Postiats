@@ -71,30 +71,33 @@ staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
-
-fun filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
-
+//
+fun
+filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
+//
 (* ****** ****** *)
 
 datatype
 c3nstrkind =
 //
-  | C3NSTRKmain of () // generic
+  | C3TKmain of () // generic
 //
-  | C3NSTRKcase_exhaustiveness of
+  | C3TKcase_exhaustiveness of
       (caskind (*case/case+*), p2atcstlst) // no [case-]
 //
-  | C3NSTRKtermet_isnat of () // term. metric welfounded
-  | C3NSTRKtermet_isdec of () // term. metric decreasing
+  | C3TKtermet_isnat of () // term. metric welfounded
+  | C3TKtermet_isdec of () // term. metric decreasing
 //
-  | C3NSTRKsome_fin of (d2var, s2exp(*fin*), s2exp)
-  | C3NSTRKsome_lvar of (d2var, s2exp(*lvar*), s2exp)
-  | C3NSTRKsome_vbox of (d2var, s2exp(*vbox*), s2exp)
+  | C3TKsome_fin of (d2var, s2exp(*fin*), s2exp)
+  | C3TKsome_lvar of (d2var, s2exp(*lvar*), s2exp)
+  | C3TKsome_vbox of (d2var, s2exp(*vbox*), s2exp)
 //
-  | C3NSTRKlstate of () // lstate merge
-  | C3NSTRKlstate_var of (d2var) // lstate merge for d2var
+  | C3TKlstate of () // lstate merge
+  | C3TKlstate_var of (d2var) // lstate merge for d2var
 //
-  | C3NSTRKloop of (int) // HX: ~1/0/1: enter/break/continue
+  | C3TKloop of (int) // HX: ~1/0/1: enter/break/continue
+//
+  | C3TKsolverify of () // HX-2015-06-12: $solver_verify
 // end of [c3nstrkind]
 
 datatype s3itm =
@@ -104,11 +107,13 @@ datatype s3itm =
   | S3ITMcnstr of c3nstr
   | S3ITMcnstr_ref of c3nstroptref // HX: for handling state types
   | S3ITMdisj of s3itmlstlst
+  | S3ITMsolassert of (s2exp) // $solver_assert
 // end of [s3item]
 
 and c3nstr_node =
   | C3NSTRprop of s2exp
   | C3NSTRitmlst of s3itmlst
+  | C3NSTRsolverify of (s2exp) // $solve_verify
 // end of [c3nstr_node]
 
 and h3ypo_node =
@@ -144,31 +149,37 @@ and h3ypo = '{
 } // end of [h3ypo]
 
 (* ****** ****** *)
-
-fun c3nstr_prop
+//
+fun
+c3nstr_prop
   (loc: loc_t, s2e: s2exp): c3nstr
-
+//
 fun
 c3nstr_itmlst
 (
   loc: loc_t, knd: c3nstrkind, s3is: s3itmlst
 ) : c3nstr // end of [c3nstr_itmlst]
-
+//
 fun
 c3nstr_case_exhaustiveness
 (
   loc: loc_t, casknd: caskind, p2tcs: !p2atcstlst_vt
 ) : c3nstr // end of [c3nstr_case_exhaustiveness]
 
-fun c3nstr_termet_isnat
+fun
+c3nstr_termet_isnat
   (loc: loc_t, s2e: s2exp): c3nstr
 // end of [c3nstr_termet_isnat]
-fun c3nstr_termet_isdec
-  (loc: loc_t, met: s2explst, metbd: s2explst): c3nstr
+fun
+c3nstr_termet_isdec
+  (loc: loc_t, met: s2explst, mbd: s2explst): c3nstr
 // end of [c3nstr_termet_isdec]
-
-fun c3nstroptref_make_none (loc: loc_t): c3nstroptref
-
+//
+fun
+c3nstr_solverify(loc: loc_t, s2e_prop: s2exp): c3nstr
+//
+fun c3nstroptref_make_none (loc0: loc_t): c3nstroptref
+//
 (* ****** ****** *)
 
 fun h3ypo_prop
@@ -180,17 +191,26 @@ fun h3ypo_eqeq
 // end of [h3ypo_eqeq]
 
 (* ****** ****** *)
-
+//
 fun print_c3nstr (x: c3nstr): void
 and prerr_c3nstr (x: c3nstr): void
 fun fprint_c3nstr : fprint_type (c3nstr)
-
-fun fprint_c3nstrkind : fprint_type (c3nstrkind)
-
+//
+overload print with print_c3nstr
+overload prerr with prerr_c3nstr
+overload fprint with fprint_c3nstr
+//
+(* ****** ****** *)
+//
+fun
+fprint_c3nstrkind : fprint_type (c3nstrkind)
+//
+(* ****** ****** *)
+//
 fun print_h3ypo (x: h3ypo): void
 and prerr_h3ypo (x: h3ypo): void
 fun fprint_h3ypo : fprint_type (h3ypo)
-
+//
 (* ****** ****** *)
 //
 fun fprint_s3itm : fprint_type (s3itm)
@@ -213,42 +233,57 @@ fun stasub_make_svarlst
 // end of [stasub_make_svarlst]
 
 (* ****** ****** *)
-
-fun s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
+//
+fun
+s2exp_exi_instantiate_all
+  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
+fun
+s2exp_uni_instantiate_all
+  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
+//
+fun
+s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
   (knd: int, s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-fun s2exp_exi_instantiate_all
-  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-fun s2exp_uni_instantiate_all
-  (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-
+//
 (* ****** ****** *)
-
-fun s2exp_termet_instantiate
+//
+fun
+s2exp_termet_instantiate
   (loc: loc_t, stamp: stamp, met: s2explst): void
-fun s2exp_unimet_instantiate_all
+fun
+s2exp_unimet_instantiate_all
 // HX: instantiating universal quantifiers and term. metrics
   (s2e: s2exp, locarg: loc_t, err: &int): (s2exp, s2explst_vt)
-
+//
 (* ****** ****** *)
-
-fun s2exp_exi_instantiate_sexparg
+//
+fun
+s2exp_exi_instantiate_sexparg
   (s2e: s2exp, arg: s2exparg, err: &int): (s2exp, s2explst_vt)
-fun s2exp_uni_instantiate_sexparglst
+fun
+s2exp_uni_instantiate_sexparglst
   (s2e: s2exp, arg: s2exparglst, err: &int): (s2exp, s2explst_vt)
-
+//
 (* ****** ****** *)
-
-fun s2exp_tmp_instantiate_rest (
-  s2f: s2exp, locarg: loc_t, s2qs: s2qualst, err: &int
-) : (s2exp(*res*), t2mpmarglst)
-// end of [s2exp_tmp_instantiate_rest]
-
-fun s2exp_tmp_instantiate_tmpmarglst (
+//
+fun
+s2exp_tmp_instantiate_rest
+(
+  s2f: s2exp, locarg: loc_t, s2qs: s2qualst, nerr: &int
+) : (s2exp(*res*), t2mpmarglst) = "ext#patsopt_s2exp_tmp_instantiate_rest"
+//
+fun
+s2exp_tmp_instantiate_tmpmarglst
+(
   s2f: s2exp
-, locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
-) : (s2exp(*res*), t2mpmarglst)
-// end of [s2exp_tmp_instantiate_tmpmarglst]
-
+, locarg: loc_t, s2qs: s2qualst, t2mas: t2mpmarglst, nerr: &int
+) : (s2exp(*res*), t2mpmarglst) = "ext#patsopt_s2exp_tmp_instantiate_tmpmarglst"
+//
+(* ****** ****** *)
+//
+fun
+s2var_occurcheck_s2exp (s2v0: s2var, s2e: s2exp): bool
+//
 (* ****** ****** *)
 
 absview trans3_env_push_v
@@ -272,6 +307,9 @@ fun trans3_env_push (): (trans3_env_push_v | void)
 fun trans3_env_add_svar (s2v: s2var): void
 fun trans3_env_add_svarlst (s2vs: s2varlst): void
 
+fun trans3_env_add_squa (s2q: s2qua): void
+fun trans3_env_add_squalst (s2qs: s2qualst): void
+
 fun trans3_env_add_sp2at (sp2t: sp2at): void
 
 fun trans3_env_add_sVar (s2V: s2Var): void
@@ -288,7 +326,9 @@ fun trans3_env_add_eqeq
   (loc: loc_t, s2e1: s2exp, s2e2: s2exp): void
 // end of [trans3_env_add_eqeq]
 
-fun trans3_env_add_patcstlstlst_false (
+fun
+trans3_env_add_patcstlstlst_false
+(
   loc: loc_t
 , casknd: caskind, cp2tcss: p2atcstlstlst_vt, s2es_pat: s2explst
 ) : void // end of [trans3_env_add_p2atcstlstlst_false]
@@ -313,6 +353,11 @@ fun trans3_env_hypadd_labpatcstlst
   (loc: loc_t, lp2tcs: labp2atcstlst_vt, ls2es: labs2explst): void
 fun trans3_env_hypadd_patcstlstlst
   (loc: loc_t, p2tcs: p2atcstlstlst_vt, s2es: s2explst): void
+//
+(* ****** ****** *)
+//
+fun trans3_env_solver_assert(loc: loc_t, s2e: s2exp): void
+fun trans3_env_solver_verify(loc: loc_t, s2e: s2exp): void
 //
 (* ****** ****** *)
 //
@@ -353,11 +398,11 @@ fun the_s2cstbindlst_push (): (s2cstbindlst_push_v | void)
 
 (* ****** ****** *)
 
+absview termetenv_push_v
+
 fun s2explst_check_termet
   (loc0: loc_t, met: s2explst): void
 // end of [s2explst_check_termet]
-
-absview termetenv_push_v
 
 fun termetenv_pop
   (pf: termetenv_push_v | (*none*)): void

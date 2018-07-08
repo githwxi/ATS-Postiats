@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-funcomb-style</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Functional Programming with Combinators
+</h1>
+
+##para('\
+
+Generally speaking (or by convention), the name combinator refers to a
+relatively small function for processing tree-like data (including
+lists). By a combinator-based style of programming, I mostly mean a
+style that puts a particular emphasis on making use of combinators in
+program construction.
+
+')##comment("para")
+
+##para('\
+
+A great strength in functional programming lies in its support for
+programming with combinators. In this article, I would like to present
+some code that makes extensive use of sequence-processing combinators,
+where a sequence may refer to either a list or a stream (that is, a
+lazy list) in ATS.\
+
+')##comment("para")
+
+<h2>Listing Permutations</h2>
+
+##para('\
+
+The first example I use for illustration is about listing all of the
+permutations of a given list. The following function ##dyncode("permute")
+is declared for this purpose:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{
+a:t@ype
+} permute
+  {n:nat}
+(
+xs: list(a, n)
+) : list(list(a, n), fact(n))
+//
+')</pre>
+
+Essentially, the type assigned to ##dyncode("permute") states that
+##dyncode("permute") is a function taking a list of length ##stacode("N")
+and returning a list of length ##stacode("fact(N)") in which each element
+is itself a list of length ##stacode("N"), where ##stacode("fact") refers to the
+factorial function on natural numbers. Before implementing
+##dyncode("permute"), I would like to first implement the following
+declared function ##dyncode("permute0"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{
+a:t@ype
+} permute0(xs: list0(a)): list0(list0(a))
+//
+')</pre>
+
+where ##stacode("list0") is just an un-indexed version of
+##stacode("list"). Note that ##dyncode("permute") and
+##dyncode("permute0") do the same at run-time but the latter is given
+a simplied type when compared to the former. The implementation of
+##dyncode("permute0") given as follows can be said of typical
+combinator-based style:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+{a}(*tmp*)
+permute0(xs) =
+case+ xs of
+| list0_nil() =>
+  list0_sing
+  (
+     list0_nil()
+  )
+| list0_cons _ =>
+  list0_concat
+  (
+    list0_map<(a, list0(a))><list0(list0(a))>
+      (choose_1_rest(xs), lam(@(x, xs)) => list0_mapcons(x, permute0(xs)))
+  )
+//
+')</pre>
+
+The function ##dyncode("list0_sing") forms a singleton list, and the
+function ##dyncode("list0_map") forms a list by applying its second
+argument, which is a closure-function, to each element in its first
+argument, which is a list.  The function ##dyncode("list0_concat")
+takes a list ##dyncode("xss") of lists and returns the concatenation
+of all of the lists in ##dyncode("xss").  As for
+##dyncode("list0_mapcons"), it takes an element and a list of lists
+and then forms another list by putting the element to the front of
+each list in the list of lists.
+
+Finally, the function ##dyncode("choose_1_rest") takes a list
+##dyncode("xs") and returns a list of pairs such that each pair
+consists of an element ##dyncode("x") and the list obtained from
+removing ##dyncode("x") from ##dyncode("xs"), where ##dyncode("x")
+ranges over all of the elements in ##dyncode("xs"). Please
+find as follows an implementation of ##dyncode("choose_1_rest"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+{a:t@ype}
+choose_1_rest(xs: list0(INV(a))): list0(@(a, list0(a)))
+//
+implement
+{a}(*tmp*)
+choose_1_rest(xs) =
+(
+case+ xs of
+| list0_nil() =>
+  list0_nil()
+| list0_cons(x1, xs2) =>
+  list0_cons
+  (
+    (x1, xs2)
+  , list0_map<(a, list0(a))><(a, list0(a))>
+      (choose_1_rest(xs2), lam(xxs) => (xxs.0, list0_cons(x1, xxs.1)))
+    // list0_map
+  )
+)
+//
+')</pre>
+
+Please click
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/funcomb-style/JS/permute.dats">here</a>
+to try a completed program that prints out all of the permutations of
+(1, 2, 3).
+
+')##comment("para")
+
+##para('\
+
+The above implementation of ##dyncode("permute0") can be readily turned
+into the following one for ##dyncode("permute"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+{a}(*tmp*)
+permute
+{n}(xs) = let
+//
+extern
+praxi
+lemma_fact_0(): [fact(0)==1] void
+extern
+praxi
+lemma_fact_1{n:pos}(): [fact(n)==n*fact(n-1)] void
+//
+in
+//
+case+ xs of
+| nil() =>
+  mylist_sing(nil()) where
+  {
+    prval () = lemma_fact_0()
+  } (* end of [nil] *)
+| cons _ => let
+    prval () = lemma_fact_1{n}()
+  in
+  //
+  mylist_concat
+  (
+    mylist_map<(a, list(a, n-1))><list(list(a, n), fact(n-1))>
+      (mychoose_1_rest(xs), lam(@(x, xs)) => mylist_mapcons(x, permute(xs)))
+  )
+  //
+  end // end of [cons]
+//
+end // end of [permute]
+')</pre>
+
+where the involved combinators are assigned the following types:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+extern
+fun
+{a:t@ype}
+mylist_sing(x: a): list(a, 1)
+extern
+fun
+{a:t@ype}
+mylist_concat{m,n:int}(list(list(INV(a), n), m)): list(a, m*n)
+extern
+fun
+{a:t@ype}
+mylist_mapcons{m,n:int}(a, list(list(INV(a), n), m)): list(list(a, n+1), m)
+extern
+fun
+{a:t@ype}
+{b:t@ype}
+mylist_map{n:int}(list(INV(a), n), a -<cloref1> b): list(b, n)
+extern
+fun
+{a:t@ype}
+mychoose_1_rest{n:int}(xs: list(INV(a), n)): list(@(a, list(a, n-1)), n)
+')</pre>
+
+')##comment("para")
+
+<h2>Depth-First Search</h2>
+
+##para('\
+
+As another example of programming with combinators, I present a
+high-level implementation of tree-based depth-first search. In the
+following declaration, ##stacode("node") is introduced as an abstract
+type (for nodes in a given tree to be searched) and ##stacode("nodes")
+as an alias for the type ##stacode("list0(node)"), which is for lists
+of nodes:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+abstype node
+typedef nodes = list0(node)
+')</pre>
+
+Let us further assume the availability of
+a function of the name ##dyncode("node_get_children")
+for obtaining the children of a given node:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+node_get_children(nx: node): nodes
+//
+overload .children with node_get_children
+//
+')</pre>
+
+With the dot-notation overloading, one can write
+##dyncode("nx.children()") for ##dyncode("node_get_children(nx)").
+
+')##comment("para")
+
+##para('\
+
+The following declared function ##dyncode("depth_first_search")
+essentially pre-orderly lists all of the nodes in each tree rooted at
+one of given nodes:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+depth_first_search(nxs: nodes): nodes
+//
+')</pre>
+
+A specification-like implementation for
+##dyncode("depth_first_search") is given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+depth_first_search
+  (nxs) =
+(
+if iseqz(nxs)
+  then list0_nil()
+  else let
+    val nx0 = nxs.head()
+  in
+    list0_cons(nx0, depth_first_search(nx0.children() + nxs.tail()))
+  end // end of [else]
+) (* end of [depth_first_search] *)
+//
+')</pre>
+
+where the symbol ##dyncode("+") is overloaded with ##dyncode("list0_append")
+for concatenating two given list0-values.
+
+')##comment("para")
+
+##para('\
+
+The use of ##stacode("list0") in the above implementation of
+##dyncode("depth_first_search") can result in great inefficiency both
+time-wise and memory-wise. For instance, by calling
+##dyncode("depth_first_search") on a given node, one generates a list
+containing all of the nodes in the tree rooted at the given node; this
+generated list can potentially be of great size, requiring long time to
+compute as well as large memory to store.\
+
+')
+
+##para('\
+
+By replacing ##stacode("list0") with ##stacode("stream_vt") (for
+linear streams) in the definition of ##stacode("nodelst"), I give as
+follows another implementation of ##dyncode("depth_first_search")
+that can be seen as a close variant of the above one:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+depth_first_search
+  (nxs) = $ldelay(
+//
+(
+case+ !nxs of
+| ~stream_vt_nil() =>
+    stream_vt_nil((*void*))
+| ~stream_vt_cons(nx0, nxs) =>
+    stream_vt_cons(nx0, depth_first_search(nx0.children() + nxs))
+)
+,
+~(nxs) // HX: for freeing the stream!
+//
+) (* end of [depth_first_search] *)
+//
+')</pre>
+
+Due to the very nature of lazy-evaluation, each node in
+the stream returned by a call to ##dyncode("depth_first_search")
+is computed only if it is needed subsequently. For instance,
+if one only needs to find the first node in the stream satisfying
+some property, then no following nodes are ever computed.
+Additionally, linear lazy-evaluation (##stacode("stream_vt"))
+means that only the latest computed node needs to be kept at any point during
+evaluation, saving the memory that would otherwise be needed for storing
+all of the previously computed nodes.
+
+')
+
+<h2>Breadth-First Search</h2>
+
+##para('\
+
+A specification-like implementation of tree-based breadth-first search
+is given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun
+breadth_first_search
+  (nxs: nodes): nodes
+//
+implement
+breadth_first_search
+  (nxs) =
+(
+if iseqz(nxs)
+  then list0_nil()
+  else let
+    val nx0 = nxs.head()
+  in
+    list0_cons(nx0, breadth_first_search(nxs.tail() + nx0.children()))
+  end // end of [else]
+) (* end of [breadth_first_search] *)
+//
+')</pre>
+
+While this implementation is functionally correct, its can be
+impractical. Clearly, processing one node involves evaluating the code
+##dyncode("nxs.tail() + nx0.children()"), which can be both
+time-consuming and memory-consuming as the list
+##dyncode("nxs.tail()") can be exponentially long (in terms of
+tree-height). One method for addressing this issue is to replace the
+list-based sequence representation with one that can support efficient
+concatenation (for instance, one based on finger-trees). I leave it as
+an exercise for the interested reader to experiment with such a
+method.
+
+
+')
+
+##para('\
+
+As in the case of depth-first search, another implementation of
+##dyncode("breadth_first_search") can be given as follows where
+##stacode("list0") in the definition of ##stacode("nodelst") is
+replaced with ##stacode("stream_vt"):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+breadth_first_search
+  (nxs) = $ldelay(
+//
+(
+case+ !nxs of
+| ~stream_vt_nil() =>
+    stream_vt_nil((*void*))
+| ~stream_vt_cons(nx0, nxs) =>
+    stream_vt_cons(nx0, breadth_first_search(nxs + nx0.children()))
+)
+,
+~(nxs) // HX: for freeing the stream!
+//
+) (* end of [breadth_first_search] *)
+//
+')</pre>
+
+When the objective is to find one node satisfying certain property,
+this stream-based implementation of breadth-first search can actually
+be quite attractive.
+
+')##comment("para")
+
+<!--
+<h2>Game-of-24</h2>
+-->
+
+<h2>Queen Puzzle</h2>
+
+##para('\
+
+The famous 8-queen puzzle asks the player to find ways to put eight
+queen pieces on a chess board such that no queen piece can attack
+any other ones. In other words, no two queen pieces can be put on the
+same row, the same column, or the same diagnal. This puzzle can be
+readily solved with a tree-based search. Let a node be represented by
+a list ##dyncode("xs") of integers:
+
+<pre
+class="patsyntax"
+>##sats2xhtml('\
+assume node = list0(int)
+')</pre>
+
+For each valid index ##dyncode("i"), the integer ##dyncode("xs[i]")
+stands for the column number of the queen piece on row
+##dyncode("n-1-i"), where ##dyncode("n") refers to the length of
+##dyncode("xs"). More precisely, a given integer list of length
+##dyncode("n") represents a partial configuration of chess board
+containing ##dyncode("n") queen pieces with no piece being able to
+attack any other ones.  As for ##dyncode("node_get_children"), we can
+implement it as follows:
+
+<pre
+class="patsyntax"
+>##dats2xhtml('\
+implement
+node_get_children
+  (nx) = let
+//
+#define N 8
+//  
+fn
+test
+// testing whether putting a queen piece
+// at position i on the next row is safe
+(
+  i: int, nx: node
+) = (nx).iforall()(lam (d, j) => (i != j) && (abs(i-j) != d+1))
+//
+in
+  ((N).stream_vt_map(TYPE{node})(lam(i) => list0_cons(i, nx))).filter()(lam nx => test(nx.head(), nx.tail()))
+end // end of [node_get_children]
+')</pre>
+
+Calling ##dyncode("node_get_children") on a given node returns all of
+the nodes that extend the given one with one more queen piece. A
+solution to the 8-queen puzzle is just a node containing 8 integers,
+and the following (linear) stream ##dyncode("theSolution") consists of
+all of such nodes:
+
+<pre
+class="patsyntax"
+>##dats2xhtml('\
+//
+val
+theSolutions =
+(depth_first_search(stream_vt_make_sing(list0_nil()))).filter()(lam nx => length(nx) = N)
+//
+')</pre>
+
+')##comment("para")
+
+##para("""\
+
+Please click
+<a href="http://www.ats-lang.org/SERVER/MYCODE/Patsoptaas_serve.php?mycode_url=https://raw.githubusercontent.com/githwxi/ATS-Postiats/master/doc/EXAMPLE/EFFECTIVATS/funcomb-style/JS/queen-puzzle-dfs-2.dats">here</a>
+to try a completed program that prints out the first two solutions to the 8-queen puzzle.
+
+""")##comment("para")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+permute.dats // listing permutations
+depth-first.dats // dfs using list-based sequence representation
+depth-first-2.dats // dfs using stream-based sequence representation
+breadth-first.dats // bfs using list-based sequence representation
+breadth-first-2.dats // bfs using stream-based sequence representation
+queen-puzzle-dfs-2.dats // solving 8-queen puzzle with depth-first-2
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

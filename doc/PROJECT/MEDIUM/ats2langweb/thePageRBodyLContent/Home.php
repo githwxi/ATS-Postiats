@@ -19,7 +19,7 @@ dependent types and linear types are available in ATS.
 
 <p>
 The current implementation of ATS2 (ATS/Postiats) is written in ATS1
-(ATS/Anairiats), consisting of more than 150K lines of code. ATS can be as
+(ATS/Anairiats), consisting of more than 180K lines of code. ATS can be as
 efficient as C/C++ both time-wise and memory-wise and supports a variety of
 programming paradigms that include:
 </p>
@@ -123,6 +123,20 @@ software.
 </li>
 
 </ul>
+
+<hr></hr>
+
+<h2><a id="Suggestion_on_learning_ATS">Suggestion on learning ATS</a></h2>
+
+<p>
+ATS is feature-rich (like C++). Prior knowledge of functional
+programming based on ML and imperative programming based on C can be a
+big plus for learning ATS. In general, one should expect to encounter
+many unfamiliar programming concepts and features in ATS and be
+prepared to spend a substantial amount of time on learning
+them. Hopefully, one will become a superbly confident programmer at
+the end who can enjoy implementing large and complex systems with
+minimal need for debugging.  </p>
 
 <hr></hr>
 

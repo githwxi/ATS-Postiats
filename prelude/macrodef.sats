@@ -36,7 +36,7 @@
 #include "prelude/params.hats"
 
 (* ****** ****** *)
-
+//
 (*
 ** HX: short form
 *)
@@ -44,45 +44,91 @@
 // [orelse] and [andalso] are declared as infix ops
 //
 macdef
-orelse (x, y) = (if ,(x) then true else ,(y)): bool
+orelse(x, y) =
+  (if ,(x) then true else ,(y)): bool
 macdef
-andalso (x, y) = (if ,(x) then ,(y) else false): bool
+andalso(x, y) =
+  (if ,(x) then ,(y) else false): bool
+//
+(* ****** ****** *)
+//
+macdef
+ifopt(t, x) =
+if(,(t))then(Some(,(x)))else(None())
+macdef
+ifopt_vt(t, x) =
+if(,(t))then(Some_vt(,(x)))else(None_vt())
+//
+(* ****** ****** *)
+//
+macdef
+ifval(test, v_then, v_else) =
+  (if ,(test) then ,(v_then) else ,(v_else))
+//
+(* ****** ****** *)
+//
+macdef delay(exp) = $delay(,(exp))
+macdef raise(exn) = $raise(,(exn))
+//
+(*
+macdef effless(exp) = $effmask_all(,(exp))
+*)
 //
 (* ****** ****** *)
 
-macdef assign (lv, rv) = ,(lv) := ,(rv)
+macdef assign(lv, rv) = ,(lv) := ,(rv)
 
 (* ****** ****** *)
-
-macdef exitloc (x) = exit_errmsg (,(x), $mylocation)
-
+//
+macdef
+exitloc(ecode) =
+  exit_errmsg (,(ecode), $mylocation)
+//
 (* ****** ****** *)
-
-macdef assertloc (x) = assert_errmsg (,(x), $mylocation)
-
+//
+macdef
+assertloc(tf) =
+  assert_errmsg (,(tf), $mylocation)
+//
 (* ****** ****** *)
 //
 macdef
 assertlocmsg
-  (x, msg) = assert_errmsg2 (,(x), $mylocation, ,(msg))
+  (tf, msg) =
+  assert_errmsg2 (,(tf), $mylocation, ,(msg))
 macdef
 assertmsgloc
-  (x, msg) = assert_errmsg2 (,(x), ,(msg), $mylocation)
+  (tf, msg) =
+  assert_errmsg2 (,(tf), ,(msg), $mylocation)
+//
+(* ****** ****** *)
+//
+macdef
+undefined() = let
+//
+val () =
+assertlocmsg
+  (false, ": undefined!!!") in $raise(AssertExn)
+//
+end // end of [undefined]
 //
 (* ****** ****** *)
 
-macdef ignoret (x) = let val x = ,(x) in (*nothing*) end
+macdef ignoret(x) = let val _ = ,(x) in (*nothing*) end
 
 (* ****** ****** *)
 
-macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
+macdef foldret(x) = let val x = ,(x) in fold@ (x); x end
 
 (* ****** ****** *)
-
-macdef showtype (x) = $showtype ,(x)
-macdef showview (x) = pridentity_v ($showtype ,(x))
-macdef showviewtype (x) = pridentity_vt ($showtype ,(x))
-
+//
+macdef showtype(x) = $showtype ,(x)
+//
+macdef showview(x) = pridentity_v ($showtype ,(x))
+//
+macdef showvtype(x) = pridentity_vt ($showtype ,(x))
+macdef showviewtype(x) = pridentity_vt ($showtype ,(x))
+//
 (* ****** ****** *)
 
 (* end of [macrodef.sats] *)

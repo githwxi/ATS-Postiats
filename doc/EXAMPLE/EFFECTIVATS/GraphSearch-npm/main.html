@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-GraphSearch-npm</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Let's start with package-based programming!
+</h1>
+
+<p>
+In this article, I present an example that makes use of a package
+for (generic) graph search. It should be plainly evident that this
+style of package-based programming can greatly facilitate sharing of
+ATS code, which is essential to building a community based on the ATS
+programming language system.
+
+</p>
+
+<h2>Generic Graph Search</h2>
+
+<p>
+A template-based implementation of generic graph search
+plus detailed explanation can be found
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/GraphSearch/index.html">on-line</a>
+in an article in the Effective-ATS series, which serves as the basis for
+the code used in this article and should therefore be thoroughly studied
+first.
+
+</p>
+
+<h2>Solving 8-Queen Puzzle</h2>
+
+<p>
+The famous 8-queen puzzle asks the player to find ways to put eight
+queen pieces on a chess board such that no queen piece can attack
+any other ones. In other words, no two queen pieces can be put on the
+same row, the same column, or the same diagnal. This puzzle can be
+readily solved with a tree-based search, which is a special case of
+graph search.
+
+</p>
+
+<p>
+There is a package of the name
+<u>atscntrb-bucs320-graphsearch</u> for generic graph search that is
+stored
+<a href="https://www.npmjs.com/package/atscntrb-bucs320-graphsearch">on-line</a>, and
+the content of the package is available for viewing
+<a href="https://github.com/githwxi/ATS-Postiats/tree/master/libats/BUCS320/GraphSearch">here</a>.
+One can simply use the <u>npm</u> tool (for node package management)
+to install the package directly by issuing the following command-line:
+
+<p>
+<tt>npm install atscntrb-bucs320-graphsearch</tt>
+</p>
+
+Or one can compose a file of the name <tt>package.json</tt> to
+direct <u>npm</u> regarding package installation.
+
+</p>
+
+<p>
+The following lines in <tt>QueenPuzzle.dats</tt> are for
+statically loading some files in <u>atscntrb-bucs320-graphsearch</u>:
+
+<pre
+class="patsyntax"
+><span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#define</span> GRAPHSEARCH_DFS 1</span> <span class="comment">// for depth-first search</span>
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#include</span> "$PATSHOMELOCS/atscntrb-bucs320-graphsearch/mylibies.hats"</span>
+<span class="comment">//</span>
+</pre>
+
+The <u>#include</u> directive indicates to <u>patsopt</u>, the ATS
+compiler, that the file following it should be <em>included</em>.
+Note that the variable <u>PATSHOMELOCS</u> in this case should be set
+to the name of the directory <tt>./node_modules</tt>
+as <u>npm</u> installs packages in it. The name <tt>mylibies.hats</tt>
+is conventional in the sense that it refers to a file that should be
+only used to statically load files into certain namespaces. The content of
+this file is listed as follows:
+
+<pre
+class="patsyntax"
+><span class="comment">//</span>
+<span class="neuexp"><span class="keyword">staload</span> GS <span class="keyword">=</span> "./DATS/GraphSearch.dats"</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">#ifdef</span>
+<span class="neuexp">GRAPHSEARCH_BFS</span>
+<span class="neuexp"><span class="keyword">staload</span> GS_bfs <span class="keyword">=</span> "./DATS/GraphSearch_bfs.dats"</span>
+<span class="keyword">#endif</span> <span class="comment">// #ifdef(GraphSearch_bfs)</span>
+<span class="comment">//</span>
+<span class="comment">(* ****** ****** *)</span>
+<span class="comment">//</span>
+<span class="keyword">#ifdef</span>
+<span class="neuexp">GRAPHSEARCH_DFS</span>
+<span class="neuexp"><span class="keyword">staload</span> GS_dfs <span class="keyword">=</span> "./DATS/GraphSearch_dfs.dats"</span>
+<span class="keyword">#endif</span> <span class="comment">// #ifdef(GraphSearch_dfs)</span>
+<span class="comment">//</span>
+</pre>
+
+Therefore, the two chosen namespaces are
+<span style="color: #F00000;">GS</span> (for storing names in <tt>GraphSearch.dats</tt>)
+and <span style="color: #F00000;">GS_dfs</span> (for storing names in <tt>GraphSearch_dfs.dats</tt>)
+in this case.
+</p>
+
+<p>
+The rest of <tt>QueenPuzzle.dats</tt> is mostly similar to
+what is presented
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/GraphSearch/index.html">on-line</a>
+on solving 8-queen puzzle. Basically, various function templates in
+<span style="color: #F00000;">GS</span> and <span style="color: #F00000;">GS_dfs</span> needs to be given specific
+implementations pertinent to the particular task of solving 8-queen
+puzzle. For instance, the following implementations are given because
+node marking is not needed for a tree-based search used in this case
+(as there are no circular paths in a tree):
+
+<pre
+class="patsyntax"
+><span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+$GS_dfs<span class="keyword">.</span>node_mark&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+$GS_dfs<span class="keyword">.</span>node_unmark&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">(</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+$GS_dfs<span class="keyword">.</span>node_is_marked&lt;<span class="keyword">&gt;</span><span class="keyword">(</span>nx<span class="keyword">)</span> <span class="keyword">=</span> false</span>
+<span class="comment">//</span>
+</pre>
+
+</p>
+
+<h2>Playing Doublets Game</h2>
+
+<p>
+Doublets is a word game invented by Lewis Carroll (1832-1898), the
+author of children's classics "Alice in Wonderland". Given two words
+recognized in a chosen dictionary, they are said to be one-step
+connected if they differ precisely at one position in their
+spellings. Clearly, two connected words must contain the same number
+of characters. Two given words <span style="color: #F00000;">W1</span> and <span style="color: #F00000;">W2</span> are
+many-step connected if a sequence of words beginning with
+<span style="color: #F00000;">W1</span> and ending with <span style="color: #F00000;">W2</span> can be found such that any
+two consecutive words in this sequence are one-step connected. The
+game Doublets basically asks the player to tell whether two given
+words are many-step connected. For instance. <span style="color: #F00000;">head</span> and
+<span style="color: #F00000;">tail</span> form a doublet as is shown by the sequence:
+<span style="color: #F00000;">head</span>, <span style="color: #F00000;">held</span>, <span style="color: #F00000;">hell</span>, <span style="color: #F00000;">tell</span>,
+<span style="color: #F00000;">tall</span>, <span style="color: #F00000;">tail</span>.  One may play Doublets on-line by
+visiting
+<a href="http://ats-lang.github.io/EXAMPLE/BUCS320/Doublets/Doublets.html">this link</a>.
+
+</p>
+
+<p>
+The following lines in <tt>Doublets.dats</tt> are for
+statically loading some files in <u>atscntrb-bucs320-graphsearch</u>:
+
+<pre
+class="patsyntax"
+><span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#define</span> GRAPHSEARCH_BFS 1</span> <span class="comment">// for breadth-first search</span>
+<span class="comment">//</span>
+<span class="neuexp"><span class="keyword">#include</span> "$PATSHOMELOCS/atscntrb-bucs320-graphsearch/mylibies.hats"</span>
+<span class="comment">//</span>
+</pre>
+
+The <u>#include</u> directive indicates to <u>patsopt</u> that the
+file following it should be <em>included</em>.  The name
+<tt>mylibies.hats</tt> is conventional in the sense that it
+refers to a file that should be only used to statically load files
+into certain namespaces.  In this case, the two chosen namespaces are
+<span style="color: #F00000;">GS</span> (for storing names in <tt>GraphSearch.dats</tt>)
+and <span style="color: #F00000;">GS_bfs</span> (for storing names in
+<tt>GraphSearch_bfs.dats</tt>).
+
+</p>
+
+<p>
+The rest of <tt>Doublets.dats</tt> is mostly similar to
+what is presented
+<a href="http://ats-lang.sourceforge.net/EXAMPLE/EFFECTIVATS/GraphSearch/index.html">on-line</a>
+on playing the doublets game.
+
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+package.json // for using with the npm tool-chain
+QueenPuzzle.dats // solving 8-queen puzzle with GraphSearch_dfs
+DoubletsPlay.dats // implementing Doublets based on GraphSearch_bfs
+</pre>
+
+In addition, there is an accompanying <tt>Makefile</tt> for compiling
+and testing the code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>

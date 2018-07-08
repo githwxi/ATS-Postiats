@@ -246,15 +246,16 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
-dataviewtype evalctx =
-  | EVALCTXsadd of (s2var, m2val, evalctx)
-  | EVALCTXdadd of (d2var, m2val, evalctx)
-  | EVALCTXnil of ()
+//
+datavtype
+evalctx =
+| EVALCTXnil of ()
+| EVALCTXsadd of (s2var, m2val, evalctx)
+| EVALCTXdadd of (d2var, m2val, evalctx)
 // end of [eval0ctx]
-
+//
 assume evalctx_viewtype = evalctx
-
+//
 in (* in of [local] *)
 
 implement
@@ -361,16 +362,19 @@ evalctx_free (ctx) = (
 ) // end of [evalctx_free]
 
 (* ****** ****** *)
-
-fun s2exp_make_m2val
+//
+fun
+s2exp_make_m2val
   (m2v: m2val): s2exp =
+(
   case m2v of
-  | M2Vscode (s2e) => s2e
-  | _ => s2exp_err (s2rt_t0ype)
-// end of [s2exp_make_m2val]
-
+  | M2Vscode(s2e) => s2e
+  | _ (*non-M2Vscode*) => s2exp_errexp(s2rt_t0ype)
+) (* end of [s2exp_make_m2val] *)
+//
 implement
-stasub_make_evalctx (ctx) = let
+stasub_make_evalctx
+  (ctx) = let
 //
 fun aux (
   ctx: !evalctx, sub: &stasub
@@ -401,7 +405,7 @@ val () = aux (ctx, sub)
 in
   sub
 end // end of [stasub_make_evalctx]
-
+//
 (* ****** ****** *)
 
 end // end of [local]

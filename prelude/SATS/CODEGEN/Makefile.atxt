@@ -69,22 +69,23 @@ all::
 
 #make_entry("integer")
 #make_entry("pointer")
-#make_entry("memory")
+
+#make_entry("arith_prf")
+#make_entry("integer_long")
+#make_entry("integer_size")
+#make_entry("integer_short")
 
 #make_entry("bool")
 #make_entry("char")
 #make_entry("float")
 #make_entry("string")
 #make_entry("strptr")
-
-#make_entry("tuple")
-
-#make_entry("reference")
-
-#make_entry("arith_prf")
-
 #make_entry("integer_ptr")
 #make_entry("integer_fixed")
+
+#make_entry("tuple")
+#make_entry("memory")
+#make_entry("reference")
 
 #make_entry("unsafe")
 #make_entry("checkast")
@@ -94,6 +95,7 @@ all::
 
 #make_entry("gorder")
 #make_entry("gnumber")
+#make_entry("grandom")
 
 #make_entry("list")
 #make_entry("list_vt")
@@ -114,9 +116,7 @@ all::
 #make_entry("stream_vt")
 
 #make_entry("gprint")
-#make_entry("giterator")
-
-#make_entry("fcontainer")
+#make_entry("tostring")
 
 #comment("
 for pointer arrays terminated with the null pointer

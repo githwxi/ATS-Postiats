@@ -26,9 +26,11 @@
 *)
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.fundeque_fngtree"
-
+//
+#define
+ATS_PACKNAME
+"ATSLIB.libats.fundeque_fngtree"
+//
 (* ****** ****** *)
 
 #include "./SHARE/fundeque.hats"

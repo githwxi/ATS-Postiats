@@ -1,5 +1,7 @@
+(* ****** ****** *)
 //
-// Enumerate the permutations of a list
+// Enumerate all of
+// the permutations of a list
 //
 // Author: Hongwei Xi (February, 2014)
 //
@@ -7,7 +9,10 @@
 //
 #include
 "share/atspre_staload.hats"
-staload UN = $UNSAFE // aliasing
+#include
+"share/atspre_staload_libats_ML.hats"
+//
+#staload UN = $UNSAFE // aliasing
 //
 (* ****** ****** *)
 

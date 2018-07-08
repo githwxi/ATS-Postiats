@@ -6,8 +6,6 @@
 (* ****** ****** *)
 //
 #include
-"share/atspre_define.hats"
-#include
 "share/atspre_staload.hats"
 //
 (* ****** ****** *)
@@ -64,7 +62,9 @@ if
 then let
   val x = $UN.ptr0_get<a> (pa)
   val y = $UN.ptr0_get<a> (pb)
-  val res = gadd_val<a> (res, gmul_val<a> (x, y))
+  val res =
+    gadd_val_val<a> (res, gmul_val_val<a> (x, y))
+  // end of [val]
 in
   loop (ptr_succ<a> (pa), ptr_succ<a> (pb), succ(i), res)
 end // end of [then]
@@ -89,12 +89,14 @@ staload "libats/SATS/athread.sats"
 
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/spinvar.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/spinref.sats"
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/nwaiter.sats"
+#define
+MYTHREAD_targetloc
+"$PATSHOME/npm-utils\
+/contrib/libats-/hwxi/teaching/mythread"
+//
+#staload "{$MYTHREAD}/SATS/spinvar.sats"
+#staload "{$MYTHREAD}/SATS/spinref.sats"
+#staload "{$MYTHREAD}/SATS/nwaiter.sats"
 //
 (* ****** ****** *)
 //
@@ -124,7 +126,8 @@ llam (): void =<cloptr1>
   prval () = fpfa (pfa) and () = fpfb (pfb)
   local
   implement(env)
-  spinref_process$fwork<a><env> (x, env) = x := gadd_val<a> (x, res)
+  spinref_process$fwork<a><env>
+    (x, env) = (x := gadd_val_val<a> (x, res))
   in(*in-of-local*)
   val ((*void*)) = spinref_process (spnr)
   end // end of [local]
@@ -191,37 +194,56 @@ end // end of [dotprod_mt]
 
 (* ****** ****** *)
 //
-staload "libc/SATS/stdlib.sats"
-staload
-"{$LIBATSHWXI}/testing/SATS/randgen.sats"
+#staload "libats/libc/SATS/stdlib.sats"
 //
 (* ****** ****** *)
 //
-staload
-"{$LIBATSHWXI}/teaching/mythread/SATS/workshop.sats"
+#staload
+_(*anon*) = "prelude/DATS/gnumber.dats"
 //
 (* ****** ****** *)
 //
-staload _ = "prelude/DATS/gnumber.dats"
-//  
-staload _ =
-"{$LIBATSHWXI}/testing/DATS/randgen.dats"
+#define
+MYTESTING_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-mytesting"
 //
-staload _ = "libats/DATS/deqarray.dats"
-staload _ =
-"{$LIBATSHWXI}/teaching/mythread/DATS/channel.dats"
+(* ****** ****** *)
 //
-staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/spinvar.dats"
-staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/spinref.dats"
-staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/nwaiter.dats"
-staload _(*anon*) =
-"{$LIBATSHWXI}/teaching/mythread/DATS/workshop.dats"
+#staload
+"{$MYTESTING}/SATS/randgen.sats"
+#staload
+_ = "{$MYTESTING}/DATS/randgen.dats"
 //
-staload _ = "libats/DATS/athread.dats"
-staload _ = "libats/DATS/athread_posix.dats"
+(* ****** ****** *)
+//
+#staload
+_ = "libats/DATS/athread.dats"
+#staload
+_ = "libats/DATS/athread_posix.dats"
+//
+(* ****** ****** *)
+//
+#staload _ = "libats/DATS/deqarray.dats"
+//
+(* ****** ****** *)
+//
+#staload _(*anon*) =
+"{$MYTHREAD}/DATS/spinvar.dats"
+#staload _(*anon*) =
+"{$MYTHREAD}/DATS/spinref.dats"
+#staload _(*anon*) =
+"{$MYTHREAD}/DATS/nwaiter.dats"
+//
+#staload _ =
+"{$MYTHREAD}/DATS/channel.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$MYTHREAD}/SATS/workshop.sats"
+#staload _(*anon*) =
+"{$MYTHREAD}/DATS/workshop.dats"
 //
 (* ****** ****** *)
 //
@@ -239,20 +261,24 @@ implement
 test_dotprod
   (times, A, B, n) =
 (
-  if times > 0
-    then let
-      val res1 =
-        dotprod_mt<a> (A, B, n)
-      // end of [val]
-      val res2 =
-        test_dotprod<a> (times-1, A, B, n)
-      // end of [val]
-    in
-      gadd_val (res1, res2)
-    end // end of [then]
-    else gnumber_int<a> (0)
-  // end of [if]
-)
+//
+if
+times > 0
+then let
+//
+val res1 =
+  dotprod_mt<a> (A, B, n)
+// end of [val]
+val res2 =
+  test_dotprod<a> (times-1, A, B, n)
+// end of [val]
+//
+in
+  gadd_val_val<a> (res1, res2)
+end // end of [then]
+else gnumber_int<a> (0)
+//
+) (* end of [test_dotprod] *)
 //
 (* ****** ****** *)
 

@@ -86,23 +86,52 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-implement
+local
+
+fun
 fshowtype_d3exp
-  (d3e) = let
+(
+  knd: int, d3e: d3exp
+) : void = let
+//
+val out = stdout_ref
 //
 val loc = d3e.d3exp_loc
 val s2e = d3exp_get_type (d3e)
 //
-val out = stdout_ref
-val () = print "**SHOWTYPE**("
-val () = $LOC.print_location (loc)
-val () = print "): "
+val () =
+(
+if
+knd > 0
+then fprint (out, "**SHOWTYPE[UP]**")
+else fprint (out, "**SHOWTYPE[DN]**")
+) (* end of [val] *)
+//
+val () = fprint (out, "(")
+val () =
+  $LOC.fprint_location (out, loc)
+val () = fprint (out, ")")
+//
+val () = fprint (out, ": ")
 val () = fpprint_s2exp (out, s2e)
-val () = print_newline ()
+//
+val () = fprint (out, ": ")
+val () = fprint_s2rt (out, s2e.s2exp_srt)
+//
+val () = fprint_newline (out)
 //
 in
   // nothing
 end // end of [fshowtype_d3exp]
+
+in (* in-of-local *)
+
+implement
+fshowtype_d3exp_up (d3e) = fshowtype_d3exp (1, d3e)
+implement
+fshowtype_d3exp_dn (d3e) = fshowtype_d3exp (~1, d3e)
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -311,16 +340,38 @@ end // end of labd2explst_syn_type]
 (* ****** ****** *)
 
 implement
-d23exp_free (x) = case+ x of
-  | ~D23Ed2exp (d2e) => () | ~D23Ed3exp (d3e) => ()
-// end of [d23exp_free]
+d23exp_free (x) = (
+//
+case+ x of
+| ~D23Ed2exp (d2e) => () | ~D23Ed3exp (d3e) => ()
+//
+) (* end of [d23exp_free] *)
 
 implement
-d23explst_free (xs) = case+ xs of
-  | ~list_vt_cons (x, xs) => (d23exp_free (x); d23explst_free (xs))
-  | ~list_vt_nil () => ()
-// end of [d23explst_free]
+d23explst_free (xs) = (
+//
+case+ xs of
+| ~list_vt_nil () => ()
+| ~list_vt_cons (x, xs) => (d23exp_free (x); d23explst_free (xs))
+//
+) (* end of [d23explst_free] *)
 
+(* ****** ****** *)
+
+implement
+d3lablst_is_overld
+  (d3ls) = (
+//
+case+ d3ls of
+| list_nil () => false
+| list_cons (d3l, d3ls) =>
+  (
+    case+ d3l.d3lab_overld of
+    | Some _ => true | None () => d3lablst_is_overld (d3ls)
+  ) (* end of [list_cons] *)
+//
+) (* end of [d3lablst_is_overld] *)
+//
 (* ****** ****** *)
 
 local
@@ -328,35 +379,64 @@ local
 fun
 aux .<>. (
   d3e1: d3exp, s2f2: s2hnf
-) : d3exp = let
-  val loc = d3e1.d3exp_loc
-  val s2e1 = d3e1.d3exp_type
-  val s2f1 = s2exp2hnf (s2e1)
-  val s2e1 = s2hnf2exp (s2f1)
-  val s2e2 = s2hnf2exp (s2f2)
+) : d3exp = d3e1 where
+{
+//
+val loc = d3e1.d3exp_loc
+val s2e1 = d3e1.d3exp_type
+val s2f1 = s2exp2hnf (s2e1)
+val s2e1 = s2hnf2exp (s2f1)
+val s2e2 = s2hnf2exp (s2f2)
+//
 (*
-  val () = (
-    println! ("d3exp_trdn: aux: s2e1 = ", s2e1);
-    println! ("d3exp_trdn: aux: s2e2 = ", s2e2);
-  ) // end of [val]
+val () =
+println!
+  ("d3exp_trdn: aux: s2e1 = ", s2e1)
+// end of [val]
+val () =
+println!
+  ("d3exp_trdn: aux: s2e2 = ", s2e2)
+// end of [val]
 *)
-  val err = $SOL.s2hnf_tyleq_solve (loc, s2f1, s2f2)
+//
+val err =
+  $SOL.s2hnf_tyleq_solve(loc, s2f1, s2f2)
+// end of [val]
+val () =
+if
+(err != 0)
+then let
   val () =
-  if (err != 0) then let
-    val () = prerr_error3_loc (loc)
-    val () = filprerr_ifdebug "d3exp_trdn"
-    val () = prerr ": the dynamic expression cannot be assigned the type ["
-    val () = prerr_s2exp (s2e2)
-    val () = prerr "]."
-    val () = prerr_newline ()
-    val () = prerr_the_staerrlst ()
-  in
-    the_trans3errlst_add (T3E_d3exp_trdn (d3e1, s2e2))
-  end // end of [if] // end of [val]
-  val () = d3exp_set_type (d3e1, s2e2)
+    prerr_error3_loc(loc)
+  // end of [val]
+  val () = filprerr_ifdebug "d3exp_trdn"
+  val () = prerr ": the dynamic expression cannot be assigned the type ["
+  val () = prerr_s2exp (s2e2)
+  val () = prerr "]."
+  val () = prerr_newline ()
+  val () = prerr_the_staerrlst ()
+//
 in
-  d3e1
-end // end of [_]
+  the_trans3errlst_add(T3E_d3exp_trdn(d3e1, s2e2))
+end // end of [if] // end of [val]
+//
+val ((*update*)) =
+(
+case+
+s2e1.s2exp_node
+of // case+
+| S2EVar _ =>
+  d3exp_set_type(d3e1, s2e2)
+//
+// HX-2016-12-21:
+// Fixing bug-2016-06-26.dats
+//
+| _(*non-S2EVar*) => ((*void*))
+)
+//
+// *)
+//
+} (* end of [aux] *)
 
 in (* in of [local] *)
 

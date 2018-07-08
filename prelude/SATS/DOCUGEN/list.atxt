@@ -1,7 +1,8 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../list.sats"
+implement
+srcfilename_get () = "../list.sats"
 %}
 
 (* ****** ****** *)

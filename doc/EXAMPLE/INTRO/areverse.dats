@@ -1,3 +1,4 @@
+(* ****** ****** *)
 //
 // Reversing the content of an array.
 // This is a simple and convincing example for
@@ -6,7 +7,6 @@
 // Author: Hongwei Xi (Spring, 2009)
 // Author: Hongwei Xi (May, 2012) // porting to ATS2
 //
-
 (* ****** ****** *)
 //
 #include "share/atspre_define.hats"
@@ -37,18 +37,29 @@ end // end of [revarr]
 
 (* ****** ****** *)
 //
-staload UN = "prelude/SATS/unsafe.sats"
+#staload
+UN = "prelude/SATS/unsafe.sats"
 //
-staload STDLIB = "libc/SATS/stdlib.sats"
+#staload
+STDLIB = "libats/libc/SATS/stdlib.sats"
+//
+(* ****** ****** *)
+//
+#define
+MYTESTING_targetloc
+"\
+$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-mytesting"
 //
 (* ****** ****** *)
 //
-staload
-RG = "{$LIBATSHWXI}/testing/SATS/randgen.sats"
-staload
-_(*RG*) = "{$LIBATSHWXI}/testing/DATS/randgen.dats"
+#staload
+RG = "{$MYTESTING}/SATS/randgen.sats"
+#staload
+_(*RG*) = "{$MYTESTING}/DATS/randgen.dats"
 //
 (* ****** ****** *)
+//
 %{^
 //
 #include <time.h>

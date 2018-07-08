@@ -12,6 +12,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_separator()
 
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("June, 2012")
+
+#atscode_separator()
+
 (*
 ** Source:
 ** $PATSHOME/prelude/SATS/CODEGEN/intrange.atxt
@@ -19,40 +25,68 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 *)
 
 #atscode_separator()
-
-#atscode_author("Hongwei Xi")
-#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("June, 2012")
-
-#atscode_separator()
 //
 // HX-2013-04:
 // intrange (l, r) is for integers i satisfying l <= i < r
 //
 #atscode_separator()
-
-fun{env:vt0p}
-intrange_foreach$cont (i: int, env: &env): bool
-fun{env:vt0p}
-intrange_foreach$fwork (i: int, env: &(env) >> _): void
-
+//
 fun{}
-intrange_foreach (l: int, r: int): int
-fun{env:vt0p}
-intrange_foreach_env (l: int, r: int, env: &(env) >> _): int
-
+intrange_forall
+  (l: int, r: int): bool
+fun{}
+intrange_forall$pred(i: int):<> bool
+//
 #atscode_separator()
-
-fun{env:vt0p}
-intrange_rforeach$cont (i: int, env: &env): bool
-fun{env:vt0p}
-intrange_rforeach$fwork (i: int, env: &(env) >> _): void
-
+//
 fun{}
-intrange_rforeach (l: int, r: int): int
+intrange_foreach
+  (l: int, r: int): (int)
 fun{env:vt0p}
-intrange_rforeach_env (l: int, r: int, env: &(env) >> _): int
-
+intrange_foreach_env
+  (l: int, r: int, env: &(env) >> _): int
+//
+fun{env:vt0p}
+intrange_foreach$cont(i: int, env: &env): bool
+fun{env:vt0p}
+intrange_foreach$fwork(i: int, env: &(env) >> _): void
+//
+#atscode_separator()
+//
+fun{}
+intrange_rforeach
+  (l: int, r: int): (int)
+fun{env:vt0p}
+intrange_rforeach_env
+  (l: int, r: int, env: &(env) >> _): int
+//
+fun{env:vt0p}
+intrange_rforeach$cont(i: int, env: &env): bool
+fun{env:vt0p}
+intrange_rforeach$fwork(i: int, env: &(env) >> _): void
+//
+#atscode_separator()
+//
+fun{}
+intrange2_foreach
+  (l1: int, r1: int, l2: int, r2: int): void
+//
+fun{env:vt0p}
+intrange2_foreach_env
+  (l1: int, r1: int, l2: int, r2: int, env: &(env) >> _): void
+//
+fun{env:vt0p}
+intrange2_foreach$fwork (i: int, j: int, env: &env >> _): void
+//
+#atscode_separator()
+//
+fun{}
+streamize_intrange_l(m: int): stream_vt(int)
+fun{}
+streamize_intrange_0r(n: int): stream_vt(int)
+fun{}
+streamize_intrange_lr(m: int, n: int): stream_vt(int)
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

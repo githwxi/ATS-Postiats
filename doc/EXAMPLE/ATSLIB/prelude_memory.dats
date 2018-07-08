@@ -35,7 +35,7 @@ val () =
 val
 (
   pfat, pfgc | p
-) = malloc_gc ((i2sz)1000000)
+) = malloc_gc((i2sz)1000000)
 //
 val () = assertloc (p > 0)
 //

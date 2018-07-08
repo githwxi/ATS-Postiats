@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/ats2tutorial.dats"
+#include "./../MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
@@ -20,7 +20,7 @@ Time of Generation: #timestamp()\
 A persistent array of size n is just n heap-allocated cells (or references)
 in a row.  It is persistent in the sense that the memory allocated for the
 array cannot be freed manually. Instead, it can only be safely reclaimed
-through garbage collection (GC).\
+through systematic garbage collection (GC).\
 
 ")
 
@@ -38,18 +38,18 @@ which is automatically loaded by #command("atsopt").
 
 #para("\
 
-There are various functions for array creation. For instance, the following
-two are commonly used:
+There are various functions in ATSLIB for array creation. For instance, the
+following two are commonly used:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:t@ype}
 arrayref_make_elt
-  {n:nat} (asz: size_t n, elt: a):<!wrt> arrayref (a, n)
+  {n:nat} (asz: size_t n, elt: a):<!wrt> arrayref(a, n)
 // end of [arrayref_make_elt]
 
 fun{a:t@ype}
 arrayref_make_listlen
-  {n:int} (xs: list (a, n), n: int n):<!wrt> arrayref (a, n)
+  {n:int} (xs: list(a, n), n: int n):<!wrt> arrayref(a, n)
 // end of [arrayref_make_listlen]
 ")
 
@@ -68,14 +68,14 @@ For reading from and writing to an array, the function templates
 #dyncode("arrayref_get_at") and #dyncode("arrayref_set_at") can be used,
 respectively, which are assigned the following interfaces:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype}
 arrayref_get_at
-  {n:int} (A: arrayref (a, n), i: sizeLt (n)):<!ref> a
+  {n:int} (A: arrayref(a, n), i: sizeLt (n)):<!ref> a
 
 fun{a:t@ype}
 arrayref_set_at
-  {n:int} (A: arrayref (a, n), i: sizeLt (n), x: a):<!ref> void
+  {n:int} (A: arrayref(a, n), i: sizeLt (n), x: a):<!ref> void
 ')
 
 Given an array #dyncode("A"), an index #dyncode("i") and a value
@@ -90,17 +90,17 @@ and #dyncode("A[i] := v"), respectively.\
 As an example, the following function template reverses the content of a
 given array:\
 
-#atscode_extract('\
+#dats2xhtml('\
 fun{a:t@ype}
 arrayref_reverse{n:nat}
 (
-  A: arrayref (a, n), n: size_t (n)
+  A: arrayref(a, n), n: size_t(n)
 ) : void = let
 //
 fun loop
   {i: nat | i <= n} .<n-i>.
 (
-  A: arrayref (a, n), n: size_t n, i: size_t i
+  A: arrayref(a, n), n: size_t n, i: size_t i
 ) : void = let
   val n2 = half (n)
 in
@@ -108,12 +108,12 @@ in
     val tmp = A[i]
     val ni = pred(n)-i
   in
-    A[i] := A[ni]; A[ni] := tmp; loop (A, n, succ(i))
+    A[i] := A[ni]; A[ni] := tmp; loop(A, n, succ(i))
   end else () // end of [if]
 end // end of [loop]
 //
 in
-  loop (A, n, (i2sz)0)
+  loop(A, n, i2sz(0))
 end // end of [arrayref_reverse]
 ')
 
@@ -145,27 +145,27 @@ type can be handled:\
 
 ")
 
-#atscode_extract('\
+#dats2xhtml('\
 fun{a:vt@ype}
 arrayref_reverse{n:nat}
 (
-  A: arrayref (a, n), n: size_t (n)
+  A: arrayref(a, n), n: size_t(n)
 ) : void = let
 //
 fun loop
   {i: nat | i <= n} .<n-i>.
 (
-  A: arrayref (a, n), n: size_t n, i: size_t i
+  A: arrayref(a, n), n: size_t n, i: size_t i
 ) : void = let
   val n2 = half (n)
 in
   if i < n2 then let
-    val () = arrayref_interchange (A, i, pred(n)-i) in loop (A, n, succ(i))
+    val () = arrayref_interchange(A, i, pred(n)-i) in loop(A, n, succ(i))
   end else () // end of [if]
 end // end of [loop]
 //
 in
-  loop (A, n, (i2sz)0)
+  loop(A, n, i2sz(0))
 end // end of [arrayref_reverse]
 ')
 
@@ -174,10 +174,10 @@ end // end of [arrayref_reverse]
 The interface for the function template #dyncode("arrayref_interchange") is
 given below:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:vt@ype}
 arrayref_interchange{n:int}
-  (A: arrayref (a, n), i: sizeLt n, j: sizeLt n):<!ref> void
+  (A: arrayref(a, n), i: sizeLt n, j: sizeLt n):<!ref> void
 // end of [arrayref_interchange]
 ')
 
@@ -193,29 +193,30 @@ There are various functions available for traversing an array from left to
 right or from right to left. Also, the following two functions can be conveniently
 called to traverse an array from left to right:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun{a:t0p}
-arrayref_head{n:pos} (A: arrayref (a, n)): (a) // A[0]
+arrayref_head{n:pos} (A: arrayref(a, n)): (a) // A[0]
 fun{a:t0p}
-arrayref_tail{n:pos} (A: arrayref (a, n)): arrayref (a, n-1)
+arrayref_tail{n:pos} (A: arrayref(a, n)): arrayref(a, n-1)
 //
 overload .head with arrayref_head
 overload .tail with arrayref_tail
+//
 ')
 
 For instance, the fold-left function for arrays can be implemented
 as follows:
 
-#atscode_extract('
+#dats2xhtml('\
 fun{a,b:t@ype}
 arrayref_foldleft{n:int}
 (
-  f: (a, b) -> a, x: a, A: arrayref (b, n), n: size_t(n)
+  f: (a, b) -> a, x: a, A: arrayref(b, n), n: size_t(n)
 ) : a =
 (
 if n > 0
-  then arrayref_foldleft<a,b> (f, f (x, A.head), A.tail, pred(n))
+  then arrayref_foldleft<a,b> (f, f (x, A.head()), A.tail(), pred(n))
   else x
 // end of [if]
 ) (* end of [arrayref_foldleft] *)

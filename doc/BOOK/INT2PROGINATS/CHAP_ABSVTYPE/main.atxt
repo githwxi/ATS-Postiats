@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/int2proginats.dats"
+#include "./../MYTEXT/int2proginats.dats"
 //
 %}\
 #comment("\n\
@@ -58,10 +58,11 @@ built-in mechanism for supporting inheritance.\
 Let us now take a look at a concrete example of simple linear object.
 The following code presents an interface for a timer (that is, stopwatch):
 
-#atscode('\
+#sats2xhtml('\
+//
 absvtype timer_vtype
 vtypedef timer = timer_vtype
-
+//
 fun timer_new (): timer
 fun timer_free (x: timer): void
 fun timer_start (x: !timer): void
@@ -70,12 +71,14 @@ fun timer_pause (x: !timer): void
 fun timer_resume (x: !timer): void
 fun timer_get_ntick (x: !timer): uint
 fun timer_reset (x: !timer): void
+//
 ')
 
 The state of a timer is given the
 record type #stacode("timer_struct") defined as follows:
 
-#atscode('\
+#sats2xhtml('\
+//
 typedef
 timer_struct = @{
   started= bool // the timer has started
@@ -84,13 +87,14 @@ timer_struct = @{
 , ntick_beg= uint // was turned on last time
 , ntick_acc= uint // the number of accumulated ticks
 } (* end of [timer_struct] *)
+//
 ')
 
 The following linear datatype #stacode("timer")
 is declared for timers, and the abstract type #stacode("timer_vtype")
 is assumed to equal #stacode("timer"):
 
-#atscode('\
+#dats2xhtml('\
 //
 datavtype timer =
   TIMER of (timer_struct)
@@ -106,8 +110,7 @@ assume timer_vtype = timer
 Various functions on timers can now be readily implemented.
 Let us first see the code for creating and freeing timers:
 
-#atscode('\
-
+#dats2xhtml('\
 implement
 timer_new () = let
 //
@@ -137,7 +140,7 @@ timer_free (timer) =
 
 The function for starting a timer can be implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 timer_start
   (timer) = let
@@ -155,7 +158,7 @@ end // end of [timer_start]
 where #dyncode("the_current_tick_get") is a function for
 reading the current time (represented as a number of ticks):
 
-#atscode('\
+#dats2xhtml('\
 extern fun the_current_tick_get (): uint
 ')
 
@@ -166,7 +169,7 @@ extern fun the_current_tick_get (): uint
 A timer can be stopped or paused. The function for stopping a timer can be
 implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 timer_finish
   (timer) = let
@@ -193,7 +196,7 @@ A timer can be paused and then resumed.
 The following code implements the functions for pausing and resuming a
 timer:
 
-#atscode('\
+#dats2xhtml('\
 implement
 timer_pause
   (timer) = let
@@ -237,7 +240,7 @@ is not counted.
 It is also possible to reset a timer by calling the function
 #dyncode("timer_reset"):
 
-#atscode('\
+#dats2xhtml('\
 implement
 timer_reset
   (timer) = let
@@ -259,7 +262,7 @@ end // end of [timer_reset]
 In order to read the time accumulated by a timer,
 the function #dyncode("timer_get_ntick") can be called:
 
-#atscode('\
+#dats2xhtml('\
 implement
 timer_get_ntick
   (timer) = let
@@ -283,7 +286,7 @@ A straightforward approach to
 implementing #dyncode("the_current_tick_get")
 can be based directly on the function #dyncode("clock_gettime"):
 
-#atscode('\
+#dats2xhtml('\
 local
 
 staload "libc/SATS/time.sats"
@@ -340,7 +343,7 @@ in ATS is firmly rooted in the paradigm of programming with theorem-proving
 The following function #dyncode("malloc_gc") is available in ATS for memory
 allocation:
 
-#atscode("\
+#sats2xhtml("\
 fun malloc_gc
   {n:nat}(n: size_t n)
   : [l:agz] (b0ytes n @ l, mfree_gc_v (l) | ptr l)
@@ -350,7 +353,7 @@ fun malloc_gc
 The sort #stacode("agz") is a subset sort defined for addresses that are not
 null:
 
-#atscode("\
+#sats2xhtml("\
 sortdef agz = {a:addr | a > null} // [gz] for great-than-zero
 ")
 
@@ -363,7 +366,7 @@ location L, the view #stacode("mfree_gc_v(L)") stands for a form of
 capability that allows allocated memory at location L to be freed (or
 reclaimed) by the following function #dyncode("mfree_gc"):
 
-#atscode("\
+#sats2xhtml("\
 fun mfree_gc
   {l:addr}{n:nat}
   (pfat: b0ytes(n) @ l, pfgc: mfree_gc_v (l) | p: ptr l): void
@@ -382,7 +385,7 @@ function #dyncode("ptr_alloc") is available for allocating memory to store
 a single value (of certain type) and the function #dyncode("ptr_free") for
 deallocating such memory:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:vt0p}
 ptr_alloc ()
   :<> [l:agz] (a? @ l, mfree_gc_v (l) | ptr l)
@@ -398,7 +401,7 @@ In addition, the function #dyncode("array_ptr_alloc") is for allocating
 memory to store an array of values (of certain type), and the function
 #dyncode("array_ptr_free") is for deallocating such memory:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:vt0p}
 array_ptr_alloc
   {n:int}
@@ -425,7 +428,7 @@ I now give a realistic and interesting example involving both array
 allocation and deallocation. The following two functions templates
 #dyncode("msort1") and #dyncode("msort2") perform merge-sort on a given array:
 
-#atscode('\
+#dats2xhtml('\
 typedef cmp (a:t@ype) = (&a, &a) -> int
 
 extern
@@ -455,7 +458,7 @@ recursive implementation of #dyncode("msort1") and #dyncode("msort2").  An
 implementation of merge-sort based on #dyncode("msort1") can be readily
 given as follows:
 
-#atscode('\
+#dats2xhtml('\
 extern
 fun{
 a:t@ype
@@ -465,7 +468,8 @@ a:t@ype
 
 implement
 {a}(*tmp*)
-mergeSort (A, n, cmp) = let
+mergeSort
+  (A, n, cmp) = let
   val (pfat, pfgc | p) = array_ptr_alloc<a> (n)
   val ((*void*)) = msort1 (A, n, !p, cmp)
   val ((*void*)) = array_ptr_free (pfat, pfgc | p)
@@ -485,7 +489,7 @@ It is also allowed for a function to allocate memory on its call-stack
 by calling a special function #dyncode("alloca"), which is given the
 following type in ATS:
 
-#atscode('\
+#sats2xhtml('\
 (*
 staload "libc/SATS/alloa.sats"
 *)
@@ -509,7 +513,7 @@ The following function #dyncode("array_ptr_alloca_tsz") is the
 same as #dyncode("alloca") dynamically but it is given a type that
 is often more convenient to use:
 
-#atscode('\
+#sats2xhtml('\
 fun
 array_ptr_alloca_tsz
   {a:vt0p}{dummy:addr}{n:int}
@@ -521,10 +525,11 @@ array_ptr_alloca_tsz
 As an example, the function template #dyncode("mergeSort") implemented
 above can also be implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 {a}(*tmp*)
-mergeSort (A, n, cmp) = let
+mergeSort
+  (A, n, cmp) = let
   val tsz = sizeof<a>
   var dummy: void = ()
   prval pf = view@dummy
@@ -583,7 +588,7 @@ priority.\
 Let us declare a linear abstract type (that is, abstract viewtype) as
 follows for values representing circular buffers:
 
-#atscode('\
+#sats2xhtml('\
 absvtype
 cbufObj (a:vt@ype+, m:int, n: int) = ptr
 ')
@@ -601,24 +606,28 @@ VT.
 Some properties on the parameters of #stacode("cbufObj") can be captured
 by introducing the following proof function:
 
-#atscode('\
+#sats2xhtml('\
+//
 prfun
 lemma_cbufObj_param
   {a:vt0p}{m,n:int}
   (buf: !cbufObj(a, m, n)): [m>=n; n>=0] void
+//
 ')
 
 The interface for the following two function templates indicates that they
 can be called to compute the capacity and current size of a buffer:
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{a:vt0p}
 cbufObj_get_cap
   {m,n:int} (buf: !cbufObj(a, m, n)): size_t(m)
-
+//
 fun{a:vt0p}
 cbufObj_get_size
   {m,n:int}(buf: !cbufObj(a, m, n)): size_t(n)
+//
 ')
 
 ")
@@ -631,7 +640,7 @@ full, a direct approach is likely to be more efficient. The following two
 function templates check for the emptiness and fullness of a given circular
 buffer:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun{a:vt0p}
 cbufObj_is_empty
@@ -650,13 +659,15 @@ cbufObj_is_full
 The functions for creating and destroying circular buffers are named
 #dyncode("cbufObj_new") and #dyncode("cbufObj_free"), respectively:
 
-#atscode('\
+#sats2xhtml('\
+//
 fun{a:vt0p}
 cbufObj_new
   {m:pos}(m: size_t(m)): cbufObj(a, m, 0)
 //
 fun cbufObj_free
   {a:vt0p}{m:int}(buf: cbufObj(a, m, 0)): void
+//
 ')
 
 Note that a buffer can be freed only if it contains no elements as
@@ -664,7 +675,7 @@ an element (of some viewtype) may contain resources. If elements in
 a buffer are of some (non-linear) type, then the following function
 can be called to clear out all the elements stored in the buffer:
 
-#atscode('\
+#sats2xhtml('\
 fun
 cbufObj_clear
   {a:t@ype}{m,n:int}
@@ -680,7 +691,7 @@ The next two functions are for inserting/removing an element into/from a
 given buffer, which are probably the most frequently used operations on
 buffers:
 
-#atscode('\
+#sats2xhtml('\
 //
 fun{a:vt0p}
 cbufObj_insert
@@ -753,18 +764,18 @@ in this implementation.
 #para("\
 
 In concurrent programming, the issue of safely locking and unlocking
-shared resources is both essential and challenging. I will demonstrate
-here concretely and convincingly that linear types can be used with
-great effectiveness to address this issue.
+shared resources is both essential and challenging. I am to demonstrate
+in this section concretely and convincingly that linear types can be used
+with great effectiveness to address this issue.
 
 ")
 
 #para("\
 
-Let us first introduce a linear abstract type #stacode("shared_vtype")
+Let us first introduce a linear abstract type #stacode("shared")
 as follows:
 
-#atscode('\
+#sats2xhtml('\
 absvtype shared(a:vtype) = ptr
 ')
 
@@ -774,7 +785,7 @@ of the type VT plus a lock (or several) of some kind. The following
 function #dyncode("shared_make") is called to turn a resource into a shared
 resource:
 
-#atscode('\
+#sats2xhtml('\
 fun shared_make{a:vtype}(x: a): shared(a)  
 ')
 
@@ -784,7 +795,7 @@ resource that is protected by a spin-lock. The functions
 #dyncode("shared_ref") and #dyncode("shared_unref") are for increasing and
 descreasing the reference count inside a shared resource:
 
-#atscode('\
+#sats2xhtml('\
 fun shared_ref{a:vtype}(!shared(a)): shared(a)
 fun shared_unref{a:vtype}(shared(a)): Option_vt(a)
 ')
@@ -801,7 +812,7 @@ The function #dyncode("shared_lock") acquires the resource from a
 given shared resource and the function #dyncode("shared_unlock") does
 the opposite:
 
-#atscode('\
+#sats2xhtml('\
 //
 absview locked_v
 //
@@ -822,7 +833,7 @@ As can be expected, a shared resource can be implemented as a boxed tuple
 consisting of a spin-lock, a reference count and a pointer (referring to
 the stored resource):
 
-#atscode('\
+#dats2xhtml('\
 //
 datavtype
 shared_ (a:vtype) =
@@ -835,7 +846,7 @@ assume shared = shared_
 Note that the type #stacode("spin1_vt") is for linear spin-locks. The
 function #dyncode("shared_ref") is implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 shared_ref
   {a}(sh) = let
@@ -866,7 +877,7 @@ be done.  The spin-lock must be acquired before the binding between
 otherwise a race condition can appear. The function #dyncode("shared_unref")
 is implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 shared_unref
   {a}(sh) = let
@@ -916,7 +927,7 @@ and
 #dyncode("shared_unlock")
 are implemented as follows:
 
-#atscode('\
+#dats2xhtml('\
 implement
 shared_lock
   {a}(sh) = let
@@ -939,7 +950,7 @@ in
 end // end of [shared_lock]
 ')
 
-#atscode('\
+#dats2xhtml('\
 implement
 shared_unlock
   {a}(pf | sh, x0) = let
@@ -1010,7 +1021,7 @@ is empty, then removing an element from it results in a failure. In order
 to prevent inserting into a full queue or removing from an empty queue, I
 could first introduce a linear abstract type for queues as follows:
 
-#atscode("\
+#sats2xhtml("\
 absvtype
 queue_vtype(a:vt@ype+, int(*m*), int(*n*))
 vtypedef queue(a:vt@ype,m:int,n:int) = queue_vtype(a,m,n)
@@ -1021,7 +1032,7 @@ currently contains N elements of type VT. Then the functions for inserting
 into and removing from a queue are expected to be given the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 //
 fun{a:vt0p}
 queue_insert
@@ -1045,7 +1056,7 @@ program verification that is less rigorous but far more flexible.
 
 Following is another version of abstract type #stacode("queue"):
 
-#atscode("\
+#sats2xhtml("\
 //
 absvtype
 queue_vtype(a:vt@ype+, int(*id*)) = ptr
@@ -1062,8 +1073,7 @@ with the integer ID. So one may think of ID as some form of stamp. The
 following declared function #dyncode("queue_isnil") is for testing whether
 a given queue is empty:
 
-
-#atscode("\
+#sats2xhtml("\
 //
 absprop ISNIL(id:int, b:bool)
 //
@@ -1078,7 +1088,7 @@ Given an integer ID, a proof of the prop #stacode("ISNIL(ID,true)")
 ID is (not) empty. Similarly, the following declared function
 #dyncode("queue_isful") is for testing whether a given queue is full:
 
-#atscode("\
+#sats2xhtml("\
 //
 absprop ISFUL(id:int, b:bool)
 //
@@ -1100,7 +1110,7 @@ The functions #dyncode("queue_insert") and #dyncode("queue_remove")
 for inserting into and removing from a given queue can now be given the
 following interface:
 
-#atscode("\
+#dats2xhtml("\
 //
 extern
 fun
@@ -1152,7 +1162,7 @@ assumption that #dyncode("queue_isnil") and #dyncode("queue_isful") have
 the assigned interface. I refer to this form of program verification as
 being #emphasis("programmer-centric") because its correctness is not
 formally established in an objective manner. I myself find that
-programmer-centric programm verification is very flexible and effective in
+programmer-centric program verification is very flexible and effective in
 practice.  If we believe that constructing informal mathematical proofs can
 help one check whether the proven statements are valid, then it is only
 natural to believe that programmer-centric program verification can also
@@ -1167,7 +1177,7 @@ communication between threads. First, let us declare a linear abstract
 type #stacode("channel") as follows:
 
 
-#atscode("\
+#sats2xhtml("\
 absvtype channel_vtype(a:vt@ype+) = ptr
 vtypedef channel(a:vt0p) = channel_vtype(a)
 ")
@@ -1175,7 +1185,7 @@ vtypedef channel(a:vt0p) = channel_vtype(a)
 The function for inserting an element into a channel is given the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:vt0p} channel_insert (!channel(a), a): void
 ")
 
@@ -1183,7 +1193,7 @@ The caller of #dyncode("channel_insert") is blocked if the channel is full.
 Similarly, the function for removing an element from a channel is given the following
 interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:vt0p} channel_remove (chan: !channel(a)): (a)
 ")
 
@@ -1195,7 +1205,7 @@ The caller of #dyncode("channel_remove") is blocked if the channel is empty.
 
 Let a channel be represented as follows:
 
-#atscode("\
+#dats2xhtml("\
 //
 datavtype
 channel_ =
@@ -1223,10 +1233,10 @@ the reference count in the field of the name #dyncode("rfcnt"); the
 #dyncode("mutex") field stores a mutex for protecting the queue in the
 field of the name #dyncode("queue"); the field #dyncode("CVisnil") stores a
 conditional variable for the situation where a caller (holding the mutex)
-wants to wait for the condition that the queueu becomes not empty; the
+wants to wait for the condition that the queue becomes not empty; the
 field #dyncode("CVisful") stores a conditional variable for the situation
 where a caller (holding the mutex) wants to wait for the condition that the
-queueu becomes not full.
+queue becomes not full.
 
 ")
 
@@ -1235,7 +1245,7 @@ queueu becomes not full.
 The function
 #dyncode("channel_insert") is given the following implementation:
 
-#atscode("\
+#dats2xhtml("\
 implement
 {a}(*tmp*)
 channel_insert
@@ -1260,7 +1270,7 @@ where
 the auxiliary function #dyncode("channel_insert2") is given
 the following interface:
 
-#atscode("\
+#sats2xhtml("\
 fun{a:vt0p}
 channel_insert2
   (!channel(a), !queue(a) >> _, a): void
@@ -1270,7 +1280,7 @@ Please note that #dyncode("channel_insert2") is called when
 the caller is holding the mutex inside the channel. Following
 is an implementation for #dyncode("channel_insert2"):
 
-#atscode("\
+#dats2xhtml("\
 implement
 {a}(*tmp*)
 channel_insert2

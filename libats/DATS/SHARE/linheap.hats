@@ -34,7 +34,7 @@
 (* ****** ****** *)
 
 implement{a}
-compare_elt_elt = gcompare_ref<a>
+compare_elt_elt = gcompare_ref_ref<a>
 
 (* ****** ****** *)
 

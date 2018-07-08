@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+-->
+<title>EFFECTIVATS-FRP-bacon.js</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+<style>
+button:focus{
+  outline:none !important;
+}
+</style>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+</script>
+<!--
+<script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+</script>
+-->
+<script
+src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js">
+</script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bacon.js/0.7.53/Bacon.min.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_all.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_baconjs_all.js">
+</script>
+<script
+ src="https://ats-lang.github.io/LIBRARY/libatscc2js/ATS2-0.3.2/libatscc2js_print_store_cats.js">
+</script>
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Functional Reactive Programming via Bacon.js
+</h1>
+
+<p>
+<a href="https://baconjs.github.io/.">Bacon.js</a>
+is a small JS library for supporting functional reactive programming
+(FRP). There is currently a fairly limited
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/contrib/libatscc2js/Bacon.js/SATS/baconjs.sats">API</a>
+in ATS for a subset of functions in Bacon.js.
+In this article, I would like to present some basic examples in ATS involving FRP via Bacon.js.
+
+</p>
+
+<h2>A Simple Counter</h2>
+
+<p>
+Let me first contrast FRP with the direct style of reactive
+programming based on callbacks. This is particularly relevant for
+someone unfamiliar with FRP.
+
+</p>
+
+<p>
+Suppose that we want to implement a counter that is associated with
+three buttons of the names: up, down and reset. One implemenation
+is given as follows, which makes direct use of three callback functions
+(that is, one for each button):
+
+</p>
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-12">
+<center>
+<p id="theCount_p" class="h1">00</p>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-4">
+<center>
+<button
+ type="button"
+ class="btn btn-default btn-lg"
+ onclick="theCounter_button_up_click()"
+>Up</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ type="button" class="btn btn-default btn-lg"
+ onclick="theCounter_button_down_click()"
+>Down</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ type="button"
+ class="btn btn-default btn-lg"
+ onclick="theCounter_button_reset_click()"
+>Reset</button>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+<p>
+By clicking the Reset button, one resets the displayed count to 0.
+By clicking the Up/Down button, one increases/decreases the displayed
+count by 1. However, the count cannot go below 0 or above 99.
+
+</p>
+
+<p>
+Such a counter can certainly be thought of as an object with an
+encapsulated state, and the callback functions are just some methods
+associated with the object.  For instance, the reference
+<span style="color: #F00000;">theCount</span> in the following (partial) implementation of a
+counter represents the state of the counter and the two functions
+are methods for updating this state:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">local</span>
+
+<span class="dynexp"><span class="keyword">val</span>
+theCount <span class="keyword">=</span> ref<span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span></span>
+
+<span class="keyword">in</span> <span class="comment">(* in-of-local *)</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+theCounter_button_up_click
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp">theCount[<span class="keyword">]</span></span> :=
+  min<span class="keyword">(</span><span class="dynexp">theCount[<span class="keyword">]</span></span>+<span class="dynexp">1</span><span class="keyword">,</span> <span class="dynexp">99</span><span class="keyword">)</span></span> <span class="keyword">in</span> theCount_update<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [theCounter_button_up_click]</span>
+
+<span class="dynexp"><span class="keyword">implement</span>
+theCounter_button_down_click
+  <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp">theCount[<span class="keyword">]</span></span> :=
+  max<span class="keyword">(</span> <span class="dynexp">0</span><span class="keyword">,</span> <span class="dynexp">theCount[<span class="keyword">]</span></span>-<span class="dynexp">1</span><span class="keyword">)</span></span> <span class="keyword">in</span> theCount_update<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [theCounter_button_down_click]</span>
+
+<span class="keyword">end</span> <span class="comment">// end of [local]</span>
+<span class="comment">//</span>
+</pre>
+
+Note that the function <span style="color: #F00000;">theCount_update</span> is called
+for updating the displayed text (representing the state of the counter).
+The entirety of this callback-based counter implementation is available
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter_callback.dats">on-line</a>.
+
+</p>
+
+<h2>A Simple Counter of FRP-style</h2>
+
+<p>
+In functional reactive programming (FRP), a button is modeled as a
+stream of events (to be generated when the button is clicked), and
+there are a large variety of functions in Bacon.js for creating and
+manipulating such streams of events. Note that the notion of event
+stream in Bacon.js is not identical to the notion of stream in ATS for
+supporting stream-based lazy-evaluation.
+
+</p>
+
+<p>
+Given a type <span style="color: #0000F0;">T</span>, the type <span style="color: #0000F0;">EStream(T)</span> is for
+an event stream in which each item is a value of the type
+<span style="color: #0000F0;">T</span>.  In the following code, three buttons in the DOM are
+first located and then turned into three event streams:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theUp_btn <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>ptr<span class="keyword">,</span> "$(\"#theUp_btn\")"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> theDown_btn <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>ptr<span class="keyword">,</span> "$(\"#theDown_btn\")"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> theReset_btn <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>ptr<span class="keyword">,</span> "$(\"#theReset_btn\")"<span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theUp_clicks <span class="keyword">=</span>
+  <span class="dynexp"><span class="keyword">$extmcall</span><span class="keyword">(</span>EStream<span class="keyword">(</span>ptr<span class="keyword">)</span><span class="keyword">,</span> theUp_btn<span class="keyword">,</span> "asEventStream"<span class="keyword">,</span> "click"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> theDown_clicks <span class="keyword">=</span>
+  <span class="dynexp"><span class="keyword">$extmcall</span><span class="keyword">(</span>EStream<span class="keyword">(</span>ptr<span class="keyword">)</span><span class="keyword">,</span> theDown_btn<span class="keyword">,</span> "asEventStream"<span class="keyword">,</span> "click"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> theReset_clicks <span class="keyword">=</span>
+  <span class="dynexp"><span class="keyword">$extmcall</span><span class="keyword">(</span>EStream<span class="keyword">(</span>ptr<span class="keyword">)</span><span class="keyword">,</span> theReset_btn<span class="keyword">,</span> "asEventStream"<span class="keyword">,</span> "click"<span class="keyword">)</span></span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that the type <span style="color: #0000F0;">EStream(ptr)</span> is assigned to the generated
+event streams as the items in these streams are not intended to be analyzed.
+A stream <span style="color: #F00000;">theComb_clicks</span> of the type <span style="color: #0000F0;">EStream(act)</span> is
+created as follows by merging three streams:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">datatype</span> <span class="staexp">act <span class="keyword">=</span> <span class="dynexp">Up</span> <span class="keyword">|</span> <span class="dynexp">Down</span> <span class="keyword">|</span> <span class="dynexp">Reset</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theUp_clicks <span class="keyword">=</span> theUp_clicks<span class="dynexp"><span class="keyword">.</span>map</span><span class="keyword">(</span>TYPE<span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> _ <span class="keyword">=&gt;</span> Up<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> theDown_clicks <span class="keyword">=</span> theDown_clicks<span class="dynexp"><span class="keyword">.</span>map</span><span class="keyword">(</span>TYPE<span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> _ <span class="keyword">=&gt;</span> Down<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> theReset_clicks <span class="keyword">=</span> theReset_clicks<span class="dynexp"><span class="keyword">.</span>map</span><span class="keyword">(</span>TYPE<span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> _ <span class="keyword">=&gt;</span> Reset<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theComb_clicks <span class="keyword">=</span> merge<span class="keyword">(</span>theUp_clicks<span class="keyword">,</span> theDown_clicks<span class="keyword">,</span> theReset_clicks<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+where the datatype <span style="color: #0000F0;">act</span> is declared for differentiating
+the items in <span style="color: #F00000;">theComb_clicks</span>. The <span style="color: #F00000;">map</span>
+function on an event stream applies its second argument, a
+closure-function, to each item in its first argument, which is an
+event stream. In this regard, it is similar to the <span style="color: #F00000;">map</span>
+function on a lazy-stream.
+
+</p>
+
+<p>
+A property <span style="color: #F00000;">theCounts</span> is created by scanning the stream
+<span style="color: #F00000;">theComb_clicks</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theCounts <span class="keyword">=</span>
+EStream_scan
+  <span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  theComb_clicks
+<span class="keyword">,</span> <span class="dynexp">0</span> <span class="comment">// initial count</span>
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>res<span class="keyword">,</span> act<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  <span class="keyword">(</span>
+    <span class="keyword">case+</span> act <span class="keyword">of</span>
+    <span class="keyword">|</span> Up<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> min<span class="keyword">(</span>res+<span class="dynexp">1</span><span class="keyword">,</span> <span class="dynexp">99</span><span class="keyword">)</span>
+    <span class="keyword">|</span> Down<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> max<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> res-<span class="dynexp">1</span><span class="keyword">)</span>
+    <span class="keyword">|</span> Reset<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp">0</span> <span class="comment">// the default</span>
+  <span class="keyword">)</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [theCounts] *)</span>
+<span class="comment">//</span>
+</pre>
+
+Given a type <span style="color: #0000F0;">T</span>, a property of the type
+<span style="color: #0000F0;">Property(T)</span> in Bacon.js essentially refers to a value of
+the type <span style="color: #0000F0;">T</span> paired with a stream of the type
+<span style="color: #0000F0;">EStream(T)</span>. The property <span style="color: #F00000;">theCounts</span> is
+assigned the type <span style="color: #0000F0;">Propert(int)</span> and its initial value is
+<span style="color: #F00000;">0</span>. Whenever an item enters the stream
+<span style="color: #F00000;">theComb_clicks</span>,
+the third argument of <span style="color: #F00000;">EStream_scan</span>, which is a binary
+closure-function, is called on the current value associated with the
+property <span style="color: #F00000;">theCounts</span> and the item to produce the next value
+associated with the property.
+
+</p>
+
+<p>
+Finally, the following call to <span style="color: #F00000;">onValue</span> is made on
+<span style="color: #F00000;">theCounts</span> with a closure-function:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span>
+theCounts<span class="dynexp"><span class="keyword">.</span>onValue</span><span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">(</span>
+<span class="keyword">lam</span><span class="keyword">(</span>count<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+<span class="keyword">{</span>
+  <span class="dynexp"><span class="keyword">val</span> d0 <span class="keyword">=</span> count%<span class="dynexp">10</span> <span class="keyword">and</span> d1 <span class="keyword">=</span> count/<span class="dynexp">10</span></span>
+  <span class="dynexp"><span class="keyword">val</span> d0 <span class="keyword">=</span> String<span class="keyword">(</span>d0<span class="keyword">)</span> <span class="keyword">and</span> d1 <span class="keyword">=</span> String<span class="keyword">(</span>d1<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> theCount2_p <span class="keyword">=</span>
+      <span class="dynexp"><span class="keyword">$extfcall</span><span class="keyword">(</span>ptr<span class="keyword">,</span> "jQuery"<span class="keyword">,</span> "#theCount2_p"<span class="keyword">)</span></span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span> <span class="comment">(*void*)</span> <span class="keyword">)</span> <span class="keyword">=</span>
+      <span class="dynexp"><span class="keyword">$extmcall</span><span class="keyword">(</span>void<span class="keyword">,</span> theCount2_p<span class="keyword">,</span> "text"<span class="keyword">,</span> String<span class="keyword">(</span>d1<span class="keyword">)</span>+String<span class="keyword">(</span>d0<span class="keyword">)</span><span class="keyword">)</span></span></span>
+<span class="keyword">}</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [val] *)</span>
+<span class="comment">//</span>
+</pre>
+
+The closure-function is first called on the initial value associated
+with the property <span style="color: #F00000;">theCounts</span>. Whenever the next value on
+the property <span style="color: #F00000;">theCounts</span> is available, a call to this
+closure-function is trigged on the value.
+
+</p>
+
+<p>
+The following demo is of a counter that is implemented in the FRP-style
+outlined above:
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-12">
+<center>
+<p id="theCount2_p" class="h1">00</p>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-4">
+<center>
+<button
+ id="theUp_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Up</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ id="theDown_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Down</button>
+</center>
+</div>
+<div class="col-md-4">
+<center>
+<button
+ id="theReset_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Reset</button>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+For the entirety of this implementation, please see the source code
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter2_baconjs.dats">on-line</a>.
+
+</p>
+
+<h2>A Simple Auto-Counter of FRP-style</h2>
+
+<p>
+The following demo shows an auto-counter that can change its count
+automatically:
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-12">
+<center>
+<p id="theCount3_p" class="h1">00</p>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+<div class="row">
+<div class="col-md-3">
+<center>
+<!--
+<label>
+<input type="checkbox">Auto</input>
+</label>
+<input checked data-toggle="toggle" data-onstyle="primary" type="checkbox">
+-->
+<button
+ id="theAuto3_btn"
+ type="button" class="btn btn-default btn-lg"
+>Auto</button>
+</center>
+</div>
+<div class="col-md-3">
+<center>
+<button
+ id="theUp3_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Up</button>
+</center>
+</div>
+<div class="col-md-3">
+<center>
+<button
+ id="theDown3_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Down</button>
+</center>
+</div>
+<div class="col-md-3">
+<center>
+<button
+ id="theReset3_btn"
+ type="button" class="btn btn-primary btn-lg"
+>Reset</button>
+</center>
+</div>
+</div><!--class-row-->
+
+<hr size="2">
+
+If the Auto button is set, then pressing the Up/Down button results in
+the displayed count being increased/decreased by 1 every second until
+another button is pressed.  If the Auto button is not set, then pressing
+the Up/Down button results in the displayed count being
+increased/decreased by 1 only once.
+</p>
+
+<p>
+The following code constructs a stream <span style="color: #F00000;">theAuto_clicks</span> of
+the type <span style="color: #0000F0;">EStream(act)</span> and a property
+<span style="color: #F00000;">theAuto_toggles</span> of the type <span style="color: #0000F0;">Property(bool)</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">datatype</span> <span class="staexp">act <span class="keyword">=</span> <span class="dynexp">Up</span> <span class="keyword">|</span> <span class="dynexp">Down</span> <span class="keyword">|</span> <span class="dynexp">Reset</span> <span class="keyword">|</span> <span class="dynexp">Skip</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theAuto_btn <span class="keyword">=</span> <span class="dynexp"><span class="keyword">$extval</span><span class="keyword">(</span>ptr<span class="keyword">,</span> "$(\"#theAuto3_btn\")"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> theAuto_clicks <span class="keyword">=</span>
+    <span class="dynexp"><span class="keyword">$extmcall</span><span class="keyword">(</span>EStream<span class="keyword">(</span>ptr<span class="keyword">)</span><span class="keyword">,</span> theAuto_btn<span class="keyword">,</span> "asEventStream"<span class="keyword">,</span> "click"<span class="keyword">)</span></span></span>
+<span class="dynexp"><span class="keyword">val</span> theAuto_clicks <span class="keyword">=</span> theAuto_clicks<span class="dynexp"><span class="keyword">.</span>map</span><span class="keyword">(</span>TYPE<span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span><span class="keyword">)</span><span class="keyword">(</span><span class="keyword">lam</span> _ <span class="keyword">=&gt;</span> Skip<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> theAuto_toggles <span class="keyword">=</span>
+    EStream_scan<span class="staexp"><span class="keyword">{</span>bool<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span><span class="keyword">(</span>theAuto_clicks<span class="keyword">,</span> false<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>res<span class="keyword">,</span> _<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">~</span>res<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that <span style="color: #F00000;">Skip</span> is added to the datatype <span style="color: #0000F0;">act</span>,
+which indicates no change to the count maintained by the auto-counter.
+The property <span style="color: #F00000;">theAuto_toggles</span> is a boolean one indicating
+whether the Auto button is set.
+
+</p>
+
+<p>
+The function <span style="color: #F00000;">Property_sampledBy_estream_cfun</span>
+in the following code constructs a stream by essentially interpreting
+each item in the stream <span style="color: #F00000;">theComb_clicks</span> based on the
+current value of <span style="color: #F00000;">theAuto_toggles</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theAutoComb_stream <span class="keyword">=</span>
+  Property_sampledBy_estream_cfun
+    <span class="keyword">(</span>theAuto_toggles<span class="keyword">,</span> theComb_clicks<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">,</span> y<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">if</span> x <span class="keyword">then</span> Skip <span class="keyword">else</span> y<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+An item entering
+<span style="color: #F00000;">theComb_clicks</span> is interpreted as Skip
+in <span style="color: #F00000;">theAutoComb_stream</span> if
+the Auto button is set. Otherwise, it is interpreted as what it is.
+
+</p>
+
+<p>
+In the following code, the call to the function
+<span style="color: #F00000;">Bacon_interval</span> generates a stream of zeros such that a
+zero enters the stream every 1000 milliseconds (that is, 1 second),
+and the function <span style="color: #F00000;">Property_sampledBy_estream</span> takes a
+property and a stream and returns another stream consisting of all the
+values in the given property sampled at each point when an item enters
+the given stream:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theTick_stream <span class="keyword">=</span>
+Property_sampledBy_estream
+  <span class="keyword">(</span>theAuto_toggles<span class="keyword">,</span> Bacon_interval<span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="dynexp">1000</span><span class="comment">(*ms*)</span><span class="keyword">,</span> <span class="dynexp">0</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Therefore, <span style="color: #F00000;">theTick_stream</span> is a stream of booleans
+obtained by sampling <span style="color: #F00000;">theAuto_toggles</span> at the interval of
+every 1000 milliseconds.
+
+</p>
+
+<p>
+The following code constructs a stream
+<span style="color: #F00000;">theComb2Tick_stream</span> by interpreting each tick
+entering
+<span style="color: #F00000;">theTick_stream</span> based on the current value of the
+property <span style="color: #F00000;">theComb2_property</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theComb2_clicks <span class="keyword">=</span> merge<span class="keyword">(</span>theComb_clicks<span class="keyword">,</span> theAuto_clicks<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> theComb2_property <span class="keyword">=</span> EStream_toProperty_init<span class="keyword">(</span>theComb2_clicks<span class="keyword">,</span> Skip<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> theComb2Tick_stream <span class="keyword">=</span>
+    Property_sampledBy_estream_cfun
+    <span class="keyword">(</span>theComb2_property<span class="keyword">,</span> theTick_stream<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">,</span> y<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">if</span> y <span class="keyword">then</span> x <span class="keyword">else</span> Skip<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+The tick is interpreted as Up, Down, or Reset if the last pressed button
+is Up, Down, or Reset, respectively. Otherwise, the tick is interpreted as
+Skip.
+
+</p>
+
+<p>
+Finally, a property <span style="color: #F00000;">theCounts</span> can be constructed as
+follows by scanning the stream obtained from merging
+<span style="color: #F00000;">theAutoComb_stream</span> and <span style="color: #F00000;">theComb2Tick_stream</span>:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+theCounts <span class="keyword">=</span>
+EStream_scan
+  <span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>act<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  merge
+  <span class="keyword">(</span>
+    theAutoComb_stream
+  <span class="keyword">,</span> theComb2Tick_stream
+  <span class="keyword">)</span>
+<span class="keyword">,</span> <span class="dynexp">0</span> <span class="comment">(*initial*)</span>
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>res<span class="keyword">,</span> act<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  <span class="keyword">(</span>
+    <span class="keyword">case+</span> act <span class="keyword">of</span>
+    <span class="keyword">|</span> Up<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> min<span class="keyword">(</span>res+<span class="dynexp">1</span><span class="keyword">,</span> <span class="dynexp">99</span><span class="keyword">)</span>
+    <span class="keyword">|</span> Down<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> max<span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">,</span> res-<span class="dynexp">1</span><span class="keyword">)</span>
+    <span class="keyword">|</span> Reset<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span> <span class="keyword">|</span> Skip<span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> res 
+  <span class="keyword">)</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [theCounts] *)</span>
+<span class="comment">//</span>
+</pre>
+
+The code for displaying the values in the property
+<span style="color: #F00000;">theCounts</span> is omitted.  For the entirety of this
+implementation of an auto-counter, please see the source code
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/EFFECTIVATS/FRP-bacon.js/JS/theCounter3_baconjs.dats">on-line</a>.
+</p>
+
+<h2>Compiling and Testing</h2>
+
+<p>
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+JS/theCounter_callback.dats // counter of callback-style
+JS/theCounter2_baconjs.dats // counter of FRP-style via Bacon.js
+JS/theCounter3_baconjs.dats // auto-counter of FRP-style via Bacon.js
+</pre>
+
+In addition, there is an accompanying <tt>Makefile</tt> for compiling
+and testing the code.
+</p>
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+
+<script
+ src="./JS/theCounter_callback_dats.js">
+</script>
+<script
+ src="./JS/theCounter2_baconjs_dats.js">
+</script>
+<script
+ src="./JS/theCounter3_baconjs_dats.js">
+</script>
+
+</body>
+</html>

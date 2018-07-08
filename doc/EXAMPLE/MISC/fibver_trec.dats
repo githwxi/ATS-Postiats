@@ -4,7 +4,14 @@
 ** Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: 2006 (?) // this is one of the first examples in ATS
 *)
-
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
+//
 (* ****** ****** *)
 
 staload "prelude/DATS/integer.dats"

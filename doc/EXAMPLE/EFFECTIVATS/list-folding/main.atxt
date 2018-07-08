@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-list-folding</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+List-folding Combinators
+</h1>
+
+##para('\
+A list-folding combinator is a (higher-order) function that
+traverses a given list to process the elements contained in the
+list. In this very light article (based on a lecture of mine on
+introductory functional programming), I present some code implementing
+3 list-folding combinators as well as several examples making use
+of these combinators.\
+')##comment("para")
+
+
+<h2>List_fold_left</h2>
+
+##para("""\
+
+The function ##dyncode("list_fold_left") of the following
+interface folds a given list from left to right:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a,b:t@ype}
+list_fold_left
+(
+  xs: List(a)
+, init: b, fopr: (b, a) -<cloref1> b
+) : b // end-of-function
+")</pre>
+
+Applied to a list of n elements (x##sub(1), ..., x##sub(n)),
+##dyncode("list_fold_left") essentially returns the value of the
+following (informal) expression: ##dyncode("fopr(...fopr(init,
+x##sub(1)), ..., x##sub(n))").  The following code gives a typical
+implementation of ##dyncode("list_fold_left"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+implement
+{a,b}(*tmp*)
+list_fold_left
+  (xs, init, fopr) = let
+//
+fun
+auxmain
+{n:nat} .<n>.
+(
+  init: b, xs: list(a, n)
+) : b = (
+//
+case+ xs of
+| list_nil() => init
+| list_cons(x, xs) =>
+    auxmain(fopr(init, x), xs)
+  // end of [list_cons]
+//
+) (* auxmain *)
+//
+prval () = lemma_list_param(xs)
+//
+in
+  auxmain(init, xs)
+end // end of [list_fold_left]
+")</pre>
+
+Note that ##dyncode("auxmain") is tail-recursive.
+
+""")
+
+##para("""\
+
+As an example, the list-length function can be
+implemented with a direct call to ##dyncode("list_fold_left"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+fun
+{a:t@ype}
+list_length
+(
+  xs: List(a)
+) : int =
+(
+//
+list_fold_left<a,int>
+  (xs, 0, lam(xs, x) => xs + 1)
+//
+) (* list_length *)
+")</pre>
+
+However, it should be noted that this implementation
+of ##dyncode("list_length") cannot be assigned the following
+interface:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a:t@ype}
+list_length{n:nat}(list(a, n)): int(n)
+")</pre>
+
+In order to do so, a more accurate interface needs to be given to
+##dyncode("list_fold_left").
+
+<br></br>
+
+As another example, the list-reverse function can be implemented
+with a direct call to ##dyncode("list_fold_left") as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_left<a,List0(a)>
+  (xs, list_nil(), lam(xs, x) => list_cons(x, xs))
+//
+) (* list_reverse *)
+")</pre>
+
+Note that the type constructor ##stacode("List0") is defined as follows:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+typedef List0(a:t@ype) = [n:nat] List(a)
+")</pre>
+
+
+""")
+
+<h2>List_fold_right</h2>
+
+##para("""\
+
+The function ##dyncode("list_fold_right") of the following
+interface folds a given list from right to left:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a,b:t@ype}
+list_fold_right
+(
+  xs: List(a)
+, fopr: (a, b) -<cloref1> b, sink: b
+) : b // end-of-function
+")</pre>
+
+Applied to a list of n elements (x##sub(1), ..., x##sub(n)),
+##dyncode("list_fold_right") essentially returns the value of the
+followng (informal) expression: ##dyncode("fopr(x##sub(1),...fopr(x##sub(n), sink)...)").
+The following code gives a typical implementation of ##dyncode("list_fold_right"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+implement
+{a,b}(*tmp*)
+list_fold_right
+  (xs, fopr, sink) = let
+//
+fun
+auxmain
+{n:nat} .<n>.
+(
+  xs: list(a, n)
+) : b = (
+//
+case+ xs of
+| list_nil() => sink
+| list_cons(x, xs) => fopr(x, auxmain(xs))
+//
+) (* auxmain *)
+//
+prval () = lemma_list_param(xs)
+//
+in
+  auxmain(xs)
+end // end of [list_fold_right]
+""")</pre>
+
+Note that ##dyncode("auxmain") is recursive but not tail-recursive.
+
+""")##comment("para")
+
+##para("""\
+
+As an example, the list-length function can be implemented with
+a direct call to ##dyncode("list_fold_right"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+list_length
+(
+  xs: List(a)
+) : int =
+(
+//
+list_fold_right<a,int>
+  (xs, lam(x, xs) => xs + 1, 0)
+//
+) (* list_length *)
+""")</pre>
+
+Compared to the implementation of ##dyncode("list_length") based on
+##dyncode("list_fold_left"), this one is much less attractive as it is
+not tail-recursive and thus may cause a call-stack overflow when
+applied to a long list (for instance, one containing 1 million
+elements).
+
+<br></br>
+
+As another example, the list-append function (for concatenating two given
+lists) can be implemented with a direct call to ##dyncode("list_fold_right")
+as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+list_append
+(
+  xs: List(a), ys: List(a)
+) : List0(a) = let
+//
+prval () = lemma_list_param(ys)
+//
+in
+//
+list_fold_right<a,List0(a)>
+  (xs, lam(x, xs) => list_cons(x, xs), ys)
+//
+end (* list_append *)
+""")</pre>
+
+In practice, it is not uncommon to see an
+implementation of the list-reverse function (for reversing a given list)
+of the following style (usually by a novice functional programmer):
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_right<a,List0(a)>
+( xs
+, lam(x, xs) =>
+  list_append<a>(xs, list_cons(x, list_nil()))
+, list_nil((*void*))
+) (* end of [list_fold_right] *)
+//
+) (* list_reverse *)
+""")</pre>
+
+This is a terribly inefficient implementation of
+O(n##sup(2))-complexity both time-wise and memory-wise, and any
+programmer who writes this kind of code is surely in need of
+solidifying his/her own understanding of the call-by-value semantics.\
+
+""")##comment("para")
+
+##para("""\
+
+The following code implements based on ##dyncode("list_fold_right") a
+function searching for the rightmost element satisfying a given prediate
+in a given list:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+list_find_rightmost
+(
+  xs: List(a), p: (a) -<cloref1> bool
+) : Option(a) = let
+//
+exception Found of (a)
+//
+in
+//
+try let
+//
+val _ =
+list_fold_right<a,int>
+( xs
+, lam(x, xs) =>
+  if p(x) then $raise(Found(x)) else (0)
+, 0(*nominal*)
+)
+//
+in
+  None((*void*))
+end with ~Found(x) => Some(x)
+//
+end (* end of [list_find_rightmost] *)
+""")</pre>
+
+Note that the ##dyncode("fopr") argument passed to
+##dyncode("list_fold_right") in this case is a function that raises an
+exception carrying the element being processed if the element
+satsifies the given predicate. As the type ##stacode("void") may cause
+difficulty for the generated C code to be compiled properly, the type
+##stacode("int") is chosen instead for the result returned by the call
+to ##dyncode("list_fold_right").
+
+""")
+
+<h2>List_fold_split</h2>
+
+##para("""\
+
+Lists are inherently sequential, and traversing a list is mostly
+likely done in a from-left-to-right or from-right-to-left
+manner. There are however realistic occasions where one may want to
+traverse a list in a tree-like manner. For instance, list-mergesort
+can be implemented by first splitting a given list into two halves and
+then recursively sorting them and merging the two obtained sorted
+lists into one. The following function ##dyncode("list_fold_split")
+can be seen as a form of abtraction over mergesort:
+
+<pre
+class="patsyntax">
+##sats2xhtml("\
+fun
+{a,b:t@ype}
+list_fold_split
+(
+  xs: List(a)
+, fopr: (b, b) -<cloref1> b
+, sink0: b, fsink1: (a) -<cloref1> b
+) : b // end-of-function
+")</pre>
+
+If a given list contains at least two elements,
+##dyncode("list_fold_split") splits it into two halves and then
+applies recursively to them to yield two results that are subsequently
+combined together by a call to ##dyncode("fopr"); if the given list is
+empty, then ##dyncode("sink0") is the result; if the given list is a
+singleton, the ##dyncode("fsink1") is called on the only element to
+yield the result. The following code gives an implementation of
+##dyncode("list_fold_split"):
+
+<pre
+class="patsyntax">
+##dats2xhtml("\
+implement
+{a,b}(*tmp*)
+list_fold_split
+  (xs, fopr, sink0, fsink1) = let
+//
+fun
+aux
+{ n1,n2:nat
+| n1 >= n2 } .<n2>.
+(
+  xs: list(a, n1), n2: int(n2)
+) : b =
+(
+if
+(n2 >= 2)
+then let
+  val n21 = half(n2)
+in
+  fopr(aux(xs, n21), aux(list_drop(xs, n21), n2-n21))
+end // end of [then]
+else (
+//
+case+ xs of
+| list_nil() => sink0
+| list_cons(x, _) => fsink1(x)
+//
+) (* end of [else] *)
+//
+) (* end of [aux] *)
+//
+prval () = lemma_list_param(xs)
+//
+in
+  aux(xs, length(xs))
+end // end of [list_fold_split]
+")</pre>
+
+Given a list and a natural number n less than or equal to the length
+of the list, ##dyncode("list_drop") returns another list obtained from
+removing the first n elements from the given list. Clearly,
+##dyncode("list_drop") is O(n)-time. Assume that ##dyncode(fsink1) is
+O(1)-time. If ##dyncode(fopr) is O(1)-time, then
+##dyncode("list_fold_split") is O(n(log(n)))-time. If ##dyncode(fopr)
+is O(n)-time, then ##dyncode("list_fold_split") is O(n(log(n)))-time
+as well.\
+
+""")
+
+##para("""\
+
+Unsuprisingly, list-mergesort can be implemented with a direct call to
+##dyncode("list_fold_split") where the ##dyncode(fopr) argument is the
+standard function for merging two sorted lists into one:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+local
+//
+fun{
+a:t@ype
+} merge
+(
+  xs0: list0(a)
+, ys0: list0(a)
+) : list0(a) =
+(
+case+ (xs0, ys0) of
+| (list0_nil(), _) => ys0
+| (_, list0_nil()) => xs0
+| (list0_cons(x0, xs1), 
+   list0_cons(y0, ys1)) => let
+    val sgn = gcompare_val_val<a>(x0, y0)
+  in
+    if sgn <= 0
+      then list0_cons(x0, merge(xs1, ys0))
+      else list0_cons(y0, merge(xs0, ys1))
+  end // end of [cons _, cons _]
+)
+//
+in (* in-of-local *)
+//
+fun
+{a:t@ype}
+mergesort(xs: List(a)) =
+list_fold_split<a,list0(a)>
+( xs
+, lam(xs, ys) => merge<a>(xs, ys)
+, list0_nil(), lam(x) => list0_sing(x)
+)
+//
+end // end of [local]
+""")</pre>
+
+As another example, the list-reverse function can be implemented as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml("""\
+fun
+{a:t@ype}
+list_reverse
+(
+  xs: List(a)
+) : List0(a) =
+(
+//
+list_fold_split<a,List0(a)>
+( xs
+, lam(xs, ys) => list_append(ys, xs)
+, list_nil, lam(x) => list_cons(x, list_nil)
+) (* list_fold_split *)
+//
+) (* list_reverse *)
+""")</pre>
+
+Note that this implementation of ##dyncode("list_reverse") is
+O(n(log(n)))-time. While it is better than the previous one of
+O(n##sup(2))-time, it is still unacceptably poor as reversing a list
+can be readily given a tail-recursive implementation of O(n)-time.
+
+""")##comment("para")
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+list_fold_left.dats
+list_fold_right.dats
+list_fold_split.dats
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

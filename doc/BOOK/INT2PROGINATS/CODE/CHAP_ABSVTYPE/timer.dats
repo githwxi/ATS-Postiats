@@ -222,9 +222,10 @@ end // end of [timer_get_ntick]
 (* ****** ****** *)
 
 local
-
-staload "libc/SATS/time.sats"
-
+//
+staload
+"libats/libc/SATS/time.sats"
+//
 in (* in-of-local *)
 
 implement
@@ -240,9 +241,11 @@ end // end of [the_current_tick_get]
 end // end of [local]
 
 (* ****** ****** *)
-
-staload US = "libc/SATS/unistd.sats"
-
+//
+staload
+UNIX =
+"libats/libc/SATS/unistd.sats"
+//
 (* ****** ****** *)
 
 implement
@@ -255,13 +258,13 @@ val () = timer_start (timer)
 //
 val ntick = timer_get_ntick (timer)
 val ((*void*)) = println! ("ntick(0) = ", ntick)
-val _(*nleft*) = $US.sleep (1u) // this one is counted
+val _(*nleft*) = $UNIX.sleep (1u) // this one is counted
 val ((*void*)) = timer_pause (timer)
 val ntick = timer_get_ntick (timer)
 val ((*void*)) = println! ("ntick(1) = ", ntick)
-val _(*nleft*) = $US.sleep (1u) // this one is skipped
+val _(*nleft*) = $UNIX.sleep (1u) // this one is skipped
 val ((*void*)) = timer_resume (timer)
-val _(*nleft*) = $US.sleep (1u) // this one is counted
+val _(*nleft*) = $UNIX.sleep (1u) // this one is counted
 val ntick = timer_get_ntick (timer)
 val ((*void*)) = println! ("ntick(2) = ", ntick)
 //

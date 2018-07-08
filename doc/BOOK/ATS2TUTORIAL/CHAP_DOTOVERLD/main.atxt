@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/ats2tutorial.dats"
+#include "./../MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
@@ -23,7 +23,7 @@ matching or the use of dot-notation. For example, the following code
 constructs a flat tuple and also a boxed one, and then uses dot-notation to
 select their components:
 
-#atscode('\
+#dats2xhtml('\
 //
 val tup_flat = @("a", "b")
 val tup_boxed = $tup("a", "b")
@@ -48,7 +48,7 @@ As an example of dot-notation in overloading, let us introduce a non-linear
 abstract type #stacode("point") for points in a 2-dimensional space and also
 declare some associated functions:
 
-#atscode('\
+#dats2xhtml('\
 //
 abstype point = ptr // boxed
 //
@@ -75,7 +75,7 @@ given point, the functions #dyncode("point_set_x") and
 dot-symbols #dyncode(".x") and #dyncode(".y") and then overloading them
 with certain function names as follows:
 
-#atscode('\
+#dats2xhtml('\
 symintr .x .y
 overload .x with point_get_x
 overload .x with point_set_x
@@ -86,20 +86,18 @@ overload .y with point_set_y
 we can use dot-notation to call the corresponding get-functions and
 set-functions as is shown in the following code:
 
-#atscode('\
+#dats2xhtml('\
 val p0 = point_make (1.0, ~1.0)
-val x0 = p0.x // point_get_x (p0)
-and y0 = p0.y // point_get_y (p0)
+val x0 = p0.x() // point_get_x (p0)
+and y0 = p0.y() // point_get_y (p0)
 val () = p0.x := y0 // point_set_x (p0, y0)
 and () = p0.y := x0 // point_set_y (p0, x0)
 ')
 
-Note that the dot-notation in any assigement is only allowed to refer to a
-function that returns the void-value. In the above example, both
+Note that writing #dyncode("p0.x") for #dyncode("p0.x()") is currently not
+supported.  The dot-notation in any assigement is only allowed to refer to
+a function that returns the void-value. In the above example, both
 #dyncode("point_set_x") and #dyncode("point_set_y") return the void-value.
-Also, it should be emphasized that overloaded dot-notation as is shown
-above can only be applied to non-linear values. For handling linear values,
-a slight restriction needs to be imposed, which I explain as follows.
 
 ')
 
@@ -108,7 +106,7 @@ a slight restriction needs to be imposed, which I explain as follows.
 Let us introduce a linear abstract type #stacode("counter") for counter
 objects and a few functions associated with it:
 
-#atscode('\
+#dats2xhtml('\
 //
 absvtype counter = ptr
 //
@@ -134,41 +132,32 @@ increase that count by a given integer value.
 
 #para("\
 
-Suppose that we now introduce the following overloading declarations:
+Let us introduce the following overloading declarations:
 
-#atscode('\
+#dats2xhtml('\
 //
 overload .get with counter_get
 overload .incby with counter_incby
 //
 ')
 
-One may expect the following line of code to typecheck:
+As is expected, one can now call #dyncode("counter_get") as follows:
 
-#atscode('\
-val n0 = c0.get
-')
-
-But this is not the case due to #dyncode("c0") being a linear
-value. Instead, one needs to use #dyncode("c0.get") as the function
-inside a function call in order to call #dyncode("counter_get") on
-#dyncode("c0"):
-
-#atscode('\
+#dats2xhtml('\
 val n0 = c0.get() // = counter_get(c0)
 ')
 
 Similarly, one can call #dyncode("counter_incby") as follows to increase
 the count stored in #dyncode("c0") by 1:
 
-#atscode('\
+#dats2xhtml('\
 val () = c0.incby(1) // = counter_incby(c0, 1)
 ')
 
 If we revisit the previous example involving (non-linear) points, then
 we can see that the following code also typechecks:
 
-#atscode('\
+#dats2xhtml('\
 val p0 = point_make (1.0, ~1.0)
 val x0 = p0.x() // point_get_x (p0)
 and y0 = p0.y() // point_get_y (p0)

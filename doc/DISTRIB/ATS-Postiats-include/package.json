@@ -1,0 +1,22 @@
+{
+"name":
+"ats-postiats-include"
+,
+"version": "1.0.0"
+,
+"description":
+"The package contains the header files needed for compiling the C code generated from ATS source via patsopt"
+,
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "ATS-Postiats",
+    "ATS-Postiats-include"
+  ],
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/doc/DISTRIB/ATS-Postiats-include/."
+}

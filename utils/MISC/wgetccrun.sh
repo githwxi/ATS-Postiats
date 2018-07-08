@@ -7,7 +7,7 @@ TCCRUN='tcc -run'
 
 ######
 
-__CFLAGS__LIBS=
+MY_CFLAGS_LIBS=
 
 ######
 #
@@ -17,10 +17,12 @@ __CFLAGS__LIBS=
 #
 ${WGET} -q -O - $1 | \
 ${TCCRUN} \
-  -DATS_MEMALLOC_LIBC \
-  -I${PATSHOME} \
-  -I${PATSHOME}/ccomp/runtime \
-  -I${PATSHOMERELOC}/contrib \
-   $__CFLAGS__LIBS -
+-DATS_MEMALLOC_LIBC \
+-I${PATSHOME} \
+-I${PATSHOME}/ccomp/runtime \
+-I${PATSHOME}/contrib \
+-I${PATSHOME}/npm-utils/contrib \
+-I${PATSCONTRIB}/contrib \
+ $MY_CFLAGS_LIBS -
 #
 ###### end of [wgetccrun.sh] ######

@@ -132,14 +132,14 @@ implement
 primval_make2_funlab
   (loc, hse0, fl) = let
 //
-val hse = funlab_get_type (fl)
-val funclo = funlab_get_funclo (fl)
+val hse = funlab_get_type(fl)
+val funclo = funlab_get_funclo(fl)
 //
 in
 //
 case+ funclo of
-| FUNCLOfun () => primval_funlab (loc, hse0, fl)
-| FUNCLOclo (knd) => primval_cfunlab (loc, hse0, knd, fl)
+| FUNCLOfun() => primval_funlab(loc, hse0, fl)
+| FUNCLOclo(knd) => primval_cfunlab(loc, hse0, knd, fl)
 //
 end // end of [primval_make2_funlab]
 
@@ -148,14 +148,14 @@ end // end of [primval_make2_funlab]
 implement
 primval_make_d2vfunlab
   (loc, d2v, fl) = let
-  val hse = funlab_get_type (fl) in primval_d2vfunlab (loc, hse, d2v, fl)
+  val hse = funlab_get_type(fl) in primval_d2vfunlab(loc, hse, d2v, fl)
 end // end of [primval_make_d2vfunlab]
 
 (* ****** ****** *)
 
 implement
-patckont_is_none (fail) =
-  case+ fail of PTCKNTnone () => true | _ => false
+patckont_is_none(fail) =
+  case+ fail of PTCKNTnone() => true | _ => false
 // end of [patckont_is_none]
 
 (* ****** ****** *)
@@ -201,7 +201,9 @@ end // end of [tmpsub_append]
 #if(0)
 
 extern
-fun tailcalck (
+fun
+tailcalck
+(
   env: !ccompenv
 , tmpret: tmpvar, pmv: primval, ntl0: &int? >> int
 ) : funlabopt_vt // end of [tailcalck]
@@ -218,7 +220,8 @@ in
 if isret then
 (
 case+
-  pmv.primval_node of
+pmv.primval_node
+of (* case+ *)
 | PMVcst (d2c) => let
     val () = ntl0 := 0
   in
@@ -264,71 +267,97 @@ case+ x.instr_node of
 //
 | INScomment _ => ()
 //
-| INSmove_val (tmp, _) => tmpadd (tmp)
-| INSpmove_val (tmp, _) => tmpadd (tmp)
+| INSmove_val
+    (tmp, _) => tmpadd (tmp)
+| INSpmove_val
+    (tmp, _) => tmpadd (tmp)
 //
 | INSmove_arg_val _ => ()
 //
-| INSfcall (tmp, _, _, _) => tmpadd (tmp)
-| INSfcall2 (tmp, _, _, _, _) => tmpadd (tmp)
+| INSfcall
+    (tmp, _, _, _) => tmpadd (tmp)
+| INSfcall2
+    (tmp, _, _, _, _) => tmpadd (tmp)
 //
-| INSextfcall (tmp, _fun, _arg) => tmpadd (tmp)
-| INSextmcall (tmp, _obj, _mtd, _arg) => tmpadd (tmp)
+| INSextfcall
+    (tmp, _fun, _arg) => tmpadd (tmp)
+| INSextmcall
+    (tmp, _obj, _mtd, _arg) => tmpadd (tmp)
 //    
 | INScond
   (
     _, _then, _else
-  ) => {
-    val () = auxlst (res, _then) and () = auxlst (res, _else)
+  ) => () where
+  {
+    val ((*void*)) = auxlst(res, _then)
+    and ((*void*)) = auxlst(res, _else)
   } // end of [INScond]
 //
 | INSfreecon _ => ()
 //
 | INSloop
   (
-    _, _, _, _init, _, _test, _post, _body
-  ) => {
-    val () = auxlst (res, _init) and () = auxlst (res, _test)
-    and () = auxlst (res, _post) and () = auxlst (res, _body)
+    _, _, _
+  , _init, _, _test, _post, _body
+  ) => () where
+  {
+    val ((*void*)) = auxlst(res, _init)
+    and ((*void*)) = auxlst(res, _test)
+    and ((*void*)) = auxlst(res, _post)
+    and ((*void*)) = auxlst(res, _body)
   } // end of [INSloop]
-| INSloopexn (knd, tlab) => () // HX: knd=0/1: break/continue
+//
+| INSloopexn(knd, tlab) => () // HX: knd=0/1: break/continue
 //
 | INScaseof (ibrs) => auxibrlst (res, ibrs)
 //
-| INSletpop ((*void*)) => ()
-| INSletpush (pmds) => auxpmdlst (res, pmds)
+| INSletpop() => ()
+| INSletpush(pmds) => auxpmdlst(res, pmds)
 //
-| INSmove_con (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_con
+    (tmp, _, _, _) => tmpadd(tmp)
+  // INSmove_con
 //
-| INSmove_ref (tmp, _) => tmpadd (tmp)
+| INSmove_ref(tmp, _) => tmpadd (tmp)
 //
-| INSmove_boxrec (tmp, _, _) => tmpadd (tmp)
-| INSmove_fltrec (tmp, _, _) => tmpadd (tmp)
+| INSmove_boxrec(tmp, _, _) => tmpadd(tmp)
+| INSmove_fltrec(tmp, _, _) => tmpadd(tmp)
 //
 | INSpatck _ => ()
 //
-| INSmove_ptrofsel (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_ptrofsel(tmp, _, _, _) => tmpadd(tmp)
 //
 (*
 | INSload_ptrofs (tmp, _, _, _) => tmpadd (tmp)
 *)
 | INSstore_ptrofs _ => ()
-| INSxstore_ptrofs (tmp, _, _, _, _) => tmpadd (tmp)
+| INSxstore_ptrofs
+    (tmp, _, _, _, _) => tmpadd (tmp)
 //
-| INSmove_delay (tmp, _, _, _) => tmpadd (tmp)
-| INSmove_lazyeval (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_delay
+    (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_lazyeval
+    (tmp, _, _, _) => tmpadd (tmp)
 //
 | INSraise _ => ()
-| INStrywith (tmp, _try, _with) =>
+| INStrywith
+    (tmp, _try, _with) =>
   (
-    tmpadd (tmp); auxlst (res, _try); auxibrlst (res, _with)
+    tmpadd (tmp);
+    auxlst (res, _try); auxibrlst (res, _with)
   )
 //
-| INSmove_list_nil (tmp) => tmpadd (tmp)
-| INSpmove_list_nil (tmp) => tmpadd (tmp)
-| INSpmove_list_cons (tmp, _) => tmpadd (tmp)
-| INSmove_list_phead (tmp_hd, tmp_tl, _) => tmpadd (tmp_hd)
-| INSmove_list_ptail (tmp1_tl, tmp2_tl, _) => tmpadd (tmp1_tl)
+| INSmove_list_nil
+    (tmp) => tmpadd (tmp)
+| INSpmove_list_nil
+    (tmp) => tmpadd (tmp)
+| INSpmove_list_cons
+    (tmp, _) => tmpadd (tmp)
+//
+| INSmove_list_phead
+   (tmp_hd, tmp_tl, _) => tmpadd (tmp_hd)
+| INSmove_list_ptail
+    (tmp1_tl, tmp2_tl, _) => tmpadd (tmp1_tl)
 //
 | INSmove_arrpsz_ptr (tmp, _) => tmpadd (tmp)
 //
@@ -340,10 +369,12 @@ case+ x.instr_node of
 //
 | INSclosure_initize _ => ()
 //
-| INStmpdec (tmp) => tmpadd (tmp)
+| INStmpdec(tmp) => tmpadd(tmp)
 //
-| INSextvar (d2c, pmv) => ((*void*))
-| INSdcstdef (d2c, pmv) => ((*void*))
+| INSextvar(d2c, pmv) => ((*void*))
+| INSdcstdef(d2c, pmv) => ((*void*))
+//
+| INStempenver(_(*d2vs*)) => ((*void*))
 //
 end // end of [aux]
 

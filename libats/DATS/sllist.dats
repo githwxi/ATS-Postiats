@@ -52,50 +52,68 @@ staload "libats/SATS/sllist.sats"
 //
 extern
 fun{a:vt0p}
-g2node_make_elt (x: a):<!wrt> g2node1 (a)
+g2node_make_elt
+  (x: a):<!wrt> g2node1(a)
+//
+(* ****** ****** *)
 //
 extern
 fun{a:t0p} // [a] is nonlinear
-g2node_free (nx: g2node1 (INV(a))):<!wrt> void
+g2node_free
+  (nx: g2node1(INV(a))):<!wrt> void
+//
 extern
-fun{a:vt0p}
-g2node_free_elt
-  (nx: g2node1 (INV(a)), res: &(a?) >> a):<!wrt> void
+fun{a:vt0p} // [a] may be linear
+g2node_freelin
+  (nx: g2node1(INV(a))):<!wrt> void
+//
+(* ****** ****** *)
 //
 extern
 fun{a:vt0p}
-g2node_getfree_elt (nx: g2node1 (INV(a))):<!wrt> (a)
+g2node_free_elt
+(
+nx: g2node1(INV(a)), res: &(a?) >> a
+) :<!wrt> void // end-of-function
+//
+extern
+fun{a:vt0p}
+g2node_getfree_elt(nx: g2node1(INV(a))):<!wrt>(a)
 //
 (* ****** ****** *)
 //
 extern
 castfn
 sllist0_encode
-  : {a:vt0p}{n:int} (g2node0 (INV(a))) -<> sllist (a, n)
+{a:vt0p}{n:int}
+  (nx: g2node0(INV(a))) :<> sllist(a, n)
 extern
 castfn
 sllist0_decode
-  : {a:vt0p}{n:int} (sllist (INV(a), n)) -<> g2node0 (a)
+{a:vt0p}{n:int}
+  (xs: sllist(INV(a), n)) :<> g2node0(a)
 //
 extern
 castfn
 sllist1_encode
-  : {a:vt0p}{n:int | n > 0} (g2node1 (INV(a))) -<> sllist (a, n)
+{a:vt0p}{n:int | n > 0}
+  (nx: g2node1(INV(a))) :<> sllist(a, n)
 extern
 castfn
 sllist1_decode
-  : {a:vt0p}{n:int | n > 0} (sllist (INV(a), n)) -<> g2node1 (a)
+{a:vt0p}{n:int | n > 0}
+  (xs: sllist(INV(a), n)) :<> g2node1(a)
 //
 (* ****** ****** *)
-
+//
 implement
 {}(*tmp*)
-sllist_nil () = sllist0_encode (gnode_null ())
-
+sllist_nil() = sllist0_encode(gnode_null())
+//
 implement
 {a}(*tmp*)
-sllist_sing (x) = sllist_cons<a> (x, sllist_nil ())
-
+sllist_sing(x) = sllist_cons<a>(x, sllist_nil())
+//
 (* ****** ****** *)
 
 implement
@@ -103,7 +121,8 @@ implement
 sllist_cons
   (x, xs) = let
 //
-val nx = g2node_make_elt<a> (x) in sllist_cons_ngc (nx, xs)
+val nx =
+g2node_make_elt<a>(x) in sllist_cons_ngc<a>(nx, xs)
 //
 end // end of [sllist_cons]
 
@@ -111,7 +130,8 @@ implement{a}
 sllist_uncons
   (xs) = let
 //
-val nx0 = sllist_uncons_ngc (xs) in g2node_getfree_elt<a> (nx0)
+val nx0 =
+sllist_uncons_ngc<a>(xs) in g2node_getfree_elt<a>(nx0)
 //
 end // end of [sllist_uncons]
 
@@ -369,15 +389,17 @@ implement
 sllist_append
   {n1,n2} (xs1, xs2) = let
 //
-prval () = lemma_sllist_param (xs1)
-prval () = lemma_sllist_param (xs2)
+prval() = lemma_sllist_param(xs1)
+prval() = lemma_sllist_param(xs2)
 //
-val iscons1 = sllist_is_cons (xs1)
+val iscons1 = sllist_is_cons(xs1)
 //
 in
 //
-if iscons1 then let
-  val iscons2 = sllist_is_cons (xs2)
+if
+iscons1
+then let
+  val iscons2 = sllist_is_cons(xs2)
 in
 //
 if iscons2 then let
@@ -420,7 +442,9 @@ fun loop
   val iscons = gnodelst_is_cons (nxs)
 in
 //
-if iscons then let
+if
+iscons
+then let
   val nx0 = nxs
   val nxs = gnode_get_next (nx0)
   val () = gnode_link11 (nx0, res)
@@ -437,7 +461,9 @@ val iscons = sllist_is_cons (xs1)
 //
 in
 //
-if iscons then let
+if
+iscons
+then let
   val nxs1 = sllist1_decode (xs1)
   val nx0 = nxs1
   val nxs1 = gnode_get_next (nx0)
@@ -456,58 +482,116 @@ end // end of [sllist_reverse_append]
 
 implement
 {a}(*tmp*)
-sllist_free (xs) = let
+sllist_free
+  (xs) = let
 //
-fun loop (
-  nxs: g2node0 (a)
+fun
+loop
+(
+  nxs: g2node0(a)
 ) : void = let
 //
-val iscons = gnodelst_is_cons (nxs)
+val
+iscons =
+gnodelst_is_cons(nxs)
 //
 in
 //
-if iscons then let
+if
+iscons
+then let
   val nxs2 =
-    gnode_get_next (nxs)
+    gnode_get_next(nxs)
   // end of [val]
-  val () = g2node_free (nxs)
+  val () = g2node_free<a>(nxs)
 in
-  loop (nxs2)
+  loop(nxs2)
 end else () // end of [if]
 //
 end // end of [loop]
 //
-val nxs = sllist0_decode (xs)
+val nxs = sllist0_decode(xs)
 //
 in
-  $effmask_all (loop (nxs))
+  $effmask_all (loop(nxs))
 end // end of [sllist_free]
 
 (* ****** ****** *)
 
 implement
-{a}{b}
-sllist_map{n} (xs) = let
+{a}(*tmp*)
+sllist_freelin
+  (xs) = let
 //
-fun loop
+implement
+(a2)(*tmp*)
+gclear_ref<a2>(x0) =
+{
+prval () = $UN.castview2void_at(view@x0)
+  val () = sllist_freelin$clear<a>(x0)
+prval () = $UN.castview2void_at(view@x0)
+} (* gclear_ref *)
+//
+fun
+loop
 (
-  nxs: g2node0 (a), p_res: ptr
+  nxs: g2node0(a)
 ) : void = let
 //
-val iscons = gnodelst_is_cons (nxs)
+val
+iscons =
+gnodelst_is_cons(nxs)
 //
 in
 //
-if iscons then let
+if
+iscons
+then let
+  val nxs2 =
+    gnode_get_next(nxs)
+  // end of [val]
+  val () = g2node_freelin<a>(nxs)
+in
+  loop(nxs2)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val nxs = sllist0_decode(xs)
+//
+in
+  $effmask_all(loop(nxs))
+end // end of [sllist_freelin]
+
+(* ****** ****** *)
+
+implement
+{a}{b}
+sllist_map{n}(xs) = let
+//
+fun
+loop
+(
+  nxs: g2node0(a), p_res: ptr
+) : void = let
+//
+val
+iscons = gnodelst_is_cons(nxs)
+//
+in
+//
+if
+iscons
+then let
   val nx = nxs
-  val nxs = gnode_get_next (nx)
-  val p_x = gnode_getref_elt (nx)
+  val nxs = gnode_get_next(nx)
+  val p_x = gnode_getref_elt(nx)
   val (pf, fpf | p_x) = $UN.cptr_vtake{a}(p_x)
-  val y = sllist_map$fopr<a><b> (!p_x)
-  prval () = fpf (pf)
-  val ny = g2node_make_elt<b> (y)
-  val () = $UN.ptr0_set<g2node1(b)> (p_res, ny)
-  val p_res = gnode_getref_next (ny)
+  val y = sllist_map$fopr<a><b>(!p_x)
+prval ((*returned*)) = fpf(pf)
+  val ny = g2node_make_elt<b>(y)
+  val () = $UN.ptr0_set<g2node1(b)>(p_res, ny)
+  val p_res = gnode_getref_next(ny)
 in
   loop (nxs, cptr2ptr(p_res))
 end else () // end of [if]
@@ -638,13 +722,27 @@ in
 end // end of [g2node_make_elt]
 
 (* ****** ****** *)
-
+//
 implement
 {a}(*tmp*)
-g2node_free (nx) = let
-  val nx = g2node_decode (nx)
-  val~SLNODE (_, _) = (nx) in (*nothing*)
+g2node_free(nx) = let
+  val nx =
+    g2node_decode (nx)
+  // end of [val]
+  val+~SLNODE (_, _) = (nx) in (*nothing*)
 end // end of [g2node_free]
+//
+implement
+{a}(*tmp*)
+g2node_freelin(nx) = let
+  val nx =
+    g2node_decode (nx)
+  // end of [val]
+  val+@SLNODE(x0, _) = (nx)
+  val ((*freed*)) = gclear_ref<a>(x0) in free@{a}(nx)
+end // end of [g2node_free]
+//
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)

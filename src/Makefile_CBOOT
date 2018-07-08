@@ -1,3 +1,4 @@
+######
 #
 # The main Makefile
 # for C-bootstrapping ATS2
@@ -15,6 +16,10 @@ CCOMP=$(CC)
 # CFLAGS=
 # LDFLAGS=
 #
+######
+
+CFLAGS += -I. -I./ccomp/runtime
+
 ######
 #
 # This is fixed:
@@ -186,8 +191,14 @@ SOURCES := \
   pats_dynexp2_dmac.dats \
   pats_dynexp2_util.dats \
   pats_dynexp2_mapgen.dats \
-  pats_synent2_jsonize.sats \
-  pats_synent2_jsonize.dats \
+  pats_codegen2.sats \
+  pats_codegen2.dats \
+  pats_codegen2_util.dats \
+  pats_codegen2_absrec.dats \
+  pats_codegen2_datype.dats \
+  pats_codegen2_fprint.dats \
+  pats_jsonize_synent2.sats \
+  pats_jsonize_synent2.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
@@ -316,14 +327,29 @@ OBJECTSstadyn := $(OBJECTSsta) $(OBJECTSdyn)
 ######
 #
 patsopt: \
-  pats_main_dats.o $(OBJECTSstadyn) \
-  prelude_libats.o libc_libats.o libats_libats.o $(gcats_o) ; \
-  $(CCOMP) -O2 -I. $(GCFLAG) -o $@ ccomp/runtime/ats_prelude.c $^ $(LDFLAGS) $(LIBGMP) $(LIBGC)
+pats_main_dats.o \
+$(OBJECTSstadyn) \
+prelude_libats.o \
+libc_libats.o libats_libats.o ; \
+$(CCOMP) -O2 -I. $(GCFLAG) -o $@ \
+  ccomp/runtime/ats_prelude.c $^ $(gcats_o) $(LDFLAGS) $(LIBGMP) $(LIBGC)
 #
 ######
 #
-%_sats.o: %_sats.c ; $(CCOMP) -O2 -I. -I./ccomp/runtime $(CFLAGS) -c -o $@ $<
-%_dats.o: %_dats.c ; $(CCOMP) -O2 -I. -I./ccomp/runtime $(CFLAGS) -c -o $@ $<
+AR=ar
+MV=mv
+#
+libatsopt: \
+pats_main_none_dats.o \
+$(OBJECTSstadyn) \
+prelude_libats.o \
+libc_libats.o libats_libats.o ; \
+$(AR) -r libatsopt.a $^ $(gcats_o)
+#
+######
+#
+%_sats.o: %_sats.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
+%_dats.o: %_dats.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 ######
 
@@ -357,10 +383,13 @@ PRELUDE_OBJECTS := \
   prelude_DATS_ptrarr_dats.o \
   prelude_DATS_unsafe_dats.o \
 
+######
+#
+prelude_%.o: \
+prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+#
 prelude_libats.o: $(PRELUDE_OBJECTS) ; ld -r -o $@ $^
-
-prelude_%.o: prelude/%.c ; $(CCOMP) -I. -I./ccomp/runtime -c -o $@ $<
-
+#
 ######
 
 LIBC_OBJECTS := \
@@ -375,6 +404,7 @@ LIBC_OBJECTS := \
   libc_SATS_unistd_sats.o \
   libc_DATS_unistd_dats.o \
   libc_sys_SATS_stat_sats.o \
+  libc_sys_SATS_wait_sats.o \
   libc_sys_SATS_types_sats.o \
 
 ifeq ($(C3NSTRINTKND),gmpknd)
@@ -384,10 +414,10 @@ endif
 
 ######
 #
-libc_libats.o: $(LIBC_OBJECTS) ; ld -r -o $@ $^
+libc_%.o: \
+libc/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-libc_%.o : libc/%.c ; \
-  $(CCOMP) -I. -I./ccomp/runtime $(CFLAGS) -c -o $@ $<
+libc_libats.o: $(LIBC_OBJECTS) ; ld -r -o $@ $^
 #
 ######
 
@@ -413,10 +443,10 @@ LIBATS_OBJECTS := \
 
 ######
 #
-libats_libats.o: $(LIBATS_OBJECTS) ; ld -r -o $@ $^
+libats_%.o: \
+libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
 #
-libats_%.o : libats/%.c ; \
-  $(CCOMP) -I. -I./ccomp/runtime $(CFLAGS) -c -o $@ $<
+libats_libats.o: $(LIBATS_OBJECTS) ; ld -r -o $@ $^
 #
 ######
 #

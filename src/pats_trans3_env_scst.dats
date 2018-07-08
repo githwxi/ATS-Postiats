@@ -104,25 +104,40 @@ end // end of [the_s2cstbindlst_add]
 implement
 the_s2cstbindlst_bind_and_add
   (loc0, s2c, s2f) = let
-  val s2e = s2hnf2exp (s2f)
+//
+val s2e = s2hnf2exp(s2f)
+//
 (*
   val () = begin
     println! ("the_s2cstbindlst_bind_and_add: s2c = ", s2c);
     println! ("the_s2cstbindlst_bind_and_add: s2e = ", s2e);
   end // end of [val]
 *)
-  val isasp = s2cst_get_isasp (s2c)
-  val () = if
-    (isasp) then {
-    val () = prerr_warning3_loc (loc0)
-    val () = prerrln! (": the static constant [", s2c, "] is not abstract at this point.")
-  } // end of [if] // end of [val]
 //
-  val () = s2cst_set_def (s2c, Some s2e)
-  val () = s2cst_set_isasp (s2c, true(*assumed*))
+val
+isasp = s2cst_get_isasp(s2c)
+//
+val () =
+(
+case+ isasp of
+| None _ => ()
+| Some _ => () where
+  {
+    val () =
+    prerr_warning3_loc(loc0)
+    val () =
+    prerrln!
+    (
+      ": the static constant [", s2c, "] is not abstract at this point."
+    ) (* prerrln! *)
+  } (* end of [if] // end of [val] *)
+) (* end of [val] *)
+//
+val () = s2cst_set_def(s2c, Some(s2e))
+val () = s2cst_set_isasp(s2c, Some(s2e))
 //
 in
-  the_s2cstbindlst_add (s2c)
+  the_s2cstbindlst_add(s2c)
 end // end of [the_s2cstbindlst_bind_and_add]
 
 (* ****** ****** *)
@@ -131,20 +146,29 @@ implement
 the_s2cstbindlst_pop
   (pf | (*none*)) = let
 //
-  prval () = unit_v_elim (pf)
+prval() = unit_v_elim(pf)
 //
-  val s2cs2 = let
-    val (vbox pf | pp) = ref_get_view_ptr (the_s2cstlstlst)
+  val
+  s2cs2 = let
+    val
+    (vbox pf | pp) =
+    ref_get_view_ptr(the_s2cstlstlst)
   in
     case+ !pp of
-    | ~list_vt_cons (xs, xss) => (!pp := xss; xs)
-    | list_vt_nil () => (fold@ (!pp); list_vt_nil)
+    |  list_vt_nil() =>
+       (fold@ (!pp); list_vt_nil())
+    | ~list_vt_cons(xs, xss) => (!pp := xss; xs)
   end : s2cstlst_vt // end of [val]
-  val (vbox pf | p) = ref_get_view_ptr (the_s2cstlst)
-  val s2cs1 = !p
-  val () = !p := s2cs2
+//
+  val (vbox pf | p) = ref_get_view_ptr(the_s2cstlst)
+//
 in
-  s2cs1 // HX: originally stored in the_s2cstlst
+//
+// HX:
+// It is originally stored in the_s2cstlst
+//
+  let val s2cs1 = !p; val () = !p := s2cs2 in s2cs1 end
+//
 end // end of [the_s2cstbindlst_pop]
 
 (* ****** ****** *)
@@ -152,37 +176,54 @@ end // end of [the_s2cstbindlst_pop]
 implement
 the_s2cstbindlst_pop_and_unbind
   (pf | (*none*)) = let
-  fun loop (s2cs: s2cstlst_vt): void = begin
-    case+ s2cs of
-    | ~list_vt_cons (s2c, s2cs) => let
+//
+fun
+loop
+(
+  s2cs: s2cstlst_vt
+) : void = begin
+  case+ s2cs of
+  | ~list_vt_nil
+      ((*void*)) => ()
+  | ~list_vt_cons
+      (s2c, s2cs) => let
 (*
-        val () = begin
-          print "the_s2cstbindlst_pop_and_unbind: loop: s2c = ";
-          print_s2cst (s2c); print_newline ()
-        end // end of [val]
+      val () =
+      (
+        print "the_s2cstbindlst_pop_and_unbind: ";
+        print "loop: s2c = "; print_s2cst (s2c); print_newline()
+      ) (* end of [val] *)
 *)
-        val () = s2cst_set_def (s2c, None ())
-      in
-        loop s2cs
-      end // end of [S2CSTLSTcons]
-    | ~list_vt_nil () => ()
-  end // end of [loop]
+      val () =
+        s2cst_set_def(s2c, None())
+      // end of [val]
+    in
+      loop(s2cs)
+    end // end of [S2CSTLSTcons]
+end // end of [loop]
+//
 in
-  loop (the_s2cstbindlst_pop (pf | (*none*)))
+  loop(the_s2cstbindlst_pop(pf | (*none*)))
 end // end of [the_s2cstbindlst_pop_and_unbind]
 
 (* ****** ****** *)
 
 implement
-the_s2cstbindlst_push () = let
-  val s2cs = let
-    val (vbox pf | p) = ref_get_view_ptr (the_s2cstlst)
+the_s2cstbindlst_push
+  ((*void*)) = let
+  val
+  s2cs = let
+    val
+    (vbox pf | p) =
+    ref_get_view_ptr (the_s2cstlst)
     val s2cs = !p
     val () = !p := list_vt_nil ()
   in
     s2cs
   end // end of [val]
-  val (vbox pf | pp) = ref_get_view_ptr (the_s2cstlstlst)
+  val (vbox pf | pp) =
+    ref_get_view_ptr (the_s2cstlstlst)
+  // end of [val]
   val () = !pp := list_vt_cons (s2cs, !pp)
 in
   (unit_v | ())

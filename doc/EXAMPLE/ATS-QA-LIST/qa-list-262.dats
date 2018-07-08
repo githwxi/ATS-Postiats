@@ -9,9 +9,11 @@
 (* ****** ****** *)
 //
 %{^
-#define my_pragma_beg(tid) \
+#define \
+my_pragma_beg(tid) \
   { fprintf (stdout, "my_pragma_beg: tid = %i\n", tid) ;
-#define my_pragma_end(tid) \
+#define \
+my_pragma_end(tid) \
   fprintf (stdout, "my_pragma_end: tid = %i\n", tid) ; }
 %}
 extern

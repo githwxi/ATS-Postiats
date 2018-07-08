@@ -1,0 +1,23 @@
+{
+"name":
+"ats-extsolve-z3"
+,
+  "version": "1.0.0-alpha",
+  "description":
+  "For solving ATS-constraints externally via Z3",
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "ATS-extsolve",
+    "ATS-extsolve-z3"
+  ],
+  "dependencies" : {
+   "ats-extsolve": ">=1.0.0", "atscntrb-smt-libz3" : ">=1.0.0"
+  },
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/ATS-extsolve-z3/."
+}

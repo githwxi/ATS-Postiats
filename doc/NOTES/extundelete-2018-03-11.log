@@ -1,0 +1,103 @@
+Loading filesystem metadata ... 3665 groups loaded.
+Loading journal descriptors ... 31707 descriptors loaded.
+Searching for recoverable inodes in directory /home/hwxi/Research/ATS-Postiats/ ...
+17297 recoverable inodes found.
+Looking through the directory structure for deleted files ...
+Unable to restore inode 24643044 (home/hwxi/Research/ATS-Postiats/ccomp/atslib/lib/test04.html): Space has been reallocated.
+Unable to restore inode 24643544 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2erl/TEST/Sessiontype/SATS/test05-2.dats): Space has been reallocated.
+Unable to restore inode 24650306 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2erl/TEST/Sessiontype/TEST1/libatscc2erl/Makefile): Space has been reallocated.
+Unable to restore inode 24650310 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2erl/TEST/Sessiontype/TEST1/libatscc2erl/AUTHORS): Space has been reallocated.
+Unable to restore inode 24650738 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2php/TEST/libatscc2php/index): Space has been reallocated.
+Unable to restore inode 24643521 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2r34/npm/CATS/globvar.hats): Space has been reallocated.
+Unable to restore inode 24643522 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2r34/npm/CATS/gobjptr.hats): Space has been reallocated.
+Unable to restore inode 24643523 (home/hwxi/Research/ATS-Postiats/contrib/CATS-atscc2r34/npm/CATS/gstacklst.hats): Space has been reallocated.
+Unable to restore inode 24649297 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_lexbuf.dats): Space has been reallocated.
+Unable to restore inode 24649300 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_lexing.dats): Space has been reallocated.
+Unable to restore inode 24649301 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_tokbuf.dats): Space has been reallocated.
+Unable to restore inode 24649302 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_parerr.dats): Space has been reallocated.
+Unable to restore inode 24649308 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_parsing.dats): Space has been reallocated.
+Unable to restore inode 24649309 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_parsing_instr.dats): Space has been reallocated.
+Unable to restore inode 24649311 (home/hwxi/Research/ATS-Postiats/contrib/atscntrb/atscntrb-hx-libjansson/CATS/catsparse_parsing_d0ecl.dats): Space has been reallocated.
+Unable to restore inode 24642710 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2erl/ATS2-0.3.2/TEST/TRYIT): Space has been reallocated.
+Unable to restore inode 24642713 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2erl/ATS2-0.3.2/TEST/theDeclpostamble.html): Space has been reallocated.
+Unable to restore inode 24642719 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2erl/ATS2-0.3.2/output/test02.dats): Space has been reallocated.
+Unable to restore inode 24773221 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/BUCS320/GraphSearch/DATS/atscntrb-libxml2): Space has been reallocated.
+Unable to restore inode 24780310 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/BUCS320/GraphSearch/DATS/test-block-simple.pset): Space has been reallocated.
+Unable to restore inode 27140359 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/BUCS320/parcomb/SATS): Space has been reallocated.
+Unable to restore inode 27140360 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/BUCS320/parcomb/DATS): Space has been reallocated.
+Unable to restore inode 27140309 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/SATS/JSLIBC/DATS): Space has been reallocated.
+Unable to restore inode 27140308 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/SATS/JSLIBC/SATS): Space has been reallocated.
+Unable to restore inode 24773097 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2js/output/DATS/ML/main_atxt.dats): Space has been reallocated.
+Unable to restore inode 24773713 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/TEST/BUCS320/GraphSearch/libatscc2erl): Space has been reallocated.
+Unable to restore inode 24778578 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2php/ATS2-0.3.2/TEST/DATS): Space has been reallocated.
+Unable to restore inode 24775533 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2py3/ATS2-0.3.2/CATS/PYGAME/Makefile): Space has been reallocated.
+Unable to restore inode 24773232 (home/hwxi/Research/ATS-Postiats/contrib/libatscc2r34/DATS/ML/SATS): Space has been reallocated.
+Unable to restore inode 24775593 (home/hwxi/Research/ATS-Postiats/doc/DISTRIB/ATS-Postiats-contrib/contrib/libats-/hwxi/teaching/BUCS/CBOOT): Space has been reallocated.
+Unable to restore inode 25041619 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ATS-learning/2014-01-03/test-malware-simple.pset): Space has been reallocated.
+Unable to restore inode 25040530 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ATS-learning/2014-01-10/libatscc2scm): Space has been reallocated.
+Unable to restore inode 25040137 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ats2langweb/CLIENT/MYCODE/pointer_atxt.dats): Space has been reallocated.
+Unable to restore inode 25040076 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ats2langweb/CLIENT/PATSHOME): Space has been reallocated.
+Unable to restore inode 25040783 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ats2langweb/CLIENT/libatsopt_ext.js.mem): Space has been reallocated.
+Block 100186800 is allocated.
+Unable to restore inode 25040531 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ats2langweb/thePageRBodyLHeader/arrayref.atxt): Space has been reallocated.
+Unable to restore inode 25040542 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/MEDIUM/ats2langweb/thePageRBodyLHeader/array_prf.atxt): Space has been reallocated.
+Unable to restore inode 25041809 (home/hwxi/Research/ATS-Postiats/doc/PROJECT/SMALL/Tetris/patscc): Space has been reallocated.
+Unable to restore inode 25041810 (home/hwxi/Research/ATS-Postiats/libats/ATS2/DATS/test_queue_queue.dats): Space has been reallocated.
+Unable to restore inode 27399714 (home/hwxi/Research/ATS-Postiats/libats/BUCS520/DivideConquerLazy/TEST/printer): Space has been reallocated.
+Unable to restore inode 27531047 (home/hwxi/Research/ATS-Postiats/libats/BUCS520/DivideConquerLazy/TEST/proc): Space has been reallocated.
+Unable to restore inode 27792332 (home/hwxi/Research/ATS-Postiats/libats/BUCS520/DivideConquerLazy/TEST/relation): Space has been reallocated.
+Unable to restore inode 24773110 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/atscntrb/ats1-libatsopt/BUILD/src/SOLVING): Space has been reallocated.
+Unable to restore inode 27270904 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/atscntrb/ats1-libatsopt/ML): Space has been reallocated.
+Unable to restore inode 27271130 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/atscntrb/atscntrb-hx-libsdl2/SATS/DOCUGEN/HTML/atscc_print.dats): Space has been reallocated.
+Unable to restore inode 27271131 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/atscntrb/atscntrb-hx-libsdl2/SATS/DOCUGEN/HTML/atscc_util.dats): Space has been reallocated.
+Unable to restore inode 27271133 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/atscntrb/atscntrb-hx-libsdl2/SATS/DOCUGEN/HTML/patscc.dats): Space has been reallocated.
+Unable to restore inode 27399717 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/HTML-emscripten/CATS_JS/print.c): Space has been reallocated.
+Unable to restore inode 27399718 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/HTML-emscripten/CATS_JS/print.h): Space has been reallocated.
+Unable to restore inode 27399719 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/HTML-emscripten/CATS_JS/printd.c): Space has been reallocated.
+Unable to restore inode 27399720 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/HTML-emscripten/CATS_JS/util.c): Space has been reallocated.
+Unable to restore inode 27531121 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/mysession-g/test1.c): Space has been reallocated.
+Unable to restore inode 27531122 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/mysession-g/times1.c): Space has been reallocated.
+Unable to restore inode 27531123 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/mysession-g/vfork1.c): Space has been reallocated.
+Unable to restore inode 27531124 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/mysession-g/wait1.c): Space has been reallocated.
+Unable to restore inode 27532140 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/SATS/GraphSearch_dfs.dats): Space has been reallocated.
+Unable to restore inode 27533505 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_malloc.dats): Space has been reallocated.
+Unable to restore inode 27533506 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_dlfcn.dats): Space has been reallocated.
+Unable to restore inode 27533507 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_fcntl.dats): Space has been reallocated.
+Unable to restore inode 27533508 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_dirent.dats): Space has been reallocated.
+Unable to restore inode 27533509 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_stdio.dats): Space has been reallocated.
+Unable to restore inode 27533510 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_stdlib.dats): Space has been reallocated.
+Unable to restore inode 27533511 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_string.dats): Space has been reallocated.
+Unable to restore inode 27533512 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_strings.dats): Space has been reallocated.
+Unable to restore inode 27533513 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_time.dats): Space has been reallocated.
+Unable to restore inode 27533514 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_unistd.dats): Space has been reallocated.
+Unable to restore inode 27533515 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_signal.dats): Space has been reallocated.
+Unable to restore inode 27533518 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_fnmatch.dats): Space has been reallocated.
+Unable to restore inode 27533519 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_sys_stat.dats): Space has been reallocated.
+Unable to restore inode 27533520 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_libc_gdbm_gdbm.dats): Space has been reallocated.
+Unable to restore inode 27533643 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_funarray_braunt.dats): Space has been reallocated.
+Unable to restore inode 27533646 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_ML_qlistref.dats): Space has been reallocated.
+Unable to restore inode 27533651 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/libats_ML_COMPILE_all.dats): Space has been reallocated.
+Unable to restore inode 27533652 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/Makefile): Space has been reallocated.
+Unable to restore inode 27533653 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_basics.dats): Space has been reallocated.
+Unable to restore inode 27533654 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_char.dats): Space has been reallocated.
+Unable to restore inode 27533655 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_bool.dats): Space has been reallocated.
+Unable to restore inode 27533656 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_integer.dats): Space has been reallocated.
+Unable to restore inode 27533657 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_float.dats): Space has been reallocated.
+Unable to restore inode 27533658 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_memory.dats): Space has been reallocated.
+Unable to restore inode 27533659 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_pointer.dats): Space has been reallocated.
+Unable to restore inode 27533660 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_string.dats): Space has been reallocated.
+Unable to restore inode 27533661 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_reference.dats): Space has been reallocated.
+Unable to restore inode 27533663 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_filebas.dats): Space has been reallocated.
+Unable to restore inode 27533664 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_intrange.dats): Space has been reallocated.
+Unable to restore inode 27533666 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_grandom.dats): Space has been reallocated.
+Unable to restore inode 27533667 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_checkast.dats): Space has been reallocated.
+Unable to restore inode 27533668 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_list.dats): Space has been reallocated.
+Unable to restore inode 27533669 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_list_vt.dats): Space has been reallocated.
+Unable to restore inode 27533932 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_option.dats): Space has been reallocated.
+Unable to restore inode 27533933 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_option_vt.dats): Space has been reallocated.
+Unable to restore inode 27533934 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_array.dats): Space has been reallocated.
+Unable to restore inode 27533935 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_arrayptr.dats): Space has been reallocated.
+Unable to restore inode 27533936 (home/hwxi/Research/ATS-Postiats/npm-utils/contrib/libats-/hwxi/parcomb/TEST/prelude_arrayref.dats): Space has been reallocated.
+16876 recoverable inodes still lost.
+hwxi@hongwei-t440p:~$
+hwxi@hongwei-t440p:~$ sudo extundelete --restore-directory /home/hwxi/Research/ATS-Postiats/ /dev/sda1 > extundelete.log

@@ -38,21 +38,25 @@ staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-abstype s2cstref_type // boxed type
+abstype s2cstref_type // boxed
 typedef s2cstref = s2cstref_type
 
 (* ****** ****** *)
-
-fun s2cstref_make (name: string): s2cstref
-
+//
+fun s2cstref_make(name: string): s2cstref
+//
 (* ****** ****** *)
-
-fun s2cstref_get_cst (r: s2cstref): s2cst
-fun s2cstref_get_exp (r: s2cstref, arg: Option_vt s2explst): s2exp
-fun s2cstref_unget_exp (r: s2cstref, s2e: s2exp): Option_vt (s2explst)
-fun s2cstref_equ_cst (r: s2cstref, s2c: s2cst): bool
-fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
-
+//
+fun s2cstref_get_cst(s2cr: s2cstref): s2cst
+//
+fun s2cstref_get_exp
+   (s2cr: s2cstref, arg: Option_vt(s2explst)): s2exp
+fun s2cstref_unget_exp
+   (s2cr: s2cstref, s2e: s2exp): Option_vt(s2explst)
+//
+fun s2cstref_equ_cst(s2cr: s2cstref, s2c: s2cst): bool
+fun s2cstref_equ_exp(s2cr: s2cstref, s2e: s2exp): bool
+//
 (* ****** ****** *)
 //
 val the_true_bool : s2cstref
@@ -125,6 +129,11 @@ val the_sub_addr_addr : s2cstref // (addr, addr) -> int
 //
 (* ****** ****** *)
 
+val the_types_nil : s2cstref // : types
+val the_types_cons : s2cstref // : (vt@ype, types) -> types
+
+(* ****** ****** *)
+
 val the_lte_cls_cls : s2cstref // : (cls, cls) -> bool
 val the_gte_cls_cls : s2cstref // : (cls, cls) -> bool
 val the_lterel_cls_cls : s2cstref // : (cls, cls, bool) -> bool
@@ -163,13 +172,16 @@ val the_schar_int_t0ype : s2cstref
 val the_uchar_t0ype : s2cstref
 val the_uchar_int_t0ype : s2cstref
 //
-val the_string_type : s2cstref
-val the_string_int_type : s2cstref
-//
 val the_float_kind : s2cstref
 val the_double_kind : s2cstref
 val the_ldouble_kind : s2cstref
 val the_g0float_t0ype : s2cstref
+//
+val the_string_type : s2cstref
+val the_string_int_type : s2cstref
+//
+val the_literal_float : s2cstref
+val the_literal_string : s2cstref
 //
 val the_ptr_type : s2cstref
 val the_ptr_addr_type : s2cstref
@@ -220,40 +232,51 @@ val the_bottom_vt0ype_exi: s2cstref // = [a:vt@ype | false] (a)
 
 (* ****** ****** *)
 //
-fun s2exp_bool
-  (b: bool): s2exp (* static boolean terms *)
-// end of [s2exp_bool]
+// HX: static boolean terms
 //
-fun s2exp_bool_t0ype (): s2exp // bool0
-fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
+fun s2exp_bool(b: bool): s2exp
 //
-fun s2exp_bool_index_t0ype (ind: s2exp): s2exp // bool1(ind)
+fun s2exp_bool_t0ype((*void*)): s2exp // bool0
+fun s2exp_bool_bool_t0ype(b: bool): s2exp // bool1(b)
 //
-fun un_s2exp_bool_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_bool_index_t0ype(ind: s2exp): s2exp // bool1(ind)
+//
+fun un_s2exp_bool_index_t0ype(s2f: s2hnf): Option_vt(s2exp)
 //
 (* ****** ****** *)
-
+//
 fun s2exp_agtz (s2a: s2exp): s2exp
-
+//
 fun s2exp_bneg (s2p: s2exp): s2exp
-fun s2exp_badd (s2p1: s2exp, s2p2: s2exp): s2exp
-fun s2exp_bmul (s2p1: s2exp, s2p2: s2exp): s2exp
-
+//
+fun
+s2exp_badd
+  (s2p1: s2exp, s2p2: s2exp): s2exp
+//
+fun
+s2exp_bmul
+  (s2p1: s2exp, s2p2: s2exp): s2exp
+//
+fun s2explst_badd (s2ps: s2explst): s2exp
+fun s2explst_bmul (s2ps: s2explst): s2exp
+//
+(* ****** ****** *)
+//
 fun s2exp_ineg (s2i: s2exp): s2exp
-
+//
 fun s2exp_intlt (s2i1: s2exp, s2i2: s2exp): s2exp
-fun s2exp_intlte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intgt (s2i1: s2exp, s2i2: s2exp): s2exp
+fun s2exp_intlte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intgte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intneq (s2i1: s2exp, s2i2: s2exp): s2exp
-
+//
 (* ****** ****** *)
 
 fun s2exp_igtez (s2i: s2exp): s2exp // s2i >= 0
 
 (* ****** ****** *)
 
-fun un_s2exp_intconst (s2i: s2exp): Option_vt (int)
+fun un_s2exp_intconst (s2i: s2exp): Option_vt(int)
 
 (* ****** ****** *)
 //
@@ -280,10 +303,10 @@ fun s2exp_g1int_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
 fun s2exp_g0uint_kind_t0ype (knd: s2exp): s2exp
 fun s2exp_g1uint_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
 //
-fun un_s2exp_g1int_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
-fun un_s2exp_g1uint_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+fun un_s2exp_g1int_index_t0ype (s2f: s2hnf): Option_vt(s2exp)
+fun un_s2exp_g1uint_index_t0ype (s2f: s2hnf): Option_vt(s2exp)
 //
-fun un_s2exp_g1size_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+fun un_s2exp_g1size_index_t0ype (s2f: s2hnf): Option_vt(s2exp)
 //
 fun s2exp_int_index_t0ype (ind: s2exp): s2exp
 fun s2exp_uint_index_t0ype (ind: s2exp): s2exp
@@ -294,7 +317,7 @@ fun s2exp_char_t0ype (): s2exp // char0
 fun s2exp_char_int_t0ype (c: int): s2exp // char1(c)
 fun s2exp_char_index_t0ype (ind: s2exp): s2exp // char1(ind)
 //
-fun un_s2exp_char_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+fun un_s2exp_char_index_t0ype (s2f: s2hnf): Option_vt(s2exp)
 //
 fun s2exp_schar_t0ype (): s2exp // schar0
 fun s2exp_schar_int_t0ype (c: int): s2exp // schar1(c)
@@ -304,26 +327,31 @@ fun s2exp_uchar_int_t0ype (c: int): s2exp // uchar1(c)
 //
 (* ****** ****** *)
 //
-fun s2exp_string_type (): s2exp // string0
-fun s2exp_string_int_type (n: size_t): s2exp // string1
-fun s2exp_string_index_type (ind: s2exp): s2exp // string1(ind)
-//
-(* ****** ****** *)
-//
 fun s2exp_float_t0ype (): s2exp // float
 fun s2exp_double_t0ype (): s2exp // double
 fun s2exp_ldouble_t0ype (): s2exp // ldouble
 //
 (* ****** ****** *)
+//
+fun s2exp_string_type (): s2exp // string0
+fun s2exp_string_int_type (n: size_t): s2exp // string1
+fun s2exp_string_index_type (ind: s2exp): s2exp // string1(ind)
+//
+(* ****** ****** *)
 
-fun s2exp_ptr_type (): s2exp // ptr0
-
-fun s2exp_ptr_addr_type (s2l: s2exp): s2exp // ptr1
-fun un_s2exp_ptr_addr_type (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_literal_float (rep: string): s2exp
+fun s2exp_literal_string (str: string): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_void_t0ype (): s2exp // void
+fun s2exp_ptr_type(): s2exp // ptr0
+
+fun s2exp_ptr_addr_type(s2l: s2exp): s2exp // ptr1
+fun un_s2exp_ptr_addr_type(s2f: s2hnf): Option_vt(s2exp)
+
+(* ****** ****** *)
+
+fun s2exp_void_t0ype(): s2exp // void
 
 (* ****** ****** *)
 
@@ -335,44 +363,67 @@ fun s2exp_unit_view (): s2exp // unit_v // how about uview?
 fun s2exp_exception_vtype (): s2exp
 
 (* ****** ****** *)
-
-fun s2exp_arrpsz_vt0ype_int_vt0ype (s2e: s2exp, n: int): s2exp
-
+//
+fun
+s2exp_arrpsz_vt0ype_int_vt0ype(s2e: s2exp, n: int): s2exp
+//
 (* ****** ****** *)
 //
 (*
-fun s2exp_list0_t0ype_type (s2e: s2exp): s2exp
+fun
+s2exp_list0_t0ype_type (s2e: s2exp): s2exp
 *)
 //
-fun s2exp_list_t0ype_int_type (s2e: s2exp, n: int): s2exp
-fun s2exp_list_vt0ype_int_vtype (s2e: s2exp, n: int): s2exp
+fun
+s2exp_list_t0ype_int_type(s2e: s2exp, n: int): s2exp
+fun
+s2exp_list_vt0ype_int_vtype(s2e: s2exp, n: int): s2exp
 //
 (* ****** ****** *)
 //
-fun s2exp_vbox_view_prop (s2e: s2exp): s2exp
-fun un_s2exp_vbox_view_prop (s2f: s2hnf) : Option_vt (s2exp)
+fun s2exp_vbox_view_prop(s2e: s2exp): s2exp
+fun un_s2exp_vbox_view_prop(s2f: s2hnf) : Option_vt(s2exp)
 //
 (* ****** ****** *)
 //
-fun s2exp_ref_vt0ype_type (s2e: s2exp): s2exp
-fun un_s2exp_ref_vt0ype_type (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_ref_vt0ype_type(s2e: s2exp): s2exp
+fun un_s2exp_ref_vt0ype_type(s2f: s2hnf): Option_vt(s2exp)
 //
 (* ****** ****** *)
 
-fun s2exp_lazy_t0ype_type (s2e: s2exp): s2exp
-fun un_s2exp_lazy_t0ype_type (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_lazy_t0ype_type(s2e: s2exp): s2exp
+fun un_s2exp_lazy_t0ype_type(s2f: s2hnf): Option_vt(s2exp)
 
-fun s2exp_lazy_vt0ype_vtype (s2e: s2exp): s2exp
-fun un_s2exp_lazy_vt0ype_vtype (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_lazy_vt0ype_vtype(s2e: s2exp): s2exp
+fun un_s2exp_lazy_vt0ype_vtype(s2f: s2hnf): Option_vt(s2exp)
 
 (* ****** ****** *)
 
-fun s2exp_bottom_t0ype_uni (): s2exp // = {a:t@ype} (a)
-fun s2exp_bottom_t0ype_exi (): s2exp // = [a:t@ype | false] (a)
+fun s2exp_bottom_t0ype_uni(): s2exp // = {a:t@ype} (a)
+fun s2exp_bottom_t0ype_exi(): s2exp // = [a:t@ype | false] (a)
 
-fun s2exp_bottom_vt0ype_uni (): s2exp // = {a:vt@ype} (a)
-fun s2exp_bottom_vt0ype_exi (): s2exp // = [a:vt@ype | false] (a)
+fun s2exp_bottom_vt0ype_uni(): s2exp // = {a:vt@ype} (a)
+fun s2exp_bottom_vt0ype_exi(): s2exp // = [a:vt@ype | false] (a)
 
+(* ****** ****** *)
+//
+// HX-2017-11-08:
+//
+fun
+s2exp_types_nil((*void*)): s2exp
+//
+fun
+s2exp_types_cons
+  (s2e1: s2exp, s2e2: s2exp): s2exp
+(*
+fun
+s2exp_types_uncons
+  (s2e0: &s2exp >> s2exp): Option_vt(s2exp)
+*)
+//
+fun
+s2exp_types_list(s2es: s2explst): s2exp
+//
 (* ****** ****** *)
 
 fun s2exp_vcopyenv_v (s2e: s2exp): s2exp
@@ -406,7 +457,7 @@ fun s2eff_hnfize (s2fe: s2eff): s2eff
 
 (* ****** ****** *)
 
-fun stacst2_initialize (): void
+fun stacst2_initialize ((*void*)): void
 
 (* ****** ****** *)
 

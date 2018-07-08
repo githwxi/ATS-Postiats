@@ -6,7 +6,7 @@
 
 extern
 fun
-myfun (h: int, v: int): int
+myfun(h: int, v: int): int
 
 (* ****** ****** *)
 

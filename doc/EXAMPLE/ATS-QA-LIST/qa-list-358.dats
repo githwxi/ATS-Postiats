@@ -1,8 +1,7 @@
 (* ****** ****** *)
 //
 // HX-2014-08-31
-//
-// Constructing an existentially quantified expression
+// An example of error reporting
 //
 (* ****** ****** *)
 
@@ -30,7 +29,9 @@ implement
 close{fd}(prf | fd) = let
 //
 val res =
-$extfcall (intLte(0), "close", fd)
+$extfcall
+  (intLte(0), "close", fd)
+//
 prval () = __free (prf) where
 {
   extern praxi __free (filedes(fd)): void
@@ -40,7 +41,9 @@ in
 //
 if
 res = 0
-then (None_v () | res)
+then (
+  None_v () | res
+) (* end of [then] *)
 else let
   prval e_obl = require_errno_check ()
 in

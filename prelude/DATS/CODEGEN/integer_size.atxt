@@ -1,0 +1,136 @@
+%{
+#define
+ATSCODEFORMAT "txt"
+//
+#if(ATSCODEFORMAT == "txt")
+//
+#include
+"utils/atsdoc/HATS/postiatsatxt.hats"
+//
+#endif // end of [ATSCCODEFORMAT]
+//
+#include "prelude_DATS_atext.hats"
+//
+val
+_thisfilename = atext_strcst"integer_size.dats"
+val ((*void*)) =
+theAtextMap_insert_str("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_GPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("gmhwxiATgmailDOTcom")
+#atscode_start_time("May, 2012")
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/integer_size.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+\#define
+ATS_DYNLOADFLAG 0 // no dynloading
+
+#atscode_separator()
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+#atscode_separator()
+//
+implement
+g0int2uint<intknd,sizeknd> = g0int2uint_int_size
+implement
+g1int2uint<intknd,sizeknd> = g1int2uint_int_size
+//
+implement
+g0uint2uint<uintknd,sizeknd> = g0uint2uint_uint_size
+implement
+g1uint2uint<uintknd,sizeknd> = g1uint2uint_uint_size
+//
+#atscode_separator()
+//
+implement
+g0int2int<intknd,ssizeknd> = g0int2int_int_ssize
+implement
+g1int2int<intknd,ssizeknd> = g1int2int_int_ssize
+//
+implement
+g0uint2int<uintknd,ssizeknd> = g0uint2int_uint_ssize
+implement
+g1uint2int<uintknd,ssizeknd> = g1uint2int_uint_ssize
+//
+#atscode_separator()
+//
+implement
+g0uint2int<sizeknd,intknd> = g0uint2int_size_int
+implement
+g1uint2int<sizeknd,intknd> = g1uint2int_size_int
+//
+implement
+g0uint2uint<sizeknd,uintknd> = g0uint2uint_size_uint
+implement
+g1uint2uint<sizeknd,uintknd> = g1uint2uint_size_uint
+//
+implement
+g0uint2uint<sizeknd,sizeknd> = g0uint2uint_size_size
+implement
+g1uint2uint<sizeknd,sizeknd> = g1uint2uint_size_size
+//
+#atscode_separator()
+//
+implement
+g0int2int<ssizeknd,intknd> = g0int2int_ssize_int
+implement
+g1int2int<ssizeknd,intknd> = g1int2int_ssize_int
+//
+implement
+g0int2uint<ssizeknd,uintknd> = g0int2uint_ssize_uint
+implement
+g1int2uint<ssizeknd,uintknd> = g1int2uint_ssize_uint
+//
+implement
+g0int2int<ssizeknd,ssizeknd> = g0int2int_ssize_ssize
+implement
+g1int2int<ssizeknd,ssizeknd> = g1int2int_ssize_ssize
+//
+#atscode_separator()
+//
+implement
+g0uint2int<sizeknd,ssizeknd> = g0uint2int_size_ssize
+implement
+g1uint2int<sizeknd,ssizeknd> = g1uint2int_size_ssize
+//
+implement
+g0int2uint<ssizeknd,sizeknd> = g0int2uint_ssize_size
+implement
+g1int2uint<ssizeknd,sizeknd> = g1int2uint_ssize_size
+//
+#atscode_separator()
+//
+#g0uint_implist("sizeknd", "size", "size_t")
+//
+#g1uint_implist("sizeknd", "size", "size_t")
+//
+#atscode_separator()
+//
+#g0sint_implist("ssizeknd", "ssize", "ssize_t")
+//
+#g1sint_implist("ssizeknd", "ssize", "ssize_t")
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement
+main (argc, argv) =
+  fprint_filsub (stdout_ref, "integer_size_atxt.txt")
+%}\

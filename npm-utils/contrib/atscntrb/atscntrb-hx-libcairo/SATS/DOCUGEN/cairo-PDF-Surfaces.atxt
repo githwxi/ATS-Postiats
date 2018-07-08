@@ -1,0 +1,24 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get (
+) = "../Surfaces/cairo-PDF-Surfaces.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/cairo/Surfaces/cairo-PDF-Surfaces\
+")
+
+(* ****** ****** *)
+
+(* end of [cairo-PDF-Surfaces.atxt] *)

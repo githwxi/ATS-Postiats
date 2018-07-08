@@ -99,6 +99,7 @@ The ATS/Postiats C-Boostrapping\
 (* ****** ****** *)
 
 #packfilename("pats_main_dats.c")
+#packfilename("pats_main_none_dats.c")
 
 (* ****** ****** *)
 
@@ -365,8 +366,17 @@ The ATS/Postiats C-Boostrapping\
 
 (* ****** ****** *)
 
-#packfilename("pats_synent2_jsonize_sats.c")
-#packfilename("pats_synent2_jsonize_dats.c")
+#packfilename("pats_codegen2_sats.c")
+#packfilename("pats_codegen2_dats.c")
+#packfilename("pats_codegen2_util_dats.c")
+#packfilename("pats_codegen2_absrec_dats.c")
+#packfilename("pats_codegen2_datype_dats.c")
+#packfilename("pats_codegen2_fprint_dats.c")
+
+(* ****** ****** *)
+
+#packfilename("pats_jsonize_synent2_sats.c")
+#packfilename("pats_jsonize_synent2_dats.c")
 
 (* ****** ****** *)
 
@@ -618,6 +628,7 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("libc/DATS_gmp_dats.c")
 
 #packfilename("libc/sys_SATS_stat_sats.c")
+#packfilename("libc/sys_SATS_wait_sats.c")
 #packfilename("libc/sys_SATS_types_sats.c")
 
 #packfilename("libc/CATS/errno.cats")
@@ -632,6 +643,7 @@ The ATS/Postiats C-Boostrapping\
 #packfilename("libc/CATS/gmp.cats")
 
 #packfilename("libc/sys/CATS/stat.cats")
+#packfilename("libc/sys/CATS/wait.cats")
 #packfilename("libc/sys/CATS/types.cats")
 
 (* ****** ****** *)

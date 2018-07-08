@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-GraphSearch</title>
+##patsyntax()
+##thePage_style()
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+A Template-Based Implementation of Graph Search
+</h1>
+
+##para('\
+
+ATS is a feature-rich language, and dependent types, linear types and
+embeddable templates can be seen as three of its most prominent
+features. Note that a template being embeddable simply means that the
+template can be given an implementation inside the body of a function
+(so that any argument of this function can be directly referred to in
+the implementation). In this article, I present a concrete example to
+illustrate that embeddable templates can play a pivotal role in
+support of a style of refinement-based programming.
+
+')##comment("para")
+
+<h2>Generic Graph Search</h2>
+
+##para('\
+
+
+Abstractly speaking, a graph is a (possibly infinite) collection
+of nodes and each node is associated with a set of nodes that are
+referred to as its neighbors.
+Let us introduce an abstract type ##stacode("node") for the nodes in a
+given graph (on which some kind of search is to be performed):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+abstype node = ptr
+typedef nodelst = list0(node)
+//
+extern
+fun{}
+node_get_neighbors(nx: node): nodelst
+//
+')</pre>
+
+For graph search (or graph-based search),
+one does not have to have an explicit representation of the underlying
+graph (to be searched). What is really needed is a way to
+locate all of the neighbors of any given node.
+Clearly, the interface assigned to ##dyncode("node_get_neighbors")
+imposes the assumption that the set of neighbors of each node is finite
+as the type ##stacode("list0") is only for finite lists.
+Another choice is to define ##stacode("nodelst") as a linear stream
+of the type ##stacode("stream_vt(node)"), which is not taken in this
+article as it may somewhat complicate the presentation.
+
+')##comment("para")
+
+##para('\
+
+A common approach to searching a graph employs a store for nodes
+that are to be processed. The search is over if the store becomes
+empty. Otherwise, a node is chosen from the store for processing
+and all of its neighbors are put into the store. Let us introduce
+a function ##dyncode("process_node") as follows for processing each
+chosen node:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{}
+process_node(nx: node): bool
+//
+')</pre>
+
+Note that a call to ##dyncode("process_node") returns a boolean value
+to indicate whether the search should continue or stop immediately.
+
+')##comment("para")
+
+##para('\
+
+The following two functions are for inserting a node and a list of
+nodes into the store containing nodes that are to be processed:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{} // for inserting a node
+theSearchStore_insert(nx: node): void
+extern
+fun{} // for inserting a list of nodes
+theSearchStore_insert_lst(nxs: nodelst): void
+//
+')</pre>
+
+In addition, the following function is for choosing (based certain
+search strategy) a node from the store:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{}
+theSearchStore_choose((*void*)): Option_vt(node)
+//
+')</pre>
+
+Note that the function ##dyncode("theSearchStore_choose") returns a
+node only if the store is not empty. A generic implementation of graph
+search is given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+(* ****** ****** *)
+//
+extern
+fun{}
+GraphSearch(): void
+//
+(* ****** ****** *)
+
+implement
+{}(*tmp*)
+GraphSearch
+  ((*void*)) = let
+//
+fun
+search
+(
+// argless
+): void = let
+//
+val
+opt = theSearchStore_choose()
+//
+in
+//
+case+ opt of
+| ~None_vt() => ()
+| ~Some_vt(nx) => let
+    val cont = process_node(nx)
+  in
+    if cont
+      then let
+        val nxs =
+          node_get_neighbors(nx)
+        // end of [val]
+      in
+        theSearchStore_insert_lst(nxs); search((*void*))
+      end // end of [then]
+    // end of [if]
+  end (* end of [Some_vt] *)
+//
+end (* end of [search] *)
+//
+in
+  search((*void*))
+end // end of [GraphSearch]
+')</pre>
+
+This implementation (of ##dyncode("GraphSearch")) should be
+straightforward to follow.
+
+')##comment("para")
+
+##para('\
+
+In contrast to a tree, a graph can potentially contain circles.  In
+order to prevent a node from being put into the store repeatedly, one
+may employ a marking scheme that only allows unmarked nodes to be put
+into the store and then marks them immediately after they are in the
+store. The following functions are introduced for the purpose of
+marking and testing (for markedness):
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+extern
+fun{}
+node_mark(node): void
+extern
+fun{}
+node_is_marked(node): bool
+overload
+.is_marked with node_is_marked
+//
+')</pre>
+
+')##comment("para")
+
+<h2>Generic Graph DFS</h2>
+
+##para('\
+
+The so-called depth-first search (DFS) on a tree simply means that the
+children of a node being processed should be processed next ahead of
+the other stored nodes. When generalized to search on a graph, DFS
+means that the neighbors of a node being processed should be processed
+next.  In terms of implementation, the store employed by DFS should
+follow the last-in-first-out principle, that is, the node chosen for
+the next round should be the last node put into the store.
+
+')##comment("para")
+
+##para('\
+
+Let us introduce a function ##dyncode("theSearchStore_get") for
+obtaining the store associated with a particular graph search to be
+performed. With this store, which is represented as a stack of the type
+##stacode("slistref(node)"), the functions
+##dyncode("theSearchStore_insert")
+and
+##dyncode("theSearchStore_choose") can be readily implemented as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+(* ****** ****** *)
+//
+extern
+fun{}
+theSearchStore_get
+  ((*void*)): slistref(node)
+//
+(* ****** ****** *)
+//
+implement
+theSearchStore_insert<>
+  (nx) = let
+//
+val
+theStore = theSearchStore_get()
+//
+in
+//
+if
+~(nx.is_marked())
+then
+(
+  node_mark(nx);
+  slistref_insert(theStore, nx)
+)
+//
+end (* end of [theSearchStore_insert] *)
+//
+implement
+{}(*tmp*)
+theSearchStore_insert_lst(nxs) =
+(
+nxs
+).rforeach()(lam nx => theSearchStore_insert(nx))
+//
+implement
+theSearchStore_choose<>
+  ((*void*)) = let
+//
+val
+theStore = theSearchStore_get()
+//
+in
+  slistref_takeout_opt(theStore)
+end // end of [theSearchStore_choose]
+//
+')</pre>
+
+Clearly, ##dyncode("theSearchStore_insert_lst") can be implemented
+directly based on ##dyncode("theSearchStore_insert"). Note that the
+combinator ##dyncode("rforeach") traverses a list in the reverse
+order, that is, from right to left.
+
+')
+
+<h2>Solving 8-Queen Puzzle</h2>
+
+##para('\
+
+The famous 8-queen puzzle asks the player to find ways to put eight
+queen pieces on a chess board such that no queen piece can attack
+any other ones. In other words, no two queen pieces can be put on the
+same row, the same column, or the same diagnal. This puzzle can be
+readily solved with a tree-based search. Let a node be represented by
+a list ##dyncode("xs") of integers:
+
+<pre
+class="patsyntax"
+>##sats2xhtml('\
+assume node = list0(int)
+')</pre>
+
+For each valid index ##dyncode("i"), the integer ##dyncode("xs[i]")
+stands for the column number of the queen piece on row
+##dyncode("n-1-i"), where ##dyncode("n") refers to the length of
+##dyncode("xs"). More precisely, a given integer list of length
+##dyncode("n") represents a partial configuration of chess board
+containing ##dyncode("n") queen pieces with no piece being able to
+attack any other ones.
+
+')##comment("para")
+
+##para('\
+
+There is no need for marking nodes as the search involved is tree-based:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement node_mark<>(nx) = ()
+implement node_unmark<>(nx) = ()
+implement node_is_marked<>(nx) = false
+')</pre>
+
+')##comment("para")
+
+##para('\
+
+The function
+##dyncode("node_get_neighbors") can be implemented as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+implement
+{}(*tmp*)
+node_get_neighbors
+  (nx0) = 
+(
+(N).list0_map(TYPE{node})(lam x => cons0(x, nx0))
+).filter()
+  (
+    lam nx =>
+    let
+      val-cons0(x0, nx) = nx
+    in
+      nx.iforall()(lam(i, x) => x0 != x && abs(x0 - x) != i+1)
+    end // end of [let] // end of [lam]
+  )
+')</pre>
+
+Note that calling ##dyncode("node_get_neighbors") on a given node
+returns all of the nodes that extend the given one with one more queen
+piece.
+
+')##comment("para")
+
+##para('\
+
+The rest of the code for solving 8-queen puzzle is given as follows:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+//
+implement
+process_node<>
+  (nx) =
+if
+(length(nx) = N)
+then let
+//
+val () = println! (list0_reverse(nx))
+//
+in
+  true
+end // end of [then]
+else true // end of [else]
+//
+(* ****** ****** *)
+//
+extern
+fun
+QueenPuzzle_solve(): void
+//
+implement
+QueenPuzzle_solve() =
+  GraphSearch() where
+{
+val
+theStore =
+slistref_make_nil{node}()
+//
+val () =
+slistref_insert(theStore, nil0)
+//
+implement theSearchStore_get<>() = theStore
+//
+} (* end of [QueenPuzzle_solve] *)
+//
+')</pre>
+
+The punch-line in this example is the one-liner implementation of
+##dyncode("theSearchStore_get") inside the body of ##dyncode("QueenPuzzle_solve").
+One really needs to get this punch-line in order to start appreciating
+the power of embeddability offered by embeddable templates.
+
+')##comment("para")
+
+<h2>Playing Game-of-24</h2>
+
+##para('\
+
+Given four natural numbers n1, n2, n3 and n4, one chooses two of them
+and generates a rational number r1 by applying either addition,
+subtraction, multiplication or division; one mixes r1 with the
+remaining two numbers and then chooses two of them to generate a
+rational number r2 by applying either addition, subtraction,
+multiplication or division; one then takes r2 and the last remaining
+number to generate a rational number r3 by applying either addition,
+subtraction, multiplication, or division. If there exists at least one
+way to make r3 equal 24, then (n1, n2, n3, n4) is said to be a good
+quad. For instance, (10,10,4,4) is a good quad since ##dyncode("(10 *
+10 - 4) / 4 = 24") holds. Similarly, (5,7,7,11) is a good quad since
+##dyncode("( 5 - 11 / 7) * 7 = 24") holds.  Game-of-24 is a game that
+asks the player to determine whether four given natural numbers are a
+good quad or not.\
+
+')
+
+##para('\
+
+Please find an implementation of Game-of-24 in
+##filename("GameOf24Play.dats") that is directly based on the generic
+graph-based depth-first search presented above.
+
+')
+
+<h2>Generic Graph BFS</h2>
+
+##para('\
+
+The so-called breadth-first search (BFS) on a tree is often referred
+to as level-order search as it only starts to search the nodes at the
+next level when it finishes processing all of the node at the current
+level.  When generalized to search on a graph, BFS simply means that
+the children of a node being processed should be processed until after
+all of the other currently stored nodes are processed.  In terms of
+implementation, the store employed by BFS should follow the
+first-in-first-out principle, that is, the node chosen for the next
+round should be the first node put into the store.
+
+')##comment("para")
+
+##para('\
+
+By simply replacing ##stacode("slistref") with ##stacode("qlistref")
+in the previously presented implementation of graph-based DFS, one
+obtains the following implementation of graph-based BFS:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+(* ****** ****** *)
+//
+extern
+fun{}
+theSearchStore_get
+  ((*void*)): qlistref(node)
+//
+(* ****** ****** *)
+//
+implement
+theSearchStore_insert<>
+  (nx) = let
+//
+val
+theStore = theSearchStore_get()
+//
+in
+//
+if
+~(nx.is_marked())
+then
+(
+  node_mark(nx);
+  qlistref_insert(theStore, nx)
+)
+//
+end (* end of [theSearchStore_insert] *)
+//
+implement
+{}(*tmp*)
+theSearchStore_insert_lst(nxs) =
+(
+nxs
+).foreach()(lam nx => theSearchStore_insert(nx))
+//
+implement
+theSearchStore_choose<>
+  ((*void*)) = let
+//
+val
+theStore = theSearchStore_get()
+//
+in
+  qlistref_takeout_opt(theStore)
+end // end of [theSearchStore_choose]
+//
+  ')</pre>
+
+Note that the type ##stacode("qlistref") is for a queue (based on a
+two-list implementation).
+
+')##comment("para")
+
+<h2>Playing Doublets Game</h2>
+
+##para("""\
+
+Doublets is a word game invented by Lewis Carroll (1832-1898), the
+author of children's classics "Alice in Wonderland". Given two words
+recognized in a chosen dictionary, they are said to be one-step
+connected if they differ precisely at one position in their
+spellings. Clearly, two connected words must contain the same number
+of characters. Two given words ##dyncode(W1) and ##dyncode(W2) are
+many-step connected if a sequence of words beginning with
+##dyncode(W1) and ending with ##dyncode(W2) can be found such that any
+two consecutive words in this sequence are one-step connected. The
+game Doublets basically asks the player to tell whether two given
+words are many-step connected. For instance. ##dyncode("head") and
+##dyncode("tail") form a doublet as is shown by the sequence:
+##dyncode(head), ##dyncode(held), ##dyncode(hell), ##dyncode(tell),
+##dyncode(tall), ##dyncode(tail).  One may play Doublets on-line by
+visiting
+<a href="http://ats-lang.github.io/EXAMPLE/BUCS320/Doublets/Doublets.html">this link</a>.
+
+""")##comment("para")
+
+##para('\
+
+Clearly, the kind of search involved in playing Doublets can simply be
+graph-based BFS. Due to the symmetry in the relation of one-step
+connection, a marking scheme is needed to prevent a word from being
+added repeatedly into the store (for the words to be processed). In
+order for a sequence connecting two given words to be shown at the end
+of the search, the type for nodes is chosen to be ##stacode("list0(string)")
+for lists of strings:
+
+<pre
+class="patsyntax">
+##dats2xhtml('assume node = list0(string)')
+</pre>
+
+Following is some of the code implementing Doubelets:
+
+<pre
+class="patsyntax">
+##dats2xhtml('\
+(* ****** ****** *)
+//
+extern
+fun
+Doublets_play
+(
+w1: string, w2: string
+) : Option(list0(string))
+//
+(* ****** ****** *)
+
+implement
+Doublets_play
+  (w1, w2) = res[] where
+{
+//
+val
+res =
+ref<Option(list0(string))>(None)
+//
+val
+theMarked = myhashtbl_make_nil(1024)
+//
+implement
+node_mark<>(nx) =
+{
+//
+  val-
+  cons0(w, _) = nx
+  val-~None_vt() = theMarked.insert(w, 0)
+//
+}
+//
+implement
+node_is_marked<>(nx) = let
+//
+  val-
+  cons0(w, _) = nx
+//
+  val opt = theMarked.search(w)
+//
+in
+//
+case+ opt of
+  | ~Some_vt _ => true | ~None_vt _ => false
+//
+end // end of [node_is_marked]
+//
+implement
+process_node<>
+  (nx) = let
+  val-cons0(w, _) = nx
+in
+  if w = w2 then (res[] := Some(nx); false) else true
+end // end of [process_node]
+//
+val
+theStore = qlistref_make_nil()
+//
+implement
+theSearchStore_get<>() = theStore
+//
+val nx = list0_sing(w1)
+val () = theSearchStore_insert(nx)
+val () = GraphSearch((*void*))
+//
+} (* end of [Doublets_play] *)
+')</pre>
+
+Note that both function templates ##dyncode("node_mark") and
+##dyncode("node_is_marked") are implemented inside the body of the
+function ##dyncode("Doublets_play"), making it possible for them to
+gain access to ##dyncode("theMarked"), a hashtable introduced locally
+inside ##dyncode("Doublets_play") for marking nodes that are put into
+the store (implemented as a queue of the type ##stacode("qlistref(node)")).
+
+')
+
+<h2>Compiling and Testing</h2>
+
+##para("""\
+
+Please find in the following files the entirety of the code presented
+in this article:
+
+<pre>
+GraphSearch.dats // generic graph search
+GraphSearch_dfs.dats // generic depth-first graph search
+GraphSearch_bfs.dats // generic breadth-first graph search
+QueenPuzzle.dats // solving 8-queen puzzle with GraphSearch_dfs
+GameOf24Play.dats // implementing Game-of-24 based on GraphSearch_dfs
+DoubletsPlay.dats // implementing Doublets based on GraphSearch_bfs
+</pre>
+
+In addition, there is an accompanying ##filename("Makefile") for compiling
+and testing the code.\
+
+""")
+
+<hr size="2">
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+##thePage_script()
+</body>
+</html>

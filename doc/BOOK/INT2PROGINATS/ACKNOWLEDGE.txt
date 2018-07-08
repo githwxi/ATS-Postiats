@@ -4,7 +4,14 @@
 #
 ######
 
+Wu, Hanwen
+Ren, Zhiqiang
+Blair, William
+
 Bernt, Matthias (...)
+Duchêne, Yannick (...)
+Ferretti, Andrea (...)
+Jones, Michael (...)
 Okabe, Kiwamu (master-q) (...)
 Zhang, Haitao (...)
 

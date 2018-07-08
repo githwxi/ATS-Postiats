@@ -1,5 +1,6 @@
 (*
-** for testing [prelude/char]
+** For testing
+** [prelude/gprint]
 *)
 
 (* ****** ****** *)
@@ -14,7 +15,10 @@ val () =
 //
 //
 implement
-gprint$out<> () = stdout_ref
+gprint$out<>
+(
+// argless
+) = stdout_ref
 //
 val () = gprint_int (0)
 val () = gprint_string (", ")
@@ -33,7 +37,10 @@ val () =
 {
 //
 implement
-gprint$out<> () = stderr_ref
+gprint$out<>
+(
+// argless
+) = stderr_ref
 //
 val () = gprint_int (0)
 val () = gprint_string (", ")

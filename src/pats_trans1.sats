@@ -46,30 +46,61 @@ staload "./pats_dynexp1.sats"
 //
 datatype
 trans1err =
+//
   | T1E_prec_tr of (i0de)
   | T1E_e0xp_tr of (e0xp)
   | T1E_s0rt_tr of (s0rt)
   | T1E_s0exp_tr of (s0exp)
-  | T1E_d0cstdec_tr of (d0cstdec)
+//
   | T1E_p0at_tr of (p0at)
-  | T1E_termination_metric_check of (location)
   | T1E_d0exp_tr of (d0exp)
+//
+  | T1E_d0cstdec_tr of (d0cstdec)
+  | T1E_termet_check of (location)
+//
   | T1E_i0nclude_tr of (d0ecl) // file for inclusion is not available
   | T1E_s0taload_tr of (d0ecl) // file for staloading is not available
   | T1E_d0ynload_tr of (d0ecl) // file for dynloading is not available
 // end of [trans1err]
 
 (* ****** ****** *)
-
-fun the_trans1errlst_add (x: trans1err): void
-fun the_trans1errlst_finalize (): void // cleanup all the errors
-
+//
+fun
+the_trans1errlst_add (x: trans1err): void
+fun
+the_trans1errlst_finalize((*void*)): void // cleanup all the errors
+//
 (* ****** ****** *)
-
+//
+fun
+proc_extdef
+(
+  sym: symbol, ext: string
+) : string // end of [proc_extdef]
+//
+fun
+scstextdef_tr
+(
+  s0c: s0tacst, sym: symbol, extopt: s0tringopt
+) : scstextdef // end of [scstextdef_tr]
+//
+fun
+dcstextdef_tr
+(
+  d0c: d0cstdec, sym: symbol, extopt: s0tringopt
+) : dcstextdef // end of [dcstextdef_tr]
+//
+(* ****** ****** *)
+//
+fun
+do_e0xpact_assert
+  (loc: location, v: v1al): void
+//
 fun do_e0xpact_prerr (v: v1al): void
+fun do_e0xpact_print (v: v1al): void
+//
 fun do_e0xpact_error (loc: location, v: v1al): void
-fun do_e0xpact_assert (loc: location, v: v1al): void
-
+//
 (* ****** ****** *)
 
 fun e0xp_tr (x: e0xp): e1xp
@@ -126,6 +157,10 @@ fun witht0ype_tr (x: witht0ype): witht1ype
 
 (* ****** ****** *)
 
+fun S0Ed2ctype_tr (x: S0Ed2ctype): S1Ed2ctype
+
+(* ****** ****** *)
+
 fun d0ecl_fixity_tr
   (dec: f0xty, ids: i0delst): void
 fun d0ecl_nonfix_tr (ids: i0delst): void
@@ -135,21 +170,23 @@ fun d0ecl_nonfix_tr (ids: i0delst): void
 fun d0atsrtdec_tr (d: d0atsrtdec): d1atsrtdec
 
 (* ****** ****** *)
-
+//
 fun s0rtdef_tr (x: s0rtdef): s1rtdef
-
+//
 fun s0tacst_tr (x: s0tacst): s1tacst
 fun s0tacon_tr (x: s0tacon): s1tacon
-
+//
 (*
 fun s0tavar_tr (x: s0tavar): s1tavar // HX: removed
 *)
-
+//
+(* ****** ****** *)
+//
 fun t0kindef_tr (x: t0kindef): t1kindef
-
+//
 fun s0expdef_tr (x: s0expdef): s1expdef
 fun s0aspdec_tr (x: s0aspdec): s1aspdec
-
+//
 (* ****** ****** *)
 
 fun q0marg_tr (x: q0marg): q1marg
@@ -166,12 +203,6 @@ fun t0mpmarg_tr (x: t0mpmarg): t1mpmarg
 fun d0atcon_tr (d: d0atcon): d1atcon
 fun d0atdec_tr (d: d0atdec): d1atdec
 fun e0xndec_tr (d: e0xndec): e1xndec
-
-(* ****** ****** *)
-
-fun dcstextdef_tr
-  (sym: symbol, extopt: s0tringopt): dcstextdef
-// end of [dcstextdef_tr]
 
 (* ****** ****** *)
 
@@ -206,15 +237,20 @@ fun d0expopt_tr (xs: d0expopt): d1expopt
 
 fun labd0exp_tr (x: labd0exp): labd1exp
 
-fun d0exp_tr_lams_dyn
+(* ****** ****** *)
+
+fun termet_check
+  (loc: location, is_met: bool, oefc: effcstopt): void
+// end of [termet_check]
+
+(* ****** ****** *)
+
+fun
+d0exp_tr_lams_dyn
 (
   knd : int, locopt : Option(location), fcopt : fcopt, lin : int
 , args : f0arglst, res : s0expopt, efcopt : effcstopt, body : d0exp
 ) : d1exp // end of [d0exp_lams_dyn_tr]
-
-fun termination_metric_check
-  (loc: location, is_met: bool, oefc: effcstopt): void
-// end of [termination_metric_check]
 
 (* ****** ****** *)
 //

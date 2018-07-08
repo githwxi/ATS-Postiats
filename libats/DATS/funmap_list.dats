@@ -28,13 +28,14 @@
 (* ****** ****** *)
 
 (* Author: Hongwei Xi *)
-(* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: December, 2012 *)
+(* Authoremail: hwxiATcsDOTbuDOTedu *)
 
 (* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+//
 (* ****** ****** *)
 
 staload "libats/SATS/funmap_list.sats"
@@ -44,12 +45,12 @@ staload "libats/SATS/funmap_list.sats"
 #include "./SHARE/funmap.hats" // code reuse
 //
 (* ****** ****** *)
-
+//
 assume
 map_type
-  (key:t0p, itm: vt0p) = List0 @(key, itm)
+(key:t0p, itm: vt0p) = List0 @(key, itm)
 // end of [map_type]
-
+//
 (* ****** ****** *)
 
 implement{} funmap_nil () = list_nil ()
@@ -119,12 +120,16 @@ end // end of [funmap_search]
 implement
 {key,itm}
 funmap_insert
-  (map, k0, x0, res) = let
+(
+  map, k0, x0, res
+) = let
 //
 typedef ki = @(key, itm)
-val ans = funmap_takeout<key,itm> (map, k0, res)
-val (
-) = map := list_cons{ki}( @(k0, x0), map )
+//
+val ans =
+  funmap_takeout<key,itm>(map, k0, res)
+val () =
+  (map := list_cons{ki}( @(k0, x0), map ))
 // end of [val]
 //
 in
@@ -137,7 +142,9 @@ implement
 {key,itm}
 funmap_insert_any
   (map, k0, x0) = let
-  typedef ki = @(key, itm)
+//
+typedef ki = @(key, itm)
+//
 in
   map := list_cons{ki}( @(k0, x0), map )
 end // end of [funmap_insert_any]

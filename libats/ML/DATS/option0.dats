@@ -42,50 +42,150 @@ staload "libats/ML/SATS/basis.sats"
 staload "libats/ML/SATS/option0.sats"
 
 (* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+option0_some(x) = Some0{a}(x)
+//
+implement{}
+option0_none((*void*)) = None0((*void*))
+//
+(* ****** ****** *)
+
+implement{}
+option0_is_some(opt) =
+(
+//
+case+ opt of
+| Some0 _ => true | None0 _ => false
+//
+) // end of [option0_is_some]
+
+implement{}
+option0_is_none(opt) =
+(
+//
+case+ opt of
+| Some0 _ => false | None0 _ => true
+//
+) // end of [option0_is_none]
+
+(* ****** ****** *)
 
 implement
 {a}(*tmp*)
-option0_some (x) = Some0{a}(x)
-implement{
-} option0_none ((*void*)) = None0((*void*))
+option0_unsome_exn
+  (opt) =
+(
+//
+case+ opt of
+| Some0(x) => x
+| None0 _  => $raise NotSomeExn()
+//
+) // end of [option0_unsome_exn]
 
 (* ****** ****** *)
-
-implement{}
-option0_is_some (opt) =
-  case+ opt of Some0 _ => true | None0 _ => false
-// end of [option0_is_some]
-
-implement{}
-option0_is_none (opt) =
-  case+ opt of Some0 _ => false | None0 _ => true
-// end of [option0_is_none]
-
-(* ****** ****** *)
-
-implement{a}
-option0_unsome_exn (opt) =
-  case+ opt of
-  | Some0 (x) => x | None0 ( ) => $raise NotSomeExn()
-// end of [option0_unsome_exn]
-
-(* ****** ****** *)
-
-implement{a}
-fprint_option0
-  (out, opt) = fprint_option (out, g1ofg0_option(opt))
-// end of [fprint_option0]
-
-(* ****** ****** *)
-
+//
 implement
 {a}{b}
-option0_map (opt, f) =
+option0_map
+  (opt, fopr) =
 (
 case+ opt of
-| Some0 (x) => Some0{b}(f(x)) | None0 () => None0 ()
+| None0() => None0()
+| Some0(x) => Some0(fopr(x))
 ) (* end of [option0_map] *)
-
+//
+implement
+{a}{b}
+option0_map_method
+(
+  opt, _(*TYPE*)
+) =
+(
+lam(fopr) => option0_map<a>(opt, fopr)
+)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+option0_filter(opt, pred) =
+(
+case+ opt of
+| None0 _ =>
+  None0((*void*))
+| Some0 x =>
+  if pred(x) then opt else None0()
+) (* end of [option0_map] *)
+//
+implement
+{a}(*tmp*)
+option0_filter_method
+(
+  opt
+) =
+(
+lam(pred) => option0_filter<a>(opt, pred)
+)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+option0_foreach
+  (opt, fwork) =
+(
+case+ opt of
+| None0() => () | Some0(x) => fwork(x)
+)
+implement
+{a}(*tmp*)
+option0_foreach_method
+(
+  opt
+) =
+(
+lam(fwork) => option0_foreach<a>(opt, fwork)
+)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+print_option0
+  (opt) =
+  fprint_option0<a>(stdout_ref, opt)
+implement
+{a}(*tmp*)
+prerr_option0
+  (opt) =
+  fprint_option0<a>(stderr_ref, opt)
+//
+(* ****** ****** *)
+//
+implement
+{a}(*tmp*)
+fprint_option0
+(
+  out, opt
+) = let
+//
+val
+opt =
+g1ofg0_option(opt)
+//
+in
+  fprint_option<a>(out, opt)
+end // end of [fprint_option0]
+//
+(* ****** ****** *)
+//
+implement
+(a)(*tmp*)
+fprint_val<option0(a)>
+  (out, x) = fprint_option0<a>(out, x)
+//
 (* ****** ****** *)
 
 (* end of [option0.dats] *)

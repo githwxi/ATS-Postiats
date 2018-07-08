@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta
+ http-equiv="content-type"
+ content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-ssntyped-channels-session-combinators</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Session-typed Channels:<br>
+Let us combine sessions together!
+</h1>
+
+<p>
+In this article, I present several session combinators
+for combining existing sessions together to form new sessions.
+In this regard, session combinators are similar to parsing combinators,
+which combine existing parsers to form new parsers.
+</p>
+
+<h2>
+Sessions in CPS-style
+</h2>
+
+<p>
+In the following presentation, sessions are represented as
+closure-functions in CPS-style. Let us first see two abstract
+types:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="staexp"><span class="keyword">abstype</span> chanpos_session<span class="keyword">(</span>ss<span class="keyword">:</span>type<span class="keyword">)</span></span>
+<span class="staexp"><span class="keyword">abstype</span> channeg_session<span class="keyword">(</span>ss<span class="keyword">:</span>type<span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+The abstract types <span style="color: #0000F0;">chanpos_session</span> and
+<span style="color: #0000F0;">channeg_session</span> are actually defined as
+<span style="color: #0000F0;">chanpos_nullify</span> and <span style="color: #0000F0;">channeg_nullify</span>,
+respectively:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">typedef</span>
+<span class="staexp">chanpos_nullify<span class="keyword">(</span><span class="staexp">ss<span class="keyword">:</span>type</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="keyword">(</span><span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">chpcont0_nil</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span>
+<span class="keyword">typedef</span>
+<span class="staexp">channeg_nullify<span class="keyword">(</span><span class="staexp">ss<span class="keyword">:</span>type</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="keyword">(</span><span class="staexp">channeg</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">chncont0_nil</span><span class="keyword">)</span> <span class="keyword">-&lt;</span><span class="staexp">cloref1</span><span class="keyword">&gt;</span> <span class="staexp">void</span></span>
+<span class="comment">//</span>
+</pre>
+
+<p> A server-session of the type <span style="color: #0000F0;">chanpos_session(ss)</span> takes
+as its two arguments a positive channel of the type
+<span style="color: #0000F0;">chanpos(ss)</span> and a continuation; it turns the positive
+channel into one of the type <span style="color: #0000F0;">chanpos(chnil)</span> and then
+passes it to the continuation. The meaning of a client-session of the
+type <span style="color: #0000F0;">channeg_session(ss)</span> can be similarly construed.  </p>
+
+<p>
+Let us now recall the implementation of the server process in a
+<a href="./../ssntyped-channels-1/index.html">previous article</a> 
+on session-typed channels:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="keyword">typedef</span>
+<span class="staexp">Q_ssn <span class="keyword">=</span>
+<span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">bool</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+Q <span class="keyword">(</span>
+  chp<span class="keyword">:</span> <span class="staexp">chanpos</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">(</span>
+<span class="comment">//</span>
+chanpos1_recv
+<span class="keyword">(</span> chp
+<span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chp<span class="keyword">,</span> i1<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> i1 <span class="keyword">=</span> chmsg_parse&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span>i1<span class="keyword">)</span></span> <span class="keyword">in</span>
+  chanpos1_recv
+  <span class="keyword">(</span> chp
+  <span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chp<span class="keyword">,</span> i2<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> i2 <span class="keyword">=</span> chmsg_parse&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span>i2<span class="keyword">)</span></span> <span class="keyword">in</span>
+    chanpos1_send
+    <span class="keyword">(</span> chp<span class="keyword">,</span> i1 <span class="keyword">&lt;</span> i2
+    <span class="keyword">,</span> <span class="keyword">lam</span><span class="keyword">(</span>chp<span class="keyword">)</span> <span class="keyword">=&gt;</span> chanpos1_close<span class="keyword">(</span>chp<span class="keyword">)</span>
+    <span class="keyword">)</span>
+    <span class="keyword">end</span> <span class="comment">// end-of-let // end-of-lam</span>
+  <span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="comment">// end-of-let // end-of-lam</span>
+<span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">)</span></span> <span class="comment">(* end of [Q] *)</span>
+</pre>
+
+<p>
+A server-session corresponding to <span style="color: #F00000;">Q</span> can be implemented
+as follows by making use of certain session combinators:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">overload</span> :: <span class="keyword">with</span> chanpos1_session_cons</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+Q_session<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> i1_ref <span class="keyword">=</span> ref<span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> i2_ref <span class="keyword">=</span> ref<span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> ss1 <span class="keyword">=</span>
+  chanpos1_session_recv&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span>i<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp">i1_ref[<span class="keyword">]</span></span> := i<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> ss2 <span class="keyword">=</span>
+  chanpos1_session_recv&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span>i<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp">i2_ref[<span class="keyword">]</span></span> := i<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> ss3 <span class="keyword">=</span>
+  chanpos1_session_send&lt;<span class="staexp">bool</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp">i1_ref[<span class="keyword">]</span></span> <span class="keyword">&lt;</span> <span class="dynexp">i2_ref[<span class="keyword">]</span></span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  ss1 :: ss2 :: ss3 :: chanpos1_session_nil<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [Q_session]</span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+The session combinator <span style="color: #F00000;">chanpos1_session_send</span> is
+called to form a single-action session which only sends a message on
+a given positive channel before passing the channel to a continuation.
+Note that I may also refer to such a session as a singleton session.
+Similarly, the session combinator <span style="color: #F00000;">chanpos1_session_recv</span>
+is called to form a single-action session which only receives a
+message on a given positive channel before passing the channel to a
+continuation.
+</p>
+
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>
+a<span class="keyword">:</span><span class="keyword">t@ype</span>
+<span class="keyword">}</span></span> chanpos1_session_send
+  <span class="keyword">(</span><span class="staexp">cfun0</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>
+a<span class="keyword">:</span><span class="keyword">t@ype</span>
+<span class="keyword">}</span></span> chanpos1_session_recv
+  <span class="keyword">(</span><span class="staexp">cfun1</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">void</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+The session combinators <span style="color: #F00000;">chanpos1_session_nil</span> and
+<span style="color: #F00000;">chanpos1_session_cons</span> should remind one of the standard
+list constructors:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+chanpos1_session_nil<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">chnil</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+chanpos1_session_cons
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>type<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>ss<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">chcons</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">chnil</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">ss</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">a</span><span class="staexp">::</span><span class="staexp">ss</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+As indicated by the types, <span style="color: #F00000;">chanpos1_session_nil</span> is
+called to form an empty session and <span style="color: #F00000;">chanpos1_session_cons</span>
+to combine a singleton session with a (general) session.  </p>
+
+<p> Please study the code in <u>introxmpl1_server.dats</u> to
+see how the session constructed by calling <span style="color: #F00000;">Q_session</span> can
+be executed. The following code implements a client-session
+<span style="color: #F00000;">P_session</span> that corresponds to the server-session
+<span style="color: #F00000;">Q_session</span>: </p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+P_session
+<span class="keyword">(</span>
+<span class="comment">// argless</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">channeg_session</span><span class="keyword">(</span><span class="staexp">Q_ssn</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+theResult_process
+  <span class="keyword">(</span>lt<span class="keyword">:</span> <span class="staexp">bool</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> Start_output<span class="keyword">(</span><span class="dynstr">"Session over!"</span><span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  theResult_set<span class="keyword">(</span><span class="keyword">if</span> lt <span class="keyword">then</span> <span class="dynstr">"true"</span> <span class="keyword">else</span> <span class="dynstr">"false"</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [theResult_process]</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> ss1 <span class="keyword">=</span>
+  channeg1_session_recv&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> theArg1_get<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> ss2 <span class="keyword">=</span>
+  channeg1_session_recv&lt;<span class="staexp">int</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> theArg2_get<span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> ss3 <span class="keyword">=</span>
+  channeg1_session_send&lt;<span class="staexp">bool</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span>lt<span class="keyword">)</span> <span class="keyword">=&gt;</span> theResult_process<span class="keyword">(</span>lt<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  ss1 :: ss2 :: ss3 :: channeg1_session_nil<span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [P_session]</span>
+<span class="comment">//</span>
+</pre>
+
+<p>
+However, the session constructed by calling <span style="color: #F00000;">P_session</span> is
+not suitable for being used directly as it ignores GUI issues. Please
+study the code in <u>introxmpl1_client.dats</u> for details on
+handling GUI issues.
+</p>
+
+<p>
+A simple demo based on the code for <span style="color: #F00000;">P_session</span> and
+<span style="color: #F00000;">Q_session</span> is available
+<a href="./introxmpl1.html">on-line</a>. The entirety of the code
+for this demo can be found in four files of the following names:
+
+<pre>
+introxmpl1.html
+introxmpl1_prctl.sats
+introxmpl1_client.dats
+introxmpl1_server.dats
+</pre>
+
+I strongly encourage the reader to use the provided Makefile to build
+the demo on his/her own.
+</p>
+
+<h2>
+Various Session Combinators
+</h2>
+
+Some commonly used session combinators are briefly mentioned as follows.
+
+<h3>
+Joining Sessions: ssappend
+</h3>
+
+<p>
+Given two session types <span style="color: #0000F0;">ss1</span> and <span style="color: #0000F0;">ss2</span>,
+<span style="color: #0000F0;">ssappend(ss1, ss2)</span> is a session type for specifying a
+session that is the concatenation of one specified by <span style="color: #0000F0;">ss1</span>
+and another one by <span style="color: #0000F0;">ss2</span>. The following functions
+<span style="color: #F00000;">chanpos1_session_append</span> and
+<span style="color: #F00000;">channeg1_session_append</span> can be called to join
+server-sessions and client-sessions, respectively:
+</p>
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+chanpos1_session_append
+  <span class="staexp"><span class="keyword">{</span>ss1<span class="keyword">,</span>ss2<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  ssp1<span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">ss1</span><span class="keyword">)</span>
+<span class="keyword">,</span> ssp2<span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">ss2</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">ssappend</span><span class="keyword">(</span><span class="staexp">ss1</span><span class="keyword">,</span> <span class="staexp">ss2</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+channeg1_session_append
+  <span class="staexp"><span class="keyword">{</span>ss1<span class="keyword">,</span>ss2<span class="keyword">:</span>type<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  ssn1<span class="keyword">:</span> <span class="staexp">channeg_session</span><span class="keyword">(</span><span class="staexp">ss1</span><span class="keyword">)</span>
+<span class="keyword">,</span> ssn2<span class="keyword">:</span> <span class="staexp">channeg_session</span><span class="keyword">(</span><span class="staexp">ss2</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">channeg_session</span><span class="keyword">(</span><span class="staexp">ssappend</span><span class="keyword">(</span><span class="staexp">ss1</span><span class="keyword">,</span> <span class="staexp">ss2</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+<h3>
+Server-selected Session : sschoose_disj
+</h3>
+
+<p>
+Given two session types <span style="color: #0000F0;">ss0</span> and <span style="color: #0000F0;">ss1</span> the
+session type <span style="color: #0000F0;">sschoose_disj(ss0,ss1)</span> is for classifying a
+session that can behave like one classified by either <span style="color: #0000F0;">ss0</span>
+or <span style="color: #0000F0;">ss1</span>; the choice as to whether it is classified by
+<span style="color: #0000F0;">ss0</span> or <span style="color: #0000F0;">ss1</span> is determined by the server.
+</p>
+
+<h3>
+Client-selected Session : sschoose_conj
+</h3>
+
+<p>
+Given two session types <span style="color: #0000F0;">ss0</span> and <span style="color: #0000F0;">ss1</span> the
+session type <span style="color: #0000F0;">sschoose_conj(ss0,ss1)</span> is for classifying a
+session that can behave like one classified by either <span style="color: #0000F0;">ss0</span>
+or <span style="color: #0000F0;">ss1</span>; the choice as to whether it is classified by
+<span style="color: #0000F0;">ss0</span> or <span style="color: #0000F0;">ss1</span> is determined by the client.
+</p>
+
+<h3>
+Server-Optional Session : ssoption_disj
+</h3>
+
+<p>
+Given a session type <span style="color: #0000F0;">ss</span>, the session type
+<span style="color: #0000F0;">ssoption_disj(ss)</span> is essentially the same as
+<span style="color: #0000F0;">sschoose_disj(ss, chnil)</span>.
+</p>
+
+<h3>
+Client-Optional Session : ssoption_conj
+</h3>
+
+<p>
+Given a session type <span style="color: #0000F0;">ss</span>, the session type
+<span style="color: #0000F0;">ssoption_conj(ss)</span> is essentially the same as
+<span style="color: #0000F0;">sschoose_conj(ss, chnil)</span>.
+</p>
+
+<h3>
+Server-Repeated Session : ssrepeat_disj
+</h3>
+
+<p>
+Given a session type <span style="color: #0000F0;">ss</span>, the session type
+<span style="color: #0000F0;">ssrepeat_disj(ss)</span> is for classifying one that repeats a
+session classified by <span style="color: #0000F0;">ss</span>; the choice is made by the
+server as to whether repetition should continue.
+</p>
+
+<h3>
+Client-Repeated Session : ssrepeat_conj
+</h3>
+
+<p>
+Given a session type <span style="color: #0000F0;">ss</span>, the session type
+<span style="color: #0000F0;">ssrepeat_conj(ss)</span> is for classifying one that repeats a
+session classified by <span style="color: #0000F0;">ss</span>; the choice is made by the
+client as to whether repetition should continue.
+</p>
+
+<h2>
+A Service for Multiplication Test
+</h2>
+
+<p>
+As an example for demonstrating certain typical use of session
+combinators, I present as follows the construction of a service for
+testing one's ability to do multiplication mentally.  Please click <a
+href="./multest.html">here</a> to give the service a try.  </p>
+
+<h3>
+Login Session
+</h3>
+
+<p>
+To use the service, one needs to first perform login.
+The session type for classifying the login session is
+given as follows:
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_login <span class="keyword">=</span> <span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">string</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss_pass_try</span></span>
+</pre>
+
+where the session type <span style="color: #0000F0;">ss_pass_try</span> is defined
+below:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_pass <span class="keyword">=</span>
+<span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">string</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">bool</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span></span>
+<span class="keyword">typedef</span>
+<span class="staexp">ss_pass_try <span class="keyword">=</span> <span class="staexp">ssrepeat_disj</span><span class="keyword">(</span><span class="staexp">ss_pass</span><span class="keyword">)</span></span>
+</pre>
+
+During the login session, the server receives a string (representing
+the ID of the user) and enters a session for password-checking; one
+round of password-checking involves receiving a string (password) from
+the user and sending the result of checking to the user; the service
+may initiate another round of password-checking if the current round
+fails (that is, the boolean value <span style="color: #F00000;">false</span> is sent to the
+user).
+</p>
+
+<h3>
+Answer-Checking Session
+</h3>
+
+<p>
+Checking the received answer to a given question is essentially the
+same as password-checking, and the session type <span style="color: #0000F0;">ss_answer_try</span>
+is for classifying such a session is given as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_answer <span class="keyword">=</span>
+<span class="staexp">chrcv</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">bool</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chnil</span></span>
+<span class="keyword">typedef</span>
+<span class="staexp">ss_answer_try <span class="keyword">=</span> <span class="staexp">ssrepeat_disj</span><span class="keyword">(</span><span class="staexp">ss_answer</span><span class="keyword">)</span></span>
+</pre>
+
+Like password-checking, the server may request the user to send another
+answer if the current given answer is incorrect.
+</p>
+
+
+<h3>
+Session for a Single Test
+</h3>
+
+<p>
+The session type for a single round of test is given as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_test_one <span class="keyword">=</span>
+<span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">chsnd</span><span class="keyword">(</span><span class="staexp">int</span><span class="keyword">)</span><span class="staexp">::</span><span class="staexp">ss_answer_try</span></span>
+</pre>
+
+Essentially, the server sends two integers (generated randomly) to the
+client and then enters the answer-checking session described above.
+</p>
+
+<h3>
+Session for Repeated Tests
+</h3>
+
+<p>
+The session type for repeated rounds of tests is given as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_test_loop <span class="keyword">=</span> <span class="staexp">ssrepeat_conj</span><span class="keyword">(</span><span class="staexp">ss_test_one</span><span class="keyword">)</span></span>
+</pre>
+
+Notice that the client decides whether a fresh round of test should
+take place.
+</p>
+
+<h3>
+Session for Multiplication Test
+</h3>
+
+<p>
+Finally, the session type <span style="color: #0000F0;">ss_multest</span> for the overall session
+is given as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_multest <span class="keyword">=</span>
+<span class="staexp">ssappend</span><span class="keyword">(</span><span class="staexp">ss_login</span><span class="keyword">,</span> <span class="staexp">ss_test_loop_opt</span><span class="keyword">)</span></span>
+</pre>
+
+where the session type <span style="color: #0000F0;">ss_test_loop_opt</span> (for a server-optional
+session) is given below:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span>
+<span class="staexp">ss_test_loop_opt <span class="keyword">=</span> <span class="staexp">ssoption_disj</span><span class="keyword">(</span><span class="staexp">ss_test_loop</span><span class="keyword">)</span></span>
+</pre>
+
+Essentially, the overall session starts with the login session
+described above; whether the session for repeated tests follows
+depends on whether the login session succeeds or fails.
+</p>
+
+<h3>
+Implementing State-carrying Sessions
+</h3>
+
+<p>
+A state-carrying session carries a state represented as a (possibly
+extensible) record with mutable fields, and the carried state is meant
+to be updated during the execution of the session. Let us see a concrete
+example given as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+f_ss_pass
+  <span class="keyword">(</span>state<span class="keyword">:</span> <span class="staexp">state</span><span class="keyword">)</span>
+<span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">ss_pass</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+f_ss_pass
+  <span class="keyword">(</span>state<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+pass <span class="keyword">=</span> ref<span class="staexp"><span class="keyword">{</span>string<span class="keyword">}</span></span><span class="keyword">(</span><span class="dynstr">""</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span>
+pass_check
+<span class="keyword">(</span>
+  x<span class="keyword">:</span> <span class="staexp">string</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">=</span> passed <span class="keyword">where</span>
+<span class="keyword">{</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span>
+passed <span class="keyword">=</span> 
+<span class="keyword">(</span>
+  <span class="keyword">if</span> x <span class="keyword">=</span> <span class="dynstr">"multest"</span> <span class="keyword">then</span> true <span class="keyword">else</span> false
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">bool</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="keyword">if</span> passed <span class="keyword">then</span> state<span class="dynexp"><span class="keyword">.</span>pass_result</span><span class="keyword">(</span>true<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">}</span></span> <span class="comment">(* pass-check *)</span>
+<span class="comment">//</span>
+<span class="keyword">typedef</span> <span class="staexp">str <span class="keyword">=</span> <span class="staexp">string</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> ss1 <span class="keyword">=</span>
+  chanpos1_session_recv&lt;<span class="staexp">str</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span>x<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="dynexp">pass[<span class="keyword">]</span></span> := x<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> ss2 <span class="keyword">=</span>
+  chanpos1_session_send&lt;<span class="staexp">bool</span><span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">lam</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> pass_check<span class="keyword">(</span><span class="dynexp">pass[<span class="keyword">]</span></span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  ss1 :: ss2 :: chanpos1_session_nil<span class="keyword">(</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [f_ss_pass]</span>
+</pre>
+
+Applying to a state (which is just a reference to a record), the
+function <span style="color: #F00000;">f_ss_pass</span> returns a state-carrying server-session
+classified by the session type <span style="color: #0000F0;">ss_pass</span>.  Note that
+<span style="color: #F00000;">pass_check</span> sets the field <span style="color: #F00000;">pass_result</span> of the
+carried state to <span style="color: #F00000;">true</span> if the received password passes
+checking.
+</p>
+
+<p>
+The following function <span style="color: #F00000;">f_ss_pass_try</span> builds on the top of <span style="color: #F00000;">f_ss_pass</span>:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span>
+f_ss_pass_try
+  <span class="keyword">(</span>state<span class="keyword">:</span> <span class="staexp">state</span><span class="keyword">)</span>
+<span class="keyword">:</span> <span class="staexp">chanpos_session</span><span class="keyword">(</span><span class="staexp">ss_pass_try</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+f_ss_pass_try
+  <span class="keyword">(</span>state<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> mtry <span class="keyword">=</span> <span class="dynexp">3</span></span>
+<span class="dynexp"><span class="keyword">val</span> ntry <span class="keyword">=</span> ref<span class="staexp"><span class="keyword">{</span>int<span class="keyword">}</span></span><span class="keyword">(</span><span class="dynexp">0</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span>
+  state<span class="dynexp"><span class="keyword">.</span>pass_result</span><span class="keyword">(</span>false<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">implement</span>
+chanpos1_repeat_disj$choose&lt;<span class="keyword">&gt;</span><span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> n0 <span class="keyword">=</span> <span class="dynexp">ntry[<span class="keyword">]</span></span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="dynexp">ntry[<span class="keyword">]</span></span> := n0 + <span class="dynexp">1</span></span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> state<span class="dynexp"><span class="keyword">.</span>pass_result</span><span class="keyword">(</span><span class="keyword">)</span>
+  <span class="keyword">then</span> <span class="dynexp">0</span> <span class="keyword">else</span> <span class="keyword">(</span><span class="keyword">if</span> <span class="keyword">(</span>n0 &gt;= mtry<span class="keyword">)</span> <span class="keyword">then</span> <span class="dynexp">0</span> <span class="keyword">else</span> <span class="dynexp">1</span><span class="keyword">)</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [chanpos1_repeat_disj$choose]</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  chanpos1_session_repeat_disj<span class="keyword">(</span>f_ss_pass<span class="keyword">(</span>state<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [f_ss_pass_try]</span>
+</pre>
+
+The session returned by a call to <span style="color: #F00000;">f_ss_pass_try</span> allows the
+client to try at most 3 times to supply a valid password. Note that
+the function template <span style="color: #F00000;">chanpos1_repeat_disj$choose</span> is
+called inside the session combinator
+<span style="color: #F00000;">chanpos1_session_repeat_disj</span> to determine whether the given
+session needs to be repeated.
+</p>
+
+
+<p>
+The entire code for this <a href="./multest.html">demo</a> can be found
+in four files of the following names:
+
+<pre>
+multest.html
+multest_prctl.sats // protocol
+multest_client.dats // client-session
+multest_server.dats // server-session
+</pre>
+
+The implementation of server-session in
+<u>multest_server.dats</u> is largely straightforward while the
+implementation of client-session in <u>multest_client.dats</u>
+is more involved due to the need for handling certain GUI issues.  For
+those interested in studying session types and session combinators
+in more depth, the following links should be helpful:
+
+<ul>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libatscc/libatscc2js/SATS/Worker">Interface</a>
+</li>
+<li>
+<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libatscc/libatscc2js/DATS/Worker">Implementation</a>
+</li>
+</ul>
+
+Naturally, one should expect that session combinators can be further lifted to higher forms of
+combinators (e.g., those for combining services together conveniently).
+
+</p>
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

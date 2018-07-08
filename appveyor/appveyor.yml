@@ -1,0 +1,63 @@
+clone_folder: C:\projects\ATS-Postiats
+
+image: Visual Studio 2015
+
+platform:
+    - x64
+
+environment:
+    global:
+        BUILD_FOLDER: C:\projects
+        CYG_MIRROR: http://cygwin.mirror.constant.com
+        ATS1PACK: ats-lang-anairiats-0.2.12
+        ATS1PACKTGZ: ats-lang-anairiats-0.2.12.tgz
+        ATS1PACKURL: http://ats-lang.github.io/ATS-Anairiats/ats-lang-anairiats-0.2.12.tgz
+        ATSHOME: "/cygdrive/c/projects/ats-lang-anairiats-0.2.12"
+        ATSHOMERELOC: ATS-0.2.12
+        PATSHOME: "/cygdrive/c/projects/ATS-Postiats"
+        PATSHOMERELOC: "/cygdrive/c/projects/ATS-Postiats-contrib"
+        PATSCONTRIBURL: https://github.com/githwxi/ATS-Postiats-contrib.git
+        
+    matrix:
+        -   CYG_ARCH: x86
+            CYG_ROOT: C:/cygwin
+            CYG_CACHE: C:/cygwin/var/cache/setup
+        -   CYG_ARCH: x86_64
+            CYG_ROOT: C:/cygwin64
+            CYG_CACHE: C:/cygwin64/var/cache/setup
+
+init:
+    - 'echo System architecture: %PLATFORM%'
+    - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
+    - 'echo Setup Cygwin dependencies'
+    - 'echo Build Folder: %BUILD_FOLDER%'
+    - 'set PATH=%CYG_ROOT%/bin;%PATH%'
+    - 'echo Checking the Cygwin setup'
+    - 'bash -lc "cygcheck -dc cygwin"'
+    - 'bash -lc "wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg"'
+    - 'bash -lc "install apt-cyg /bin"'
+    - 'bash -lc "apt-cyg install make autoconf automake gcc-core libtool intltool pkg-config git wget libgc-devel libgmp-devel"'
+    - 'echo Setup Cygwin dependencies is finished!'
+    
+
+install:
+    - 'echo Build ATS1(with GC)...'
+    - 'bash -lc "cd %BUILD_FOLDER% && curl -O %ATS1PACKURL% && tar -zxf %ATS1PACKTGZ%"'
+    - 'bash -lc "cd %BUILD_FOLDER%/%ATS1PACK%; exec 0</dev/null; ./configure && make all"'
+    - 'echo Build ATS1(with GC) is finished!'
+    - 'echo Download ATS2-contrib...'
+    - 'bash -lc "cd %BUILD_FOLDER% && git clone %PATSCONTRIBURL%"'
+    - 'echo Download ATS2-contrib is finished!'
+
+build_script:
+    - 'echo Cygwin root is: %CYG_ROOT%'
+    - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
+    - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
+    - 'echo Build ATS2...'
+    - 'bash -lc "cd %PATSHOME%; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+    - 'bash -lc "cd %PATSHOME%; exec 0</dev/null; make -f Makefile_devl src_depend"'
+    - 'bash -lc "cd %PATSHOME%; exec 0</dev/null; make -f Makefile_devl"'
+
+test: off

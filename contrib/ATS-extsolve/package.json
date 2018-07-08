@@ -1,0 +1,19 @@
+{
+"name":
+"ats-extsolve"
+,
+  "version": "1.0.2",
+  "description":
+  "For parsing ATS-constraints in JSON format",
+  "main": "N/A",
+  "scripts": {},
+  "keywords": [
+    "ATS",
+    "ATS-extsolve"
+  ],
+  "author":
+  "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me":
+  "The package is stored at ${PATSHOME}/contrib/ATS-extsolve/."
+}

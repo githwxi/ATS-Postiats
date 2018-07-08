@@ -55,174 +55,205 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
-
-#define ATS_PACKNAME "ATSLIB.libats.qlist"
-
+//
+#define
+ATS_PACKNAME "ATSLIB.libats.qlist"
+//
 (* ****** ****** *)
 //
 absvtype
-qlist_vtype (a:vt@ype+, n:int) = ptr
+qlist_vtype(a:vt@ype+, n:int) = ptr
 //
 vtypedef
-qlist (a:vt0p, n:int) = qlist_vtype (a, n)
+qlist(a:vt0p, n:int) = qlist_vtype(a, n)
 //
 vtypedef
-qlist (a:vt0p) = [n:int] qlist_vtype (a, n)
+qlist(a:vt0p) = [n:int] qlist_vtype(a, n)
 //
 vtypedef
-qlist0 (a:vt0p) = [n:int | n >= 0] qlist (a, n)
+qlist0(a:vt0p) = [n:int | n >= 0] qlist(a, n)
 //
 (* ****** ****** *)
 
 praxi
 lemma_qlist_param
-  {a:vt0p}{n:int} (q: !qlist (INV(a), n)): [n>=0] void
+  {a:vt0p}{n:int}
+  (q0: !qlist(INV(a), n)): [n >= 0] void
 // end of [lemma_qlist_param]
 
 (* ****** ****** *)
-
+//
 fun{}
-qlist_make_nil {a:vt0p} (): qlist (a, 0)
+qlist_make_nil{a:vt0p}():<!wrt> qlist(a, 0)
+//
 fun{}
-qlist_free_nil {a:vt0p} (q: qlist (a, 0)):<!wrt> void
-
+qlist_free_nil{a:vt0p}(qlist(a, 0)):<!wrt> void
+//
 (* ****** ****** *)
-
+//
+fun
+{a:vt0p}
+qlist_length
+  {n:int}(q0: !qlist(INV(a), n)):<> int(n)
+//
+(* ****** ****** *)
+//
 fun{a:vt0p}
 qlist_is_nil
-  {n:int} (q: !qlist (a, n)):<> bool (n == 0)
+  {n:int}(q0: !qlist(a, n)):<> bool(n == 0)
 fun{a:vt0p}
 qlist_isnot_nil
-  {n:int} (q: !qlist (INV(a), n)):<> bool (n > 0)
-//
-overload iseqz with qlist_is_nil
-overload isneqz with qlist_isnot_nil
+  {n:int}(q0: !qlist(INV(a), n)):<> bool(n > 0)
 //
 (* ****** ****** *)
-
-fun{a:vt0p}
-qlist_length {n:int} (q: !qlist (INV(a), n)):<> int (n)
 //
-overload length with qlist_length
-//
-(* ****** ****** *)
-
 fun{}
-fprint_qlist$sep (out: FILEref): void
+fprint_qlist$sep
+  (out: FILEref): void
+//
 fun{a:vt0p}
-fprint_qlist (out: FILEref, q: !qlist (INV(a))): void
+fprint_qlist
+(
+  out: FILEref, que: !qlist(INV(a))
+) : void // end of [fprint_qlist]
 fun{a:vt0p}
-fprint_qlist_sep (out: FILEref, q: !qlist (INV(a)), sep: string): void
-overload fprint with fprint_qlist
-overload fprint with fprint_qlist_sep
-
+fprint_qlist_sep
+(
+  out: FILEref, que: !qlist(INV(a)), sep: string
+) : void // end of [fprint_qlist_sep]
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 qlist_insert{n:int}
 (
-  q: !qlist (INV(a), n) >> qlist (a, n+1), x: a
+  que:
+  !qlist(INV(a), n) >> qlist(a, n+1)
+, elt: a
 ) :<!wrt> void // end of [qlist_insert]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 qlist_takeout{n:pos}
-  (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> (a)
+(
+  q0: !qlist(INV(a), n) >> qlist(a, n-1)
+) :<!wrt> (a) // end-of-function
+//
 fun{a:vt0p}
-qlist_takeout_opt (q: !qlist (INV(a)) >> _):<!wrt> Option_vt(a)
-
+qlist_takeout_opt
+  (q0: !qlist(INV(a)) >> _):<!wrt> Option_vt(a)
+//
 (* ****** ****** *)
-
+//
 (*
 ** HX: this operation is O(1)
 *)
-fun{
-} qlist_takeout_list
-  {a:vt0p}{n:int}
-  (q: !qlist (INV(a), n) >> qlist (a, 0)):<!wrt> list_vt (a, n)
+//
+fun{}
+qlist_takeout_list{a:vt0p}{n:int}
+  (q0: !qlist(INV(a), n) >> qlist(a, 0)):<!wrt> list_vt(a, n)
 // end of [qlist_takeout_list]
-
+//
 (* ****** ****** *)
 //
-fun{
-a:vt0p
-} qlist_foreach (q: !qlist (INV(a))): void
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach_env (q: !qlist (INV(a)), env: &(env) >> _): void
+fun
+{a:vt0p}
+qlist_foreach(q0: !qlist(INV(a))): void
+fun
+{a:vt0p}
+{env:vt0p}
+qlist_foreach_env
+  (q0: !qlist(INV(a)), env: &(env) >> _): void
 //
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach$cont (x: &a, env: &env): bool
-fun{
-a:vt0p}{env:vt0p
-} qlist_foreach$fwork (x: &a >> _, env: &(env) >> _): void
+fun
+{a:vt0p}
+{env:vt0p}
+qlist_foreach$cont(x0: &a, env: &env): bool
+fun
+{a:vt0p}
+{env:vt0p}
+qlist_foreach$fwork(x0: &a >> _, env: &(env) >> _): void
 //
 (* ****** ****** *)
 //
 abst@ype
-qstruct_tsize = $extype"atslib_qlist_struct"
+qstruct_tsize =
+$extype"atslib_qlist_struct"
 absvt@ype
-qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsize
+qstruct_vt0ype
+  (a:vt@ype+, n:int) = qstruct_tsize
 //
-stadef qstruct = qstruct_vt0ype
-stadef qstruct = qstruct_tsize // HX: order significant
+stadef
+qstruct = qstruct_vt0ype
+//
+stadef
+qstruct = qstruct_tsize // HX: order significant
 //
 viewtypedef
-qstruct (a:vt0p) = [n:int] qstruct (a, n)
+qstruct(a:vt0p) = [n:int] qstruct(a, n)
 viewtypedef
-qstruct0 (a:vt0p) = [n:nat] qstruct (a, n)
+qstruct0(a:vt0p) = [n:nat] qstruct(a, n)
 //
 (* ****** ****** *)
-
-fun{
-} qstruct_initize
-  {a:vt0p} (q: &qstruct? >> qstruct (a, 0)):<!wrt> void
+//
+fun{}
+qstruct_initize
+  {a:vt0p}
+  (q0: &qstruct? >> qstruct(a, 0)):<!wrt> void
 // end of [qstruct_initize]
-
+//
 praxi
 qstruct_uninitize
-  {a:vt0p} (q: &qstruct (a, 0) >> qstruct?) :<prf> void
+  {a:vt0p}
+  ( q0: &qstruct(a, 0) >> qstruct? ):<prf> void
 // end of [qstruct_uninitize]
-
+//
 (* ****** ****** *)
 
 praxi
 qstruct_objfize
-  {a:vt0p}{l:addr}{n:int}
+  {a:vt0p}
+  {l:addr}{n:int}
 (
-  pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> qlist (a, n)
-) :<prf> mfree_ngc_v (l) // endfun
+  pf:
+  qstruct
+  (INV(a), n) @ l | p0: !ptrlin(l) >> qlist(a, n)
+) :<prf> mfree_ngc_v(l) // end of [qstruct_objfize]
 
 praxi
 qstruct_unobjfize
-  {a:vt0p}{l:addr}{n:int}
+  {a:vt0p}
+  {l:addr}{n:int}
 (
-  pf: mfree_ngc_v (l) | p: ptr l, q: !qlist (INV(a), n) >> ptrlin l
-) :<prf> qstruct (a, n) @ l // endfun
+  pf: mfree_ngc_v(l) | p0: ptr(l), q0: !qlist(INV(a), n) >> ptrlin(l)
+) :<prf> qstruct(a, n) @ l // end of [qstruct_unobjfize]
 
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
 qstruct_insert{n:int}
-  (q: &qstruct (INV(a), n) >> qstruct (a, n+1), x: a):<!wrt> void
-// end of [qstruct_insert]
-
+(
+  q0: &qstruct(INV(a), n) >> qstruct(a, n+1), x0: a
+) :<!wrt> void // end of [qstruct_insert]
+//
 (* ****** ****** *)
 //
 fun{a:vt0p}
 qstruct_takeout{n:pos}
-  (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
+  (q0: &qstruct(INV(a), n) >> qstruct(a, n-1)):<!wrt> (a)
 //
 (* ****** ****** *)
-
+//
+(*
+** HX: this operation is O(1)
+*)
+//
 fun{}
-qstruct_takeout_list
-  {a:vt0p}{n:int}
-  (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
+qstruct_takeout_list{a:vt0p}{n:int}
+  (q0: &qstruct(INV(a), n) >> qstruct(a, 0)):<!wrt> list_vt(a, n)
 // end of [qstruct_takeout_list]
-
+//
 (* ****** ****** *)
 //
 // HX: ngc-functions do not make use of malloc/free
@@ -230,52 +261,60 @@ qstruct_takeout_list
 (* ****** ****** *)
 
 absvtype
-qlist_node_vtype (a:vt@ype+, l:addr) = ptr
+qlist_node_vtype(a:vt@ype+, l:addr) = ptr
 
 (* ****** ****** *)
-
-stadef mynode = qlist_node_vtype
-vtypedef mynode (a) = [l:addr] mynode (a, l)
-vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
-vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
-
+//
+stadef
+mynode = qlist_node_vtype
+//
+vtypedef
+mynode(a) = [l:addr] mynode(a, l)
+vtypedef
+mynode0(a) = [l:addr | l >= null] mynode(a, l)
+vtypedef
+mynode1(a) = [l:addr | l >  null] mynode(a, l)
+//
 (* ****** ****** *)
 
 castfn
 mynode2ptr
-  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
+  {a:vt0p}
+  {l:addr}
+  (nx: !mynode(INV(a), l)):<> ptr(l)
 // end of [mynode2ptr]
 
 (* ****** ****** *)
 //
 fun{}
-mynode_null {a:vt0p} (): mynode (a, null)
+mynode_null{a:vt0p}(): mynode(a, null)
 //
 praxi
-mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
+mynode_free_null{a:vt0p}(nx: mynode(a, null)): void
 //
 (* ****** ****** *)
-
+//
 fun{a:vt0p}
-mynode_make_elt (x: a):<!wrt> mynode1 (a)
-
+mynode_make_elt(x: a):<!wrt> mynode1(a)
+//
 fun{a:vt0p}
-mynode_getref_elt (nx: !mynode1 (INV(a))):<> cPtr1 (a)
-
+mynode_getref_elt(nx: !mynode1(INV(a))):<> cPtr1(a)
+//
 fun{a:vt0p}
 mynode_free_elt
-  (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+  (nx: mynode1(INV(a)), res: &(a?) >> a):<!wrt> void
 // end of [mynode_free_elt]
-
+//
 fun{a:vt0p}
-mynode_getfree_elt (nx: mynode1 (INV(a))):<!wrt> a
-
+mynode_getfree_elt(node: mynode1(INV(a))):<!wrt> (a)
+//
 (* ****** ****** *)
 
 fun{a:vt0p}
 qlist_insert_ngc (*last*)
-  {n:int} (
-  q: !qlist (INV(a), n) >> qlist (a, n+1), nx: mynode1 (a)
+  {n:int}
+(
+  q0: !qlist(INV(a), n) >> qlist(a, n+1), nx: mynode1(a)
 ) :<!wrt> void // end of [qlist_insert_ngc]
 
 (* ****** ****** *)
@@ -283,9 +322,23 @@ qlist_insert_ngc (*last*)
 fun{a:vt0p}
 qlist_takeout_ngc (*first*)
   {n:int | n > 0}
-  (q: !qlist (INV(a), n) >> qlist (a, n-1)):<!wrt> mynode1 (a)
+  (q0: !qlist(INV(a), n) >> qlist(a, n-1)):<!wrt> mynode1(a)
 // end of [qlist_takeout_ngc]
 
+(* ****** ****** *)
+//
+// overloading for certain symbols
+//
+(* ****** ****** *)
+//
+overload iseqz with qlist_is_nil
+overload isneqz with qlist_isnot_nil
+//
+overload length with qlist_length
+//
+overload fprint with fprint_qlist
+overload fprint with fprint_qlist_sep
+//
 (* ****** ****** *)
 
 (* end of [qlist.sats] *)

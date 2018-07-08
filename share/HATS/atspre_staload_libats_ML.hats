@@ -10,68 +10,186 @@
 //
 (* ****** ****** *)
 
-#ifndef SHARE_ATSPRE_STALOAD_LIBATS_ML
-#define SHARE_ATSPRE_STALOAD_LIBATS_ML 1
-
-(* ****** ****** *)
-
+#ifndef
+SHARE_ATSPRE_STALOAD_LIBATS_ML
 #define
-PATSLIBATS_targetloc "$PATSHOME/libats"
-
-(* ****** ****** *)
-
-staload "{$PATSLIBATS}/ML/SATS/basis.sats"
+SHARE_ATSPRE_STALOAD_LIBATS_ML 1
 
 (* ****** ****** *)
 //
-staload "{$PATSLIBATS}/ML/SATS/list0.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/option0.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/array0.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/matrix0.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/string.sats"
-staload "{$PATSLIBATS}/ML/SATS/strarr.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/filebas.sats"
-staload "{$PATSLIBATS}/ML/SATS/intrange.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/stdlib.sats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/list0.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/option0.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/array0.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/matrix0.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/string.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/strarr.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/filebas.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/intrange.dats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/stdlib.dats"
+#define
+LIBATS_targetloc "$PATSHOME/libats"
+#define
+LIBATSML_targetloc "$PATSHOME/libats/ML"
 //
 (* ****** ****** *)
 //
-staload "{$PATSLIBATS}/ML/SATS/funmap.sats"
-//
-staload "{$PATSLIBATS}/ML/SATS/funset.sats"
-//
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funmap.dats"
-staload _(*anon*) = "{$PATSLIBATS}/ML/DATS/funset.dats"
+#staload
+"{$LIBATSML}/SATS/basis.sats"
 //
 (* ****** ****** *)
 //
-staload "{$PATSLIBATS}/ML/SATS/hashtblref.sats"
+// HX-2017-12-30:
+// Please do not move
+// the following lines:
 //
-staload _ = "{$PATSLIBATS}/DATS/hashfun.dats"
-staload _ = "{$PATSLIBATS}/DATS/linmap_list.dats"
-staload _ = "{$PATSLIBATS}/DATS/hashtbl_chain.dats"
-staload _ = "{$PATSLIBATS}/ML/DATS/hashtblref.dats"
+#staload
+"{$LIBATSML}/SATS/atspre.sats"
+#staload _ =
+"{$LIBATSML}/DATS/atspre.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/string.sats"
+#staload
+"{$LIBATSML}/SATS/strarr.sats"
+#staload _ =
+"{$LIBATSML}/DATS/string.dats"
+#staload _ =
+"{$LIBATSML}/DATS/strarr.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/list0.sats"
+#staload _ =
+"{$LIBATSML}/DATS/list0.dats"
+//
+#staload
+"{$LIBATSML}/SATS/list0_vt.sats"
+#staload _ =
+"{$LIBATSML}/DATS/list0_vt.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/option0.sats"
+#staload _ =
+"{$LIBATSML}/DATS/option0.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/array0.sats"
+#staload
+"{$LIBATSML}/SATS/matrix0.sats"
+#staload _ =
+"{$LIBATSML}/DATS/array0.dats"
+#staload _ =
+"{$LIBATSML}/DATS/matrix0.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/stream.sats"
+#staload _ =
+"{$LIBATSML}/DATS/stream.dats"
+//
+#staload
+"{$LIBATSML}/SATS/stream_vt.sats"
+#staload _ =
+"{$LIBATSML}/DATS/stream_vt.dats"
+//
+(* ****** ****** *)
+
+staload
+"{$LIBATSML}/SATS/argvec.sats"
+
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/gvalue.sats"
+#staload _ =
+"{$LIBATSML}/DATS/gvalue.dats"
+//
+#staload
+"{$LIBATSML}/SATS/filebas.sats"
+#staload _ =
+"{$LIBATSML}/DATS/filebas.dats"
+#staload _ =
+"{$LIBATSML}/DATS/filebas_dirent.dats"
+//
+#staload
+"{$LIBATSML}/SATS/intrange.sats"
+#staload _ =
+"{$LIBATSML}/DATS/intrange.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/stdlib.sats"
+#staload _ =
+"{$LIBATSML}/DATS/stdlib.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/funmap.sats"
+#staload
+"{$LIBATSML}/SATS/funset.sats"
+//
+#staload _ =
+"{$LIBATSML}/DATS/funmap.dats"
+#staload _ =
+"{$LIBATSML}/DATS/funset.dats"
+//
+#staload _ =
+"{$LIBATS}/DATS/funmap_avltree.dats"
+#staload _ =
+"{$LIBATS}/DATS/funset_avltree.dats"
+//
+(* ****** ****** *)
+//
+#staload _ =
+"{$LIBATS}/DATS/dynarray.dats"
+//
+#staload
+"{$LIBATSML}/SATS/dynarray.sats"
+#staload _ =
+"{$LIBATSML}/DATS/dynarray.dats"
+//
+(* ****** ****** *)
+//
+#staload
+"{$LIBATSML}/SATS/qlistref.sats"
+#staload
+"{$LIBATSML}/SATS/slistref.sats"
+#staload _ =
+"{$LIBATSML}/DATS/qlistref.dats"
+#staload _ =
+"{$LIBATSML}/DATS/slistref.dats"
+//
+(* ****** ****** *)
+//
+#staload _ =
+"{$LIBATS}/DATS/qlist.dats"
+#staload _ =
+"{$LIBATS}/DATS/hashfun.dats"
+#staload _ =
+"{$LIBATS}/DATS/linmap_list.dats"
+#staload _ =
+"{$LIBATS}/DATS/hashtbl_chain.dats"
+//
+#staload
+"{$LIBATSML}/SATS/hashtblref.sats"
+#staload _ =
+"{$LIBATSML}/DATS/hashtblref.dats"
+//
+(* ****** ****** *)
+//
+(*
+//
+// HX-2017-10-30:
+// See ML/BOXED/staloadall.hats
+//
+#staload
+"{$LIBATSML}/BOXED/funmap.dats"
+#staload
+"{$LIBATSML}/BOXED/funarray.dats"
+#staload
+"{$LIBATSML}/BOXED/hashtblref.dats"
+*)
 //
 (* ****** ****** *)
 

@@ -43,10 +43,10 @@
 *)
 
 (* ****** ****** *)
-
-#include "share/atspre_define.hats"
-#include "share/atspre_staload.hats"
-
+//
+#include
+"share/atspre_staload.hats"
+//
 (* ****** ****** *)
 
 staload "libats/ML/SATS/basis.sats"
@@ -169,16 +169,17 @@ list0_zipwith
 ) // end of [list0_zipwith]
 
 (* ****** ****** *)
-
-staload "libc/SATS/stdlib.sats"
-
+//
+staload
+"libats/libc/SATS/stdlib.sats"
+//
 (* ****** ****** *)
 //
 #define
 ATSCNTRB_sourceloc
 "http://www.ats-lang.org/LIBRARY/contrib"
 #define
-ATSCNTRB_targetloc "../.INT2PROGINATS-atscntrb"
+ATSCNTRB_targetloc "./../.INT2PROGINATS-atscntrb"
 //
 staload RG =
 "{$ATSCNTRB}/libats-hwxi/testing/SATS/randgen.sats"

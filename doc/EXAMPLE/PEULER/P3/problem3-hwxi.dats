@@ -4,25 +4,34 @@
 //
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Time: February, 2010
+// Author: Hongwei Xi
+// Start Time: February, 2010
+// Authoremail: hwxiATcsDOTbuDOTedu
 //
 (* ****** ****** *)
 //
 // HX-2013-06: ported to ATS2
 //
 (* ****** ****** *)
-
-#include "share/atspre_define.hats"
-
+//
+#staload
+_(*anon*) =
+"prelude/DATS/integer.dats"
+#staload
+_(*anon*) =
+"prelude/DATS/pointer.dats"
+//
 (* ****** ****** *)
 //
-staload "{$LIBATSHWXI}/intinf/SATS/intinf_t.sats"
+#define
+HX_INTINF_targetloc
+"$PATSHOME/contrib\
+/atscntrb/atscntrb-hx-intinf"
 //
-staload _(*anon*) = "prelude/DATS/integer.dats"
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-staload _(*anon*) = "{$LIBATSHWXI}/intinf/DATS/intinf_t.dats"
-staload _(*anon*) = "{$LIBATSHWXI}/intinf/DATS/intinf_vt.dats"
+#staload "{$HX_INTINF}/SATS/intinf_t.sats"
+//
+#staload _(*anon*) = "{$HX_INTINF}/DATS/intinf_t.dats"
+#staload _(*anon*) = "{$HX_INTINF}/DATS/intinf_vt.dats"
 //
 (* ****** ****** *)
 
@@ -140,30 +149,36 @@ prfun P3_ft2 {n:nat}
 ) : P3 (n, max(p1, p2)) // end of [P3_ft1]
 
 (* ****** ****** *)
-
+//
 extern
-fun mydiv
-  {n:nat}{p:pos}
+fun
+mydiv
+{n:nat}{p:pos}
 (
   n: intinf n, p: int p
 ) : [q:int]
 (
   DIV (n, p, q) | intinf q
-) // end of [mydiv]
-
-implement
-mydiv{n}{p}
-  (n, p) = let
+) (* end of [mydiv] *)
 //
-val [q:int] q = div_intinf_int (n, p)
+implement
+mydiv
+{n}{p}
+(
+  n, p
+) = (pf | q) where
+{
+//
+val q = div_intinf_int (n, p)
+//
 prval pf =
-__assert () where {
-  extern praxi __assert (): DIV (n, p, q)
-} // end of [prval]
-in
-  (pf | q)
-end // end of [mydiv]
-
+__assert () where
+{
+  extern praxi __assert (): DIV(n, p, n/p)
+} (* end of [prval] *)
+//
+} (* end of [mydiv] *)
+//
 (* ****** ****** *)
 
 fun P3main

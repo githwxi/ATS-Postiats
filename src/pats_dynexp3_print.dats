@@ -49,9 +49,9 @@ staload FIL = "./pats_filename.sats"
 staload SYM = "./pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
 staload SYN = "./pats_syntax.sats"
-macdef fprint_cstsp = $SYN.fprint_cstsp
 macdef fprint_l0ab = $SYN.fprint_l0ab
 macdef fprint_i0de = $SYN.fprint_i0de
+macdef fprint_cstsp = $SYN.fprint_cstsp
 macdef fprint_d0ynq = $SYN.fprint_d0ynq
 
 (* ****** ****** *)
@@ -239,8 +239,22 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Ecstsp (x) => {
-    val () = $SYN.fprint_cstsp (out, x)
+| D3Ecstsp (csp) => {
+    val () = prstr "D3Ecstsp("
+    val () = $SYN.fprint_cstsp (out, csp)
+    val () = prstr ")"
+  }
+//
+| D3Etyrep (s2e) => {
+    val () = prstr "D3Etyrep("
+    val () = fprint_s2exp (out, s2e) // $tyrep(...)
+    val () = prstr ")"
+  }
+//
+| D3Eliteral (d3e) => {
+    val () = prstr "D3Eliteral("
+    val () = fprint_d3exp (out, d3e) // int, float, string
+    val () = prstr ")"
   }
 //
 | D3Etop () => prstr "D3Etop()"
@@ -372,7 +386,13 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Elst (lin, s2e, d3es) => {
+| D3Eifcase _ => {
+    val () = prstr "D3Eifcase(...)"
+  } (* [D3Eifcase] *)
+//
+| D3Elst (
+    lin, s2e, d3es
+  ) => {
     val () = prstr "D3Elst("
     val () = fprint_int (out, lin)
     val () = prstr "; "
@@ -499,15 +519,15 @@ case+ d3e0.d3exp_node of
     val () = prstr "D3Earrinit("
     val () = fprint_s2exp (out, s2e_elt)
     val () = prstr "; "
-    val () = fprint_d3exp (out, d3e_asz)
+    val () = fprint_d3exp(out, d3e_asz)
     val () = prstr "; "
-    val () = fprint_d3explst (out, d3es_elt)
+    val () = fprint_d3explst(out, d3es_elt)
     val () = prstr ")"
   } // end of [D3Earrinit]
 //
-| D3Eraise (d3e) => {
+| D3Eraise(d3e) => {
     val () = prstr "D3Eraise("
-    val () = fprint_d3exp (out, d3e)
+    val () = fprint_d3exp(out, d3e)
     val () = prstr ")"
   }
 | D3Eeffmask
@@ -517,6 +537,12 @@ case+ d3e0.d3exp_node of
     val () = prstr "; "
     val () = fprint_d3exp (out, d3e)
     val () = prstr ")"
+  }
+//
+| D3Evararg(d3es) => {
+    val () = prstr "D3Evararg("
+    val () = fprint_d3explst(out, d3es)
+    val ((*closing*)) = prstr ")"
   }
 //
 | D3Evcopyenv
@@ -532,6 +558,15 @@ case+ d3e0.d3exp_node of
   {
     val () = prstr "D3Etempenver("
     val () = fprint_d2varlst (out, d2vs)
+    val () = prstr ")"
+  }
+//
+| D3Eann_type
+    (d3e, ann) => {
+    val () = prstr "D3Eann_type("
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr " : "
+    val () = fprint_s2exp (out, ann)
     val () = prstr ")"
   }
 //
@@ -617,12 +652,10 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Eann_type
-    (d3e, ann) => {
-    val () = prstr "D3Eann_type("
-    val () = fprint_d3exp (out, d3e)
-    val () = prstr " : "
-    val () = fprint_s2exp (out, ann)
+| D3Esolverify
+    (s2e_prop) => {
+    val () = prstr "D3Esolverify("
+    val () = fprint_s2exp (out, s2e_prop)
     val () = prstr ")"
   }
 //
@@ -668,6 +701,7 @@ case+ d3c0.d3ecl_node of
 // HX: needed for compiling abstract types
 //
 | D3Csaspdec _ => prstr "D3Csaspdec(...)"
+| D3Creassume _ => prstr "D3Creassume(...)"
 //
 | D3Cextype _ => prstr "D3Cextype(...)"
 | D3Cextvar _ => prstr "D3Cextvar(...)"

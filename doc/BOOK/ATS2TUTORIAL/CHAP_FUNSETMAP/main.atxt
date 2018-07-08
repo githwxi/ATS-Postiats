@@ -1,0 +1,402 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+#include "./../MYTEXT/ats2tutorial.dats"
+//
+%}\
+#comment("\n\
+The file is automatically generated
+by [atsdoc] from CHAP_FUNSETMAP/main.atxt.\n\
+")
+#comment("\n\
+Time of Generation: #timestamp()\
+")
+<chapter id="funsetmap">
+#title("Functional Sets and Maps")
+
+#para("\
+
+Both (finite) sets and (finite) maps are commonly used data structures.
+Functional sets and maps are immutable after their construction.  Insertion
+into or removal from a functional set/map results in the construction of a
+new set/map while the original is kept intact. Usually the newly
+constructed set/map and the original one share a lot of underlying
+representation. Note that a functional set/map cannot be safely freed
+explicitly and the memory for representing it can only be reclaimed through
+garbage collection (GC).
+
+")
+
+<sect1
+ id="funsetmap_set">
+#title("Functional Sets")
+
+#para("\
+
+Suppose that a set is needed for collecting values of type
+#stacode("elt_t"). The following code essentially sets up an interface for
+creating and operating on such a set based on a balanced-tree
+implementation in ATSLIB/libats:
+
+#dats2xhtml('\
+local
+//
+typedef elt = elt_t
+//
+staload
+FS = "libats/ML/SATS/funset.sats"
+implement
+$FS.compare_elt_elt<elt>(x, y) = compare(x, y)
+//
+in (* in-of-local *)
+
+\#include "libats/ML/HATS/myfunset.hats"
+
+end // end of [local]
+')
+
+Please find #myatscodelink("libats/ML/HATS/myfunset.hats", "on-line") the
+HATS file mentioned in the code, which is just a convenience wrapper made
+to simplify programming with functional sets. Note that it is assumed here
+that there is a comparison function on values of the type #stacode("elt_t")
+that overloads the symbol #dyncode("compare"). If this is not the case, one
+needs to implement such a function.
+
+")
+
+#para("\
+
+Assume that #stacode("elt_t") is #stacode("int"). The following line
+of code creates a functional set (of integers) containing no elements:
+
+#dats2xhtml('\
+val myset = myfunset_nil()
+')
+
+The function for inserting an element into a given set is assigned the
+following type:
+
+#sats2xhtml('\
+//
+fun myfunset_insert(xs: &myset >> _, x0: elt): bool
+//
+')
+
+The dot-symbol #dyncode(".insert") is overloaded with the function
+#dyncode("myfunset_insert"). Note that the first argument of
+#dyncode("myfunset_insert") is call-by-reference. If the given element is
+inserted into the given set, then the newly created set is stored into the
+call-by-reference argument and #dyncode("false") is returned (to indicate
+no error).  Otherwise, #dyncode("true") is returned (to indicate a
+failure). The following few lines of code shows how insertion can be
+operated on a functional set:
+
+#dats2xhtml('\
+//
+var myset = myset
+//
+val-false = myset.insert(0) // inserted
+val-(true) = myset.insert(0) // not actually inserted
+val-false = myset.insert(1) // inserted
+val-(true) = myset.insert(1) // not actually inserted
+//
+')
+
+The first line in the above code may seem puzzling:
+Its sole purpose is to create a left-value to be passed as the first
+argument to #dyncode("myfunset_insert").
+
+During the course of debugging, one may want to print out the values
+contained in a given set:
+
+#dats2xhtml('\
+//
+val () = fprintln! (stdout_ref, "myset = ", myset)
+//
+')
+
+where the symbol #dyncode("fprint") is overloaded with
+#dyncode("fprint_myset"). The function for removing an element from a
+given set is assigned the following type:
+
+#sats2xhtml('\
+//
+fun myfunset_remove(xs: &myset >> _, x0: elt): bool
+//
+')
+
+The dot-symbol #dyncode(".remove") is overloaded with the function
+#dyncode("myfunset_remove"). Note that the first argument of
+#dyncode("myfunset_remove") is call-by-reference. If the given element is
+removed from the given set, then the newly created set is stored into the
+call-by-reference argument and #dyncode("true") is returned.  Otherwise,
+#dyncode("false") is returned.  The following few lines of code shows how
+removal can be operated on a functional set:
+
+#dats2xhtml('\
+val-true = myset.remove(0) // removed
+val-false = myset.remove(0) // not actually removed
+val-true = myset.remove(1) // removed
+val-false = myset.remove(1) // not actually removed
+')
+
+")
+
+#para('\
+
+The following function is available for generating a module
+(that is, a record) containing various operations on myset-values:
+
+#sats2xhtml('\
+//
+fun myfunset_make_module((*void*)): myset_modtype
+//
+')
+
+For instance, a module of the name #dyncode("MYSET") is
+created as follows:
+
+#dats2xhtml('\
+val MYSET = myfunset_make_module()
+')
+
+With #dyncode("MYSET"), we can create a (functional) set
+and then perform certain insertion and removal operations:
+
+#dats2xhtml('\
+//
+var myset = (MYSET.nil)()
+//
+val-false = (MYSET.insert)(myset, 0) // inserted
+val-false = (MYSET.insert)(myset, 1) // inserted
+//
+val ((*void*)) = assertloc((MYSET.size)(myset) = 2)
+//
+val-(true) = (MYSET.remove)(myset, 0) // removed
+//
+val ((*void*)) = assertloc((MYSET.size)(myset) = 1)
+//
+val-(true) = (MYSET.remove)(myset, 1) // removed
+//
+val ((*void*)) = assertloc((MYSET.size)(myset) = 0)
+//
+')
+
+')#comment("para")
+
+#para('\
+
+Various common set operations can be found in
+#myatscodelink("libats/ML/HATS/myfunset.hats",
+"libats/ML/HATS/myfunset.hats").  By following the types assigned to these
+operations, one should have no difficulty in figuring out how they are
+supposed to be called.  Please find the entirety of the code used in this
+section #mycodelink("chap_funsetmap_set.dats", "on-line").
+
+')
+
+</sect1><!--"funsetmap_set"-->
+
+<sect1
+ id="funsetmap_map">
+#title("Functional Maps")
+
+#para("\
+
+Suppose that a map is needed for mapping keys of type
+#stacode("key_t") to items of type #stacode("itm_t"). The following code
+essentially sets up an interface for creating and operating on such a map
+based on a balanced-tree implementation in ATSLIB/libats:
+
+#dats2xhtml('\
+local
+//
+typedef
+key = key_t and itm = itm_t
+//
+staload
+FM = "libats/ML/SATS/funmap.sats"
+implement
+$FM.compare_key_key<key>(x, y) = compare(x, y)
+//
+in (* in-of-local *)
+
+\#include "libats/ML/HATS/myfunmap.hats"
+
+end // end of [local]
+')
+
+Please find #myatscodelink("libats/ML/HATS/myfunmap.hats", "on-line") the
+HATS file mentioned in the code, which is just a convenience wrapper made
+to simplify programming with functional maps. Note that it is assumed here
+that there is a comparison function on values of the type #stacode("key_t")
+that overloads the symbol #dyncode("compare"). If this is not the case, one
+needs to implement such a function.
+
+")
+
+#para("\
+
+Assume that #stacode("key_t") is #stacode("string") and #stacode("itm_t")
+is #stacode("int"). The following line of code creates an empty functional map:
+
+#dats2xhtml('\
+val mymap = myfunmap_nil()
+')
+
+The following few lines insert some key/item pairs into
+#dyncode("mymap"):
+
+#dats2xhtml('\
+//
+var mymap = mymap
+//
+val-~None_vt() = mymap.insert("a", 0)
+val-~Some_vt(0) = mymap.insert("a", 1)
+//
+val-~None_vt() = mymap.insert("b", 1)
+val-~Some_vt(1) = mymap.insert("b", 2)
+//
+val-~None_vt() = mymap.insert("c", 2)
+val-~Some_vt(2) = mymap.insert("c", 3)
+//
+')
+
+The dot-symbol #dyncode(".insert") is overloaded with a function of the
+name #dyncode("myfunmap_insert").  The first line in the above code may
+seem puzzling: Its sole purpose is to create a left-value to be passed as
+the first argument to #dyncode("myfunmap_insert").  Given a key and an
+item, #dyncode("mymap.insert") inserts the key/item pair into
+#dyncode("mymap").  If the key is in the domain of the map represented by
+#dyncode("mymap") before insertion, then the original item associated with
+the key is returned. Otherwise, no item is returned. As can be expected,
+the size of #dyncode("mymap") is 3 at this point:
+
+#dats2xhtml('\
+val () = assertloc (mymap.size() = 3)
+')
+
+The dot-symbol #dyncode(".size") is overloaded with a function of the name
+#dyncode("myfunmap_size"), which returns the number of key/item pairs
+stored in a given map.  During the course of debugging, one may want to
+print out the key/item pairs in a given map:
+
+#dats2xhtml('\
+//
+val () = fprintln! (stdout_ref, "mymap = ", mymap)
+//
+')
+
+where the symbol #dyncode("fprint") is overloaded with
+#dyncode("fprint_mymap"). The next two lines of code show how search with a
+given key operates on a map:
+
+#dats2xhtml('\
+val-~None_vt() = mymap.search("")
+val-~Some_vt(1) = mymap.search("a")
+')
+
+The dot-symbol #dyncode(".search") is overloaded with a function of the
+name #dyncode("myfunmap_search"), which returns the item associated with a
+given key if it is found. The next few lines of code remove some key/item
+pairs from #dyncode("mymap"):
+
+#dats2xhtml('\
+//
+val-true = mymap.remove("a")
+val-false = mymap.remove("a")
+//
+val-~Some_vt(2) = mymap.takeout("b")
+val-~Some_vt(3) = mymap.takeout("c")
+//
+')
+
+The dot-symbol #dyncode(".remove") is overloaded with a function of the
+name #dyncode("myfunmap_remove") for removing a key/item pair of a given
+key. If a key/item pair is removed, then the function returns
+true. Otherwise, it returns false to indicates that no key/item pair of the
+given key is stored in the map being operated on.  The dot-symbol
+#dyncode(".takeout") is overloaded with a function of the name
+#dyncode("myfunmap_takeout"), which is similar to #dyncode("myfunmap_remove")
+excepting for returning the removed item.
+
+")
+
+#para('\
+
+The following function is available for generating a module
+(that is, a record) containing various operations on mymap-values:
+
+#sats2xhtml('\
+//
+fun myfunmap_make_module((*void*)): mymap_modtype
+//
+')
+
+For instance, a module of the name #dyncode("MYMAP") is
+created as follows:
+
+#dats2xhtml('\
+val MYMAP = myfunmap_make_module()
+')
+
+With #dyncode("MYMAP"), we can create a (functional) map
+and then perform various insertion and removal operations:
+
+#dats2xhtml('\
+//
+var mymap = (MYMAP.nil)()
+//
+val-~None_vt() = (MYMAP.insert)(mymap, "a", 0)
+val-~None_vt() = (MYMAP.insert)(mymap, "b", 1)
+val-~None_vt() = (MYMAP.insert)(mymap, "c", 2)
+//
+val-~Some_vt(0) = (MYMAP.insert)(mymap, "a", 1)
+val-~Some_vt(1) = (MYMAP.insert)(mymap, "b", 2)
+val-~Some_vt(2) = (MYMAP.insert)(mymap, "c", 3)
+//
+val-(true) = (MYMAP.remove)(mymap, "a")
+val-(true) = (MYMAP.remove)(mymap, "b")
+val-(true) = (MYMAP.remove)(mymap, "c")
+//
+val () = assertloc((MYMAP.size)(mymap) = 0)
+//
+')
+
+')#comment("para")
+
+#para('\
+
+Various common map operations can be found in
+#myatscodelink("libats/ML/HATS/myfunmap.hats",
+"libats/ML/HATS/myfunmap.hats").  By following the types assigned to these
+operations, one should have no difficulty in figuring out how they are
+supposed to be called. Please find the entirety of the code used in this
+section #mycodelink("chap_funsetmap_map.dats", "on-line").
+
+')#comment("para")
+
+</sect1><!--"funsetmap_map"-->
+
+</chapter><!--"funsetmap"-->
+
+#comment(" ****** ****** ")
+
+#comment(" end of [main.atxt] ")
+
+%{
+//
+staload STDIO = "libc/SATS/stdio.sats"
+//
+implement main () = {
+//
+val filr =
+  $STDIO.fopen_ref_exn ("../TEMP/chap_funsetmap.dats", file_mode_w)
+val () = fprint_theCodeLst (filr)
+val () = $STDIO.fclose_exn (filr)
+//
+val () = fprint_filsub (stdout_ref, "main_atxt.txt")
+//
+} // end of [main]
+%}

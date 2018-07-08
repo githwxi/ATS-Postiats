@@ -1,0 +1,126 @@
+######
+#
+HX:
+#
+From this point on, ATS2-contrib
+will be released together with ATS2
+#
+######
+
+0.1.5
+
+releasing atscc2pl
+releasing libatscc2pl
+
+######
+
+0.1.4
+
+improving atscc2js
+improving atscc2php
+
+######
+
+0.1.3
+
+releasing atscc2js
+releasing libatscc2js
+releasing atscc2php
+releasing libatscc2php
+
+######
+
+0.1.2
+
+releasing atscc2py
+releasing libatscc2py
+
+######
+
+0.1.0
+
+releasing
+libats-hwxi/teaching/mythread/
+{
+channel,
+spinvar,
+spinref,
+nwaiter,
+workshop,
+parallelize
+}
+
+######
+
+0.0.8
+
+releasing openssl
+
+######
+
+0.0.7
+
+######
+
+0.0.6
+
+######
+
+0.0.5
+
+<pre>
+
+SDL2: Simple DirectLayer Media 2.0
+
+</pre>
+
+######
+
+0.0.4
+
+<pre>
+
+pcre: API for pcre
+
+libgmp: API for gmp library
+
+GTK
+glib
+cairo
+
+hiredis: API for hiredis (C API for redis)
+
+JNI
+HTML
+
+json-c
+jansson
+
+libcurl: API for cURL
+
+zeromq
+
+libats-hwxi
+libats-hwxi/intinf
+libats-hwxi/testing
+libats-hwxi/cstream
+libats-hwxi/teaching/myGTK
+libats-hwxi/teaching/mydraw
+libats-hwxi/teaching/mythread
+libats-hwxi/teaching/fileAsLock
+
+</pre>
+
+######
+
+0.0.3
+
+######
+
+0.0.2
+
+######
+
+0.0.1
+
+###### end of [CHANGES-contrib] ######

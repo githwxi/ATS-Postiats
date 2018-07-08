@@ -2,7 +2,7 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-#include "./../ATEXT/ats2tutorial.dats"
+#include "./../MYTEXT/ats2tutorial.dats"
 //
 %}\
 #comment("\n\
@@ -34,27 +34,27 @@ For creating an array-with-size, the following functions
 #dyncode("arrszref_make_arrpsz") and #dyncode("arrszref_make_arrayref") can
 be called:
 
-#atscode('\
+#sats2xhtml('\
 fun{}
 arrszref_make_arrpsz
-  {a:vt0p}{n:int} (arrpsz (INV(a), n)): arrszref(a)
+  {a:vt0p}{n:int} (arrpsz(INV(a), n)): arrszref(a)
 fun{}
 arrszref_make_arrayref
-  {a:vt0p}{n:int} (arrayref (a, n), size_t(n)): arrszref(a)
+  {a:vt0p}{n:int} (arrayref(a, n), size_t(n)): arrszref(a)
 // end of [arrszref_make_arrayref]
 ')
 
 As an example, the following code creates an array-with-size containing
 all the decimal digits:
 
-#atscode('\
-val DIGITS = (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+#dats2xhtml('\
+val DIGITS =
+  (arrszref)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 ')
 
-Note that #dyncode("arrszref") is overloaded with
-#dyncode("arrszref_make_arrpsz").
+Note that #dyncode("arrszref") is overloaded with #dyncode("arrszref_make_arrpsz").
 
-')
+')#comment("para")
 
 #para('\
 
@@ -62,11 +62,11 @@ For reading from and writing to an array-with-size, the function templates
 #dyncode("arrszref_get_at") and #dyncode("arrszref_set_at") can be used,
 respectively, which are assigned the following interfaces:
 
-#atscode('\
+#sats2xhtml('\
 fun{a:t@ype}
-arrszref_get_at (A: arrszref (a), i: size_t): (a)
+arrszref_get_at (A: arrszref(a), i: size_t): (a)
 fun{a:t@ype}
-arrszref_set_at (A: arrszref (a), i: size_t, x: a): void
+arrszref_set_at (A: arrszref(a), i: size_t, x: a): void
 ')
 
 Given an array-with-size A, an index i and a value v,
@@ -84,14 +84,14 @@ of out-of-bounds array access being detected.
 As a simple example, the following code implements a function that
 reverses the content of the array inside a given array-with-size:
 
-#atscode('\
+#dats2xhtml('\
 fun{a:t@ype}
 arrszref_reverse
 (
-  A: arrszref (a)
+  A: arrszref(a)
 ) : void = let
 //
-val n = A.size
+val n = A.size()
 val n2 = half (n)
 //
 fun loop

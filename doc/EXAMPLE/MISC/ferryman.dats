@@ -1,3 +1,5 @@
+//usr/bin/env myatscc "$0"; exit
+(* ****** ****** *)
 (*
 ** This is a verified implementation of a solution to the famous
 ** ferryman puzzle:
@@ -11,12 +13,19 @@
 ** one time; C and G cannot be on the same side unless F is also on
 ** that side; the same also applies to G and W.
 *)
-
 (* ****** ****** *)
 //
 // Author: Hongwei Xi
 // Authoremail: gmhwxiATgmailDOTcom
 // Start time: 2012-05-05 // Cinco de Mayo :)
+//
+(* ****** ****** *)
+//
+(*
+##myatsccdef=\
+patsopt --constraint-ignore --dynamic $1 | \
+tcc -run -DATS_MEMALLOC_LIBC -I${PATSHOME} -I${PATSHOME}/ccomp/runtime -
+*)
 //
 (* ****** ****** *)
 

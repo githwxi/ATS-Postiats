@@ -8,18 +8,17 @@ include \
 $(PATSHOME)/share/atsmake-pre.mk
 
 ######
-
+#
 CFLAGS += -O2
+CFLAGS += -DATS_MEMALLOC_LIBC
+CFLAGS += -I$(PATSCONTRIB)/contrib
+#
 CFLAGS += $(shell pkg-config sdl2 --cflags)
-
+#
 ######
 
 LDFLAGS :=
 LDFLAGS += $(shell pkg-config sdl2 --libs)
-
-######
-
-MALLOCFLAG := -DATS_MEMALLOC_LIBC
 
 ######
 

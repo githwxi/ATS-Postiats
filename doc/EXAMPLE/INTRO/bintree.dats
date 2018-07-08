@@ -1,9 +1,9 @@
+(* ****** ****** *)
 //
 // Implementation of binary trees
 //
 // Author: Hongwei Xi (gmhwxi AT gmail.com)
 //
-
 (* ****** ****** *)
 
 staload

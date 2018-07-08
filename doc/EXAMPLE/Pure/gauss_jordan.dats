@@ -60,7 +60,8 @@ gauss_jordan$epsilon
 //
 extern
 fun
-{a:t@ype} gmag_val (x: a):<> double
+{a:t@ype}
+gmag_val (x: a):<> double
 //
 (* ****** ****** *)
 //
@@ -80,10 +81,10 @@ gauss_jordan
 ) = let
 //
 val gneg = gneg_val<a>
-val gadd = gadd_val<a>
-val gsub = gsub_val<a>
-val gmul = gmul_val<a>
-val gdiv = gdiv_val<a>
+val gadd = gadd_val_val<a>
+val gsub = gsub_val_val<a>
+val gmul = gmul_val_val<a>
+val gdiv = gdiv_val_val<a>
 val gmag = gmag_val<a>
 val grecip = grecip_val<a>
 //

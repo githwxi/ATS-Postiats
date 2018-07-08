@@ -19,12 +19,12 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libc/SATS/fcntl.sats"
-staload "libc/SATS/unistd.sats"
-staload "libc/SATS/stdlib.sats"
-staload "libc/sys/SATS/stat.sats"
-staload "libc/sys/SATS/types.sats"
-staload "libc/sys/SATS/mman.sats"
+staload "libats/libc/SATS/fcntl.sats"
+staload "libats/libc/SATS/unistd.sats"
+staload "libats/libc/SATS/stdlib.sats"
+staload "libats/libc/SATS/sys/stat.sats"
+staload "libats/libc/SATS/sys/types.sats"
+staload "libats/libc/SATS/sys/mman.sats"
 
 (* ****** ****** *)
 
@@ -38,15 +38,25 @@ implement phil_right (n) = (n+1) mod NPHIL
 (* ****** ****** *)
 
 implement
-randsleep (n) =
-  ignoret (sleep($UN.cast{uInt}(rand() mod n + 1)))
+randsleep
+(
+ n
+) =
+ignoret
+(sleep($UN.cast{uInt}(rand() mod n + 1)))
 // end of [randsleep]
 
 (* ****** ****** *)
-
-staload "{$LIBATSHWXI}/teaching/fileAsLock/SATS/fileAsLock.sats"
-staload _ = "{$LIBATSHWXI}/teaching/fileAsLock/DATS/fileAsLock.dats"
-
+//
+#define
+LIBATSHWXI_targetloc
+"$PATSHOME/npm-utils/contrib/libats-hwxi"
+//
+staload
+"{$LIBATSHWXI}/fileAsLock/SATS/fileAsLock.sats"
+staload _ =
+"{$LIBATSHWXI}/fileAsLock/DATS/fileAsLock.dats"
+//
 (* ****** ****** *)
 
 extern

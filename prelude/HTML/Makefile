@@ -1,3 +1,4 @@
+######
 #
 # For generating
 # syntax highlighting
@@ -8,6 +9,10 @@
 #
 PATS2XHTML=$(PATSHOME)/bin/pats2xhtml $(EMBED)
 #
+######
+
+all::
+
 ######
 
 all:: all_top
@@ -45,8 +50,8 @@ all_top:: \
 macrodef_sats.html
 macrodef_sats.html: ./../macrodef.sats; $(PATS2XHTML) -o $@ --static $<
 all_top:: \
-lmacrodef_sats.html
-lmacrodef_sats.html: ./../lmacrodef.sats; $(PATS2XHTML) -o $@ --static $<
+lmacrodef_hats.html
+lmacrodef_hats.html: ./../lmacrodef.hats; $(PATS2XHTML) -o $@ --static $<
 
 ######
 #
@@ -97,6 +102,24 @@ checkast_sats.html
 checkast_sats.html: ./../SATS/checkast.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 all_sats:: \
+tuple_sats.html
+tuple_sats.html: ./../SATS/tuple.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+reference_sats.html
+reference_sats.html: ./../SATS/reference.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+gorder_sats.html
+gorder_sats.html: ./../SATS/gorder.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+gnumber_sats.html
+gnumber_sats.html: ./../SATS/gnumber.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+grandom_sats.html
+grandom_sats.html: ./../SATS/grandom.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
 filebas_sats.html
 filebas_sats.html: ./../SATS/filebas.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 all_sats:: \
@@ -143,6 +166,13 @@ matrixptr_sats.html: ./../SATS/matrixptr.sats; $(PATS2XHTML) -o SATS/$@ --static
 all_sats:: \
 matrixref_sats.html
 matrixref_sats.html: ./../SATS/matrixref.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+
+all_sats:: \
+gprint_sats.html
+gprint_sats.html: ./../SATS/gprint.sats; $(PATS2XHTML) -o SATS/$@ --static $<
+all_sats:: \
+tostring_sats.html
+tostring_sats.html: ./../SATS/tostring.sats; $(PATS2XHTML) -o SATS/$@ --static $<
 
 ######
 #
@@ -195,6 +225,13 @@ checkast_dats.html
 checkast_dats.html: ./../DATS/checkast.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
 all_dats:: \
+tuple_dats.html
+tuple_dats.html: ./../DATS/tuple.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+reference_dats.html
+reference_dats.html: ./../DATS/reference.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
+all_dats:: \
 filebas_dats.html
 filebas_dats.html: ./../DATS/filebas.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 all_dats:: \
@@ -245,6 +282,13 @@ all_dats:: \
 matrixref_dats.html
 matrixref_dats.html: ./../DATS/matrixref.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
 
+all_dats:: \
+gprint_dats.html
+gprint_dats.html: ./../DATS/gprint.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+all_dats:: \
+tostring_dats.html
+tostring_dats.html: ./../DATS/tostring.dats; $(PATS2XHTML) -o DATS/$@ --dynamic $<
+
 ######
 #
 PHP=php
@@ -262,33 +306,16 @@ ATSPREall2:: ; \
 $(PHP) -f ATSPRE_all_in_one_html.php > ATSPRE_all_in_one.html
 #
 ######
-
-upload_top: ; \
-$(SCP) \
-fixity_ats.html \
-basics_*_sats.html \
-macrodef_sats.html \
-lmacrodef_sats.html \
-ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
-
-######
-
-upload_sats: ; \
-$(SCP) SATS/*_sats.html \
-ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/SATS/.
-
-######
-
-upload_dats: ; \
-$(SCP) DATS/*_dats.html \
-ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/DATS/.
-
-######
-
+#
+SOURCEFORGE=\
+ats-hwxi,ats-lang@web.sourceforge.net:htdocs
+#
 upload_all_in_one: ; \
-$(SCP) ATSPRE_all_in_one.raw ATSPRE_all_in_one.html \
-ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS-Postiats/prelude/HTML/.
-
+$(SCP) \
+ATSPRE_all_in_one.raw \
+ATSPRE_all_in_one.html \
+$(SOURCEFORGE)/DOCUMENT/ATS-Postiats/prelude/HTML/.
+#
 ######
 
 RMF=rm -f

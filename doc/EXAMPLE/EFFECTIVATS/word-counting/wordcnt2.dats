@@ -12,29 +12,9 @@
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
-(* ****** ****** *)
-
-staload _ = "libats/DATS/hashfun.dats"
-staload _ = "libats/DATS/linmap_list.dats"
-staload _ = "libats/DATS/hashtbl_chain.dats"
-
-(* ****** ****** *)
-
-staload UN = "prelude/SATS/unsafe.sats"
-
-(* ****** ****** *)
-
-staload "libats/ML/SATS/basis.sats"
-staload "libats/ML/SATS/list0.sats"
-staload "libats/ML/SATS/string.sats"
-
-(* ****** ****** *)
-
-staload _ = "libats/ML/DATS/list0.dats"
-staload _ = "libats/ML/DATS/string.dats"
-staload _ = "libats/ML/DATS/hashtblref.dats"
-
 (* ****** ****** *)
 
 abstype wcmap_type = ptr
@@ -54,40 +34,46 @@ extern fun wcmap_listize (map: wcmap): list0 @(string, int)
 (* ****** ****** *)
 
 extern
-fun{} WordCounting (): wcmap
+fun{}
+WordCounting(): wcmap
 
 (* ****** ****** *)
 
-implement{
-} WordCounting () = let
+implement
+{}(*tmp*)
+WordCounting
+  ((*void*)) =
+  map where
+{
 //
 fun loop
   (map: wcmap): void = let
 //
-val opt = word_get ()
-val issome = stropt_is_some (opt)
+val opt = word_get()
+val issome = stropt_is_some(opt)
 //
 in
   if issome then let
-    val () = wcmap_incby1 (map, stropt_unsome (opt)) in loop (map)
+    val () = wcmap_incby1(map, stropt_unsome(opt)) in loop(map)
   end else () // end of [if]
 end // end of [loop]
 //
-val map = wcmap_create ()
-val ((*void*)) = loop (map)
+val map = wcmap_create()
+val ((*void*)) = loop(map)
 //
-in
-  map
-end // end of [WordCounting]
+} (* end of [WordCounting] *)
 
 (* ****** ****** *)
 
-extern fun{} char_get (): int
+extern
+fun{}
+char_get(): int
 
 (* ****** ****** *)
 
-implement{
-} word_get () = let
+implement
+{}(*tmp*)
+word_get() = let
 //
 vtypedef
 charlst = list0(char)
@@ -101,9 +87,11 @@ in
 //
 if i >= 0 then
 (
-  if isalpha (i) then
-    loop2 (cons0{char}(int2char0(i), nil0))
-  else loop () // end of [if]
+  if
+  isalpha(i)
+  then
+  loop2(cons0{char}(int2char0(i), nil0))
+  else loop()
 ) else nil0((*void*))
 //
 end // end of [loop]
@@ -114,9 +102,10 @@ and loop2
 ) : charlst = let
   val i = char_get ()
 in
-  if isalpha (i) then
-    loop2 (cons0{char}(int2char0(i), res)) else res
-  // end of [if]
+  if
+  isalpha(i)
+  then
+  loop2(cons0{char}(int2char0(i), res)) else res
 end // end of [loop2]
 //
 val cs = loop ()
@@ -124,8 +113,8 @@ val cs = loop ()
 in
 //
 case+ cs of
-| nil0 () => stropt_none ((*void*))
-| cons0 _ => stropt_some (string_make_rlist (cs))
+| nil0 () => stropt_none((*void*))
+| cons0 _ => stropt_some(string_make_rlist0(cs))
 //
 end // end of [word_get]
 
@@ -134,9 +123,13 @@ end // end of [word_get]
 local
 //
 staload
+"libats/ML/SATS/basis.sats"
+//
+staload
 HT = "libats/ML/SATS/hashtblref.sats"
 //
-assume wcmap_type = $HT.hashtbl (string, int)
+assume
+wcmap_type = hashtbl(string, int)
 //
 in (* in of [local] *)
 
@@ -175,10 +168,11 @@ fun WordCounting_fileref (inp: FILEref): wcmap
 (* ****** ****** *)
 
 local
-
+//
 staload
-STDIO = "libc/SATS/stdio.sats"
-
+STDIO =
+"libats/libc/SATS/stdio.sats"
+//
 in (* in of [local] *)
 
 implement
@@ -234,7 +228,7 @@ end // end of [local]
 //
 val () = fprint_newline (stdout_ref)
 //
-} // end of [main0]
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

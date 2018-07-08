@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-DiningPhil</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+Dining Philosophers
+</h1>
+
+The three most distinguished features of ATS are dependent types,
+linear types, and embeddable templates (that can be implemented inside
+the body of a function). In this article, I present an implementation
+of the famous problem of 5-Dining-Philosophers by Dijkstra that makes
+simple but convincing use of linear types.
+
+<h2>
+Description of the Problem 
+</h2>
+
+There are five philosophers sitting around a table and there are also 5
+forks placed on the table such that each fork is located between the left
+hand of a philosopher and the right hand of another philosopher. Each
+philosopher does the following routine repeatedly: thinking and dining.  In
+order to dine, a philosopher needs to first acquire two forks: one located
+on his left-hand side and the other on his right-hand side. After
+finishing dining, a philosopher puts the two acquired forks onto the table:
+one on his left-hand side and the other on his right-hand side.
+
+<h2>
+A Linear Type for Resources
+</h2>
+
+First, let us introduce a type definition as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span> <span class="staexp">phil <span class="keyword">=</span> <span class="staexp">int</span></span>
+</pre>
+
+The sole purpose of using [phil] instead of [int] as the type for
+philosophers is to make the presented code easier to follow.
+
+<p>
+
+The forks mentioned in the description of the problem refer to shared
+resources. Let us next introduce a linear abstract type for the forks:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absvt@ype</span> fork <span class="keyword">=</span> int</span>
+</pre>
+
+
+This declaration means that [fork] is an abstract viewtype (that is, a
+linear abstract type) whose size equals the size of [int].  Please note
+that the information on [fork] and [int] being of the same size is not
+available until after typechecking when abstract types are replaced with
+concrete types.
+
+<p>
+
+For a philosopher to acquire and release
+his left fork, the following functions can be called:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> phil_acquire_lfork <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">fork</span></span>
+<span class="dynexp"><span class="keyword">fun</span> phil_release_lfork <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">,</span> f<span class="keyword">:</span> <span class="staexp">fork</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+For a philosopher to acquire and release his right fork, the following
+functions can be called:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> phil_acquire_rfork <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">fork</span></span>
+<span class="dynexp"><span class="keyword">fun</span> phil_release_rfork <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">,</span> f<span class="keyword">:</span> <span class="staexp">fork</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+As forks are shared resources, these functions for acquiring and releasing
+forks should in general involve some sort of locking mechanism. If a fork
+is acquired, then it should be released after its use. By assigning a
+linear type to forks, we can rely on the type system of ATS to keep track
+of forks, ensuring their being handled properly.
+
+<h2>
+Philosopher Implemented as a Loop 
+</h2>
+
+According to the description of the problem, we implement a loop as follows
+to simulate a philosopher:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> phil_loop <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+phil_loop <span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> phil_think <span class="keyword">(</span>n<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> phil_dine <span class="keyword">(</span>n<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  phil_loop <span class="keyword">(</span>n<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [phil_loop]</span>
+</pre>
+
+The function [phil_think], which requires no resources, can be implemented
+as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> phil_think <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+phil_think <span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span>
+<span class="keyword">(</span>
+  randsleep <span class="keyword">(</span><span class="dynexp">10</span><span class="keyword">)</span> <span class="comment">// for sleeping up to 10 secs</span>
+<span class="keyword">)</span></span>
+</pre>
+
+The function [phil_dine], which involves acquiring and releasing resources,
+can be implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="keyword">extern</span>
+<span class="dynexp"><span class="keyword">fun</span> phil_dine <span class="keyword">(</span>n<span class="keyword">:</span> <span class="staexp">phil</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">implement</span>
+phil_dine <span class="keyword">(</span>n<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> lf <span class="keyword">=</span> phil_acquire_lfork <span class="keyword">(</span>n<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> randsleep <span class="keyword">(</span><span class="dynexp">1</span><span class="keyword">)</span></span> <span class="comment">// for sleeping up to 1 secs</span>
+  <span class="dynexp"><span class="keyword">val</span> rf <span class="keyword">=</span> phil_acquire_rfork <span class="keyword">(</span>n<span class="keyword">)</span></span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> randsleep <span class="keyword">(</span><span class="dynexp">3</span><span class="keyword">)</span></span> <span class="comment">// for sleeping up to 3 secs</span>
+<span class="comment">//</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> phil_release_lfork <span class="keyword">(</span>n<span class="keyword">,</span> lf<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> phil_release_rfork <span class="keyword">(</span>n<span class="keyword">,</span> rf<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">// end of [phil_dine]</span>
+</pre>
+
+Note that both [lf] and [rf] are assigned the linear type [fork], making
+them linear values. As every linear value must be consumed in some way or
+returned, removing the call to [phil_release_lfork] (or
+[phil_release_rfork]) causes a type-error that can be readily detected
+during typechecking. This is a great advantage of assigning linear types to
+values representing resources.
+
+<h2>
+Summary of the Remaining Implementation
+</h2>
+
+If we run [phil_loop] on 5 threads, then we can employ 5 mutexes to protect
+5 forks (one for each). We can also employ one mutex to protect 5 forks and
+then introduce some conditional variables to avoid busy-waiting. Instead,
+the implementation given here runs [phil_loop] on 5 processes (which are
+created by invoking the system call [fork]) and calls [mmap] to obtain memory
+for storing the 5 forks shared by these processes. It creates a lock based
+on the underlining file system to protect these forks and inserts sleeps of
+random length to avoid complete busy-waiting. This style of implementation
+is chosen primarily for the purpose of a demo. The interested reader is
+encouraged to give a thread-based implementation that employs mutexes and
+possibly conditional variables.
+
+<h2>
+Testing
+</h2>
+
+Note that each philosopher in the given implementation picks first his left
+fork and then his right fork. In the case where everyone of them holds a
+fork on his left hand, a deadlock occurs. A simple way to avoid such a
+deadlock is to have a philosopher (among the 5) who picks first his right
+fork and then his left fork.
+
+<p>
+
+The problem of 5-Dining-Philosphers was precisely introduced to study
+deadlocks and deadlock avoidance. If one tests the given implementation, he
+or she should likely to see a deadlock occurring in a few minutes. Please
+use the command [kill] to remove all of the deadlocked processes.
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

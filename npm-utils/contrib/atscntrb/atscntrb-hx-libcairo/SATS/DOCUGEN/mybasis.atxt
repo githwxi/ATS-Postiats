@@ -1,0 +1,253 @@
+(* ****** ****** *)
+
+%{
+implement
+srcfilename_get () = "../mybasis.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/cairo/mybasis\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_ref")
+#declnamesynop("cairo_ref1")
+#declnamesynop("xr") // alias for cairo_ref
+#declnamesynop("xr1") // alias for cairo_ref1
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_surface_ref")
+#declnamesynop("cairo_surface_ref1")
+#declnamesynop("xrsf") // alias for cairo_surface_ref
+#declnamesynop("xrsf1") // alias for cairo_surface_ref1
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_device_ref")
+#declnamesynop("cairo_device_ref1")
+#declnamesynop("xrdev") // alias for cairo_device_ref
+#declnamesynop("xrdev1") // alias for cairo_device_ref
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_pattern_ref")
+#declnamesynop("cairo_pattern_ref1")
+#declnamesynop("xrpat") // alias for cairo_pattern_ref
+#declnamesynop("xrpat1") // alias for cairo_pattern_ref1
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_font_face_ref")
+#declnamesynop("cairo_font_face_ref1")
+#declnamesynop("xrfontface") // alias for cairo_font_face_ref
+#declnamesynop("xrfontface1") // alias for cairo_font_face_ref1
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_bool_t")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_read_func_t")
+#declnamesynop("cairo_write_func_t")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_destroy_func_t")
+#declnamesynop("cairo_user_data_key_t")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_glyph_t")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_path_t")
+#declnamesynop("cairo_path_data_t")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_rectangle_int_t")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_matrix_t")
+
+(* ****** ****** *)
+//
+#declnamesynop("cairo_status_t")
+//
+#declnamesynop("CAIRO_STATUS_SUCCESS")
+#declnamesynop("CAIRO_STATUS_NO_MEMORY")
+#declnamesynop("CAIRO_STATUS_INVALID_RESTORE")
+#declnamesynop("CAIRO_STATUS_INVALID_POP_GROUP")
+#declnamesynop("CAIRO_STATUS_NO_CURRENT_POINT")
+#declnamesynop("CAIRO_STATUS_INVALID_MATRIX")
+#declnamesynop("CAIRO_STATUS_INVALID_STATUS")
+#declnamesynop("CAIRO_STATUS_NULL_POINTER")
+#declnamesynop("CAIRO_STATUS_INVALID_STRING")
+#declnamesynop("CAIRO_STATUS_INVALID_PATH_DATA")
+#declnamesynop("CAIRO_STATUS_READ_ERROR")
+#declnamesynop("CAIRO_STATUS_WRITE_ERROR")
+#declnamesynop("CAIRO_STATUS_SURFACE_FINISHED")
+#declnamesynop("CAIRO_STATUS_SURFACE_TYPE_MISMATCH")
+#declnamesynop("CAIRO_STATUS_PATTERN_TYPE_MISMATCH")
+#declnamesynop("CAIRO_STATUS_INVALID_CONTENT")
+#declnamesynop("CAIRO_STATUS_INVALID_FORMAT")
+#declnamesynop("CAIRO_STATUS_INVALID_VISUAL")
+#declnamesynop("CAIRO_STATUS_FILE_NOT_FOUND")
+#declnamesynop("CAIRO_STATUS_INVALID_DASH")
+#declnamesynop("CAIRO_STATUS_INVALID_DSC_COMMENT")
+#declnamesynop("CAIRO_STATUS_INVALID_INDEX")
+#declnamesynop("CAIRO_STATUS_CLIP_NOT_REPRESENTABLE")
+#declnamesynop("CAIRO_STATUS_TEMP_FILE_ERROR")
+#declnamesynop("CAIRO_STATUS_INVALID_STRIDE")
+#declnamesynop("CAIRO_STATUS_FONT_TYPE_MISMATCH")
+#declnamesynop("CAIRO_STATUS_USER_FONT_IMMUTABLE")
+#declnamesynop("CAIRO_STATUS_USER_FONT_ERROR")
+#declnamesynop("CAIRO_STATUS_NEGATIVE_COUNT")
+#declnamesynop("CAIRO_STATUS_INVALID_CLUSTERS")
+#declnamesynop("CAIRO_STATUS_INVALID_SLANT")
+#declnamesynop("CAIRO_STATUS_INVALID_WEIGHT")
+#declnamesynop("CAIRO_STATUS_INVALID_SIZE")
+#declnamesynop("CAIRO_STATUS_USER_FONT_NOT_IMPLEMENTED")
+#declnamesynop("CAIRO_STATUS_DEVICE_TYPE_MISMATCH")
+#declnamesynop("CAIRO_STATUS_DEVICE_ERROR")
+#declnamesynop("CAIRO_STATUS_INVALID_MESH_CONSTRUCTION")
+#declnamesynop("CAIRO_STATUS_DEVICE_FINISHED")
+#declnamesynop("CAIRO_STATUS_LAST_STATUS")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_content_t")
+//
+#declnamesynop("CAIRO_CONTENT_COLOR")
+#declnamesynop("CAIRO_CONTENT_ALPHA")
+#declnamesynop("CAIRO_CONTENT_COLOR_ALPHA")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_format_t")
+//
+#declnamesynop("CAIRO_FORMAT_INVALID")
+#declnamesynop("CAIRO_FORMAT_ARGB32")
+#declnamesynop("CAIRO_FORMAT_RGB24")
+#declnamesynop("CAIRO_FORMAT_A8")
+#declnamesynop("CAIRO_FORMAT_A1")
+#declnamesynop("CAIRO_FORMAT_RGB16_565")
+#declnamesynop("CAIRO_FORMAT_RGB30")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_operator_t")
+//
+#declnamesynop("CAIRO_VERSION_MAJOR")
+#declnamesynop("CAIRO_OPERATOR_CLEAR")
+#declnamesynop("CAIRO_OPERATOR_SOURCE")
+#declnamesynop("CAIRO_OPERATOR_OVER")
+#declnamesynop("CAIRO_OPERATOR_IN")
+#declnamesynop("CAIRO_OPERATOR_OUT")
+#declnamesynop("CAIRO_OPERATOR_ATOP")
+#declnamesynop("CAIRO_OPERATOR_DEST")
+#declnamesynop("CAIRO_OPERATOR_DEST_OVER")
+#declnamesynop("CAIRO_OPERATOR_DEST_IN")
+#declnamesynop("CAIRO_OPERATOR_DEST_OUT")
+#declnamesynop("CAIRO_OPERATOR_DEST_ATOP")
+#declnamesynop("CAIRO_OPERATOR_XOR")
+#declnamesynop("CAIRO_OPERATOR_ADD")
+#declnamesynop("CAIRO_OPERATOR_SATURATE")
+#declnamesynop("CAIRO_OPERATOR_MULTIPLY")
+#declnamesynop("CAIRO_OPERATOR_SCREEN")
+#declnamesynop("CAIRO_OPERATOR_OVERLAY")
+#declnamesynop("CAIRO_OPERATOR_DARKEN")
+#declnamesynop("CAIRO_OPERATOR_LIGHTEN")
+#declnamesynop("CAIRO_OPERATOR_COLOR_DODGE")
+#declnamesynop("CAIRO_OPERATOR_COLOR_BURN")
+#declnamesynop("CAIRO_OPERATOR_HARD_LIGHT")
+#declnamesynop("CAIRO_OPERATOR_SOFT_LIGHT")
+#declnamesynop("CAIRO_OPERATOR_DIFFERENCE")
+#declnamesynop("CAIRO_OPERATOR_EXCLUSION")
+#declnamesynop("CAIRO_OPERATOR_HSL_HUE")
+#declnamesynop("CAIRO_OPERATOR_HSL_SATURATION")
+#declnamesynop("CAIRO_OPERATOR_HSL_COLOR")
+#declnamesynop("CAIRO_OPERATOR_HSL_LUMINOSIT")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_antialias_t")
+//
+#declnamesynop("CAIRO_ANTIALIAS_DEFAULT")
+#declnamesynop("CAIRO_ANTIALIAS_NONE")
+#declnamesynop("CAIRO_ANTIALIAS_GRAY")
+#declnamesynop("CAIRO_ANTIALIAS_SUBPIXEL")
+#declnamesynop("CAIRO_ANTIALIAS_FAST")
+#declnamesynop("CAIRO_ANTIALIAS_GOOD")
+#declnamesynop("CAIRO_ANTIALIAS_BES")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_fill_rule_t")
+//
+#declnamesynop("CAIRO_FILL_RULE_WINDING")
+#declnamesynop("CAIRO_FILL_RULE_EVEN_OD")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_line_cap_t")
+//
+#declnamesynop("CAIRO_LINE_CAP_BUTT")
+#declnamesynop("CAIRO_LINE_CAP_ROUND")
+#declnamesynop("CAIRO_LINE_CAP_SQUAR")
+//
+(* ****** ****** *)
+//
+#declnamesynop("cairo_line_join_t")
+//
+#declnamesynop("CAIRO_LINE_JOIN_MITER")
+#declnamesynop("CAIRO_LINE_JOIN_ROUND")
+#declnamesynop("CAIRO_LINE_JOIN_BEVE")
+//
+(* ****** ****** *)
+
+#declnamesynop("cairo_save_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to #dyncode("cairo_save")
+and #dyncode("cairo_restore") are properly balanced.\
+
+")
+
+#declnamesynop("cairo_push_group_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to
+#dyncode("cairo_push_group") and #dyncode("cairo_pop_group") are properly
+balanced.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_device_acquire_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to
+#dyncode("cairo_device_acquire") and #dyncode("cairo_device_release") are
+properly balance.  ")
+
+#declnamesynop("cairo_device_acquire_v_free_none")
+
+(* ****** ****** *)
+
+(* end of [mybasis.atxt] *)

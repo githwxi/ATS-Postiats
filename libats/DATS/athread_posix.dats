@@ -327,6 +327,14 @@ abst@ype pthread_t = $extype"pthread_t"
 abst@ype pthread_attr_t = $extype"pthread_attr_t"
 
 (* ****** ****** *)
+//
+implement
+{}(*tmp*)
+athread_self
+  ((*void*)) =
+  $extfcall(tid, "pthread_self")
+//
+(* ****** ****** *)
 
 implement
 {}(*tmp*)
@@ -337,11 +345,11 @@ var tid2: pthread_t
 var attr: pthread_attr_t
 val
 _(*err*) =
-$extfcall (int, "pthread_attr_init", addr@attr)
+$extfcall(int, "pthread_attr_init", addr@attr)
 //
 val
 _(*err*) =
-$extfcall (
+$extfcall(
   int
 , "pthread_attr_setdetachstate"
 , addr@attr, $extval(int, "PTHREAD_CREATE_DETACHED")

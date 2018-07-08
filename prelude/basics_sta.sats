@@ -96,37 +96,43 @@ sortdef uint8 =
 tkindef char_kind = "atstype_char"
 //
 abst@ype
-char_t0ype = tkind_t0ype (char_kind)
-stadef char = char_t0ype // shorthand
+char_t0ype = tkind_t0ype(char_kind)
 abst@ype
-char_int_t0ype (c:int) = char_t0ype
+char_int_t0ype(c:int) = char_t0ype
+//
+stadef char = char_t0ype // shorthand
 stadef char = char_int_t0ype // shorthand
-typedef Char = [c:int8] char (c)
-typedef charNZ = [c:int8 | c != 0] char (c)
+//
+typedef Char = [c:int8] char(c)
+typedef charNZ = [c:int8 | c != 0] char(c)
 //
 // signed characters
 //
 tkindef schar_kind = "atstype_schar"
 //
 abst@ype
-schar_t0ype = tkind_t0ype (schar_kind)
-stadef schar = schar_t0ype // shorthand
+schar_t0ype = tkind_t0ype(schar_kind)
 abst@ype
 schar_int_t0ype (c:int) = schar_t0ype
+//
+stadef schar = schar_t0ype // shorthand
 stadef schar = schar_int_t0ype // shorthand
-typedef sChar = [c:int8] schar (c)
+typedef sChar = [c:int8] schar(c)
+typedef scharNZ = [c:int8 | c != 0] schar(c)
 //
 // unsigned characters
 //
 tkindef uchar_kind = "atstype_uchar"
 //
 abst@ype
-uchar_t0ype = tkind_t0ype (uchar_kind)
-stadef uchar = uchar_t0ype // shorthand
+uchar_t0ype = tkind_t0ype(uchar_kind)
 abst@ype
 uchar_int_t0ype (c:int) = uchar_t0ype
+//
+stadef uchar = uchar_t0ype // shorthand
 stadef uchar = uchar_int_t0ype // shorthand
 typedef uChar = [c:uint8] uchar (c)
+typedef scharNZ = [c:uint8 | c != 0] uchar(c)
 //
 (* ****** ****** *)
 
@@ -331,7 +337,8 @@ typedef sizeGte (n:int) = g1uintGte (size_kind, n)
 typedef sizeBtw (lb:int, ub:int) = g1uintBtw (size_kind, lb, ub)
 typedef sizeBtwe (lb:int, ub:int) = g1uintBtwe (size_kind, lb, ub)
 //
-tkindef ssize_kind = "atstype_ssize"
+tkindef
+ssize_kind = "atstype_ssize"
 typedef ssize0_t = g0int (ssize_kind)
 typedef ssize1_t (i:int) = g1int (ssize_kind , i) 
 //
@@ -363,7 +370,9 @@ int8_kind = "atstype_int8"
 typedef
 int8_0 = g0int (int8_kind)
 typedef
-int8_1 (i:int) = g1int (int8_kind, i)
+int8_1
+  (i:int) = g1int (int8_kind, i)
+//
 stadef int8 = int8_1 // 2nd-select
 stadef int8 = int8_0 // 1st-select
 stadef Int8 = [i:int] int8_1 (i)
@@ -373,7 +382,9 @@ uint8_kind = "atstype_uint8"
 typedef
 uint8_0 = g0uint (uint8_kind)
 typedef
-uint8_1 (i:int) = g1uint (uint8_kind, i)
+uint8_1
+  (i:int) = g1uint (uint8_kind, i)
+//
 stadef uint8 = uint8_1 // 2nd-select
 stadef uint8 = uint8_0 // 1st-select
 stadef uInt8 = [i:nat] uint8_1 (i)
@@ -385,7 +396,9 @@ int16_kind = "atstype_int16"
 typedef
 int16_0 = g0int (int16_kind)
 typedef
-int16_1 (i:int) = g1int (int16_kind, i)
+int16_1
+  (i:int) = g1int (int16_kind, i)
+//
 stadef int16 = int16_1 // 2nd-select
 stadef int16 = int16_0 // 1st-select
 stadef Int16 = [i:int] int16_1 (i)
@@ -395,7 +408,9 @@ uint16_kind = "atstype_uint16"
 typedef
 uint16_0 = g0uint (uint16_kind)
 typedef
-uint16_1 (i:int) = g1uint (uint16_kind, i)
+uint16_1
+  (i:int) = g1uint (uint16_kind, i)
+//
 stadef uint16 = uint16_1 // 2nd-select
 stadef uint16 = uint16_0 // 1st-select
 stadef uInt16 = [i:nat] uint16_1 (i)
@@ -407,7 +422,9 @@ int32_kind = "atstype_int32"
 typedef
 int32_0 = g0int (int32_kind)
 typedef
-int32_1 (i:int) = g1int (int32_kind, i)
+int32_1
+  (i:int) = g1int (int32_kind, i)
+//
 stadef int32 = int32_1 // 2nd-select
 stadef int32 = int32_0 // 1st-select
 stadef Int32 = [i:int] int32_1 (i)
@@ -417,7 +434,9 @@ uint32_kind = "atstype_uint32"
 typedef
 uint32_0 = g0uint (uint32_kind)
 typedef
-uint32_1 (i:int) = g1uint (uint32_kind, i)
+uint32_1
+  (i:int) = g1uint (uint32_kind, i)
+//
 stadef uint32 = uint32_1 // 2nd-select
 stadef uint32 = uint32_0 // 1st-select
 stadef uInt32 = [i:nat] uint32_1 (i)
@@ -429,7 +448,9 @@ int64_kind = "atstype_int64"
 typedef
 int64_0 = g0int (int64_kind)
 typedef
-int64_1 (i:int) = g1int (int64_kind, i)
+int64_1
+  (i:int) = g1int (int64_kind, i)
+//
 stadef int64 = int64_1 // 2nd-select
 stadef int64 = int64_0 // 1st-select
 stadef Int64 = [i:int] int64_1 (i)
@@ -439,11 +460,13 @@ uint64_kind = "atstype_uint64"
 typedef
 uint64_0 = g0uint (uint64_kind)
 typedef
-uint64_1 (i:int) = g1uint (uint64_kind, i)
+uint64_1
+  (i:int) = g1uint (uint64_kind, i)
+//
 stadef uint64 = uint64_1 // 2nd-select
 stadef uint64 = uint64_0 // 1st-select
 stadef uInt64 = [i:nat] uint64_1 (i)
-
+//
 (* ****** ****** *)
 //
 abst@ype
@@ -464,21 +487,25 @@ typedef ldouble = g0float (ldouble_kind)
 // HX: unindexed type for pointers
 //
 tkindef ptr_kind = "atstype_ptrk"
-abstype ptr_type = tkind_type (ptr_kind)
-stadef ptr = ptr_type // a shorthand
-abstype ptr_addr_type (l:addr) = ptr_type
-stadef ptr = ptr_addr_type // a shorthand
-typedef Ptr = [l:addr] ptr (l)
-typedef Ptr0 = [l:addr | l >= null] ptr (l)
-typedef Ptr1 = [l:addr | l >  null] ptr (l)
+//
+abstype ptr_type = tkind_type(ptr_kind)
+abstype ptr_addr_type(l:addr) = ptr_type
+//
+typedef ptr = ptr_type // HX: a shorthand
+typedef ptr(l:addr) = ptr_addr_type(l) // HX: a shorthand
+//
+typedef Ptr = [l:addr] ptr(l)
+typedef Ptr0 = [l:agez] ptr(l)
+typedef Ptr1 = [l:addr|l > null] ptr(l)
+//
 typedef
 Ptrnull (l:addr) =
-  [l1:addr | l1 == null || l1 == l] ptr (l1)
+  [l1:addr | l1 == null || l1 == l] ptr(l1)
 // end of [Ptrnull]
 //
 // HX-2012-02-14: it is an expriment for now:
 //
-stadef ptr (n:int) = ptr_addr_type (addr_of_int(n))
+typedef ptr(n:int) = ptr_addr_type(addr_of_int(n))
 //
 (* ****** ****** *)
 
@@ -495,45 +522,59 @@ string_type = $extype"atstype_string"
 abstype
 string_type = ptr // = char* in C
 abstype
-string_int_type (n: int) = string_type
+string_int_type(n: int) = string_type
 //
-stadef string0 = string_type
-stadef string1 = string_int_type
+stadef
+string0 = string_type
+stadef
+string1 = string_int_type
+//
 stadef string = string1 // 2nd-select
 stadef string = string0 // 1st-select
-typedef String = [n:int] string_int_type (n)
-typedef String0 = [n:int | n >= 0] string_int_type (n)
-typedef String1 = [n:int | n >= 1] string_int_type (n)
+//
+typedef String = [n:int] string_int_type(n)
+typedef String0 = [n:int | n >= 0] string_int_type(n)
+typedef String1 = [n:int | n >= 1] string_int_type(n)
 //
 (* ****** ****** *)
-
+//
 abstype
-stropt_int_type (n:int) = ptr
-stadef stropt = stropt_int_type
-typedef Stropt = [n:int] stropt_int_type (n)
-typedef Stropt0 = [n:int] stropt_int_type (n)
-typedef Stropt1 = [n:int | n >= 0] stropt_int_type (n)
-stadef stropt = Stropt // HX: this may be a bit confusing :)
-
+stropt_int_type(n:int) = ptr
+//
+typedef
+stropt(n:int) = stropt_int_type(n)
+//
+typedef stropt = [n:int] stropt_int_type(n)
+typedef Stropt = [n:int] stropt_int_type(n)
+typedef Stropt0 = [n:int] stropt_int_type(n)
+typedef Stropt1 = [n:int | n >= 0] stropt_int_type(n)
+//
 (* ****** ****** *)
-
+//
 (*
 ** HX: linear mutable strings
 *)
+//
 absvtype
-strptr_addr_vtype (l:addr) = ptr
-stadef strptr = strptr_addr_vtype
-vtypedef Strptr0 = [l:addr] strptr (l)
-vtypedef Strptr1 = [l:addr | l > null] strptr (l)
-stadef strptr = Strptr0
-
+strptr_addr_vtype(l:addr) = ptr
+vtypedef strptr(l:addr) = strptr_addr_vtype(l)
+//
+vtypedef strptr = [l:addr] strptr(l)
+vtypedef Strptr = [l:addr] strptr(l)
+vtypedef Strptr0 = [l:addr] strptr(l)
+vtypedef Strptr1 = [l:addr|l > null] strptr(l)
+//
 absvtype
-strnptr_addr_int_vtype (l:addr, n:int) = ptr
-stadef strnptr = strnptr_addr_int_vtype
-vtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
-vtypedef Strnptr0 = [l:addr;n:int] strnptr (l, n)
-vtypedef Strnptr1 = [l:addr;n:int | n >= 0] strnptr (l, n)
-
+strnptr_addr_int_vtype(l:addr, n:int) = ptr
+vtypedef
+strnptr(l:addr, n:int) = strnptr_addr_int_vtype(l, n)
+vtypedef
+strnptr(n:int) = [l:addr] strnptr_addr_int_vtype(l, n)
+//
+vtypedef Strnptr = [l:addr;n:int] strnptr(l, n)
+vtypedef Strnptr0 = [l:addr;n:int] strnptr(l, n)
+vtypedef Strnptr1 = [l:addr;n:int | n >= 0] strnptr(l, n)
+//
 (* ****** ****** *)
 
 (*
@@ -583,63 +624,91 @@ stadef cloref = cloref_t0ype_type
 absvtype
 cloptr_vt0ype_vtype (a:t@ype) = ptr
 stadef cloptr = cloptr_vt0ype_vtype
-vtypedef cloptr0 = cloptr_vt0ype_vtype (void)
+vtypedef
+cloptr0 = cloptr_vt0ype_vtype (void)
 //
 (* ****** ****** *)
 //
-// HX: for memory deallocation (with/without GC)
+typedef
+stamped_t
+  (a:t@ype) = [x:int] stamped_t(a, x)
 //
-absview
-mfree_gc_addr_view (addr)
-stadef mfree_gc_v = mfree_gc_addr_view
-absview
-mfree_ngc_addr_view (addr)
-stadef mfree_ngc_v = mfree_ngc_addr_view
-//
-absview
-mfree_libc_addr_view (addr) // libc-mfree
-stadef mfree_libc_v = mfree_libc_addr_view
+vtypedef
+stamped_vt
+  (a:vt@ype) = [x:int] stamped_vt(a, x)
 //
 (* ****** ****** *)
-
+//
+// HX:
+// for memory deallocation
+// (with GC and without GC)
+//
+absview
+mfree_gc_addr_view(addr)
+stadef
+mfree_gc_v = mfree_gc_addr_view
+//
+absview
+mfree_ngc_addr_view(addr)
+stadef
+mfree_ngc_v = mfree_ngc_addr_view
+//
+absview
+mfree_libc_addr_view(addr) // libc-mfree
+stadef
+mfree_libc_v = mfree_libc_addr_view
+//
+(* ****** ****** *)
+//
 absvt@ype
 arrpsz_vt0ype_int_vt0ype
   (a:vt@ype+, n:int) = $extype"atstype_arrpsz"
-stadef arrpsz = arrpsz_vt0ype_int_vt0ype
-
+//
+stadef
+arrpsz = arrpsz_vt0ype_int_vt0ype
+//
 (* ****** ****** *)
 
 absprop // invariance
 vbox_view_prop (v:view)
-propdef vbox (v:view) = vbox_view_prop (v)
+propdef
+vbox(v:view) = vbox_view_prop(v)
 
 abstype // invariance
-ref_vt0ype_type (a:vt@ype) = ptr
-typedef ref (a:vt@ype) = ref_vt0ype_type (a)
+ref_vt0ype_type(a:vt@ype) = ptr
+typedef
+ref(a:vt@ype) = ref_vt0ype_type(a)
 
 (* ****** ****** *)
 //
-viewdef vtakeout
-  (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
-viewdef vtakeout0 (v:view) = vtakeout (void, v)
+viewdef
+vtakeout
+( v1: view
+, v2: view ) = (v2, v2 -<lin,prf> v1)
+viewdef
+vtakeout0 (v:view) = vtakeout(void, v)
 //
-vtypedef vttakeout
-  (vt1: vt@ype, vt2: vt@ype) = (vt2 -<lin,prf> vt1 | vt2)
-viewdef vttakeout0 (vt:vt@ype) = vttakeout (void, vt)
+vtypedef
+vttakeout
+( vt1:vt@ype
+, vt2:vt@ype ) = (vt2 -<lin,prf> vt1 | vt2)
+vtypedef
+vttakeout0 (vt:vt@ype) = vttakeout(void, vt)
 //
 (* ****** ****** *)
 //
 vtypedef
 vtakeoutptr
-  (a:vt@ype) = [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
+  (a:vt@ype) =
+  [l:addr] (a@l, a@l -<lin,prf> void | ptr l)
 //
 (* ****** ****** *)
 //
 vtypedef
-vstrptr (l:addr) = vttakeout0 (strptr l)
+vstrptr(l:addr) = vttakeout0(strptr(l))
 //
-vtypedef vStrptr0 = [l:addr] vstrptr (l)
-vtypedef vStrptr1 = [l:addr | l > null] vstrptr (l)
+vtypedef vStrptr0 = [l:agez] vstrptr(l)
+vtypedef vStrptr1 = [l:addr | l > null] vstrptr(l)
 //
 (* ****** ****** *)
 
@@ -654,33 +723,36 @@ vtypedef
 bottom_vt0ype_exi = [a:vt@ype | false] (a)
 
 (* ****** ****** *)
-
+//
 typedef
 cmpval_fun
   (a: t@ype) = (a, a) -<fun> int
 typedef
 cmpval_funenv
   (a: t@ype, vt: t@ype) = (a, a, !vt) -<fun> int
-stadef cmpval = cmpval_fun
-stadef cmpval = cmpval_funenv
-
+//
+stadef cmpval = cmpval_fun and cmpval = cmpval_funenv
+//
 (* ****** ****** *)
-
-typedef cmpref_fun
+//
+typedef
+cmpref_fun
   (a: vt@ype) = (&RD(a), &RD(a)) -<fun> int
-typedef cmpref_funenv
+typedef
+cmpref_funenv
   (a: vt@ype, vt: vt@ype) = (&RD(a), &RD(a), !vt) -<fun> int
-stadef cmpref = cmpref_fun
-stadef cmpref = cmpref_funenv
-
+//
+stadef cmpref = cmpref_fun and cmpref = cmpref_funenv
+//
 (* ****** ****** *)
 //
 // HX: [lazy(T)] :
 // suspended evaluation of type T
 //
 abstype
-lazy_t0ype_type (t@ype+) = ptr
-typedef lazy (a:t@ype) = lazy_t0ype_type (a)
+lazy_t0ype_type(t@ype+) = ptr
+typedef
+lazy(a:t@ype) = lazy_t0ype_type(a)
 //
 (* ****** ****** *)
 //
@@ -688,16 +760,46 @@ typedef lazy (a:t@ype) = lazy_t0ype_type (a)
 // suspended computation of viewtype VT
 //
 absvtype
-lazy_vt0ype_vtype (vt@ype+) = ptr
-vtypedef lazy_vt (a: vt@ype)= lazy_vt0ype_vtype (a)
+lazy_vt0ype_vtype(vt@ype+) = ptr
+vtypedef
+lazy_vt(a:vt@ype) = lazy_vt0ype_vtype(a)
 //
 (* ****** ****** *)
-
+//
+(*
+//
+// HX-2016-02-21:
+// these are renamed/relocated elsewhere
+//
+// HX-2017-10-03:
+// Is this even needed? Parsing works but
+// $literal(...) does not seem to be in use
+// Please see $PATSHOME/utils/atexting/TEST
+//
+(*
+abst0ype
+literal_int(intlit) = $extype"atsliteral_int"
+*)
+//
+(*
+abst0ype
+literal_float(float) = $extype"atsliteral_float"
+*)
+//
+(*
+abst0ype
+literal_string(string) = $extype"atsliteral_string"
+*)
+//
+*)
+//
+(* ****** ****** *)
+//
 abst@ype
 undefined_t0ype = $extype"atstype_undefined"
 absvt@ype
 undefined_vt0ype = $extype"atstype_undefined"
-
+//
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

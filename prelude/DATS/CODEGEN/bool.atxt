@@ -35,13 +35,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 // HX: see CATS/bool.cats
 //
 implement
-tostring_bool
+bool2string
   (b) = if b then "true" else "false"
-// end of [tostring_bool]
+// end of [bool2string]
 *)
-
-implement
-tostring_val<bool> = tostring_bool
 
 #atscode_separator()
 
@@ -51,7 +48,7 @@ tostring_val<bool> = tostring_bool
 //
 implement
 fprint_bool (out, x) =
-  fprint_string (out, tostring_bool (x))
+  fprint_string (out, bool2string (x))
 // end of [fprint_bool]
 *)
 

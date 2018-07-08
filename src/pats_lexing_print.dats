@@ -82,16 +82,19 @@ fprint_token
 //
   | T_ABSTYPE (x) =>
       fprintf (out, "ABSTYPE(%i)", @(x))
-  | T_AND () => fprintf (out, "AND()", @())
-  | T_AS () => fprintf (out, "AS()", @())
+    // end of [T_ABSTYPE]
+//
   | T_ASSUME () => fprintf (out, "ASSUME()", @())
+  | T_REASSUME () => fprintf (out, "REASSUME()", @())
+//
+  | T_AS () => fprintf (out, "AS()", @())
+  | T_AND () => fprintf (out, "AND()", @())
   | T_BEGIN () => fprintf (out, "BEGIN()", @())
   | T_CASE (x) => fprintf (out, "CASE(...)", @())
   | T_CLASSDEC () => fprintf (out, "CLASSDEC()", @())
   | T_DATASORT () => fprintf (out, "DATASORT()", @())
   | T_DATATYPE (x) => fprintf (out, "DATATYPE(%i)", @(x))
   | T_DO () => fprintf (out, "DO()", @())
-  | T_DYNLOAD () => fprintf (out, "DYNLOAD()", @())
   | T_ELSE () => fprintf (out, "ELSE()", @())
   | T_END () => fprintf (out, "END()", @())
   | T_EXCEPTION () => fprintf (out, "EXCEPTION()", @())
@@ -104,7 +107,10 @@ fprint_token
   | T_FOR () => fprintf (out, "FOR()", @())
   | T_FORSTAR () => fprintf (out, "FORSTAR()", @())
   | T_FUN (x) => fprintf (out, "FUN(...)", @())
+//
   | T_IF () => fprintf (out, "IF()", @())
+  | T_IFCASE () => fprintf (out, "IFCASE()", @())
+//
   | T_IMPLEMENT (k) => fprintf (out, "IMPLEMENT(%i)", @(k))
   | T_IMPORT () => fprintf (out, "IMPORT()", @())
   | T_IN () => fprintf (out, "IN()", @())
@@ -117,14 +123,14 @@ fprint_token
   | T_OF () => fprintf (out, "OF()", @())
   | T_OP () => fprintf (out, "OP()", @())
   | T_REC () => fprintf (out, "REC()", @())
+(*
   | T_REFAT () => fprintf (out, "REFAT()", @())
-  | T_REQUIRE () => fprintf (out, "REQUIRE()", @())
-  | T_SCASE () => fprintf (out, "SCASE()", @())
+*)
   | T_SIF () => fprintf (out, "SIF()", @())
+  | T_SCASE () => fprintf (out, "SCASE()", @())
   | T_SORTDEF () => fprintf (out, "SORTDEF()", @())
   | T_STACST () => fprintf (out, "STACST()", @())
   | T_STADEF () => fprintf (out, "STADEF()", @())
-  | T_STALOAD () => fprintf (out, "STALOAD()", @())
   | T_STATIC () => fprintf (out, "STATIC()", @())
 (*
   | T_STAVAR () => fprintf (out, "STAVAR()", @())
@@ -150,8 +156,13 @@ fprint_token
   | T_FREEAT () => fprintf (out, "FREEAT()", @()) // free@
   | T_VIEWAT () => fprintf (out, "VIEWAT()", @()) // view@
 //
-  | T_DLRARRPSZ () => fprintf (out, "DLRARRPSZ()", @())
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
+//
+  | T_DLRARRPSZ () => fprintf (out, "DLRARRPSZ()", @())
+//
+  | T_DLRTYREP () => fprintf (out, "DLRTYREP()", @())
+  | T_DLRD2CTYPE () => fprintf (out, "DLRD2CTYPE()", @())
+//
   | T_DLREFFMASK () => fprintf (out, "DLREFFMASK()", @())
   | T_DLREFFMASK_ARG (x) => fprintf (out, "DLREFFMASK(%i)", @(x))
 //
@@ -164,39 +175,61 @@ fprint_token
   | T_DLREXTFCALL () => fprintf (out, "DLREXTFCALL()", @())
   | T_DLREXTMCALL () => fprintf (out, "DLREXTMCALL()", @())
 //
-  | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
-  | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())
-  | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
-//
-  | T_DLRLST (x) => fprintf (out, "DLRLST(%i)", @(x))
-  | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
-  | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))
+  | T_DLRLITERAL () => fprintf (out, "DLRLITERAL()", @())
 //
   | T_DLRMYFILENAME () => fprintf (out, "DLRMYFILENAME()", @())
   | T_DLRMYLOCATION () => fprintf (out, "DLRMYLOCATION()", @())
   | T_DLRMYFUNCTION () => fprintf (out, "DLRMYFUNCTION()", @())
 //
-  | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
+  | T_DLRLST (x) => fprintf (out, "DLRLST(%i)", @(x))
+  | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
+  | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))
+//
+  | T_DLRBREAK () => fprintf (out, "DLRBREAK()", @())
+  | T_DLRCONTINUE () => fprintf (out, "DLRCONTINUE()", @())
+//
+  | T_DLRRAISE () => fprintf (out, "DLRRAISE()", @())
+//
+  | T_DLRVARARG () => fprintf (out, "DLRVARARG()", @())
 //
   | T_DLRVCOPYENV (x) => fprintf (out, "DLRVCOPYENV(%i)", @(x))
 //
+  | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
+//
   | T_DLRTEMPENVER () => fprintf (out, "DLRTEMPENVER()", @())
 //
-  | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())
-  | T_SRPDEFINE () => fprintf (out, "SRPDEFINE()", @())
-  | T_SRPELIF () => fprintf (out, "SRPELIF()", @())
-  | T_SRPELIFDEF () => fprintf (out, "SRPELIFDEF()", @())
-  | T_SRPELIFNDEF () => fprintf (out, "SRPELIFNDEF()", @())
-  | T_SRPELSE () => fprintf (out, "SRPELSE()", @())
-  | T_SRPENDIF () => fprintf (out, "SRPENDIF()", @())
-  | T_SRPERROR () => fprintf (out, "SRPERROR()", @())
+  | T_DLRSOLASSERT () => fprintf (out, "DLRSOLASSERT()", @())
+  | T_DLRSOLVERIFY () => fprintf (out, "DLRSOLVERIFY()", @())
+//
   | T_SRPIF () => fprintf (out, "SRPIF()", @())
   | T_SRPIFDEF () => fprintf (out, "SRPIFDEF()", @())
   | T_SRPIFNDEF () => fprintf (out, "SRPIFNDEF()", @())
-  | T_SRPINCLUDE () => fprintf (out, "SRPINCLUDE()", @())
-  | T_SRPPRINT () => fprintf (out, "SRPPRINT()", @())
   | T_SRPTHEN () => fprintf (out, "SRPTHEN()", @())
+  | T_SRPELSE () => fprintf (out, "SRPELSE()", @())
+  | T_SRPELIF () => fprintf (out, "SRPELIF()", @())
+  | T_SRPELIFDEF () => fprintf (out, "SRPELIFDEF()", @())
+  | T_SRPELIFNDEF () => fprintf (out, "SRPELIFNDEF()", @())
+  | T_SRPENDIF () => fprintf (out, "SRPENDIF()", @())
+//
+  | T_SRPERROR () => fprintf (out, "SRPERROR()", @())
+  | T_SRPPRERR () => fprintf (out, "SRPPRERR()", @())
+  | T_SRPPRINT () => fprintf (out, "SRPPRINT()", @())
+//
+  | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())
+//
   | T_SRPUNDEF () => fprintf (out, "SRPUNDEF()", @())
+  | T_SRPDEFINE () => fprintf (out, "SRPDEFINE()", @())
+//
+  | T_SRPINCLUDE () => fprintf (out, "SRPINCLUDE()", @())
+//
+  | T_SRPSTALOAD () => fprintf (out, "SRPSTALOAD()", @())
+  | T_SRPDYNLOAD () => fprintf (out, "SRPDYNLOAD()", @())
+//
+  | T_SRPREQUIRE () => fprintf (out, "SRPREQUIRE()", @())
+//
+  | T_SRPPRAGMA () => fprintf (out, "SRPPRAGMA()", @())
+  | T_SRPCODEGEN2 () => fprintf (out, "SRPCODEGEN2()", @())
+  | T_SRPCODEGEN3 () => fprintf (out, "SRPCODEGEN3()", @())
 //
   | T_IDENT_alp (x) => fprintf (out, "IDENT_alp(%s)", @(x))
   | T_IDENT_sym (x) => fprintf (out, "IDENT_sym(%s)", @(x))

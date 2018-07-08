@@ -21,3 +21,5 @@ FactLib = {
 mergeInto(LibraryManager.library, FactLib);
 
 /* ****** ****** */
+
+/* end of [fact_lib.js] */

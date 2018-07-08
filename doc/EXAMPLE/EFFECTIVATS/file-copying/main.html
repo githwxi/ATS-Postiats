@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-file-copying</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Copying Files
+</h1>
+
+While the task of copying files is conceptually simple, it can still be
+quite interesting to implement it in ATS.
+
+<h2>
+Attempt One
+</h2>
+
+In order to copy the content of one file into another, we need a means to
+refer to the involved files. In Linux, the notion of file descriptor serves
+precisely this purpose. Although we know that a file descriptor is
+represented as an integer, it seems appropriate to make it abstract as is
+done in the following declaration:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abst@ype</span> fildes <span class="keyword">=</span> int</span>
+</pre>
+
+Often it is a good practice to give a name to an abstract type that is
+less likely to cause collision and then introduce a short alias for the name.
+For instance, the following declarations demonstrate such a practice:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abst@ype</span> fildes_t0ype <span class="keyword">=</span> int</span>
+<span class="keyword">stadef</span> <span class="staexp">fildes<span class="keyword">:</span> <span class="keyword">t@ype</span> <span class="keyword">=</span> <span class="staexp">fildes_t0ype</span></span>
+</pre>
+
+My naming convention uses the special identifier [t0ype] to indicate
+a type of the sort t@ype, that is, a type of unknown size. Note that
+the stadef-declaration can also be replaced with the following one:
+
+<pre
+class="patsyntax">
+<span class="keyword">typedef</span> <span class="staexp">fildes <span class="keyword">=</span> <span class="staexp">fildes_t0ype</span></span>
+</pre>
+
+Now let us name the file-copying function [fcopy1] and give it
+the following interface:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> fcopy1 <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> dst<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+How should we implement [fcopy1]? For the moment, let us try to answer this
+question in a somewhat abstract manner.
+
+<p>
+
+Clearly, we should be able to read chars from [src] and also write chars
+into [dst]. So let us assume that the following two functions are available
+for use:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> readch <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">char</span></span>
+<span class="dynexp"><span class="keyword">fun</span> writech <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> c<span class="keyword">:</span> <span class="staexp">char</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+There is yet one more thing: We should be able to tell whether we have
+finished reading all the chars from a given file. One simple way to do
+this is to require that [readch] return a special value to indicate the
+end of a file being reached. For this purpose, we modify the interface
+of [readch] as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> readch <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span></span>
+</pre>
+
+We use natural numbers, that is, non-negative integers for valid chars and
+a negative integer (e.g., -1) for the special value (indicating that the
+end of [src] is reached). We can now readily implement [fcopy1] as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+fcopy1 <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> c <span class="keyword">=</span> readch <span class="keyword">(</span>src<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> c &gt;= <span class="dynexp">0</span> <span class="keyword">then</span>
+  <span class="keyword">(</span>writech <span class="keyword">(</span>dst<span class="keyword">,</span> c<span class="keyword">)</span><span class="keyword">;</span> fcopy1 <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">)</span><span class="keyword">)</span>
+<span class="comment">// end of [if]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">(* end of [fcopy1] *)</span>
+</pre>
+
+At this point, the obviously question is: How can functions [readch] and
+[writech] be implemented? They can be implemented based on the system calls
+[read] and [write]. Please find a completed running implementation of
+file-copying based on [fcopy1] in fcopy1.dats, where [readch] and [writech]
+are implemented in C directly.
+
+<p>
+
+Of course, there is a lot of criticism that can be laid upon the above
+implementation of file-copying. For instance, it is terribly inefficient;
+it does not support any error-handling at all; etc. I will attempt to
+address these issues in the following presentation. However, one thing that
+is extremely positive about this implementation is the introduction of
+functions [readch] and [writech], which adds a layer to shield system calls
+[read] and [write] from being used directly. This is a programming style I
+would recommend highly and repeatedly. What seems really unfortunate to me
+is that popular books on systems programming
+(e.g. <a href="http://www.apuebook.com/">APUE</a>) often do very little, if
+at all, to advocate this very useful programming style!
+
+<h2>
+Attempt Two
+</h2>
+
+Obviously, [fcopy1] is very inefficient for copying files as it calls
+[read] and [write] each time to read and write only one char, respectively.
+If multiple chars are to be read at once, then a buffer (that is, some
+memory) must be made available to store them. As it is largely
+straightforward to handle only cases where such a buffer is statically
+allocated, I will focus on a solution that can also cope with dynamically
+allocated buffers.
+
+Let us first introduce an abstract type for buffers:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absvtype</span> buffer_vtype <span class="keyword">=</span> ptr</span>
+<span class="keyword">vtypedef</span> <span class="staexp">buffer <span class="keyword">=</span> <span class="staexp">buffer_vtype</span></span>
+</pre>
+
+Actually, [buffer_vtype] is introduced as a viewtype, that is, a linear
+type, and the following functions are for creating and destroying a buffer,
+respectively:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> buffer_create <span class="keyword">(</span>m<span class="keyword">:</span> <span class="staexp">size_t</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">buffer</span></span>
+<span class="dynexp"><span class="keyword">fun</span> buffer_destroy <span class="keyword">(</span>buf<span class="keyword">:</span> <span class="staexp">buffer</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+As we also need to test whether a buffer contains any data or not, let us
+introduce the following function for this purpose:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> buffer_isnot_empty <span class="keyword">(</span>buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span></span>
+</pre>
+
+In addition, let us use the names [readbuf] and [writebuf] for functions
+reading and writing multiple chars, respectively, and assign to them the
+following types:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> readbuf <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">fun</span> writebuf <span class="keyword">(</span>dst<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+Let [fcopy2] be given the same interface as [fcopy1].  The following code
+gives a straightforward implementation of [fcopy2] based on [readbuf] and
+[writebuf]:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+fcopy2 <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> loop
+<span class="keyword">(</span>
+  src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> dst<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> readbuf <span class="keyword">(</span>src<span class="keyword">,</span> buf<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> isnot <span class="keyword">=</span> buffer_isnot_empty <span class="keyword">(</span>buf<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> isnot <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> writebuf <span class="keyword">(</span>dst<span class="keyword">,</span> buf<span class="keyword">)</span></span> <span class="keyword">in</span> loop <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">,</span> buf<span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="comment">// end of [if]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [loop]</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> buf <span class="keyword">=</span>
+  buffer_create <span class="keyword">(</span>i2sz<span class="keyword">(</span>BUFSZ<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> loop <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">,</span> buf<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> buffer_destroy <span class="keyword">(</span>buf<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">(* end of [fcopy2] *)</span>
+</pre>
+
+Note that [BUFSZ] is a compile-time integer constant and [i2sz] is a
+cast-function for casting an integer of the type [int] to one of the type
+[size_t].  Please find the code of a completed running implementation of
+file-copying based on [fcopy2] in fcopy2.dats, where [readbuf] and
+[writebuf] are implemented in C directly.
+
+<h2>
+Attempt Three
+</h2>
+
+While the inefficiency of [fcopy1] is addressed in the implementation of
+[fcopy2], the absence of error-handling is not. I now give another
+implementation of file-copying and address the issue of error-handling in
+this implementation.
+
+<p>
+
+Clearly, a call to [read] or [write] can fail due to a variety of reasons.
+If such a failure occurs, we should probably stop file-copying and report
+an error. Let us introduce another file-copying function [fcopy3] as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> fcopy3 <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> dst<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> nerr<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+The third argument [nerr] of [fcopy3] is a call-by-reference integer. In
+other words, what is passed as the third argument of [fcopy3] is the
+address of a left-value. If an error caused by [read] or [write] occurs
+during file-copying, then the value of the integer stored in [nerr] should
+be increased. To achieve this, we can modify the types of [readbuf] and
+[writebuf] as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> readbuf <span class="keyword">(</span>src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span><span class="keyword">,</span> nerr<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+<span class="dynexp"><span class="keyword">fun</span> writebuf <span class="keyword">(</span>dst<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span><span class="keyword">,</span> nerr<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">int</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+The function [readbuf] calls [read]; if this call reports an error, then
+[readbuf] should increase the value of the integer stored in its third
+argument. The function [writebuf] does the same with [write].  The
+following code gives an implementation of [fcopy3] similar to that of
+[fcopy2]:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+fcopy3 <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">,</span> nerr<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> loop
+<span class="keyword">(</span>
+  src<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> dst<span class="keyword">:</span> <span class="staexp">fildes</span><span class="keyword">,</span> buf<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">buffer</span><span class="keyword">,</span> nerr<span class="keyword">:</span> <span class="staexp">&amp;</span><span class="staexp">int</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">void</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> nerr0 <span class="keyword">=</span> nerr</span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> readbuf <span class="keyword">(</span>src<span class="keyword">,</span> buf<span class="keyword">,</span> nerr<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> isnot <span class="keyword">=</span> buffer_isnot_empty <span class="keyword">(</span>buf<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> isnot <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> writebuf <span class="keyword">(</span>dst<span class="keyword">,</span> buf<span class="keyword">,</span> nerr<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    <span class="keyword">if</span> nerr <span class="keyword">=</span> nerr0 <span class="keyword">then</span> loop <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">,</span> buf<span class="keyword">,</span> nerr<span class="keyword">)</span> <span class="keyword">else</span> <span class="keyword">(</span><span class="comment">(*error*)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="comment">// end of [if]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [loop]</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> buf <span class="keyword">=</span> buffer_create <span class="keyword">(</span>i2sz<span class="keyword">(</span>BUFSZ<span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> loop <span class="keyword">(</span>src<span class="keyword">,</span> dst<span class="keyword">,</span> buf<span class="keyword">,</span> nerr<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=</span> buffer_destroy <span class="keyword">(</span>buf<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">(* end of [fcopy3] *)</span>
+</pre>
+
+Note that the loop function exits whenever an error due to [read] or
+[write] is reported.  Please find the code of a completed running
+implementation of file-copying based on [fcopy3] in fcopy3.dats, where
+[readbuf] and [writebuf] are implemented in C directly.
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

@@ -38,8 +38,8 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 //
 staload
-LOC = "./pats_location.sats"
-typedef loc_t = $LOC.location
+SYN = "./pats_syntax.sats"
+typedef cstsp = $SYN.cstsp
 //
 (* ****** ****** *)
 
@@ -92,21 +92,26 @@ hipat_node =
 //
   | HIPempty of () // empty pattern
 //
-  | HIPcon of (* constructor pattern *)
-      (pckind, d2con, hisexp(*tysum*), labhipatlst)
+  | HIPcon of (* con-pattern *)
+    (
+      pckind
+    , d2con, hisexp(*tysum*), labhipatlst(*arg*)
+    ) (* HIPcon *)
   | HIPcon_any of (pckind, d2con) // HX: unused arg
 //
 (*
   | HIPlst of (hisexp(*element*), hipatlst)
 *)
-  | HIPrec of (* record pattern *)
-      (int(*knd*), labhipatlst, hisexp(*tyrec*))
+  | HIPrec of (* rec-pattern *)
+    (
+    int(*knd*), pckind, labhipatlst, hisexp(*tyrec*)
+    ) (* HIPrec *)
 //
   | HIPrefas of (d2var, hipat) // referenced pattern
 //
-  | HIPann of (hipat, hisexp)
+  | HIPann of (hipat, hisexp(*ann*))
 //
-  | HIPerr of () // HX: error indication
+  | HIPerr of ((*placeholder-for-error*)) // HX: error indication
 // end of [hipat_node]
 
 and labhipat = LABHIPAT of (label, hipat)
@@ -211,12 +216,14 @@ fun hipat_lst
 fun
 hipat_rec (
   loc: loc_t
-, hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
+, hse: hisexp
+, knd: int, pck: pckind, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec]
 fun
 hipat_rec2 (
   loc: loc_t
-, hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
+, hse: hisexp
+, knd: int, pck: pckind, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec2]
 
 (* ****** ****** *)
@@ -261,6 +268,7 @@ hidecl_node =
   | HIDlist of hideclist
 //
   | HIDsaspdec of (s2aspdec)
+  | HIDreassume of (s2cst)(*abstype*)
 //
   | HIDextype of (string(*name*), hisexp)
   | HIDextvar of (string(*name*), hidexp)
@@ -315,7 +323,9 @@ and hidexp_node =
   | HDEi0nt of i0nt // integer constants
   | HDEf0loat of f0loat // floating point constants
 //
-  | HDEcstsp of ($SYN.cstsp) // special constants
+  | HDEcstsp of (cstsp) // special constants
+//
+  | HDEtyrep of (hisexp) // supporting C++ templates
 //
   | HDEtop of () // for uninitialized
   | HDEempty of () // for the void value
@@ -346,10 +356,11 @@ and hidexp_node =
 //
   | HDEif of (
       hidexp(*cond*), hidexp(*then*), hidexp(*else*)
-    ) // end f [HDEif]
-  | HDEsif of (
-      s2exp(*cond*), hidexp(*then*), hidexp(*else*)
-    ) // end of [HDEsif]
+    ) // end of [HDEif]
+//
+  | HDEsif of
+      (s2exp(*cond*), hidexp(*then*), hidexp(*else*))
+    (* end of [HDEsif] *)
 //
   | HDEcase of (
       caskind, hidexplst(*values*), hiclaulst(*clauses*)
@@ -393,6 +404,8 @@ and hidexp_node =
 //
   | HDEraise of (hidexp(*exn*))
 //
+  | HDEvararg of (hidexplst(*arg*)) // $vararg for variadicity
+//
 (*
   | HDEvcopyenv of (d2var) // HX: HDEvar
 *)
@@ -435,9 +448,8 @@ and hideclistopt = Option (hideclist)
 
 and hidexp = '{
   hidexp_loc= loc_t
-, hidexp_type= hisexp
-, hidexp_node= hidexp_node
-}
+, hidexp_type= hisexp, hidexp_node= hidexp_node
+} (* end of [hidexp] *)
 
 and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
@@ -448,7 +460,7 @@ and labhidexplst = List (labhidexp)
 
 and hilab = '{
   hilab_loc= loc_t, hilab_node= hilab_node
-} // end of [hilab]
+} (* end of [hilab] *)
 
 and hilablst = List (hilab)
 
@@ -458,7 +470,7 @@ and higmat = '{
   higmat_loc= loc_t
 , higmat_exp= hidexp
 , higmat_pat= hipatopt
-} // end of [higmat]
+} (* end of [higmat] *)
 
 and higmatlst = List (higmat)
 
@@ -471,7 +483,7 @@ and hiclau = '{
 , hiclau_seq= int // sequentiality
 , hiclau_neg= int // negativativity
 , hiclau_body= hidexp (* clause body *)
-} // end of [hiclau]
+} (* end of [hiclau] *)
 
 and hiclaulst = List (hiclau)
 
@@ -484,7 +496,7 @@ and hifundec = '{
 , hifundec_def= hidexp
 , hifundec_hidecl= Option (hidynexp_hidecl_type)
 , hifundec_funlab= Option (hidynexp_funlab_type)
-} // end of [hifundec]
+} (* end of [hifundec] *)
 
 and hifundeclst = List (hifundec)
 
@@ -494,7 +506,7 @@ and hivaldec = '{
   hivaldec_loc= loc_t
 , hivaldec_pat= hipat
 , hivaldec_def= hidexp
-} // end of [hivaldec]
+} (* end of [hivaldec] *)
 
 and hivaldeclst = List (hivaldec)
 
@@ -507,7 +519,7 @@ and hivardec = '{
 , hivardec_dvar_view= d2var
 , hivardec_type= hisexp
 , hivardec_init= hidexpopt
-} // end of [hivardec]
+} (* end of [hivardec] *)
 
 and hivardeclst = List (hivardec)
 
@@ -520,8 +532,10 @@ and hiimpdec = '{
 , hiimpdec_imparg= s2varlst
 , hiimpdec_tmparg= s2explstlst
 , hiimpdec_def= hidexp
+//
 , hiimpdec_funlab= Option (hidynexp_funlab_type)
 , hiimpdec_instrlst= Option (hidynexp_instrlst_type)
+//
 } (* end of [hiimpdec] *)
 
 and hiimpdeclst = List (hiimpdec)
@@ -574,6 +588,12 @@ fun hidexplst_get_type (hdes: hidexplst): hisexplst
 fun labhidexplst_get_type (lhdes: labhidexplst): labhisexplst
 
 (* ****** ****** *)
+//
+fun hidexp_is_empty (hde: hidexp): bool
+fun hidexplst_isall_empty (hdes: hidexplst): bool
+fun hidexplst_isexi_empty (hdes: hidexplst): bool
+//
+(* ****** ****** *)
 
 fun hidexp_is_value (hde: hidexp): bool
 fun hidexp_is_lvalue (hde: hidexp): bool
@@ -620,8 +640,14 @@ fun hidexp_f0loat
 (* ****** ****** *)
 
 fun hidexp_cstsp
-  (loc: loc_t, hse: hisexp, x: $SYN.cstsp): hidexp
+  (loc: loc_t, hse: hisexp, x: cstsp): hidexp
 // end of [hidexp_cstsp]
+
+(* ****** ****** *)
+
+fun hidexp_tyrep
+  (loc: loc_t, hse: hisexp, x: hisexp): hidexp
+// end of [hidexp_tyrep]
 
 (* ****** ****** *)
 
@@ -634,7 +660,8 @@ fun hidexp_ignore
 
 (* ****** ****** *)
 
-fun hidexp_castfn (
+fun hidexp_castfn
+(
   loc: loc_t, hse: hisexp, d2c: d2cst, arg: hidexp
 ) : hidexp // end of [hidexp_castfn]
 
@@ -748,11 +775,14 @@ hidexp_rec2 (
 ) : hidexp // end of [hidexp_rec2]
 
 (* ****** ****** *)
-
+//
 fun hidexp_seq
   (loc: loc_t, hse: hisexp, hdes: hidexplst): hidexp
 // end of [hidexp_seq]
-
+fun hidexp_seq_simplify
+  (loc: loc_t, hse: hisexp, hdes: hidexplst): hidexp
+// end of [hidexp_seq_simply]
+//
 (* ****** ****** *)
 
 fun hidexp_selab (
@@ -767,8 +797,7 @@ hidexp_ptrofvar
   (loc: loc_t, hse: hisexp, d2v: d2var): hidexp
 fun
 hidexp_ptrofsel
-(
-  loc: loc_t
+( loc: loc_t
 , hse: hisexp, hde: hidexp, hse_rt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_ptrofsel]
 
@@ -776,8 +805,8 @@ hidexp_ptrofsel
 
 fun
 hidexp_refarg
-(
-  loc: loc_t, hse: hisexp, refval: int, freeknd: int, hde: hidexp
+( loc: loc_t
+, hse: hisexp, refval: int, freeknd: int, hde: hidexp
 ) : hidexp // end of [hidexp_refarg]
 
 (* ****** ****** *)
@@ -791,8 +820,7 @@ hidexp_selvar
 
 fun
 hidexp_selptr
-(
-  loc: loc_t
+( loc: loc_t
 , hse: hisexp, hde: hidexp, hse_rt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_selptr]
 
@@ -800,31 +828,31 @@ hidexp_selptr
 
 fun
 hidexp_assgn_var
-(
-  loc: loc_t
-, hse: hisexp, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
+( loc: loc_t
+, hse: hisexp
+, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_var]
 
 fun
 hidexp_assgn_ptr
-(
-  loc: loc_t
-, hse: hisexp, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
+( loc: loc_t
+, hse: hisexp
+, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_ptr]
 
 (* ****** ****** *)
 
 fun
 hidexp_xchng_var
-(
-  loc: loc_t, hse: hisexp
+( loc: loc_t
+, hse: hisexp
 , d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_var]
 
 fun
 hidexp_xchng_ptr
-(
-  loc: loc_t, hse: hisexp
+( loc: loc_t
+, hse: hisexp
 , hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_ptr]
 
@@ -832,25 +860,34 @@ hidexp_xchng_ptr
 
 fun
 hidexp_arrpsz
-(
-  loc: loc_t, hse: hisexp
+( loc: loc_t
+, hse: hisexp
 , hse_elt: hisexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrpsz]
 
 fun
 hidexp_arrinit
-(
-  loc: loc_t, hse: hisexp
-, hse_elt: hisexp, hde_asz: hidexp, hdes_elt: hidexplst, asz: int
+( loc: loc_t
+, hse: hisexp
+, hse_elt: hisexp
+, hde_asz: hidexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrinit]
 
 (* ****** ****** *)
-
+//
 fun
 hidexp_raise
-  (loc: loc_t, hse: hisexp, hde_exn: hidexp): hidexp
+( loc: loc_t
+, hse: hisexp, hde_exn: hidexp): hidexp
 // end of [hidexp_raise]
-
+//
+(* ****** ****** *)
+//
+fun
+hidexp_vararg
+( loc: loc_t
+, hse: hisexp, hdes: hidexplst): hidexp
+//
 (* ****** ****** *)
 //
 fun
@@ -990,13 +1027,20 @@ fun hidecl_is_empty (hid: hidecl): bool
 fun hidecl_none (loc: loc_t): hidecl
 fun hidecl_list (loc: loc_t, hids: hideclist): hidecl
 
-fun hidecl_saspdec (loc: loc_t, d2c: s2aspdec): hidecl
-
 (* ****** ****** *)
 //
-fun hidecl_extype
+fun
+hidecl_saspdec (loc: loc_t, d2c: s2aspdec): hidecl
+fun
+hidecl_reassume (loc: loc_t, s2c_abs: s2cst): hidecl
+//
+(* ****** ****** *)
+//
+fun
+hidecl_extype
   (loc: loc_t, name: string, hse_def: hisexp): hidecl
-fun hidecl_extvar
+fun
+hidecl_extvar
   (loc: loc_t, name: string, hde_def: hidexp): hidecl
 //
 (* ****** ****** *)
