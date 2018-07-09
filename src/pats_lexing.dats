@@ -1012,7 +1012,7 @@ then let
   val k2 = testing_fexponent_bin (buf, pos)
 in
   if k2 >= 0 then (u2i)k1 + k2 + 1
-  else let // YD-2018-07-09
+  else let // YD-2018-07-09: fix hex float format.
     val loc =
       lexbufpos_get_location (buf, pos)
     val err =
