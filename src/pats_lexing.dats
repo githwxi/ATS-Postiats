@@ -942,6 +942,8 @@ testing_deciexp
 (
   buf: &lexbuf, pos: &position
 ) : int = let
+// YD: if the integral part is empty, then the fractional part is not,
+// and the other way too. There is no need to check it.
 //
 val i = lexbufpos_get_char (buf, pos)
 //
@@ -991,7 +993,7 @@ end // end of [testing_deciexp]
 fun
 testing_hexiexp
 (
-  buf: &lexbuf, pos: &position
+  buf: &lexbuf, pos: &position, int_size: uint
 ) : int = let
 //
 val i = lexbufpos_get_char (buf, pos)
@@ -1008,8 +1010,14 @@ if
 c = '.'
 then let
   val () = posincby1 (pos)
-  val k1 = testing_xdigitseq0 (buf, pos)
+  val k1 = testing_xdigitseq0 (buf, pos) // YD: nb of digits after the dot.
   val k2 = testing_fexponent_bin (buf, pos)
+  val () = if int_size = 0u && k1 = 0u then {
+    // YD-2018-07-10: fix hex float format.
+    val loc = lexbufpos_get_location (buf, pos)
+    val err = lexerr_make (loc, LE_FINTFRAC_missing)
+    val () = the_lexerrlst_add (err)
+  }
 in
   if k2 >= 0 then (u2i)k1 + k2 + 1
   else let // YD-2018-07-09: fix hex float format.
@@ -2725,13 +2733,18 @@ in
 case+ 0 of
 | _ when
     testing_hexiexp
-      (buf, pos) >= 0 => let
+      (buf, pos, k1) >= 0 => let
   in
     lexing_FLOAT_hexiexp (buf, pos)
   end // end of [_ when ...]
 | _ when
     testing_fexponent_bin
       (buf, pos) >= 0 => let
+      val () = if k1 = 0u then {
+        val loc = lexbufpos_get_location (buf, pos)
+        val err = lexerr_make (loc, LE_FINTEGRAL_missing)
+        val () = the_lexerrlst_add (err)
+      }
   in
     lexing_FLOAT_hexiexp (buf, pos)
   end // end of [_ when ...]
