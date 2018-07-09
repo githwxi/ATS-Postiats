@@ -89,7 +89,13 @@ val symbol_VBOX : symbol // for vbox pattern
 //
 val symbol_LAMAT : symbol // lam@
 val symbol_LLAMAT : symbol // llam@
+(*
+//
+// YD-2018-07-07:
+// 'ref@' is removed since 2015-12-10
+//
 val symbol_REFAT : symbol // ref@
+*)
 //
 (* ****** ****** *)
 //

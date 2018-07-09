@@ -275,7 +275,13 @@ implement symbol_VBOX = symbol_make_string "vbox"
 //
 implement symbol_LAMAT = symbol_make_string "lam@"
 implement symbol_LLAMAT = symbol_make_string "llam@"
+(*
+//
+// YD-2018-07-07:
+// 'ref@' is removed since 2015-12-10
+//
 implement symbol_REFAT = symbol_make_string "ref@"
+*)
 //
 (* ****** ****** *)
 //
