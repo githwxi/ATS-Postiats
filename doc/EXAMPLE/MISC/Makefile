@@ -292,6 +292,14 @@ clean:: ; $(RMF) totient_dats.o
 clean:: ; $(RMF) totient_dats.c
 cleanall:: ; $(RMF) totient totient.exe
 
+all:: treap_man
+treap_man: treap_man.exe
+treap_man.exe: treap_man_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+treap_man_dats.c: treap_man.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output treap_man_dats.c --dynamic treap_man.dats
+clean:: ; $(RMF) treap_man_dats.o
+clean:: ; $(RMF) treap_man_dats.c
+cleanall:: ; $(RMF) treap_man treap_man.exe
+
 all:: wclines
 wclines: wclines.exe
 wclines.exe: wclines_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< -L$(PATSLIB) -latslib
