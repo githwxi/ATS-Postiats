@@ -2753,6 +2753,12 @@ case+ 0 of
     val k2 = testing_intspseq0 (buf, pos)
     val str = lexbufpos_get_strptr1 (buf, pos)
     val str = string_of_strptr (str)
+    val () = if k1 = 0u then {
+      // YD-2018-07-10: fix hex int format.
+      val loc = lexbufpos_get_location (buf, pos)
+      val err = lexerr_make (loc, LE_IDIGITS_empty)
+      val () = the_lexerrlst_add (err)
+    }
   in
     lexbufpos_token_reset (buf, pos, T_INT_hex(str, k2))
   end // end of [_]
