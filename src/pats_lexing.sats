@@ -551,7 +551,6 @@ lexerr_node =
 //
   | LE_FEXPONENT_empty of ()
   | LE_FEXPONENT_missing of () // YD-2018-07-09: fix hex float format.
-  | LE_FINTEGRAL_missing of () // YD-2018-07-10: fix hex float format.
   | LE_FINTFRAC_missing of () // YD-2018-07-10: fix hex float format.
 //
   | LE_UNSUPPORTED_char of (char)
