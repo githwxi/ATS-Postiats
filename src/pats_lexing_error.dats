@@ -178,6 +178,11 @@ case+ x.lexerr_node of
     val () = fprintf (out, ": illegal digit (oct): %c", @(c))
     val ((*void*)) = fprint_newline (out)
   }
+| LE_IDIGITS_empty () => () where { // YD-2018-07-10: fix hex int format.
+    val () = fprintf (out, ": error(lexing)", @())
+    val () = fprintf (out, ": the integer digits is empty.", @())
+    val ((*void*)) = fprint_newline (out)
+  }
 | LE_FEXPONENT_empty () => () where {
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the floating exponent is empty.", @())
@@ -186,11 +191,6 @@ case+ x.lexerr_node of
 | LE_FEXPONENT_missing () => () where { // YD-2018-07-09: fix hex float format.
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the floating exponent is missing.", @())
-    val ((*void*)) = fprint_newline (out)
-  }
-| LE_FINTEGRAL_missing () => () where { // YD-2018-07-10: fix hex float format.
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the floating integral part is missing.", @())
     val ((*void*)) = fprint_newline (out)
   }
 | LE_FINTFRAC_missing () => () where { // YD-2018-07-10: fix hex float format.
