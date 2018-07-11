@@ -140,7 +140,7 @@ token_node =
   | T_IFCASE of () // (dynamic) ifcase
 //
   | T_IMPLEMENT of
-      (int) // 0/1/2: implmnt/implement/primplmnt
+      (int) // 0/1/-1: implmnt/implement/primplmnt
   | T_IMPORT of () // import (for packages)
   | T_IN of () // in
   | T_LAM of int // lam, llam (linear lam) and lam@ (flat lam)
