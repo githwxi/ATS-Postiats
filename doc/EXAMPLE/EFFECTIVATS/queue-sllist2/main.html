@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-queue-sllist2</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS:<br>
+An Amortized Queue Implementation
+</h1>
+
+Queues are a common data structure in practice. In the following
+presentation, I would like to give a simple 2-list-based implementation of
+queues for which both insertion (enqueue) and removal (dequeue) are
+guaranteed to be amortized O(1)-time operations.
+
+<h2>
+A Simple Interface for Queues
+</h2>
+
+Let us first declare as follows a linear abstract type for queues:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">absvtype</span> queue_vtype <span class="keyword">(</span>a<span class="keyword">:</span><span class="keyword">viewt@ype</span><span class="keyword">,</span> n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span> ptr</span>
+<span class="keyword">vtypedef</span> <span class="staexp">queue <span class="keyword">(</span><span class="staexp">a<span class="keyword">:</span>vt0p</span><span class="keyword">,</span> <span class="staexp">n<span class="keyword">:</span>int</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="staexp">queue_vtype</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+The full name of the declared abstract type is [queue_vtype] and it is
+given an alias [queue]. Given a type T, which may be linear, and an integer
+N, the type [queue(T, N)] is for queues containing N elements of type T.
+
+Obviously, N should be a natural number if there is ever a queue of the
+type [queue(T, N)]. This is captured by the type of the following function
+(or more precisely, proof-function):
+
+<pre
+class="patsyntax">
+<span class="prfexp"><span class="keyword">prfun</span>
+lemma_queue_param
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>que<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>n &gt;= 0<span class="keyword">]</span></span> <span class="staexp">void</span></span>
+</pre>
+
+The following function is to be called to create a queue of size 0:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span> queue_make_nil <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span> <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span></span>
+</pre>
+
+By declaring [queue_make_nil] as a function template, we have a better
+chance to expect that its definition be inlined during compilation. This
+makes sense as [queue_make_nil] should really just be a function of a tiny
+body.
+
+<p>
+
+The following function is to be called to destroy a queue of size 0 (and
+free the memory it occupies):
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span> queue_free_nil <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span> <span class="keyword">(</span>que<span class="keyword">:</span> <span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">0</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+Clearly, we also need to test whether a given queue is empty. So let us
+declare the following function for this purpose:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+queue_is_empty
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>que<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">(</span><span class="staexp">n</span><span class="staexp">==</span><span class="staexp">0</span><span class="keyword">)</span></span>
+</pre>
+
+Similarly, let us declare the following function for testing whether a
+given queue is not empty:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span><span class="keyword">}</span></span>
+queue_isnot_empty
+  <span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span><span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>que<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">bool</span> <span class="keyword">(</span><span class="staexp">n</span> <span class="staexp"><span class="keyword">&gt;</span></span> <span class="staexp">0</span><span class="keyword">)</span></span>
+</pre>
+
+As for enqueueing, we declare the following function: 
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span>
+queue_insert_atend<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span>
+  <span class="keyword">(</span>que<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">+</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">,</span> x<span class="keyword">:</span> <span class="staexp">a</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">void</span></span>
+</pre>
+
+Note that the syntax indicates that [que] is a call-by-value argument and
+the type of the queue it refers to changes from [queue(T, N)] to [queue(T,
+N+1)] for some type T and integer N. Obviously, the increased size is due
+to one element being inserted into the queue.
+
+<p>
+
+As for dequeueing, we declare the following function: 
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>vt0p<span class="keyword">}</span></span>
+queue_takeout_atbeg<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int <span class="keyword">|</span> n <span class="keyword">&gt;</span> 0<span class="keyword">}</span></span> <span class="keyword">(</span>que<span class="keyword">:</span> <span class="staexp"><span class="keyword">!</span></span><span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span> <span class="staexp">&gt;&gt;</span> <span class="staexp">queue</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="staexp">-</span><span class="staexp">1</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">a</span></span>
+</pre>
+
+Note that the syntax indicates that [que] is a call-by-value argument and
+the type of the queue it refers to changes from [queue(T, N)] to [queue(T,
+N-1)] for some type T and <em>positive</em> integer N. Obviously, the
+decreased size is due to one element being removed from the queue.
+
+<p>
+
+Now it is ready for us to implement the abstract type [queue_vtype] and the functions
+associated with it.
+
+<h2>
+A 2-List-Based Implementation of Queues
+</h2>
+
+In a functional programming setting, a queue is often represented as two
+lists: the front part and the rear part. For enqueueing, the rear part is
+replaced with a new list whose head is the enqueued element and whose tail
+is the original rear part. For dequeueing, if the front part is empty, then
+it is first replaced with the reverse of the rear part while the rear part
+is replaced with the empty list; if the front part is not empty, then it is
+replaced with its own tail while its head is returned as the dequeued
+element.
+
+<p>
+
+Clearly, this implementation guarantees that enqueueing is always O(1)-time
+but dequeueing may be O(n)-time, where n is the size of the rear part of the
+queue. It can also be readily noted that enqueueing and dequeueing are both
+O(1)-time if amortized time-complexity is of the concern.
+
+<p>
+
+Let us now see the actual code for this 2-list-based implementation of
+queues.  Instead of functional lists, which require the presence of GC to
+avoid memory leaks, the code makes use of linear singly-linked lists (of
+the type [sllist]), performing memory allocation/deallocation explicitly.
+
+<pre
+class="patsyntax">
+<span class="neuexp"><span class="keyword">staload</span> "libats/SATS/sllist.sats"</span>
+
+<span class="keyword">datavtype</span>
+<span class="staexp">queue <span class="keyword">(</span>a<span class="keyword">:</span><span class="keyword">viewt@ype+</span><span class="keyword">,</span> n<span class="keyword">:</span>int<span class="keyword">)</span> <span class="keyword">=</span>
+  <span class="dynexp"><span class="staexp"><span class="keyword">{</span>f<span class="keyword">,</span>r<span class="keyword">:</span>nat <span class="keyword">|</span> f+r==n<span class="keyword">}</span></span> QUEUE <span class="keyword">of</span> <span class="keyword">(</span><span class="staexp">sllist</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">f</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">sllist</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">r</span><span class="keyword">)</span><span class="keyword">)</span></span></span>
+<span class="comment">// end of [queue]</span>
+
+<span class="staexp"><span class="keyword">assume</span> queue_vtype <span class="keyword">(</span>a<span class="keyword">,</span> n<span class="keyword">)</span> <span class="keyword">=</span> queue <span class="keyword">(</span>a<span class="keyword">,</span> n<span class="keyword">)</span></span>
+</pre>
+
+Clearly, the above code indicates that the size of a queue equals
+the sum of lengths of its front and rear parts.
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span>
+queue_make_nil <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> QUEUE <span class="keyword">(</span>sllist_nil <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> sllist_nil <span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></span>
+</pre>
+
+The function [queue_make_nil] is called to create a queue of size 0, which
+consists of an empty front part and an empty rear part.
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span>
+queue_free_nil <span class="keyword">(</span>que<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val+</span><span class="keyword">~</span>QUEUE <span class="keyword">(</span>f<span class="keyword">,</span> r<span class="keyword">)</span> <span class="keyword">=</span> que</span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_sllist_param <span class="keyword">(</span>f<span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_sllist_param <span class="keyword">(</span>r<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> sllist_free_nil <span class="keyword">(</span>f<span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> sllist_free_nil <span class="keyword">(</span>r<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">// end of [queue_free_nil]</span>
+</pre>
+
+The function [queue_free_nil] is called to destroy a queue of size 0.
+As the elements in a queue may be of a linear type, that is, they may
+contain resources, a queue can be safely freed only if it contains no
+elements.
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span>
+queue_is_empty <span class="keyword">(</span>que<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val+</span>QUEUE <span class="keyword">(</span>f<span class="keyword">,</span> r<span class="keyword">)</span> <span class="keyword">=</span> que</span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> sllist_is_nil <span class="keyword">(</span>f<span class="keyword">)</span> <span class="keyword">then</span> sllist_is_nil <span class="keyword">(</span>r<span class="keyword">)</span> <span class="keyword">else</span> false
+<span class="keyword">end</span></span> <span class="comment">// end of [queue_is_empty]</span>
+</pre>
+
+A queue is empty if and only if both of its front and rear parts are empty.
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span>
+queue_isnot_empty <span class="keyword">(</span>que<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val+</span>QUEUE <span class="keyword">(</span>f<span class="keyword">,</span> r<span class="keyword">)</span> <span class="keyword">=</span> que</span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> sllist_is_cons <span class="keyword">(</span>f<span class="keyword">)</span> <span class="keyword">then</span> true <span class="keyword">else</span> sllist_is_cons <span class="keyword">(</span>r<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [queue_isnot_empty]</span>
+</pre>
+
+A queue is not empty if and only if either its front or its rear is not
+empty. It is also possible to implement [queue_isnot_empty] directly based
+on [queue_is_empty] as is shown below:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp"><span class="keyword">}</span></span>
+queue_isnot_empty <span class="keyword">(</span>que<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_queue_param <span class="keyword">(</span>que<span class="keyword">)</span></span> <span class="keyword">in</span> not <span class="keyword">(</span>queue_is_empty <span class="keyword">(</span>que<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [queue_isnot_empty]</span>
+</pre>
+
+Note that the negation of a value of the type [bool(N == 0)] for some N is
+of the type [bool(N != 0)].  In order to show that [N != 0] implies [N >
+0], we need to prove that [N >= 0], which is achieved by calling
+[lemma_queue_param].
+
+<p>
+
+The functions
+[queue_insert_atend]
+and
+[queue_takeout_atbeg]
+are implemented as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span>
+queue_insert_atend <span class="keyword">(</span>que<span class="keyword">,</span> x<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val+</span><span class="keyword">@</span>QUEUE <span class="keyword">(</span>f<span class="keyword">,</span> r<span class="keyword">)</span> <span class="keyword">=</span> que</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> r := sllist_cons <span class="keyword">(</span>x<span class="keyword">,</span> r<span class="keyword">)</span></span>
+<span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">fold@</span> <span class="keyword">(</span>que<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">in</span>
+  <span class="comment">// nothing</span>
+<span class="keyword">end</span></span></span> <span class="comment">// end of [queue_insert_atend]</span>
+
+<span class="dynexp"><span class="keyword">implement</span><span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span>
+queue_takeout_atbeg <span class="keyword">(</span>que<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val+</span><span class="keyword">@</span>QUEUE <span class="keyword">(</span>f<span class="keyword">,</span> r<span class="keyword">)</span> <span class="keyword">=</span> que</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_sllist_param <span class="keyword">(</span>f<span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> lemma_sllist_param <span class="keyword">(</span>r<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">val</span> iscons <span class="keyword">=</span> sllist_is_cons <span class="keyword">(</span>f<span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">if</span> iscons <span class="keyword">then</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> x <span class="keyword">=</span> sllist_uncons <span class="keyword">(</span>f<span class="keyword">)</span></span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">fold@</span> <span class="keyword">(</span>que<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  x
+<span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">let</span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> sllist_free_nil <span class="keyword">(</span>f<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> f := sllist_reverse <span class="keyword">(</span>r<span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> r := sllist_nil <span class="staexp"><span class="keyword">{</span>a<span class="keyword">}</span></span> <span class="keyword">(</span><span class="keyword">)</span></span>
+  <span class="dynexp"><span class="keyword">val</span> x <span class="keyword">=</span> sllist_uncons <span class="keyword">(</span>f<span class="keyword">)</span></span>
+  <span class="prfexp"><span class="keyword">prval</span> <span class="keyword">(</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">fold@</span> <span class="keyword">(</span>que<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  x
+<span class="keyword">end</span> <span class="comment">// end of [if]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [queue_takeout_atbeg]</span>
+</pre>
+
+By following the description given at the beginning of this section, one
+should find it straightforward to understand the code for enqueueing and
+dequeueing.
+
+<p>
+
+For a running implementation, please find in queue-sllist2.dats the
+entirety of the above presented code plus some code for testing.
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+

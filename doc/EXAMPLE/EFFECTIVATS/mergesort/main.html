@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>EFFECTIVATS-mergesort</title>
+<style type="text/css">
+  .patsyntax {color:#808080;background-color:#E0E0E0;}
+  .patsyntax span.keyword {color:#000000;font-weight:bold;}
+  .patsyntax span.comment {color:#787878;font-style:italic;}
+  .patsyntax span.extcode {color:#A52A2A;}
+  .patsyntax span.neuexp  {color:#800080;}
+  .patsyntax span.staexp  {color:#0000F0;}
+  .patsyntax span.prfexp  {color:#603030;}
+  .patsyntax span.dynexp  {color:#F00000;}
+  .patsyntax span.stalab  {color:#0000F0;font-style:italic}
+  .patsyntax span.dynlab  {color:#F00000;font-style:italic}
+  .patsyntax span.dynstr  {color:#008000;font-style:normal}
+  .patsyntax span.stacstdec  {text-decoration:none;}
+  .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}
+  .patsyntax span.dyncstdec  {text-decoration:none;}
+  .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}
+  .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}
+</style>
+
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+  body {
+    margin: 0 auto;
+    width: 66%;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 15pt;
+    color: #2E2E2E;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-left: 1px solid #acacac;
+    border-right: 1px solid #acacac;
+  }
+  pre, .patsyntax {
+    color: black;
+    background-color: #FEFFEC;
+    border: 1px solid #acacac;
+    border-left: 5px solid #BCBCBC;
+    padding: 20px;
+    margin: 1.5em 0;
+    font-family: monospace;
+    font-size: 0.75em;
+    overflow: auto;
+    line-height: 1.3em;
+  }
+  h1, h2, h3 {
+    font-family: "Lato", sans-serif;
+  }
+  h1 {
+    border: 1px solid #8c8c8c;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: #EEF;
+    box-shadow: 1px 1px 2px #999;
+    text-align: center;
+  }
+  h2 {
+    border-bottom: 1px solid #8C8C8C;
+    padding: 5px;
+    margin-top: 1em;
+    font-size: 1.2em;
+    text-align: left;
+  }
+  h4 {
+    border-bottom: 1px dashed #8C8C8C;
+  }
+  ol, ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li:first-child {
+    border-top: 1px solid #EEF;
+  }
+  li:hover {
+    background-color: #EEF;
+  }
+  li {
+    border-bottom: 1px solid #EEF;
+    border-left: 1px solid #EEF;
+    border-right: 1px solid #EEF;
+  }
+  li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
+
+  a:hover {
+    color: black;
+  }
+  a:visited {
+    color: #7D7D7D;
+  }
+  a {
+    text-decoration: none;
+    color: #0062BB;
+  }
+
+  @media print {
+  body {
+    margin: 0 auto;
+    width: 90%;
+    font-size: 12pt;
+    border-left: 0;
+    border-right: 0;
+  }
+  pre, .patsyntax {
+    color: black;
+    padding: 10px;
+    font-size: 10pt;
+  }
+  h1 {
+    box-shadow: none;
+  }
+  }
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Effective ATS: Mergesort (top-down)
+</h1>
+
+In this article,
+I would like to use mergesort as a concrete example to demonstrate a
+natural style of refinement-based programming. The implementation of mergesort
+given is of the so-called top-down style.
+
+<h2>
+What is Mergesort?
+</h2>
+
+Let me answer this question by giving a specification-like implementation
+of mergesort. Suppose that we have a type [myseq] declared as follows for
+the data that [mergesort] is to be called on:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abstype</span> myseq</span>
+</pre>
+
+Naturally, we assign the following interface to [mergesort]:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> mergesort <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">myseq</span></span>
+</pre>
+
+A straightforward implementation of [mergesort] can be given as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+mergesort <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> n <span class="keyword">=</span> myseq_length <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">2</span> <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span> myseq_split <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    myseq_merge <span class="keyword">(</span>mergesort <span class="keyword">(</span>xs1<span class="keyword">)</span><span class="keyword">,</span> mergesort <span class="keyword">(</span>xs2<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="comment">// end of [if]</span>
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mergesort]</span>
+</pre>
+
+where the functions [myseq_length], [myseq_split] and [myseq_merge] are
+assigned the following types:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> myseq_length <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span></span>
+<span class="dynexp"><span class="keyword">fun</span> myseq_split <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">myseq</span><span class="keyword">,</span> <span class="staexp">myseq</span><span class="keyword">)</span></span>
+<span class="dynexp"><span class="keyword">fun</span> myseq_merge <span class="keyword">(</span>xs1<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">,</span> xs2<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">myseq</span></span>
+</pre>
+
+and their functionalities are briefly explained below:
+
+<ul>
+<li> [myseq_length] returns the length of a given myseq-value.
+<li> [myseq_split] splits a given myseq-value into two myseq-values.
+<li> [myseq_merge] merges two given sorted myseq-values into one sorted myseq-value.
+</ul>
+
+Even for someone who is unfamiliar with the syntax of ATS, it is probably
+fair to say that the above specification-like implementation of [mergesort] is
+often preferrable to a description of mergesort in English or other natural
+languages.
+
+<h2>
+Specifying with Dependent Types
+</h2>
+
+As the given implementation of mergesort is recursive, there must be a
+reason why we expect that the implemented function [mergesort] is
+terminating. Inevitably, we need to talk about the length of a myseq-value
+if we argue for [mergesort] being terminating, where the length of a
+myseq-value refers to the number of items contained in the sequence
+represented by the myseq-value.
+
+<p>
+
+In ATS, we can refine [myseq] as follows by making it a type constructor
+carrying one integer parameter:
+
+<pre
+class="patsyntax">
+<span class="staexp"><span class="keyword">abstype</span> myseq<span class="keyword">(</span>n<span class="keyword">:</span>int<span class="keyword">)</span></span>
+</pre>
+
+Given a static integer N, [myseq(N)] is for myseq-values of length N.
+The type assigned to [mergesort] can be refined as follows to capture
+the invariant that a given myseq-value and its sorted version have the
+same length:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> mergesort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+As for the functions [myseq_length], [myseq_split]
+and [myseq_merge], they can be assigned the following more informative types:
+
+<pre
+class="patsyntax">
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> myseq_length<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int<span class="keyword">}</span></span> <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> myseq_split<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int <span class="keyword">|</span> n &gt;= 2<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp"><span class="keyword">[</span>n1<span class="keyword">,</span>n2<span class="keyword">:</span>pos <span class="keyword">|</span> n1+n2==n<span class="keyword">]</span></span> <span class="keyword">(</span><span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n2</span><span class="keyword">)</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> myseq_merge<span class="staexp"><span class="keyword">{</span>n1<span class="keyword">,</span>n2<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">(</span>xs1<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> xs2<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n1</span><span class="staexp">+</span><span class="staexp">n2</span><span class="keyword">)</span></span>
+<span class="comment">//</span>
+</pre>
+
+Note that the type assigned to [myseq_split] implies that this function can
+only be applied to a given myseq-value containing at least 2 items and the
+two myseq-values it returns are strictly shorter than the given myseq-value.
+
+<p>
+
+The above implementation of [mergesort] can be slightly modified into the
+following version:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+mergesort <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> sort
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+  <span class="dynexp"><span class="keyword">val</span> n <span class="keyword">=</span> myseq_length <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">2</span> <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span> myseq_split <span class="keyword">(</span>xs<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    myseq_merge <span class="keyword">(</span>sort <span class="keyword">(</span>xs1<span class="keyword">)</span><span class="keyword">,</span> sort <span class="keyword">(</span>xs2<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="comment">// end of [if]</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [sort]</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  sort <span class="keyword">(</span>xs<span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mergesort]</span>
+</pre>
+
+Note that [sort] is verified to be terminating based on the termination
+metric &lt;n&gt; (supplied by the programmer).
+
+<p>
+
+When trying to implement [myseq_split], we should be able to quickly
+realize that the following interface is much more suitable for it:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span> myseq_split<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>int <span class="keyword">|</span> n &gt;= 2<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">:</span> <span class="keyword">(</span><span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">/</span><span class="staexp">2</span><span class="keyword">)</span><span class="keyword">,</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="staexp">-</span><span class="staexp">n</span><span class="staexp">/</span><span class="staexp">2</span><span class="keyword">)</span><span class="keyword">)</span></span>
+</pre>
+
+The interface states that [myseq_split] returns a pair of myseq-values of
+length n/2 and n-n/2 when applied to a myseq-value of length n and an
+integer of value n. The implementation of [mergesort] can now be slightly
+modified as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+mergesort <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="comment">//</span>
+<span class="dynexp"><span class="keyword">fun</span> sort
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">.&lt;</span><span class="staexp">n</span><span class="keyword">&gt;.</span>
+<span class="keyword">(</span>
+  xs<span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span> <span class="staexp">n</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">myseq</span><span class="keyword">(</span><span class="staexp">n</span><span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="keyword">in</span>
+  <span class="keyword">if</span> n &gt;= <span class="dynexp">2</span> <span class="keyword">then</span> <span class="keyword">let</span>
+    <span class="dynexp"><span class="keyword">val</span> n2 <span class="keyword">=</span> half <span class="keyword">(</span>n<span class="keyword">)</span></span>
+    <span class="dynexp"><span class="keyword">val</span> <span class="keyword">(</span>xs1<span class="keyword">,</span> xs2<span class="keyword">)</span> <span class="keyword">=</span> myseq_split <span class="keyword">(</span>xs<span class="keyword">,</span> n<span class="keyword">)</span></span>
+  <span class="keyword">in</span>
+    myseq_merge <span class="keyword">(</span>sort <span class="keyword">(</span>xs1<span class="keyword">,</span> n2<span class="keyword">)</span><span class="keyword">,</span> sort <span class="keyword">(</span>xs2<span class="keyword">,</span> n-n2<span class="keyword">)</span><span class="keyword">)</span>
+  <span class="keyword">end</span> <span class="keyword">else</span> <span class="keyword">(</span>xs<span class="keyword">)</span> <span class="comment">// end of [if]</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [sort]</span>
+<span class="comment">//</span>
+<span class="keyword">in</span>
+  sort <span class="keyword">(</span>xs<span class="keyword">,</span> myseq_length<span class="keyword">(</span>xs<span class="keyword">)</span><span class="keyword">)</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [mergesort]</span>
+</pre>
+
+We now have a specification-like implementation of mergesort that
+typechecks, which can be thought of as some form of blueprint intended for
+implementing mergesort on concrete types such as lists and arrays.
+
+<h2>
+Mergesort on Lists
+</h2>
+
+As can be expected, the interface for mergesort on lists is given as
+follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span>
+mergesort<span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span> <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span> <span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+This interface indicates that [mergesort] is a function template
+parameterized over the type of the elements in a list given as its
+argument. Let us now focus on [myseq_merge], which is given the
+following interface:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span>
+myseq_merge
+  <span class="staexp"><span class="keyword">{</span>n1<span class="keyword">,</span>n2<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs1<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> xs2<span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n2</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">list</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="staexp">+</span><span class="staexp">n2</span><span class="keyword">)</span></span>
+<span class="comment">// end of [myseq_merge]</span>
+</pre>
+
+Following is a straightforward implementation of [myseq_merge] on lists:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">implement</span>
+<span class="keyword">{</span><span class="staexp">a</span><span class="keyword">}</span><span class="comment">(*tmp*)</span>
+myseq_merge
+  <span class="keyword">(</span>xs10<span class="keyword">,</span> xs20<span class="keyword">)</span> <span class="keyword">=</span> <span class="keyword">let</span>
+<span class="keyword">in</span>
+<span class="comment">//</span>
+<span class="keyword">case+</span> xs10 <span class="keyword">of</span>
+<span class="keyword">|</span> cons <span class="keyword">(</span>x1<span class="keyword">,</span> xs11<span class="keyword">)</span> <span class="keyword">=&gt;</span>
+  <span class="keyword">(</span>
+    <span class="keyword">case+</span> xs20 <span class="keyword">of</span>
+    <span class="keyword">|</span> cons <span class="keyword">(</span>x2<span class="keyword">,</span> xs21<span class="keyword">)</span> <span class="keyword">=&gt;</span> <span class="keyword">let</span>
+        <span class="dynexp"><span class="keyword">val</span> sgn <span class="keyword">=</span> gcompare_val&lt;<span class="staexp">a</span><span class="keyword">&gt;</span> <span class="keyword">(</span>x1<span class="keyword">,</span> x2<span class="keyword">)</span></span>
+      <span class="keyword">in</span>
+        <span class="keyword">if</span> sgn &lt;= <span class="dynexp">0</span>
+          <span class="keyword">then</span> cons<span class="staexp"><span class="keyword">{</span>a<span class="keyword">}</span></span><span class="keyword">(</span>x1<span class="keyword">,</span> myseq_merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span> <span class="keyword">(</span>xs11<span class="keyword">,</span> xs20<span class="keyword">)</span><span class="keyword">)</span>
+          <span class="keyword">else</span> cons<span class="staexp"><span class="keyword">{</span>a<span class="keyword">}</span></span><span class="keyword">(</span>x2<span class="keyword">,</span> myseq_merge&lt;<span class="staexp">a</span><span class="keyword">&gt;</span> <span class="keyword">(</span>xs10<span class="keyword">,</span> xs21<span class="keyword">)</span><span class="keyword">)</span>
+        <span class="comment">// end of [if]</span>
+      <span class="keyword">end</span> <span class="comment">(* end of [cons] *)</span>
+    <span class="keyword">|</span> nil <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> xs10
+  <span class="keyword">)</span>
+<span class="keyword">|</span> nil <span class="keyword">(</span><span class="comment">(*void*)</span><span class="keyword">)</span> <span class="keyword">=&gt;</span> xs20
+<span class="comment">//</span>
+<span class="keyword">end</span></span> <span class="comment">// end of [myseq_merge]</span>
+</pre>
+
+Note that [gcompare_val] is a generic function template for comparing
+values.
+
+<p>
+
+Please find the entirety of the implementation of mergesort on lists plus
+some testing code in mergesort_list.dats.
+
+<h2>
+Mergesort on Arrays
+</h2>
+
+The abstract specification-like implementation of [mergesort] given above
+is of so-called functional style. While it is not well-suited for
+implementing mergesort on arrays (of imperative style), I would still like
+to give it a try so as to make a point.
+
+<p>
+
+First, as an array in ATS is of C-style, there is no size information
+attached to the array. So the interface for [mergesort] needs to be
+modified as follows:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span>
+mergesort
+  <span class="staexp"><span class="keyword">{</span>n<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+  <span class="keyword">(</span>xs<span class="keyword">:</span> <span class="staexp">arrayref</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">,</span> n<span class="keyword">:</span> <span class="staexp">int</span> <span class="staexp">n</span><span class="keyword">)</span><span class="keyword">:</span> <span class="staexp">arrayref</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n</span><span class="keyword">)</span></span>
+</pre>
+
+This interface means that [mergesort] takes both an array and the size of
+the array as its two arguments.
+
+<p>
+
+Following is the interface for [myseq_merge] on arrays:
+
+<pre
+class="patsyntax">
+<span class="dynexp"><span class="keyword">fun</span><span class="staexp"><span class="keyword">{</span>a<span class="keyword">:</span>t0p<span class="keyword">}</span></span>
+myseq_merge
+  <span class="staexp"><span class="keyword">{</span>n1<span class="keyword">,</span>n2<span class="keyword">:</span>nat<span class="keyword">}</span></span>
+<span class="keyword">(</span>
+  xs1<span class="keyword">:</span> <span class="staexp">arrayref</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> xs2<span class="keyword">:</span> <span class="staexp">arrayref</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n2</span><span class="keyword">)</span><span class="keyword">,</span> n1<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n1</span><span class="keyword">)</span><span class="keyword">,</span> n2<span class="keyword">:</span> <span class="staexp">int</span><span class="keyword">(</span><span class="staexp">n2</span><span class="keyword">)</span>
+<span class="keyword">)</span> <span class="keyword">:</span> <span class="staexp">arrayref</span><span class="keyword">(</span><span class="staexp">a</span><span class="keyword">,</span> <span class="staexp">n1</span><span class="staexp">+</span><span class="staexp">n2</span><span class="keyword">)</span></span> <span class="comment">// end of [myseq_merge]</span>
+</pre>
+
+There is extensive use of unsafe programming features in my implementation
+of [myseq_merge] on arrays. Writing code in this way is primarily for the
+purpose of saving some time as the given implementation of mergesort on
+arrays is not meant for practical use; it is only meant to make a point
+that the specification-like implementation of [mergesort] given above can
+indeed be adapted to handle arrays.
+
+<p>
+
+Please find the entirety of the implementation of mergesort on arrays plus
+some testing code in mergesort_array.dats.
+
+<h2>
+Refinement-based Programming
+</h2>
+
+While it may seem a bit too pedantic to implement a simple algorithm
+like mergesort in the way presented above, I do hope that this style of
+refinement-based programming should look obviously appealing to anyone
+wanting to write even moderately complex programs. The manner in which
+abstract types are supported in ATS is particularly designed under the
+guideline to maximally promote refinement-based programming. As I see it,
+the ability to make effective use of abstraction in controlling programming
+complexity is the most important characteristic of a top programmer, and
+the type system of ATS can greatly help one acquire this ability.
+Have fun!
+
+<hr size="2">
+
+<p>
+This article is written by <a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
+</p>
+<script type="text/javascript">
+  window.onload = function() {
+    var links = [];
+    var headers = document.getElementsByTagName('h2');
+
+    for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        var subHeadings = header.getElementsByTagName('h4');
+        var title = header.innerHTML;
+        var link = title.trim().split(/\s/).map(function(x) { return x.toLowerCase(); }).join('-');
+        var html = '<h2 id="' + link + '">' + title + '</h2>';
+        var linkHtml = '<a href="#' + link + '">' + html + '</a>';
+        header.outerHTML = linkHtml;
+        links.push({link: link, title: title});
+    }
+
+    if (links.length > 0) {
+        var sideBarHtml = '<h2>Table of Contents</h2>';
+        sideBarHtml += '<ul class="sidebar-list">';
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            sideBarHtml += '<li class="sidebar-item">';
+            sideBarHtml += '<a href="#' + link.link + '">' + link.title + '</a>';
+            sideBarHtml += '</li>';
+        }
+        sideBarHtml += '</ul>';
+        sideBarHtml += '<h2>Introduction</h2>';
+
+        var sidebar = document.createElement('div');
+        sidebar.className = 'sidebar';
+        sidebar.innerHTML = sideBarHtml
+
+        var mainTitle = document.getElementsByTagName('h1')[0];
+        document.body.insertBefore(sidebar, mainTitle.nextSibling);
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
