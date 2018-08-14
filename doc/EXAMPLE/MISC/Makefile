@@ -108,6 +108,14 @@ clean:: ; $(RMF) fourslot_dats.o
 clean:: ; $(RMF) fourslot_dats.c
 cleanall:: ; $(RMF) fourslot fourslot.exe
 
+all:: foreach_getline
+foreach_getline: foreach_getline.exe
+foreach_getline.exe: foreach_getline_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+foreach_getline_dats.c: foreach_getline.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output foreach_getline_dats.c --dynamic foreach_getline.dats
+clean:: ; $(RMF) foreach_getline_dats.o
+clean:: ; $(RMF) foreach_getline_dats.c
+cleanall:: ; $(RMF) foreach_getline foreach_getline.exe
+
 all:: hanoi
 hanoi: hanoi.exe
 hanoi.exe: hanoi_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 

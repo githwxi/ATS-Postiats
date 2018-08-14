@@ -76,7 +76,7 @@ cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 #
 ######
-
-cleanall:: ; $(RMF) main.html
-
+#
+# cleanall:: ; $(RMF) main.html
+#
 ###### end of [Makefile] ######
