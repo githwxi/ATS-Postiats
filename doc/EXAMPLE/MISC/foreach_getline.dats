@@ -113,13 +113,14 @@ foreach_getline
 (* ****** ****** *)
 //
 extern
-fun
+fun{}
 fileref_foreach_getline
   (inp: FILEref): void
 //
 (* ****** ****** *)
 
 implement
+{}(*tmp*)
 fileref_foreach_getline
   (inp) = let
 //
@@ -162,7 +163,7 @@ case+ argc of
       )
     | ~Some_vt(inp) =>
       (
-        (fileref_foreach_getline(inp); fileref_close(inp))
+        (fileref_foreach_getline<>(inp); fileref_close(inp))
       )
   end // end of [_]
 )
