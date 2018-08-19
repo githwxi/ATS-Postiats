@@ -420,7 +420,7 @@ d0e0.d0exp_node of
 | ATSSELcon _ => emit_SELcon (out, d0e0)
 | ATSSELrecsin _ => emit_SELrecsin (out, d0e0)
 | ATSSELboxrec _ => emit_SELboxrec (out, d0e0)
-| ATSSELfltrec _ => emit_text (out, "ATSSELfltrec(...)")
+| ATSSELfltrec _ => emit_SELfltrec (out, d0e0)
 //
 | ATSextfcall
     (_fun, _arg) => {
@@ -586,6 +586,26 @@ val () = emit_RBRACKET (out)
 in
   // nothing
 end // end of [emit_SELboxrec]
+
+(* ****** ****** *)
+
+implement
+emit_SELfltrec
+  (out, d0e) = let
+//
+val-
+ATSSELfltrec
+(d0rec, s0e, id) = d0e.d0exp_node
+//
+val () =
+  emit_d0exp (out, d0rec)
+//
+val () = emit_DOT (out)
+val () = emit_i0de (out, id)
+//
+in
+  // nothing
+end // end of [emit_SELfltrec]
 
 (* ****** ****** *)
 //
