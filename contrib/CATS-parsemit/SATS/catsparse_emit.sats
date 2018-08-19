@@ -180,6 +180,7 @@ fun emit_d0exparg : emit_type (d0explst)
 fun emit_SELcon : emit_type (d0exp)
 fun emit_SELrecsin : emit_type (d0exp)
 fun emit_SELboxrec : emit_type (d0exp)
+fun emit_SELfltrec : emit_type (d0exp)
 
 (* ****** ****** *)
 
