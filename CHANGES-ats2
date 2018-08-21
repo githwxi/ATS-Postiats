@@ -27,6 +27,8 @@ Here is a list of major additions and changes since the last release:
 1. Fixing parsing for hexidecimal floating point numbers
 2. Fixing issues with some atsccomp transpilers and their libs
 3. Tidying-up code for resolving fixity (xpushup and xreduce)
+4. Atscc2js supports native records now (Kudos to AS-2018-08-18):
+   See the function [emit_SELfltrec] for some detail.
 
 ######
 

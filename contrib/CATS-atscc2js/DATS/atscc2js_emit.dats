@@ -420,7 +420,13 @@ d0e0.d0exp_node of
 | ATSSELcon _ => emit_SELcon (out, d0e0)
 | ATSSELrecsin _ => emit_SELrecsin (out, d0e0)
 | ATSSELboxrec _ => emit_SELboxrec (out, d0e0)
+//
+// By AS-2018-08-18:
+//
 | ATSSELfltrec _ => emit_SELfltrec (out, d0e0)
+(*
+| ATSSELfltrec _ => emit_text (out, "ATSSELfltrec(...)")
+*)
 //
 | ATSextfcall
     (_fun, _arg) => {
