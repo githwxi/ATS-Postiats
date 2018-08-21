@@ -421,7 +421,8 @@ d0e0.d0exp_node of
 | ATSSELrecsin _ => emit_SELrecsin (out, d0e0)
 | ATSSELboxrec _ => emit_SELboxrec (out, d0e0)
 //
-// By AS-2018-08-18:
+// AS-2018-08-18:
+// For supporting native records:
 //
 | ATSSELfltrec _ => emit_SELfltrec (out, d0e0)
 (*
