@@ -44,9 +44,9 @@ ATS_PACKNAME
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} linmap_avltree_height (map: !map (key, itm)):<> intGte (0)
+fun
+{key:t0p;itm:vt0p}
+linmap_avltree_height(map: !map (key, itm)):<> intGte(0)
 
 (* ****** ****** *)
 
