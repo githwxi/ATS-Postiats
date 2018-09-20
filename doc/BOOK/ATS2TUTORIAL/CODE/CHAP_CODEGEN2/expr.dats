@@ -37,7 +37,7 @@ CODEGEN2
 //
 #else
 //
-#include "expr_codegen2.hats"
+#include "./expr_codegen2.hats"
 //
 implement
 datcon_expr(x) = datcon_expr_(x)

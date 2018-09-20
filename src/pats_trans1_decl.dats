@@ -186,29 +186,33 @@ p0rec_tr
 in
   case+ p0 of
   | P0RECint int =>
-      prec_make_int (int)
+      prec_make_int(int)
     // end of [P0RECint]
   | P0RECi0de id => precfnd id
   | P0RECi0de_adj
       (id, opr, int) => let
       val sym = opr.i0de_sym in
       case+ opr of
-      | _ when sym = ADD => precedence_inc (precfnd id, int)
-      | _ when sym = SUB => precedence_dec (precfnd id, int)
+      | _ when sym = ADD =>
+          precedence_inc(precfnd id, int)
+      | _ when sym = SUB =>
+          precedence_dec(precfnd id, int)
       | _ => let
-          val () = prec_tr_errmsg_adj (opr) in prec_make_err ()
+          val () = prec_tr_errmsg_adj(opr) in prec_make_err()
         end (* end of [_] *)
     end // end of [P0RECi0de_adj]
 end // end of [p0rec_tr]
 
 fn f0xty_tr
-  (f0xty: f0xty): fxty = case+ f0xty of
+  (f0xty: f0xty): fxty =
+(
+  case+ f0xty of
   | F0XTYinf (p0, a) =>
-      let val p = p0rec_tr p0 in fxty_inf (p, a) end
+      let val p1 = p0rec_tr p0 in fxty_inf (p1, a) end
     // F0XTYinf
-  | F0XTYpre p0 => let val p = p0rec_tr p0 in fxty_pre p end
-  | F0XTYpos p0 => let val p = p0rec_tr p0 in fxty_pos p end
-// end of [f0xty_tr]
+  | F0XTYpre p0 => let val p1 = p0rec_tr p0 in fxty_pre p1 end
+  | F0XTYpos p0 => let val p1 = p0rec_tr p0 in fxty_pos p1 end
+) (* end of [f0xty_tr] *)
 
 in (* in of [local] *)
 

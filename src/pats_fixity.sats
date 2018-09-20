@@ -32,23 +32,29 @@
 // Start Time: April, 2011
 //
 (* ****** ****** *)
-
+//
 staload
 LOC = "./pats_location.sats"
+//
 typedef location = $LOC.location
-
+//
 (* ****** ****** *)
 
-datatype assoc = ASSOCnon | ASSOClft | ASSOCrgt
+datatype
+assoc =
+| ASSOCnon | ASSOClft | ASSOCrgt
 
-fun fprint_assoc (out: FILEref, x: assoc): void
+fun
+fprint_assoc (out: FILEref, x: assoc): void
 overload fprint with fprint_assoc
 
 (* ****** ****** *)
-
-abst@ype prec_t0ype = int (* precedence type *)
-typedef prec = prec_t0ype
-
+//
+// HX: precedence value
+//
+abst@ype prec_t0ype = int
+  typedef prec = prec_t0ype
+//
 (* ****** ****** *)
 
 val neginf_prec : prec // lowest legal precedence value
@@ -126,12 +132,11 @@ datatype fxty =
 
 (* ****** ****** *)
 
+fun prerr_fxty (fxty: fxty): void
+fun print_fxty (fxty: fxty): void
 fun fprint_fxty
   (out: FILEref, fxty: fxty): void
 // end of [fprint_fxty]
-
-fun prerr_fxty (fxty: fxty): void
-fun print_fxty (fxty: fxty): void
 
 (* ****** ****** *)
 

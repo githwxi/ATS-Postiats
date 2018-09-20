@@ -13,12 +13,12 @@
 ** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
 ** Free Software Foundation; either version 3, or (at  your  option)  any
 ** later version.
-** 
+**
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
 ** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
 ** for more details.
-** 
+**
 ** You  should  have  received  a  copy of the GNU General Public License
 ** along  with  ATS;  see the  file COPYING.  If not, please write to the
 ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
@@ -587,7 +587,7 @@ val nchr1 = loop (buf, nchr0, f)
 //
 val diff = nchr1 - nchr0
 val () =
-if diff > 0u 
+if diff > 0u
   then $LOC.position_incby_count (pos, diff) else ()
 // end of [if]
 //
@@ -704,7 +704,7 @@ fun loop
 , nchr: uint, lit: string n, k: size_t k
 ) : int = let
   val isnot = string_isnot_atend (lit, k)
-in 
+in
 //
 if
 isnot
@@ -810,7 +810,7 @@ val nchr0 =
 val nchr1 = loop (buf, nchr0)
 val diff = nchr1 - nchr0
 val () =
-if diff > 0u 
+if diff > 0u
   then $LOC.position_incby_count (pos, diff) else ()
 // end of [val]
 } (* end of [testing_octalseq0] *)
@@ -941,7 +941,9 @@ fun
 testing_deciexp
 (
   buf: &lexbuf, pos: &position
-) : int = let  
+) : int = let
+// YD: if the integral part is empty, then the fractional part is not,
+// and the other way too. There is no need to check it.
 //
 val i = lexbufpos_get_char (buf, pos)
 //
@@ -991,8 +993,9 @@ end // end of [testing_deciexp]
 fun
 testing_hexiexp
 (
-  buf: &lexbuf, pos: &position
-) : int = let  
+  buf: &lexbuf
+, pos: &position, int_size: uint
+) : int = let
 //
 val i = lexbufpos_get_char (buf, pos)
 //
@@ -1008,10 +1011,35 @@ if
 c = '.'
 then let
   val () = posincby1 (pos)
-  val k1 = testing_xdigitseq0 (buf, pos)
-  val k2 = testing_fexponent_bin (buf, pos)
+  //
+  // YD: nb of digits after the dot:
+  //
+  val k1 =
+    testing_xdigitseq0 (buf, pos)
+  val k2 =
+    testing_fexponent_bin (buf, pos)
+  val () =
+  if
+  (int_size = 0u && k1 = 0u)
+  then {
+    // YD-2018-07-10: fix hex float format.
+    val loc =
+      lexbufpos_get_location (buf, pos)
+    val err =
+      lexerr_make (loc, LE_FINTFRAC_missing)
+    val ((*void*)) = the_lexerrlst_add (err)
+  } (* end of [if] *)
 in
-  if k2 >= 0 then (u2i)k1 + k2 + 1 else (u2i)k1 + 1
+  if k2 >= 0 then (u2i)k1 + k2 + 1
+  else let // YD-2018-07-09: fix hex float format.
+    val loc =
+      lexbufpos_get_location (buf, pos)
+    val err =
+      lexerr_make (loc, LE_FEXPONENT_missing)
+    val ((*void*)) = the_lexerrlst_add (err)
+  in (u2i)k1 + 1
+  end // end of [else]
+
 end // end of [then]
 else (~1) // end of [else]
 //
@@ -1205,9 +1233,10 @@ feof
 , pos: &position
 , xs: list_vt (position, l)
 ) : token = let
-  val list_vt_cons (!p_x, _) = xs
-  val loc = $LOC.location_make_pos_pos (!p_x, pos)
-  prval () = fold@ (xs)
+  val list_vt_cons(!p_x, _) = xs
+  val loc =
+    $LOC.location_make_pos_pos(!p_x, pos)
+prval () = fold@ (xs)
   val () = list_vt_free (xs)
   val err = lexerr_make (loc, LE_COMMENT_block_unclose)
   val () = the_lexerrlst_add (err)
@@ -1264,7 +1293,7 @@ end // end of [lexing_COMMENT_block_ml]
 implement
 lexing_COMMENT_rest
   (buf, pos) = let
-  val i = lexbufpos_get_char (buf, pos)  
+  val i = lexbufpos_get_char (buf, pos)
 in
   if i >= 0 then let
     val () = posincbyc (pos, i) in
@@ -1343,7 +1372,7 @@ then let
     if c2 = '2' then (knd := knd + 1; posincby1(pos))
   end // end of [val]
   val () =
-    if knd = DYNEND then let // for $^2
+    if knd = DYNEND then let // for $2
     val i2 = lexbufpos_get_char (buf, pos)
     val c2 = (i2c)i2
   in
@@ -1608,7 +1637,7 @@ case+ 0 of
 | _ => lexbufpos_token_reset (buf, pos, DOT)
 //
 end // end of [lexing_DOT]
-  
+
 (* ****** ****** *)
 
 extern
@@ -1621,7 +1650,7 @@ lexing_PERCENT
   val i = lexbufpos_get_char (buf, pos)
   val c = (i2c)i
 in
-  case+ c of 
+  case+ c of
   | '\(' => let // '%(' initiates macro syntax
       val () = posincby1 (pos) in
       lexbufpos_token_reset (buf, pos, T_PERCENTLPAREN)
@@ -1708,7 +1737,7 @@ lexing_BQUOTE
   val i = lexbufpos_get_char (buf, pos)
   val c = (i2c)i
 in
-  case+ c of 
+  case+ c of
   | '\(' => let // '`(' initiates macro syntax
       val () = posincby1 (pos) in
       lexbufpos_token_reset (buf, pos, T_BQUOTELPAREN)
@@ -1816,7 +1845,10 @@ in
       // end of [if]
     end // end of [_ when ...]
   | _ => let
+(*
       val k = testing_digitseq0 (buf, pos)
+*)
+      val k = testing_octalseq0 (buf, pos)
     in
       if k = 0u then
         lexbufpos_lexerr_reset (buf, pos, LE_CHAR_oct)
@@ -2060,7 +2092,7 @@ else let
 end (* end of [else] *)
 //
 end // end of [loop]
-//  
+//
 and
 loop_ins
 {m,n:int | m > 0}
@@ -2177,7 +2209,7 @@ lexing_CASE
 fun lexing_VAL
 (
   buf: &lexbuf, pos: &position
-) : token = 
+) : token =
   lexing_polarity (buf, pos, VAL, VAL_pos, VAL_neg)
 // end of [lexing_VAL]
 
@@ -2713,13 +2745,19 @@ in
 case+ 0 of
 | _ when
     testing_hexiexp
-      (buf, pos) >= 0 => let
+      (buf, pos, k1) >= 0 => let
   in
     lexing_FLOAT_hexiexp (buf, pos)
   end // end of [_ when ...]
 | _ when
     testing_fexponent_bin
       (buf, pos) >= 0 => let
+      val () = if k1 = 0u then {
+        // YD-2018-07-10: fix hex float format.
+        val loc = lexbufpos_get_location (buf, pos)
+        val err = lexerr_make (loc, LE_FINTFRAC_missing)
+        val () = the_lexerrlst_add (err)
+      }
   in
     lexing_FLOAT_hexiexp (buf, pos)
   end // end of [_ when ...]
@@ -2727,6 +2765,12 @@ case+ 0 of
     val k2 = testing_intspseq0 (buf, pos)
     val str = lexbufpos_get_strptr1 (buf, pos)
     val str = string_of_strptr (str)
+    val () = if k1 = 0u then {
+      // YD-2018-07-10: fix hex int format.
+      val loc = lexbufpos_get_location (buf, pos)
+      val err = lexerr_make (loc, LE_IDIGITS_empty)
+      val () = the_lexerrlst_add (err)
+    }
   in
     lexbufpos_token_reset (buf, pos, T_INT_hex(str, k2))
   end // end of [_]

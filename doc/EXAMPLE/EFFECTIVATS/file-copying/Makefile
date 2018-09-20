@@ -91,10 +91,11 @@ cleanats:: ; $(RMF) main_atxt.txt
 cleanats:: ; $(RMF) main_atxt.dats
 #
 ######
-
+#
 cleanall:: cleanats
-cleanall:: ; $(RMF) main.html
-
+#
+# cleanall:: ; $(RMF) main.html
+#
 ######
 
 ###### end of [Makefile] ######

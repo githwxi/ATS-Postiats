@@ -114,9 +114,12 @@ cleanats:: ; $(RMF) main_atxt.dats
 ######
 
 cleanall:: ; $(RMF) main.exe
-cleanall:: ; $(RMF) main.html
 cleanall:: ; $(RMF) *_?ats.html
 
+######
+#
+# cleanall:: ; $(RMF) main.html
+#
 ######
 
 ###### end of [Makefile] ######

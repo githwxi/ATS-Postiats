@@ -428,12 +428,15 @@ fun fprint_e0xp : fprint_type (e0xp)
 fun fprint_e0xplst : fprint_type (e0xplst)
 
 (* ****** ****** *)
-
+//
 datatype
-datsdef = DATSDEF of (symbol, e0xpopt)
-
-fun datsdef_make (id: i0de, opt: e0xpopt): datsdef
-
+datsdef =
+DATSDEF of (symbol, e0xpopt)
+//
+fun
+datsdef_make
+  (id: i0de, opt: e0xpopt): datsdef
+//
 (* ****** ****** *)
 
 typedef l0ab = '{

@@ -51,9 +51,13 @@ stadef symenv = symenv_vt0ype
 
 (* ****** ****** *)
 
-fun symenv_make_nil
-  {itm:type} (): [l:addr] (symenv (itm) @ l | ptr l)
-// end of [symenv]
+fun
+symenv_make_nil
+  {itm:type}
+  (
+  // nothing
+  ) : [l:addr] (symenv(itm) @ l | ptr(l))
+// end of [symenv_make_nil]
 
 (* ****** ****** *)
 

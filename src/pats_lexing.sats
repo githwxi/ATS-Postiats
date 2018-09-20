@@ -13,12 +13,12 @@
 ** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
 ** Free Software Foundation; either version 3, or (at  your  option)  any
 ** later version.
-** 
+**
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
 ** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
 ** for more details.
-** 
+**
 ** You  should  have  received  a  copy of the GNU General Public License
 ** along  with  ATS;  see the  file COPYING.  If not, please write to the
 ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
@@ -95,7 +95,7 @@ token_node =
   | T_LT of () // < // for opening a tmparg
   | T_GT of () // > // for closing a tmparg
 //
-  | T_GTLT of () // <>
+  | T_GTLT of () // ><
   | T_DOTLT of () // .< // opening termetric
   | T_GTDOT of () // >. // closing termetric
   | T_DOTLTGTDOT of () // .<>. // for empty termetric
@@ -140,7 +140,7 @@ token_node =
   | T_IFCASE of () // (dynamic) ifcase
 //
   | T_IMPLEMENT of
-      (int) // 0/1/2: implmnt/implement/primplmnt
+      (int) // 0/1/-1: implmnt/implement/primplmnt
   | T_IMPORT of () // import (for packages)
   | T_IN of () // in
   | T_LAM of int // lam, llam (linear lam) and lam@ (flat lam)
@@ -549,7 +549,11 @@ lexerr_node =
 //
   | LE_DIGIT_oct_89 of (char)
 //
+  | LE_IDIGITS_empty of () // YD-2018-07-10: fix hex int format.
+//
   | LE_FEXPONENT_empty of ()
+  | LE_FEXPONENT_missing of () // YD-2018-07-09: fix hex float format.
+  | LE_FINTFRAC_missing of () // YD-2018-07-10: fix hex float format.
 //
   | LE_UNSUPPORTED_char of (char)
 // end of [lexerr_node]

@@ -16,8 +16,15 @@
 
 staload _ = "libats/DATS/hashfun.dats"
 staload _ = "libats/DATS/linmap_list.dats"
+//
+(*
 staload _ = "libats/DATS/hashtbl_chain.dats"
-
+*)
+//
+// (*
+staload _ = "libats/DATS/hashtbl_linprb.dats"
+// *)
+//
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
@@ -128,16 +135,27 @@ local
 
 #define H0 i2sz(1024)
 
+(*
 staload
 LHT = "libats/SATS/hashtbl_chain.sats"
+*)
+// (*
+staload
+LHT = "libats/SATS/hashtbl_linprb.sats"
+// *)
 
 assume
-wcmap_vtype = $LHT.hashtbl (string, int)
+wcmap_vtype = $LHT.hashtbl(string, int)
 
 in (* in of [local] *)
 
+(* ****** ****** *)
+
 implement
-wcmap_create () = $LHT.hashtbl_make_nil<string,int> (H0)
+wcmap_create() =
+  $LHT.hashtbl_make_nil<string,int>(H0)
+
+(* ****** ****** *)
 
 implement
 wcmap_incby1 (tbl, w) = let
@@ -159,7 +177,14 @@ if isnot then {
   prval () = fpf (pf)
 } else {
   val w = strptr2string (w)
-  val () = $LHT.hashtbl_insert_any (tbl, w, 1)
+//
+(*
+  val () = $LHT.hashtbl_insert_any(tbl, w, 1)
+*)
+//
+  val-
+  ~None_vt() = $LHT.hashtbl_insert_opt(tbl, w, 1)
+//
 } (* end of [if] *)
 //
 end // end of [wcmap_incby1]

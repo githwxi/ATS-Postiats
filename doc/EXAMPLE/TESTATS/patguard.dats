@@ -1,7 +1,7 @@
+(* ****** ****** *)
 //
 // Testing guarded patterns
 //
-
 (* ****** ****** *)
 //
 staload

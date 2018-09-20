@@ -17,7 +17,7 @@ lam(x: int): int => x * x
 //
 val fact =
 fix f(x: int): int =>
-  if x > 0 then x * f(x) else 1
+  if x > 0 then x * f(x-1) else 1
 //
 (* ****** ****** *)
 //

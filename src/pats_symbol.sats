@@ -60,7 +60,6 @@ val symbol_BACKSLASH : symbol // \
 val symbol_BANG : symbol // !
 val symbol_COLONEQ : symbol // := // assign
 val symbol_COLONEQCOLON : symbol // :=: // exhange
-val symbol_FUN: symbol // fun
 //
 val symbol_GT : symbol // >
 val symbol_GTEQ : symbol // >=
@@ -81,7 +80,6 @@ val symbol_LAND : symbol // &&
 val symbol_LOR : symbol // ||
 val symbol_LRBRACKETS : symbol // []
 val symbol_MINUSGT : symbol // ->
-val symbol_MINUSLTGT : symbol // -<>
 val symbol_QMARK : symbol // ?
 val symbol_QMARKBANG : symbol // ?!
 val symbol_TILDE : symbol // ~
@@ -91,7 +89,13 @@ val symbol_VBOX : symbol // for vbox pattern
 //
 val symbol_LAMAT : symbol // lam@
 val symbol_LLAMAT : symbol // llam@
+(*
+//
+// YD-2018-07-07:
+// 'ref@' is removed since 2015-12-10
+//
 val symbol_REFAT : symbol // ref@
+*)
 //
 (* ****** ****** *)
 //

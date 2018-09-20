@@ -108,6 +108,14 @@ clean:: ; $(RMF) fourslot_dats.o
 clean:: ; $(RMF) fourslot_dats.c
 cleanall:: ; $(RMF) fourslot fourslot.exe
 
+all:: foreach_getline
+foreach_getline: foreach_getline.exe
+foreach_getline.exe: foreach_getline_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+foreach_getline_dats.c: foreach_getline.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output foreach_getline_dats.c --dynamic foreach_getline.dats
+clean:: ; $(RMF) foreach_getline_dats.o
+clean:: ; $(RMF) foreach_getline_dats.c
+cleanall:: ; $(RMF) foreach_getline foreach_getline.exe
+
 all:: hanoi
 hanoi: hanoi.exe
 hanoi.exe: hanoi_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
@@ -291,6 +299,14 @@ totient_dats.c: totient.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output t
 clean:: ; $(RMF) totient_dats.o
 clean:: ; $(RMF) totient_dats.c
 cleanall:: ; $(RMF) totient totient.exe
+
+all:: treap_man
+treap_man: treap_man.exe
+treap_man.exe: treap_man_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+treap_man_dats.c: treap_man.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output treap_man_dats.c --dynamic treap_man.dats
+clean:: ; $(RMF) treap_man_dats.o
+clean:: ; $(RMF) treap_man_dats.c
+cleanall:: ; $(RMF) treap_man treap_man.exe
 
 all:: wclines
 wclines: wclines.exe

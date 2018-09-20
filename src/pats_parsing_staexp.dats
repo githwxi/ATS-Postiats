@@ -1206,11 +1206,13 @@ of // case+
 | T_LBRACE() => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_s0quaseq (buf, bt, err)
-    val ent3 = p_RBRACE (buf, bt, err)
+    val ent2 =
+      p_s0quaseq(buf, bt, err)
+    // end of [val]
+    val ent3 = p_RBRACE(buf, bt, err)
   in
     if err = err0
-      then q0marg_make (tok, ent2, ent3)
+      then q0marg_make(tok, ent2, ent3)
       else let
         val () =
           the_parerrlst_add_ifnbt(bt, loc, PE_q0marg)

@@ -317,7 +317,7 @@ as follows:
 #dats2xhtml('\
 //
 fun fact(n: int): int =
-(n).foldleft(TYPE{int})(lam(res, i) => res*(i+1))
+(n).foldleft(TYPE{int})(1, lam(res, i) => res*(i+1))
 //
 fun testfact(n: int): int =
 (n).foreach()(lam(i) => println! ("fact(", i+1, ") = ", fact(i+1)))

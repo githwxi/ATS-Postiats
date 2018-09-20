@@ -1,6 +1,8 @@
+######
 #
 # A simple Makefile
 #
+######
 
 RMF=rm -f
 

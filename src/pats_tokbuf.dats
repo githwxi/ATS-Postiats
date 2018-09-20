@@ -250,9 +250,9 @@ tokbuf_reset (buf) = let
   val ntok = buf.ntok
   val () = buf.ntok := 0u
   val ntok = (u2sz1)ntok
-  val n = $DQ.deque_size (buf.tbuf)
+  val nqsz = $DQ.deque_size (buf.tbuf)
 in
-  if ntok < n then let
+  if ntok < nqsz then let
     val () =
       $DQ.deque_clear_beg<token> (buf.tbuf, ntok)
     // end of [val]

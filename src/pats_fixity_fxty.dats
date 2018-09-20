@@ -213,8 +213,8 @@ fixity_resolve
 ) = let
 //
 #define nil list_nil
-#define cons list_cons
 #define :: list_cons
+#define cons list_cons
 //
 typedef I = fxitm a
 typedef J = List (I)
@@ -228,7 +228,7 @@ fn erropr (
   val () = prerr_newline ()
 in
   $raise($ERR.PATSOPT_FIXITY_EXN(*void*))
-end // end of [erropt]
+end // end of [erropr]
 //
 fn errapp (
   locf: a -> location, m: fxitm a
@@ -236,8 +236,10 @@ fn errapp (
   val-FXITMatm atm = m
   val () = prerr (locf(atm))
   val () = prerr ": error(1)"
-  val () = prerr ": application fixity cannot be resolved."
-  val () = prerr_newline ()
+  val () =
+    prerr ": application fixity cannot be resolved."
+  // end of [val]
+  val () = prerr_newline((*void*))
 in
   $raise($ERR.PATSOPT_FIXITY_EXN(*void*))
 end // end of [errapp]
@@ -248,7 +250,7 @@ fn err_reduce (
   val () = prerr (loc)
   val () = prerr ": error(1)"
   val () = prerr ": operator fixity cannot be resolved."
-  val () = prerr_newline ()
+  val () = prerr_newline((*void*))
 in
   $raise($ERR.PATSOPT_FIXITY_EXN(*void*))
 end // end of [err]
@@ -256,7 +258,19 @@ end // end of [err]
 (*
 ** HX: [fn*] for mutual tail-recursion
 *)
-fn* resolve (
+fn* process
+(
+  xs: J, ys: J
+) :<cloref1> a =
+(
+  case+ (xs, ys) of
+  | (nil (), FXITMatm t :: nil ()) => t
+  | (nil (), ys) => xreduce (nil (), ys)
+  | (x :: xs, ys) => resolve (xs, x, ys)
+) (* end of [process] *)
+//
+and resolve
+(
   xs: J, m: I, ys: J
 ) :<cloref1> a = case+ m of
   | FXITMatm _ => (
@@ -264,7 +278,7 @@ fn* resolve (
     | FXITMatm _ :: _ =>
         resolve_app (xs, m, ys)
       // end of [FXITMatm]
-    | _ => pushup (xs, m :: ys)
+    | _ => process (xs, m :: ys)
     ) // end of [_, FXITMatm, _]
   | FXITMopr (loc, opr) => resolve_opr (loc, opr, xs, m, ys)
 (* end of [resolve] *)
@@ -276,33 +290,34 @@ and resolve_opr
 ) :<cloref1> a =
 (
   case+ (opr, ys) of
-  | (FXOPRinf _, _ :: nil ()) => pushup (xs, m :: ys)
+  | (FXOPRinf _, _ :: nil ()) => process (xs, m :: ys)
   | (FXOPRinf _, _ :: FXITMopr (_, opr1) :: _) => let
       val p = fxopr_precedence opr and p1 = fxopr_precedence opr1
     in
-      case+ compare (p, p1) of
-      |  1 => pushup (xs, m :: ys)
-      | ~1 => reduce (m :: xs, ys)
+      case+
+      compare(p, p1) of
+      |  1 => process(xs, m :: ys)
+      | ~1 => xreduce(m :: xs, ys)
       |  _ (* 0 *) => let
            val assoc = fxopr_associativity opr
            and assoc1 = fxopr_associativity opr1
          in
            case+ (assoc, assoc1) of
-           | (ASSOClft (), ASSOClft ()) => reduce (m :: xs, ys)
-           | (ASSOCrgt (), ASSOCrgt ()) => pushup (xs, m :: ys)
+           | (ASSOClft (), ASSOClft ()) => xreduce(m :: xs, ys)
+           | (ASSOCrgt (), ASSOCrgt ()) => process(xs, m :: ys)
            | (_, _) => erropr (loc)
          end // end of [_ (* 0 *)]
     end // end of [let]
-  | (FXOPRpre _, _) => pushup (xs, m :: ys)
+  | (FXOPRpre _, _) => process (xs, m :: ys)
   | (FXOPRpos _, _ :: FXITMopr (_, opr1) :: _) => let
       val p = fxopr_precedence opr and p1 = fxopr_precedence opr1
     in
       case+ compare (p, p1) of
-      |  1 => reduce (xs, m :: ys)
-      | ~1 => reduce (m :: xs, ys)
+      |  1 => xreduce (xs, m :: ys)
+      | ~1 => xreduce (m :: xs, ys)
       |  _ (* 0 *) => erropr (loc)
     end // end of [let]
-  | (FXOPRpos _, _ :: nil ()) => reduce (xs, m :: ys)
+  | (FXOPRpos _, _ :: nil ()) => xreduce (xs, m :: ys)
   | (_, _) => erropr (loc)
 ) (* end of [resolve_opr] *)
 //
@@ -316,42 +331,41 @@ and resolve_app (
       val sgn = compare (app_prec, p1): Sgn
     in
       case+ sgn of
-      |  1 => pushup
+      |  1 => process
          (xs, m :: app :: ys)
-      | ~1 => reduce (m :: xs, ys)
+      | ~1 => xreduce (m :: xs, ys)
       | _ (*0*) => let
            val assoc1 = fxopr_associativity opr1 in
            case+ assoc1 of
-           | ASSOClft () => reduce (m :: xs, ys)
+           | ASSOClft () => xreduce (m :: xs, ys)
            | _ => errapp (locf, m) // HX: [m] is FXITMatm
          end // end of [_]
     end // end of [_ :: ITERMopr :: _]
-  | _ :: nil () => pushup (xs, m :: app :: ys)
+  | _ :: nil () => process (xs, m :: app :: ys)
   | _ => errapp (locf, m) // HX: [m] is FXITMatm
 ) (* end of [resolve_app] *)
 //
-and reduce (
+and
+xreduce
+(
   xs: J, ys: J
 ) :<cloref1> a =
 (
   case+ ys of
-  | FXITMatm t :: FXITMopr (_, FXOPRpre (_, f)) :: ys => pushup (f t :: xs, ys)
-  | FXITMatm t1 :: FXITMopr (_, FXOPRinf (_, _, f)) :: FXITMatm t2 :: ys => pushup (f (t2, t1) :: xs, ys)
-  | FXITMopr (_, FXOPRpos (_, f)) :: FXITMatm t :: ys => pushup (xs, f t :: ys)
+//
+  | FXITMatm t1 ::
+    FXITMopr (_, FXOPRinf (_, _, f)) ::
+    FXITMatm t2 :: ys => resolve(xs, f(t2, t1), ys)
+//
+  | FXITMatm t1 :: FXITMopr (_, FXOPRpre (_, f)) :: ys => resolve(xs, f(t1), ys)
+  | FXITMopr (_, FXOPRpos (_, f)) :: FXITMatm t1 :: ys => resolve(xs, f(t1), ys)
+//
   | _ (*rest*) => err_reduce (loc0, ys)
 ) (* end of [reduce] *)
 //
-and pushup (
-  xs: J, ys: J
-) :<cloref1> a = case+ (xs, ys) of
-  | (nil (), FXITMatm t :: nil ()) => t
-  | (nil (), ys) => reduce (nil (), ys)
-  | (x :: xs, ys) => resolve (xs, x, ys)
-(* end of [pushup] *)
-//
 in
 //
-pushup (xs, nil ())
+  process(xs, nil((*void*)))
 //
 end // end of [fixity_resolve]
 

@@ -291,7 +291,7 @@ auxck_tszeq
 ) : void = let
 //
 val
-tszeq = s2exp_tszeq (s2e1, s2e2)
+tszeq = s2exp_tszeq(s2e1, s2e2)
 //
 in
 //
@@ -365,8 +365,10 @@ case+ ctxtopt of
 | Some(ctxt) =>
     d3e_r where {
 //
-    val () = d3exp_open_and_add(d3e_r)
-    val s2e_sel2 = d3exp_get_type(d3e_r)
+    val () =
+    d3exp_open_and_add(d3e_r)
+    val
+    s2e_sel2 = d3exp_get_type(d3e_r)
 //
     val () = auxck_tszeq(loc0, s2e_sel, s2e_sel2)
 //
@@ -381,7 +383,7 @@ case+ ctxtopt of
 //
   } (* end of [Some] *)
 //
-| None((*void*)) => d3exp_trdn (d3e_r, s2e_sel) // HX: assignment changes no type
+| None((*void*)) => d3exp_trdn(d3e_r, s2e_sel) // HX: assignment changes no type
 //
 end // end of [auxmain]
 
@@ -414,7 +416,8 @@ end // end of [local]
 
 local
 
-fun auxerr_nonderef
+fun
+auxerr_nonderef
   (d3e: d3exp): void = let
 //
   val loc = d3e.d3exp_loc
@@ -465,7 +468,7 @@ auxerr_reflinsel
   val () = prerrln! ("[", s2e_sel, "]")
 //
 in
-  the_trans3errlst_add (T3E_d3exp_assgn_deref_reflinsel (d3e_l, d3ls))
+  the_trans3errlst_add(T3E_d3exp_assgn_deref_reflinsel(d3e_l, d3ls))
 end // end of [auxerr_reflinsel]
 
 fun aux1

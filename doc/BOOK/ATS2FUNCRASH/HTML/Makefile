@@ -37,7 +37,7 @@ synhilit.exe: synhilit.dats; $(PATSCC) -o $@ $<
 upload:: \
 upload_html
 upload_html:: ; \
-rsync -av --delete HTMLTOC ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2FPCRASH/HTML/
+rsync -av --delete HTMLTOC ats-hwxi,ats-lang@web.sourceforge.net:htdocs/DOCUMENT/ATS2FUNCRASH/HTML/
 #
 ######
 
