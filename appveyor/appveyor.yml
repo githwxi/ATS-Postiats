@@ -7,47 +7,58 @@ platform:
 
 environment:
     global:
-        BUILD_FOLDER: C:\projects
         CYG_MIRROR: http://cygwin.mirror.constant.com
         ATS1PACK: ats-lang-anairiats-0.2.12
         ATS1PACKTGZ: ats-lang-anairiats-0.2.12.tgz
         ATS1PACKURL: http://ats-lang.github.io/ATS-Anairiats/ats-lang-anairiats-0.2.12.tgz
-        ATSHOME: "/cygdrive/c/projects/ats-lang-anairiats-0.2.12"
         ATSHOMERELOC: ATS-0.2.12
-        PATSHOME: "/cygdrive/c/projects/ATS-Postiats"
-        PATSHOMERELOC: "/cygdrive/c/projects/ATS-Postiats-contrib"
         PATSCONTRIBURL: https://github.com/githwxi/ATS-Postiats-contrib.git
-        
+
     matrix:
         -   CYG_ARCH: x86
             CYG_ROOT: C:/cygwin
             CYG_CACHE: C:/cygwin/var/cache/setup
+            CYG_SH: C:/cygwin/bin/bash -lc
+            CYG_INSTALL: C:/cygwin/setup-x86.exe -q -P
+            CYG_PATH: C:/cygwin/bin/cygpath -u
         -   CYG_ARCH: x86_64
             CYG_ROOT: C:/cygwin64
             CYG_CACHE: C:/cygwin64/var/cache/setup
+            CYG_SH: C:/cygwin64/bin/bash -lc
+            CYG_INSTALL: C:/cygwin64/setup-x86_64.exe -q -P
+            CYG_PATH: C:/cygwin64/bin/cygpath -u
+
+cache:
+    - '%CYG_CACHE%'
 
 init:
+    # Set Windows environment variables so they're accessible from within cygwin
+    - 'FOR /F "tokens=* USEBACKQ" %%F IN (`%CYG_PATH% %APPVEYOR_BUILD_FOLDER%`) DO SET BUILD_FOLDER=%%F'
+    - 'FOR /F "tokens=* USEBACKQ" %%F IN (`%CYG_PATH% %APPVEYOR_BUILD_FOLDER%/ats-lang-anairiats-0.2.12`) DO SET ATSHOME=%%F'
+    - 'FOR /F "tokens=* USEBACKQ" %%F IN (`%CYG_PATH% %APPVEYOR_BUILD_FOLDER%`) DO SET PATSHOME=%%F'
+    - 'FOR /F "tokens=* USEBACKQ" %%F IN (`%CYG_PATH% %APPVEYOR_BUILD_FOLDER%/ATS-Postiats-contrib`) DO SET PATSHOMERELOC=%%F'
+    - git config --global core.symlinks true
+    - git config --global core.autocrlf input
     - 'echo System architecture: %PLATFORM%'
     - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
+    - 'echo build folder: %BUILD_FOLDER%'
     - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
-    - 'echo Setup Cygwin dependencies'
-    - 'echo Build Folder: %BUILD_FOLDER%'
-    - 'set PATH=%CYG_ROOT%/bin;%PATH%'
     - 'echo Checking the Cygwin setup'
-    - 'bash -lc "cygcheck -dc cygwin"'
-    - 'bash -lc "wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg"'
-    - 'bash -lc "install apt-cyg /bin"'
-    - 'bash -lc "apt-cyg install make autoconf automake gcc-core libtool intltool pkg-config git wget libgc-devel libgmp-devel"'
+    - '%CYG_SH% "cygcheck -dc cygwin"'
+    - '%CYG_INSTALL% "wget"'
+    - '%CYG_SH% "wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg"'
+    - '%CYG_SH% "install apt-cyg /bin"'
+    - '%CYG_SH% "apt-cyg install make autoconf automake gcc-core libtool intltool pkg-config git libgc-devel libgmp-devel"'
     - 'echo Setup Cygwin dependencies is finished!'
-    
 
-install:
+before_build:
+    - 'set PATH=%PATH%;%CYG_ROOT%/bin'
     - 'echo Build ATS1(with GC)...'
-    - 'bash -lc "cd %BUILD_FOLDER% && curl -O %ATS1PACKURL% && tar -zxf %ATS1PACKTGZ%"'
-    - 'bash -lc "cd %BUILD_FOLDER%/%ATS1PACK%; exec 0</dev/null; ./configure && make all"'
+    - '%CYG_SH% "cd $BUILD_FOLDER && curl -O $ATS1PACKURL && tar -zxf $ATS1PACKTGZ"'
+    - '%CYG_SH% "cd $BUILD_FOLDER/$ATS1PACK; exec 0</dev/null; ./configure && make all"'
     - 'echo Build ATS1(with GC) is finished!'
     - 'echo Download ATS2-contrib...'
-    - 'bash -lc "cd %BUILD_FOLDER% && git clone %PATSCONTRIBURL%"'
+    - '%CYG_SH% "cd $BUILD_FOLDER && git clone $PATSCONTRIBURL"'
     - 'echo Download ATS2-contrib is finished!'
 
 build_script:
@@ -55,9 +66,10 @@ build_script:
     - 'echo Build folder is: %APPVEYOR_BUILD_FOLDER%'
     - 'echo Repo build branch is: %APPVEYOR_REPO_BRANCH%'
     - 'echo Repo build commit is: %APPVEYOR_REPO_COMMIT%'
+    - '%CYG_SH% "echo PATSHOME=$PATSHOME"'
     - 'echo Build ATS2...'
-    - 'bash -lc "cd %PATSHOME%; exec 0</dev/null; make -f codegen/Makefile_atslib"'
-    - 'bash -lc "cd %PATSHOME%; exec 0</dev/null; make -f Makefile_devl src_depend"'
-    - 'bash -lc "cd %PATSHOME%; exec 0</dev/null; make -f Makefile_devl"'
+    - '%CYG_SH% "cd $PATSHOME; exec 0</dev/null; make -f codegen/Makefile_atslib"'
+    - '%CYG_SH% "cd $PATSHOME; exec 0</dev/null; make -f Makefile_devl src_depend"'
+    - '%CYG_SH% "cd $PATSHOME; exec 0</dev/null; make -f Makefile_devl"'
 
 test: off
