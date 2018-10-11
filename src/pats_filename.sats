@@ -99,10 +99,10 @@ fun filename_merge
   fil: string, givename: string
 ) : Strptr1 = "patsopt_filename_merge"
 
-fun filename_append
+fun filename_dirbase
 (
   dir: string, givename: string
-) :<> Strptr1 = "patsopt_filename_append"
+) :<> Strptr1 = "patsopt_filename_dirbase"
 
 (* ****** ****** *)
 

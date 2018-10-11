@@ -711,7 +711,7 @@ x1,x2:t0p}{y:vt0p
 //
 fun{
 x1,x2:t0p}{y:vt0p
-} list_map2$fopr (x1: x1, x2: x2): (y)
+} list_map2$fopr(x1: x1, x2: x2): (y)
 //
 (*
 fun{
@@ -756,7 +756,7 @@ list_zipwith{m,n:int}
 fun
 {x,y:t0p}
 {res:vt0p}
-list_zipwith$fopr (x: x, y: y): (res)
+list_zipwith$fopr(x: x, y: y): (res)
 //
 #atscode_separator()
 //

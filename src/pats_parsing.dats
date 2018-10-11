@@ -120,7 +120,7 @@ implement
 parse_from_stdin_toplevel
   (stadyn) =
   parse_from_fileref_toplevel(stadyn, stdin_ref)
-// end of [parser_from_stdin_toplevel]
+// end of [parse_from_stdin_toplevel]
 
 implement
 parse_from_fileref_toplevel
@@ -136,7 +136,7 @@ tokbuf_initize_getc
 val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
 val () = tokbuf_uninitize (buf)
 //
-} // end of [parser_from_fileref_toplevel]
+} // end of [parse_from_fileref_toplevel]
 
 (* ****** ****** *)
 

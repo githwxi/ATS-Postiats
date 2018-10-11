@@ -629,7 +629,7 @@ isrel
 then let
   val cwd = $UNISTD.getcwd0()
   val fname =
-    filename_append((p2s)cwd, pname)
+    filename_dirbase((p2s)cwd, pname)
   // end of [val]
   val _freed_ = strptr_free(cwd)
   val fname_nf = path_normalize((p2s)fname)
@@ -1068,7 +1068,7 @@ aux2_try
 //
   val
   partname =
-  filename_append(path, given)
+  filename_dirbase(path, given)
 //
 (*
   val () =
@@ -1225,7 +1225,7 @@ aux2_tryloc
 //
 val
 partname =
-filename_append(path, given)
+filename_dirbase(path, given)
 //
 (*
 val () =
@@ -1712,7 +1712,7 @@ patsopt_filename_merge
 } // end of [patsopt_filename_merge]
 
 ats_ptr_type
-patsopt_filename_append
+patsopt_filename_dirbase
 (
   ats_ptr_type dir, ats_ptr_type bas
 ) {
@@ -1733,7 +1733,7 @@ patsopt_filename_append
   dirbas[n] = '\000' ;
 //
   return dirbas ;
-} /* end of [patsopt_filename_append] */
+} /* end of [patsopt_filename_dirbase] */
 
 %} // end of [%{$]
 

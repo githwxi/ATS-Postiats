@@ -582,26 +582,28 @@ fprintf
 (* ****** ****** *)
 
 datatype
-waitkind =
-  | WTKnone of ()
-  | WTKoutput of () // -o ...
-  | WTKinput_sta of () // -s ...
-  | WTKinput_dyn of () // -d ...
-  | WTKinputs_dyn of () // -dd ...
-  | WTKdefine of () // -DATS ...
-  | WTKinclude of () // -IATS ...
-// end of [waitkind]
+waitknd =
+| WTKnone of ()
+| WTKoutput of () // -o ...
+//
+| WTKinput_sta of () // -s ...
+| WTKinput_dyn of () // -d ...
+| WTKinputs_dyn of () // -dd ...
+//
+| WTKdefine of () // -DATS ...
+| WTKinclude of () // -IATS ...
+// end of [waitknd]
 
 fun
-waitkind_get_stadyn
-  (knd: waitkind): int =
+waitknd_get_stadyn
+  (knd: waitknd): int =
 (
 case+ knd of
 | WTKinput_sta() => 0
 | WTKinput_dyn() => 1
 | WTKinputs_dyn() => 2
 | _ (*rest-of-WTK*) => ~1
-) // end of [waitkind_get_stadyn]
+) // end of [waitknd_get_stadyn]
 
 (* ****** ****** *)
 
@@ -631,9 +633,9 @@ cmdstate = @{
 //
   comarg0= comarg
 //
-, PATSHOME= string
+, ATSHOME= string
 //
-, waitkind= waitkind
+, waitknd= waitknd
 //
 // number of processed input files
 //
@@ -750,7 +752,7 @@ isinpwait
 ) : bool =
 (
 case+
-state.waitkind
+state.waitknd
 of // case+
  | WTKinput_sta() => true
  | WTKinput_dyn() => true
@@ -762,7 +764,7 @@ fun
 isoutwait
   (state: cmdstate): bool =
 (
-case+ state.waitkind of
+case+ state.waitknd of
   | WTKoutput() => true | _(*non-WTKoutput*) => false
 ) (* end of [isoutwait] *)
 
@@ -770,7 +772,7 @@ fun
 isdatswait
   (state: cmdstate): bool =
 (
-case+ state.waitkind of
+case+ state.waitknd of
   | WTKdefine() => true | _(*non-WTKdefine*) => false
 ) (* end of [isdatswait] *)
 
@@ -778,7 +780,7 @@ fun
 isiatswait
   (state: cmdstate): bool =
 (
-case+ state.waitkind of
+case+ state.waitknd of
 | WTKinclude() => true | _(*non-WTKinclude*) => false
 ) (* end of [isiatswait] *)
 
@@ -835,7 +837,7 @@ the_fixity_load
 //
   val given = "prelude/fixity.ats"
   val fullname =
-    $FIL.filename_append(PATSHOME, given)
+    $FIL.filename_dirbase(PATSHOME, given)
   val fullname = string_of_strptr(fullname)
   val filename =
     $FIL.filename_make(given, given, fullname)
@@ -887,7 +889,7 @@ val () = (
 *)
 //
 val fullname =
-  $FIL.filename_append(PATSHOME, given)
+  $FIL.filename_dirbase(PATSHOME, given)
 val fullname = string_of_strptr(fullname)
 //
 val filename =
@@ -1484,7 +1486,7 @@ case+ 0 of
     val () = state.olevel := 1 // for output
     val hids = do_trans1234(state, given, d0cs)
     val filr = outchan_get_filr(state.outchan)
-    val flag = waitkind_get_stadyn(state.waitkind)
+    val flag = waitknd_get_stadyn(state.waitknd)
     val ((*void*)) =
       $CCOMP.ccomp_main(filr, flag, state.infil, hids)
     // end of [val]
@@ -1688,7 +1690,7 @@ end // end of [loop2]
 //
 val
 stadyn =
-waitkind_get_stadyn(state.waitkind)
+waitknd_get_stadyn(state.waitknd)
 //
 in
 //
@@ -1720,7 +1722,7 @@ state: &cmdstate
 ) : void = let
 //
 val stadyn =
-waitkind_get_stadyn(state.waitkind)
+waitknd_get_stadyn(state.waitknd)
 //
 in
 //
@@ -1734,7 +1736,7 @@ state.infil := $FIL.filename_stdin
 //
 val () =
 the_prelude_load_if
-  (state.PATSHOME, state.preludeflag)
+  (state.ATSHOME, state.preludeflag)
 // end of [val]
 //
 val () =
@@ -1829,7 +1831,7 @@ case+ arg of
 //
     val
     stadyn =
-    waitkind_get_stadyn(state.waitkind)
+    waitknd_get_stadyn(state.waitknd)
     val nif = state.ninpfile
   in
     case+ arg of
@@ -1845,7 +1847,7 @@ case+ arg of
     | COMARG(_, "-") => let
 //
         val () =
-        state.ninpfile := state.ninpfile+1
+        state.ninpfile := nif + 1
       in
         process_nil(state); process_cmdline(state, arglst)
       end (* end of [COMARG] *)
@@ -1853,11 +1855,11 @@ case+ arg of
     | COMARG(_, given) => let
 //
         val () =
-        state.ninpfile := state.ninpfile+1
+        state.ninpfile := nif + 1
 //
         val () =
         the_prelude_load_if
-          (state.PATSHOME, state.preludeflag)
+          (state.ATSHOME, state.preludeflag)
         // the_prelude_load_if
 //
         val () =
@@ -1899,7 +1901,7 @@ case+ arg of
 | _ when
     isoutwait(state) => let
     val () =
-    state.waitkind := WTKnone()
+    state.waitknd := WTKnone()
 //
     val COMARG(_, given) = arg
 //
@@ -1916,7 +1918,7 @@ case+ arg of
 | _ when
     isdatswait(state) => let
     val () =
-    state.waitkind := WTKnone()
+    state.waitknd := WTKnone()
     val COMARG(_, def) = arg
     val () = process_DATS_def(def)
   in
@@ -1926,7 +1928,7 @@ case+ arg of
 | _ when
     isiatswait(state) => let
     val () =
-    state.waitkind := WTKnone()
+    state.waitknd := WTKnone()
     val COMARG(_, dir) = arg
     val () = process_IATS_dir(dir)
   in
@@ -1941,7 +1943,7 @@ case+ arg of
     val () =
     comarg_warning(key)
     val () =
-    state.waitkind := WTKnone() in process_cmdline(state, arglst)
+    state.waitknd := WTKnone() in process_cmdline(state, arglst)
   end // end of [COMARG]
 //
 end // end of [process_cmdline2]
@@ -1956,7 +1958,7 @@ process_cmdline2_comarg1
 , arglst: comarglst(i), key: string
 ) :<fun1> void = let
 //
-val () = state.waitkind := WTKnone()
+val () = state.waitknd := WTKnone()
 //
 val () =
 (
@@ -1964,22 +1966,22 @@ case+ key of
 //
 | "-o" =>
   {
-    val () = state.waitkind := WTKoutput
+    val () = state.waitknd := WTKoutput
   } (* end of [-o] *)
 | "-s" =>
   {
     val () = state.ninpfile := 0
-    val () = state.waitkind := WTKinput_sta
+    val () = state.waitknd := WTKinput_sta
   } (* end of [-s] *)
 | "-d" =>
   {
     val () = state.ninpfile := 0
-    val () = state.waitkind := WTKinput_dyn
+    val () = state.waitknd := WTKinput_dyn
   } (* end of [-d] *)
 | "-dd" =>
   {
     val () = state.ninpfile := 0
-    val () = state.waitkind := WTKinputs_dyn
+    val () = state.waitknd := WTKinputs_dyn
   } (* end of [-dd] *)
 //
 | "-cc" => (state.typecheckflag := 0)
@@ -1996,7 +1998,7 @@ case+ key of
       then
       process_DATS_def(stropt_unsome(def))
       else let
-        val () = state.waitkind := WTKdefine()
+        val () = state.waitknd := WTKdefine()
       in
         // nothing
       end // end of [else]
@@ -2011,7 +2013,7 @@ case+ key of
       then
       process_IATS_dir(stropt_unsome(dir))
       else let
-        val () = state.waitkind := WTKinclude()
+        val () = state.waitknd := WTKinclude()
       in
         // nothing
       end // end of [else]
@@ -2045,7 +2047,7 @@ process_cmdline2_comarg2
 ) :<fun1> void = let
 //
 val () =
-  state.waitkind := WTKnone(*void*)
+  state.waitknd := WTKnone(*void*)
 //
 val () =
 (
@@ -2057,24 +2059,24 @@ case+ key of
   // end of [--help]
 //
 | "--output" =>
-    state.waitkind := WTKoutput()
+    state.waitknd := WTKoutput()
 | "--output-w" => {
     val () = state.outmode := file_mode_w
-    val () = state.waitkind := WTKoutput()
+    val () = state.waitknd := WTKoutput()
   } // end of [--output-w]
 | "--output-a" => {
     val () = state.outmode := file_mode_a
-    val () = state.waitkind := WTKoutput()
+    val () = state.waitknd := WTKoutput()
   } // end of [--output-a]
 //
 | "--static" => {
-    val () = state.waitkind := WTKinput_sta
+    val () = state.waitknd := WTKinput_sta
   } // end of [--static]
 | "--dynamic" => {
-    val () = state.waitkind := WTKinput_dyn
+    val () = state.waitknd := WTKinput_dyn
   } // end of [--dynamic]
 | "--dynamics" => {
-    val () = state.waitkind := WTKinputs_dyn
+    val () = state.waitknd := WTKinputs_dyn
   } // end of [--dynamics]
 //
 | "--compile" => (state.typecheckflag := 0)
@@ -2230,8 +2232,8 @@ val+
 var
 state = @{
   comarg0= arg0
-, PATSHOME= PATSHOME
-, waitkind= WTKnone()
+, ATSHOME= PATSHOME
+, waitknd= WTKnone()
 //
 // number of prcessed input files
 //

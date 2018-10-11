@@ -98,7 +98,7 @@ in
   | list_cons 
       (p, ps) => let
       val pname =
-      $FIL.filename_append(p, given)
+      $FIL.filename_dirbase(p, given)
 (*
       val test = true
 *)
