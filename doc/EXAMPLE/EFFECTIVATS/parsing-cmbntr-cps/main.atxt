@@ -240,9 +240,10 @@ kparser_repeat0(kp: kparser(a)): kparser(List0(a))
 //
 ')</pre>
 
-The values obtained from applying the given parser repeatedly are gathered
-in a list and then the list is returned.  The combinator
-#dyncode("kparser_repeat1") is a slight variant of #dyncode("kparser_repeat0"):
+The values obtained from applying the given parser repeatedly are
+gathered in a list and then the list is returned.  The combinator
+#dyncode("kparser_repeat1") is a slight variant of
+#dyncode("kparser_repeat0"):
 
 <pre
 class="patsyntax">
@@ -255,8 +256,8 @@ kparser_repeat1(kp: kparser(a)): kparser(List1(a))
 ')</pre>
 
 Given a parser, #dyncode("kparser_repeat1") constructs another one
-that applies the given parser to obtain a value and then applies it repeated
-(until a parsing failure occurs).
+that applies the given parser to obtain a value and then applies it
+repeatedly (until a parsing failure occurs).
 
 </p>
 
@@ -381,7 +382,8 @@ following links should be helpful:
 
 <ul>
 <li>
-<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/HATS/kparcomb.hats">Interface and Implementation</a>
+
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/npm-utils/contrib/libats-/hwxi/kparcomb/DATS/kparcomb.dats">Interface and Implementation</a>
 </li>
 </ul>
 </p>

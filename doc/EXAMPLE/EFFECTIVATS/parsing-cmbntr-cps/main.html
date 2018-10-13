@@ -346,9 +346,10 @@ kparser_repeat0<span class="keyword">(</span>kp<span class="keyword">:</span> <s
 <span class="comment">//</span>
 </pre>
 
-The values obtained from applying the given parser repeatedly are gathered
-in a list and then the list is returned.  The combinator
-<span style="color: #F00000;">kparser_repeat1</span> is a slight variant of <span style="color: #F00000;">kparser_repeat0</span>:
+The values obtained from applying the given parser repeatedly are
+gathered in a list and then the list is returned.  The combinator
+<span style="color: #F00000;">kparser_repeat1</span> is a slight variant of
+<span style="color: #F00000;">kparser_repeat0</span>:
 
 <pre
 class="patsyntax">
@@ -360,8 +361,8 @@ kparser_repeat1<span class="keyword">(</span>kp<span class="keyword">:</span> <s
 </pre>
 
 Given a parser, <span style="color: #F00000;">kparser_repeat1</span> constructs another one
-that applies the given parser to obtain a value and then applies it repeated
-(until a parsing failure occurs).
+that applies the given parser to obtain a value and then applies it
+repeatedly (until a parsing failure occurs).
 
 </p>
 
@@ -484,7 +485,8 @@ following links should be helpful:
 
 <ul>
 <li>
-<a href="https://github.com/githwxi/ATS-Postiats-contrib/tree/master/contrib/libats-/hwxi/teaching/kparcomb/HATS/kparcomb.hats">Interface and Implementation</a>
+
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/npm-utils/contrib/libats-/hwxi/kparcomb/DATS/kparcomb.dats">Interface and Implementation</a>
 </li>
 </ul>
 </p>
