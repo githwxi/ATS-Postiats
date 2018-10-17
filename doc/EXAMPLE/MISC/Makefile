@@ -84,6 +84,14 @@ clean:: ; $(RMF) matrixops_dats.c
 cleanall:: ; $(RMF) matrixops matrixops.exe
 
 #
+all:: absreimpl
+absreimpl: absreimpl.exe
+absreimpl.exe: absreimpl_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+absreimpl_dats.c: absreimpl.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output absreimpl_dats.c --dynamic absreimpl.dats
+clean:: ; $(RMF) absreimpl_dats.o
+clean:: ; $(RMF) absreimpl_dats.c
+cleanall:: ; $(RMF) absreimpl absreimpl.exe
+
 all:: autodiff
 autodiff: autodiff.exe
 autodiff.exe: autodiff_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_GCBDW -O2 -o $@ $< -lm -lgc
