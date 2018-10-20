@@ -152,12 +152,30 @@ end // end of [emit_PMVfloat]
 implement
 emit_PMVstring
   (out, tok) = let
+  
+    (** Dollar signs inject vars into php strings:
+        they need to be escaped.
+        Curly brackets are also live, but they should cause
+        no issues so long as dollar signs are escaped.
+
+        --m88
+    **)
+    fun emit_php_string{n:nat} .<n>.
+        (out: FILEref, str: string n) : void =
+        if string_isnot_empty(str)
+        then  case+ str.head() of
+                | '$' => (fprint_string(out,"\\$"); 
+                          emit_php_string(out,str.tail()))
+                |  c  => (fileref_putc(out,c);
+                          emit_php_string(out,str.tail()))
+        else ()
 //
 val-
 T_STRING(rep) =
-tok.token_node in emit_text(out, rep)
+tok.token_node in emit_php_string(out, g1ofg0(rep))
 //
 end // end of [emit_PMVstring]
+
 
 (* ****** ****** *)
 
