@@ -152,7 +152,8 @@ end // end of [emit_PMVfloat]
 implement
 emit_PMVstring
   (out, tok) = let
-  
+//
+(*
     (** Dollar signs inject vars into php strings:
         they need to be escaped.
         Curly brackets are also live, but they should cause
@@ -169,10 +170,28 @@ emit_PMVstring
                 |  c  => (fileref_putc(out,c);
                           emit_php_string(out,str.tail()))
         else ()
+*)
 //
 val-
-T_STRING(rep) =
-tok.token_node in emit_php_string(out, g1ofg0(rep))
+T_STRING(rep) = tok.token_node
+//
+in
+//
+ignoret
+(
+  string_foreach<>(g1ofg0(rep)) 
+) where
+{
+  implement
+  (env)//tmp
+  string_foreach$fwork<env>
+    (c0, env) =
+  (
+    ifcase
+    | c0 = '$' => fprint(out, "\\$")
+    | _(*else*) => fprint_char(out, c0)
+  )
+}
 //
 end // end of [emit_PMVstring]
 
