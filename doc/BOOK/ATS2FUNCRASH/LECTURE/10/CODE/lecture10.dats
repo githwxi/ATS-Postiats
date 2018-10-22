@@ -296,7 +296,7 @@ case+ xs of
 )
 //
 in
-  g0ofg1(stream2list(auxmain(xs)))
+  g0ofg1(list_vt2t(stream2list(auxmain(xs))))
 end // end of [list0_map]
 //
 (* ****** ****** *)

@@ -604,12 +604,12 @@ un_streamize_string_char(stream_vt(charNZ)): Strptr1
 ** HX:
 ** [stropt_none] is just the null pointer
 *)
-fun stropt_none((*void*)): stropt(~1) = "mac\#%"
+fun stropt_none((*void*)):<> stropt(~1) = "mac\#%"
 //
 #atscode_separator()
 //
-castfn stropt0_some(x: SHR(string)): Stropt1
-castfn stropt1_some{n:int}(x: SHR(string(n))): stropt(n)
+castfn stropt0_some(x: SHR(string)):<> Stropt1
+castfn stropt1_some{n:int}(x: SHR(string(n))):<> stropt(n)
 //
 symintr stropt_some
 overload stropt_some with stropt0_some of 0

@@ -6,6 +6,11 @@
 #
 ######
 #
+# The script for building a release:
+# ${PATSHOME}/share/SCRIPT/buildRelease.sh
+# 
+######
+#
 # First,
 # update $PATSHOME/VERSION
 # which affects the following:

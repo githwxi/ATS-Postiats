@@ -74,6 +74,7 @@ in
 end // end of [ftally2]
 
 (* ****** ****** *)
+(*
 //
 extern
 fun
@@ -83,6 +84,7 @@ implement
 int_stream_vt_from(n) =
   $ldelay(stream_vt_cons(n, int_stream_vt_from(n+1)))
 //
+*)
 (* ****** ****** *)
 //
 extern

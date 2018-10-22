@@ -71,7 +71,7 @@ Note that the PHP code generated from the ATS source in
 
 In order for the PHP code generated from ATS source to run, the PHP
 file <ulink
-url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/LIBRARY/libatscc2php/libatscc2php_all.php\">libatscc2php_all.php</ulink>
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/LIBRARY/libatscc2php/ATS2-0.3.2/libatscc2php_all.php\">libatscc2php_all.php</ulink>
 needs to be loaded first. For instance, loading can be done by
 executing the following line (of PHP code):
 
@@ -192,7 +192,7 @@ the code used in this chapter. The mentioned URL link(s) can be found as follows
 <listitem>
 #para("\
 <ulink
-url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/LIBRARY/libatscc2php/libatscc2php_all.php\">https://github.com/ats-lang/ats-lang.github.io/blob/master/LIBRARY/libatscc2php/libatscc2php_all.php</ulink>.
+url=\"https://github.com/ats-lang/ats-lang.github.io/blob/master/LIBRARY/libatscc2php/ATS2-0.3.2/libatscc2php_all.php\">https://github.com/ats-lang/ats-lang.github.io/blob/master/LIBRARY/libatscc2php/ATS2-0.3.2/libatscc2php_all.php</ulink>.
 ")#comment("para")
 </listitem>
 

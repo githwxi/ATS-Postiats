@@ -8,6 +8,14 @@ style="margin-top:8px;padding:8px;"
 
 <b>
 <a
+ href="https://github.com/ats-lang/ATS-CodeBook">ATS-CodeBook
+</a></b><br>
+Miscellaneous practical examples written in ATS<br>
+by Hongwei Xi
+<hr></hr>
+
+<b>
+<a
  href="https://github.com/bbarker/IntelliJATS">IntelliJATS
 </a></b><br>
 ATS plugin for

@@ -60,8 +60,8 @@ overload intrange with intrange_make_int2
 
 datatype
 map(
-  xs:t@ype
-, x0:t@ype
+  xs: t@ype
+, x0: t@ype
 , y0: t@ype
 ) = MAP of (xs, cfun(x0, y0))
 

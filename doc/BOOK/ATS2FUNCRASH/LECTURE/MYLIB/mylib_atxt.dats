@@ -227,6 +227,10 @@ list0_get_at_exn
 //
 overload [] with list0_get_at_exn of 100
 //
+extern
+fun{}
+list0_make_intrange
+(l: int, u: int): list0(int)
 //
 extern
 fun
@@ -330,14 +334,27 @@ implement
 list0_get_at_exn
   (xs, n) =
 (
-case+ xs of
+case- xs of
+(*
 | list0_nil() =>
-  $raise ListSubscriptExn()
+  (
+    $raise ListSubscriptExn()
+  )
+*)
 | list0_cons(x, xs) =>
   if n <= 0
     then x else list0_get_at_exn<a>(xs, n-1)
   // end of [list0_cons]
 )
+//
+(* ****** ****** *)
+//
+implement
+{}(*tmp*)
+list0_make_intrange
+  (l, u) =
+int_foldleft<list0(int)>
+(u-l, list0_nil(), lam(res, i) => list0_cons(u-1-i, res))
 //
 (* ****** ****** *)
 //
