@@ -37,22 +37,26 @@ staload "./pats_errmsg.sats"
 
 (* ****** ****** *)
 
-implement{}
-prerr_ERROR_beg() = prerr ("**ERROR(000000):beg**\n")
-implement{}
-prerr_ERROR_end() = prerr ("**ERROR(000000):end**\n")
+implement
+{}(*tmp*)
+prerr_ERROR_beg() =
+prerr("**ERROR(000000):beg**\n")
+implement
+{}(*tmp*)
+prerr_ERROR_end() =
+prerr("**ERROR(000000):end**\n")
 
 (* ****** ****** *)
 
 implement{}
-prerr_interror () =
+prerr_interror() =
 {
   val () = (
     prerr "INTERROR("; prerr_FILENAME<> (); prerr ")"
   ) (* end of [val] *)
 }
 implement{}
-prerr_interror_loc (loc) =
+prerr_interror_loc(loc) =
 {
   val () = $LOC.prerr_location (loc)
   val () = (
@@ -63,32 +67,33 @@ prerr_interror_loc (loc) =
 (* ****** ****** *)
 
 implement{}
-prerr_error1_loc (loc) = (
-  $LOC.prerr_location (loc); prerr ": error(1)"
+prerr_error1_loc(loc) =
+(
+  $LOC.prerr_location(loc); prerr ": error(1)"
 ) // end of [prerr_error1_loc]
 
 implement{}
-prerr_error2_loc (loc) =
+prerr_error2_loc(loc) =
 (
-  $LOC.prerr_location (loc); prerr ": error(2)"
+  $LOC.prerr_location(loc); prerr ": error(2)"
 ) // end of [prerr_error2_loc]
 
 implement{}
-prerr_errmac_loc (loc) =
+prerr_errmac_loc(loc) =
 (
-  $LOC.prerr_location (loc); prerr ": error(mac)"
+  $LOC.prerr_location(loc); prerr ": error(mac)"
 ) // end of [prerr_errmac_loc]
 
 implement{}
-prerr_error3_loc (loc) =
+prerr_error3_loc(loc) =
 (
-  $LOC.prerr_location (loc); prerr ": error(3)"
+  $LOC.prerr_location(loc); prerr ": error(3)"
 ) // end of [prerr_error3_loc]
 
 implement{}
-prerr_error4_loc (loc) =
+prerr_error4_loc(loc) =
 (
-  $LOC.prerr_location (loc); prerr ": error(4)"
+  $LOC.prerr_location(loc); prerr ": error(4)"
 ) // end of [prerr_error4_loc]
 
 (* ****** ****** *)
