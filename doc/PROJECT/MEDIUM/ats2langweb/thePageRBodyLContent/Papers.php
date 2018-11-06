@@ -242,6 +242,40 @@ Links:
 
 <hr></hr>
 
+<table>
+<tr>
+<td>
+<h2><a id="VsTsVTs-2018-10-28">To Memory Safety through Proofs</a></h2>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td>
+<em>Abstract</em>:
+We present a type system capable of guaranteeing the memory safety of
+programs that may involve (sophisticated) pointer manipulation such as
+pointer arithmetic. With its root in a recently developed framework
+<em>Applied Type System</em> (ATS), the type system imposes a level of
+abstraction on program states through a novel notion of recursive stateful
+views and then relies on a form of linear logic to reason about such
+stateful views.  We consider the design and then the formalization of the
+type system to constitute the primary contribution of the paper. In
+addition, we also mention a running implementation of the type system and
+then give some examples in support of the practicality of programming with
+recursive stateful views.
+</td>
+</tr>
+<tr><td>
+Links:
+<a href="MYDATA/VsTsVTs-2018-10-28.pdf">pdf</a>
+</td></tr>
+<tr height="8px"><td></td></tr>
+</table>
+
+<hr></hr>
+
 </div>
 
 <?php /* end of [Papers.php] */ ?>

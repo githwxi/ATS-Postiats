@@ -74,6 +74,7 @@ thePageRBodyLHeader_Papers()
   echo "<li><a href=\"#Xanadu-lics2000\">Imperative Programming with Dependent Types</a></li>\n";
   echo "<li><a href=\"#CPwTP-icfp05\">Combining Programming with Theorem-Proving</a></li>\n";
   echo "<li><a href=\"#SPPSV-padl05\">Safe Programming with Pointers through Stateful Views</a></li>\n";
+  echo "<li><a href=\"#VsTsVTs-2018-10-28\">To Memory Safety through Proofs</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Papers] */

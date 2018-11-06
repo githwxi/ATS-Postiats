@@ -26,6 +26,10 @@ ATS_PACKNAME "ATSCNTRB.HX.parcomb"
 //
 (* ****** ****** *)
 //
+#staload "libats/ML/SATS/basis.sats"
+//
+(* ****** ****** *)
+//
 // HX:
 // [parser(t,a)]
 // returns a value of type [a]
@@ -232,19 +236,19 @@ fun
 {t:t0p}
 {a:t0p}
 list0_parser
-  (p0: parser(t, a)): parser(t, List0(a))
+  (p0: parser(t, a)): parser(t, list0(a))
 //
 fun
 {t:t0p}
 {a:t0p}
 list1_parser
-  (p0: parser(t, a)): parser(t, List1(a))
+  (p0: parser(t, a)): parser(t, list0(a))
 //
 fun
 {t:t0p}
 {a:t0p}
 option_parser
-  (p0: parser(t, a)): parser(t, Option(a))
+  (p0: parser(t, a)): parser(t, option0(a))
 //
 (* ****** ****** *)
 //

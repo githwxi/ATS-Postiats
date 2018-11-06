@@ -28,6 +28,8 @@ ATS_PACKNAME "ATSCNTRB.HX.parcomb"
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -397,7 +399,7 @@ list0_parser(p0) = let
 in
 //
 list1_parser<t><a>(p0) ||
-ret_parser<t><List0(a)>(list_nil)
+ret_parser<t><list0(a)>(list0_nil)
 //
 end // end of [list0_parser]
 
@@ -414,7 +416,7 @@ lam (st) => let
   val p1 = list0_parser<t><a>(p0)
   val xs = p1(st)
 in
-  list_cons(x, xs)
+  list0_cons(x, xs)
 end // end of [let]
 //
 ) (* end of [list1_parser] *)
@@ -425,13 +427,13 @@ implement
 {t}{a}
 option_parser(p0) = let
 //
-typedef b = Option(a)
+typedef b = option0(a)
 //
 in
 //
 seq1wth_parser_fun<t><a,b>
-  (p0, lam x => Some(x)) ||
-ret_parser<t><b>(None((*void*)))
+  (p0, lam x => Some0(x)) ||
+ret_parser<t><b>(None0((*void*)))
 //
 end // end of [option_parser]
 //

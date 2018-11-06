@@ -7,6 +7,8 @@ For testing parcomb
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 staload UN = $UNSAFE
 //
@@ -17,7 +19,6 @@ staload _ = "./../DATS/parcomb.dats"
 //
 (* ****** ****** *)
 
-#define :: list_cons
 #define i2c int2char0
 
 (* ****** ****** *)
@@ -55,15 +56,15 @@ local
 fun
 ident_make
 (
-  c: int, cs: List0(int)
+  c: int, cs: list0(int)
 ) : string = let
   val cs =
-    list_map_fun<int><char>(c::cs, lam c => i2c(c))
-  val ident =
-    string_make_list($UN.castvwtp1{List0(charNZ)}(cs))
-  val ((*freed*)) = list_vt_free<char>(cs)
+  list0_map<int><char>
+  (
+    list0_cons(c, cs), lam c => i2c(c)
+  )
 in
-  strnptr2string(ident)
+  string_make_list0($UN.castvwtp1{list0(charNZ)}(cs))
 end // end of [ident_make]
 //
 in
@@ -99,15 +100,11 @@ local
 fun
 int_of_digits
 (
-  xs: List0(int)
+  xs: list0(int)
 ) : int = let
 //
-implement
-list_foldleft$fopr<int><int>
-  (acc, x) = 10 * acc + x
-//
 in
-  list_foldleft<int><int> (xs, 0)
+  list0_foldleft<int><int> (xs, 0, lam(r, x) => 10 * r + x)
 end // end of [int_of_digits]
 
 in (* in-of-local *)
