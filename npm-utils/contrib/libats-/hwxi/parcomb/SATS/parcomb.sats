@@ -50,7 +50,8 @@ symintr && ||
 (*
 HX: out-of-tokens
 *)
-exception TOKEN_NONE of ()
+exception
+PARCOMB_TOKEN_NONE of ()
 //
 (* ****** ****** *)
 

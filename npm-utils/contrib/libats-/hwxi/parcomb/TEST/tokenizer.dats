@@ -22,6 +22,22 @@ staload _ = "./../DATS/parcomb.dats"
 #define i2c int2char0
 
 (* ****** ****** *)
+
+fun
+digit_parser
+(
+p0: parser(int, int)
+) : parser(int, int) =
+(
+seq1wth_parser_fun
+(
+sat_parser_fun
+( p0
+, lam i => isdigit(i)), lam i => i2c(i)-'0'
+)
+) (* end of [digit_parser] *)
+
+(* ****** ****** *)
 //
 fun
 idfst_test
@@ -51,47 +67,84 @@ p0: parser(int, int)
 //  
 (* ****** ****** *)
 
+fun
+symbl_test
+  (i0: int): bool =
+( string_exists
+  ("%&+-./:=@~`^|*!?<>#$", lam(c) => c0 = c)
+) where
+{
+  val c0 = i2c(i0)
+}
+fun
+symbl_parser
+(
+p0: parser(int, int)
+) : parser(int, int) =
+  sat_parser_fun(p0, symbl_test)
+
+(* ****** ****** *)
+
 local
 //
 fun
-ident_make
+ide_make
 (
   c: int, cs: list0(int)
 ) : string = let
   val cs =
   list0_map<int><char>
   (
-    list0_cons(c, cs), lam c => i2c(c)
+  list0_cons(c, cs), lam c => i2c(c)
   )
 in
-  string_make_list0($UN.castvwtp1{list0(charNZ)}(cs))
-end // end of [ident_make]
+  string_make_list0
+  ($UN.castvwtp1{list0(charNZ)}(cs))
+end // end of [ide_make]
 //
 in
 //
 fun
-ident_parser
+ide_parser
 (
 p0: parser(int, int)
 ) : parser(int, string) =
 (
 seq2wth_parser_fun
-  (idfst_parser(p0), list0_parser(idrst_parser(p0)), ident_make)
+( idfst_parser(p0)
+, list0_parser(idrst_parser(p0)), ide_make)
 ) (* end of [seq2wth_parser_fun] *)
 //
 end // end of [local]
 
 (* ****** ****** *)
 
+local
+//
 fun
-digit_parser
+sym_make
+(
+cs: list0(int)
+) : string = let
+  val cs =
+  list0_map<int><char>(cs, lam c => i2c(c))
+in
+  string_make_list0($UN.castvwtp1{list0(charNZ)}(cs))
+end // end of [sym_make]
+//
+in
+//
+fun
+sym_parser
 (
 p0: parser(int, int)
-) : parser(int, int) =
+) : parser(int, string) =
 (
 seq1wth_parser_fun
-  (sat_parser_fun(p0, lam i => isdigit(i)), lam i => i2c(i)-'0')
-) (* end of [digit_parser] *)
+  (list1_parser(symbl_parser(p0)), sym_make)
+) (* end of [seq1wth_parser_fun] *)
+//
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -110,7 +163,7 @@ end // end of [int_of_digits]
 in (* in-of-local *)
 //
 fun
-integer_parser
+int_parser
 (
 p0: parser(int, int)
 ) : parser(int, int) =
@@ -130,8 +183,9 @@ p0: parser(int, int)
 (* ****** ****** *)
 //
 datatype token =
-  | TOKide of string
   | TOKint of (int)
+  | TOKide of string
+  | TOKsym of string
   | TOKspchr of (char)
 //
 (* ****** ****** *)
@@ -147,8 +201,9 @@ fprint_token
   (out, tok) =
 (
 case+ tok of
-| TOKide(x) => fprint! (out, "TOKide(", x, ")")
 | TOKint(x) => fprint! (out, "TOKint(", x, ")")
+| TOKide(x) => fprint! (out, "TOKide(", x, ")")
+| TOKsym(x) => fprint! (out, "TOKsym(", x, ")")
 | TOKspchr(x) => fprint! (out, "TOKspchr(", x, ")")
 )
 //
@@ -165,9 +220,11 @@ p0: parser(int, int)
 (
 //
 seq1wth_parser_fun
-  (ident_parser(p0), lam x => TOKide(x)) ||
+  (int_parser(p0), lam x => TOKint(x)) ||
 seq1wth_parser_fun
-  (integer_parser(p0), lam x => TOKint(x)) ||
+  (ide_parser(p0), lam x => TOKide(x)) ||
+seq1wth_parser_fun
+  (sym_parser(p0), lam x => TOKsym(x)) ||
 seq1wth_parser_fun
   (spechar_parser(p0), lam x => TOKspchr(i2c(x)))
 //
@@ -189,6 +246,10 @@ cstream_gen
 //
 (* ****** ****** *)
 
+#ifdef
+MAIN_NONE
+#then
+#else
 implement
 main0((*void*)) =
 {
@@ -206,6 +267,7 @@ val out = stdout_ref
 val ((*void*)) = fprintln!(out, "toks = ", toks)
 //
 } (* end of [main0] *)
+#endif // end of [#ifdef]
 
 (* ****** ****** *)
 

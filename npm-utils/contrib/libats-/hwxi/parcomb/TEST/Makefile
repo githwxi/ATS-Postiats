@@ -24,6 +24,16 @@ tokenizer.dats ; \
 $(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES)
 #
 ######
+#
+all:: \
+lambda-stfp
+regress:: \
+lambda-stfp; $(CAT) lambda-stfp.dats | ./$< 
+lambda-stfp: \
+lambda-stfp.dats ; \
+$(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES)
+#
+######
 
 CAT=cat
 RMF=rm -f
@@ -44,5 +54,6 @@ clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) tokenizer
+cleanall:: ; $(RMF) lambda-stfp
 
 ###### end of [Makefile] ######

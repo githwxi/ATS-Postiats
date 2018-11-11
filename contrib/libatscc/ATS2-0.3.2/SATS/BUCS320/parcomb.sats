@@ -146,7 +146,7 @@ parser_repeat1
 (* ****** ****** *)
 //
 fun
-parser_lazy
+parser_unlazy
   {a:t@ype}
   {t:t@ype}
   (lp: lazy(parser(a, t))): parser(a, t) = "mac#%"

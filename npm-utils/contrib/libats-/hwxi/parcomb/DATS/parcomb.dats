@@ -72,6 +72,11 @@ val ts = st.tstream
 in
 //
 case+ !(ts) of
+| stream_nil
+    () =>
+  (
+    $raise PARCOMB_TOKEN_NONE(*void*)
+  ) (* end of [stream_nil] *)
 | stream_cons
     (t, ts) => t where
   {
@@ -80,10 +85,6 @@ case+ !(ts) of
     val () = if n1 > st.nmax then st.nmax := n1
     val () = st.tstream := ts
   } (* end of [stream_cons] *)
-| stream_nil () => let
-  in
-    $raise TOKEN_NONE(*void*)
-  end // end of [stream_nil]
 //
 end // end of [pstate_get_token]
 
@@ -128,7 +129,11 @@ fun
 {a:t0p}
 parfail_raise
   (st: &pstate(t)): a =
-  $raise PARFAIL($UN.cast{ptr}(st.tstream), st.ncur, st.nmax)
+(
+  $raise
+  PARFAIL
+  ($UN.cast{ptr}(st.tstream), st.ncur, st.nmax)
+)
 //
 (* ****** ****** *)
 //
