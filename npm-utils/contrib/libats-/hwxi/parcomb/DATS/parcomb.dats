@@ -41,6 +41,14 @@ UN = "prelude/SATS/unsafe.sats"
 staload "./../SATS/parcomb.sats"
 
 (* ****** ****** *)
+//
+(*
+HX: out-of-tokens
+*)
+exception
+PARCOMB_TOKEN_NONE of ()
+//
+(* ****** ****** *)
 
 typedef
 pstate(t:t0p) = @{
@@ -109,10 +117,15 @@ end (* end of [pstate_update] *)
 //
 (* ****** ****** *)
 //
-assume
+#ifndef
+absimpl_parser_type
+#define
+absimpl_parser_type
+absimpl
 parser_type
   (t:t@ype, a:t@ype) =
   (&pstate(t) >> _) -<cloref1> (a)
+#endif // end of [#endif]
 //
 (* ****** ****** *)
 

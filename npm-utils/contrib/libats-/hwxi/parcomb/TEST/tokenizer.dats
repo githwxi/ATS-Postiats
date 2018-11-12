@@ -14,8 +14,9 @@ staload UN = $UNSAFE
 //
 (* ****** ****** *)
 //
-staload "./../SATS/parcomb.sats"
-staload _ = "./../DATS/parcomb.dats"
+#include "./../mylibies.hats"
+//
+#staload $PARCOMB // HX: opening it!
 //
 (* ****** ****** *)
 

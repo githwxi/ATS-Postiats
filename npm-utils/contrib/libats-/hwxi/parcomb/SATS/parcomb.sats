@@ -46,14 +46,6 @@ parser(t:t@ype, a:t@ype) = parser_type(t, a)
 symintr && ||
 
 (* ****** ****** *)
-//
-(*
-HX: out-of-tokens
-*)
-exception
-PARCOMB_TOKEN_NONE of ()
-//
-(* ****** ****** *)
 
 fun
 {a:t0p}

@@ -10,7 +10,6 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 ######
 
 MYLIBIES :=
-MYLIBIES += ./../mylibies.sats
 MYLIBIES += ./../mylibies.dats
 
 ######
