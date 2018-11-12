@@ -174,7 +174,7 @@ end // end of [local]
 (* ****** ****** *)
 
 fun
-spechar_parser
+spc_parser
 (
 p0: parser(int, int)
 ) : parser(int, int) =
@@ -186,7 +186,8 @@ datatype token =
   | TOKint of (int)
   | TOKide of string
   | TOKsym of string
-  | TOKspchr of (char)
+  | TOKspc of (char)
+  | TOKeof of ((*void*))
 //
 (* ****** ****** *)
 //
@@ -204,7 +205,8 @@ case+ tok of
 | TOKint(x) => fprint! (out, "TOKint(", x, ")")
 | TOKide(x) => fprint! (out, "TOKide(", x, ")")
 | TOKsym(x) => fprint! (out, "TOKsym(", x, ")")
-| TOKspchr(x) => fprint! (out, "TOKspchr(", x, ")")
+| TOKspc(x) => fprint! (out, "TOKspc(", x, ")")
+| TOKeof( ) => fprint! (out, "TOKeof(",    ")")
 )
 //
 implement
@@ -226,7 +228,7 @@ seq1wth_parser_fun
 seq1wth_parser_fun
   (sym_parser(p0), lam x => TOKsym(x)) ||
 seq1wth_parser_fun
-  (spechar_parser(p0), lam x => TOKspchr(i2c(x)))
+  (spc_parser(p0), lam x => TOKspc(i2c(x)))
 //
 ) (* end of [token_parser] *)
 //

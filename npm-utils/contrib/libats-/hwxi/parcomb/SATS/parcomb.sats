@@ -71,6 +71,13 @@ ret_parser(x: a): parser(t, a)
 fun
 {t:t0p}
 {a:t0p}
+fail_parser(): parser(t, a)
+
+(* ****** ****** *)
+
+fun
+{t:t0p}
+{a:t0p}
 sat_parser_fun
 (
   parser(t, a)

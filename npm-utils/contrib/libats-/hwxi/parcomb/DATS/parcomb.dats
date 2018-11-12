@@ -149,6 +149,13 @@ implement
 ret_parser(x) = lam (st) => (x)
 //
 (* ****** ****** *)
+
+implement
+{t}{a}
+fail_parser() =
+lam(st) => parfail_raise<t><a>(st) 
+
+(* ****** ****** *)
 //
 implement
 {t}{a}
