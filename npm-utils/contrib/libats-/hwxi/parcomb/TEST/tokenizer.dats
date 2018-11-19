@@ -187,9 +187,43 @@ datatype token =
   | TOKint of (int)
   | TOKide of string
   | TOKsym of string
+  | TOKkwd of string
   | TOKspc of (char)
   | TOKeof of ((*void*))
 //
+(* ****** ****** *)
+
+fun
+ide_is_keywd
+(x0: string): bool =
+(
+ifcase
+| x0 = "lam" => true
+| x0 = "fix" => true
+//
+| x0 = "let" => true
+| x0 = "in" => true
+| x0 = "end" => true
+//
+| x0 = "ift" => true
+| x0 = "then" => true
+| x0 = "else" => true
+//
+| _ (* else *) => false
+)
+
+fun
+sym_is_keywd
+(x0: string): bool =
+(
+ifcase
+//
+| x0 = "=" => true
+| x0 = "=>" => true
+//
+| _ (* else *) => false
+)
+
 (* ****** ****** *)
 //
 extern
@@ -206,6 +240,7 @@ case+ tok of
 | TOKint(x) => fprint! (out, "TOKint(", x, ")")
 | TOKide(x) => fprint! (out, "TOKide(", x, ")")
 | TOKsym(x) => fprint! (out, "TOKsym(", x, ")")
+| TOKkwd(x) => fprint! (out, "TOKkwd(", x, ")")
 | TOKspc(x) => fprint! (out, "TOKspc(", x, ")")
 | TOKeof( ) => fprint! (out, "TOKeof(",    ")")
 )
@@ -223,11 +258,18 @@ p0: parser(int, int)
 (
 //
 seq1wth_parser_fun
-  (int_parser(p0), lam x => TOKint(x)) ||
+  ( int_parser(p0)
+  , lam x => TOKint(x)) ||
 seq1wth_parser_fun
-  (ide_parser(p0), lam x => TOKide(x)) ||
+  ( ide_parser(p0)
+  , lam x =>
+    if ide_is_keywd(x)
+      then TOKkwd(x) else TOKide(x)) ||
 seq1wth_parser_fun
-  (sym_parser(p0), lam x => TOKsym(x)) ||
+  ( sym_parser(p0)
+  , lam x =>
+    if sym_is_keywd(x)
+      then TOKkwd(x) else TOKsym(x)) ||
 seq1wth_parser_fun
   (spc_parser(p0), lam x => TOKspc(i2c(x)))
 //

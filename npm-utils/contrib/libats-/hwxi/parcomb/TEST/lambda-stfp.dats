@@ -161,7 +161,7 @@ toksat
 (
   lam x =>
   case+ x of
-  | TOKide("ift") => true | _ => false
+  | TOKkwd("ift") => true | _ => false
 )
 val
 par_THEN =
@@ -169,7 +169,7 @@ toksat
 (
   lam x =>
   case+ x of
-  | TOKide("then") => true | _ => false
+  | TOKkwd("then") => true | _ => false
 )
 val
 par_ELSE =
@@ -177,7 +177,7 @@ toksat
 (
   lam x =>
   case+ x of
-  | TOKide("else") => true | _ => false
+  | TOKkwd("else") => true | _ => false
 )
 //
 (* ****** ****** *)
@@ -188,7 +188,7 @@ toksat
 (
   lam x =>
   case+ x of
-  | TOKsym("=") => true | _ => false
+  | TOKkwd("=") => true | _ => false
 )
 val
 par_EQGT =
@@ -196,7 +196,7 @@ toksat
 (
   lam x =>
   case+ x of
-  | TOKsym("=>") => true | _ => false
+  | TOKkwd("=>") => true | _ => false
 )
 //
 (* ****** ****** *)
@@ -207,7 +207,7 @@ toksat
 (
 lam x =>
 case+ x of
-| TOKide("lam") => true | _ => false
+| TOKkwd("lam") => true | _ => false
 )
 val
 par_FIX =
@@ -215,7 +215,7 @@ toksat
 (
 lam x =>
 case+ x of
-| TOKide("fix") => true | _ => false
+| TOKkwd("fix") => true | _ => false
 )
 //
 (* ****** ****** *)
@@ -226,7 +226,7 @@ toksat
 (
 lam x =>
 case+ x of
-| TOKide("let") => true | _ => false
+| TOKkwd("let") => true | _ => false
 )
 val
 par_IN =
@@ -234,7 +234,7 @@ toksat
 (
 lam x =>
 case+ x of
-| TOKide("in") => true | _ => false
+| TOKkwd("in") => true | _ => false
 )
 val
 par_END =
@@ -242,7 +242,7 @@ toksat
 (
 lam x =>
 case+ x of
-| TOKide("end") => true | _ => false
+| TOKkwd("end") => true | _ => false
 )
 //
 (* ****** ****** *)
