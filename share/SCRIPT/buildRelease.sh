@@ -28,6 +28,11 @@
 # rm -rf /tmp/ATS-Postiats-contrib
 #
 ######
+#
+# HX-2018-12-01:
+# Please make sure that the version number in configure.ac is properly updated!
+#
+######
 
 PWD=$(pwd)
 
