@@ -292,7 +292,8 @@ implement
 linmap_foreach$fwork<key,itm><env>
   (k, x, env) = let
 //
-val (
+val
+(
   pf, fpf | p
 ) = $UN.ptr_vtake{tenv}(addr@(env))
 val () = $Q.qstruct_insert<ki>(env, @(k, x))
@@ -308,14 +309,18 @@ val () = $Q.qstruct_initize{ki}(env)
 val () =
 $effmask_all
 (
-  linmap_foreach_env<key,itm><tenv> (map, env)
+  linmap_foreach_env<key,itm><tenv>(map, env)
 ) (* $effmask_all *)
 //
-val res = $Q.qstruct_takeout_list (env)
-prval () = $Q.qstruct_uninitize{ki}(env)
-//
 in
-  res
+  res where
+  {
+    val res = $Q.qstruct_takeout_list(env)
+    prval
+    ((*void*)) = lemma_list_vt_param(res)
+    prval
+    ((*void*)) = $Q.qstruct_uninitize{ki}(env)
+  }
 end // end of [linmap_listize1]
 
 end // end of [local]

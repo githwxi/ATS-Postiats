@@ -71,6 +71,15 @@ if [ -z "$PATSVERSION" ] ;
   then PATSVERSION=$(cat "${PATSHOME}/VERSION")
 fi
 
+AC_INIT_VERSION="AC_INIT([ATS2/Postiats], [${PATSVERSION}], [gmpostiats@gmail.com])"
+if grep -Fxq "$AC_INIT_VERSION" "${PATSHOME}/doc/DISTRIB/ATS-Postiats/configure.ac"
+then
+    echo "Correct version found in configure.ac"
+else
+    echo "Failure: Didn't find correct Postiats version for AC_INIT in configure.ac!"
+    exit -1;
+fi
+
 ######
 
 (\

@@ -10,7 +10,6 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 ######
 
 MYLIBIES :=
-MYLIBIES += ./../mylibies.sats
 MYLIBIES += ./../mylibies.dats
 
 ######
@@ -21,6 +20,16 @@ regress:: \
 tokenizer; $(CAT) tokenizer.dats | ./$< 
 tokenizer: \
 tokenizer.dats ; \
+$(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES)
+#
+######
+#
+all:: \
+lambda-stfp
+regress:: \
+lambda-stfp; $(CAT) lambda-stfp.dats | ./$< 
+lambda-stfp: \
+lambda-stfp.dats ; \
 $(PATSCC) -O2 -D_GNU_SOURCE -DATS_MEMALLOC_LIBC -o $@ $< $(MYLIBIES)
 #
 ######
@@ -44,5 +53,6 @@ clean:: ; $(RMF) *_?ats.o
 
 cleanall:: clean
 cleanall:: ; $(RMF) tokenizer
+cleanall:: ; $(RMF) lambda-stfp
 
 ###### end of [Makefile] ######

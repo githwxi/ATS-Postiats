@@ -332,7 +332,7 @@ end // end of [parse_repeat1]
 (* ****** ****** *)
 //
 implement
-parser_lazy(lp) = lam(inp0) => (!lp)(inp0)
+parser_unlazy(lp) = lam(inp0) => (!lp)(inp0)
 //
 (* ****** ****** *)
 

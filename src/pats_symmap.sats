@@ -67,13 +67,15 @@ symmap_insert
 
 (* ****** ****** *)
 
-fun symmap_joinwth
-  {itm:type} (m1: &symmap itm, m2: !symmap itm):<> void
+fun
+symmap_joinwth
+  {itm:type}(m1: &symmap itm, m2: !symmap itm):<> void
 // end of [symmap_joinwth]
 
 (* ****** ****** *)
 
-fun fprint_symmap
+fun
+fprint_symmap
   {itm:type} (
   out: FILEref, map: !symmap itm, f: (FILEref, itm) -> void
 ) : void // end of [fprint_symmap]

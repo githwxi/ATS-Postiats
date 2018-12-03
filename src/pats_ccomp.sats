@@ -1322,22 +1322,28 @@ and instrlstopt = Option (instrlst)
 
 and ibranch = '{
   ibranch_loc= loc_t, ibranch_inslst= instrlst
-} // end of [ibranch]
+} (* end of [ibranch] *)
 
 and ibranchlst = List (ibranch)
 
 (* ****** ****** *)
-
-fun print_instr (x: instr): void
-fun prerr_instr (x: instr): void
+//
+fun
+print_instr(x: instr): void
+fun
+prerr_instr(x: instr): void
+//
+fun
+fprint_instr: fprint_type(instr)
+fun
+fprint_instrlst: fprint_type(instrlst)
+//
 overload prerr with prerr_instr
 overload print with print_instr
-fun fprint_instr : fprint_type (instr)
+//
 overload fprint with fprint_instr
-
-fun fprint_instrlst : fprint_type (instrlst)
 overload fprint with fprint_instrlst
-
+//
 (* ****** ****** *)
 
 fun instr_funlab (loc: loc_t, flab: funlab): instr

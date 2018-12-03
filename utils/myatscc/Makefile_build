@@ -71,7 +71,7 @@ cleanall:: ; $(RMF) myatscc
 ######
 #
 npm-install:: ; \
-$(NPM) install atscntrb-hx-parcomb
+$(NPM) install atscntrb-hx-parcomb@1.0.5
 #
 ######
 

@@ -1,33 +1,21 @@
 {
-"name":
-"atscntrb-hx-parcomb"
-,
-"version": "1.0.5"
-,
-"description":
-"This package is for experimenting with parsing combinators..."
-,
-"main": "N/A"
-,
-"scripts": {}
-,
-"repository": {
-  "url": "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/libats-/hwxi/parcomb"
-}
-,
-"keywords": [
-  "ATS",
-  "parsing",
-  "combinator"
-]
-,
-"dependencies": {}
-,
-"author":
-"Hongwei Xi <gmhwxi@gmail.com>"
-,
-"license": "MIT"
-,
-"note-for-me":
-"The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/parcomb/."
+  "name": "atscntrb-hx-parcomb",
+  "version": "1.0.7",
+  "description": "This package is for experimenting with parsing combinators...",
+  "main": "N/A",
+  "scripts": {},
+  "repository": {
+    "url": "https://github.com/githwxi/ATS-Postiats/tree/master/npm-utils/contrib/libats-/hwxi/parcomb"
+  },
+  "keywords": [
+    "ATS",
+    "parsing",
+    "combinator"
+  ],
+  "dependencies": {
+    "npm": "^6.4.1"
+  },
+  "author": "Hongwei Xi <gmhwxi@gmail.com>",
+  "license": "MIT",
+  "note-for-me": "The package is stored at ${PATSHOME}/npm-utils/contrib/libats-hwxi/parcomb/."
 }

@@ -28,6 +28,8 @@ ATS_PACKNAME "ATSCNTRB.HX.parcomb"
 //
 #include
 "share/atspre_staload.hats"
+#include
+"share/atspre_staload_libats_ML.hats"
 //
 (* ****** ****** *)
 //
@@ -38,6 +40,14 @@ UN = "prelude/SATS/unsafe.sats"
 
 staload "./../SATS/parcomb.sats"
 
+(* ****** ****** *)
+//
+(*
+HX: out-of-tokens
+*)
+exception
+PARCOMB_TOKEN_NONE of ()
+//
 (* ****** ****** *)
 
 typedef
@@ -70,6 +80,11 @@ val ts = st.tstream
 in
 //
 case+ !(ts) of
+| stream_nil
+    () =>
+  (
+    $raise PARCOMB_TOKEN_NONE(*void*)
+  ) (* end of [stream_nil] *)
 | stream_cons
     (t, ts) => t where
   {
@@ -78,10 +93,6 @@ case+ !(ts) of
     val () = if n1 > st.nmax then st.nmax := n1
     val () = st.tstream := ts
   } (* end of [stream_cons] *)
-| stream_nil () => let
-  in
-    $raise TOKEN_NONE(*void*)
-  end // end of [stream_nil]
 //
 end // end of [pstate_get_token]
 
@@ -106,10 +117,15 @@ end (* end of [pstate_update] *)
 //
 (* ****** ****** *)
 //
-assume
+#ifndef
+absimpl_parser_type
+#define
+absimpl_parser_type
+absimpl
 parser_type
   (t:t@ype, a:t@ype) =
   (&pstate(t) >> _) -<cloref1> (a)
+#endif // end of [#endif]
 //
 (* ****** ****** *)
 
@@ -126,7 +142,11 @@ fun
 {a:t0p}
 parfail_raise
   (st: &pstate(t)): a =
-  $raise PARFAIL($UN.cast{ptr}(st.tstream), st.ncur, st.nmax)
+(
+  $raise
+  PARFAIL
+  ($UN.cast{ptr}(st.tstream), st.ncur, st.nmax)
+)
 //
 (* ****** ****** *)
 //
@@ -141,6 +161,13 @@ implement
 {t}{a}
 ret_parser(x) = lam (st) => (x)
 //
+(* ****** ****** *)
+
+implement
+{t}{a}
+fail_parser() =
+lam(st) => parfail_raise<t><a>(st) 
+
 (* ****** ****** *)
 //
 implement
@@ -397,7 +424,7 @@ list0_parser(p0) = let
 in
 //
 list1_parser<t><a>(p0) ||
-ret_parser<t><List0(a)>(list_nil)
+ret_parser<t><list0(a)>(list0_nil)
 //
 end // end of [list0_parser]
 
@@ -414,7 +441,7 @@ lam (st) => let
   val p1 = list0_parser<t><a>(p0)
   val xs = p1(st)
 in
-  list_cons(x, xs)
+  list0_cons(x, xs)
 end // end of [let]
 //
 ) (* end of [list1_parser] *)
@@ -425,13 +452,13 @@ implement
 {t}{a}
 option_parser(p0) = let
 //
-typedef b = Option(a)
+typedef b = option0(a)
 //
 in
 //
 seq1wth_parser_fun<t><a,b>
-  (p0, lam x => Some(x)) ||
-ret_parser<t><b>(None((*void*)))
+  (p0, lam x => Some0(x)) ||
+ret_parser<t><b>(None0((*void*)))
 //
 end // end of [option_parser]
 //
