@@ -917,10 +917,17 @@ scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Posti
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.3.7
+PACKNAMEintmin=ATS2-Postiats-intmin-0.3.12
 #
+atspacktarzvcf_intmin:: ; $(RMRF) $(PACKNAMEintmin)
+atspacktarzvcf_intmin:: ; $(CPRF) ATS-Postiats $(PACKNAMEintmin)
+atspacktarzvcf_intmin:: ; $(RMF) $(PACKNAMEintmin)/Makefile_conf
+atspacktarzvcf_intmin:: ; $(RMF) $(PACKNAMEintmin)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAMEintmin)/
+atspacktarzvcf_intmin:: ; $(RMF) $(PACKNAMEintmin)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAMEintmin)/
+atspacktarzvcf_intmin:: ; $(MAKE) -C $(PACKNAMEintmin) cleanall
+atspacktarzvcf_intmin:: ; $(TARZVCF) $(PACKNAMEintmin).tgz $(PACKNAMEintmin)/.
 atspacktarzvcf_intmin_up:: ; \
-scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
+scp $(PACKNAMEintmin).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
 #
 ######
 #

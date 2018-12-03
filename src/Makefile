@@ -40,8 +40,8 @@ GCFLAG=
 # [gmpknd] for CBOOT
 # [intknd] for CBOOTmin
 #
-C3NSTRINTKND=gmpknd
-#C3NSTRINTKND=intknd
+# C3NSTRINTKND=gmpknd
+# #C3NSTRINTKND=intknd
 #
 ######
 #
@@ -835,18 +835,15 @@ cleanall:: ; $(RMF) patsopt
 #
 libatsopt:: $(TARGETS)
 #
-libatsopt:: \
-$(OBJECTS) pats_main_none_dats.o; $(ARR) libatsopt.a $^
-#
-libatsopt:: ; $(CPF) ./libatsopt.a ./../ccomp/atslib/lib/.
+libatsopt:: $(OBJECTS)   pats_main_none_dats.o; $(ARR) libatsopt.a $^
 #
 ######
 #
 # for building patsopt through CMake
 #
-CMKBLD/init: ; cd CMKBLD; cmake ..; cd ..
-CMKBLD/clean: ; make -C CMKBLD -f Makefile clean
-CMKBLD/patsopt: ; make -C CMKBLD -j8 -f Makefile patsopt
+BUILD/init: ; cd BUILD; cmake ..; cd ..
+BUILD/clean: ; make -C BUILD -f Makefile clean
+BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
 #
 ######
 #
@@ -1617,7 +1614,7 @@ WCL=wc -l
 #
 srclines:: ; $(WCL)   pats_main.dats $(SOURCES)
 #
-liblines:: ; $(WCL)   ../prelude/*.sats   ../prelude/?ATS/*.?ats   ../libats/?ATS/*.?ats ../libats/?ATS/SHARE/*.?ats ../libats/libc/?ATS/*.?ats ../libats/ML/?ATS/*.?ats
+liblines:: ; $(WCL)   ../prelude/*.sats   ../prelude/?ATS/*.?ats   ../libc/?ATS/*.?ats   ../libats/?ATS/*.?ats ../libats/?ATS/SHARE/*.?ats
 #
 ######
 

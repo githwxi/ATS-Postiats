@@ -29,6 +29,7 @@ MAKE=make
 
 ######
 #
+all:: ; printf "${KND} \n"
 all:: bin_patscc
 all:: bin_myatscc
 all:: lib_patsopt
@@ -54,7 +55,7 @@ make -C utils/atscc -f Makefile copy build clean
 #
 bin_patsopt: \
 src_patsopt; $(CPF) src/patsopt bin/patsopt
-src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
+src_patsopt: src_depend src_cleanall ; make -C src -f Makefile C3NSTRINTKND=$(KND) all
 #
 ######
 #
