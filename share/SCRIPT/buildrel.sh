@@ -55,9 +55,9 @@ export PATSCONTRIB=${PWD}/ATS-Postiats-contrib
 
 ######
 
-export_pats
 $GIT clone \
-     https://github.com/githwxi/ATS-Postiats.git \
+     https://github.com/sparverius/ATS-Postiats.git \
+     # https://github.com/githwxi/ATS-Postiats.git \
     || (cd ATS-Postiats && $GIT pull origin master)
 
 ######
@@ -156,10 +156,4 @@ main() {
 
 main "$1" "$2"
 
-
 ###### end of [buildRelease.sh] ######
-
-# check_depend
-# clone_ats2
-
-
