@@ -57,8 +57,8 @@ export PATSCONTRIB=${PWD}/ATS-Postiats-contrib
 
 $GIT clone \
      https://github.com/sparverius/ATS-Postiats.git \
-     # https://github.com/githwxi/ATS-Postiats.git \
     || (cd ATS-Postiats && $GIT pull origin master)
+     # https://github.com/githwxi/ATS-Postiats.git \
 
 ######
 
@@ -102,10 +102,12 @@ build_release_intmin() {
 	 make -C src/CBOOT/libats -f Makefile && \
 	 make -C src/CBOOT/prelude -f Makefile && \
 	 make -C doc/DISTRIB -f Makefile atspackaging && \
-	 make -C doc/DISTRIB -f Makefile atspacktarzvcf_intmin && \
-	)
+	 make -C doc/DISTRIB -f Makefile atspacktarzvcf_intmin
+    )
 }
+
 ######
+
 build_release_gmp() {
     ( cd "$PATSHOME" && \
 	  make -f Makefile_devl KND=gmpknd && \
@@ -120,8 +122,8 @@ build_release_gmp() {
 	  make -C doc/DISTRIB -f Makefile atspacktarzvcf && \
 	  make -C doc/DISTRIB -f Makefile atscontribing && \
 	  make -C doc/DISTRIB -f Makefile atscontribtarzvcf && \
-	  make -C doc/DISTRIB -f Makefile_inclats tarzvcf \
-	)
+	  make -C doc/DISTRIB -f Makefile_inclats tarzvcf
+    )
 }
 
 
