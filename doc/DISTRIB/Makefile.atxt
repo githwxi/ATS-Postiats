@@ -488,7 +488,7 @@ PATSVER=\
 $(shell cat ${PATSHOME}/VERSION)
 ######
 #
-PACKNAME=ATS2-Postiats-0.3.12
+PACKNAME=ATS2-Postiats-0.3.13
 PACKNAME=ATS2-Postiats-$(PATSVER)
 #
 atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
@@ -518,7 +518,7 @@ scp $(PACKNAMEintmin).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT
 #
 ######
 #
-CONTRIBNAME=ATS2-Postiats-contrib-0.3.12
+CONTRIBNAME=ATS2-Postiats-contrib-0.3.13
 CONTRIBNAME=ATS2-Postiats-contrib-$(PATSVER)
 #
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)
