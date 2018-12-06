@@ -52,9 +52,20 @@ make -f codegen/Makefile_atslib
 src_patscc:: bin_patsopt ; \
 make -C utils/atscc -f Makefile copy build clean
 #
+######
+#
+C3NSTRINTKND=gmpknd
+#
+#C3NSTRINTKND=intknd
+#
+######
+
 bin_patsopt: \
-src_patsopt; $(CPF) src/patsopt bin/patsopt
-src_patsopt: src_depend src_cleanall ; make -C src -f Makefile all
+src_patsopt; \
+$(CPF) src/patsopt bin/patsopt
+src_patsopt: \
+src_depend src_cleanall ; \
+make -C src -f Makefile C3NSTRINTKND=$(C3NSTRINTKND) all
 #
 ######
 #
