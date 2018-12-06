@@ -44,7 +44,7 @@ script:
   # make C3NSTRINTKND=intknd GCFLAG=-D_ATS_GCATS -f Makefile_devl CC=${CLANG} all
   # Trying-out release process
   - cd ${TRAVIS_BUILD_DIR}
-  - make -C ${PATSHOME}/src CBOOT
+  - make -C ${PATSHOME}/src CBOOTgmp
   - make -C ${PATSHOME}/src/CBOOT/prelude
   - make -C ${PATSHOME}/src/CBOOT/libc
   - make -C ${PATSHOME}/src/CBOOT/libats
