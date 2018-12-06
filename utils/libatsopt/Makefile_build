@@ -28,36 +28,42 @@ all:: libatsopt_ext
 
 ######
 #
+libatsopt:: libatsopt_gmp
+#
+#libatsopt:: libatsopt_int
+#
+######
+#
 # For building libatsopt with libgmp dependency
 #
-libatsopt:: ; \
+libatsopt_gmp:: ; \
 $(MAKE) -C $(PATSHOME)/src cleanall
-libatsopt:: ; \
-$(MAKE) -C $(PATSHOME)/src libatsopt
+libatsopt_gmp:: ; \
+$(MAKE) -C $(PATSHOME)/src C3NSTRINTKND=gmpknd libatsopt
 #
-libatsopt:: ; $(RMF) libatsopt.a
-libatsopt:: ; $(MAKE) -C $(PATSHOME)/src CBOOT
+libatsopt_gmp:: ; $(RMF) libatsopt.a
+libatsopt_gmp:: ; $(MAKE) -C $(PATSHOME)/src CBOOTgmp
 #
-libatsopt:: ; \
+libatsopt_gmp:: ; \
 $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
-libatsopt:: ; \
+libatsopt_gmp:: ; \
 $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt && $(MVF) $(PATSHOME)/src/CBOOT/libatsopt.a .
 #
 ######
 #
 # For building libatsopt without libgmp dependency
 #
-libatsopt_min:: ; \
+libatsopt_int:: ; \
 $(MAKE) -C $(PATSHOME)/src cleanall
-libatsopt_min:: ; \
+libatsopt_int:: ; \
 $(MAKE) -C $(PATSHOME)/src C3NSTRINTKND=intknd libatsopt
 #
-libatsopt_min:: ; $(RMF) libatsopt.a
-libatsopt_min:: ; $(MAKE) -C $(PATSHOME)/src CBOOTmin
+libatsopt_int:: ; $(RMF) libatsopt.a
+libatsopt_int:: ; $(MAKE) -C $(PATSHOME)/src CBOOTint
 #
-libatsopt_min:: ; \
+libatsopt_int:: ; \
 $(MAKE) -C $(PATSHOME)/src/CBOOT cleanall
-libatsopt_min:: ; \
+libatsopt_int:: ; \
 $(MAKE) -C $(PATSHOME)/src/CBOOT libatsopt && $(MVF) $(PATSHOME)/src/CBOOT/libatsopt.a .
 #
 ######
