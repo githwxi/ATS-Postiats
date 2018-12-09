@@ -19,14 +19,16 @@ bash $(BUILD_RELEASE) $(ATSVER) gmpknd
 
 ######
 
-contrib: ; \
-bash $(BUILD_RELEASE) $(ATSVER) contrib
-
-######
-
 both:: ; \
 bash $(BUILD_RELEASE) $(ATSVER) intknd
 both:: ; \
 bash $(BUILD_RELEASE) $(ATSVER) gmpknd
+
+######
+
+contrib: ; \
+bash $(BUILD_RELEASE) $(ATSVER) contrib
+
+######
 
 ###### end of [Makefile] ######
