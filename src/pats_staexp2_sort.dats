@@ -260,7 +260,14 @@ implement s2rt_vt0ype_pos = S2RTbas(s2tb_vt0ype_pos)
 implement s2rt_vt0ype_neg = S2RTbas(s2tb_vt0ype_neg)
 
 implement
-s2rt_impred (knd) = let
+s2rt_impred(knd) = let
+//
+(*
+val () =
+println!
+("s2rt_impred: knd = ", knd)
+*)
+//
 in
 //
 case+ knd of

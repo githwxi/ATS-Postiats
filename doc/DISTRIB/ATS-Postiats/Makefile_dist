@@ -51,10 +51,18 @@ configure ; \
 @echo "Please execute './configure'." ; exit 1 ;
 #
 ######
-
-src_patsopt: ; $(MAKE) -j4 -C src patsopt
+#
+C3NSTRINTKND=gmpknd
+#
+#C3NSTRINTKND=intknd
+#
+######
+#
+src_patsopt: ; \
+$(MAKE) C3NSTRINTKND=$(C3NSTRINTKND) -j4 -C src patsopt
+#
 bin_patsopt: src_patsopt ; $(CPF) src/patsopt bin/patsopt
-
+#
 ######
 #
 CCOMP=gcc

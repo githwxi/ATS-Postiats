@@ -26,8 +26,8 @@ CFLAGS += -I. -I./ccomp/runtime
 #
 C3NSTRINTKND=gmpknd
 #
-# [gmpknd] for CBOOT
-# [intknd] for CBOOTmin
+# [gmpknd] for CBOOTgmp
+# [intknd] for CBOOTint
 #
 ######
 #
@@ -485,4 +485,4 @@ cleanall:: clean
 
 ######
 
-###### end of [Makefile] ######
+###### end of [Makefile_CBOOTgmp] ######
