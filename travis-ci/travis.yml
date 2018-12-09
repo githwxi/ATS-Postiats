@@ -45,6 +45,7 @@ script:
   # Trying-out release process
   - cd ${TRAVIS_BUILD_DIR}
   - make -C ${PATSHOME}/src CBOOTgmp
+  # make -C ${PATSHOME}/src CBOOTint
   - make -C ${PATSHOME}/src/CBOOT/prelude
   - make -C ${PATSHOME}/src/CBOOT/libc
   - make -C ${PATSHOME}/src/CBOOT/libats
