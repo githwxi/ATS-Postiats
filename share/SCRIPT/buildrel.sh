@@ -30,59 +30,70 @@
 ######
 
 # PWD=$(pwd)
-
-######
-
-
-GIT=$(which git)
-if [ -x "$GIT" ] ; 
-then echo "$GIT found.";
-else echo "$GIT not found." exit 1;
-fi
-
-######
-
-ATSCC=$(which atscc)
-if [ -x "$ATSCC" ] ; 
-then echo "$ATSCC found.";
-else echo "$ATSCC not found." exit 1;
-fi
-
-######
-
-export PATSHOME=${PWD}/ATS-Postiats
-export PATSCONTRIB=${PWD}/ATS-Postiats-contrib
-
-######
-
-$GIT clone \
-     https://github.com/sparverius/ATS-Postiats.git \
-    || (cd ATS-Postiats && $GIT pull origin master)
-     # https://github.com/githwxi/ATS-Postiats.git \
-
-######
-
-$GIT clone \
-     https://github.com/githwxi/ATS-Postiats-contrib.git \
-    || (cd ATS-Postiats-contrib && $GIT pull origin master)
-
-######
-
 PATSVERSION=$1
+GIT=$(which git)
+ATSCC=$(which atscc)
 
-# check_version() {
-if [ -z "$PATSVERSION" ] ; then
-    PATSVERSION=$(cat "${PATSHOME}/VERSION")
-fi
+######
 
-AC_INIT_VERSION="AC_INIT([ATS2/Postiats], [${PATSVERSION}], [gmpostiats@gmail.com])"
-if grep -Fxq "$AC_INIT_VERSION" "${PATSHOME}/doc/DISTRIB/ATS-Postiats/configure.ac"
-then
-    echo "Correct version found in configure.ac"
-else
-    echo "Failure: Didn't find correct Postiats version for AC_INIT in configure.ac!"
-    exit -1;
-fi
+check_git() {
+    if [ -x "$GIT" ] ; 
+    then echo "$GIT found.";
+    else echo "$GIT not found." exit 1;
+    fi
+}
+
+######
+
+check_atscc() {
+    if [ -x "$ATSCC" ] ; 
+    then echo "$ATSCC found.";
+    else echo "$ATSCC not found." exit 1;
+    fi
+}
+
+######
+
+export_pats() {
+    export PATSHOME=${PWD}/ATS-Postiats
+    export PATSCONTRIB=${PWD}/ATS-Postiats-contrib
+}
+
+######
+
+clone_ATS_Postiats() {
+    $GIT clone --depth 1\
+	 https://github.com/sparverius/ATS-Postiats.git \
+	|| (cd ATS-Postiats && $GIT pull origin master)
+        # https://github.com/githwxi/ATS-Postiats.git \
+}
+
+######
+
+clone_ATS_Postiats_contrib() {
+    $GIT clone --depth 1\
+	 https://github.com/githwxi/ATS-Postiats-contrib.git \
+	|| (cd ATS-Postiats-contrib && $GIT pull origin master)
+}
+
+######
+
+check_version() {
+    if [ -z "$PATSVERSION" ] ; then
+	PATSVERSION=$(cat "${PATSHOME}/VERSION")
+    fi
+}
+
+check_ac_init_version() {
+    AC_INIT_VERSION="AC_INIT([ATS2/Postiats], [${PATSVERSION}], [gmpostiats@gmail.com])"
+    if grep -Fxq "$AC_INIT_VERSION" "${PATSHOME}/doc/DISTRIB/ATS-Postiats/configure.ac"
+    then
+	echo "Correct version found in configure.ac"
+    else
+	echo "Failure: Didn't find correct Postiats version for AC_INIT in configure.ac!"
+	exit -1;
+    fi
+}
 
 ######
 
@@ -93,8 +104,8 @@ checkout_build() {
 
 build_release_intmin() {
     (cd "$PATSHOME" && \
-	 make -f Makefile_devl KND=intknd && \
-	 make -C src -f Makefile CBOOTmin  && \
+	 make -f Makefile_devl C3NSTRINTKND=intknd && \
+	 make -C src -f Makefile CBOOTint && \
 	 (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
 	 (cd ./doc/DISTRIB/ATS-Postiats && \
 	      sh ./autogen.sh && ./configure) && \
@@ -110,45 +121,66 @@ build_release_intmin() {
 
 build_release_gmp() {
     ( cd "$PATSHOME" && \
-	  make -f Makefile_devl KND=gmpknd && \
-	  make -C src -f Makefile CBOOT  && \
-	  (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
-	  (cd ./doc/DISTRIB/ATS-Postiats && \
-	       sh ./autogen.sh && ./configure) && \
-	  make -C src/CBOOT/libc -f Makefile && \
-	  make -C src/CBOOT/libats -f Makefile && \
-	  make -C src/CBOOT/prelude -f Makefile && \
-	  make -C doc/DISTRIB -f Makefile atspackaging && \
-	  make -C doc/DISTRIB -f Makefile atspacktarzvcf && \
-	  make -C doc/DISTRIB -f Makefile atscontribing && \
-	  make -C doc/DISTRIB -f Makefile atscontribtarzvcf && \
-	  make -C doc/DISTRIB -f Makefile_inclats tarzvcf
+	    make -f Makefile_devl C3NSTRINTKND=gmpknd && \
+	    make -C src -f Makefile CBOOTgmp && \
+	    (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
+	    (cd ./doc/DISTRIB/ATS-Postiats && \
+		    sh ./autogen.sh && ./configure) && \
+	    make -C src/CBOOT/libc -f Makefile && \
+	    make -C src/CBOOT/libats -f Makefile && \
+	    make -C src/CBOOT/prelude -f Makefile && \
+	    make -C doc/DISTRIB -f Makefile atspackaging && \
+	    make -C doc/DISTRIB -f Makefile atspacktarzvcf && \
+	    make -C doc/DISTRIB -f Makefile atscontribing && \
+	    make -C doc/DISTRIB -f Makefile atscontribtarzvcf && \
+	    make -C doc/DISTRIB -f Makefile_inclats tarzvcf
     )
 }
 
+build_cleanall() {
+    (cd $PATSHOME && make -f Makefile_devl src_cleanall)
+    (cd $PATSHOME && make -f Makefile_devl atslib_cleanall)
+}
 
 _usage() {
+    echo "$1"
     local usage="usage: $(basename "$0") [VERSION] [KIND]"
-    printf "$usage\n\n"
-    printf "VERSION"
-    printf "x.x.x         release version\n"
-    printf "INTEGERKIND"
-    printf "intknd        ats-intmin\n"
-    printf "gmpknd        full ats install\n"
-    printf "all           to build both"
+    echo "$usage"
+    echo "VERSION"
+    echo "x.x.x         release version"
+    echo
+    echo "KIND"
+    echo "intknd        ats-intmin"
+    echo "gmpknd        full ats install"
+    echo "all           to build both"
+    exit
 }
 
 
-
 main() {
-    
+
+    [ -z "$1" ] && _usage "Please specify build VERSION and KIND"
+    [ -z "$2" ] && _usage "Please specify build KIND"
+
+    check_git 
+    check_atscc
+    export_pats
+    clone_ATS_Postiats
+    clone_ATS_Postiats_contrib
+    check_version
+    check_ac_init_version
+
     checkout_build
 
-    case $2 in
+
+    case "$2" in
 	gmpknd) build_release_gmp ;;
 	intknd) build_release_intmin ;;
-	all) build_release_intmin && \
-		   build_release_gmp ;;
+	all)
+	    build_release_intmin && \
+		build_cleanall && \
+		build_release_gmp
+	    ;;
 	*) _usage ;; 
     esac
 
