@@ -29,7 +29,6 @@ MAKE=make
 
 ######
 #
-all:: ; printf "${KND} \n"
 all:: bin_patscc
 all:: bin_myatscc
 all:: lib_patsopt
