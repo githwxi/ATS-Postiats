@@ -900,31 +900,41 @@ srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 ######
 PATSVER=$(shell cat ${PATSHOME}/VERSION)
 ######
+PACKNAME=$(PACKNAMEgmp)
+atspacktarzvcf: atspacktarzvcf_gmp
+######
 #
-PACKNAME=ATS2-Postiats-0.3.12
-PACKNAME=ATS2-Postiats-$(PATSVER)
+PACKNAMEgmp=ATS2-Postiats-gmp-0.3.13
+PACKNAMEgmp=ATS2-Postiats-gmp-$(PATSVER)
 #
-atspacktarzvcf:: ; $(RMRF) $(PACKNAME)
-atspacktarzvcf:: ; $(CPRF) ATS-Postiats $(PACKNAME)
-atspacktarzvcf:: ; $(RMF) $(PACKNAME)/Makefile_conf
-atspacktarzvcf:: ; $(RMF) $(PACKNAME)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAME)/
-atspacktarzvcf:: ; $(RMF) $(PACKNAME)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAME)/
-atspacktarzvcf:: ; $(MAKE) -C $(PACKNAME) cleanall
-atspacktarzvcf:: ; $(TARZVCF) $(PACKNAME).tgz $(PACKNAME)/.
+atspacktarzvcf_gmp:: ; $(RMRF) $(PACKNAMEgmp)
+atspacktarzvcf_gmp:: ; $(CPRF) ATS-Postiats $(PACKNAMEgmp)
+atspacktarzvcf_gmp:: ; $(RMF) $(PACKNAMEgmp)/Makefile_conf
+atspacktarzvcf_gmp:: ; $(RMF) $(PACKNAMEgmp)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAMEgmp)/
+atspacktarzvcf_gmp:: ; $(RMF) $(PACKNAMEgmp)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAMEgmp)/
+atspacktarzvcf_gmp:: ; $(MAKE) -C $(PACKNAMEgmp) cleanall
+atspacktarzvcf_gmp:: ; $(TARZVCF) $(PACKNAMEgmp).tgz $(PACKNAMEgmp)/.
 #
-atspacktarzvcf_up:: ; \
+atspacktarzvcf_gmp_up:: ; \
 scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAME).tgz
 #
 ######
 #
-PACKNAMEintmin=ATS2-Postiats-intmin-0.3.7
+PACKNAMEint=ATS2-Postiats-int-0.3.13
+PACKNAMEint=ATS2-Postiats-int-$(PATSVER)
 #
-atspacktarzvcf_intmin_up:: ; \
-scp $(PACKNAME).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEintmin).tgz
+atspacktarzvcf_int:: ; $(RMRF) $(PACKNAMEint)
+atspacktarzvcf_int:: ; $(CPRF) ATS-Postiats $(PACKNAMEint)
+atspacktarzvcf_int:: ; $(RMF) $(PACKNAMEint)/Makefile_conf
+atspacktarzvcf_int:: ; $(RMF) $(PACKNAMEint)/missing ; $(CPF) ATS-Postiats/missing $(PACKNAMEint)/
+atspacktarzvcf_int:: ; $(RMF) $(PACKNAMEint)/install-sh ; $(CPF) ATS-Postiats/install-sh $(PACKNAMEint)/
+atspacktarzvcf_int:: ; $(MAKE) -C $(PACKNAMEint) cleanall
+atspacktarzvcf_int:: ; $(TARZVCF) $(PACKNAMEint).tgz $(PACKNAMEint)/.
+atspacktarzvcf_int_up:: ; scp $(PACKNAMEint).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEint).tgz
 #
 ######
 #
-CONTRIBNAME=ATS2-Postiats-contrib-0.3.12
+CONTRIBNAME=ATS2-Postiats-contrib-0.3.13
 CONTRIBNAME=ATS2-Postiats-contrib-$(PATSVER)
 #
 atscontribtarzvcf:: ; $(RMRF) $(CONTRIBNAME)

@@ -27,8 +27,12 @@ The current <em>pre-stable</em> release of ATS2 is at
 <a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-0.3.13.tgz">ATS2-0.3.13</a>
 </li>
 <li>
-The current <em>pre-stable</em> release of ATS2-intmin is at
-<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intmin-0.3.7.tgz">ATS2-intmin-0.3.7</a>
+The current <em>pre-stable</em> release of ATS2-intknd is at
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-intknd-0.3.7.tgz">ATS2-intknd-0.3.7</a>
+</li>
+<li>
+The current <em>pre-stable</em> release of ATS2-gmpknd is at
+<a href="http://ats-lang.sourceforge.net/IMPLEMENT/Postiats/ATS2-Postiats-gmpknd-0.3.7.tgz">ATS2-gmpknd-0.3.7</a>
 </li>
 </ul>
 
@@ -107,9 +111,9 @@ a note so that other users of ATS may benefit.
 </p>
 
 <p>
-The GMP library (libgmp) is needed for installing ATS2. Please
+The GMP library (libgmp) is needed for installing ATS2-gmpknd. Please
 see <a href="http://gmplib.org">http://gmplib.org</a> for more details on
-GMP. Optionally, one may choose to install ATS2-intmin, which has
+GMP. Optionally, one may choose to install ATS2-intknd, which has
 no dependency on the GMP library.
 </p>
 

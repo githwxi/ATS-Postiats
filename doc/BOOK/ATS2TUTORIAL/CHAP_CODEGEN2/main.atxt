@@ -89,7 +89,7 @@ the #dyncode("codegen2")-directive is declared. By executing the
 following command-line:
 
 <informalexample><programlisting>
-<command>patscc</command> --codegen-2 -d expr.dats
+<command>patsopt</command> --codegen-2 -d expr.dats
 </programlisting></informalexample>
 
 we can see some output of ATS code that implements #dyncode("datcon_expr_"):
@@ -120,7 +120,7 @@ If the output needs to be stored in a file of the name
 #dyncode("fprint_expr.hats"), we can issue the following command-line:
 
 <informalexample><programlisting>
-<command>patscc</command> -o fprint_expr.hats --codegen-2 -d expr.dats
+<command>patsopt</command> -o fprint_expr.hats --codegen-2 -d expr.dats
 </programlisting></informalexample>
 
 Note that the funtion template #dyncode("datcon_expr_") is required to be

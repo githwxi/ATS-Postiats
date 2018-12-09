@@ -114,4 +114,4 @@ make -C doc/DISTRIB -f Makefile_inclats tarzvcf \
 
 ls -alh "$PATSHOME/doc/DISTRIB/"ATS2-*.tgz
 
-###### end of [buildRelease.sh] ######
+###### end of [build_release.sh] ######
