@@ -99,12 +99,11 @@ check_version() {
 
 ######
 
-CONFIGURE_AC="${PATSHOME}/doc/DISTRIB/ATS-Postiats/configure.ac"
-AC_INIT_VERSION="AC_INIT([ATS2/Postiats], [${PATSVERSION}], [gmpostiats@gmail.com])"
-
-######
-
 check_ac_init_version() {
+
+    CONFIGURE_AC="${PATSHOME}/doc/DISTRIB/ATS-Postiats/configure.ac"
+    AC_INIT_VERSION="AC_INIT([ATS2/Postiats], [${PATSVERSION}], [gmpostiats@gmail.com])"
+
     if grep -Fxq "$AC_INIT_VERSION" ${CONFIGURE_AC}
     then
 	echo "SUCCESS: Correct Postiats version found in configure.ac!"
