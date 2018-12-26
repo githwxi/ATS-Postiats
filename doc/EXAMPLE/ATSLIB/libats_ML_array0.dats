@@ -74,7 +74,7 @@ val () =
 val xs =
   $list{int}(3, 9, 7, 8, 6, 0, 4, 2, 1, 5)
 //
-val A0 = array0_make_list(g0ofg1_list(xs))
+val A0 = array0_make_list0(g0ofg1_list(xs))
 //
 val () = println! ("A0(bef) = ", A0)
 //
@@ -124,7 +124,7 @@ array0_make_fileref
   val cs =
     fileref_get_file_charlst(inp)
   val A0 =
-    array0_make_list($UN.castvwtp1{list0(char)}(cs))
+    array0_make_list0($UN.castvwtp1{list0(char)}(cs))
   val ((*freed*)) = list_vt_free(cs)
 } (* end of [array0_make_fileref] *)
 
