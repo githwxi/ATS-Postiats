@@ -1,4 +1,4 @@
-;;; ats2-mode.el --- Major mode to edit ATS2 source code
+;; ats2-mode.el -- Major mode to edit ATS2 source code
 
 ;; Copyright (C) 2007  Stefan Monnier
 ;; updated and modified by Matthew Danish <mrd@debian.org> 2008-2013
@@ -268,18 +268,62 @@
     pt))
 
 (defvar ats-word-keywords
-  '("abstype" "abst0ype" "absprop" "absview" "absvtype" "absviewtype" "absvt0ype" "absviewt0ype"
-    "and" "as" "assume" "begin" "break" "continue" "classdec" "datasort"
-    "datatype" "dataprop" "dataview" "datavtype" "dataviewtype" "do" "dynload" "else"
-    "end" "exception" "extern" "extype" "extval" "fn" "fnx" "fun"
-    "prfn" "prfun" "praxi" "castfn" "if" "in" "infix" "infixl"
-    "infixr" "prefix" "postfix" "implmnt" "implement" "primplmnt" "primplement" "lam"
-    "llam" "fix" "let" "local" "macdef" "macrodef" "nonfix" "overload"
-    "of" "op" "rec" "scase" "sif" "sortdef" "sta" "stacst"
-    "stadef" "stavar" "staload" "symelim" "symintr" "then" "try" "tkindef"
-    "type" "typedef" "propdef" "viewdef" "vtypedef" "viewtypedef" "val" "prval"
-    "var" "prvar" "when" "where" "for" "while" "with" "withtype"
-    "withprop" "withview" "withvtype" "withviewtype")) 
+  '(
+    "absprop"
+    "absview"
+    "abstype"
+    "abst0ype"
+    "abstbox"
+    "absvtbox"
+    "abstflt"
+    "absvtflt"
+    "abstflat"
+    "absvtflat"
+    "absvtype"
+    "absvt0ype"
+    "absviewtype"
+    "absviewt0ype"
+    "assume" "absimpl"
+    "reassume" "absreimpl"
+    "staload" "dynload"
+    "as" "in"
+    "of" "op"
+    "and" "end"
+;;  "endlet"
+;;  "endwhere"
+;;  "endlocal"
+    "begin" "break" "continue"
+    "classdec"
+    "datasort"
+    "datatype"
+    "dataprop"
+    "dataview"
+    "datavtype"
+    "dataviewtype"
+    "exception"
+    "extern" "extype" "extval"
+    "fn" "fnx" "fun"
+    "prfn" "prfun" "praxi" "castfn"
+    "rec" "val" "prval" "var" "prvar"
+    "case" "scase"
+    "if" "sif" "then" "else"
+    "nonfix"
+    "prefix" "postfix"
+    "infix" "infixl" "infixr"
+    "symelim" "symintr" "overload"
+    "implmnt" "implement"
+    "primplmnt" "primplement"
+    "lam" "llam" "fix" "let" "local" 
+    "macdef" "macrodef"
+    "sortdef" "sexpdef" "tkindef"
+    "sta" "stacst" "stadef" "stavar"
+    "type" "t0ype"
+    "vtype" "vt0ype"
+    "viewtype" "viewt0ype"
+    "try" "with"
+    "when" "where" "for" "while"
+    "typedef" "propdef" "viewdef" "vtypedef" "viewtypedef"
+    "withtype" "withprop" "withview" "withvtype" "withviewtype")) 
 
 (defun wrap-word-keyword (w)
   (concat "\\<" w "\\>"))

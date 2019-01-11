@@ -107,7 +107,7 @@ fun symenv_restore
 fun symenv_localjoin
   {itm:type} (env: &symenv itm):<> void
 // end of [symenv_localjoin]
-
+//
 (* ****** ****** *)
 
 fun

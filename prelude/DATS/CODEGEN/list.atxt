@@ -346,14 +346,24 @@ list_is_cons(xs) =
 implement
 {x}(*tmp*)
 list_is_sing (xs) =
-  case+ xs of list_sing (x) => true | _ =>> false
+  case+ xs of list_sing(x) => true | _ =>> false
 // end of [list_is_sing]
+implement
+{x}(*tmp*)
+list_isnot_sing (xs) =
+  case+ xs of list_sing(x) => false | _ =>> true
+// end of [list_isnot_sing]
 
 implement
 {x}(*tmp*)
-list_is_pair (xs) =
-  case+ xs of list_pair (x1, x2) => true | _ =>> false
+list_is_pair(xs) =
+  case+ xs of list_pair(x1, x2) => true | _ =>> false
 // end of [list_is_pair]
+implement
+{x}(*tmp*)
+list_isnot_pair(xs) =
+  case+ xs of list_pair(x1, x2) => false | _ =>> true
+// end of [list_isnot_pair]
 
 #atscode_separator()
 

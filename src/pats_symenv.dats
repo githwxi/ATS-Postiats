@@ -218,11 +218,11 @@ val () = env.maplst := ms
 //
 val m0 = env.map
 val () = env.map := m2
-val res = symmap_joinwth {itm} (env.map, m0)
-val () = symmap_free (m0)
+val () = symmap_joinwth{itm}(env.map, m0)
+val () = symmap_free{itm}(m0)
 //
 in
-  res
+  // nothing
 end // end of [symenv_localjoin]
 
 (* ****** ****** *)

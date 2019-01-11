@@ -309,9 +309,18 @@ list_is_cons
   {x:t0p}{n:int}(xs: list(x, n)):<> bool(n > 0)
 //
 fun{x:t0p}
-list_is_sing{n:int}(xs: list(INV(x), n)):<> bool(n==1)
+list_is_sing
+  {n:int}(xs: list(INV(x), n)):<> bool(n == 1)
 fun{x:t0p}
-list_is_pair{n:int}(xs: list(INV(x), n)):<> bool(n==2)
+list_is_pair
+  {n:int}(xs: list(INV(x), n)):<> bool(n == 2)
+//
+fun{x:t0p}
+list_isnot_sing
+  {n:int}(xs: list(INV(x), n)):<> bool(n != 1)
+fun{x:t0p}
+list_isnot_pair
+  {n:int}(xs: list(INV(x), n)):<> bool(n != 2)
 //
 #atscode_separator()
 
