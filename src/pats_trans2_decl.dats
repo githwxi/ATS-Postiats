@@ -2324,10 +2324,10 @@ val () = begin
 end // end of [val]
 *)
 //
-val fsymb =
+val fsym =
   $FIL.filename_get_fullname(fil)
 val (pflev | ()) = the_staload_level_push()
-val ans = the_filenvmap_find(fsymb)
+val ans = the_filenvmap_find(fsym)
 //
 val
 fenv = (
@@ -2353,7 +2353,7 @@ loaded: int
     val (m0, m1, m2) =
       the_trans2_env_restore(pfsave | (*none*))
     val fenv = filenv_make(fil, m0, m1, m2, d2cs)
-    val ((*void*)) = the_filenvmap_add (fsymb, fenv)
+    val ((*void*)) = the_filenvmap_add (fsym, fenv)
   in
     fenv
   end // end of [None_vt]

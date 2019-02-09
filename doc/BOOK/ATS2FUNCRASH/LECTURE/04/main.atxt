@@ -319,7 +319,7 @@ as follows:
 fun fact(n: int): int =
 (n).foldleft(TYPE{int})(1, lam(res, i) => res*(i+1))
 //
-fun testfact(n: int): int =
+fun testfact(n: int): void =
 (n).foreach()(lam(i) => println! ("fact(", i+1, ") = ", fact(i+1)))
 //
 ')

@@ -484,10 +484,10 @@ end // end of [emit_labelext]
 implement
 emit_filename
   (out, fil) = let
-  val fsymb =
-    $FIL.filename_get_fullname (fil)
+  val fsym =
+    $FIL.filename_get_fullname(fil)
   // end of [val]
-  val fname = $SYM.symbol_get_name (fsymb)
+  val fname = $SYM.symbol_get_name(fsym)
 in
   emit_ident (out, fname)
 end // end of [emit_filename]

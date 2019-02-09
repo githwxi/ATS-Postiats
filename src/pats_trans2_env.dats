@@ -1308,9 +1308,9 @@ the_trans2_env_pervasive_joinwth
   val m2 = the_d2expenv_pop (pfenv.2 | (*none*))
   val () = the_d2expenv_pervasive_joinwth1 (m2)
 //
-  val fsymb = $FIL.filename_get_fullname (fil)
+  val fsym = $FIL.filename_get_fullname (fil)
   val fenv = filenv_make (fil, m0, m1, m2, d2cs)
-  val ((*void*)) = the_filenvmap_add (fsymb, fenv)
+  val ((*void*)) = the_filenvmap_add (fsym, fenv)
 //
 } // end of [the_trans2_env_pervasive_joinwth1]
 
