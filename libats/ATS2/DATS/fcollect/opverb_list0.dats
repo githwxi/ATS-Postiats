@@ -5,8 +5,8 @@
 (***********************************************************************)
 
 (*
-** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2017 Hongwei Xi, ATS Trustful Software, Inc.
+** ATS/Xanadu - Unleashing the Potential of Types!
+** Copyright (C) 2018 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -26,73 +26,61 @@
 *)
 
 (* ****** ****** *)
-
-(* Author: Hongwei Xi *)
-(* Start time: January, 2018 *)
-(* Authoremail: gmmhwxiATgmailDOTcom *)
-
+//
+// Author: Hongwei Xi
+// Start Time: January, 2019
+// Authoremail: gmhwxiATgmailDOTcom
+//
 (* ****** ****** *)
 //
-#define
-ATS_PACKNAME "ATSLIB.libats.ML"
-//
-#define
-ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
+#staload "./opverb.dats"
+#staload "libats/ML/SATS/basis.sats"
 //
 (* ****** ****** *)
 
-staload "libats/ML/SATS/basis.sats"
-
-(* ****** ****** *)
-//
-#define
-list0_vt_sing(x)
-list0_vt_cons(x, list0_vt_nil())
-//
-#define
-list0_vt_pair(x1, x2)
-list0_vt_cons
-(x1, list0_vt_cons(x2, list0_vt_nil()))
-//
-(* ****** ****** *)
-//
-castfn
-list0_vt2t
-  {a:t@ype}(list0_vt(INV(a))):<> list0(a)
-//
-(* ****** ****** *)
-//
-castfn
-g0ofg1_list_vt
-  {a:vt@ype}
-  (List_vt(INV(a))):<> list0_vt(a)
-castfn
-g1ofg0_list_vt
-  {a:vt@ype}
-  (list0_vt(INV(a))):<> List0_vt(a)
-//
-overload g0ofg1 with g0ofg1_list_vt
-overload g1ofg0 with g1ofg0_list_vt
-//
-(* ****** ****** *)
-//
+implement
+(a:tflt)
+streamize_vt<list0(a)><a>
+  (xs) =
+(
+  auxmain(xs)
+) where
+{
 fun
-{a:t0p}
-list0_vt_free(xs: list0_vt(a)): void
-//
+auxmain
+(
+xs: list0(a)
+) : stream_vt(a) =
+$ldelay
+(
+case+ xs of
+| list0_nil() =>
+  stream_vt_nil()
+| list0_cons(x0, xs) =>
+  stream_vt_cons(x0, auxmain(xs))
+)
+} (* end of [streamize_vt] *)
+
 (* ****** ****** *)
 //
+implement
+(a:tflt)
+forall<list0(a)><a>(xs) =
+(
+  loop(xs)
+) where
+{
 fun
-{a:vt0p}
-list0_vt_append
-(list0_vt(INV(a)), list0_vt(INV(a))): list0_vt(a)
+loop(xs: list0(a)) =
+(
+case+ xs of
+| list0_nil() => true
+| list0_cons(x0, xs) =>
+  if forall$test<a>(x0) then loop(xs) else false
+)
 //
-(* ****** ****** *)
-//
-fun
-{a:vt0p}
-list0_vt_reverse(xs: list0_vt(INV(a))): list0_vt(a)
+} (* end of [forall<list0(a)><a>] *)
 //
 (* ****** ****** *)
 
-(* end of [list0_vt.sats] *)
+(* end of [opverb_list0.sats] *)

@@ -127,7 +127,7 @@ val A0 = dynarray_getfree_arrayptr<>(DA, n0)
 //
 in
   array0_make_arrayref(arrayptr_refize{a}(A0), n0)
-end // end of [array0_make_stream_vt]
+end // end of [dynarray$recapacitize]
 
 (* ****** ****** *)
 

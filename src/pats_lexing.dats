@@ -150,21 +150,27 @@ datatype lexsym =
   | LS_REF of () // 'ref@' is removed
 *)
 //
+  | LS_T of () // for t@ype
+  | LS_VT of () // for vt@ype
+//
   | LS_PROP of () // for prop+ and prop-
   | LS_VIEW of () // for view+ and view- and view@
 //
   | LS_TYPE of () // for type+ and type-
+  | LS_TBOX of () // for tbox+ and tbox-
+  | LS_TFLT of () // for tflt+ and tflt-
+//
   | LS_TYPES of () // for types+ and types-
-  | LS_VIEWTYPE of () // for viewtype+ and viewtype-
 //
-  | LS_T of () // for t@ype
-  | LS_T0YPE of () // for t0ype+ and t0ype-
-//
-  | LS_VT of () // for vt@ype
   | LS_VTYPE of () // for vtype+ and vtype-
+  | LS_VTBOX of () // for vtbox+ and vtbox-
+  | LS_VTFLT of () // for vtflt+ and vtflt-
+//
+  | LS_T0YPE of () // for t0ype+ and t0ype-
   | LS_VT0YPE of () // for vt0ype+ and vt0ype-
 //
   | LS_VIEWT of () // for viewt@ype
+  | LS_VIEWTYPE of () // for viewtype+ and viewtype-
   | LS_VIEWT0YPE of () // for viewt0ype+ and viewt0ype-
 //
   | LS_ABST of () // for abst@ype
@@ -281,20 +287,27 @@ val () = insert (ptbl, "fix", LS_FIX)
 val () = insert (ptbl, "ref", LS_REF) // 'ref@' removed
 *)
 //
+val () = insert (ptbl, "t", LS_T)
+val () = insert (ptbl, "vt", LS_VT)
+//
 val () = insert (ptbl, "prop", LS_PROP)
 val () = insert (ptbl, "view", LS_VIEW)
+//
 val () = insert (ptbl, "type", LS_TYPE)
+val () = insert (ptbl, "tbox", LS_TBOX)
+val () = insert (ptbl, "tflt", LS_TFLT)
+//
 val () = insert (ptbl, "types", LS_TYPES)
-val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
 //
-val () = insert (ptbl, "t", LS_T)
-val () = insert (ptbl, "t0ype", LS_T0YPE) // = t@ype
-//
-val () = insert (ptbl, "vt", LS_VT)
 val () = insert (ptbl, "vtype", LS_VTYPE)
+val () = insert (ptbl, "vtbox", LS_VTBOX)
+val () = insert (ptbl, "vtflt", LS_VTFLT)
+//
+val () = insert (ptbl, "t0ype", LS_T0YPE) // = t@ype
 val () = insert (ptbl, "vt0ype", LS_VT0YPE) // = vt@ype
 //
 val () = insert (ptbl, "viewt", LS_VIEWT)
+val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
 val () = insert (ptbl, "viewt0ype", LS_VIEWT0YPE) // = viewt@ype
 //
 val () = insert (ptbl, "abst", LS_ABST)
@@ -2223,6 +2236,21 @@ lexing_TYPE
   lexing_polarity (buf, pos, TYPE, TYPE_pos, TYPE_neg)
 // end of [lexing_TYPE]
 fun
+lexing_TBOX
+(
+  buf: &lexbuf, pos: &position
+) : token =
+  lexing_polarity (buf, pos, TBOX, TYPE_pos, TYPE_neg)
+// end of [lexing_TBOX]
+fun
+lexing_TFLT
+(
+  buf: &lexbuf, pos: &position
+) : token =
+  lexing_polarity (buf, pos, TFLT, T0YPE_pos, T0YPE_neg)
+// end of [lexing_TBOX]
+//
+fun
 lexing_T0YPE
 (
   buf: &lexbuf, pos: &position
@@ -2272,6 +2300,28 @@ in
     end
   | _ => lexbufpos_token_reset (buf, pos, VIEW)
 end // end of [lexing_VIEW]
+//
+fun
+lexing_VTYPE
+(
+  buf: &lexbuf, pos: &position
+) : token =
+  lexing_polarity (buf, pos, VTYPE, VIEWTYPE_pos, VIEWTYPE_neg)
+// end of [lexing_VTYPE]
+fun
+lexing_VTBOX
+(
+  buf: &lexbuf, pos: &position
+) : token =
+  lexing_polarity (buf, pos, VTBOX, VIEWTYPE_pos, VIEWTYPE_neg)
+// end of [lexing_VTBOX]
+fun
+lexing_VTFLT
+(
+  buf: &lexbuf, pos: &position
+) : token =
+  lexing_polarity (buf, pos, VTFLT, VIEWT0YPE_pos, VIEWT0YPE_neg)
+// end of [lexing_VTBOX]
 //
 fun
 lexing_VIEWTYPE
@@ -2403,59 +2453,73 @@ case+ sym of
   end
 | LS_ABSVIEWT () when
     testing_literal (buf, pos, "@ype") >= 0 => let
-    val () = strptr_free (mystr) in
+    val () = strptr_free(mystr) in
     lexbufpos_token_reset (buf, pos, ABSVIEWT0YPE)
   end
 //
 | LS_CASE () => let
-    val () = strptr_free (mystr) in lexing_CASE (buf, pos)
+    val () = strptr_free(mystr) in lexing_CASE (buf, pos)
   end // end of [LS_CASE]
 //
-| LS_PROP () => let
-    val () = strptr_free (mystr) in lexing_PROP (buf, pos)
-  end // end of [LS_PROP]
-//
-| LS_T () when
-    testing_literal (buf, pos, "@ype") >= 0 => let
-    val () = strptr_free (mystr) in lexing_T0YPE (buf, pos)
+| LS_T() when
+    testing_literal(buf, pos, "@ype") >= 0 => let
+    val () = strptr_free(mystr) in lexing_T0YPE(buf, pos)
   end // end of [LS_T]
+| LS_VT() when
+    testing_literal(buf, pos, "@ype") >= 0 => let
+    val () = strptr_free(mystr) in lexing_VIEWT0YPE(buf, pos)
+  end // end of [LS_VT]
 //
-| LS_TYPE () => let
-    val () = strptr_free (mystr) in lexing_TYPE (buf, pos)
+| LS_PROP() => let
+    val () = strptr_free(mystr) in lexing_PROP(buf, pos)
+  end // end of [LS_PROP]
+| LS_VIEW() => let
+    val () = strptr_free(mystr) in lexing_VIEW(buf, pos)
+  end// end of [LS_VIEW]
+//
+| LS_TYPE() => let
+    val () = strptr_free(mystr) in lexing_TYPE(buf, pos)
   end // end of [LS_TYPE]
-| LS_T0YPE () => let
-    val () = strptr_free (mystr) in lexing_T0YPE (buf, pos)
-  end // end of [LS_T0YPE]
+| LS_TBOX() => let
+    val () = strptr_free(mystr) in lexing_TBOX(buf, pos)
+  end // end of [LS_TBOX]
+| LS_TFLT() => let
+    val () = strptr_free(mystr) in lexing_TFLT(buf, pos)
+  end // end of [LS_TFLT]
+//
 (*
-| LS_TYPES () => let
-    val () = strptr_free (mystr) in lexing_TYPES (buf, pos)
+| LS_TYPES() => let
+    val () = strptr_free(mystr) in lexing_TYPES (buf, pos)
   end // end of [LS_TYPES]
 *)
 //
-| LS_VT () when
-    testing_literal (buf, pos, "@ype") >= 0 => let
-    val () = strptr_free (mystr) in lexing_VIEWT0YPE (buf, pos)
-  end
-| LS_VTYPE () => let
-    val () = strptr_free (mystr) in lexing_VIEWTYPE (buf, pos)
-  end
-| LS_VT0YPE () => let
-    val () = strptr_free (mystr) in lexing_VIEWT0YPE (buf, pos)
-  end
+| LS_VTYPE() => let
+    val () = strptr_free(mystr) in lexing_VTYPE(buf, pos)
+  end // end of [LS_VTYPE]
+| LS_VTBOX() => let
+    val () = strptr_free(mystr) in lexing_VTBOX(buf, pos)
+  end // end of [LS_VTBOX]
+| LS_VTFLT() => let
+    val () = strptr_free(mystr) in lexing_VTFLT(buf, pos)
+  end // end of [LS_VTFLT]
 //
-| LS_VIEW () => let
-    val () = strptr_free (mystr) in lexing_VIEW (buf, pos)
-  end
-| LS_VIEWT () when
-    testing_literal (buf, pos, "@ype") >= 0 => let
-    val () = strptr_free (mystr) in lexing_VIEWT0YPE (buf, pos)
-  end
-| LS_VIEWTYPE () => let
-    val () = strptr_free (mystr) in lexing_VIEWTYPE (buf, pos)
-  end
-| LS_VIEWT0YPE () => let
-    val () = strptr_free (mystr) in lexing_VIEWT0YPE (buf, pos)
-  end
+| LS_T0YPE() => let
+    val () = strptr_free(mystr) in lexing_T0YPE(buf, pos)
+  end // end of [LS_T0YPE]
+| LS_VT0YPE() => let
+    val () = strptr_free(mystr) in lexing_VIEWT0YPE(buf, pos)
+  end // end of [LS_VT0YPE]
+//
+| LS_VIEWT() when
+    testing_literal(buf, pos, "@ype") >= 0 => let
+    val () = strptr_free(mystr) in lexing_VIEWT0YPE(buf, pos)
+  end // end of [LS_VIEWT]
+| LS_VIEWTYPE() => let
+    val () = strptr_free(mystr) in lexing_VIEWTYPE(buf, pos)
+  end // end of [LS_VIEWTYPE]
+| LS_VIEWT0YPE() => let
+    val () = strptr_free(mystr) in lexing_VIEWT0YPE(buf, pos)
+  end // end of [LS_VIEWT0YPE]
 //
 | LS_VAL () => let
     val () = strptr_free (mystr) in lexing_VAL (buf, pos)

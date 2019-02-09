@@ -5,8 +5,8 @@
 (***********************************************************************)
 
 (*
-** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2017 Hongwei Xi, ATS Trustful Software, Inc.
+** ATS/Xanadu - Unleashing the Potential of Types!
+** Copyright (C) 2018 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -26,73 +26,32 @@
 *)
 
 (* ****** ****** *)
-
-(* Author: Hongwei Xi *)
-(* Start time: January, 2018 *)
-(* Authoremail: gmmhwxiATgmailDOTcom *)
-
-(* ****** ****** *)
 //
-#define
-ATS_PACKNAME "ATSLIB.libats.ML"
-//
-#define
-ATS_EXTERN_PREFIX "atslib_ML_" // prefix for external names
-//
-(* ****** ****** *)
-
-staload "libats/ML/SATS/basis.sats"
-
-(* ****** ****** *)
-//
-#define
-list0_vt_sing(x)
-list0_vt_cons(x, list0_vt_nil())
-//
-#define
-list0_vt_pair(x1, x2)
-list0_vt_cons
-(x1, list0_vt_cons(x2, list0_vt_nil()))
+// Author: Hongwei Xi
+// Start Time: January, 2019
+// Authoremail: gmhwxiATgmailDOTcom
 //
 (* ****** ****** *)
 //
-castfn
-list0_vt2t
-  {a:t@ype}(list0_vt(INV(a))):<> list0(a)
+#staload "./opverb.dats"
 //
 (* ****** ****** *)
 //
-castfn
-g0ofg1_list_vt
-  {a:vt@ype}
-  (List_vt(INV(a))):<> list0_vt(a)
-castfn
-g1ofg0_list_vt
-  {a:vt@ype}
-  (list0_vt(INV(a))):<> List0_vt(a)
-//
-overload g0ofg1 with g0ofg1_list_vt
-overload g1ofg0 with g1ofg0_list_vt
-//
-(* ****** ****** *)
-//
+implement
+forall<int><int>(n0) =
+(
+  loop(0)
+) where
+{
 fun
-{a:t0p}
-list0_vt_free(xs: list0_vt(a)): void
+loop(i0: int): bool =
+if
+i0 < n0
+then (if forall$test<int>(i0) then loop(i0+1) else false)
+else true // end of [if]
 //
-(* ****** ****** *)
-//
-fun
-{a:vt0p}
-list0_vt_append
-(list0_vt(INV(a)), list0_vt(INV(a))): list0_vt(a)
-//
-(* ****** ****** *)
-//
-fun
-{a:vt0p}
-list0_vt_reverse(xs: list0_vt(INV(a))): list0_vt(a)
-//
+} (* end of [forall<int><int>] *)
+
 (* ****** ****** *)
 
-(* end of [list0_vt.sats] *)
+(* end of [opverb_int0.sats] *)

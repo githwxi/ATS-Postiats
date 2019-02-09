@@ -117,14 +117,33 @@ REFAT = T_REFAT // HX: flattened ref
 //
 // HX: for introducing tkinds
 //
-implement TKINDEF = T_TKINDEF ()
+implement
+TKINDEF = T_TKINDEF()
+//
+(* ****** ****** *)
+//
+implement PROP = T_IDENT_alp "prop"
+implement VIEW = T_IDENT_alp "view"
+//
+implement TYPE = T_IDENT_alp "type"
+implement TFLT = T_IDENT_alp "tflt"
+implement TBOX = T_IDENT_alp "tbox"
+//
+implement VTYPE = T_IDENT_alp "vtype"
+implement VTBOX = T_IDENT_alp "vtbox"
+implement VTFLT = T_IDENT_alp "vtflt"
+//
+implement VIEWTYPE = T_IDENT_alp "viewtype"
+(*
+implement VIEWTBOX = T_IDENT_alp "viewtbox"
+implement VIEWTFLT = T_IDENT_alp "viewtflt"
+*)
 //
 (* ****** ****** *)
 //
 (*
 implement TYPE = T_TYPE (TYPE_int)
 *)
-implement TYPE = T_IDENT_alp "type"
 implement TYPE_pos = T_TYPE (TYPE_pos_int)
 implement TYPE_neg = T_TYPE (TYPE_neg_int)
 //
@@ -145,7 +164,6 @@ implement TYPES_neg = T_TYPE (TYPES_neg_int)
 (*
 implement PROP = T_TYPE (PROP_int)
 *)
-implement PROP = T_IDENT_alp "prop"
 implement PROP_pos = T_TYPE (PROP_pos_int)
 implement PROP_neg = T_TYPE (PROP_neg_int)
 //
@@ -154,7 +172,6 @@ implement PROP_neg = T_TYPE (PROP_neg_int)
 (*
 implement VIEW = T_TYPE (VIEW_int)
 *)
-implement VIEW = T_IDENT_alp "view"
 implement VIEWAT = T_VIEWAT () // view@
 implement VIEW_pos = T_TYPE (VIEW_pos_int)
 implement VIEW_neg = T_TYPE (VIEW_neg_int)
@@ -163,7 +180,6 @@ implement VIEW_neg = T_TYPE (VIEW_neg_int)
 (*
 implement VIEWTYPE = T_TYPE (VIEWTYPE_int)
 *)
-implement VIEWTYPE = T_IDENT_alp "viewtype"
 implement VIEWTYPE_pos = T_TYPE (VIEWTYPE_pos_int)
 implement VIEWTYPE_neg = T_TYPE (VIEWTYPE_neg_int)
 //
@@ -427,8 +443,10 @@ val () = ins ("absvt0ype", ABSVIEWT0YPE)
 val () = ins ("absviewt0ype", ABSVIEWT0YPE)
 //
 val () = ins ("abstbox", ABSTYPE)
+val () = ins ("abstflt", ABST0YPE)
 val () = ins ("abstflat", ABST0YPE)
 val () = ins ("absvtbox", ABSVIEWTYPE)
+val () = ins ("absvtflt", ABSVIEWT0YPE)
 val () = ins ("absvtflat", ABSVIEWT0YPE)
 //
 val () = ins ("assume", T_ASSUME)
@@ -516,7 +534,9 @@ val () = ins ("nonfix", T_NONFIX)
 //
 val () = ins ("symelim", T_SYMELIM)
 val () = ins ("symintr", T_SYMINTR)
-val () = ins ("overload", T_OVERLOAD)
+val () = ins ("symload", T_SYMLOAD)
+val () = ins ("overload", T_SYMLOAD) // first-used
+val () = ins ("#symload", T_SYMLOAD) // ATS-Xanadu
 //
 val () = ins ("of", T_OF)
 val () = ins ("op", T_OP)
@@ -541,6 +561,10 @@ val () = ins ("static", T_STATIC)
 (*
 val () = ins ("stavar", T_STAVAR)
 *)
+//
+// HX-2019-01-17:
+//
+val () = ins ("sexpdef", T_STADEF) // ATS-Xanadu
 //
 val () = ins ("try", T_TRY)
 //

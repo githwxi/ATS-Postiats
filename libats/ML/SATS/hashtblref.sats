@@ -74,6 +74,9 @@ fun{}
 hashtbl_get_capacity
   {key,itm:t0p}(hashtbl(key, itm)): sizeGte(1)
 //
+overload size with hashtbl_get_size
+overload capacity with hashtbl_get_capacity
+//
 (* ****** ****** *)
 
 fun{

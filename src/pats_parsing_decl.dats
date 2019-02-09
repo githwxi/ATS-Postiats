@@ -819,18 +819,24 @@ d0ecl
   | DATASORT d0atsrtdecseq
   | STA s0tacstseq
 (*
-  | STAVAR s0tavarseq // HX-2012-05-23: removed this big hack!
+//
+// HX-2012-05-23:
+// removed this big hack!!!
+  | STAVAR s0tavarseq
+//
 *)
+//
+  | STALOAD staload
+//
   | STADEF s0expdefseq
   | TYPEDEF s0expdefseq
   | ASSUME s0aspdec
   | EXCEPTION e0xndecseq
   | DATAYPE d0atdec andd0atdecseq {WHERE s0expdefseq}
   | MACDEF {REC} m0acdefseq
-  | OVERLOAD [] WITH dqi0de {of INTEGER}
-  | OVERLOAD s0ym WITH dqi0de {of INTEGER}
   | CLASSDEC si0de [EQ s0exp]
-  | STALOAD staload
+  | SYMLOAD [] WITH dqi0de {of INTEGER}
+  | SYMLOAD s0ym WITH dqi0de {of INTEGER}
 *)
 
 fun
@@ -881,7 +887,7 @@ case+ tok.token_node of
       then d0ecl_symelim (tok, ent2) else synent_null ()
     // end of [if]
   end
-| T_OVERLOAD () => let
+| T_SYMLOAD () => let
     val bt = 0
     val () = incby1 ()
     val ent1 = p_s0ym (buf, bt, err)
@@ -899,7 +905,7 @@ case+ tok.token_node of
         val () = option_vt_free (ent4) in synent_null ()
       end // end of [else]
     // end of [if]
-  end (* T_OVERLOAD *)
+  end (* T_SYMLOAD *)
 //
 | T_SRPUNDEF () => let
     val bt = 0

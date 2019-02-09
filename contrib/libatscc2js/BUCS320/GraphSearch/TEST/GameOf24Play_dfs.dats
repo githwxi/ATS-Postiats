@@ -122,7 +122,7 @@ list0_reverse(res) where
   val res = (if iseqz(y) then res else cons0(EXPRdiv(x, y), res)): exprlst
   val res = (if iseqz(x) then res else cons0(EXPRdiv(y, x), res)): exprlst
 }
-
+//
 (* ****** ****** *)
 
 assume node_type = exprlst
