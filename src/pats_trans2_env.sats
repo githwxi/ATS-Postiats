@@ -298,7 +298,8 @@ fun the_trans2_env_restore
 //
 (* ****** ****** *)
 
-fun the_trans2_env_pervasive_joinwth
+fun
+the_trans2_env_pervasive_joinwth1
   (pf: trans2_env_push_v | fil: filename, d2cs: d2eclist): void
 // end of [the_trans2_env_pervasive_joinwth1]
 

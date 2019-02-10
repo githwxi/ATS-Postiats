@@ -916,7 +916,7 @@ val (pfenv | ()) =
   $TRENV2.the_trans2_env_push((*void*))
 val d2cs = $TRANS2.d1eclist_tr_errck(d1cs)
 val ((*joined*)) =
-  $TRENV2.the_trans2_env_pervasive_joinwth(pfenv | filename, d2cs)
+  $TRENV2.the_trans2_env_pervasive_joinwth1(pfenv | filename, d2cs)
 //
 val ((*reset*)) = $GLOB.the_PACKNAME_set_none()
 val ((*reset*)) = $TRENV1.the_EXTERN_PREFIX_set_none()

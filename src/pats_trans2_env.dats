@@ -1299,7 +1299,7 @@ the_trans2_env_localjoin
 } // end of [trans2_env_localjoin]
 
 implement
-the_trans2_env_pervasive_joinwth
+the_trans2_env_pervasive_joinwth1
   (pfenv | fil, d2cs) = {
   val m0 = the_s2rtenv_pop (pfenv.0 | (*none*))
   val () = the_s2rtenv_pervasive_joinwth1 (m0)
