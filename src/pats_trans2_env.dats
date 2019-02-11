@@ -205,7 +205,8 @@ val (pf0 | ()) = vbox_make_view_ptr {s2rtenv} (pf | p0)
 (* ****** ****** *)
 
 fun
-the_s2rtenv_find_namespace .<>.
+the_s2rtenv_find_namespace
+  .<>.
   (id: symbol): s2rtextopt_vt = let
   fn f (
     fenv: filenv
@@ -243,7 +244,8 @@ in
 case+ ans of
 | Some_vt _ => (fold@ ans; ans)
 | ~None_vt () => let
-    val ans = the_s2rtenv_find_namespace (id)
+    val ans =
+    the_s2rtenv_find_namespace(id)
   in
     case+ ans of
     | Some_vt _ => (fold@ ans; ans)
@@ -413,7 +415,8 @@ val (pf0 | ()) = vbox_make_view_ptr {s2expenv} (pf | p0)
 (* ****** ****** *)
 
 fun
-the_s2expenv_find_namespace .<>.
+the_s2expenv_find_namespace
+  .<>.
   (id: symbol): s2itmopt_vt = let
   fn f (
     fenv: filenv
@@ -451,7 +454,8 @@ in
 case+ ans of
 | Some_vt _ => (fold@ ans; ans)
 | ~None_vt () => let
-    val ans = the_s2expenv_find_namespace (id)
+    val ans =
+    the_s2expenv_find_namespace(id)
   in
     case+ ans of
     | Some_vt _ => (fold@ ans; ans)
@@ -888,19 +892,38 @@ val (pf0 | ()) = vbox_make_view_ptr {d2expenv} (pf | p0)
 //
 (* ****** ****** *)
 
-fn the_d2expenv_find_namespace
-  (id: symbol): d2itmopt_vt = let
-  fn f (
+fun
+the_d2expenv_find_namespace
+  .<>.
+(
+id: symbol
+) : d2itmopt_vt = let
+  fn fopr
+  (
     fenv: filenv
   ) :<cloptr1> d2itmopt_vt = let
-    val (pf, fpf | p) = filenv_get_d2itmmap (fenv)
-    val ans = symmap_search (!p, id)
-    prval () = minus_addback (fpf, pf | fenv)
+    val
+    (pf0
+    ,fpf | p0) =
+    filenv_get_d2itmmap(fenv)
+    val d2iopt =
+      symmap_search(!p0, id)
+    prval ((*void*)) =
+      minus_addback(fpf, pf0 | fenv)
   in
-    ans
+    case+ d2iopt of
+    | ~None_vt() =>
+       None_vt()
+    | ~Some_vt(d2i) =>
+      (
+      case+ d2i of
+      // HX-2019-02-11:
+      // d2var is not exported
+      | D2ITMvar _ => None_vt() | _ => Some_vt(d2i)
+      )
   end // end of [f]
 in
-  the_namespace_search (f)
+  the_namespace_search(fopr)
 end // end of [the_d2expenv_find_namespace]
 
 in (* in of [local] *)
@@ -922,7 +945,8 @@ in
 case+ ans of
 | Some_vt _ => (fold@ ans; ans)
 | ~None_vt () => let
-    val ans = the_d2expenv_find_namespace (id)
+    val ans =
+    the_d2expenv_find_namespace(id)
   in
     case+ ans of
     | Some_vt _ => (fold@ ans; ans)
