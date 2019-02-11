@@ -27,6 +27,7 @@ Here is a list of major additions and changes since the last release:
 1. Fixing the issue of escaping '$' in PHP string literals (atscc2php)
    Kudos to M88!
 2. Fixing very minor issues in libats/qlist and libats/linmap
+3. Enforcing that no d2var can be leaked/exported from a namespace
 
 ######
 
