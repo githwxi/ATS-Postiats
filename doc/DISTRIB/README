@@ -7,7 +7,7 @@
 ######
 #
 # The script for building a release:
-# ${PATSHOME}/share/SCRIPT/buildRelease.sh
+# ${PATSHOME}/share/SCRIPT/build_release.sh
 # 
 ######
 #
@@ -29,10 +29,11 @@
 #
 # Packaging ATS
 #
-# # Note: x.y.z is the version you want to build in the following command
+# Note that x.y.z is the version
+# you want to build in the following command:
 #
 # cd /tmp
-# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh x.y.z
+# sh ${PATSHOME}/share/SCRIPT/build_release.sh x.y.z
 # <
 # Move the following built packages to some place:
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz

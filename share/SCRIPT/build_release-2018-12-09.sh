@@ -9,7 +9,7 @@
 ######
 #
 # HX-2018-03-17:
-# Created based on a version of
+# Created based on a version by
 # Brandon Barker
 # <brandon dot barker at cornell dot edu>
 #
@@ -19,11 +19,12 @@
 ######
 #
 # HX-2018-03-18:
-# Here is a typical use of this script (for versions 0.3.10+ of ATS only);
+# A typical use of this script
+# (for versions 0.3.10+ of ATS only):
 # the first argument to the script is the release to be built:
 #
 # cd /tmp
-# sh ${PATSHOME}/share/SCRIPT/buildRelease.sh 0.3.10
+# sh ${PATSHOME}/share/SCRIPT/build_release.sh 0.3.10
 # <
 # Upload the following three built packages
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
@@ -36,7 +37,8 @@
 ######
 #
 # HX-2018-12-01:
-# Please make sure that the version number in configure.ac is properly updated!
+# Please make sure that
+# the version number in configure.ac is properly updated!!!
 #
 ######
 
