@@ -208,7 +208,7 @@ fun
 the_s2rtenv_find_namespace
   .<>.
   (id: symbol): s2rtextopt_vt = let
-  fn f (
+  fn fopr (
     fenv: filenv
   ) :<cloptr1> s2rtextopt_vt = let
     val (pf, fpf | p) = filenv_get_s2temap (fenv)
@@ -216,9 +216,9 @@ the_s2rtenv_find_namespace
     prval () = minus_addback (fpf, pf | fenv)
   in
     ans
-  end // end of [f]
+  end // end of [fopr]
 in
-  the_namespace_search (f)
+  the_namespace_search(fopr)
 end // end of [the_s2rtenv_find_namespace]
 
 (* ****** ****** *)
@@ -418,7 +418,7 @@ fun
 the_s2expenv_find_namespace
   .<>.
   (id: symbol): s2itmopt_vt = let
-  fn f (
+  fn fopr (
     fenv: filenv
   ) :<cloptr1> s2itmopt_vt = let
     val (pf, fpf | p) = filenv_get_s2itmmap (fenv)
@@ -426,9 +426,9 @@ the_s2expenv_find_namespace
     prval () = minus_addback (fpf, pf | fenv)
   in
     ans
-  end // end of [f]
+  end // end of [fopr]
 in
-  the_namespace_search (f)
+  the_namespace_search(fopr)
 end // end of [the_s2expenv_find_namespace]
 
 (* ****** ****** *)
@@ -898,6 +898,27 @@ the_d2expenv_find_namespace
 (
 id: symbol
 ) : d2itmopt_vt = let
+//
+(*
+  fn
+  export
+  ( opt
+    : d2itmopt_vt
+  ) : d2itmopt_vt =
+  (
+  case+ opt of
+  | None_vt() =>
+    (fold@(opt); opt)
+  | Some_vt(d2i) =>
+    (
+    case+ d2i of
+    | D2ITMvar _ =>
+      (free@{d2itm}(opt); None_vt())
+    | _(*non-D2ITMvar*) => (fold@(opt); opt)
+    )
+  )
+*)
+//
   fn fopr
   (
     fenv: filenv
@@ -911,7 +932,9 @@ id: symbol
     prval ((*void*)) =
       minus_addback(fpf, pf0 | fenv)
   in
-    case+ d2iopt of
+(*
+    case+
+    d2iopt of
     | ~None_vt() =>
        None_vt()
     | ~Some_vt(d2i) =>
@@ -921,7 +944,20 @@ id: symbol
       // d2var is not exported
       | D2ITMvar _ => None_vt() | _ => Some_vt(d2i)
       )
-  end // end of [f]
+*)
+    case+
+    d2iopt of
+    | None_vt() =>
+      (fold@(d2iopt); d2iopt)
+    | Some_vt(d2i) =>
+      (
+      case+ d2i of
+      | D2ITMvar _ =>
+        (free@{d2itm}(d2iopt); None_vt())
+      | _(*non-D2ITMvar*) => (fold@(d2iopt); d2iopt)
+      )
+    // end-of-case
+  end // end of [fopr]
 in
   the_namespace_search(fopr)
 end // end of [the_d2expenv_find_namespace]
