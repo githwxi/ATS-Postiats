@@ -45,11 +45,12 @@ fact(x: int): int =
 ')
 
 A non-recursive function is a special kind of recursive function that
-does make use of itself in its own definition. So one can certainly use
-#keycode("fun") to initiate the definition of a non-recursive function.
-However, if there is a need to indicate explicitly that a non-recursive is being
-defined, then one can use the keyword #keycode("fn") to do so. For
-instance, the definiton of a non-recursive function is given as follows:
+does not make use of itself in its own definition. So one can
+certainly use #keycode("fun") to initiate the definition of a
+non-recursive function.  However, if there is a need to indicate
+explicitly that a non-recursive is being defined, then one can use the
+keyword #keycode("fn") to do so. For instance, the definiton of a
+non-recursive function is given as follows:
 
 #dats2xhtml('\
 fn square(x: int): int = x * x
