@@ -696,6 +696,72 @@ end // end of [stream_scan_cloref]
 
 #atscode_separator()
 
+implement
+{a,b}//tmp
+stream_zip
+  (xs, ys) =
+(
+  auxmain(xs, ys)
+) where
+{
+fun
+auxmain:
+$d2ctype
+(stream_zip<a,b>) =
+lam(xs, ys) => $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x0, xs) =>
+  (
+  case+ !ys of
+  | stream_nil() =>
+    stream_nil()
+  | stream_cons(y0, ys) =>
+    stream_cons((x0, y0), auxmain(xs, ys))
+  )
+) (* end of [auxmain] *)
+} (* end of [stream_zip] *)
+
+#atscode_separator()
+
+implement
+{a,b}//tmp
+stream_cross
+  (xs, ys) =
+(
+  auxmain(xs, ys)
+) where
+{
+fun
+auxmain:
+$d2ctype
+(stream_cross<a,b>) =
+lam(xs, ys) => $delay
+(
+case+ !xs of
+| stream_nil() =>
+  stream_nil()
+| stream_cons(x0, xs) => !
+  (
+    stream_append(xys, auxmain(xs, ys))
+  ) where
+  {
+    val xys =
+    (
+    stream_map<b><(a,b)>(ys)
+    ) where
+    {
+      implement
+      stream_map$fopr<b><(a,b)>(y) = @(x0, y)
+    }
+  }
+) (* end of [auxmain] *)
+} (* end of [stream_cross] *)
+
+#atscode_separator()
+
 local
 
 \#define :: stream_cons

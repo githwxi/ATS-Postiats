@@ -278,6 +278,21 @@ res:t0p}{x:t0p
 ) :<!laz> stream(res) // end-of-function
 //
 #atscode_separator()
+
+fun
+{a,b:t0p}
+stream_zip
+(
+  stream(INV(a)), stream(INV(b))
+) : stream(@(a, b)) // end-of-fun
+fun
+{a,b:t0p}
+stream_cross
+(
+  stream(INV(a)), stream(INV(b))
+) : stream(@(a, b)) // end-of-fun
+
+#atscode_separator()
 //
 // HX: duplicates are kept
 //
