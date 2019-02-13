@@ -18,6 +18,9 @@
 # Also update the version number in
 # $PATSHOME/doc/DISTRIB/ATS-Postiats/configure.ac
 #
+#
+# If using Nix, run `nix-shell nix/shell.nix` from $PATSHOME.
+#
 # Second,
 # execute the following command-line from doc/DISTRIB:
 #
@@ -33,10 +36,12 @@
 # you want to build in the following command:
 #
 # cd /tmp
-# sh ${PATSHOME}/share/SCRIPT/build_release.sh x.y.z
+# sh ${PATSHOME}/share/SCRIPT/build_release.sh x.y.z KIND
 # <
+# Run with KIND for each of 'intknd', 'gmpknd', and 'contrib'.
 # Move the following built packages to some place:
-# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-gmp-x.y.z.tgz
+# /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-int-x.y.z.tgz
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-contrib-x.y.z.tgz
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-include-x.y.z.tgz
 # >

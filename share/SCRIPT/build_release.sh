@@ -53,7 +53,7 @@ ATSCC=$(which atscc)
 ######
 
 check_git() {
-    if [ -x "$GIT" ] ; 
+    if [ -x "$GIT" ] ;
     then echo "$GIT found.";
     else echo "$GIT not found." && exit 1;
     fi
@@ -62,7 +62,7 @@ check_git() {
 ######
 
 check_atscc() {
-    if [ -x "$ATSCC" ] ; 
+    if [ -x "$ATSCC" ] ;
     then echo "$ATSCC found.";
     else echo "$ATSCC not found." && exit 1;
     fi
@@ -127,40 +127,36 @@ checkout_build() {
 }
 
 build_release_int() {
-    ( cd "$PATSHOME" &&
-	    make -C doc/DISTRIB -f Makefile_inclats tarzvcf
-    )
     ( cd "$PATSHOME" && \
-	    make -f Makefile_devl C3NSTRINTKND=intknd && \
-	    make -C src -f Makefile CBOOTint && \
-	    (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
-	    (cd ./doc/DISTRIB/ATS-Postiats && \
-		    sh ./autogen.sh && ./configure) && \
-	    make -C src/CBOOT/libc -f Makefile && \
-	    make -C src/CBOOT/libats -f Makefile && \
-	    make -C src/CBOOT/prelude -f Makefile && \
-	    make -C doc/DISTRIB -f Makefile atspackaging && \
-	    make -C doc/DISTRIB -f Makefile atspacktarzvcf_int
+      make -f Makefile_devl C3NSTRINTKND=intknd && \
+      make -C src -f Makefile CBOOTint && \
+      (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
+      (cd ./doc/DISTRIB/ATS-Postiats && \
+        sh ./autogen.sh && ./configure) && \
+      make -C src/CBOOT/libc -f Makefile && \
+      make -C src/CBOOT/libats -f Makefile && \
+      make -C src/CBOOT/prelude -f Makefile && \
+      make -C doc/DISTRIB -f Makefile atspackaging && \
+      make -C doc/DISTRIB -f Makefile atspacktarzvcf_int
+      make -C doc/DISTRIB -f Makefile_inclats tarzvcf
     )
 }
 
 ######
 
 build_release_gmp() {
-    ( cd "$PATSHOME" &&
-	    make -C doc/DISTRIB -f Makefile_inclats tarzvcf
-    )
     ( cd "$PATSHOME" && \
-	    make -f Makefile_devl C3NSTRINTKND=gmpknd && \
-	    make -C src -f Makefile CBOOTgmp && \
-	    (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
-	    (cd ./doc/DISTRIB/ATS-Postiats && \
-		    sh ./autogen.sh && ./configure) && \
-	    make -C src/CBOOT/libc -f Makefile && \
-	    make -C src/CBOOT/libats -f Makefile && \
-	    make -C src/CBOOT/prelude -f Makefile && \
-	    make -C doc/DISTRIB -f Makefile atspackaging && \
-	    make -C doc/DISTRIB -f Makefile atspacktarzvcf_gmp
+      make -f Makefile_devl C3NSTRINTKND=gmpknd && \
+      make -C src -f Makefile CBOOTgmp && \
+      (cp ./bin/*_env.sh.in ./doc/DISTRIB/ATS-Postiats/bin/.) && \
+      (cd ./doc/DISTRIB/ATS-Postiats && \
+        sh ./autogen.sh && ./configure) && \
+      make -C src/CBOOT/libc -f Makefile && \
+      make -C src/CBOOT/libats -f Makefile && \
+      make -C src/CBOOT/prelude -f Makefile && \
+      make -C doc/DISTRIB -f Makefile atspackaging && \
+      make -C doc/DISTRIB -f Makefile atspacktarzvcf_gmp
+      make -C doc/DISTRIB -f Makefile_inclats tarzvcf
     )
 }
 
@@ -202,7 +198,7 @@ main() {
     [ -z "$2" ] && _usage "Please specify build KIND"
     [ -z "$1" ] && _usage "Please specify build VERSION"
 
-    check_git 
+    check_git
     check_atscc
     export_pats
     clone_Postiats
@@ -220,7 +216,7 @@ main() {
 	    build_release_gmp && build_cleanall ;;
 	contrib)
 	    build_release_contrib && build_cleanall ;;
-	*) _usage ;; 
+	*) _usage ;;
     esac
 
     ls -alh "$PATSHOME/doc/DISTRIB/"ATS2-*.tgz
