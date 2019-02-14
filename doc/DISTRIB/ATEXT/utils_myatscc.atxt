@@ -141,6 +141,7 @@ ATS/utils/myatscc
 #packfilename_r("./SATS")
 #packfilename_r("./DATS")
 #packfilename_r("./BUILD")
+#packfilename_r("./node_modules")
 //
 (* ****** ****** *)
 
