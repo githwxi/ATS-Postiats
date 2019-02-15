@@ -39,11 +39,18 @@
 # sh ${PATSHOME}/share/SCRIPT/build_release.sh x.y.z KIND
 # <
 # Run with KIND for each of 'intknd', 'gmpknd', and 'contrib'.
+# Note: should not run the 'contrib' variant last.
+#
 # Move the following built packages to some place:
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-gmp-x.y.z.tgz
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-int-x.y.z.tgz
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-contrib-x.y.z.tgz
 # /tmp/ATS-Postiats/doc/DISTRIB/ATS2-Postiats-include-x.y.z.tgz
+#
+# Copy ATS2-Postiats-int-x.y.z.tgz to ATS2-Postiats-x.y.z.tgz (the non-gmp, or "int")
+# release is the default as of 0.4.0, and since sf.net doesn't support symbolic links
+# we make a copy to make it clear which should be regarded as the default for new users.
+#
 # >
 # rm -rf /tmp/ATS-Postiats
 # rm -rf /tmp/ATS-Postiats-contrib
@@ -60,6 +67,8 @@
 # and to ${PATSHOME}/doc/DISTRIB/ATS-Postiats/RELEASE/ats2-postiats-x.y.z-release.html
 #
 # ATS2-Postiats-x.y.z.tgz
+# ATS2-Postiats-gmp-x.y.z.tgz
+# ATS2-Postiats-int-x.y.z.tgz
 # ATS2-Postiats-contrib-x.y.z.tgz
 # ATS2-Postiats-include-x.y.z.tgz
 # ats2-postiats-x.y.z-release.html

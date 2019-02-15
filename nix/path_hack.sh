@@ -1,2 +1,2 @@
 #!/bin/sh
-export PATH=${PATH}:${PATSHOME}/bin
+export PATH=${PATH}:${ATSHOME}/bin:${PATSHOME}/bin
