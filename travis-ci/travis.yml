@@ -50,7 +50,7 @@ script:
   - make -C ${PATSHOME}/src/CBOOT/libc
   - make -C ${PATSHOME}/src/CBOOT/libats
   - make -C ${PATSHOME}/doc/DISTRIB -f Makefile atspackaging
-  - make -C ${PATSHOME}/doc/DISTRIB -f Makefile atspacktarzvcf
+  - make -C ${PATSHOME}/doc/DISTRIB -f Makefile atspacktarzvcf_gmp
   # make -C ${PATSHOME}/doc/DISTRIB -f Makefile atscontribing
   # make -C ${PATSHOME}/doc/DISTRIB -f Makefile atscntrbtarzvcf
   # make -C ${PATSHOME}/doc/DISTRIB -f Makefile_include tarzvcf
