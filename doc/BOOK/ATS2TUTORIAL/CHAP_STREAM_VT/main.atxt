@@ -20,7 +20,7 @@ id="linear-stream-based-lazy-evaluation">
 
 In ATS, there is also support for lazy evaluation based on linear
 streams. As far as I can tell, linear stream-based lazy evaluation is
-currently a unique language feature of ATS.
+currently a unique programming feature of ATS.
 
 ')
 
@@ -43,7 +43,7 @@ suspending the evaluation of an expression (by forming a linear thunk), and
 there are also a pair of special functions #dyncode("lazy_vt_force") and
 #dyncode("lazy_vt_free") for resuming and freeing, respectively, a
 suspended evaluation (represented by a linear thunk).  Unlike
-#dyncode("delay"), #dyncode("$ldelay") applies to two expressions to
+#dyncode("$delay"), #dyncode("$ldelay") applies to two expressions to
 form a linear lazy stream; the first expression is the one whose evaluation
 is suspended; the second expression is the one whose evaluation results in
 all the linear values contained in the first expression being freed.
