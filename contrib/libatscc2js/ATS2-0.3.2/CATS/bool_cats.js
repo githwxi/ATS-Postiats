@@ -76,13 +76,5 @@ function
 ats2jspre_neq_bool1_bool1(x, y) { return (x !== y); }
 //
 /* ****** ****** */
-//
-/** m88: remove dups **/
-//
-/* ****** ****** */
-//
-/** m88: remove dups **/
-//
-/* ****** ****** */
 
 /* end of [bool_cats.js] */
