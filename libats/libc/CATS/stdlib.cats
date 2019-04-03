@@ -149,8 +149,13 @@ strtod((char*)(nptr), (char**)(endptr))
 
 /* ****** ****** */
 
+#if _WIN32
+#define atslib_libats_libc_random rand
+#define atslib_libats_libc_srandom srand
+#else
 #define atslib_libats_libc_random random
 #define atslib_libats_libc_srandom srandom
+#endif
 
 /* ****** ****** */
 //

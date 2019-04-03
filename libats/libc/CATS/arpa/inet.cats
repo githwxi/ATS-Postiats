@@ -40,8 +40,12 @@
 
 /* ****** ****** */
 //
+#if _WIN32
+// FIXME: error?
+#else
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#endif
 //
 /* ****** ****** */
 
@@ -62,6 +66,9 @@
 //
 /* ****** ****** */
 
+#if _WIN32
+// FIXME: error?
+#else
 extern
 int
 inet_aton
@@ -84,6 +91,7 @@ atslib_libats_libc_inet_aton
   return (rtn ? atsbool_true : atsbool_false) ;
 //
 } // end of [atslib_libats_libc_inet_aton]
+#endif
 
 /* ****** ****** */
 

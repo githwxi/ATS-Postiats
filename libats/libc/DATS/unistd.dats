@@ -70,6 +70,9 @@ atslib_libats_libc_close_exn
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error out?
+#else
 extern
 atstype_int
 atslib_libats_libc_dup2_fildes
@@ -87,6 +90,7 @@ atslib_libats_libc_dup2_fildes
   return atslib_libats_libc_dup2(fd, fd2) ;
 //
 } /* end of [atslib_libats_libc_dup2_fildes] */
+#endif
 %}
 
 (* ****** ****** *)
@@ -123,6 +127,9 @@ atslib_libats_libc_getcwd_gc (
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 extern
 atstype_strptr
 atslib_libats_libc_getlogin_r_gc (
@@ -148,6 +155,7 @@ atslib_libats_libc_getlogin_r_gc (
   return (char*)0 ;
 //
 } /* end of [atslib_libats_libc_getlogin_r_gc] */
+#endif
 %}
 
 (* ****** ****** *)
@@ -169,6 +177,9 @@ atslib_libats_libc_rmdir_exn
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 extern
 atsvoid_t0ype
 atslib_libats_libc_link_exn
@@ -180,11 +191,15 @@ atslib_libats_libc_link_exn
   if (0 > err) ATSLIBfailexit("link") ;
   return ;
 } /* end of [atslib_libats_libc_link_exn] */
+#endif
 %}
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 extern
 atsvoid_t0ype
 atslib_libats_libc_unlink_exn
@@ -196,11 +211,15 @@ atslib_libats_libc_unlink_exn
   if (0 > err) ATSLIBfailexit("unlink") ;
   return ;
 } /* end of [atslib_libats_libc_unlink_exn] */
+#endif
 %}
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 extern
 atsvoid_t0ype
 atslib_libats_libc_symlink_exn
@@ -212,11 +231,15 @@ atslib_libats_libc_symlink_exn
   if (0 > err) ATSLIBfailexit("symlink") ;
   return ;
 } /* end of [atslib_libats_libc_symlink_exn] */
+#endif
 %}
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 extern
 atstype_strptr
 atslib_libats_libc_readlink_gc
@@ -250,6 +273,7 @@ atslib_libats_libc_readlink_gc
   return (char*)0 ; // HX: deadcode
 //
 } /* end of [atslib_libats_libc_readlink_gc] */
+#endif
 %}
 
 (* ****** ****** *)
