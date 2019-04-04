@@ -1,0 +1,4 @@
+# ignore everything that is fetched
+dirent.h
+gc/
+gc-*.tar.gz
