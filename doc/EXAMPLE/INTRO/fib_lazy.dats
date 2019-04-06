@@ -31,10 +31,16 @@ and fib2: stream(int) = stream_map2_fun<int,int><int> (fib0, fib1, lam (x0, x1) 
 
 implement
 main0 () =
-(
-println! ("Fibonacci(10) = ", stream_nth_exn (fib0, 10)) ; // = 55
-println! ("Fibonacci(20) = ", stream_nth_exn (fib0, 20)) ; // = 6765
-) // end of [main0]
+{
+val _55 = stream_nth_exn (fib0, 10)
+val- 55 = _55
+val () =
+println! ("Fibonacci(10) = ", _55)
+val _6765 = stream_nth_exn (fib0, 20)
+val- 6765 = _6765
+val () =
+println! ("Fibonacci(20) = ",  _6765)
+} (* end of [main0] *)
 
 (* ****** ****** *)
 

@@ -43,8 +43,8 @@ implement
 main0 () =
 {
 //
-val () = println! ("fact(10) = ", fact(10))
-val () = println! ("fact2(10) = ", fact2(10))
+val () = assertloc(3628800 = fact(10))
+val () = assertloc(3628800 = fact2(10))
 //
 } (* end of [main0] *)
 

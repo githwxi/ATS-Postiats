@@ -93,9 +93,14 @@ end (* end of [getenv] *)
 
 implement
 main0
-(argc, argv, envp) =
+(argc, argv, envp) = {
+val () =
 println!
 ("getenv(msg) = ", getenv("msg", $UN.cast{envp}(envp)))
+val () =
+println!
+("getenv(emp) = ", getenv("emp", $UN.cast{envp}(envp)))
+}
 
 (* ****** ****** *)
 

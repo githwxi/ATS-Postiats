@@ -25,7 +25,7 @@ main0 () = {
   val () = println! ("こんにちは世界!") // Japanese
   val () = println! ("여보세요 세계!") // Korean
   val () = println! ("Olá mundo!") // Portuguese
-  val () = println! ("Здравствулте мир!") // Russian
+  val () = println! ("Здравствуй, мир!") // Russian
   val () = println! ("Hola mundo!") // Spanish
 } (* end of [main0] *)
 
