@@ -33,7 +33,8 @@ all:: %s\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s.exe\n\
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+regress:: ; ./%s.exe ; ./%s.exe || (echo \"$< failed\" && exit 1)\
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) (* end of [val] *)
 //
 val ent = string_of_strptr (ent)
@@ -58,7 +59,8 @@ all:: %s\n\
 clean:: ; $(RMF) %s_dats.o\n\
 clean:: ; $(RMF) %s_dats.c\n\
 cleanall:: ; $(RMF) %s.exe\n\
-", @(nm, nm, nm, nm, nm, cflags, libs, nm, nm, nm, nm, nm, nm, nm)
+regress:: ./%s.exe ; ./%s.exe || (echo \"$< failed\" && exit 1)\
+", @(nm, nm, nm, nm, nm, cflags, libs, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)

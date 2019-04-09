@@ -1,0 +1,2 @@
+getenv(msg) = strsome(hi)
+getenv(emp) = strnone()

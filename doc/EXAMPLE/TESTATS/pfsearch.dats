@@ -31,11 +31,15 @@ var x: int = 0
 //
 val tp = (view@x | addr@x)
 //
-val () = println! ("tptr_get(tp) = ", tptr_get<int>(tp))
+val tp0 = tptr_get<int>(tp)
+val- 0 = tp0
+val () = println! ("tptr_get(tp) = ", tp0)
 //
 val () = tptr_set (tp, 1)
 //
-val () = println! ("tptr_get(tp) = ", tptr_get<int>(tp))
+val tp1 = tptr_get<int>(tp)
+val- 1 = tp1
+val () = println! ("tptr_get(tp) = ", tp1)
 //
 prval () = view@x := tp.0
 //

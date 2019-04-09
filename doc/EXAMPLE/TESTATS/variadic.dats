@@ -123,9 +123,13 @@ val sum1 = tally_int1(1)
 val sum12 = tally_int2(1, 2)
 val sum123 = tally_int3(1, 2, 3)
 //
+val- 0 = sum0
 val ((*void*)) = println! ("sum0 = ", sum0)
+val- 1 = sum1
 val ((*void*)) = println! ("sum1 = ", sum1)
+val- 3 = sum12
 val ((*void*)) = println! ("sum12 = ", sum12)
+val- 6 = sum123
 val ((*void*)) = println! ("sum123 = ", sum123)
 //
 } (* end of [main0] *)

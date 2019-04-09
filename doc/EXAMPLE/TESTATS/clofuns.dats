@@ -75,12 +75,15 @@ main0 () =
 //
 val rt = rtfind (lam (x) => (x+10)*(x-11))
 val () = println! ("rt = ", rt)
+val () = assertloc(11 = rt)
 //
 val rt2 = rtfind2 (lam (x) => (x+10)*(x-11))
 val () = println! ("rt2 = ", rt2)
+val () = assertloc(11 = rt2)
 //
 val rt3 = rtfind3 (lam (x) =<cloptr1> (x+10)*(x-11))
 val () = println! ("rt3 = ", rt3)
+val () = assertloc(11 = rt3)
 //
 } (* end of [main0] *)
 

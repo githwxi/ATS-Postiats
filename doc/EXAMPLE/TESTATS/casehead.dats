@@ -36,6 +36,8 @@ case: [i:nat]
 //
 val () = foo(x, y)
 //
+val () = assertloc(10 = x)
+val () = assertloc(11 = y)
 val () = println! ("x = ", x, " and y = ", y)
 //
 } (* end of [main0] *)

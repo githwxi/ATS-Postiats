@@ -138,11 +138,13 @@ val ans =
   expr_eval(Add(Int(1), Mul(Int(2), Int(3))))
 //
 val ((*void*)) = println! ("eval(1+2*3) = ", ans)
+val () = assertloc(7 = ans)
 //
 val rep =
   expr_tostring(Add(Int(1), Mul(Int(2), Int(3))))
 //
 val ((*void*)) = println! ("tostring(1+2*3) = ", rep)
+val () = assertloc("(1+(2*3))" = rep)
 //
 } (* end of [main0] *)
 

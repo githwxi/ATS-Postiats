@@ -48,9 +48,11 @@ foo((*void*)) = argc
 // This is now implemented, and it works!
 //
 val () = $tempenver(argc)
+val _10 = bar2(10)
+val- 10 = _10
 //
 in
-  println! ("bar2(10) = ", bar2(10))
+  println! ("bar2(10) = ", _10)
 end // end of [main]
 
 (* ****** ****** *)

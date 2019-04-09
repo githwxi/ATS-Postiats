@@ -12,6 +12,7 @@ addons:
     - libjson0-dev
     - libjansson-dev
     - docbook-utils
+    - libgdbm-dev
 before_install:
   - date
   - cd ${HOME}
