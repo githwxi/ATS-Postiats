@@ -86,11 +86,11 @@ regress:: fact3 ; ./fact3 || (echo "$< failed" && exit 1)
 regress:: fact_uninterp fact_uninterp.test-cmp
 	./$< 10 2>&1 | diff -q fact_uninterp.test-cmp - >/dev/null || \
 	(echo "$< failed" && exit 1)
-regress:: fcopy fcopy.test-in fcopy.test-cmp
-	./fcopy <fcopy.test-in 2>&1 | diff -q fcopy.test-cmp - >/dev/null || \
+regress:: fcopy fcopy.test-inp fcopy.test-cmp
+	./fcopy <fcopy.test-inp 2>&1 | diff -q fcopy.test-cmp - >/dev/null || \
 	(echo "$< failed" && exit 1)
-regress:: fcopy2 fcopy2.test-in fcopy2.test-cmp
-	./fcopy2 <fcopy2.test-in 2>&1 | diff -q fcopy2.test-cmp - >/dev/null || \
+regress:: fcopy2 fcopy2.test-inp fcopy2.test-cmp
+	./fcopy2 <fcopy2.test-inp 2>&1 | diff -q fcopy2.test-cmp - >/dev/null || \
 	(echo "$< failed" && exit 1)
 regress:: fib1 ; ./fib1 || (echo "$< failed" && exit 1)
 regress:: fib2 ; ./fib2 || (echo "$< failed" && exit 1)
@@ -109,12 +109,12 @@ regress:: gfact gfact.test-cmp
 regress:: hello hello.test-cmp
 	./$< 10 2>&1 | diff -q hello.test-cmp - >/dev/null || \
 	(echo "$< failed" && exit 1)
-regress:: intecho intecho.test-in intecho.test-cmp
-	./intecho <intecho.test-in 2>&1 | diff -q intecho.test-cmp - >/dev/null || \
+regress:: intecho intecho.test-inp intecho.test-cmp
+	./intecho <intecho.test-inp 2>&1 | diff -q intecho.test-cmp - >/dev/null || \
 	(echo "$< failed" && exit 1)
 regress:: intrange ; ./intrange
-regress:: linenmbr linenmbr.test-in linenmbr.test-cmp
-	./linenmbr <linenmbr.test-in 2>&1 | diff -q linenmbr.test-cmp - >/dev/null || \
+regress:: linenmbr linenmbr.test-inp linenmbr.test-cmp
+	./linenmbr <linenmbr.test-inp 2>&1 | diff -q linenmbr.test-cmp - >/dev/null || \
 	(echo "$< failed" && exit 1)
 regress:: listfuns ; ./listfuns || (echo "$< failed" && exit 1)
 regress:: listpermute listpermute.test-cmp
