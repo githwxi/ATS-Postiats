@@ -41,26 +41,28 @@ ATSLANGCOM "http://www.ats-lang.com"
 *)
 //
 (* ****** ****** *)
-(*
 //
 #define
 LIBGMP_targetloc
-"$PATSHOME/contrib/atscntrb/atscntrb-libgmp"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-libgmp"
+//
+(* ****** ****** *)
+(*
 //
 #define
 LIBPCRE_targetloc
-"$PATSHOME/contrib/atscntrb/atscntrb-libpcre"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-libpcre"
 //
 #define
 LIBCURL_targetloc
-"$PATSHOME/contrib/atscntrb/atscntrb-libcurl"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-libcurl"
 //
 #define
 LIBJSONC_targetloc
-"$PATSHOME/contrib/atscntrb/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-libjson-c"
 #define
 LIBJSON_C_targetloc
-"$PATSHOME/contrib/atscntrb/atscntrb-libjson-c"
+"$PATSHOME/contrib/atscntrb/atscntrb-hx-libjson-c"
 //
 *)
 (* ****** ****** *)

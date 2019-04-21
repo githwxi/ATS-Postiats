@@ -185,8 +185,9 @@
   (interactive)
   (when (null limit) (setq limit (point-max)))
   (let (foundp begin end (key-begin 0) (key-end 0) pt)
-    (flet ((store ()
-             (store-match-data (list begin end key-begin key-end))))
+    (cl-letf
+      ((store ()
+       (store-match-data (list begin end key-begin key-end))))
       ;; attempt to find some statics to highlight and store the
       ;; points beginning and ending the region to highlight.  needs
       ;; to be a loop in order to handle cases like ( foo : type )

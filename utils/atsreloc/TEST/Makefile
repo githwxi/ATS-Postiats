@@ -29,7 +29,8 @@ test02: \
 test02.dats ; \
 $(PATSCC) \
 -IIATS ./.TEST02 \
--I$(PATSHOME)/contrib -DATS_MEMALLOC_LIBC -o $@ $< -lgmp
+-I$(PATSHOME)/contrib/atscntrb \
+-DATS_MEMALLOC_LIBC -o $@ $< -lgmp
 #
 ######
 #
@@ -37,7 +38,8 @@ test03: \
 test03.dats ; \
 $(PATSCC) \
 -IIATS ./.TEST03 \
--I$(PATSHOME)/contrib -DATS_MEMALLOC_LIBC \
+-I$(PATSHOME)/contrib/atscntrb \
+-DATS_MEMALLOC_LIBC \
 -DATS PATSRELOCROOT='\".TEST03\"' -o $@ $< -lpcre
 #
 ######
