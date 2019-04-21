@@ -14,8 +14,8 @@ all::
 all:: \
 dotprod
 dotprod: dotprod.dats; $(PATSCC) -O2 -o $@ $<
-regress:: dotprod; ./$<
-cleanall:: ; $(RMF) dotprod 
+regress:: dotprod; ./$< || (echo "$< failed" && exit 1)
+cleanall:: ; $(RMF) dotprod
 
 ######
 

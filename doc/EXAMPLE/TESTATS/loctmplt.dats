@@ -29,7 +29,12 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement main0 () = println! ("foo2() = ", foo2())
+implement main0 () = {
+val n = foo2()
+val- 1 = n
+val () =
+println! ("foo2() = ", foo2())
+}
 
 (* ****** ****** *)
 

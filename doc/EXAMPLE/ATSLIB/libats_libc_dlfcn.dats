@@ -23,7 +23,9 @@ val () =
 {
 //
 val flag = RTLD_LAZY
-val (pfopt | p0) = dlopen (stropt_some("libm.so"), flag)
+val (pfopt | p0) = dlopen (stropt_some("libm.so.6"), flag)
+val () =
+if p0 = 0 then println!("unable to dlopen: ", $extfcall(string, "dlerror"))
 val () = assertloc (p0 > 0)
 prval Some_v(pf) = pfopt
 //

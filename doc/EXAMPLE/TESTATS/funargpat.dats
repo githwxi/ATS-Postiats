@@ -18,7 +18,9 @@ implement
 main0 () =
 {
 val xs = $list{int}(0, 1, 2)
-val () = println! ("head[", xs, "] = ", head<int>(xs))
+val h = head<int>(xs)
+val-0 = h
+val () = println! ("head[", xs, "] = ", h)
 } (* end of [main0] *)
 
 (* ****** ****** *)

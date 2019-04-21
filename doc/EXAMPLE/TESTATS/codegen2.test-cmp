@@ -1,0 +1,10 @@
+A()
+B(1)
+C(A,B(1))
+Mon[]=0
+Tuesday[]=1
+Wed[]=2
+Thursday[]=3
+Friday[]=4
+Saturday[]=5
+Sunday[]=6

@@ -179,29 +179,55 @@ CATS/HTTP/Ajax/Ajax_cats.js \
 CATS/HTML/canvas-2d/canvas2d_cats.js \
 
 libatscc2js_all:: ; \
-$(CAT) >>$(LIBATSCC2JS_ALL_JS) \
-output/DATS/basics_dats.js \
-output/DATS/char_dats.js \
-output/DATS/string_dats.js \
-output/DATS/list_dats.js \
-output/DATS/list_vt_dats.js \
-output/DATS/option_dats.js \
-output/DATS/stream_dats.js \
-output/DATS/stream_vt_dats.js \
-output/DATS/gvalue_dats.js \
-output/DATS/intrange_dats.js \
-output/DATS/JSarray_dats.js \
-output/DATS/reference_dats.js \
-output/DATS/arrayref_dats.js \
-output/DATS/matrixref_dats.js \
-output/DATS/gmatrixref_dats.js \
-output/DATS/funarray_dats.js \
-output/DATS/slistref_dats.js \
-output/DATS/qlistref_dats.js \
-output/DATS/ML/list0_dats.js \
-output/DATS/ML/array0_dats.js \
-output/DATS/ML/option0_dats.js \
-output/DATS/ML/matrix0_dats.js \
+$(PATSOPT) \
+-dd ./DATS/basics.dats \
+-dd ./DATS/char.dats \
+-dd ./DATS/string.dats \
+-dd ./DATS/list.dats \
+-dd ./DATS/list_vt.dats \
+-dd ./DATS/option.dats \
+-dd ./DATS/stream.dats \
+-dd ./DATS/stream_vt.dats \
+-dd ./DATS/gvalue.dats \
+-dd ./DATS/intrange.dats \
+-dd ./DATS/JSarray.dats \
+-dd ./DATS/reference.dats \
+-dd ./DATS/arrayref.dats \
+-dd ./DATS/matrixref.dats \
+-dd ./DATS/gmatrixref.dats \
+-dd ./DATS/funarray.dats \
+-dd ./DATS/slistref.dats \
+-dd ./DATS/qlistref.dats \
+-dd ./DATS/ML/list0.dats \
+-dd ./DATS/ML/array0.dats \
+-dd ./DATS/ML/option0.dats \
+-dd ./DATS/ML/matrix0.dats \
+| $(ATSCC2JS) -i >> $(LIBATSCC2JS_ALL_JS)
+
+# libatscc2js_all:: ; \
+# $(CAT) >>$(LIBATSCC2JS_ALL_JS) \
+# output/DATS/basics_dats.js \
+# output/DATS/char_dats.js \
+# output/DATS/string_dats.js \
+# output/DATS/list_dats.js \
+# output/DATS/list_vt_dats.js \
+# output/DATS/option_dats.js \
+# output/DATS/stream_dats.js \
+# output/DATS/stream_vt_dats.js \
+# output/DATS/gvalue_dats.js \
+# output/DATS/intrange_dats.js \
+# output/DATS/JSarray_dats.js \
+# output/DATS/reference_dats.js \
+# output/DATS/arrayref_dats.js \
+# output/DATS/matrixref_dats.js \
+# output/DATS/gmatrixref_dats.js \
+# output/DATS/funarray_dats.js \
+# output/DATS/slistref_dats.js \
+# output/DATS/qlistref_dats.js \
+# output/DATS/ML/list0_dats.js \
+# output/DATS/ML/array0_dats.js \
+# output/DATS/ML/matrix0_dats.js \
+# output/DATS/ML/option0_dats.js \
 
 ######
 #

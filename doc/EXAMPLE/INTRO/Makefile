@@ -69,41 +69,69 @@ all:: tally
 
 ######
 
-regress:: acker1 ; ./acker1
-regress:: acker2 ; ./acker2
-regress:: acker3 ; ./acker3
-regress:: acker4 ; ./acker4
-regress:: areverse ; ./areverse
-regress:: atof ; ./atof
-regress:: atoi ; ./atoi
-regress:: bintree ; ./bintree
-regress:: f91 ; ./f91
-regress:: fact1 ; ./fact1 10
-regress:: fact2 ; ./fact2
-regress:: fact3 ; ./fact3
-regress:: fact_uninterp ; ./fact_uninterp
-#regress:: fcopy ; ./fcopy
-#regress:: fcopy2 ; ./fcopy2
-regress:: fib1 ; ./fib1
-regress:: fib2 ; ./fib2
-regress:: fibmem ; ./fibmem
-regress:: fib_lazy ; ./fib_lazy
-regress:: fib_llazy ; ./fib_llazy
-regress:: fprintlst2 ; ./fprintlst2
-regress:: fprtuple ; ./fprtuple
-regress:: gfact ; ./gfact
-regress:: hello ; ./hello
-#regress:: intecho ; ./intecho
+regress:: acker1 ; ./acker1 || (echo "$< failed" && exit 1)
+regress:: acker2 ; ./acker2 || (echo "$< failed" && exit 1)
+regress:: acker3 ; ./acker3 || (echo "$< failed" && exit 1)
+regress:: acker4 ; ./acker4 || (echo "$< failed" && exit 1)
+regress:: areverse ; ./areverse || (echo "$< failed" && exit 1)
+regress:: atof ; ./atof || (echo "$< failed" && exit 1)
+regress:: atoi ; ./atoi || (echo "$< failed" && exit 1)
+regress:: bintree ; ./bintree || (echo "$< failed" && exit 1)
+regress:: f91 ; ./f91 || (echo "$< failed" && exit 1)
+regress:: fact1 fact1.test-cmp
+	./$< 10 2>&1 | diff -q fact1.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: fact2 ; ./fact2 || (echo "$< failed" && exit 1)
+regress:: fact3 ; ./fact3 || (echo "$< failed" && exit 1)
+regress:: fact_uninterp fact_uninterp.test-cmp
+	./$< 10 2>&1 | diff -q fact_uninterp.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: fcopy fcopy.test-inp fcopy.test-cmp
+	./fcopy <fcopy.test-inp 2>&1 | diff -q fcopy.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: fcopy2 fcopy2.test-inp fcopy2.test-cmp
+	./fcopy2 <fcopy2.test-inp 2>&1 | diff -q fcopy2.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: fib1 ; ./fib1 || (echo "$< failed" && exit 1)
+regress:: fib2 ; ./fib2 || (echo "$< failed" && exit 1)
+regress:: fibmem ; ./fibmem || (echo "$< failed" && exit 1)
+regress:: fib_lazy ; ./fib_lazy || (echo "$< failed" && exit 1)
+regress:: fib_llazy ; ./fib_llazy || (echo "$< failed" && exit 1)
+regress:: fprintlst2 fprintlst2.test-cmp
+	./$< 10 2>&1 | diff -q fprintlst2.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: fprtuple fprtuple.test-cmp
+	./$< 10 2>&1 | diff -q fprtuple.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: gfact gfact.test-cmp
+	./$< 10 2>&1 | diff -q gfact.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: hello hello.test-cmp
+	./$< 10 2>&1 | diff -q hello.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: intecho intecho.test-inp intecho.test-cmp
+	./intecho <intecho.test-inp 2>&1 | diff -q intecho.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
 regress:: intrange ; ./intrange
-#regress:: linenmbr ; ./linenmbr
-regress:: listfuns ; ./listfuns
-regress:: listpermute ; ./listpermute
-regress:: ordset ; ./ordset
-regress:: sieve_lazy ; ./sieve_lazy
-regress:: sieve_llazy ; ./sieve_llazy
-regress:: staref ; ./staref
-regress:: strprefix ; ./strprefix
-regress:: tally ; ./tally
+regress:: linenmbr linenmbr.test-inp linenmbr.test-cmp
+	./linenmbr <linenmbr.test-inp 2>&1 | diff -q linenmbr.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: listfuns ; ./listfuns || (echo "$< failed" && exit 1)
+regress:: listpermute listpermute.test-cmp
+	./$< 10 2>&1 | diff -q listpermute.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: ordset ordset.test-cmp
+	./$< 10 2>&1 | diff -q ordset.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: sieve_lazy sieve_lazy.test-cmp
+	./$< 10 2>&1 | diff -q sieve_lazy.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: sieve_llazy sieve_llazy.test-cmp
+	./$< 10 2>&1 | diff -q sieve_llazy.test-cmp - >/dev/null || \
+	(echo "$< failed" && exit 1)
+regress:: staref ; ./staref || (echo "$< failed" && exit 1)
+regress:: strprefix ; ./strprefix || (echo "$< failed" && exit 1)
+regress:: tally ; ./tally || (echo "$< failed" && exit 1)
 
 ######
 
@@ -185,7 +213,7 @@ fact_uninterp: fact_uninterp.dats ; $(PATSCC) -o $@ $<
 ######
 
 fcopy: fcopy.dats ; $(PATSCC) -o $@ $<
-fcopy2: fcopy2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats 
+fcopy2: fcopy2.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats
 
 ######
 
@@ -225,7 +253,7 @@ intrange: intrange.dats ; $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $<
 ######
 
 linenmbr: linenmbr.dats ; \
-  $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats 
+  $(PATSCC) -DATS_MEMALLOC_LIBC -o $@ $< myatslib.dats
 
 ######
 

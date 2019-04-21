@@ -63,8 +63,12 @@ main0((*void*)) =
 //
 val xy = int2_make(3, 7)
 //
-val () = println! ("int2_add(3, 7) = ", int2_add(xy))
-val () = println! ("int2_mul(3, 7) = ", int2_mul(xy))
+val x_p_y = int2_add(xy)
+val- 10 = x_p_y
+val () = println! ("int2_add(3, 7) = ", x_p_y)
+val x_m_y = int2_mul(xy)
+val- 21 = x_m_y
+val () = println! ("int2_mul(3, 7) = ", x_m_y)
 //
 } (* end of [main0] *)
 //

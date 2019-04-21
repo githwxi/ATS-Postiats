@@ -76,21 +76,5 @@ function
 ats2jspre_neq_bool1_bool1(x, y) { return (x !== y); }
 //
 /* ****** ****** */
-//
-function
-ats2jspre_int2bool0(x)
-  { return (x !== 0 ? true : false) ; }
-function
-ats2jspre_int2bool1(x)
-  { return (x !== 0 ? true : false) ; }
-//
-/* ****** ****** */
-//
-function
-ats2jspre_bool2int0(x) { return (x ? 1 : 0); }
-function
-ats2jspre_bool2int1(x) { return (x ? 1 : 0); }
-//
-/* ****** ****** */
 
 /* end of [bool_cats.js] */

@@ -15,19 +15,22 @@ all::
 
 all:: \
 fibonacci
-fibonacci:: ; $(PATSCC) -tcats fibonacci.dats
+fibonacci:: ; $(PATSCC) -tcats fibonacci.dats || (echo "$< failed" && exit 1)
+regress:: fibonacci
 
 ######
 
 all:: \
 tally
-tally:: ; $(PATSCC) -tcats tally-of-powers.dats
+tally:: ; $(PATSCC) -tcats tally-of-powers.dats || (echo "$< failed" && exit 1)
+regress:: tally
 
 ######
 
 all:: \
 Bezout_identity
-Bezout_identity:: ; $(PATSCC) -tcats Bezout_identity.dats
+Bezout_identity:: ; $(PATSCC) -tcats Bezout_identity.dats || (echo "$< failed" && exit 1)
+regress:: Bezout_identity
 
 ######
 

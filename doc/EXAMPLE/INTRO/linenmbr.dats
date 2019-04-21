@@ -70,6 +70,7 @@ end // end of [loop]
 val lines =
   fileref_get_lines_stringlst (stdin_ref)
 val () = loop (lines, 0)
+val () = print_newline ()
 //
 in
   0(*normal*)

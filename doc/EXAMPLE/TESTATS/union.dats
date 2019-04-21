@@ -48,9 +48,11 @@ main0 () =
 var x: intfloat?
 //
 val () = intfloat_set_int (x, 9)
+val- 9 = intfloat_get_int(x)
 val () = println! ("x.int = ", intfloat_get_int(x))
 //
 val () = intfloat_set_float (x, 9.9)
+val- 9.9 = intfloat_get_float (x)
 val () = println! ("x.float = ", intfloat_get_float(x))
 //
 } (* end of [main0] *)
