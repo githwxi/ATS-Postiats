@@ -79,13 +79,14 @@ tok.token_node of
 //
 | T_EOF () => tok
 //
+| T_STACST () => tok
+| T_STADEF () => tok
+//
 | T_SORTDEF () => tok
 | T_DATASORT () => tok
 //
 | T_ASSUME () => tok
-//
-| T_STACST () => tok
-| T_STADEF () => tok
+| T_REASSUME () => tok
 //
 | T_ABSTYPE _ => tok
 | T_TYPEDEF _ => tok

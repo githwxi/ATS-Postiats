@@ -70,14 +70,22 @@ ats_void_type
 patsopt_PATSHOME_set()
 {
 //
-  patsopt_PATSHOME = patsopt_getenv_gc("PATSHOME") ;
+  patsopt_PATSHOME = (char*)0;
 //
   if
   (
    !patsopt_PATSHOME
   )
   {
-    patsopt_PATSHOME = patsopt_getenv_gc("ATSHOME") ;
+    patsopt_PATSHOME = patsopt_getenv_gc("PATSHOME") ;
+  }
+//
+  if
+  (
+   !patsopt_PATSHOME
+  )
+  {
+    patsopt_PATSHOME = patsopt_getenv_gc("ATS2HOME") ;
   }
 //
   return ;
