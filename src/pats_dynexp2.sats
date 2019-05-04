@@ -1022,7 +1022,10 @@ and d2eclist = List (d2ecl)
 and
 d2exp = '{
   d2exp_loc= loc_t
-, d2exp_node= d2exp_node, d2exp_type= s2expopt
+, d2exp_node= d2exp_node
+(*
+// , d2exp_type= s2expopt
+*)
 } (* end of [d2exp] *)
 
 and d2explst = List (d2exp)
@@ -1255,10 +1258,12 @@ overload fprint with fprint_d2lval
 //
 (* ****** ****** *)
 
+(*
 fun d2exp_set_type
 (
   d2e: d2exp, opt: s2expopt
 ) : void = "ext#patsopt_d2exp_set_type"
+*)
 
 (* ****** ****** *)
 

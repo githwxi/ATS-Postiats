@@ -121,7 +121,7 @@ propdef DIV (x:int, y:int, q:int) = [r:int] DIVMOD(x, y, q, r)
 propdef MOD (x:int, y:int, r:int) = [q:int] DIVMOD(x, y, q, r)
 //
 (* ****** ****** *)
-
+//
 dataprop
 EQINT(int, int) = {x:int} EQINT(x, x)
 //

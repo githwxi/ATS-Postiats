@@ -347,17 +347,24 @@ p2at_errpat (loc) =
 (* ****** ****** *)
 
 implement
-d2exp_make_node (loc, node) = '{
-  d2exp_loc= loc, d2exp_node= node, d2exp_type= None()
+d2exp_make_node
+  (loc, node) = '{
+  d2exp_loc= loc
+, d2exp_node= node
+(*
+// , d2exp_type= None()
+*)
 } // end of [d2exp_make_node]
 
 (* ****** ****** *)
 
 implement
-d2exp_cst (loc, d2c) = d2exp_make_node (loc, D2Ecst (d2c))
+d2exp_cst(loc, d2c) =
+d2exp_make_node(loc, D2Ecst(d2c))
 
 implement
-d2exp_var (loc, d2v) = d2exp_make_node (loc, D2Evar (d2v))
+d2exp_var(loc, d2v) =
+d2exp_make_node(loc, D2Evar(d2v))
 
 (* ****** ****** *)
 
@@ -1429,19 +1436,23 @@ extern typedef "d2exp_t" = d2exp
 
 %{$
 
+#if(1)
 ats_void_type
 patsopt_p2at_set_type (
   ats_ptr_type p2t, ats_ptr_type opt
 ) {
   ((p2at_t)p2t)->atslab_p2at_type = opt ; return ;
 } // end of [patsopt_p2at_set_type]
+#endif
 
+#if(0)
 ats_void_type
 patsopt_d2exp_set_type (
   ats_ptr_type d2e, ats_ptr_type opt
 ) {
   ((d2exp_t)d2e)->atslab_d2exp_type = opt ; return ;
 } // end of [patsopt_d2exp_set_type]
+#endif
 
 %} // end of [%{$]
 

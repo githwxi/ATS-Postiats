@@ -2313,7 +2313,8 @@ s1taload_tr
 , fil, ldflag, d1cs, loaded
 ) = let
 (*
-val () = print "s1taload_tr: staid = "
+val () =
+print "s1taload_tr: staid = "
 val () = (
 case+ idopt of
 | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"

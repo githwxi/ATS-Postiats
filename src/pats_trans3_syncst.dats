@@ -105,15 +105,17 @@ d2exp_trup_intrep
   val s2f = intrep_syn_type_ind (loc0, rep)
 in
   d3exp_intrep (loc0, s2f, rep)
-end // end of [d2exp_trup_int]
+end // end of [d2exp_trup_intrep]
 
 (* ****** ****** *)
 
 implement
 d2exp_trup_bool
   (d2e0, b) = let
-  val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2f, b)
+  val loc0 =
+    d2e0.d2exp_loc
+  val s2f0 =
+    s2exp_bool_bool_t0ype(b) in d3exp_bool(loc0, s2f0, b)
 end // end of [d2exp_trup_bool]
 
 (* ****** ****** *)
@@ -121,9 +123,10 @@ end // end of [d2exp_trup_bool]
 implement
 d2exp_trup_char
   (d2e0, c) = let
-  val loc0 = d2e0.d2exp_loc
-  val i = int_of_char (c)
-  val s2f = s2exp_char_int_t0ype (i) in d3exp_char (loc0, s2f, c)
+  val
+  loc0 = d2e0.d2exp_loc
+  val i = int_of_char(c)
+  val s2f0 = s2exp_char_int_t0ype(i) in d3exp_char(loc0, s2f0, c)
 end // end of [d2exp_trup_char]
 
 (* ****** ****** *)
@@ -131,7 +134,8 @@ end // end of [d2exp_trup_char]
 implement
 d2exp_trup_string
   (d2e0, str) = let
-  val loc0 = d2e0.d2exp_loc
+  val
+  loc0 = d2e0.d2exp_loc
   val n = string_length (str)
   val s2f = s2exp_string_int_type (n)
 in
