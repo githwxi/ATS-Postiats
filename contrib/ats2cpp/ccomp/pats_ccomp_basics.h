@@ -139,18 +139,18 @@ ATSdynexn_initize(d2c, exnmsg) the_atsexncon_initize(&(d2c), exnmsg)
 /* ****** ****** */
 //
 #define \
-ATSmainats_void_0(err) mainats_void_0()
+ATSmainats_0_void(err) mainats_0_void()
 #define \
-ATSmainats_argc_argv_0(argc, argv, err) mainats_argc_argv_0(argc, argv)
+ATSmainats_0_argc_argv(argc, argv, err) mainats_0_argc_argv(argc, argv)
 #define \
-ATSmainats_argc_argv_envp_0(argc, argv, envp, err) mainats_argc_argv_envp_0(argc, argv, envp)
+ATSmainats_0_argc_argv_envp(argc, argv, envp, err) mainats_0_argc_argv_envp(argc, argv, envp)
 //
 #define \
-ATSmainats_void_int(err) err = mainats_void_int()
+ATSmainats_1_void(err) err = mainats_1_void()
 #define \
-ATSmainats_argc_argv_int(argc, argv, err) err = mainats_argc_argv_int(argc, argv)
+ATSmainats_1_argc_argv(argc, argv, err) err = mainats_1_argc_argv(argc, argv)
 #define \
-ATSmainats_argc_argv_envp_int(argc, argv, envp, err) err = mainats_argc_argv_envp_int(argc, argv, envp)
+ATSmainats_1_argc_argv_envp(argc, argv, envp, err) err = mainats_1_argc_argv_envp(argc, argv, envp)
 //
 /* ****** ****** */
 //

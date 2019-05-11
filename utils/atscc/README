@@ -1,14 +1,14 @@
+######
 ##
 ## The command [atscc] is just a thin wrapper
 ## for convenience around the command [atsopt]
 ##
-
 ######
 
 $ATSOPT = "patsopt"
 $ATSCCOMP = "\
 gcc -std=c99 -D_XOPEN_SOURCE\
--I${PATSHOME} -I${PATSHOME}/ccomp/runtime
+-I${PATSHOME} -I${PATSHOME}/ccomp/runtime\
 "
 
 ######

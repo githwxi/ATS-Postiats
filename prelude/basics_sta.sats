@@ -670,7 +670,7 @@ arrpsz = arrpsz_vt0ype_int_vt0ype
 (* ****** ****** *)
 
 absprop // invariance
-vbox_view_prop (v:view)
+vbox_view_prop(v:view)
 propdef
 vbox(v:view) = vbox_view_prop(v)
 

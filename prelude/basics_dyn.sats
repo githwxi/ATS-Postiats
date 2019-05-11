@@ -700,47 +700,53 @@ listize_argc_argv
 //
 (* ****** ****** *)
 //
-symintr main0
-//
 fun
-main_void_0
+main_0_void
 (
   (*void*)
-) : void = "ext#mainats_void_0"
+) : void = "ext#mainats_0_void"
 fun
-main_argc_argv_0
+main_0_argc_argv
   {n:int | n >= 1}
-  (argc: int n, argv: !argv(n)): void = "ext#mainats_argc_argv_0"
+  (argc: int n, argv: !argv(n)): void = "ext#mainats_0_argc_argv"
 fun
-main_argc_argv_envp_0
+main_0_argc_argv_envp
   {n:int | n >= 1}
-  (argc: int n, argv: !argv(n), envp: ptr): void = "ext#mainats_argc_argv_envp_0"
+  (argc: int n, argv: !argv(n), envp: ptr): void = "ext#mainats_0_argc_argv_envp"
 //
-overload main0 with main_void_0
-overload main0 with main_argc_argv_0
-overload main0 with main_argc_argv_envp_0
+(* ****** ****** *)
+//
+fun
+main_1_void
+(
+  (*void*)
+) : int = "ext#mainats_1_void"
+fun
+main_1_argc_argv
+  {n:int | n >= 1}
+  (argc: int n, argv: !argv(n)): int = "ext#mainats_1_argc_argv"
+fun
+main_1_argc_argv_envp
+  {n:int | n >= 1}
+  (argc: int n, argv: !argv n, envp: ptr): int = "ext#mainats_1_argc_argv_envp"
 //
 (* ****** ****** *)
 //
 symintr main
+symintr main0
+symintr main1
 //
-fun
-main_void_int
-(
-  (*void*)
-) : int = "ext#mainats_void_int"
-fun
-main_argc_argv_int
-  {n:int | n >= 1}
-  (argc: int n, argv: !argv(n)): int = "ext#mainats_argc_argv_int"
-fun
-main_argc_argv_envp_int
-  {n:int | n >= 1}
-  (argc: int n, argv: !argv n, envp: ptr): int = "ext#mainats_argc_argv_envp_int"
+overload main with main_1_void
+overload main with main_1_argc_argv
+overload main with main_1_argc_argv_envp
 //
-overload main with main_void_int
-overload main with main_argc_argv_int
-overload main with main_argc_argv_envp_int
+overload main0 with main_0_void
+overload main0 with main_0_argc_argv
+overload main0 with main_0_argc_argv_envp
+//
+overload main1 with main_1_void
+overload main1 with main_1_argc_argv
+overload main1 with main_1_argc_argv_envp
 //
 (* ****** ****** *)
 //

@@ -152,7 +152,7 @@ the name of a file containing dynamic ATS code. Note that this flag is
 unnecessary if the name of the file ends with the extension .dats.
 //
 --tlcalopt-disable:
-This flag is passed to patsopt to disable tail-call optimization,
+This flag is passed to atsopt to disable tail-call optimization,
 which is needed for atscc-compilers such as atscc2erl and atscc2scm.
 //
 (*
