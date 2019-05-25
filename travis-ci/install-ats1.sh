@@ -64,4 +64,4 @@ ${TARZXF} ${ATSPACKTGZ}
 #
 ######
 
-###### end of [ats1_setup.sh] ######
+###### end of [install-ats1.sh] ######

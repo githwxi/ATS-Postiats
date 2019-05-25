@@ -32,9 +32,9 @@ before_install:
 
 install:
   # Install pkgs
-  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
+  - ${TRAVIS_BUILD_DIR}/travis-ci/install-pkgs.sh
   # Install ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
+  - ${TRAVIS_BUILD_DIR}/travis-ci/install-ats1.sh 0.2.12
 
 script:
   - ${GCC} --version

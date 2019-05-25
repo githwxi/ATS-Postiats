@@ -66,4 +66,4 @@ fi
 
 exit 0
 
-###### end of [installpkg.sh] ######
+###### end of [install-pkgs.sh] ######
