@@ -1,7 +1,9 @@
 os:
   - osx
   - linux
+
 sudo: false
+
 addons:
   apt:
     packages:
@@ -13,6 +15,7 @@ addons:
     - libjansson-dev
     - docbook-utils
     - libgdbm-dev
+
 before_install:
   - date
   - cd ${HOME}
@@ -21,15 +24,18 @@ before_install:
   - export ATSHOMERELOC=ATS-0.2.12
   - export PATSHOME=${TRAVIS_BUILD_DIR}
   - export PATH=${PATH}:${PATSHOME}/bin
-  # Install pkgs
-  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
-  # Download ATS1
-  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
   # Download ATS2-contrib
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
   - export GCC=gcc
   - export CLANG=clang
+
+install:
+  # Install pkgs
+  - ${TRAVIS_BUILD_DIR}/travis-ci/installpkg.sh
+  # Install ATS1
+  - ${TRAVIS_BUILD_DIR}/travis-ci/ats1_setup.sh 0.2.12
+
 script:
   - ${GCC} --version
   - ${CLANG} --version
@@ -76,5 +82,6 @@ script:
   # Building books
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/ATS2TUTORIAL; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then make -C doc/BOOK/INT2PROGINATS; fi
+
 after_script:
   - date

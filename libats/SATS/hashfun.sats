@@ -33,14 +33,15 @@
 (* ****** ****** *)
 
 %{#
-#include "libats/CATS/hashfun.cats"
+#include \
+"libats/CATS/hashfun.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
-
+//
 fun{}
-inthash_jenkins (uint32):<> uint32
-
+inthash_jenkins(uint32):<> uint32
+//
 (* ****** ****** *)
 /*
 ** HX:
@@ -51,7 +52,7 @@ fun{}
 string_hash_multiplier
   (K: ulint, H0: ulint, str: string):<> ulint
 // end of [string_hash_multiplier]
-
+//
 (* ****** ****** *)
 
 (* end of [hashfun.sats] *)

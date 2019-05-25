@@ -707,11 +707,11 @@ val () = (env := $UN.castvwtp0{ptr}(list_vt_nil))
 //
 val _(*cap*) =
 $effmask_all
-  (arrayptr_rforeach_env<chain><tenv> (A, cap, env))
+  (arrayptr_rforeach_env<chain><tenv>(A, cap, env))
 //
 end // end of [local]
 //
-val () = arrayptr_free ($UN.castvwtp0{arrayptr(ptr,0)}(A))
+val () = arrayptr_free($UN.castvwtp0{arrayptr(ptr,0)}(A))
 //
 in
   $UN.castvwtp0{tenv2}(env)

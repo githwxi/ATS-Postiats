@@ -91,7 +91,7 @@ end (* end of [array_bsearch_fun] *)
 
 (*
 //
-// HX: [qsort] is in libc/stdlib
+// HX: [bsearch] is in libc/stdlib
 //
 void *bsearch
 (
