@@ -49,13 +49,10 @@ rotorseq =
   (rotor, natLt(N)(*notch*), rotorseq)
 //
 (* ****** ****** *)
-
-
-(* ****** ****** *)
-
 (*
 x -> p^(R^(f(R(p(x)))))
 *)
+(* ****** ****** *)
 
 implement
 f_Enigma(xs) =

@@ -28,7 +28,9 @@
 //
 #define
 LIBPCRE_targetloc
-"contrib/atscntrb-libpcre"
+"contrib\
+/atscntrb\
+/atscntrb-hx-libpcre"
 //
 (* ****** ****** *)
 //
@@ -135,11 +137,11 @@ case+ xs of
 (* ****** ****** *)
 //
 #include
-"libats\
-/BUCS520/StreamPar/mydepies.hats"
+"$PATSHOMELOCS\
+/atscntrb-bucs520-streampar/mydepies.hats"
 #include
-"libats\
-/BUCS520/StreamPar/mylibies.hats"
+"$PATSHOMELOCS\
+/atscntrb-bucs520-streampar/mylibies.hats"
 //
 (* ****** ****** *)
 //

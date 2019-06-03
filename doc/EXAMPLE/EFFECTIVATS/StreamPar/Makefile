@@ -53,7 +53,7 @@ cleanall:: ; $(RMF) StreamPar_misc
 StreamPar_binge: \
 StreamPar_binge.dats; \
 $(PATSCC3) \
--I $(PATSHOME)/contrib -o $@ $< -latslib -lpcre -lpthread -lgc
+-I $(PATSHOME)/contrib/atscntrb -o $@ $< -latslib -lpcre -lpthread -lgc
 #
 regress:: StreamPar_binge; ./$<
 cleanall:: ; $(RMF) StreamPar_binge
@@ -62,7 +62,7 @@ cleanall:: ; $(RMF) StreamPar_binge
 #
 NPM=npm
 #
-npm-update:: ; (NPM) update
+npm-update:: ; $(NPM) update
 npm-install:: ; $(NPM) install
 #
 ######

@@ -49,4 +49,4 @@ typedef struct {
 
 /* ****** ****** */
 
-/* end of [pats_position.cats] */
+/* end of [pats_location.cats] */
