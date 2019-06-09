@@ -306,8 +306,14 @@ case+ d2cs of
         idopt
       , fil, flag, fenv, _(*loaded*)
       ) => let
+(*
+//
+// AS-2019-06-07:
+// The information is of no use
+//
         val () =
           auxloc(out, d2c.d2ecl_loc)
+*)
         val d2cs =
           $TR2ENV.filenv_get_d2eclist(fenv)
         val issta =
@@ -369,8 +375,14 @@ case+ d2cs of
         idopt
       , fil, flag, fenv, loaded
       ) => let
+(*
+//
+// AS-2019-06-07:
+// The information is of no use
+//
         val () =
           auxloc(out, d2c.d2ecl_loc)
+*)
         val d2cs =
           $TR2ENV.filenv_get_d2eclist(fenv)
         val issta =
