@@ -1,0 +1,33 @@
+######
+##
+## The command [tempacc] is just a thin wrapper
+## for convenience around the command [tempopt]
+##
+######
+
+$ATSOPT = "tempopt"
+$ATSCCOMP = "\
+gcc -std=c99 -D_XOPEN_SOURCE\
+-I${TEMPTORY} -I${TEMPTORY}/ccomp/runtime\
+"
+
+######
+
+-vats  : the version of tempopt
+-tcats : typechecking only
+-ccats : compiling ATS to C only
+
+-cleanaft : removing the generated C-files (_?ats.c)
+
+-atsccomp : designating the C-compiler [atsccomp] for use
+
+-DATS  : define for [tempopt]
+-DDATS : define for [tempopt] and [tempaccomp]
+-IATS  : include path for [tempopt]
+-IIATS : include path for [tempopt] and [tempaccomp]
+
+--version : the version of tempopt and C-compiler
+
+######
+
+###### end of [README] ######
