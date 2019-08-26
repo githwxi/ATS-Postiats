@@ -693,12 +693,6 @@ match one of the following three patterns:
 
 <listitem>
 #para("
-#dyncode("(list_nil(), list_nil())")
-")
-</listitem>
-
-<listitem>
-#para("
 #dyncode("(list_cons _, list_nil())")
 ")
 </listitem>
@@ -706,6 +700,12 @@ match one of the following three patterns:
 <listitem>
 #para("
 #dyncode("(list_nil(), list_cons _)")
+")
+</listitem>
+
+<listitem>
+#para("
+#dyncode("(list_nil(), list_nil())")
 ")
 </listitem>
 
