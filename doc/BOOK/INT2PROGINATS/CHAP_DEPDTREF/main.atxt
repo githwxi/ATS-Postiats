@@ -693,6 +693,12 @@ match one of the following three patterns:
 
 <listitem>
 #para("
+#dyncode("(list_nil(), list_nil())")
+")
+</listitem>
+
+<listitem>
+#para("
 #dyncode("(list_cons _, list_nil())")
 ")
 </listitem>
@@ -703,18 +709,13 @@ match one of the following three patterns:
 ")
 </listitem>
 
-<listitem>
-#para("
-#dyncode("(list_nil(), list_nil())")
-")
-</listitem>
-
 </itemizedlist>
 
 Given that #dyncode("xs") and #dyncode("ys") are of the same length,
-the typechecker can readily infer that #dyncode("(xs, ys)") cannot match
-either of the first two patterns. After these two patterns are ruled out,
-typechecking is essentially done as if the second clause was written as follows:
+the typechecker can readily infer that #dyncode("(xs, ys)") can only
+match the first of the above three patterns. After the last two
+patterns are ruled out, typechecking is essentially done as if the
+second clause was written as follows:
 
 #atscode("\
   | (list_nil(), list_nil()) => list_nil((*void*))
