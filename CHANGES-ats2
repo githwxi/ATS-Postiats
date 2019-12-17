@@ -25,8 +25,18 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 Here is a list of major additions and changes since the last release:
 
 1. Improving testing code:
-   doc/EXAMPLE/ATSLF, doc/EXAMPLE/INTRO, doc/EXAMPLE/TESTATS
+   doc/EXAMPLE/ATSLF,
+   doc/EXAMPLE/INTRO, doc/EXAMPLE/TESTATS
    Kudos to Artyom Shalkhakov!
+2. Introducing various keywords (e.g., atstflt, atsvtflt), which are
+   used in the implementation of ATS3(ATS/Xanadu)
+  
+Please note that there are two variants of the package released: The
+"gmp" variant depends on the GMP library while the "int" variant does
+not. From this release on, ATS2-Postiats-0.4.0.tgz is just the same as
+ATS2-Postiats-int-0.4.0.tgz. This choice is made due to the fact that
+most users (especially new users) can readily get by without the extra
+dependency on GMP.
 
 ######
 
