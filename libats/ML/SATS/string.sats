@@ -48,8 +48,10 @@ staload "libats/ML/SATS/basis.sats"
 
 (* ****** ****** *)
 
-typedef SHR(a:type) = a // for commenting purpose
-typedef NSH(a:type) = a // for commenting purpose
+typedef
+SHR(a:type) = a // for commenting purpose
+typedef
+NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 //
