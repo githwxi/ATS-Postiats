@@ -19,7 +19,7 @@ released packages of ATS2 are available at the following links:
 <ul>
 <li>
 The current <em>stable</em> release of ATS2 is at
-<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.3.13</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/download">ATS2-0.4.0</a>.
 </li>
 <li>
 The current <em>pre-stable</em> release of ATS2 is at
@@ -256,7 +256,7 @@ of library packages, tutorials, examples, documentation of various sorts, etc.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-contrib is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.3.13/.">ATS2-contrib-0.3.13</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.4.0/.">ATS2-contrib-0.4.0</a>.
 </li>
 </ul>
 
@@ -312,7 +312,7 @@ violations.
 <ul>
 <li>
 The current <em>stable</em> release of ATS2-include is at
-<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.3.13/.">ATS2-include-0.3.13</a>.
+<a href="http://sourceforge.net/projects/ats2-lang/files/ats2-lang/ats2-postiats-0.4.0/.">ATS2-include-0.4.0</a>.
 </li>
 </ul>
 
