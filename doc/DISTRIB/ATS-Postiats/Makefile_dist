@@ -52,14 +52,13 @@ configure ; \
 #
 ######
 #
-C3NSTRINTKND=gmpknd
-#
+#C3NSTRINTKND=gmpknd
 #C3NSTRINTKND=intknd
 #
 ######
 #
 src_patsopt: ; \
-$(MAKE) C3NSTRINTKND=$(C3NSTRINTKND) -j4 -C src patsopt
+$(MAKEJ4) C3NSTRINTKND=$(C3NSTRINTKND) -C src patsopt
 #
 bin_patsopt: src_patsopt ; $(CPF) src/patsopt bin/patsopt
 #
