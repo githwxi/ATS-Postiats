@@ -220,6 +220,8 @@ gclear_ref<a> (x) = ((*void*))
 implement
 gequal_val_val<int> (x, y) = (x = y)
 implement
+gequal_val_val<uint> (x, y) = (x = y)
+implement
 gequal_val_val<bool> (x, y) = (x = y)
 implement
 gequal_val_val<char> (x, y) = (x = y)
