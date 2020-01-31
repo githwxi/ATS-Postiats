@@ -413,7 +413,7 @@ tok.token_node of
     val ent2 = p_effi0de (buf, bt, err)
   in
     if err = err0 then
-      e0fftag_cst (0, ent2) else tokbuf_set_ntok_null (buf, n0)
+      e0fftag_cst (1, ent2) else tokbuf_set_ntok_null (buf, n0)
     // end of [if]
   end
 //
