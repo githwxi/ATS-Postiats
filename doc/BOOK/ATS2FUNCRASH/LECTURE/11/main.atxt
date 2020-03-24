@@ -121,7 +121,7 @@ programming features, a constant question is whether one needs to pay
 for this feature even if one makes no use of it. In the case of
 automatic caching associated with (non-linear) streams, one clearly
 pays dearly for the time and memory spent on caching when the elements
-in such a stream need only to be processed only once. In stream-based
+in such a stream need only to be processed once. In stream-based
 programming, most streams created to support intermediate computation
 are processed only once. For instance, the three streams in the body
 of #dyncode("ftally2") are all processed once and only once.
@@ -363,7 +363,7 @@ efficiency both time-wise and memory-wise.
 #para("\
 
 As far as I can tell for now, the support for linear streams in ATS is
-unique and it is not yet available elsewhere.  In concern of
+unique and it is not yet available elsewhere.  In the context of
 stream-based programming, I see this support as a secret weapon that
 gives ATS a clear edge over others that can only provide support for
 non-linear streams.  Please find #mycodelink("LECTURE/11/CODE",
