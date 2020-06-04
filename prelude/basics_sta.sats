@@ -132,7 +132,7 @@ uchar_int_t0ype (c:int) = uchar_t0ype
 stadef uchar = uchar_t0ype // shorthand
 stadef uchar = uchar_int_t0ype // shorthand
 typedef uChar = [c:uint8] uchar (c)
-typedef scharNZ = [c:uint8 | c != 0] uchar(c)
+typedef ucharNZ = [c:uint8 | c != 0] uchar(c)
 //
 (* ****** ****** *)
 

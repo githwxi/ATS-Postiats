@@ -97,7 +97,7 @@ xdigit_get_val
 case+ 0 of
 | _ when c <= '9' => c - '0'
 | _ when c <= 'F' => 10 + (c - 'A') // HX: 'A' = 10
-| _ when c >= 'f' => 10 + (c - 'a') // HX: 'a' = 10
+| _ when c <= 'f' => 10 + (c - 'a') // HX: 'a' = 10
 | _ (* illegal *) => (0) // HX: default for illegals
 //
 ) (* end of [xdigit_get_val] *)
@@ -1851,7 +1851,7 @@ in
       val () = posincby1 (pos)
       val k = testing_xdigitseq0 (buf, pos)
     in
-      if k = 0u then
+      if k = 0u || k > 2u then
         lexbufpos_lexerr_reset (buf, pos, LE_CHAR_hex)
       else
         lexing_char_hex (buf, pos, k)
@@ -1863,7 +1863,7 @@ in
 *)
       val k = testing_octalseq0 (buf, pos)
     in
-      if k = 0u then
+      if k = 0u || k > 3u then
         lexbufpos_lexerr_reset (buf, pos, LE_CHAR_oct)
       else
         lexing_char_oct (buf, pos, k)

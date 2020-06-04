@@ -143,7 +143,7 @@ case+ x.lexerr_node of
   }
 | LE_CHAR_unclose () => () where {
     val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the char consant is unclosed.", @())
+    val () = fprintf (out, ": the char constant is unclosed.", @())
     val ((*void*)) = fprint_newline (out)
   }
 | LE_STRING_char_oct () => () where {
