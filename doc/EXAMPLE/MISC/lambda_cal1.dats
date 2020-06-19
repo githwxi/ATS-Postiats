@@ -172,6 +172,12 @@ val x = TM1var("x")
 val y = TM1var("y") in
 TM1lam("x", TM1lam("y", x))
 end
+val K1 =
+let
+val x = TM1var("x")
+val y = TM1var("y") in
+TM1lam("x", TM1lam("y", y))
+end
 
 (* ****** ****** *)
 
@@ -193,6 +199,25 @@ TM1lam
 )
 end
 
+(* ****** ****** *)
+val
+omega =
+let
+val x = TM1var("x")
+in
+TM1lam("x", TM1app(x, x))
+end
+val
+Omega = TM1app(omega, omega)
+(* ****** ****** *)
+//
+val K1O =
+TM1app(K1, Omega)
+val K1O_nf = normalize(K1O)
+//
+val ( ) = println!("K1O = ", K1O)
+val ( ) = println!("K1O_nf = ", K1O_nf)
+//
 (* ****** ****** *)
 //
 val SKK =
