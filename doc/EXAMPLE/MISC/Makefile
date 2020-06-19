@@ -148,13 +148,21 @@ clean:: ; $(RMF) intsqrt_prf_dats.o
 clean:: ; $(RMF) intsqrt_prf_dats.c
 cleanall:: ; $(RMF) intsqrt_prf intsqrt_prf.exe
 
-all:: lambda_cal
-lambda_cal: lambda_cal.exe
-lambda_cal.exe: lambda_cal_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
-lambda_cal_dats.c: lambda_cal.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output lambda_cal_dats.c --dynamic lambda_cal.dats
-clean:: ; $(RMF) lambda_cal_dats.o
-clean:: ; $(RMF) lambda_cal_dats.c
-cleanall:: ; $(RMF) lambda_cal lambda_cal.exe
+all:: lambda_cal1
+lambda_cal1: lambda_cal1.exe
+lambda_cal1.exe: lambda_cal1_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+lambda_cal1_dats.c: lambda_cal1.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output lambda_cal1_dats.c --dynamic lambda_cal1.dats
+clean:: ; $(RMF) lambda_cal1_dats.o
+clean:: ; $(RMF) lambda_cal1_dats.c
+cleanall:: ; $(RMF) lambda_cal1 lambda_cal1.exe
+
+all:: lambda_cal2
+lambda_cal2: lambda_cal2.exe
+lambda_cal2.exe: lambda_cal2_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+lambda_cal2_dats.c: lambda_cal2.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output lambda_cal2_dats.c --dynamic lambda_cal2.dats
+clean:: ; $(RMF) lambda_cal2_dats.o
+clean:: ; $(RMF) lambda_cal2_dats.c
+cleanall:: ; $(RMF) lambda_cal2 lambda_cal2.exe
 
 all:: monad_list
 monad_list: monad_list.exe

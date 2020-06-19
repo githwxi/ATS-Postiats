@@ -33,7 +33,9 @@
 
 (* ****** ****** *)
 
-#define ATS_PACKNAME "ATSLIB.libats.refcount"
+#define
+ATS_PACKNAME
+"ATSLIB.libats.refcount"
 
 (* ****** ****** *)
 //
