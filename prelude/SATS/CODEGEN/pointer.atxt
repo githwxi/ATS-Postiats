@@ -436,8 +436,13 @@ cptr_vt0ype_addr_type
   (a:vt@ype+, addr) = ptr // HX: for simulating C pointers
 //
 stadef cptr = cptr_vt0ype_addr_type
-stadef cPtr0 (a:vt0p) = [l:addr] cptr (a, l)
-stadef cPtr1 (a:vt0p) = [l:addr | l > null] cptr(a, l)
+//
+stadef
+cPtr (a:vt0p) = [l:addr] cptr (a, l)
+stadef
+cPtr0 (a:vt0p) = [l:agez] cptr (a, l)
+stadef
+cPtr1 (a:vt0p) = [l:addr|l > null] cptr(a, l)
 //
 castfn
 cptr2ptr{a:vt0p}{l:addr} (cp: cptr(a, l)):<> ptr(l)
