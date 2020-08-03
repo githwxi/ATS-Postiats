@@ -33,47 +33,47 @@ staload UN = "prelude/SATS/unsafe.sats"
 implement{a}
 matrix_getref_at_int
   (M, i, n, j) =
-  $UN.cast{cPtr1(a)}(ptr_add<a> (addr@(M), i*n+j))
+  $UN.cast{P2tr1(a)}(ptr_add<a> (addr@(M), i*n+j))
 // end of [matrix_getref_at_int]
 
 implement{a}
 matrix_getref_at_size
   (M, i, n, j) =
-  $UN.cast{cPtr1(a)}(ptr_add<a> (addr@(M), i*n+j))
+  $UN.cast{P2tr1(a)}(ptr_add<a> (addr@(M), i*n+j))
 // end of [matrix_getref_at_size]
 
 #atscode_separator()
 
 implement{a}
 matrix_get_at_int
-  (M, i, n, j) = $UN.cptr_get (matrix_getref_at_int (M, i, n, j))
+  (M, i, n, j) = $UN.p2tr_get (matrix_getref_at_int (M, i, n, j))
 // end of [matrix_get_at_int]
 
 implement{a}
 matrix_set_at_int
-  (M, i, n, j, x) = $UN.cptr_set (matrix_getref_at_int (M, i, n, j), x)
+  (M, i, n, j, x) = $UN.p2tr_set (matrix_getref_at_int (M, i, n, j), x)
 // end of [matrix_set_at_int]
 
 implement{a}
 matrix_exch_at_int
-  (M, i, n, j, x) = $UN.cptr_exch (matrix_getref_at_int (M, i, n, j), x)
+  (M, i, n, j, x) = $UN.p2tr_exch (matrix_getref_at_int (M, i, n, j), x)
 // end of [matrix_exch_at_int]
 
 #atscode_separator()
 
 implement{a}
 matrix_get_at_size
-  (M, i, n, j) = $UN.cptr_get (matrix_getref_at_size (M, i, n, j))
+  (M, i, n, j) = $UN.p2tr_get (matrix_getref_at_size (M, i, n, j))
 // end of [matrix_get_at_size]
 
 implement{a}
 matrix_set_at_size
-  (M, i, n, j, x) = $UN.cptr_set (matrix_getref_at_size (M, i, n, j), x)
+  (M, i, n, j, x) = $UN.p2tr_set (matrix_getref_at_size (M, i, n, j), x)
 // end of [matrix_set_at_size]
 
 implement{a}
 matrix_exch_at_size
-  (M, i, n, j, x) = $UN.cptr_exch (matrix_getref_at_size (M, i, n, j), x)
+  (M, i, n, j, x) = $UN.p2tr_exch (matrix_getref_at_size (M, i, n, j), x)
 // end of [matrix_exch_at_size]
 
 #atscode_separator()

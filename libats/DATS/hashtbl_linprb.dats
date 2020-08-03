@@ -373,8 +373,8 @@ if ans then let
   val p_itm = addr@(p_kx->1)
   prval ((*void*)) = fpf (pf)
 in
-  $UN.cast{cPtr1(itm)}(p_itm)
-end else cptr_null{itm}((*void*))
+  $UN.cast{P2tr1(itm)}(p_itm)
+end else p2tr_null{itm}((*void*))
 //
 end // end of [hashtbl_search_ref]
 

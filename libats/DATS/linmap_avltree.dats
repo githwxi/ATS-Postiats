@@ -175,7 +175,7 @@ linmap_search_ref
 fun search
   {h:nat} .<h>. (
   t0: !avltree (key, itm, h)
-) :<!wrt> cPtr0(itm) = let
+) :<!wrt> P2tr0(itm) = let
 in
 //
 case+ t0 of
@@ -198,11 +198,11 @@ case+ t0 of
       end // end of [sgn > 0]
     | _ (*sgn = 0*) => let
         val p_x = addr@x
-        prval () = fold@ (t0) in $UN.ptr2cptr(p_x)
+        prval () = fold@ (t0) in $UN.ptr2p2tr(p_x)
       end // end of [sgn = 0]
   end // end of [let] // end of [B]
 //
-| E ((*void*)) => cptr_null{itm}()
+| E ((*void*)) => p2tr_null{itm}()
 //
 end // end of [search]
 //
@@ -798,7 +798,7 @@ prval ((*void*)) = fold@(t0)
 prval ((*void*)) = $UN.cast2void (t0)
 //
 in
-  $UN.ptr2cptr{itm}(p_x)
+  $UN.ptr2p2tr{itm}(p_x)
 end (* end of [mynode_getfree_itm] *)
 
 (* ****** ****** *)

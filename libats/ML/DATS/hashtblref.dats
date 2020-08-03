@@ -184,12 +184,12 @@ prval () = $UN.cast2void(tbl)
 implement
 {key,itm}
 hashtbl_search_ref
-  (tbl, k) = cptr where
+  (tbl, k) = p2t where
 {
 //
 val tbl = htdecode(tbl)
 //
-val cptr =
+val p2t =
   $HT.hashtbl_search_ref<key,itm>(tbl, k)
 //
 prval () = $UN.cast2void(tbl)

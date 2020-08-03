@@ -88,7 +88,7 @@ key,itm:t0p
 fun{
 key,itm:t0p
 } hashtbl_search_ref
-  (tbl: hashtbl(key, INV(itm)), k: key): cPtr0(itm)
+  (tbl: hashtbl(key, INV(itm)), k: key): P2tr0(itm)
 // end of [hashtbl_search_ref]
 
 (* ****** ****** *)

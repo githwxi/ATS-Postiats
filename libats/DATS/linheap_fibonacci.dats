@@ -162,7 +162,7 @@ in
 //
 if gnode2ptr(nx2) > 0 then let
   val p_x2 = gnode_getref_elt (nx2)
-  prval (pf, fpf | p_x2) = $UN.cptr_vtake {a} (p_x2)
+  prval (pf, fpf | p_x2) = $UN.p2tr_vtake {a} (p_x2)
   val sgn = compare_elt_elt (x1, !p_x2)
   prval () = fpf (pf)
 in
@@ -208,7 +208,7 @@ end // end of [linheap_insert]
 implement{a}
 linheap_getmin_ref (hp) = let
 //
-val FIBHEAP (nx, _) = hp in $UN.ptr2cptr{a}(gnode2ptr(nx))
+val FIBHEAP (nx, _) = hp in $UN.ptr2p2tr{a}(gnode2ptr(nx))
 //
 end // end of [linheap_getmin_ref]
 

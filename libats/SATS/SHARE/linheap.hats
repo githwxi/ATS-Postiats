@@ -72,7 +72,7 @@ linheap_getmin
 ) : #[b:bool] bool (b) // endfun
 
 fun{a:vt0p}
-linheap_getmin_ref (hp: !heap (INV(a))): cPtr0 (a)
+linheap_getmin_ref (hp: !heap (INV(a))): P2tr0 (a)
 
 fun{a:t0p}
 linheap_getmin_opt (hp: !heap (INV(a))): Option_vt (a)

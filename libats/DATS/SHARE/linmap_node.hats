@@ -64,7 +64,7 @@ val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
 //
 in
   p_elt
-end else cptr_null () // end of [if]
+end else p2tr_null () // end of [if]
 //
 end // end of [linmap_search_ref]
 

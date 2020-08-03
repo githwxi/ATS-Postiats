@@ -245,7 +245,7 @@ fun
 {a:vt0p}
 deqarray_getref_at
   {m,n:int}
-  (deq: !deqarray(INV(a), m, n), i: sizeLt(n)):<> cPtr1(a)
+  (deq: !deqarray(INV(a), m, n), i: sizeLt(n)):<> P2tr1(a)
 //
 (* ****** ****** *)
 //

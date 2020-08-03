@@ -317,7 +317,7 @@ val p0 =
 in
 //
 if isneqz(p0)
-  then $UN.cptr_get<elt>(p0) else GVnil()
+  then $UN.p2tr_get<elt>(p0) else GVnil()
 //
 end // end of [gvdynarr_get_at]
 
@@ -331,7 +331,7 @@ val p0 =
 in
 //
 if isneqz(p0)
-  then $UN.cptr_set<elt>(p0, x) else ((*void*))
+  then $UN.p2tr_set<elt>(p0, x) else ((*void*))
 //
 end // end of [gvdynarr_set_at]
 
@@ -406,10 +406,10 @@ implement
 gvhashtbl_get_atkey
   (tbl, k0) = let
 //
-val cp = hashtbl_search_ref(tbl, k0)
+val pt = hashtbl_search_ref(tbl, k0)
 //
 in
-  if isneqz(cp) then $UN.cptr_get(cp) else GVnil()
+  if isneqz(pt) then $UN.p2tr_get(pt) else GVnil()
 end // end of [gvhashtbl_get_atkey]
 
 implement

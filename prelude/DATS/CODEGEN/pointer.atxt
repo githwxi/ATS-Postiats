@@ -145,12 +145,12 @@ ptr_exch(pf | p, xr) =
 //
 implement
 {a}(*tmp*)
-cptr_succ{l}(cp) =
-$UN.cast(add_ptr_bsz(cptr2ptr(cp), sizeof<a>))
+p2tr_succ{l}(cp) =
+$UN.cast(add_ptr_bsz(p2tr2ptr(cp), sizeof<a>))
 implement
 {a}(*tmp*)
-cptr_pred{l}(cp) =
-$UN.cast(sub_ptr_bsz(cptr2ptr(cp), sizeof<a>))
+p2tr_pred{l}(cp) =
+$UN.cast(sub_ptr_bsz(p2tr2ptr(cp), sizeof<a>))
 //
 #atscode_separator()
 

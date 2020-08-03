@@ -432,74 +432,74 @@ ptr_exch{l:addr}
 #atscode_separator()
 //
 abstype
-cptr_vt0ype_addr_type
+p2tr_vt0ype_addr_type
   (a:vt@ype+, addr) = ptr // HX: for simulating C pointers
 //
-stadef cptr = cptr_vt0ype_addr_type
+stadef p2tr = p2tr_vt0ype_addr_type
 //
 stadef
-cPtr (a:vt0p) = [l:addr] cptr (a, l)
+P2tr (a:vt0p) = [l:addr] p2tr (a, l)
 stadef
-cPtr0 (a:vt0p) = [l:agez] cptr (a, l)
+P2tr0 (a:vt0p) = [l:agez] p2tr (a, l)
 stadef
-cPtr1 (a:vt0p) = [l:addr|l > null] cptr(a, l)
+P2tr1 (a:vt0p) = [l:addr|l > null] p2tr(a, l)
 //
 castfn
-cptr2ptr{a:vt0p}{l:addr} (cp: cptr(a, l)):<> ptr(l)
+p2tr2ptr{a:vt0p}{l:addr} (pt: p2tr(a, l)):<> ptr(l)
 //
 #atscode_separator()
 //
-fun cptr_null{a:vt0p} ():<> cptr(a, null) = "mac\#%"
+fun p2tr_null{a:vt0p} ():<> p2tr(a, null) = "mac\#%"
 //
-castfn cptr_rvar{a:vt0p} (x: &INV(a)):<> cPtr1(a) // read
-castfn cptr_wvar{a:vt0p} (x: &a? >> a):<> cPtr1(a) // write
+castfn p2tr_rvar{a:vt0p} (x: &INV(a)):<> P2tr1(a) // read
+castfn p2tr_wvar{a:vt0p} (x: &a? >> a):<> P2tr1(a) // write
 //
 #atscode_separator()
 //
 fun
 {a:vt0p}
-cptr_succ{l:addr}(cp: cptr(a, l)):<> cptr(a, l+sizeof(a))
+p2tr_succ{l:addr}(pt: p2tr(a, l)):<> p2tr(a, l+sizeof(a))
 fun
 {a:vt0p}
-cptr_pred{l:addr}(cp: cptr(a, l)):<> cptr(a, l-sizeof(a))
+p2tr_pred{l:addr}(pt: p2tr(a, l)):<> p2tr(a, l-sizeof(a))
 //
 #atscode_separator()
 //
 fun
-cptr_is_null
-  {a:vt0p}{l:addr}(cp: cptr(a, l)):<> bool(l==null) = "mac\#%"
+p2tr_is_null
+  {a:vt0p}{l:addr}(pt: p2tr(a, l)):<> bool(l==null) = "mac\#%"
 fun
-cptr_isnot_null
-  {a:vt0p}{l:addr}(cp: cptr(a, l)):<> bool(l > null) = "mac\#%"
+p2tr_isnot_null
+  {a:vt0p}{l:addr}(pt: p2tr(a, l)):<> bool(l > null) = "mac\#%"
 //
 #atscode_separator()
 //
 fun
-gt_cptr_intz
+gt_p2tr_intz
   {a:vt0p}{l:addr}
-  (cp: cptr(a, l), i: int(0)):<> bool(l > null) = "mac\#%"
+  (pt: p2tr(a, l), i: int(0)):<> bool(l > null) = "mac\#%"
 //
 fun
-eq_cptr_intz
+eq_p2tr_intz
   {a:vt0p}{l:addr}
-  (cp: cptr(a, l), i: int(0)):<> bool(l== null) = "mac\#%"
+  (pt: p2tr(a, l), i: int(0)):<> bool(l== null) = "mac\#%"
 fun
-neq_cptr_intz
+neq_p2tr_intz
   {a:vt0p}{l:addr}
-  (cp: cptr(a, l), i: int(0)):<> bool(l > null) = "mac\#%"
+  (pt: p2tr(a, l), i: int(0)):<> bool(l > null) = "mac\#%"
 //
-overload > with gt_cptr_intz of 0
-overload = with eq_cptr_intz of 0
-overload != with neq_cptr_intz of 0
-overload <> with neq_cptr_intz of 0
+overload > with gt_p2tr_intz of 0
+overload = with eq_p2tr_intz of 0
+overload != with neq_p2tr_intz of 0
+overload <> with neq_p2tr_intz of 0
 //
 #atscode_separator()
 
-typedef voidptr (l:addr) = cptr (void, l)
+typedef voidptr (l:addr) = p2tr (void, l)
 typedef voidptr0 = [l:addr] voidptr (l)
 typedef voidptr1 = [l:addr | l > null] voidptr (l)
 
-typedef charptr (l:addr) = cptr (char, l)
+typedef charptr (l:addr) = p2tr (char, l)
 typedef charptr0 = [l:addr] charptr (l)
 typedef charptr1 = [l:addr | l > null] charptr (l)
 
@@ -631,11 +631,11 @@ fun ptr_as_volatile (p: ptr): void
 //
 overload succ with ptr0_succ
 overload succ with ptr1_succ
-overload succ with cptr_succ
+overload succ with p2tr_succ
 //
 overload pred with ptr0_pred
 overload pred with ptr1_pred
-overload pred with cptr_pred
+overload pred with p2tr_pred
 //
 overload iseqz with ptr0_is_null of 0
 overload isneqz with ptr0_isnot_null of 0
@@ -643,8 +643,8 @@ overload isneqz with ptr0_isnot_null of 0
 overload iseqz with ptr1_is_null of 10
 overload isneqz with ptr1_isnot_null of 10
 //
-overload iseqz with cptr_is_null of 10
-overload isneqz with cptr_isnot_null of 10
+overload iseqz with p2tr_is_null of 10
+overload isneqz with p2tr_isnot_null of 10
 //
 #atscode_separator()
 

@@ -115,7 +115,7 @@ linralist_length{a:vt0p}
 
 fun{a:vt0p}
 linralist_getref_at{n:int}
-  (xs: !ralist (INV(a), n), i: natLt n):<> cPtr1 (a)
+  (xs: !ralist (INV(a), n), i: natLt n):<> P2tr1 (a)
 // end of [linralist_getref_at]
 
 (* ****** ****** *)

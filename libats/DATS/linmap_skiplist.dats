@@ -193,7 +193,7 @@ key:t0p;itm:vt0p
 extern
 fun{
 key:t0p;itm:vt0p
-} sknode_getref_item (nx: sknode1 (key, INV(itm))):<> cPtr1 (itm)
+} sknode_getref_item (nx: sknode1 (key, INV(itm))):<> P2tr1 (itm)
 
 (* ****** ****** *)
 //
@@ -350,7 +350,7 @@ val p2 = addr@(p->item)
 prval () = fpf (pf)
 //
 in
-  $UN.cast{cPtr1(itm)}(p2)
+  $UN.cast{P2tr1(itm)}(p2)
 end // end of [sknode_getref_item]
 
 implement
@@ -592,7 +592,7 @@ case+ map of
     val p_nx = sknode2ptr (nx)
   in
     if p_nx > 0
-      then sknode_getref_item (nx) else cptr_null ()
+      then sknode_getref_item (nx) else p2tr_null ()
     // end of [if]
   end // end of [SKIPLIST]
 //
@@ -710,12 +710,12 @@ linmap_insert
 //
 val p_itm =
   linmap_search_ref (map, k0)
-val isnot = cptr2ptr(p_itm) > 0
+val isnot = p2tr2ptr(p_itm) > 0
 //
 in
 //
 if isnot then let
-  val (pf, fpf | p_itm) = $UN.cptr_vtake (p_itm)
+  val (pf, fpf | p_itm) = $UN.p2tr_vtake (p_itm)
   val () = res := !p_itm
   prval () = opt_some{itm}(res)
   val () = (!p_itm := x0)
@@ -915,7 +915,7 @@ if p_nx > 0 then let
   val p_i = sknode_getref_item (nx)
   val nx1 = sknode_get_next<key,itm> (nx, 0)
 //
-  val (pf, fpf | p_i) = $UN.cptr_vtake{itm}(p_i)
+  val (pf, fpf | p_i) = $UN.p2tr_vtake{itm}(p_i)
   val () =
     linmap_foreach$fwork<key,itm><env> (k, !p_i, env)
   prval () = fpf (pf)
@@ -958,17 +958,17 @@ in
 //
 if p_nx > 0 then let
 //
-val cp = sknode_getref_item (nx)
+val pt = sknode_getref_item (nx)
 val nx1 = sknode_get_next<key,itm> (nx, 0)
 //
 prval (pf, fpf) =
-__assert (cp) where
+__assert (pt) where
 {
   extern praxi
   __assert{l:addr}
-    (cp: cptr (itm, l)): (itm @ l, itm? @ l -<lin,prf> void)
+    (pt: p2tr (itm, l)): (itm @ l, itm? @ l -<lin,prf> void)
 } // end of [prval]
-val p_i = cptr2ptr (cp)
+val p_i = p2tr2ptr (pt)
 val () = linmap_freelin$clear<itm> (!p_i)
 prval () = fpf (pf)
 //

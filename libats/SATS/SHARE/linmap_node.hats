@@ -88,7 +88,7 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } mynode_getref_itm
-  (nx: !mynode1 (key, INV(itm))):<> cPtr1 (itm)
+  (nx: !mynode1 (key, INV(itm))):<> P2tr1 (itm)
 
 (* ****** ****** *)
 

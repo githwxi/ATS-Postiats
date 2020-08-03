@@ -45,7 +45,7 @@ array_getref_at
   (A, i) = let
 //
 val p =
-  ptr0_add_guint<a>(addr@(A), i) in $UN.cast{cPtr1(a)}(p)
+  ptr0_add_guint<a>(addr@(A), i) in $UN.cast{P2tr1(a)}(p)
 //
 end // end of [array_getref_at]
 

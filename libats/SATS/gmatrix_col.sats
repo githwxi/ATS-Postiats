@@ -211,7 +211,7 @@ gmatcol_getref_at
   {m,n:int}{ld:int}
 (
   M: &GMC(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
-) : cPtr1(a) // end of [gmatcol_getref_at]
+) : P2tr1(a) // end of [gmatcol_getref_at]
 
 (* ****** ****** *)
 
@@ -220,14 +220,14 @@ gmatcol_getref_row_at
   {m,n:int}{ld:int}
 (
   M: &GMC(a, m, n, ld), int(ld), i: natLt(m)
-) : cPtr1(GVT(a, n, ld)) // endfun
+) : P2tr1(GVT(a, n, ld)) // endfun
 
 fun{a:t0p}
 gmatcol_getref_col_at
   {m,n:int}{ld:int}
 (
   M: &GMC(a, m, n, ld), int(ld), j: natLt(n)
-) : cPtr1(GVT(a, m, 1(*d*))) // endfun
+) : P2tr1(GVT(a, m, 1(*d*))) // endfun
 
 (* ****** ****** *)
 

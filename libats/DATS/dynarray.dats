@@ -157,7 +157,7 @@ val pi =
 ) : ptr // end of [val]
 //
 in
-  $UN.cast{cPtr0(a)}(pi)
+  $UN.cast{P2tr0(a)}(pi)
 end // end of [dynarray_getref_at]
 
 (* ****** ****** *)
@@ -680,8 +680,8 @@ val pi = dynarray_getref_at<a>(DA, i)
 //
 in
 //
-if cptr2ptr(pi) > 0
-  then $UN.cptr_get<a>(pi) else $raise ArraySubscriptExn()
+if p2tr2ptr(pi) > 0
+  then $UN.p2tr_get<a>(pi) else $raise ArraySubscriptExn()
 //
 end // end of [dynarray_get_at_exn]
 
@@ -694,8 +694,8 @@ val pi = dynarray_getref_at<a>(DA, i)
 //
 in
 //
-if cptr2ptr(pi) > 0
-  then $UN.cptr_set<a>(pi, x) else $raise ArraySubscriptExn()
+if p2tr2ptr(pi) > 0
+  then $UN.p2tr_set<a>(pi, x) else $raise ArraySubscriptExn()
 //
 end // end of [dynarray_set_at_exn]
 

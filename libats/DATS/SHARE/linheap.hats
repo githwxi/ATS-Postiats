@@ -50,7 +50,7 @@ if isneqz(cp) then let
   val
   (
     pf, fpf | p
-  ) = $UN.cptr_vtake{a}(cp)
+  ) = $UN.p2tr_vtake{a}(cp)
   val () = res := !p
   prval () = fpf (pf)
   prval () = opt_some{a}(res) in true

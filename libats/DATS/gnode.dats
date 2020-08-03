@@ -74,14 +74,14 @@ implement
 {tk}{elt}
 gnode_get_elt
   (nx) = let
-  val p = gnode_getref_elt (nx) in $UN.cptr_get<elt> (p)
+  val p = gnode_getref_elt (nx) in $UN.p2tr_get<elt> (p)
 end // end of [gnode_get_elt]
 
 implement
 {tk}{elt}
 gnode_set_elt
   (nx, x0) = let
-  val p = gnode_getref_elt (nx) in $UN.cptr_set<elt> (p, x0)
+  val p = gnode_getref_elt (nx) in $UN.p2tr_set<elt> (p, x0)
 end // end of [gnode_set_elt]
 
 (* ****** ****** *)
@@ -91,7 +91,7 @@ implement
 gnode_get_next
   (nx) = nx2 where {
   val p = gnode_getref_next (nx)
-  val nx2 = $UN.cptr_get<gnode0(tk,elt)> (p)
+  val nx2 = $UN.p2tr_get<gnode0(tk,elt)> (p)
 } // end of [gnode_get_next]
 
 implement
@@ -99,7 +99,7 @@ implement
 gnode_set_next
   (nx, nx2) = () where {
   val p = gnode_getref_next (nx)
-  val () = $UN.cptr_set<gnode(tk,elt)> (p, nx2)
+  val () = $UN.p2tr_set<gnode(tk,elt)> (p, nx2)
 } // end of [gnode_set_next]
 
 implement
@@ -132,7 +132,7 @@ implement
 gnode_get_prev
   (nx) = nx2 where {
   val p = gnode_getref_prev (nx)
-  val nx2 = $UN.cptr_get<gnode0(tk,elt)> (p)
+  val nx2 = $UN.p2tr_get<gnode0(tk,elt)> (p)
 } // end of [gnode_get_prev]
 
 implement
@@ -140,7 +140,7 @@ implement
 gnode_set_prev
   (nx, nx2) = () where {
   val p = gnode_getref_prev (nx)
-  val () = $UN.cptr_set<gnode(tk,elt)> (p, nx2)
+  val () = $UN.p2tr_set<gnode(tk,elt)> (p, nx2)
 } // end of [gnode_set_prev]
 
 implement

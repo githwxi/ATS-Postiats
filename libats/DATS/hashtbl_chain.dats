@@ -66,7 +66,7 @@ extern
 fun{
 key:t0p;itm:vt0p
 } chain_search_ref
-  (kxs: !chain(key, itm), k0: key): cPtr0(itm)
+  (kxs: !chain(key, itm), k0: key): P2tr0(itm)
 // end of [chain_search_ref]
 
 (* ****** ****** *)
@@ -361,12 +361,12 @@ val (
   pf, fpf | pi
 ) = array_ptr_takeout (pf0 | p0, i)
 val (pf | pi) = viewptr_match (pf | pi)
-val cptr = chain_search_ref<key,itm> (!pi, k)
+val pt0 = chain_search_ref<key,itm> (!pi, k)
 prval () = pf0 := fpf (pf)
 prval () = arrayptr_addback (pf0 | A)
 //
 in
-  cptr
+  pt0
 end // end of [hashtbl_search_ref]
 
 (* ****** ****** *)

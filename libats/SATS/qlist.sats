@@ -298,7 +298,7 @@ fun{a:vt0p}
 mynode_make_elt(x: a):<!wrt> mynode1(a)
 //
 fun{a:vt0p}
-mynode_getref_elt(nx: !mynode1(INV(a))):<> cPtr1(a)
+mynode_getref_elt(nx: !mynode1(INV(a))):<> P2tr1(a)
 //
 fun{a:vt0p}
 mynode_free_elt

@@ -94,7 +94,7 @@ key:t0p;itm:t0p
 fun{
 key:t0p;itm:vt0p
 } linmap_search_ref
-  (map: !map (key, INV(itm)), k0: key): cPtr0 (itm)
+  (map: !map (key, INV(itm)), k0: key): P2tr0 (itm)
 // end of [linmap_search_ref]
 
 fun{

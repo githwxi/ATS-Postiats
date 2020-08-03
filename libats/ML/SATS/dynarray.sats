@@ -102,7 +102,7 @@ overload [] with dynarray_set_at_exn
 //
 fun{a:vt0p}
 dynarray_getref_at
-  (DA: dynarray(a), i: size_t): cPtr0(a)
+  (DA: dynarray(a), i: size_t): P2tr0(a)
 //
 (* ****** ****** *)
 //

@@ -219,7 +219,7 @@ list_vt_length{n:int} (xs: !list_vt(INV(x), n)):<> int n
 fun{x:vt0p}
 list_vt_getref_at
   {n:int}{i:nat | i <= n}
-  (xs: &list_vt(INV(x), n), i: int i):<> cPtr1 (list_vt(x, n-i))
+  (xs: &list_vt(INV(x), n), i: int i):<> P2tr1 (list_vt(x, n-i))
 // end of [list_vt_getref_at]
 
 #atscode_separator()

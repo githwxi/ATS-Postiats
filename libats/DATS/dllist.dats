@@ -262,14 +262,14 @@ end // end of [dllist_getref_elt]
 implement{a}
 dllist_getref_next (xs) = let
   val nxs =
-    $UN.castvwtp1{g2node1(a)}(xs) in cptr2ptr (gnode_getref_next (nxs))
+    $UN.castvwtp1{g2node1(a)}(xs) in p2tr2ptr (gnode_getref_next (nxs))
   // end of [val]  
 end // end of [dllist_getref_next]
 
 implement{a}
 dllist_getref_prev (xs) = let
   val nxs =
-    $UN.castvwtp1{g2node1(a)}(xs) in cptr2ptr (gnode_getref_prev (nxs))
+    $UN.castvwtp1{g2node1(a)}(xs) in p2tr2ptr (gnode_getref_prev (nxs))
   // end of [val]  
 end // end of [dllist_getref_prev]
 
@@ -278,14 +278,14 @@ end // end of [dllist_getref_prev]
 implement{a}
 dllist_get_elt (xs) = let
   val p_elt =
-    dllist_getref_elt (xs) in $UN.cptr_get<a> (p_elt)
+    dllist_getref_elt (xs) in $UN.p2tr_get<a> (p_elt)
   // end of [val]
 end // end of [dllist_get_elt]
 
 implement{a}
 dllist_set_elt (xs, x0) = let
   val p_elt = 
-    dllist_getref_elt (xs) in $UN.cptr_set<a> (p_elt, x0)
+    dllist_getref_elt (xs) in $UN.p2tr_set<a> (p_elt, x0)
   // end of [val]
 end // end of [dllist_set_elt]
 
@@ -625,7 +625,7 @@ if iscons then let
   val nx0 = nxs
   val nxs = gnode_get_next (nxs)
   val p_elt = gnode_getref_elt (nx0)
-  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
+  val (pf, fpf | p_elt) = $UN.p2tr_vtake {a} (p_elt)
   val test = dllist_foreach$cont (!p_elt, env)
 in
   if test then let
@@ -671,7 +671,7 @@ in
 if iscons then let
   val nx0 = nxs2
   val p_elt = gnode_getref_elt (nx0)
-  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
+  val (pf, fpf | p_elt) = $UN.p2tr_vtake {a} (p_elt)
   val test = rdllist_foreach$cont (!p_elt, env)
 in
   if test then let
@@ -715,7 +715,7 @@ if iscons then let
     if i > 0 then fprint_dllist$sep (out)
   // end of [val]
   val p_elt = gnode_getref_elt (nx0)
-  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
+  val (pf, fpf | p_elt) = $UN.p2tr_vtake {a} (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
@@ -751,7 +751,7 @@ if iscons then let
     if i > 0 then fprint_rdllist$sep (out)
   // end of [val]
   val p_elt = gnode_getref_elt (nx0)
-  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
+  val (pf, fpf | p_elt) = $UN.p2tr_vtake {a} (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
@@ -835,7 +835,7 @@ prval ((*void*)) = fold@ (nx)
 prval ((*void*)) = dlnode_vfree (nx)
 //
 in
-  $UN.cast{cPtr1(a)}(p_elt)
+  $UN.cast{P2tr1(a)}(p_elt)
 end // end of [gnode_getref_elt]
 
 (* ****** ****** *)
@@ -852,7 +852,7 @@ prval ((*void*)) = fold@ (nx)
 prval ((*void*)) = dlnode_vfree (nx)
 //
 in
-  $UN.cast{cPtr1(g2node0(a))}(p_next)
+  $UN.cast{P2tr1(g2node0(a))}(p_next)
 end // end of [gnode_getref_next]
 
 (* ****** ****** *)
@@ -869,7 +869,7 @@ prval ((*void*)) = fold@ (nx)
 prval ((*void*)) = dlnode_vfree (nx)
 //
 in
-  $UN.cast{cPtr1(g2node0(a))}(p_prev)
+  $UN.cast{P2tr1(g2node0(a))}(p_prev)
 end // end of [gnode_getref_prev]
 
 (* ****** ****** *)

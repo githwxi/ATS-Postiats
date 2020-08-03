@@ -162,7 +162,7 @@ array_v_unsing
 fun
 {a:vt0p}
 array_getref_at
-  {n:int} (A: &RD(@[INV(a)][n]), i: sizeLt n):<> cPtr1(a)
+  {n:int} (A: &RD(@[INV(a)][n]), i: sizeLt n):<> P2tr1(a)
 //
 #atscode_separator()
 //

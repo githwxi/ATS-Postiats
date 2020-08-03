@@ -147,11 +147,11 @@ gnode_compare
   val p_x1 = gnode_getref_elt (nx1)
   val (
     pf1, fpf1 | p_x1
-  ) = $UN.cptr_vtake (p_x1)
+  ) = $UN.p2tr_vtake (p_x1)
   val p_x2 = gnode_getref_elt (nx2)
   val (
     pf2, fpf2 | p_x2
-  ) = $UN.cptr_vtake (p_x2)
+  ) = $UN.p2tr_vtake (p_x2)
   val sgn = compare_elt_elt<a> (!p_x1, !p_x2)
   prval () = fpf1 (pf1) and () = fpf2 (pf2)
 } // end of [gnode_compare]
@@ -288,16 +288,16 @@ if gnode_isnot_null (nxs1) then (
       val () =
         $UN.ptr1_set<g2node1(a)> (res, nx1)
       val res = gnode_getref_next (nx1)
-      val nxs1 = $UN.cptr_get<g2node0(a)> (res)
+      val nxs1 = $UN.p2tr_get<g2node0(a)> (res)
     in
-      loop (nxs1, nxs2, cptr2ptr (res))
+      loop (nxs1, nxs2, p2tr2ptr (res))
     end else if r1 > r2 then let
       val () = 
         $UN.ptr1_set<g2node1(a)> (res, nx2)
       val res = gnode_getref_next (nx2)
-      val nxs2 = $UN.cptr_get<g2node0(a)> (res)
+      val nxs2 = $UN.p2tr_get<g2node0(a)> (res)
     in
-      loop (nxs1, nxs2, cptr2ptr (res))
+      loop (nxs1, nxs2, p2tr2ptr (res))
     end else let // r1 = r2
       val nxs1 = gnode_get_next (nx1)
       val nxs2 = gnode_get_next (nx2)
@@ -424,9 +424,9 @@ if iscons then let
   val nxs = gnode_get_next (nx)
   val nx_min = loop (nx, nxs)
 in
-  $UN.cast{cPtr1(a)}(nx_min)
+  $UN.cast{P2tr1(a)}(nx_min)
 end else
-  $UN.cast{cPtr0(a)}(the_null_ptr)
+  $UN.cast{P2tr0(a)}(the_null_ptr)
 // end of [if]
 //
 end // end of [linheap_getmin_ref]
@@ -449,7 +449,7 @@ if iscons then let
   val nx = nxs
   val nx_ref = nxs_ref
   val nxs_ref = gnode_getref_next (nx)
-  val nxs_ref = cptr2ptr (nxs_ref)
+  val nxs_ref = p2tr2ptr (nxs_ref)
   val sgn = gnode_compare01<a> (nx0, nx)
 in
   if sgn <= 0 then
@@ -498,7 +498,7 @@ if iscons then let
   val nx0 = nxs0
   val nx0_ref = addr@(nxs0)
   val nxs_ref = gnode_getref_next (nx0)
-  val nxs_ref = cptr2ptr (nxs_ref)
+  val nxs_ref = p2tr2ptr (nxs_ref)
 //
   val nx_min = loop (nxs_ref, nx0_ref, nx0)
 //
@@ -558,8 +558,8 @@ if isnot then let
   val nxs = g2node_get_children (nx)
   val ((*void*)) = auxfree (nxs)
   val nx2 = gnode_get_next (nx)
-  val cp = gnode_getref_elt (nx)
-  val (pf, fpf | p) = $UN.cptr_vtake (cp)
+  val pt = gnode_getref_elt (nx)
+  val (pf, fpf | p) = $UN.p2tr_vtake (pt)
   val ((*void*)) = linheap_freelin$clear<a> (!p)
   val ((*void*)) = $extfcall (void, "ATS_MFREE", $UN.castvwtp0{ptr}((pf, fpf | p)))
 in
@@ -741,7 +741,7 @@ val p_elt = addr@(p->elt)
 prval () = fpf (pf)
 //
 in
-  $UN.cast{cPtr1(a)}(p_elt)
+  $UN.cast{P2tr1(a)}(p_elt)
 end // end of [gnode_getref_elt]
 
 (* ****** ****** *)
@@ -754,7 +754,7 @@ val p_next = addr@(p->next)
 prval () = fpf (pf)
 //
 in
-  $UN.cast{cPtr1(g2node0(a))}(p_next)
+  $UN.cast{P2tr1(g2node0(a))}(p_next)
 end // end of [g2node_getref_next]
 
 (* ****** ****** *)

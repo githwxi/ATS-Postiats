@@ -385,15 +385,15 @@ char
 fun
 initstate_unsafe
 (
-  seed: uint, state: cPtr1(char), n: sizeGte(8)
-) : cPtr0(char) = "mac#%"
+  seed: uint, state: P2tr1(char), n: sizeGte(8)
+) : P2tr0(char) = "mac#%"
 // end of [initstate_unsafe]
 //
 /*
 char *setstate(char *state);
 */
 fun setstate_unsafe
-  (state: cPtr1(char)):<!ref> cPtr0(char) = "mac#%"
+  (state: P2tr1(char)):<!ref> P2tr0(char) = "mac#%"
 // end of [setstate_unsafe]
 //
 (* ****** ****** *)
@@ -488,7 +488,7 @@ int mblen(const char *s, size_t);
 */
 fun
 mblen_unsafe
-  (s: cPtr0(char), n: size_t):<!refwrt> int = "mac#%"
+  (s: P2tr0(char), n: size_t):<!refwrt> int = "mac#%"
 // end of [mblen_unsafe]
 
 /*
@@ -496,7 +496,7 @@ int wctomb(char *s, wchar_t wc);
 */
 fun
 wctomb_unsafe
-  (s: cPtr0(char), wc: wchar_t):<!refwrt> int = "mac#%"
+  (s: P2tr0(char), wc: wchar_t):<!refwrt> int = "mac#%"
 // end of [wctomb_unsafe]
 
 /*
@@ -506,14 +506,14 @@ wcstombs(char *dest, const wchar_t *src, size_t);
 fun
 wcstombs_unsafe
 (
-  dest: cPtr0(char), src: cPtr1(wchar_t), n: size_t
+  dest: P2tr0(char), src: P2tr1(wchar_t), n: size_t
 ) :<!refwrt> ssize_t = "mac#%" // endfun
 
 (* ****** ****** *)
 /*
 void setkey(const char *key);
 */
-fun setkey_unsafe (key: cPtr1(char)):<!ref> void = "mac#%"
+fun setkey_unsafe (key: P2tr1(char)):<!ref> void = "mac#%"
 
 (* ****** ****** *)
 /*

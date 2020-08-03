@@ -120,7 +120,7 @@ matrix_getref_at_int
 (
   M: &RD(matrix(INV(a), m, n))
 , i: natLt(m), n: int(n), j: natLt(n)
-) :<> cPtr1(a) // end-of-function
+) :<> P2tr1(a) // end-of-function
 //
 fun{a:vt0p}
 matrix_getref_at_size
@@ -128,7 +128,7 @@ matrix_getref_at_size
 (
   M: &RD(matrix(INV(a), m, n))
 , i: sizeLt(m), n: size_t(n), j: sizeLt(n)
-) :<> cPtr1(a) // end-of-function
+) :<> P2tr1(a) // end-of-function
 //
 symintr matrix_getref_at
 //

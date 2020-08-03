@@ -315,9 +315,9 @@ end // end of [bheap_bheap_merge]
 fun{a:vt0p}
 bheap_search_ref
   {n:nat}{sz:pos} .<>.
-(
-  hp0: !bheap (a, n, sz)
-) :<> cPtr1(a) = let
+( hp0
+: !bheap (a, n, sz)
+) :<> P2tr1(a) = let
 //
 fun search
   {n:nat}{sz:nat} .<sz>.
@@ -357,7 +357,7 @@ val res = search (hp1, addr@(x0))
 prval () = fold@ (hp0)
 //
 in
-  $UN.ptr2cptr{a}(res)
+  $UN.ptr2p2tr{a}(res)
 end // end of [bheap_search_ref]
 
 (* ****** ****** *)
@@ -531,7 +531,7 @@ case+ hp0 of
   in
     bheap_search_ref<a> (hp0)
   end // end of [bheap_cons]
-| bheap_nil ((*void*)) => cptr_null{a}((*void*))
+| bheap_nil ((*void*)) => p2tr_null{a}((*void*))
 //
 end // end of [linheap_getmin_ref]
 

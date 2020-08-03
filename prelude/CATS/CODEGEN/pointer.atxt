@@ -188,16 +188,16 @@ atspre_neq_ptr_intz
 //
 #atscode_separator_for_C()
 //
-\#define atspre_cptr_null() atsptr_null
+\#define atspre_p2tr_null() atsptr_null
 //
-\#define atspre_cptr_is_null atspre_ptr_is_null
-\#define atspre_cptr_isnot_null atspre_ptr_isnot_null
+\#define atspre_p2tr_is_null atspre_ptr_is_null
+\#define atspre_p2tr_isnot_null atspre_ptr_isnot_null
 //
 #atscode_separator_for_C()
 
-\#define atspre_gt_cptr_intz atspre_gt_ptr_intz
-\#define atspre_eq_cptr_intz atspre_eq_ptr_intz
-\#define atspre_neq_cptr_intz atspre_neq_ptr_intz
+\#define atspre_gt_p2tr_intz atspre_gt_ptr_intz
+\#define atspre_eq_p2tr_intz atspre_eq_ptr_intz
+\#define atspre_neq_p2tr_intz atspre_neq_ptr_intz
 
 #atscode_separator_for_C()
 //

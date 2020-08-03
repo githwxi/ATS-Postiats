@@ -176,7 +176,7 @@ key:t0p;itm:vt0p
   {n:nat} .<n>.
 (
   t: !bstree (key, INV(itm), n), k0: key
-) :<> cPtr0 (itm) = let
+) :<> P2tr0 (itm) = let
 in
 //
 case+ t of
@@ -193,10 +193,10 @@ case+ t of
         val res = bstree_search_ref (tr, k0) in fold@ (t); res
       end // end of [_]
     | _ (*sgn = 0*) => let
-        val res = addr@ (x) in fold@ (t); $UN.cast{cPtr1(itm)}(res)
+        val res = addr@ (x) in fold@ (t); $UN.cast{P2tr1(itm)}(res)
       end // end of [_]
   end // end of [BSTcons]
-| BSTnil () => cptr_null {itm} ()
+| BSTnil () => p2tr_null {itm} ()
 //
 end // end of [bstree_search_ref]
 

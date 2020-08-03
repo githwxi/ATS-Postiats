@@ -231,7 +231,7 @@ gmatrow_getref_at
   {m,n:int}{ld:int}
 (
   M: &GMR(a, m, n, ld), int(ld), i: natLt(m), j: natLt(n)
-) : cPtr1(a) // end of [gmatrow_getref_at]
+) : P2tr1(a) // end of [gmatrow_getref_at]
 
 (* ****** ****** *)
 
@@ -240,14 +240,14 @@ gmatrow_getref_row_at
   {m,n:int}{ld:int}
 (
   M: &GMR(a, m, n, ld), int(ld), i: natLt(m)
-) : cPtr1(GVT(a, n, 1(*d*))) // endfun
+) : P2tr1(GVT(a, n, 1(*d*))) // endfun
 
 fun{a:t0p}
 gmatrow_getref_col_at
   {m,n:int}{ld:int}
 (
   M: &GMR(a, m, n, ld), int(ld), j: natLt(n)
-) : cPtr1(GVT(a, m, ld)) // endfun
+) : P2tr1(GVT(a, m, ld)) // endfun
 
 (* ****** ****** *)
 

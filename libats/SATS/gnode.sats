@@ -99,7 +99,7 @@ tk:tk}{a:t0p
 
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_elt (nx: gnode1 (tk, INV(a))):<> cPtr1 (a)
+} gnode_getref_elt (nx: gnode1 (tk, INV(a))):<> P2tr1 (a)
 
 (* ****** ****** *)
 
@@ -121,7 +121,7 @@ tk:tk}{a:vt0p
 
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_next (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0(tk, a))
+} gnode_getref_next (nx: gnode1 (tk, INV(a))):<> P2tr1 (gnode0(tk, a))
 
 (* ****** ****** *)
 
@@ -143,7 +143,7 @@ tk:tk}{a:vt0p
 
 fun{
 tk:tk}{a:vt0p
-} gnode_getref_prev (nx: gnode1 (tk, INV(a))):<> cPtr1 (gnode0 (tk, a))
+} gnode_getref_prev (nx: gnode1 (tk, INV(a))):<> P2tr1 (gnode0 (tk, a))
 
 (* ****** ****** *)
 

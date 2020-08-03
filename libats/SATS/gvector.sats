@@ -166,7 +166,7 @@ gvector_set_at
 fun{a:t0p}
 gvector_getref_at
   {n:int}{d:int}
-  (V: &GVT(a, n, d), d: int d, i: natLt(n)): cPtr1(a)
+  (V: &GVT(a, n, d), d: int d, i: natLt(n)): P2tr1(a)
 // end of [gvector_getref_at]
 
 (* ****** ****** *)

@@ -61,12 +61,12 @@ val p =
 in
 //
 if
-(cptr2ptr(p) > 0)
+(p2tr2ptr(p) > 0)
 then let
 //
   val
   (pf, fpf | p) =
-  $UN.cptr_vtake(p)
+  $UN.p2tr_vtake(p)
 //
   val () = res := !p
   prval () = fpf(pf)

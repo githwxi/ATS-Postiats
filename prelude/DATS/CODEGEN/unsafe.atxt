@@ -164,15 +164,15 @@ ptr0_set_at_size(p, i, x) =
 
 implement
 {a}(*tmp*)
-cptr_get(p) = ptr1_get<a>(cptr2ptr(p))
+p2tr_get(p) = ptr1_get<a>(p2tr2ptr(p))
 
 implement
 {a}(*tmp*)
-cptr_set(p, x) = ptr1_set<a>(cptr2ptr(p), x)
+p2tr_set(p, x) = ptr1_set<a>(p2tr2ptr(p), x)
 
 implement
 {a}(*tmp*)
-cptr_exch(p, x) = ptr1_exch<a>(cptr2ptr(p), x)
+p2tr_exch(p, x) = ptr1_exch<a>(p2tr2ptr(p), x)
 
 #atscode_separator()
 

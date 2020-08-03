@@ -49,7 +49,7 @@ gmatcol_get_at
   (M, ld, i, j) = let
 //
 val pij =
-  gmatcol_getref_at<a> (M, ld, i, j) in $UN.cptr_get<a> (pij)
+  gmatcol_getref_at<a> (M, ld, i, j) in $UN.p2tr_get<a> (pij)
 //
 end // end of [gmatcol_get_at]
 
@@ -58,7 +58,7 @@ gmatcol_set_at
   (M, ld, i, j, x) = let
 //
 val pij =
-  gmatcol_getref_at<a> (M, ld, i, j) in $UN.cptr_set<a> (pij, x)
+  gmatcol_getref_at<a> (M, ld, i, j) in $UN.p2tr_set<a> (pij, x)
 //
 end // end of [gmatcol_set_at]
 
@@ -71,7 +71,7 @@ gmatcol_getref_at
 val p = $UN.cast2Ptr1(ptr_add<a> (addr@M, i+j*ld))
 //
 in
-  $UN.ptr2cptr{a}(p)
+  $UN.ptr2p2tr{a}(p)
 end // end of [gmatcol_getref_at]
 
 (* ****** ****** *)
@@ -83,7 +83,7 @@ gmatcol_getref_row_at
 val prow = $UN.cast2Ptr1(ptr_add<a> (addr@M, i))
 //
 in
-  $UN.ptr2cptr{GVT(a,n,ld)}(prow)
+  $UN.ptr2p2tr{GVT(a,n,ld)}(prow)
 end // end of [gmatcol_getref_row_at]
 
 implement{a}
@@ -93,7 +93,7 @@ gmatcol_getref_col_at
 val pcol = $UN.cast2Ptr1(ptr_add<a> (addr@M, j*ld))
 //
 in
-  $UN.ptr2cptr{GVT(a,m,1(*d*))}(pcol)
+  $UN.ptr2p2tr{GVT(a,m,1(*d*))}(pcol)
 end // end of [gmatcol_getref_col_at]
 
 (* ****** ****** *)
@@ -114,9 +114,9 @@ val cp2 =
   gmatcol_getref_row_at (M, ld, i2)
 //
 val
-(pf1, fpf1 | p1) = $UN.cptr_vtake (cp1)
+(pf1, fpf1 | p1) = $UN.p2tr_vtake (cp1)
 val
-(pf2, fpf2 | p2) = $UN.cptr_vtake (cp2)
+(pf2, fpf2 | p2) = $UN.p2tr_vtake (cp2)
 //
 val () = gvector_exchange (!p1, !p2, n, ld, ld)
 //
@@ -146,9 +146,9 @@ val cp2 =
   gmatcol_getref_col_at (M, ld, j2)
 //
 val
-(pf1, fpf1 | p1) = $UN.cptr_vtake (cp1)
+(pf1, fpf1 | p1) = $UN.p2tr_vtake (cp1)
 val
-(pf2, fpf2 | p2) = $UN.cptr_vtake (cp2)
+(pf2, fpf2 | p2) = $UN.p2tr_vtake (cp2)
 //
 val () = gvector_exchange (!p1, !p2, m, 1, 1)
 //

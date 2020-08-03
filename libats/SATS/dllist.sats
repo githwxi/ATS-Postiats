@@ -174,7 +174,7 @@ rdllist_is_atend
 (* ****** ****** *)
 
 fun{a:vt0p}
-dllist_getref_elt (xs: !Dllist1 (INV(a))):<> cPtr1 (a)
+dllist_getref_elt (xs: !Dllist1 (INV(a))):<> P2tr1 (a)
 
 (* ****** ****** *)
 

@@ -327,7 +327,7 @@ end // end of [loop]
 //
 in
 //
-$UN.ptr2cptr{list_vt(a,n-i)}(loop(xs, i))
+$UN.ptr2p2tr{list_vt(a,n-i)}(loop(xs, i))
 //
 end // end of [list_vt_getref_at]
 
@@ -351,7 +351,7 @@ val pi =
 list_vt_getref_at<a>(xs, i)
 //
 val+list_cons(x, _) =
-  $UN.ptr1_get<List1(a)>(cptr2ptr(pi))
+  $UN.ptr1_get<List1(a)>(p2tr2ptr(pi))
 //
 prval() =
 __unref(xs) where
@@ -379,7 +379,7 @@ __ref(xs) where
 val pi =
 list_vt_getref_at<a>(xs, i)
 val
-(pf, fpf | pi) = $UN.cptr_vtake(pi)
+(pf, fpf | pi) = $UN.p2tr_vtake(pi)
 //
 val+@list_vt_cons(x1, xs1) = !pi
 //
@@ -416,7 +416,7 @@ __ref(xs) where
 val pi =
 list_vt_getref_at<a>(xs, i)
 val
-(pf, fpf | pi) = $UN.cptr_vtake(pi)
+(pf, fpf | pi) = $UN.p2tr_vtake(pi)
 val+@list_vt_cons(x1, xs1) = !pi
 //
 val t = x1
@@ -444,10 +444,10 @@ list_vt_insert_at
 //
 val pi =
 list_vt_getref_at<a>(xs, i)
-val xs_i = $UN.cptr_get(pi)
+val xs_i = $UN.p2tr_get(pi)
 val xs1_i = list_vt_cons(x, xs_i)
 val () =
-  $UN.ptr1_set<List1_vt(a)>(cptr2ptr(pi), xs1_i)
+  $UN.ptr1_set<List1_vt(a)>(p2tr2ptr(pi), xs1_i)
 //
 prval() =
 __assert(xs) where
@@ -470,10 +470,10 @@ list_vt_takeout_at
 //
 val pi =
 list_vt_getref_at<a>(xs, i)
-val xs_i = $UN.cptr_get(pi)
+val xs_i = $UN.p2tr_get(pi)
 val+~list_vt_cons(x1, xs1_i) = xs_i
 val () =
-  $UN.ptr1_set<List0_vt(a)> (cptr2ptr(pi), xs1_i)
+  $UN.ptr1_set<List0_vt(a)> (p2tr2ptr(pi), xs1_i)
 //
 prval() =
 __assert(xs) where

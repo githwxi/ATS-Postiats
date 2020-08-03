@@ -248,7 +248,7 @@ implement
 sllist_get_elt
   (xs) = let
   val p_elt =
-    sllist_getref_elt (xs) in $UN.cptr_get<a> (p_elt)
+    sllist_getref_elt (xs) in $UN.p2tr_get<a> (p_elt)
   // end of [val]
 end // end of [sllist_get_elt]
 
@@ -257,7 +257,7 @@ implement
 sllist_set_elt
   (xs, x0) = let
   val p_elt = 
-    sllist_getref_elt (xs) in $UN.cptr_set<a> (p_elt, x0)
+    sllist_getref_elt (xs) in $UN.p2tr_set<a> (p_elt, x0)
   // end of [val]
 end // end of [sllist_set_elt]
 
@@ -275,7 +275,7 @@ implement
 {a}(*tmp*)
 sllist_getref_next (xs) = let
   val nxs =
-    $UN.castvwtp1{g2node1(a)}(xs) in cptr2ptr (gnode_getref_next (nxs))
+    $UN.castvwtp1{g2node1(a)}(xs) in p2tr2ptr (gnode_getref_next (nxs))
   // end of [val]  
 end // end of [sllist_getref_next]
 
@@ -286,7 +286,7 @@ implement
 sllist_get_elt_at
   (xs, i) = let
   val p_elt =
-    sllist_getref_elt_at (xs, i) in $UN.cptr_get<a> (p_elt)
+    sllist_getref_elt_at (xs, i) in $UN.p2tr_get<a> (p_elt)
   // end of [val]
 end // end of [sllist_get_elt_at]
 
@@ -295,7 +295,7 @@ implement
 sllist_set_elt_at
   (xs, i, x0) = let
   val p_elt = 
-    sllist_getref_elt_at (xs, i) in $UN.cptr_set<a> (p_elt, x0)
+    sllist_getref_elt_at (xs, i) in $UN.p2tr_set<a> (p_elt, x0)
   // end of [val]
 end // end of [sllist_set_elt_at]
 
@@ -337,7 +337,7 @@ in
     // end of [val]
     val p2 = gnode_getref_next (nx)
   in
-    loop (cptr2ptr (p2), i-1)
+    loop (p2tr2ptr (p2), i-1)
   end else (p) // end of [if]
 end // end of [loop]
 //
@@ -586,14 +586,14 @@ then let
   val nx = nxs
   val nxs = gnode_get_next(nx)
   val p_x = gnode_getref_elt(nx)
-  val (pf, fpf | p_x) = $UN.cptr_vtake{a}(p_x)
+  val (pf, fpf | p_x) = $UN.p2tr_vtake{a}(p_x)
   val y = sllist_map$fopr<a><b>(!p_x)
 prval ((*returned*)) = fpf(pf)
   val ny = g2node_make_elt<b>(y)
   val () = $UN.ptr0_set<g2node1(b)>(p_res, ny)
   val p_res = gnode_getref_next(ny)
 in
-  loop (nxs, cptr2ptr(p_res))
+  loop (nxs, p2tr2ptr(p_res))
 end else () // end of [if]
 //
 end (* end of [loop] *)
@@ -628,7 +628,7 @@ if iscons then let
   val nx0 = nxs
   val nxs = gnode_get_next (nxs)
   val p_elt = gnode_getref_elt (nx0)
-  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
+  val (pf, fpf | p_elt) = $UN.p2tr_vtake {a} (p_elt)
   val test = sllist_foreach$cont (!p_elt, env)
 in
   if test then let
@@ -674,7 +674,7 @@ if iscons then let
     if i > 0 then fprint_sllist$sep (out)
   // end of [val]
   val p_elt = gnode_getref_elt (nx0)
-  val (pf, fpf | p_elt) = $UN.cptr_vtake {a} (p_elt)
+  val (pf, fpf | p_elt) = $UN.p2tr_vtake {a} (p_elt)
   val () = fprint_ref (out, !p_elt)
   prval () = fpf (pf)
 in
@@ -774,7 +774,7 @@ prval () = fold@ (nx)
 prval () = slnode_vfree (nx)
 //
 in
-  $UN.cast{cPtr1(a)}(p_elt)
+  $UN.cast{P2tr1(a)}(p_elt)
 end // end of [gnode_getref_elt]
 
 (* ****** ****** *)
@@ -791,7 +791,7 @@ prval () = fold@ (nx)
 prval () = slnode_vfree (nx)
 //
 in
-  $UN.cast{cPtr1(g2node0(a))}(p_next)
+  $UN.cast{P2tr1(g2node0(a))}(p_next)
 end // end of [gnode_getref_next]
 
 (* ****** ****** *)

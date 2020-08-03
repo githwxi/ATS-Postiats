@@ -266,34 +266,34 @@ ptr1_list_next(p: Ptr1): Ptr0 // HX: &(p->next)
 // HX: only if you know what you are doing ...
 //
 castfn
-ptr2cptr{a:vt0p}{l:addr}(p: ptr(l)):<> cptr(a, l)
+ptr2p2tr{a:vt0p}{l:addr}(p: ptr(l)):<> p2tr(a, l)
 //
 #atscode_separator()
 //
 castfn
-cptr_vtake
+p2tr_vtake
   {a:vt0p}{l:agz}
 (
-cp: cptr(INV(a), l)
+cp: p2tr(INV(a), l)
 ) :<> (a@l, a@l -<lin,prf> void | ptr l)
-// end of [cptr_vtake]
+// end of [p2tr_vtake]
 //
 fun
 {a:vt0p}
-cptr_get(cp: cPtr1(INV(a))):<> a
+p2tr_get(cp: P2tr1(INV(a))):<> a
 fun
 {a:vt0p}
-cptr_set
-(cp: cPtr1(INV(a)), x: a):<!wrt> void
+p2tr_set
+(cp: P2tr1(INV(a)), x: a):<!wrt> void
 fun
 {a:vt0p}
-cptr_exch
-(cp: cPtr1(INV(a)), xr: &a >> a):<!wrt> void
+p2tr_exch
+(cp: P2tr1(INV(a)), xr: &a >> a):<!wrt> void
 //
 (*
-overload .get with cptr_get
-overload .set with cptr_set
-overload .exch with cptr_exch
+overload .get with p2tr_get
+overload .set with p2tr_set
+overload .exch with p2tr_exch
 *)
 //
 #atscode_separator()

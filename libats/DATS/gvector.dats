@@ -47,7 +47,7 @@ gvector_getref_at
   (V, d, i) = let
   val p = $UN.cast2Ptr1(ptr_add<a> (addr@(V), i*d))
 in
-  $UN.ptr2cptr{a}(p)
+  $UN.ptr2p2tr{a}(p)
 end // end of [gvector_getref_at]
 
 (* ****** ****** *)

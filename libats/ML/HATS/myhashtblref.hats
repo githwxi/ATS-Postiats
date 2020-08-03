@@ -86,7 +86,7 @@ overload .search with myhashtbl_search
 extern
 fun
 myhashtbl_search_ref
-  (tbl: myhashtbl, k: key): cPtr0(itm)
+  (tbl: myhashtbl, k: key): P2tr0(itm)
 //
 overload .search_ref with myhashtbl_search_ref
 //

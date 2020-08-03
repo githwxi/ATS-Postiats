@@ -330,7 +330,7 @@ in (* in of [local] *)
 
 implement{a}
 linralist_getref_at (xs, i) = let
-  val p_i = getref_at {a} (xs, i) in $UN.cast{cPtr1(a)}(p_i)
+  val p_i = getref_at {a} (xs, i) in $UN.cast{P2tr1(a)}(p_i)
 end // end of [linralist_getref_at]
 
 end // end of [local]
@@ -340,13 +340,13 @@ end // end of [local]
 implement{a}
 linralist_get_at
   (xs, i) = let
-  val p = linralist_getref_at (xs, i) in $UN.cptr_get<a> (p)
+  val p = linralist_getref_at (xs, i) in $UN.p2tr_get<a> (p)
 end // end of [linralist_get_at]
 
 implement{a}
 linralist_set_at
   (xs, i, x) = let
-  val p = linralist_getref_at (xs, i) in $UN.cptr_set<a> (p, x)
+  val p = linralist_getref_at (xs, i) in $UN.p2tr_set<a> (p, x)
 end // end of [linralist_set_at]
 
 (* ****** ****** *)

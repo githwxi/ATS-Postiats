@@ -413,7 +413,7 @@ implement
 deqarray_get_at
   (deq, i) =
 (
-  $UN.cptr_get(deqarray_getref_at<a>(deq, i))
+  $UN.p2tr_get(deqarray_getref_at<a>(deq, i))
 ) (* end of [deqarray_get_at] *)
 
 implement
@@ -421,7 +421,7 @@ implement
 deqarray_set_at
   (deq, i, x) =
 (
-  $UN.cptr_set(deqarray_getref_at<a>(deq, i), x)
+  $UN.p2tr_set(deqarray_getref_at<a>(deq, i), x)
 ) (* end of [deqarray_set_at] *)
 
 (* ****** ****** *)
@@ -434,7 +434,7 @@ deqarray_getref_at__tsz
   {a:vt0p}{m,n:int}
 (
   deq: !deqarray(a, m, n), i: sizeLt(n), tsz: sizeof_t(a)
-) :<> cPtr1(a) = "mac#%" // end-of-fun
+) :<> P2tr1(a) = "mac#%" // end-of-fun
 //
 in (* in of [local] *)
 //
