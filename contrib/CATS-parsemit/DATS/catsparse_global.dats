@@ -258,12 +258,12 @@ implement
 keyword_search
   (name) = let
 //
-val cp = $KWORD.search_ref (name)
+val pt = $KWORD.search_ref (name)
 //
 in
 //
-if isneqz(cp)
-  then $UNSAFE.cptr_get<keyword> (cp)
+if isneqz(pt)
+  then $UNSAFE.p2tr_get<keyword> (pt)
   else KWORDnone()
 //
 end // end of [keyword_search]

@@ -120,7 +120,7 @@ in
 //
 if
 isneqz(ptok)
-then $UN.cptr_get (ptok)
+then $UN.p2tr_get (ptok)
 else let
 //
 val tok = lexbuf_get_token_skip (buf.tokbuf_lxbf)
@@ -147,7 +147,7 @@ in
 //
 if
 isneqz(ptok)
-then $UN.cptr_get<token>(ptok)
+then $UN.p2tr_get<token>(ptok)
 else let
 //
 val tok = lexbuf_get_token_any(buf.tokbuf_lxbf)

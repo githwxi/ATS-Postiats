@@ -52,7 +52,7 @@ extern fun pop_all((*void*)): List0_vt(T)
 //
 (* ****** ****** *)
 
-extern fun getref_top((*void*)): cPtr0(T)
+extern fun getref_top((*void*)): P2tr0(T)
 
 (* ****** ****** *)
 //
@@ -181,10 +181,10 @@ in (* in-of-let *)
 //
 case+ !p of
 | list_vt_nil
-    ((*void*)) => cptr_null()
+    ((*void*)) => p2tr_null()
 | @list_vt_cons(x, _) => let
     val res = addr@(x)
-    prval () = fold@(!p) in $UNSAFE.cast{cPtr1(T)}(res)
+    prval () = fold@(!p) in $UNSAFE.cast{P2tr1(T)}(res)
   end // end of [list_cons]
 //
 end // end of [getref_top]
@@ -194,14 +194,14 @@ end // end of [getref_top]
 implement
 get_top_exn() = let
   val p = getref_top()
-  val () = assertloc(isneqz(p)) in $UNSAFE.cptr_get(p)
+  val () = assertloc(isneqz(p)) in $UNSAFE.p2tr_get(p)
 end // end of [get_top_exn]
 
 implement
 get_top_opt () = let
   val p = getref_top()
 in
-  if isneqz(p) then Some_vt($UNSAFE.cptr_get(p)) else None_vt()
+  if isneqz(p) then Some_vt($UNSAFE.p2tr_get(p)) else None_vt()
 end // end of [get_top_opt]
 
 (* ****** ****** *)

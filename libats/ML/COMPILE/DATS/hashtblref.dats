@@ -102,7 +102,7 @@ hashtbl_search_ref
 {itm:type}
 (
   kxs: hashtbl(INV(itm)), k0: string
-) : cPtr0(itm) // end-of-function
+) : P2tr0(itm) // end-of-function
 //
 overload .search_ref with hashtbl_search_ref
 //

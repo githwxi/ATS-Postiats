@@ -96,12 +96,12 @@ in (* in-of-local *)
 implement
 symbol_make(name) = let
 //
-val cp = $SYMBOL.search_ref (name)
+val pt = $SYMBOL.search_ref (name)
 //
 in
 //
-if isneqz(cp)
-  then $UNSAFE.cptr_get<symbol> (cp)
+if isneqz(pt)
+  then $UNSAFE.p2tr_get<symbol> (pt)
   else let
     val n = $SYMCNT.getinc ()
     val sym = SYMBOL (name, n)

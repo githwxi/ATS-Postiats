@@ -56,7 +56,7 @@ fun search
   k0: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool(b) // endfun
 extern
-fun search_ref (k0: key): cPtr0 (itm)
+fun search_ref (k0: key): P2tr0 (itm)
 extern
 fun search_opt (k0: key): Option_vt (itm)
 //
