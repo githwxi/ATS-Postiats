@@ -178,7 +178,7 @@ in
 //
 if
 isneqz(ptok)
-then $UN.cptr_get<token>(ptok)
+then $UN.p2tr_get<token>(ptok)
 else let
 //
 val tok =
