@@ -900,12 +900,12 @@ srcget_patscontrib_kernelats:: SCRIPT/patscontrib_kernelats.bash ; bash $<
 ######
 PATSVER=$(shell cat ${PATSHOME}/VERSION)
 ######
-# PACKNAME=$(PACKNAMEgmp)
+PACKNAME=ATS2-Postiats-$(PATSVER)
+######
 # atspacktarzvcf: atspacktarzvcf_int
 # atspacktarzvcf: atspacktarzvcf_gmp
 ######
 #
-PACKNAMEgmp=ATS2-Postiats-gmp-0.3.13
 PACKNAMEgmp=ATS2-Postiats-gmp-$(PATSVER)
 #
 atspacktarzvcf_gmp:: ; $(RMRF) $(PACKNAMEgmp)
@@ -917,11 +917,10 @@ atspacktarzvcf_gmp:: ; $(MAKE) -C $(PACKNAMEgmp) cleanall
 atspacktarzvcf_gmp:: ; $(TARZVCF) $(PACKNAMEgmp).tgz $(PACKNAMEgmp)/.
 #
 atspacktarzvcf_gmp_up:: ; \
-scp $(PACKNAMEgmp).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAME).tgz
+scp $(PACKNAMEgmp).tgz ats-hwxi,ats-lang@web.sourceforge.net:htdocs/IMPLEMENT/Postiats/$(PACKNAMEgmp).tgz
 #
 ######
 #
-PACKNAMEint=ATS2-Postiats-int-0.3.13
 PACKNAMEint=ATS2-Postiats-int-$(PATSVER)
 #
 atspacktarzvcf_int:: ; $(RMRF) $(PACKNAMEint)
