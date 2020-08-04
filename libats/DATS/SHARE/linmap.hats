@@ -61,7 +61,7 @@ val p =
 in
 //
 if
-(p2tr2ptr(p) > 0)
+(p > 0)
 then let
 //
   val
