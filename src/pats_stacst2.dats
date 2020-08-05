@@ -1083,19 +1083,78 @@ end // end of [s2exp_ptr_addr_type]
 implement
 un_s2exp_ptr_addr_type
   (s2f) = let
-  val s2e = s2hnf2exp (s2f)
+val
+s2e =
+s2hnf2exp (s2f)
 in
 //
-case+ s2e.s2exp_node of
-| S2Eapp (s2e_fun, s2es_arg) 
-    when s2cstref_equ_exp (
-    the_ptr_addr_type, s2e_fun
-  ) => let
-    val-list_cons (s2l, _) = s2es_arg in Some_vt (s2l)
-  end // end of [S2Eapp when ...]
+case+
+s2e.s2exp_node of
+|
+S2Eapp
+(s2e_fun, s2es_arg) 
+when s2cstref_equ_exp
+(
+the_ptr_addr_type, s2e_fun
+) =>
+let
+  val-
+  list_cons (s2l, _) = s2es_arg in Some_vt(s2l)
+end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
 end // end of [un_s2exp_ptr_addr_type]
+//
+(* ****** ****** *)
+//
+implement
+the_p2tr_vt0ype_addr_type =
+  s2cstref_make
+  ("p2tr_vt0ype_addr_type")
+//
+implement
+s2exp_p2tr_vt0ype_addr_type
+  (s2e1, s2l2) = let
+//
+val s2c =
+  s2cstref_get_cst
+  (the_p2tr_vt0ype_addr_type)
+//
+in
+  s2exp_cstapp
+  (s2c, list_pair(s2e1, s2l2))
+end // end of [s2exp_ptr_addr_type]
+//
+implement
+un_s2exp_p2tr_vt0ype_addr_type
+  (s2f) = let
+//
+val
+s2e =
+s2hnf2exp(s2f)
+//
+in
+//
+case+
+s2e.s2exp_node of
+|
+S2Eapp
+(s2e_fun, s2es_arg) 
+when s2cstref_equ_exp
+(
+  the_p2tr_vt0ype_addr_type, s2e_fun
+) =>
+let
+  val-
+  list_cons
+  (s2e, s2es_arg) = s2es_arg
+  val-
+  list_cons
+  (s2l, s2es_arg) = s2es_arg in Some_vt@(s2e, s2l)
+end // end of [S2Eapp when ...]
+| _ => None_vt((*void*))
+//
+end // end of [un_s2exp_p2tr_vt0ype_addr_type]
 //
 (* ****** ****** *)
 //
