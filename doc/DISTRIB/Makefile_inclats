@@ -8,8 +8,8 @@
 SRC=ATS-Postiats
 DST=ATS-Postiats-include
 #
-SRC2=ATS-Postiats-contrib
-DST2=ATS-Postiats-include/patscontrib
+# SRC2=ATS-Postiats-contrib
+# DST2=ATS-Postiats-include/patscontrib
 #
 ######
 
@@ -59,21 +59,27 @@ update:: ; $(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gd
 # ATS-contrib
 #
 ######
-
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/glib/CATS/glib.cats $(DST2)/glib/CATS/.
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/glib/CATS/glib-object.cats $(DST2)/glib/CATS/.
-
+#
+# update2:: ; \
+# $(CPF) \
+# $(SRC2)/contrib/GTK/CATS/gdk.cats $(DST2)/GTK/CATS/.
+# update2:: ; \
+# $(CPRF) $(SRC2)/contrib/GTK/CATS/gdk $(DST2)/GTK/CATS/.
+# update2:: ; \
+# $(CPF) \
+# $(SRC2)/contrib/GTK/CATS/gtk.cats $(DST2)/GTK/CATS/.
+# update2:: ; \
+# $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
+#
 ######
-
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/GTK/CATS/gdk.cats $(DST2)/GTK/CATS/.
-update2:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gdk $(DST2)/GTK/CATS/.
-update2:: ; \
-  $(CPF) $(SRC2)/contrib/GTK/CATS/gtk.cats $(DST2)/GTK/CATS/.
-update2:: ; $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
-
+#
+# update2:: ; \
+# $(CPF) \
+# $(SRC2)/contrib/glib/CATS/glib.cats $(DST2)/glib/CATS/.
+# update2:: ; \
+# $(CPF) \
+# $(SRC2)/contrib/glib/CATS/glib-object.cats $(DST2)/glib/CATS/.
+#
 ######
 
 TARZVCF=tar -zvcf
