@@ -186,7 +186,9 @@ val the_literal_string : s2cstref
 val the_ptr_type : s2cstref
 val the_ptr_addr_type : s2cstref
 //
+(*
 val the_p2tr_vt0ype_addr_type : s2cstref
+*)
 //
 val the_atsvoid_t0ype : s2cstref
 //
@@ -356,12 +358,12 @@ fun
 un_s2exp_ptr_addr_type(s2f: s2hnf): Option_vt(s2exp)
 
 (* ****** ****** *)
-
+(*
 fun
 s2exp_p2tr_vt0ype_addr_type(s2e: s2exp, s2l: s2exp): s2exp // p2tr
 fun
 un_s2exp_p2tr_vt0ype_addr_type(s2f: s2hnf): Option_vt@(s2exp, s2exp)
-
+*)
 (* ****** ****** *)
 
 fun s2exp_void_t0ype(): s2exp // void

@@ -1107,11 +1107,16 @@ end // end of [un_s2exp_ptr_addr_type]
 //
 (* ****** ****** *)
 //
+(*
 implement
 the_p2tr_vt0ype_addr_type =
   s2cstref_make
   ("p2tr_vt0ype_addr_type")
+*)
 //
+(* ****** ****** *)
+//
+(*
 implement
 s2exp_p2tr_vt0ype_addr_type
   (s2e1, s2l2) = let
@@ -1124,7 +1129,9 @@ in
   s2exp_cstapp
   (s2c, list_pair(s2e1, s2l2))
 end // end of [s2exp_ptr_addr_type]
+*)
 //
+(*
 implement
 un_s2exp_p2tr_vt0ype_addr_type
   (s2f) = let
@@ -1155,6 +1162,7 @@ end // end of [S2Eapp when ...]
 | _ => None_vt((*void*))
 //
 end // end of [un_s2exp_p2tr_vt0ype_addr_type]
+*)
 //
 (* ****** ****** *)
 //
