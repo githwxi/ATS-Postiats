@@ -32,8 +32,16 @@ end // end of [local]
 
 (* ****** ****** *)
 
+(*
 val theVowel = 'a'
 val theLetters = "acfilnu"
+*)
+(*
+val theVowel = 'o'
+val theLetters = "omynegb"
+*)
+val theVowel = 'i'
+val theLetters = "fradict"
 
 (* ****** ****** *)
 
