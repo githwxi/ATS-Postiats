@@ -6,7 +6,7 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
-2019-08-02:<br>
+2020-08-02:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/Rl7rTn8vgtY"
 >ATS2-0.4.1 has been released</a><br>

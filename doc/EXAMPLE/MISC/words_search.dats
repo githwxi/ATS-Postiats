@@ -33,15 +33,23 @@ end // end of [local]
 (* ****** ****** *)
 
 (*
-val theVowel = 'a'
+val theNeeded = 'a'
 val theLetters = "acfilnu"
 *)
 (*
-val theVowel = 'o'
+val theNeeded = 'o'
 val theLetters = "omynegb"
 *)
-val theVowel = 'i'
+(*
+val theNeeded = 'i'
 val theLetters = "fradict"
+*)
+(*
+val theNeeded = 'l'
+val theLetters = "edplnty"
+*)
+val theNeeded = 'o'
+val theLetters = "abconly"
 
 (* ****** ****** *)
 
@@ -66,7 +74,7 @@ theWords =
 stream_vt_filter<string>(theWords) where
 {
 implement
-stream_vt_filter$pred<string>(cs) = strchr(g1ofg0(cs), theVowel) >= 0
+stream_vt_filter$pred<string>(cs) = strchr(g1ofg0(cs), theNeeded) >= 0
 }
 
 (* ****** ****** *)

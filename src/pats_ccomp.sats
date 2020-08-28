@@ -1307,7 +1307,7 @@ instr_node =
   | INSdcstdef of
       ( d2cst, primval ) // HX-2013-05: global const def
 //
-  | INStempenver of(d2varlst) // HX-2017-02-18: $tempenver
+  | INStempenver of (d2varlst) // HX-2017-02-18: $tempenver
 //
 // end of [instr_node]
 
