@@ -48,8 +48,16 @@ val theLetters = "fradict"
 val theNeeded = 'l'
 val theLetters = "edplnty"
 *)
+(*
 val theNeeded = 'o'
 val theLetters = "abconly"
+*)
+(*
+val theNeeded = 'l'
+val theLetters = "lcudeht"
+*)
+val theNeeded = 'y'
+val theLetters = "yaecint"
 
 (* ****** ****** *)
 
