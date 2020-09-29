@@ -16,11 +16,20 @@ implement main0() = ()
 local
 //
 val
+//
 opt =
 fileref_open_opt
 (
- "/usr/share/dict/words", file_mode_r
+"./DATA/words.txt", file_mode_r
+)
+//
+(*
+opt =
+fileref_open_opt
+(
+"/usr/share/dict/words", file_mode_r
 ) (* end of [val] *)
+*)
 val-~Some_vt(filr) = opt
 //
 in
@@ -56,8 +65,52 @@ val theLetters = "abconly"
 val theNeeded = 'l'
 val theLetters = "lcudeht"
 *)
+(*
 val theNeeded = 'y'
 val theLetters = "yaecint"
+*)
+(*
+val theNeeded = 'b'
+val theLetters = "beilmnt"
+*)
+(*
+val theNeeded = 'o'
+val theLetters = "abcktou"
+*)
+(*
+val theNeeded = 'd'
+val theLetters = "adilpry"
+*)
+(*
+val theNeeded = 'e'
+val theLetters = "celmopx"
+*)
+(*
+val theNeeded = 'n'
+val theLetters = "inmoprt"
+*)
+(*
+val theNeeded = 'h'
+val theLetters = "faithlw"
+*)
+(*
+val theNeeded = 'n'
+val theLetters = "varmint"
+*)
+(*
+val theNeeded = 'r'
+val theLetters = "trackof"
+*)
+(*
+val theNeeded = 'l'
+val theLetters = "adflotw"
+*)
+(*
+val theNeeded = 'a'
+val theLetters = "aifnlpu"
+*)
+val theNeeded = 'u'
+val theLetters = "butonig"
 
 (* ****** ****** *)
 

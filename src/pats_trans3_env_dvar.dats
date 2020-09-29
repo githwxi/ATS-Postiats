@@ -615,9 +615,19 @@ case+ d2vfin of
         in
           if isnonlin then s2exp_at(s2exp_topize_0(s2at), s2l) else s2e
         end // end of [S2Eat]
+(*
+      //
+      // HX-2020-09-28:
+      // This can actually happen at the run-time!!!
+      // For instance, the at-view of a let-var is changed into one that
+      // is not at-view
+      //
       | _ (* non-S2Eat *) => let
           val () = assertloc (false) in s2e // HX: this should be deadcode!
         end // end of [_]
+*)
+      | _ (* non-S2Eat *) => s2e // this should cause a failure later on!
+
     ) : s2exp // end of [val]
 //
 (*
