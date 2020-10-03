@@ -79,13 +79,17 @@ castfn s2cstnul_some (x: s2cst):<> [l:agz] s2cstnul (l)
 extern
 castfn s2cstnul_unsome {l:agz} (x: s2cstnul l):<> s2cst
 
+(* ****** ****** *)
+
 extern
-fun s2cstnul_is_null {l:addr}
-  (x: s2cstnul (l)): bool (l==null) = "atspre_ptr_is_null"
+fun
+s2cstnul_is_null{l:addr}
+  (x: s2cstnul(l)): bool(l==null) = "atspre_ptr_is_null"
 // end of [s2cstnul_is_null]
 extern
-fun s2cstnul_isnot_null {l:addr}
-  (x: s2cstnul (l)): bool (l > null) = "atspre_ptr_isnot_null"
+fun
+s2cstnul_isnot_null{l:addr}
+  (x: s2cstnul(l)): bool(l > null) = "atspre_ptr_isnot_null"
 // end of [s2cstnul_isnot_null]
 
 (* ****** ****** *)
@@ -1068,17 +1072,21 @@ s2exp_ptr_type () =
 //
 implement
 the_ptr_addr_type =
-  s2cstref_make("ptr_addr_type")
+s2cstref_make("ptr_addr_type")
 //
 implement
-s2exp_ptr_addr_type (s2l) = let
+s2exp_ptr_addr_type
+  (s2l) = let
 //
-val s2c =
-  s2cstref_get_cst(the_ptr_addr_type)
+val
+s2c =
+s2cstref_get_cst(the_ptr_addr_type)
 //
 in
-  s2exp_cstapp (s2c, list_sing (s2l))
+  s2exp_cstapp(s2c, list_sing(s2l))
 end // end of [s2exp_ptr_addr_type]
+//
+(* ****** ****** *)
 //
 implement
 un_s2exp_ptr_addr_type
