@@ -118,8 +118,9 @@ linmap_insert_any
   (map, k0, x0) = () where
 {
 //
-val-~None_vt() =
-  linmap_insert_opt<key,itm>(map, k0, x0)
+val-
+~None_vt() =
+linmap_insert_opt<key,itm>(map, k0, x0)
 //
 } (* end of [linmap_insert_any] *)
 

@@ -283,8 +283,21 @@ d2exp_d2var_lvalize
 ) : d2lval =
 (
 case+ 0 of
+//
+// HX-2020-10-04:
+// [d2v] needs to be a PROOF.
+// Please see bug-2020-10-04.dats
+//
 | _ when
     d2var_is_linear(d2v) => D2LVALvar_lin(d2v, d2ls)
+(*
+//
+// HX-2020-10-04:
+// Unfortunately, this fix does not work ...
+//
+| _ when
+    d2var_is_linprf(d2v) => D2LVALvar_lin(d2v, d2ls)
+*)
 | _ when
     d2var_is_mutabl(d2v) => D2LVALvar_mut(d2v, d2ls)
 | _ (* rest-of-d2var *) => D2LVALnone(d2e0)

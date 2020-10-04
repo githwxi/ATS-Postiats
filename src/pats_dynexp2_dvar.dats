@@ -310,15 +310,18 @@ d2var_inc_utimes (d2v) = let
 end // end of [d2var_inc_utimes]
 
 (* ****** ****** *)
-
+//
 implement
 d2var_is_linear (d2v) = (d2var_get_linval d2v >= 0)
-
+implement
+d2var_is_linprf (d2v) =
+if d2var_get_isprf(d2v) then d2var_is_linear(d2v) else false
+//
 implement
 d2var_is_mutabl (d2v) =
   case+ d2var_get_view d2v of Some _ => true | None () => false
 // end of [d2var_is_mutabl]
-
+//
 (* ****** ****** *)
 
 implement

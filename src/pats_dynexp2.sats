@@ -414,6 +414,7 @@ fun d2var_get_stamp (x: d2var):<> stamp
 ** HX: [d2v] is linear if its linval is nonneg
 *)
 fun d2var_is_linear (d2v: d2var): bool
+fun d2var_is_linprf (d2v: d2var): bool
 (*
 ** HX: [d2v] is mutable if it contains some view
 *)
