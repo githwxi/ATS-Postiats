@@ -1,6 +1,51 @@
 ######
 
+0.4.2
+
+This is the 53rd release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+The official website for ATS is:
+
+http://www.ats-lang.org
+
+ATS-Postiats is hosted at github:
+
+https://github.com/githwxi/ATS-Postiats
+
+Major releases of ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang/
+
+Major releases of external packages for ATS2 are available at:
+
+https://sourceforge.net/projects/ats2-lang-contrib/
+
+Here is a list of major additions and changes since the last release:
+
+1. Fixing bug-2020-10-14
+   (for the omission of handling records when the exhaustiveness of
+    pattern matching is tested)
+   Kudos to Alex Dambaev for reporting it!
+  
+Please note that there are two variants of the package released: The
+"gmp" variant depends on the GMP library while the "int" variant does
+not. From this release on, ATS2-Postiats-0.4.0.tgz is just the same as
+ATS2-Postiats-int-0.4.0.tgz. This choice is made due to the fact that
+most users (especially new users) can readily get by without the extra
+dependency on GMP.
+
+######
+
 0.4.1
+
+This is the 52nd release of ATS2, the successor of the
+ATS programming language. The compiler for ATS2 is given
+the name ATS/Positats, ATS2/Postiats or simply Postiats.
+
+This release is done for the purpose of renaming a type
+(i.e., cptr -> p2tr) used in the ATS2 library and elsewhere.
 
 ######
 
