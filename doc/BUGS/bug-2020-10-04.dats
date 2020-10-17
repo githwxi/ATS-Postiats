@@ -5,6 +5,13 @@
 //
 (* ****** ****** *)
 //
+// HX-2020-10-17:
+// This one cannot be easily
+// fixed in ATS2. It will be
+// handled in ATS3.
+//
+(* ****** ****** *)
+//
 datavtype
 lint(i:int) = LINT of int(i)
 //

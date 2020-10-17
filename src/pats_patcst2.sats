@@ -197,6 +197,8 @@ fun p2atcstlst_diff
   (xs1: p2atcstlst, xs2: p2atcstlst): p2atcstlstlst_vt
 // end of [p2atcstlst_diff]
 
+fun labp2atcst_diff
+  (lx1: labp2atcst, lx2: labp2atcst): labp2atcstlst_vt
 fun labp2atcstlst_diff
   (xs1: labp2atcstlst, xs2: labp2atcstlst): labp2atcstlstlst_vt
 // end of [labp2atcstlst_diff]

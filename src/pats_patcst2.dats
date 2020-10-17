@@ -891,22 +891,54 @@ case+ (p2tc1, p2tc2) of
   // end of [P2TCstring, P2TCstring]
 //
 | (P2TCcon (d2c1, p2tcs1),
-   P2TCcon (d2c2, p2tcs2)) => (
-    if d2c1 = d2c2 then let
-      val p2tcss = p2atcstlst_diff (p2tcs1, p2tcs2)
-      val p2tcss = __cast (p2tcss) where {
-        extern castfn __cast (xs: p2atcstlstlst_vt): List_vt (p2atcstlst)
+   P2TCcon (d2c2, p2tcs2)) =>
+  (
+    if
+    (d2c1 = d2c2)
+    then let
+      val
+      p2tcss =
+      p2atcstlst_diff(p2tcs1, p2tcs2)
+      val
+      p2tcss =
+      __cast(p2tcss) where {
+        extern castfn __cast(xss: p2atcstlstlst_vt): List_vt(p2atcstlst)
       } // end of [val] // HX: this is a safe cast
-      val res = list_map_cloptr
-        ($UN.castvwtp1{p2atcstlstlst}(p2tcss), lam xs =<0> P2TCcon (d2c1, xs))
-      val () = list_vt_free (p2tcss)
     in
-      res
-    end else
-      list_vt_sing (p2tc1)
-    // end of [if]
+      res where
+      {
+      val res =
+      list_map_cloptr
+      ($UN.castvwtp1{p2atcstlstlst}(p2tcss), lam xs =<0> P2TCcon(d2c1, xs))
+      val () = list_vt_free (p2tcss)
+      }
+    end // end of [then]
+    else list_vt_sing (p2tc1)
   ) // end of [P2TCcon, P2TCcon]
+//
 | (P2TCempty (), P2TCempty ()) => list_vt_nil ()
+//
+| ( P2TCrec(knd1, lp2tcs1)
+  , P2TCrec(knd2, lp2tcs2)) =>
+  let
+    val
+    lp2tcss =
+    labp2atcstlst_diff(lp2tcs1, lp2tcs2)
+    val
+    lp2tcss =
+    __cast(lp2tcss) where {
+      extern castfn __cast(xss: labp2atcstlstlst_vt): List_vt(labp2atcstlst)
+    } // end of [val] // HX: this is a safe cast
+  in
+    res where
+    {
+    val res =
+    list_map_cloptr
+    ($UN.castvwtp1{labp2atcstlstlst}(lp2tcss), lam lxs =<0> P2TCrec(knd1, lxs))
+    val () = list_vt_free (lp2tcss)
+    }
+  end
+//
 | (_, _) => list_vt_sing (p2tc1)
 //
 end // end of [p2atcst_diff]
@@ -955,6 +987,91 @@ case+ xs1 of
 | list_nil () => p2atcstlst_comp (xs2)
 //
 end (* end of [p2atcstlst_diff] *)
+
+(* ****** ****** *)
+
+implement
+labp2atcst_diff
+  (lp2tc1, lp2tc2) = let
+//
+val+
+LABP2ATCST(l1, p2tc1) = lp2tc1
+val+
+LABP2ATCST(l2, p2tc2) = lp2tc2
+//
+in
+//
+if
+$LAB.eq_label_label
+(l1, l2)
+then let
+val p2tcs =
+p2atcst_diff(p2tc1, p2tc2)
+in
+lp2tcs where
+{
+val
+_xs_ =
+$UN.castvwtp1
+{p2atcstlst}(p2tcs)
+val
+lp2tcs =
+list_map_cloptr
+( _xs_
+, lam x0 =<0> LABP2ATCST(l1, x0))
+val ((*freed*)) = list_vt_free(p2tcs)
+}
+end
+else list_vt_sing (lp2tc1)
+//
+end // end of [labp2atcst_diff]
+
+(* ****** ****** *)
+
+implement
+labp2atcstlst_diff
+  (lxs1, lxs2) = let
+in
+//
+case+ lxs1 of
+| list_cons (lx1, lxs1) => (
+  case+ lxs2 of
+  | list_cons (lx2, lxs2) => let
+      fun aux1 (
+        lx1: labp2atcst
+      , lxss
+      : labp2atcstlstlst_vt
+      ) : labp2atcstlstlst_vt =
+        case+ lxss of
+        | ~list_vt_cons(lxs, lxss) =>
+            list_vt_cons(list_vt_cons (lx1, lxs), aux1 (lx1, lxss))
+          // end of [list_vt_cons]
+        | ~list_vt_nil () => list_vt_nil ()
+      // end of [aux1]
+      val lp2tcss_res1 = let
+        val lxss = labp2atcstlst_diff(lxs1, lxs2)
+      in
+        aux1 (lx1, lxss)
+      end // end of [val]
+      fun aux2 (
+        lxs: labp2atcstlst_vt, lxs1: labp2atcstlst
+      ) : labp2atcstlstlst_vt =
+        case+ lxs of
+        | ~list_vt_cons (lx, lxs) => let
+            val lxs1_ = list_copy (lxs1) in
+            list_vt_cons (list_vt_cons (lx, lxs1_), aux2 (lxs, lxs1))
+          end // end of [list_vt_cons]
+        | ~list_vt_nil () => list_vt_nil ()
+      // end of [aux2]
+      val lp2tcss_res2 = aux2 (labp2atcst_diff (lx1, lx2), lxs1)
+    in
+      list_vt_append (lp2tcss_res1, lp2tcss_res2)
+    end // end of [list_cons]
+  | list_nil () => list_vt_nil ()
+  ) // end of [list_cons]
+| list_nil () => labp2atcstlst_comp (lxs2)
+//
+end (* end of [labp2atcstlst_diff] *)
 
 (* ****** ****** *)
 
