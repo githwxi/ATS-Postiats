@@ -24,7 +24,12 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-1. Fixing bug-2020-10-14
+1. Fixing the handling of an issue causing the compiler crash:
+   the proof of the at-view of a local variable is not restored
+   at the end of its scope.
+   Please visit the following link for more details:
+   https://groups.google.com/g/ats-lang-users/c/f9QVilhHMEM
+2. Fixing bug-2020-10-14
    (for the omission of handling records when the exhaustiveness of
     pattern matching is tested)
    Kudos to Alex Dambaev for reporting it!
