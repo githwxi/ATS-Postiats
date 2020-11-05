@@ -22,44 +22,47 @@ CPF=cp -f
 CPRF=cp -rf
 
 ######
-
-update:: ; \
-  $(CPF) $(SRC)/share/atsmake-pre.mk $(DST)/share/.
-update:: ; \
-  $(CPF) $(SRC)/share/atsmake-post.mk $(DST)/share/.
-
+update::
 ######
-
 update:: ; \
-  $(CPF) $(SRC)/share/H/pats_atslib.h $(DST)/share/H/.
-
+$(CPF) $(SRC)/share/atsmake-pre.mk $(DST)/share/.
+update:: ; \
+$(CPF) $(SRC)/share/atsmake-post.mk $(DST)/share/.
 ######
-
 update:: ; \
-  $(CPF) $(SRC)/ccomp/runtime/*.h $(DST)/ccomp/runtime/.
-update:: ; \
-  $(CPF) $(SRC)/ccomp/runtime/*.c $(DST)/ccomp/runtime/.
-
+$(CPF) $(SRC)/share/H/pats_atslib.h $(DST)/share/H/.
 ######
-#
 update:: ; \
-  $(CPF) $(SRC)/prelude/CATS/*.cats $(DST)/prelude/CATS/.
-#
-update:: ; $(CPF) $(SRC)/libats/CATS/*.cats $(DST)/libats/CATS/.
-update:: ; $(CPF) $(SRC)/libats/ML/CATS/*.cats $(DST)/libats/ML/CATS/.
-#
-update:: ; $(CPF) $(SRC)/libats/libc/CATS/*.cats $(DST)/libats/libc/CATS/.
-update:: ; $(CPF) $(SRC)/libats/libc/CATS/sys/*.cats $(DST)/libats/libc/CATS/sys/.
-update:: ; $(CPF) $(SRC)/libats/libc/CATS/arpa/*.cats $(DST)/libats/libc/CATS/arpa/.
-update:: ; $(CPF) $(SRC)/libats/libc/CATS/netinet/*.cats $(DST)/libats/libc/CATS/netinet/.
-update:: ; $(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gdbm/.
+$(CPF) $(SRC)/ccomp/runtime/*.h $(DST)/ccomp/runtime/.
+update:: ; \
+$(CPF) $(SRC)/ccomp/runtime/*.c $(DST)/ccomp/runtime/.
+######
+update:: ; \
+$(CPF) $(SRC)/prelude/CATS/*.cats $(DST)/prelude/CATS/.
+######
+update:: ; \
+$(CPF) $(SRC)/libats/CATS/*.cats $(DST)/libats/CATS/.
+update:: ; \
+$(CPF) $(SRC)/libats/ML/CATS/*.cats $(DST)/libats/ML/CATS/.
+######
+update:: ; \
+$(CPF) $(SRC)/libats/libc/CATS/*.cats $(DST)/libats/libc/CATS/.
+update:: ; \
+$(CPF) $(SRC)/libats/libc/CATS/sys/*.cats $(DST)/libats/libc/CATS/sys/.
+update:: ; \
+$(CPF) $(SRC)/libats/libc/CATS/arpa/*.cats $(DST)/libats/libc/CATS/arpa/.
+update:: ; \
+$(CPF) $(SRC)/libats/libc/CATS/netinet/*.cats $(DST)/libats/libc/CATS/netinet/.
+update:: ; \
+$(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gdbm/.
 #
 ######
 #
 # ATS-contrib
 #
 ######
-#
+update2::
+######
 # update2:: ; \
 # $(CPF) \
 # $(SRC2)/contrib/GTK/CATS/gdk.cats $(DST2)/GTK/CATS/.
@@ -70,16 +73,13 @@ update:: ; $(CPF) $(SRC)/libats/libc/CATS/gdbm/*.cats $(DST)/libats/libc/CATS/gd
 # $(SRC2)/contrib/GTK/CATS/gtk.cats $(DST2)/GTK/CATS/.
 # update2:: ; \
 # $(CPRF) $(SRC2)/contrib/GTK/CATS/gtk $(DST2)/GTK/CATS/.
-#
 ######
-#
 # update2:: ; \
 # $(CPF) \
 # $(SRC2)/contrib/glib/CATS/glib.cats $(DST2)/glib/CATS/.
 # update2:: ; \
 # $(CPF) \
 # $(SRC2)/contrib/glib/CATS/glib-object.cats $(DST2)/glib/CATS/.
-#
 ######
 
 TARZVCF=tar -zvcf
