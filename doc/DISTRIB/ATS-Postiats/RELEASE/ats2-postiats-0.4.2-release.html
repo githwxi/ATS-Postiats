@@ -51,10 +51,20 @@ https://sourceforge.net/projects/ats2-lang-contrib/
 
 Here is a list of major additions and changes since the last release:
 
-There are only a few minor modifications, which are needed for compiling
-the current (2020-11-01) implementation of ATS.
+There are only a few minor modifications, which are primarily
+needed for compiling the current (2020-11-01) implementation of ATS.
 
-Please note that starting in this release, there are two variants of
+1. Fixing the handling of an issue causing the compiler crash:
+   the proof of the at-view of a local variable is not restored
+   at the end of its scope.
+   Please visit the following link for more details:
+   https://groups.google.com/g/ats-lang-users/c/f9QVilhHMEM
+2. Fixing bug-2020-10-14
+   (for the omission of handling records when the exhaustiveness of
+    pattern matching is tested)
+   Kudos to Alex Dambaev for reporting it!
+
+Please note that in this release, there are two variants of
 the package released: The "gmp" variant depends on the GMP library and
 the "int" variant does not depend on the GMP library. In this release
 ATS2-Postiats-0.4.2.tgz is just the same as ATS2-Postiats-int-0.4.2.tgz.
