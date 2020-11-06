@@ -2,6 +2,21 @@
 
 0.4.2
 
+------------------------------------------------
+ATS-Postiats-0.4.2.tgz:
+The same as ATS-Postiats-int-0.4.2.tgz
+MD5: 900c43b69f544ddff738ebf864f98b06
+SHA1: 76b7c817c3439858e42c4ff74edc226578e0ea1b 
+--
+ATS2-Postiats-gmp-1.4.0.tgz:
+MD5: e2f0f6c38868bb6b85f77fd1d9222b23
+SHA1: a869ba92d673082cd30fc6c2368d3948eef772fa
+--
+ATS2-Postiats-int-1.4.0.tgz:
+MD5: 900c43b69f544ddff738ebf864f98b06
+SHA1: 76b7c817c3439858e42c4ff74edc226578e0ea1b 
+------------------------------------------------
+
 This is the 53rd release of ATS2, the successor of the
 ATS programming language. The compiler for ATS2 is given
 the name ATS/Positats, ATS2/Postiats or simply Postiats.
