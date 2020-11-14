@@ -6,6 +6,14 @@ style="margin-top:8px;padding:8px;"
 
 <hr></hr>
 
+2020-11-14:<br>
+<a
+ href="https://groups.google.com/g/ats-lang-users/c/ZlSW70S525Y"
+>ATS2-0.4.2 has been released</a><br>
+by <a href="http://www.cs.bu.edu/~hwxi">Hongwei Xi</a>
+
+<hr></hr>
+
 2020-08-02:<br>
 <a
  href="https://groups.google.com/forum/#!topic/ats-lang-users/Rl7rTn8vgtY"
