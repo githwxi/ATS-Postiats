@@ -37,6 +37,15 @@
 # rm -rf /tmp/ATS-Postiats-contrib
 #
 ######
+#
+# HX-2020-11-24:
+# Please make sure before each release that the following version
+# numbers are properly modified in ${PATSHOME}/src/pats_basics.sats:
+#
+# #define PATS_MAJOR_VERSION 0
+# #define PATS_MINOR_VERSION 4
+# #define PATS_MICRO_VERSION 2
+#
 ######
 #
 # PWD=$(pwd)

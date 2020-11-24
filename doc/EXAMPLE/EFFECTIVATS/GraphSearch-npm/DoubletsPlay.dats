@@ -299,15 +299,15 @@ in
 //
 case+ opt of
 | None() =>
-    println!
-    (
-      "[", w1, "] and [", w2, "] are not a doublet!"
-    )
+  println!
+  (
+    "[", w1, "] and [", w2, "] are not a doublet!"
+  )
 | Some(ws) =>
-    println!
-    (
-      "[", w1, "] and [", w2, "] form a doublet: ", list0_reverse(ws)
-    )
+  println!
+  (
+    "[", w1, "] and [", w2, "] form a doublet: ", list0_reverse(ws)
+  )
 //
 end // end of [main0]
 

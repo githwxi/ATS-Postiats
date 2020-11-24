@@ -187,10 +187,13 @@ in
 //
 g0ofg1
 (
+list_vt2t
+(
 stream2list_vt
 (
   ws.map(TYPE{node})(lam w => cons0(w, nx0))
 ) (* stream2list_vt *)
+)
 ) (* g0ofg1 *)
 //
 end // end of [node_get_neighbors]
