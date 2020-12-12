@@ -67,7 +67,7 @@ val theLetters = "lcudeht"
 *)
 (*
 val theNeeded = 'y'
-val theLetters = "yaecint"
+val theLetters = "aecinty"
 *)
 (*
 val theNeeded = 'b'
