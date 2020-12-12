@@ -64,7 +64,8 @@ bin_patsopt: src_patsopt ; $(CPF) src/patsopt bin/patsopt
 #
 ######
 #
-CCOMP=gcc
+CC=gcc
+CCOMP=$(CC)
 #
 GCFLAG=
 #GCFLAG=-D_ATS_NGC
