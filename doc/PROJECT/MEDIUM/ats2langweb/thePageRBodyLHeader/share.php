@@ -114,10 +114,11 @@ function
 thePageRBodyLHeader_Implements()
 {
   echo "<ul name=\"Implements\">\n";
-  echo "<li><a href=\"#ATSproto\">ATS/Proto</a></li>\n";
-  echo "<li><a href=\"#ATSgeizella\">ATS/Geizella</a></li>\n";
-  echo "<li><a href=\"#ATSanairiats\">ATS/Anairiats</a></li>\n";
-  echo "<li><a href=\"#ATSpostiats\">ATS/Postiats</a></li>\n";
+  echo "<li><a href=\"#ATSproto\">ATS/Proto(ATS0)</a></li>\n";
+  echo "<li><a href=\"#ATSgeizella\">ATS/Geizella(ATS1)</a></li>\n";
+  echo "<li><a href=\"#ATSanairiats\">ATS/Anairiats(ATS1)</a></li>\n";
+  echo "<li><a href=\"#ATSpostiats\">ATS/Postiats(ATS2)</a></li>\n";
+  echo "<li><a href=\"#ATSxanadu\">ATS/Xanadu(ATS3)</a></li>\n";
   echo "</ul>\n";
   return;
 } /* end of [thePageRBodyLHeader_Implements] */

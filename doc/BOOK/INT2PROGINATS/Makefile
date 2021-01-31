@@ -39,7 +39,7 @@ DSL=./mydocbook.dsl
 #
 # HX-2016-08-01:
 # PDF needs to be changed from 0 to 1
-# in ats2tutorial.hats before atext2db conversion
+# in int2proginats.dats before atext2db conversion
 # 
 pdf: main.db ; \
 jw -b pdf --dsl default --parser $(JADE) --output PDF/ main.db

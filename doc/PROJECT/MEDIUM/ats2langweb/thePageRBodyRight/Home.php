@@ -324,7 +324,7 @@ val () =
 
 <p>
 Please find
-<a href="https://github.com/githwxi/ATS-Postiats-contrib/blob/master/projects/MEDIUM/CATS-atsccomp/CATS-atscc2js/TEST/queens_comb.dats">on-line</a>
+<a href="https://github.com/githwxi/ATS-Postiats/blob/master/doc/EXAMPLE/MISC/queens_comb.dats">on-line</a>
 the entirety of this example, which is meant to showcase programming with combinators in ATS.
 </p>
 
