@@ -192,7 +192,11 @@ end // end of [local]
 #define PDF 0
 //
 (*
-#define HTML 1
+#define PDF 1 // for generating pdf
+*)
+//
+(*
+#define HTML 1 // HX: this is outdated
 *)
 //
 (* ****** ****** *)
@@ -300,10 +304,10 @@ end // end of [ulink]
 //
 #define
 MYCODEROOT
-"https://github.com/ats-lang/ats-lang.github.io/blob/master/DOCUMENT"
+"https://github.com/ats-lang/ats-lang.github.io/tree/master/DOCUMENT"
 #define
 MYATSCODEROOT
-"https://github.com/ats-lang/ats-lang.github.io/blob/master/ATS-Postiats"
+"https://github.com/ats-lang/ats-lang.github.io/tree/master/ATS-Postiats"
 //
 (* ****** ****** *)
 
