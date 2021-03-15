@@ -396,7 +396,7 @@
       (c-indent-line arg))))
    
 ;;;###autoload
-(define-derived-mode ats-mode fundamental-mode "ATS2"
+(define-derived-mode ats-mode prog-mode "ATS2"
   "Major mode to edit ATS2 source code."
   (set (make-local-variable 'font-lock-defaults)
        '(ats-font-lock-keywords nil nil ((?_ . "w") (?= . "_")) nil
