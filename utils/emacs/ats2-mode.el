@@ -445,7 +445,7 @@
                       (back-to-indentation)
                       (current-column))))
 
-;;;autoload
+;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.\\(s\\|d\\|h\\)ats\\'" . ats-mode))
 
 (provide 'ats-mode)
