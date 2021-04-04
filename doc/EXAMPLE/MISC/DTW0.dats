@@ -142,14 +142,20 @@ n0 <= 0
 
 (* ****** ****** *)
 fun
-sq(x: int): int = x*x
+delta(x: int): int =
+if x = 0 then 0 else 1
+fun
+square(x: int): int = x*x
 extern
 fun{}
 DTW_dist
 (int, int): int
 implement
 {}(*tmp*)
-DTW_dist(x1, y1) = sq(x1-y1)
+DTW_dist(x1, y1) = delta(x1-y1)
+implement
+{}(*tmp*)
+DTW_dist(x1, y1) = square(x1-y1)
 (* ****** ****** *)
 extern
 fun{}
@@ -265,6 +271,43 @@ val xs =
 intlst1_cons(3, xs)
 val xs =
 intlst1_cons(2, xs)
+val xs =
+intlst1_cons(1, xs)
+val () = println!("xs = ", xs)
+//
+val ys =
+intlst2_nil()
+val ys =
+intlst2_cons(4, 4, ys)
+val ys =
+intlst2_cons(3, 3, ys)
+val ys =
+intlst2_cons(2, 2, ys)
+val ys =
+intlst2_cons(1, 1, ys)
+val ys = trans21(ys)
+val () = println!("ys = ", ys)
+//
+val dd = DTW0_intlst1_intlst1(xs, ys)
+val () = println!("DTW0(xs, ys) = ", dd)
+val dd = DTW0_intlst1_intlst1(ys, xs)
+val () = println!("DTW0(ys, xs) = ", dd)
+//
+} (* end of [val] *)
+
+(* ****** ****** *)
+
+val () =
+{
+//
+val xs =
+intlst1_nil()
+val xs =
+intlst1_cons(4, xs)
+val xs =
+intlst1_cons(2, xs)
+val xs =
+intlst1_cons(3, xs)
 val xs =
 intlst1_cons(1, xs)
 val () = println!("xs = ", xs)
