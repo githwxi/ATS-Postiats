@@ -197,16 +197,26 @@ a:vt0ype
 //
 praxi
 lemma_sizeof
-  {a:vt0ype}((*void*)): [sizeof(a) >= 0] void
+{a:vt0ype}((*void*)): [sizeof(a) >= 0] void
 //
 (* ****** ****** *)
-
-praxi topize{a:t0ype} (x: !INV(a) >> a?): void
-
+//
+praxi
+topize{a:t0ype} (x: !INV(a) >> a?): void
+praxi
+topize_val{a:t0ype} (x: !INV(a) >> a?): void
+praxi
+topize_ref{a:t0ype} (x: &INV(a) >> a?): void
+//
 (* ****** ****** *)
-
-castfn dataget{a:vt0ype} (x: !INV(a) >> a): a?!
-
+//
+castfn
+dataget{a:vt0ype} (x: !INV(a) >> a): a?!
+castfn
+dataget_val{a:vt0ype} (x: !INV(a) >> a): a?!
+castfn
+dataget_ref{a:vt0ype} (x: &INV(a) >> a): a?!
+//
 (* ****** ****** *)
 //
 // HX: returning the pf to GC
