@@ -74,6 +74,10 @@ typedef off_t atslib_libats_libc_off_type ;
 
 /* ****** ****** */
 
+#ifdef _WIN32
+typedef int uid_t;
+typedef int gid_t;
+#endif
 typedef pid_t atslib_libats_libc_pid_type ;
 typedef uid_t atslib_libats_libc_uid_type ;
 typedef gid_t atslib_libats_libc_gid_type ;
