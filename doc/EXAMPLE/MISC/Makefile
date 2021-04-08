@@ -84,6 +84,23 @@ clean:: ; $(RMF) matrixops_dats.c
 cleanall:: ; $(RMF) matrixops matrixops.exe
 
 #
+all:: DTW0
+DTW0: DTW0.exe
+DTW0.exe: DTW0_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+DTW0_dats.c: DTW0.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output DTW0_dats.c --dynamic DTW0.dats
+clean:: ; $(RMF) DTW0_dats.o
+clean:: ; $(RMF) DTW0_dats.c
+cleanall:: ; $(RMF) DTW0 DTW0.exe
+
+all:: LCS0
+LCS0: LCS0.exe
+LCS0.exe: LCS0_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
+LCS0_dats.c: LCS0.dats ;   $(PATSOPT) -IATS$(PATSHOMEQ)/contrib --output LCS0_dats.c --dynamic LCS0.dats
+clean:: ; $(RMF) LCS0_dats.o
+clean:: ; $(RMF) LCS0_dats.c
+cleanall:: ; $(RMF) LCS0 LCS0.exe
+
+#
 all:: absreimpl
 absreimpl: absreimpl.exe
 absreimpl.exe: absreimpl_dats.c ;   $(CCOPT) -D_GNU_SOURCE -O2     -I$(PATSHOMEQ) -I$(PATSHOMEQ)/ccomp/runtime -DATS_MEMALLOC_LIBC -o $@ $< 
