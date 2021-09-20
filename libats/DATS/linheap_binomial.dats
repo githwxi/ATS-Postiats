@@ -35,7 +35,7 @@
 //
 // HX: Note that this implementation is largely of
 // functional-style and only supports mergeable-heap
-// operations; it particular it does not support the
+// operations; in particular it does not support the
 // decrease-key operation.
 //
 (* ****** ****** *)

@@ -55,6 +55,21 @@ ATS_EXTERN_PREFIX "atslib_libats_libc_"
 
 (* ****** ****** *)
 
+(*
+
+let
+var
+dummy: void = ()
+val
+( pf0
+, pf1 | p0) =
+alloca(view@dummy | bsz)
+in
+  ...
+end // end of [let]
+
+*)
+
 fun alloca
   {dummy:addr}{n:int}
 (

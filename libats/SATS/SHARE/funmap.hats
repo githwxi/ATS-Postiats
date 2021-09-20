@@ -103,7 +103,7 @@ key,itm:t0p
 } funmap_insert
 (
   map: &map(key, INV(itm)) >> _
-, key: key, x0: itm, res: &itm? >> opt(itm, b)
+, key: key, itm: itm, res: &itm? >> opt(itm, b)
 ) : #[b:bool] bool(b)
 
 fun{

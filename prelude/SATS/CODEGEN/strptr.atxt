@@ -132,7 +132,7 @@ strptr2stropt
 castfn
 strptr2stropt0(x: Strptr0):<> Stropt0
 castfn
-stropt2stropt1(x: Strptr1):<> Stropt1
+strptr2stropt1(x: Strptr1):<> Stropt1
 //
 castfn
 strnptr2stropt
