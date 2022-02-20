@@ -322,6 +322,33 @@ in
 end // end of [fprint_hashtbl_sep_mapto]
 
 (* ****** ****** *)
+//
+// HX-2022-02-20:
+// This one is just added!
+//
+implement
+{key,itm}
+hashtbl_foreach
+  (tbl) =
+let
+val tbl =
+htdecode(tbl)
+val ( ) =
+$HT.hashtbl_foreach<key,itm>(tbl)
+prval
+((*returned*)) = $UN.cast2void(tbl)
+in
+  // nothing
+end where
+{
+implement
+(env)(*tmp*)
+$HT.hashtbl_foreach$fwork<key,itm><env>
+  (k, x, env) =
+  hashtbl_foreach$fwork<key,itm><env>(k, x, env)
+}
+//
+(* ****** ****** *)
 
 implement
 {key,itm}

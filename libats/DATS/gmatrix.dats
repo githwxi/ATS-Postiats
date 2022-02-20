@@ -44,7 +44,6 @@ staload "libats/SATS/gmatrix_col.sats"
 staload "libats/SATS/gmatrix_row.sats"
 
 (* ****** ****** *)
-
 //
 implement{}
 fprint_gmatrix$sep1 (out) = fprint (out, ", ")
