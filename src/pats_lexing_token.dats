@@ -562,10 +562,6 @@ val () = ins ("static", T_STATIC)
 val () = ins ("stavar", T_STAVAR)
 *)
 //
-// HX-2019-01-17:
-//
-val () = ins ("sexpdef", T_STADEF) // ATS-Xanadu
-//
 val () = ins ("try", T_TRY)
 //
 val () = ins ("tkindef", T_TKINDEF) // HX-2012-05-23
@@ -573,9 +569,22 @@ val () = ins ("tkindef", T_TKINDEF) // HX-2012-05-23
 (*
 val () = ins ("type", TYPE)
 *)
+//
+// HX-2019-01-17: ATS3/Xanadu
+//
+val () = ins ("sexpdef", T_STADEF)
+val () = ins ("#sexpdef", T_STADEF)
+//
 val () = ins ("typedef", TYPEDEF)
 val () = ins ("propdef", PROPDEF)
 val () = ins ("viewdef", VIEWDEF)
+val () = ins ("vwtpdef", VIEWTYPEDEF)
+//
+val () = ins ("#typedef", TYPEDEF)
+val () = ins ("#propdef", PROPDEF)
+val () = ins ("#viewdef", VIEWDEF)
+val () = ins ("#vwtpdef", VIEWTYPEDEF)
+//
 val () = ins ("vtypedef", VIEWTYPEDEF)
 val () = ins ("viewtypedef", VIEWTYPEDEF)
 //
