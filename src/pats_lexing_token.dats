@@ -449,6 +449,12 @@ val () = ins ("absvtbox", ABSVIEWTYPE)
 val () = ins ("absvtflt", ABSVIEWT0YPE)
 val () = ins ("absvtflat", ABSVIEWT0YPE)
 //
+val () = ins ("#absprop", ABSPROP)
+val () = ins ("#absview", ABSVIEW)
+val () = ins ("#abstype", ABSTYPE)
+val () = ins ("#abstbox", ABSTYPE)
+val () = ins ("#abstflt", ABST0YPE)
+//
 val () = ins ("assume", T_ASSUME)
 val () = ins ("reassume", T_REASSUME)
 //
