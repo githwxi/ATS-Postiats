@@ -449,17 +449,24 @@ val () = ins ("absvtbox", ABSVIEWTYPE)
 val () = ins ("absvtflt", ABSVIEWT0YPE)
 val () = ins ("absvtflat", ABSVIEWT0YPE)
 //
+(*
 val () = ins ("#absprop", ABSPROP)
 val () = ins ("#absview", ABSVIEW)
 val () = ins ("#abstype", ABSTYPE)
 val () = ins ("#abstbox", ABSTYPE)
 val () = ins ("#abstflt", ABST0YPE)
+*)
 //
 val () = ins ("assume", T_ASSUME)
 val () = ins ("reassume", T_REASSUME)
 //
 val () = ins ("absimpl", T_ASSUME)
 val () = ins ("absreimpl", T_REASSUME)
+//
+(*
+val () = ins ("#absimpl", T_ASSUME)
+val () = ins ("#absreimpl", T_REASSUME)
+*)
 //
 val () = ins ("as", T_AS)
 //
@@ -579,17 +586,21 @@ val () = ins ("type", TYPE)
 // HX-2019-01-17: ATS3/Xanadu
 //
 val () = ins ("sexpdef", T_STADEF)
+(*
 val () = ins ("#sexpdef", T_STADEF)
+*)
 //
 val () = ins ("typedef", TYPEDEF)
 val () = ins ("propdef", PROPDEF)
 val () = ins ("viewdef", VIEWDEF)
 val () = ins ("vwtpdef", VIEWTYPEDEF)
 //
+(*
 val () = ins ("#typedef", TYPEDEF)
 val () = ins ("#propdef", PROPDEF)
 val () = ins ("#viewdef", VIEWDEF)
 val () = ins ("#vwtpdef", VIEWTYPEDEF)
+*)
 //
 val () = ins ("vtypedef", VIEWTYPEDEF)
 val () = ins ("viewtypedef", VIEWTYPEDEF)
