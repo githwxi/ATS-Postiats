@@ -135,7 +135,7 @@ atspre_exit_errmsg
   atstype_int ecode, atstype_string msg
 )
 {
-  fprintf(stderr, "exit(ATS): %s", (char*)msg); exit(ecode); return;
+  fprintf(stderr, "exit(ATS): %s\n", (char*)msg); exit(ecode); return;
 } // end of [atspre_exit_errmsg]
 
 #atscode_separator_for_C()
@@ -166,7 +166,7 @@ atspre_assert_errmsg_bool
 )
 {
   if (!b) {
-    fprintf(stderr, "%s", (char*)msg) ; exit(1) ;
+    fprintf(stderr, "%s\n", (char*)msg) ; exit(1) ;
   } // end of [if]
   return ;
 } /* endfun */
@@ -185,7 +185,7 @@ atspre_assert_errmsg2_bool
 )
 {
   if (!b) {
-    fprintf(stderr, "%s%s", (char*)msg1, (char*)msg2) ; exit(1) ;
+    fprintf(stderr, "%s%s\n", (char*)msg1, (char*)msg2) ; exit(1) ;
   } // end of [if]
   return ;
 } /* endfun */
