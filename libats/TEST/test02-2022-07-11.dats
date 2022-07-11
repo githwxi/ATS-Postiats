@@ -5,6 +5,12 @@ HX-2022-07-11
 Mon Jul 11 18:24:57 EDT 2022
 *)
 //
+(* ****** ****** *)
+(*
+For a bit of history of this example, please read:
+https://groups.google.com/g/ats-lang-users/c/z-QbPs7JWgg
+*)
+(* ****** ****** *)
 #include
 "share/atspre_staload.hats"
 (* ****** ****** *)
