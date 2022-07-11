@@ -151,18 +151,21 @@ isPrime
 (
   loop(thePrimes1)) where
 {
+//
 fnx
 loop(ps: stream(int)): bool =
 case- !ps of
 |
 stream_cons(p0, ps) =>
+if
+(x0 % p0) = 0
+then false else
 let
-  val pp = p0 * p0
-in
-if pp > x0 then true else
-(
-if (x0 % p0) = 0 then false else loop(ps)
-) end//let//stream_cons//end-of-(loop)
+val pp = p0 * p0
+in//let
+if pp > x0 then true else loop(ps)
+end//let//stream_cons//end-of-(loop)
+//
 } (*where*) // end of [isPrime(x0,primes)]
 
 (* ****** ****** *)
@@ -198,17 +201,27 @@ stream_vt_cons
 implement
 main0() =
 {
-  val N0 =
-  g0int_npow(2, 26)
+  val N1 =
+  g0int_npow(2, 14)
+  val N2 = N1 * N1
   val thePrimes = primes2()
   val thePrimes =
   stream_vt_take_while
-  (thePrimes, lam p0 =<cloref1> p0 <= N0 )
+  (thePrimes, lam p0 =<cloref1> p0 <= N2 )
   val () =
   println!
-  ("nprime(", N0, ") = ", stream_vt_length(thePrimes))
+  ("nprime(", N2, ") = ", stream_vt_length(thePrimes))
 } (*where*) // end of [main0()]
 
 (* ****** ****** *)
 
-(* end of [primes1.dats] *)
+(*
+time ./test01
+nprime(268435456) = 14630842 // N2 = 2^28
+185.61user 0.00system 3:05.65elapsed 99%CPU (0avgtext+0avgdata 1652maxresident)k
+0inputs+0outputs (0major+138minor)pagefaults 0swaps
+*)
+
+(* ****** ****** *)
+
+(* end of [test01-2022-07-01.dats] *)
