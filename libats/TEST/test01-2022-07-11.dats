@@ -152,7 +152,7 @@ stream_vt2t(primes1())
 (* ****** ****** *)
 
 fn
-isPrime
+isPrime1
 (x0: int): bool =
 (
   loop(thePrimes1)) where
@@ -172,7 +172,7 @@ in//let
 if pp > x0 then true else loop(ps)
 end//let//stream_cons//end-of-(loop)
 //
-} (*where*) // end of [isPrime(x0,primes)]
+} (*where*) // end of [isPrime1(x0,primes)]
 
 (* ****** ****** *)
 
@@ -195,7 +195,7 @@ auxloop
 ( n0: int
 ) : stream_vt_con(int) =
 if
-isPrime(n0)
+isPrime1(n0)
 then
 stream_vt_cons
 ( n0
