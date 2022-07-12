@@ -62,8 +62,7 @@ in//let
 if test then
 //
 let
-  val tl_ = tl
-  val ( ) = (tl := auxmain(tl_, pred))
+  val ( ) = (tl := auxmain(tl, pred))
 in
   fold@(xs); xs
 end else (~tl; free@(xs); stream_vt_nil())
