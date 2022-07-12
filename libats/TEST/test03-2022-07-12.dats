@@ -75,14 +75,14 @@ end // let // end of [auxloop(xs,pred)]
 (* ****** ****** *)
 
 fun
-qfree
+qlist_free
 (q0: $Q.qlist(int)): void =
 let
 val xs =
 $Q.qlist_takeout_list(q0)
 in
 $Q.qlist_free_nil(q0); list_vt_free(xs)
-end (*let*) // end of [qfree]
+end (*let*) // end of [qlist_free]
 
 (* ****** ****** *)
 
@@ -124,7 +124,7 @@ auxmain
 )
 : stream_vt(int) =
 $ldelay
-(auxloop(n0, ps), qfree(ps))
+(auxloop(n0, ps), qlist_free(ps))
 //
 and
 auxloop
@@ -164,7 +164,7 @@ implement
 main0() =
 {
   val N1 =
-  g0int_npow(2, 15)
+  g0int_npow(2, 10)
   val N2 = N1 * N1
   val thePrimes = primes2()
   val thePrimes =

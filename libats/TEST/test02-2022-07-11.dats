@@ -268,7 +268,7 @@ implement
 main0() =
 {
   val N1 =
-  g0int_npow(2, 14)
+  g0int_npow(2, 15)
   val N2 = N1 * N1
   val thePS1Env = ps1env(N1)
   val thePrimes = primes2(thePS1Env)
@@ -300,9 +300,9 @@ nprime(268435456) = 14630843 // N2 = 2^28
 0inputs+0outputs (0major+108minor)pagefaults 0swaps
 //
 time ./test02
-nprime(1073741824) = 54400027 // N2 = 2^30
-929.28user 0.10system 15:29.73elapsed 99%CPU (0avgtext+0avgdata 1700maxresident)k
-0inputs+0outputs (0major+145minor)pagefaults 0swaps
+nprime(1073741824) = 54400028
+866.73user 0.04system 14:27.17elapsed 99%CPU (0avgtext+0avgdata 1668maxresident)k
+0inputs+0outputs (0major+146minor)pagefaults 0swaps
 //
 *)
 
