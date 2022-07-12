@@ -34,6 +34,16 @@ test02: $(TEST02).dats; \
 $(PATSCC) -O2 -DATS_MEMALLOC_LIBC -o $@ $<
 ######
 
+######
+TEST03=\
+test03-2022-07-12
+######
+all:: \
+test03
+test03: $(TEST03).dats; \
+$(PATSCC) -O2 -DATS_MEMALLOC_LIBC -o $@ $<
+######
+
 testall:: all
 testall:: regress
 testall:: cleanall
@@ -46,6 +56,9 @@ regress01: test01; $(TIME) ./test01
 regress:: \
 regress02
 regress02: test02; $(TIME) ./test02
+regress:: \
+regress03
+regress03: test03; $(TIME) ./test03
 #
 ######
 
@@ -58,6 +71,7 @@ clean:: ; rm -f *_dats.c
 cleanall:: clean
 cleanall:: ; $(RMF) test01
 cleanall:: ; $(RMF) test02
+cleanall:: ; $(RMF) test03
 
 ######
 

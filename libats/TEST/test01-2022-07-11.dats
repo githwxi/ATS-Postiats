@@ -175,7 +175,7 @@ end//let//stream_cons//end-of-(loop)
 } (*where*) // end of [isPrime1(x0,primes)]
 
 (* ****** ****** *)
-
+//
 fn
 primes2
 (
@@ -183,7 +183,8 @@ primes2
 )
 : stream_vt(int) =
 (
-auxmain(2(*from*))) where
+stream_vt_make_cons
+(  2, auxmain(3)  )) where
 {
 fun
 auxmain
@@ -199,7 +200,7 @@ isPrime1(n0)
 then
 stream_vt_cons
 ( n0
-, auxmain(n0+1)) else auxloop(n0+1)
+, auxmain(n0+2)) else auxloop(n0+2)
 } (*where*) // end of [ primes2() ]
 //
 (* ****** ****** *)
@@ -208,7 +209,7 @@ implement
 main0() =
 {
   val N1 =
-  g0int_npow(2, 15)
+  g0int_npow(2, 13)
   val N2 = N1 * N1
   val thePrimes = primes2()
   val thePrimes =
@@ -223,10 +224,19 @@ main0() =
 
 (*
 //
+nprime(16777216) = 1077871
+3.47user 0.00system 0:03.47elapsed 100%CPU (0avgtext+0avgdata 1440maxresident)k
+0inputs+0outputs (0major+84minor)pagefaults 0swaps
+//
 time ./test01
-nprime(268435456) = 14630842 // N2 = 2^28
-185.61user 0.00system 3:05.65elapsed 99%CPU (0avgtext+0avgdata 1652maxresident)k
-0inputs+0outputs (0major+138minor)pagefaults 0swaps
+nprime(67108864) = 3957809
+24.55user 0.00system 0:24.56elapsed 99%CPU (0avgtext+0avgdata 1508maxresident)k
+0inputs+0outputs (0major+101minor)pagefaults 0swaps
+//
+time ./test01
+nprime(268435456) = 14630843
+165.50user 0.00system 2:45.53elapsed 99%CPU (0avgtext+0avgdata 1676maxresident)k
+0inputs+0outputs (0major+137minor)pagefaults 0swaps
 //
 time ./test01
 nprime(1073741824) = 54400027
@@ -237,4 +247,4 @@ nprime(1073741824) = 54400027
 
 (* ****** ****** *)
 
-(* end of [test01-2022-07-01.dats] *)
+(* end of [ATS2-Postiats/test01-2022-07-11.dats] *)
