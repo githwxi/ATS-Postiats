@@ -208,7 +208,7 @@ implement
 main0() =
 {
   val N1 =
-  g0int_npow(2, 14)
+  g0int_npow(2, 15)
   val N2 = N1 * N1
   val thePrimes = primes2()
   val thePrimes =
@@ -222,10 +222,17 @@ main0() =
 (* ****** ****** *)
 
 (*
+//
 time ./test01
 nprime(268435456) = 14630842 // N2 = 2^28
 185.61user 0.00system 3:05.65elapsed 99%CPU (0avgtext+0avgdata 1652maxresident)k
 0inputs+0outputs (0major+138minor)pagefaults 0swaps
+//
+time ./test01
+nprime(1073741824) = 54400027
+1285.80user 0.06system 21:26.50elapsed 99%CPU (0avgtext+0avgdata 1880maxresident)k
+0inputs+0outputs (0major+200minor)pagefaults 0swaps
+//
 *)
 
 (* ****** ****** *)

@@ -14,10 +14,8 @@ https://groups.google.com/g/ats-lang-users/c/z-QbPs7JWgg
 #include
 "share/atspre_staload.hats"
 (* ****** ****** *)
-
 #staload
 UN = "prelude/SATS/unsafe.sats"
-
 (* ****** ****** *)
 
 fn
@@ -200,6 +198,13 @@ loop(ps, list_vt_cons(p0, r0)) }//ps1env
 //
 (* ****** ****** *)
 
+(*
+HX-2022-07-11:
+[isPrime2] should be more efficient as
+traversing a list involves less pointer-chasing
+than traversing a (non-linear) stream.
+*)
+
 fn
 isPrime2
 ( x0: int
@@ -262,7 +267,7 @@ implement
 main0() =
 {
   val N1 =
-  g0int_npow(2, 14)
+  g0int_npow(2, 15)
   val N2 = N1 * N1
   val thePS1Env = ps1env(N1)
   val thePrimes = primes2(thePS1Env)
@@ -277,9 +282,16 @@ main0() =
 (* ****** ****** *)
 
 (*
+//
 time ./test02
 nprime(268435456) = 14630842 // N2 = 2^28
 114.02user 0.00system 1:54.08elapsed 99%CPU (0avgtext+0avgdata 1512maxresident)k
+//
+time ./test02
+nprime(1073741824) = 54400027 // N2 = 2^30
+929.28user 0.10system 15:29.73elapsed 99%CPU (0avgtext+0avgdata 1700maxresident)k
+0inputs+0outputs (0major+145minor)pagefaults 0swaps
+//
 *)
 
 (* ****** ****** *)
