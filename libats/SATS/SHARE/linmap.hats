@@ -230,12 +230,21 @@ fun
 {key:t0p
 ;itm:vt0p}
 {ki2:vt0p}
-linmap_flistize$fopr (k: key, x: itm): ki2
+linmap_flistize$fopr(k: key, x: itm): ki2
 fun
 {key:t0p
 ;itm:vt0p}
 {ki2:vt0p}
-linmap_flistize (map: map (key, INV(itm))): List0_vt(ki2)
+linmap_flistize
+  (map: map(key, INV(itm))): List0_vt(ki2)
+(*
+fun
+{key:t0p
+;itm:vt0p}
+{ki2:vt0p}
+linmap_flistize
+  (map: map(key, INV(itm))):<!wrt> List0_vt(ki2)
+*)
 //
 (* ****** ****** *)
 

@@ -52,7 +52,7 @@ cleanall:: ; $(RMF) DirWalk
 #
 NPM=npm
 #
-npm-update:: ; (NPM) update
+npm-update:: ; $(NPM) update
 npm-install:: ; $(NPM) install
 #
 ######

@@ -419,7 +419,7 @@ end // end of [ifact2]
 ")
 
 When the inner function #dyncode("loop") is called on three arguments n, i
-and r, the precondition for this call is that i is natural number less than
+and r, the precondition for this call is that i is a natural number less than
 or equal to n and r equals fact(i), that is, the value of the factorial
 function on i. This precondition is captured by the type assigned to
 #dyncode("loop") and thus enforced at each call site of #dyncode("loop") in
