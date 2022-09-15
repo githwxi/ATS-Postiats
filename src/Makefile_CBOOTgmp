@@ -17,9 +17,11 @@ CCOMP=$(CC)
 # LDFLAGS=
 #
 ######
-
+#
+CFLAG0 :=
+CFLAGS += $(CFLAG0)
 CFLAGS += -I. -I./ccomp/runtime
-
+#
 ######
 #
 # This is fixed:
