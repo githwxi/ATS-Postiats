@@ -13,7 +13,7 @@ all:: DATS_C
 
 ######
 #
-DATS_C:: CATS/catsparse_all_dats.c
+DATS_C: CATS/catsparse_all_dats.c
 #
 ######
 #
