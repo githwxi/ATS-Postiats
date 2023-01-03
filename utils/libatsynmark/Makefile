@@ -10,10 +10,6 @@ MAKE=make
 
 ######
 
-copy::
-
-######
-
 build:: ; \
 $(MAKE) -C BUILD -f ../Makefile_build
 
