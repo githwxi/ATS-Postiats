@@ -13,10 +13,6 @@ PATSOPT=$(PATSHOME)/bin/patsopt
 
 ######
 
-all::
-
-######
-
 CATSPARSEMIT=./CATS-parsemit
 
 ######
