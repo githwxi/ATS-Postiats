@@ -115,12 +115,12 @@ end // end of [board_set]
 fun
 safety_test1
 (
-  i0: int, j0: int, i1: int, j1: int
+  i0: int, j0: int, i: int, j: int
 ) : bool =
 (*
 ** [abs]: the absolute value function
 *)
-  j0 <> j1 andalso abs (i0 - i1) <> abs (j0 - j1)
+  j0 <> j andalso abs (i0 - i) <> abs (j0 - j)
 // end of [safety_test1]
 
 fun
