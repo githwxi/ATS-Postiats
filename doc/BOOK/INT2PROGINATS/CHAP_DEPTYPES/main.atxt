@@ -311,7 +311,7 @@ static variable #stacode("i") of the sort #stacode("int") and the scope
 of this quantification is the function type following it.  One may think
 that this function type is also a singleton type as the only function of
 this type is the successor function on integers. Actually, there are
-infinitely may partial functions that can be given this type as well.  For
+infinitely many partial functions that can be given this type as well.  For
 the successor function on natural numbers, we can use the following type:
 
 #atscode("\
