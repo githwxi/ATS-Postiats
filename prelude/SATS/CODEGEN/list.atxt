@@ -794,7 +794,7 @@ fun
 list_crosswith$fopr(x: x, y: y): (res)
 //
 #atscode_separator()
-
+//
 fun
 {x:t0p}
 list_foreach(xs: List(INV(x))): void
@@ -807,11 +807,11 @@ list_foreach_env
 fun
 {x:t0p}
 {env:vt0p}
-list_foreach$cont (x: x, env: &env): bool
+list_foreach$cont(x: x, env: &env): bool
 fun
 {x:t0p}
 {env:vt0p}
-list_foreach$fwork (x: x, env: &(env) >> _): void
+list_foreach$fwork(x: x, env: &(env) >> _): void
 //
 #atscode_separator()
 //
