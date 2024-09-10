@@ -56,7 +56,7 @@ fun cairo_device_get_type
 unsigned int        cairo_device_get_reference_count    (cairo_device_t *device);
 */
 fun
-cairo_device_get_reference_count (dev: xrdev1) : uint = "mac#%"
+cairo_device_get_reference_count (dev: !xrdev1) : uint = "mac#%"
 // endfun
 
 (* ****** ****** *)
