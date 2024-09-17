@@ -34,7 +34,7 @@ Bohem-GC) can be readily employed.
 ## Installing ATS2
 
 Please see
-[http://www.ats-lang.org/Downloads.html](http://www.ats-lang.org/Downloads.html) for
+[https://ats-lang.sourceforge.net/DOWNLOAD/](https://ats-lang.sourceforge.net/DOWNLOAD/) for
 instructions.
 
 Note that the code in this github directory is primarily meant for people
