@@ -162,7 +162,7 @@ which is needed for atscc-compilers such as atscc2erl and atscc2scm.
 //
 --constraint-export:
 This flag indicates that the constaints generated during typechecking
-are to be exported so as to allows them be to solved externally.
+are to be exported so as to allow them be to solved externally.
 *)
 //
 --constraint-ignore:
