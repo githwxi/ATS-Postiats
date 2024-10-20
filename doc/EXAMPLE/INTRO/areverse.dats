@@ -64,13 +64,23 @@ _(*RG*) = "{$MYTESTING}/DATS/randgen.dats"
 //
 #include <time.h>
 //
+#if _WIN32
+// NOTE:
+// 1. replace srand48(seed) by srand(seed)
+// 2. replace drand48() by (double(rand()) / RAND_MAX)
+#else
 extern void srand48 (long int) ; // in [stdlib.h]
 extern double drand48 (/*void*/) ; // in [stdlib.h]
+#endif
 //
 atsvoid_t0ype
 srand48_with_time ()
 {
+#if _WIN32
+  srand(time(0)) ; return ;
+#else
   srand48(time(0)) ; return ;
+#endif
 }
 %}
 extern

@@ -42,8 +42,12 @@ ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET_IN
 
 /* ****** ****** */
 //
+#if _WIN32
+// FIXME: error?
+#else
 #include <sys/socket.h>
 #include <netinet/in.h>
+#endif
 //
 /* ****** ****** */
 //
@@ -55,6 +59,9 @@ void *memset (void *p, int c, size_t n) ;
 //
 /* ****** ****** */
 
+#if _WIN32
+// FIXME: error?
+#else
 ATSinline()
 atsvoid_t0ype
 atslib_libats_libc_sockaddr_in_init
@@ -68,6 +75,7 @@ atslib_libats_libc_sockaddr_in_init
   sa2->sin_addr.s_addr = inp ;
   sa2->sin_port = port ;
 } // end of [atslib_libats_libc_sockaddr_in_init]
+#endif
 
 /* ****** ****** */
 
