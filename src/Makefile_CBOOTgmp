@@ -9,11 +9,14 @@ CC=gcc
 GCC=gcc
 CCOMP=$(CC)
 #
+######
+#
+# CFLAGS=
+#
 # GCFLAG=-D_ATS_NGC
 # GCFLAG=-D_ATS_GCATS
 # GCFLAG=-D_ATS_GCBDW
 #
-# CFLAGS=
 # LDFLAGS=
 #
 ######
@@ -21,6 +24,7 @@ CCOMP=$(CC)
 CFLAG0 :=
 CFLAGS += $(CFLAG0)
 CFLAGS += -I. -I./ccomp/runtime
+CFLAGS += -Wno-implicit-function-declaration
 #
 ######
 #
@@ -388,7 +392,7 @@ PRELUDE_OBJECTS := \
 ######
 #
 prelude_%.o: \
-prelude/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+prelude/%.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 prelude_libats.o: $(PRELUDE_OBJECTS) ; ld -r -o $@ $^
 #
@@ -417,7 +421,7 @@ endif
 ######
 #
 libc_%.o: \
-libc/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+libc/%.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 libc_libats.o: $(LIBC_OBJECTS) ; ld -r -o $@ $^
 #
@@ -446,7 +450,7 @@ LIBATS_OBJECTS := \
 ######
 #
 libats_%.o: \
-libats/%.c ; $(CCOMP) $(CFLAGS) -c -o $@ $<
+libats/%.c ; $(CCOMP) -O2 $(CFLAGS) -c -o $@ $<
 #
 libats_libats.o: $(LIBATS_OBJECTS) ; ld -r -o $@ $^
 #

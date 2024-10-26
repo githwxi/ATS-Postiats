@@ -1,7 +1,6 @@
 
 ## Using ATS-Postiats from a git repo-build
 
-
 From your ATS-Postiats root directory (NOT this directory)
 
 1.  Clone the ATS-Postiats repo to a desired location
