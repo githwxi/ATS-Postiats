@@ -48,6 +48,9 @@ staload "libats/libc/SATS/fcntl.sats"
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error out?
+#else
 extern
 atstype_int
 atslib_libats_libc_fildes_iget_int
@@ -59,6 +62,7 @@ atslib_libats_libc_fildes_iget_int
   if (flags < 0) return -1 ; // [fd2] not in use
   return fd ;
 } // end of [atslib_libats_libc_fildes_iget_int]
+#endif
 %}
 
 (* ****** ****** *)

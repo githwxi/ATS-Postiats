@@ -61,6 +61,9 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atstype_int
 atslib_libats_libc_socket_AF_type_exn
@@ -73,11 +76,15 @@ atslib_libats_libc_socket_AF_type_exn
   if(0 > fildes) ATSLIBfailexit("socket") ; // HX: failure
   return fildes;
 } // end of [atslib_libats_libc_socket_AF_type_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_bind_exn
@@ -91,11 +98,15 @@ atslib_libats_libc_bind_exn
   if(0 > err) ATSLIBfailexit("bind") ; // HX: failure
   return;
 } // end of [atslib_libats_libc_bind_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_listen_exn
@@ -108,11 +119,15 @@ atslib_libats_libc_listen_exn
   if(0 > err) ATSLIBfailexit("listen") ; // HX: failure
   return;
 } // end of [atslib_libats_libc_listen_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_connect_exn
@@ -126,11 +141,15 @@ atslib_libats_libc_connect_exn
   if(0 > err) ATSLIBfailexit("connect") ; // HX: failure
   return;
 } // end of [atslib_libats_libc_connect_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_socket_close_exn
@@ -143,11 +162,15 @@ atslib_libats_libc_socket_close_exn
   if(0 > err) ATSLIBfailexit("socket_close") ; // HX: failure
   return;
 } // end of [atslib_libats_libc_socket_close_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_shutdown_exn
@@ -160,6 +183,7 @@ atslib_libats_libc_shutdown_exn
   if(0 > err) ATSLIBfailexit("shutdown") ; // HX: failure
   return;
 } // end of [atslib_libats_libc_shutdown_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
