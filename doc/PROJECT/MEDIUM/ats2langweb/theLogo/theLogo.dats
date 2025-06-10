@@ -66,7 +66,7 @@ val () =
 cairo_line_to (ctx, A2.0+0.00, A2.1)
 //
 val () =
-cairo_move_to (ctx, A1.0, A1.1-0.48)
+cairo_move_to (ctx, A1.0, A1.1-0.50)
 val () =
 cairo_line_to (ctx, C1.0, C1.1+0.00)
 //
@@ -84,12 +84,12 @@ val ((*closed*)) = cairo_close_path (ctx)
 implement
 draw_tmp (ctx) =
 {
-val A0 = (1.00, 0.00)
-val A1 = (0.00, 1.00)
-val A2 = (1.00, 2.00)
-val B0 = (1.88, 0.00)
-val B1 = (2.88, 1.00)
-val B2 = (1.88, 2.00)
+val A0 = (1.00-0.20, 0.00)
+val A1 = (0.00-0.40, 1.00)
+val A2 = (1.00-0.20, 2.00)
+val B0 = (1.88+0.12, 0.00)
+val B1 = (2.88+0.32, 1.00)
+val B2 = (1.88+0.12, 2.00)
 //
 val () = cairo_move_to (ctx, A0.0, A0.1)
 val () = cairo_line_to (ctx, A1.0, A1.1)
@@ -176,7 +176,7 @@ val ((*void*)) = draw_tmp (ctx)
 val () =
   cairo_set_source_rgb
   (ctx, 150.0/255, 55.0/255, 85.0/255)
-val ((*void*)) = cairo_set_line_width (ctx, 0.64)
+val ((*void*)) = cairo_set_line_width (ctx, 1.00)
 val ((*void*)) = cairo_stroke (ctx)
 val ((*void*)) = cairo_restore (pf | ctx)
 //
