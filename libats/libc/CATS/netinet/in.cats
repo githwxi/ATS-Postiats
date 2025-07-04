@@ -39,21 +39,32 @@
 #define ATSLIB_LIBATS_LIBC_NETINET_IN_CATS
 
 /* ****** ****** */
+#if _WIN32
+// FIXME: error?
+#else
 //
 #include <arpa/inet.h>
 #include <netinet/in.h>
 //
+#endif
 /* ****** ****** */
 //
+#if _WIN32
+// FIXME: error?
+#else
 typedef
 struct in_addr
 in_addr_struct;
 typedef
 struct in6_addr
 in6_addr_struct;
+#endif
 //
 /* ****** ****** */
 //
+#if _WIN32
+// FIXME: error?
+#else
 typedef
 struct sockaddr_in
 sockaddr_in_struct ;
@@ -67,6 +78,7 @@ atslib_libats_libc_socklen_in \
 #define \
 atslib_libats_libc_socklen_in6 \
   (sizeof(sockaddr_in6_struct))
+#endif
 //
 /* ****** ****** */
 
@@ -77,6 +89,9 @@ atslib_libats_libc_in_port_nbo_uint(nport) htons(nport)
 
 /* ****** ****** */
 
+#if _WIN32
+// FIXME: error?
+#else
 ATSinline()
 in_addr_t
 atslib_libats_libc_in_addr_hbo2nbo
@@ -85,6 +100,7 @@ atslib_libats_libc_in_addr_hbo2nbo
    return htonl(addr_hbo) ;
 }
 /* end of [atslib_libats_libc_in_addr_hbo2nbo] */
+#endif
 
 /* ****** ****** */
 

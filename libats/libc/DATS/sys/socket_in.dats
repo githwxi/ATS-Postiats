@@ -62,6 +62,9 @@ staload
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_bind_in_exn
@@ -77,11 +80,15 @@ atslib_libats_libc_bind_in_exn
   if(0 > err) ATSLIBfailexit("bind");
   return;
 } // end of [atslib_libats_libc_bind_in_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)
 
 %{$
+#if _WIN32
+// FIXME: error?
+#else
 ATSextern()
 atsvoid_t0ype
 atslib_libats_libc_connect_in_exn
@@ -97,6 +104,7 @@ atslib_libats_libc_connect_in_exn
   if(0 > err) ATSLIBfailexit("connect");
   return;
 } // end of [atslib_libats_libc_connect_in_exn]
+#endif
 %} // end of [%{]
 
 (* ****** ****** *)

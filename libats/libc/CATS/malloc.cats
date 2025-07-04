@@ -40,16 +40,49 @@
 
 /* ****** ****** */
 
+#if _WIN32
+#include <stdio.h>
+#else
 #include <malloc.h>
+#endif
 
 /* ****** ****** */
 
+#if _WIN32
+
+static
+int atslib_libats_libc_mallopt(int param, int value) {
+  return 0; // error
+}
+static
+int atslib_libats_libc_malloc_trim(size_t pad) {
+  return 0; // unable to release any memory back to system
+}
+static
+size_t atslib_libats_libc_malloc_usable_size(void *ptr) {
+  return 0; // no usable bytes in the pointer that we know of...
+}
+static
+void atslib_libats_libc_malloc_stats() {
+  fprintf(stderr, "malloc_stats() is not implemented");
+}
+static
+void *atslib_libats_libc_malloc_get_state() {
+  return NULL; // error: unable to allocate memory for storing state
+}
+static
+int atslib_libats_libc_malloc_set_state(void *state) {
+  return -1; // error: unable to restore state
+}
+
+#else
 #define atslib_libats_libc_mallopt mallopt
 #define atslib_libats_libc_malloc_trim malloc_trim
 #define atslib_libats_libc_malloc_usable_size malloc_usable_size
 #define atslib_libats_libc_malloc_stats malloc_stats
 #define atslib_libats_libc_malloc_get_state malloc_get_state
 #define atslib_libats_libc_malloc_set_state malloc_set_state
+#endif
 
 /* ****** ****** */
 
