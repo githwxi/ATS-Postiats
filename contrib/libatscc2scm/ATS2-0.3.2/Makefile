@@ -5,7 +5,8 @@
 ######
 
 PATSOPT=$(PATSHOME)/bin/patsopt
-ATSCC2SCM=$(PATSHOME)/bin/atscc2scm
+ATSCC2SCM=\
+$(PATSHOME)/contrib/CATS-atscc2scm/bin/atscc2scm
 
 ######
 

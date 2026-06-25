@@ -43,7 +43,9 @@ all:: \
 bin_atscc2scm
 bin_atscc2scm: \
 $(SOURCES_DATS); \
-$(PATSCC) \
+$(PATSCC) -verbose \
+  -Wint-conversion \
+  -Wno-implicit-function-declaration \
   -DATS_MEMALLOC_GCBDW -O2 -o bin/atscc2scm \
   $(SOURCES_DATS) $(SOURCES_SATS) $(SOURCES_CATS) -lgc
 #

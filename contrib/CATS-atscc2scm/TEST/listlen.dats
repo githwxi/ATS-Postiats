@@ -69,6 +69,7 @@ if m < n
 //
 (* ****** ****** *)
 
+(*
 %{^
 ;;
 (load
@@ -79,6 +80,7 @@ if m < n
 (load "./libatscc2scm/CATS/print_cats.scm")
 ;;
 %} // end of [%{]
+*)
 
 (* ****** ****** *)
 //
