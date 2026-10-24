@@ -3,7 +3,8 @@ name: Ubuntu CI
 on:
   # Run weekly; manual dispatch is useful when checking a CI-only fix.
   schedule:
-    - cron: "23 4 * * 1"
+    - cron: "0 2 * * 1"
+      timezone: "America/New_York"
   workflow_dispatch:
 
 permissions:
