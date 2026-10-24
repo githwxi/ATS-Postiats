@@ -1,8 +1,8 @@
 .github/workflows/ci/*.sh text eol=lf
-*.cats text eol=lf
+*.sats text eol=lf
 *.dats text eol=lf
 *.hats text eol=lf
-*.sats text eol=lf
+*.cats text eol=lf
 *.atxt text eol=lf
 Makefile text eol=lf
 Makefile_* text eol=lf

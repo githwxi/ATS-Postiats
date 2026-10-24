@@ -22,6 +22,7 @@ make CC=gcc ATS_PROOFCHECK=-Wno-error=implicit-function-declaration all
 
 cd "$PATSHOME"
 make -f Makefile_devl CC=gcc all
+patsopt --help
 
 make -C src CBOOTgmp
 make -C src/CBOOT/prelude
