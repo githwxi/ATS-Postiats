@@ -689,7 +689,11 @@ atspackaging:: srcget_npm_utils_contrib
 #
 atspackaging:: srcget_dist_cleanup
 #
-atspackaging:: ; sed -i 's/\r$$//' ATS-Postiats/autogen.sh ATS-Postiats/configure.ac && (cd ATS-Postiats && ./autogen.sh)
+atspackaging:: ; \
+sed -i 's/\r$$//' \
+ATS-Postiats/autogen.sh \
+ATS-Postiats/configure.ac && \
+(cd ATS-Postiats && bash -v ./autogen.sh)
 #
 ######
 
