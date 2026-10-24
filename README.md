@@ -29,7 +29,7 @@ Bohem-GC) can be readily employed.
 ## Build Status
 
 * [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/scheduled-ci.yml/badge.svg?branch=master)](https://github.com/githwxi/ATS-Postiats/actions/workflows/scheduled-ci.yml) Ubuntu
-* [![Scheduled CI](https://ci.appveyor.com/api/projects/status/github/githwxi/ats-postiats?branch=master&svg=true)](https://ci.appveyor.com/project/githwxi/ats-postiats/branch/master) Cygwin
+* [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml/badge.svg?branch=master&label=Scheduled%20CI)](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml) Cygwin
 
 ## Installing ATS2
 
