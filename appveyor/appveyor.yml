@@ -39,7 +39,7 @@ before_build:
     - 'set PATH=%PATH%;%CYG_ROOT%/bin'
     - 'echo Build ATS1 (with GC)...'
     - '%CYG_SH% "cd $BUILD_FOLDER && tar -zxf xassets/ATS1/$ATS1PACKTGZ"'
-    - '%CYG_SH% "cd $BUILD_FOLDER/$ATS1PACK; exec 0</dev/null; ./configure && make all"'
+    - '%CYG_SH% "cd $BUILD_FOLDER/$ATS1PACK; exec 0</dev/null; ./configure && make ATS_PROOFCHECK=-Wno-error=implicit-function-declaration all"'
     - 'echo Download ATS2-contrib...'
     - '%CYG_SH% "cd $BUILD_FOLDER && git clone $PATSCONTRIBURL ATS-Postiats-contrib"'
 

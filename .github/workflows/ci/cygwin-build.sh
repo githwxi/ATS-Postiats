@@ -17,7 +17,8 @@ tar -xzf "xassets/ATS1/ats-lang-anairiats-${ats_version}.tgz" -C "$workspace"
 
 cd "$ATSHOME"
 ./configure
-make CC=gcc all
+# ATS1 emits C with implicit declarations; keep GCC's diagnostic as a warning.
+make CC=gcc ATS_PROOFCHECK=-Wno-error=implicit-function-declaration all
 
 cd "$PATSHOME"
 make -f codegen/Makefile_atslib
