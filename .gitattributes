@@ -1,0 +1,4 @@
+.github/workflows/ci/*.sh text eol=lf
+*.atxt text eol=lf
+Makefile text eol=lf
+Makefile_* text eol=lf
