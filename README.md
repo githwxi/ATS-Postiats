@@ -28,10 +28,15 @@ Bohem-GC) can be readily employed.
 
 ## Build Status
 
-The Ubuntu workflow builds ATS1 and ATS2, runs the documentation regression tests, and builds release artifacts, utilities, and books. The Cygwin workflow builds ATS1 and ATS2 on 64-bit Cygwin. Ubuntu runs Mondays at 04:23 UTC; Cygwin runs Mondays at 02:00 America/New_York time. Both workflows can also be started manually from the GitHub Actions tab. The build scripts are in `.github/workflows/ci/`.
-
 * [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/ubuntu-ci.yml/badge.svg?branch=master)](https://github.com/githwxi/ATS-Postiats/actions/workflows/ubuntu-ci.yml) Ubuntu
 * [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml/badge.svg?branch=master&label=Scheduled%20CI)](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml) Cygwin
+
+The Ubuntu workflow builds ATS1 and ATS2, runs the documentation
+regression tests, and builds release artifacts, utilities, and
+books. The Cygwin workflow builds ATS1 and ATS2 on 64-bit
+Cygwin. Ubuntu runs Mondays at 04:23 UTC; Cygwin runs Mondays at 02:00
+America/New_York time. Both workflows can also be started manually
+from the GitHub Actions tab. The build scripts are in `.github/workflows/ci/`.
 
 ## Installing ATS2
 
