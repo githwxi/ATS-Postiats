@@ -1,0 +1,39 @@
+name: Ubuntu CI
+
+on:
+  # Run weekly; manual dispatch is useful when checking a CI-only fix.
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ubuntu-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and regression tests (Ubuntu 22.04)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes \
+            docbook-utils \
+            libev-dev \
+            libgc-dev \
+            libgdbm-dev \
+            libgmp-dev \
+            libgtk-3-dev \
+            libjansson-dev \
+            libjson-c-dev
+
+      - name: Build and test ATS1 and ATS2
+        run: bash .github/workflows/ci/ubuntu-build.sh
