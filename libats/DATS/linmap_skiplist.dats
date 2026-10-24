@@ -61,7 +61,12 @@ stadef mytkind = $extkind"atslib_linmap_skiplist"
 //
 // HX: it is in stdlib.h
 //
+#if _WIN32
+extern void srand (unsigned int);
+#define srand48 srand
+#else
 extern void srand48 (long int);
+#endif
 //
 %}
 typedef time_t = $extype"time_t"

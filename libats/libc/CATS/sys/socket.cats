@@ -42,8 +42,12 @@ ATSLIB_LIBATS_LIBC_CATS_SYS_SOCKET
 
 /* ****** ****** */
 //
+#if _WIN32
+// FIXME: error?
+#else
 #include <unistd.h>
 #include <sys/socket.h>
+#endif
 //
 /* ****** ****** */
 //
@@ -68,6 +72,9 @@ atslib_libats_libc_socket_AF_type socket_AF_type
 atslib_libats_libc_socket_PF_type socket_PF_type
 
 /* ****** ****** */
+#if _WIN32
+// FIXME: error?
+#else
 //
 #define \
 atslib_libats_libc_bind_err(fd, sa, len) \
@@ -80,6 +87,7 @@ atslib_libats_libc_bind_exn
   int sockfd, atstype_ptr sa, socklen_t salen
 ); // end of [atslib_libats_libc_bind_exn]
 //
+#endif
 /* ****** ****** */
 //
 #define \
@@ -90,6 +98,9 @@ void
 atslib_libats_libc_listen_exn(int sockfd, int listenqsz);
 //
 /* ****** ****** */
+#if _WIN32
+// FIXME: error?
+#else
 //
 #define \
 atslib_libats_libc_connect_err(fd, sa, len) \
@@ -102,7 +113,11 @@ atslib_libats_libc_connect_exn
   int sockfd, atstype_ptr sa, socklen_t salen
 ); // end of [atslib_libats_libc_connect_exn]
 //
+#endif
 /* ****** ****** */
+#if _WIN32
+// FIXME: error?
+#else
 //
 #define \
 atslib_libats_libc_accept_err(fd, sa, len) \
@@ -111,6 +126,7 @@ atslib_libats_libc_accept_err(fd, sa, len) \
 #define \
 atslib_libats_libc_accept_null_err(fd) atslib_libats_libc_accept_err(fd, 0, 0)
 //
+#endif
 /* ****** ****** */
 
 #define atslib_libats_libc_socket_close(fd) close(fd)

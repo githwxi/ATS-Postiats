@@ -64,10 +64,14 @@ atslib_libats_libc_fcntlflags_lor(x1, x2) ((x1)|(x2))
 
 /* ****** ****** */
 
+#if _WIN32
+// FIXME: error out?
+#else
 #define \
 atslib_libats_libc_fcntl_getfl(fd) fcntl(fd, F_GETFL)
 #define \
 atslib_libats_libc_fcntl_setfl(fd, flags) fcntl(fd, F_SETFL, flags)
+#endif
 
 /* ****** ****** */
 
