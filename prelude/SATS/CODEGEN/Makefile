@@ -38,6 +38,8 @@ integer_atxt.dats: integer.atxt
 clean:: ; $(RMF) integer_atxt.exe
 cleanall:: ; $(RMF) integer.sats
 
+######
+
 all:: pointer.sats
 pointer.sats: pointer_atxt.exe ; ./$< > $@
 pointer_atxt.exe: pointer_atxt.dats
@@ -47,6 +49,7 @@ pointer_atxt.dats: pointer.atxt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.sats
 
+######
 
 all:: arith_prf.sats
 arith_prf.sats: arith_prf_atxt.exe ; ./$< > $@
@@ -56,6 +59,8 @@ arith_prf_atxt.dats: arith_prf.atxt
 	$(ATSDOC) --outcode $@ -i arith_prf.atxt > arith_prf_atxt.txt
 clean:: ; $(RMF) arith_prf_atxt.exe
 cleanall:: ; $(RMF) arith_prf.sats
+
+######
 
 all:: integer_long.sats
 integer_long.sats: integer_long_atxt.exe ; ./$< > $@
@@ -75,6 +80,8 @@ integer_size_atxt.dats: integer_size.atxt
 clean:: ; $(RMF) integer_size_atxt.exe
 cleanall:: ; $(RMF) integer_size.sats
 
+######
+
 all:: integer_short.sats
 integer_short.sats: integer_short_atxt.exe ; ./$< > $@
 integer_short_atxt.exe: integer_short_atxt.dats
@@ -84,6 +91,7 @@ integer_short_atxt.dats: integer_short.atxt
 clean:: ; $(RMF) integer_short_atxt.exe
 cleanall:: ; $(RMF) integer_short.sats
 
+######
 
 all:: bool.sats
 bool.sats: bool_atxt.exe ; ./$< > $@
@@ -418,4 +426,8 @@ clean:: ; $(RMF) *_atxt.dats
 
 cleanall:: clean
 
-###### end of [Makefile] ######
+##################################################################
+##################################################################
+########################(endof-[Makefile])########################
+##################################################################
+##################################################################
