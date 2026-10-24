@@ -10,7 +10,7 @@ fi
 ats_version=$1
 ats_package="ats-lang-anairiats-${ats_version}"
 archive="${ats_package}.tgz"
-download_url="https://ats-lang.github.io/ATS-Anairiats/${archive}"
+download_url="https://raw.githubusercontent.com/githwxi/ATS-Anairiats/master/${archive}"
 
 if [ -n "${TMPDIR:-}" ]; then
   tmp_dir=$TMPDIR
