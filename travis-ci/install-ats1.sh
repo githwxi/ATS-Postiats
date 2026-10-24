@@ -1,67 +1,37 @@
 #!/usr/bin/env sh
 
-######
-#
-# Author: Kiwamu Okabe
-# Author: Hongwei Xi (tidying-up)
-#
-######
-#
-# for installing ats-anairiats
-#
-######
-#
-ATSVER=$1
-#
-ATSPACK=\
-ats-lang-anairiats-${ATSVER}
-#
-ATSPACKTGZ=${ATSPACK}.tgz
-#
-######
-#
-ATSLANGURL_srcfg=\
-http://sourceforge.net/projects/ats-lang
-#
-ATSLANGURL_github=http://ats-lang.github.io
-#
-######
-#
-WGETQ="wget -q"
-TARZXF="tar -zxf"
-#
-######
-#
-${WGETQ} \
-${ATSLANGURL_github}/ATS-Anairiats/${ATSPACKTGZ}
-#
-# ${WGETQ} \
-# ${ATSLANGURL_srcfg}/files/ats-lang/anairiats-latest/${ATSPACKTGZ}
-#
-######
-#
-${TARZXF} ${ATSPACKTGZ}
-#
-######
-#
-# HX-2014-12-16:
-# The rest is moved into .travis.yml
-#
-######
-#
-# ./configure; make all
-#
-######
-#
-# -- If you do
-#
-# ./configure; make all_ngc
-#
-# -- Please remember to use the following
-# -- command-line later when building ATS2
-#
-# make GCFLAG=-D_ATS_NGC all
-#
-######
+set -eu
 
-###### end of [install-ats1.sh] ######
+if [ "$#" -ne 1 ] || [ -z "$1" ]; then
+  echo "Usage: $0 VERSION" >&2
+  exit 2
+fi
+
+ats_version=$1
+ats_package="ats-lang-anairiats-${ats_version}"
+archive="${ats_package}.tgz"
+download_url="https://ats-lang.github.io/ATS-Anairiats/${archive}"
+
+if [ -n "${TMPDIR:-}" ]; then
+  tmp_dir=$TMPDIR
+else
+  tmp_dir=/tmp
+fi
+archive_path="${tmp_dir%/}/${archive}"
+trap 'rm -f "$archive_path"' EXIT HUP INT TERM
+
+if command -v curl >/dev/null 2>&1; then
+  curl --fail --location --retry 3 --output "$archive_path" "$download_url"
+elif command -v wget >/dev/null 2>&1; then
+  wget --quiet --tries=3 --output-document="$archive_path" "$download_url"
+else
+  echo "Neither curl nor wget is installed" >&2
+  exit 1
+fi
+
+tar -xzf "$archive_path" -C "${HOME:?HOME must be set}"
+
+if [ ! -d "${HOME}/${ats_package}" ]; then
+  echo "Expected extracted directory not found: ${HOME}/${ats_package}" >&2
+  exit 1
+fi

@@ -2,7 +2,10 @@ os:
   - osx
   - linux
 
-sudo: false
+# Travis CI uses the same dependency list on Linux and macOS; platform-specific
+# installation details are handled by install-pkgs.sh.
+
+language: c
 
 addons:
   apt:
@@ -11,7 +14,7 @@ addons:
     - libgmp-dev
     - libgtk-3-dev
     - libev-dev
-    - libjson0-dev
+    - libjson-c-dev
     - libjansson-dev
     - docbook-utils
     - libgdbm-dev
@@ -19,16 +22,17 @@ addons:
 before_install:
   - date
   - cd ${HOME}
-  # Setting-up
+  # Configure the ATS1 and ATS2 locations used by the build.
   - export ATSHOME=${HOME}/ats-lang-anairiats-0.2.12
   - export ATSHOMERELOC=ATS-0.2.12
   - export PATSHOME=${TRAVIS_BUILD_DIR}
-  - export PATH=${PATH}:${PATSHOME}/bin
-  # Download ATS2-contrib
+  - export PATH=${PATH}:${PATSHOME}/bin:${ATSHOME}/bin
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PKG_CONFIG_PATH="/opt/X11/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"; fi
+  # Download ATS2-contrib.
   - git clone https://github.com/githwxi/ATS-Postiats-contrib.git ATS-Postiats-contrib
   - export PATSHOMERELOC=${HOME}/ATS-Postiats-contrib
-  - export GCC=gcc
-  - export CLANG=clang
+  - export GCC=${GCC:-gcc}
+  - export CLANG=${CLANG:-clang}
 
 install:
   # Install pkgs
