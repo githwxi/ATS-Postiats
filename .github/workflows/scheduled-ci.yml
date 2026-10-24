@@ -81,9 +81,9 @@ jobs:
           make -C src/CBOOT/libc
           make -C src/CBOOT/libats
           make -C src/CBOOT/prelude
-          make -C utils/libatsopt copy build
+          make -C utils/libatsopt build
           cp -f utils/libatsopt/BUILD/libatsopt.a "$ATSHOME/ccomp/lib"
-          make -C utils/libatsynmark copy build
+          make -C utils/libatsynmark build
           cp -f utils/libatsynmark/BUILD/libatsynmark.a "$ATSHOME/ccomp/lib"
           make -C utils/atsynmark
 
