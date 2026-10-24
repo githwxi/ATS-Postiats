@@ -21,6 +21,31 @@ cd "$ATSHOME"
 make CC=gcc ATS_PROOFCHECK=-Wno-error=implicit-function-declaration all
 
 cd "$PATSHOME"
-make -f codegen/Makefile_atslib
-make -f Makefile_devl src_depend
 make -f Makefile_devl CC=gcc all
+
+make -C src CBOOTgmp
+make -C src/CBOOT/prelude
+make -C src/CBOOT/libc
+make -C src/CBOOT/libats
+make -C doc/DISTRIB -f Makefile atspackaging
+make -C doc/DISTRIB -f Makefile atspacktarzvcf_gmp
+
+if ! make -C doc -f Makefile_test testall > testall_doc.log 2>&1; then
+  tail -100 testall_doc.log
+  exit 1
+fi
+tail -100 testall_doc.log
+
+cp "$ATSHOME/config.h" .
+make -C src cleanall
+make -C src/CBOOT/libc
+make -C src/CBOOT/libats
+make -C src/CBOOT/prelude
+make -C utils/libatsopt build
+cp -f utils/libatsopt/BUILD/libatsopt.a "$ATSHOME/ccomp/lib"
+make -C utils/libatsynmark build
+cp -f utils/libatsynmark/BUILD/libatsynmark.a "$ATSHOME/ccomp/lib"
+make -C utils/atsynmark
+
+make -C doc/BOOK/ATS2TUTORIAL
+make -C doc/BOOK/INT2PROGINATS

@@ -35,6 +35,12 @@ jobs:
             intltool
             libgc-devel
             libgmp-devel
+            libgtk3-devel
+            libev-devel
+            libjson-c-devel
+            libjansson-devel
+            docbook-utils
+            libgdbm-devel
             libtool
             make
             pkg-config
