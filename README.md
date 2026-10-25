@@ -3,6 +3,18 @@
 A Programming Language System to Unleash the Potentials of Types
 and Templates
 
+## Build Status
+
+* [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/ubuntu-ci.yml/badge.svg?branch=master)](https://github.com/githwxi/ATS-Postiats/actions/workflows/ubuntu-ci.yml) Ubuntu
+* [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml/badge.svg?branch=master&label=Scheduled%20CI)](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml) Cygwin
+
+The Ubuntu workflow builds ATS1 and ATS2, runs the documentation
+regression tests, and builds release artifacts, utilities, and
+books. The Cygwin workflow builds ATS1 and ATS2 on 64-bit
+Cygwin. Both workflows run Mondays at 02:00 America/New_York time and
+can also be started manually
+from the GitHub Actions tab. The build scripts are in `.github/workflows/ci/`.
+
 ## Project Description
 
 ATS/Postiats (or ATS2/Postiats) is the name for the current compiler
@@ -25,18 +37,6 @@ Another thing about ATS2 is that it is a lot leaner than ATS. One can make
 good use of ATS2 without any need for compiled library (libatslib.a). Also,
 GC support in ATS1 is now removed; if needed, third-party GC (e.g.,
 Bohem-GC) can be readily employed.
-
-## Build Status
-
-* [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/ubuntu-ci.yml/badge.svg?branch=master)](https://github.com/githwxi/ATS-Postiats/actions/workflows/ubuntu-ci.yml) Ubuntu
-* [![Scheduled CI](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml/badge.svg?branch=master&label=Scheduled%20CI)](https://github.com/githwxi/ATS-Postiats/actions/workflows/cygwin-ci.yml) Cygwin
-
-The Ubuntu workflow builds ATS1 and ATS2, runs the documentation
-regression tests, and builds release artifacts, utilities, and
-books. The Cygwin workflow builds ATS1 and ATS2 on 64-bit
-Cygwin. Both workflows run Mondays at 02:00 America/New_York time and
-can also be started manually
-from the GitHub Actions tab. The build scripts are in `.github/workflows/ci/`.
 
 ## Installing ATS2
 
