@@ -27,7 +27,7 @@ INCLATS:=-IATS $(ATSHOMEQ)
 
 ######
 #
-GCFLAG=
+GCFLAG=-std=gnu17
 #
 # GCFLAG=-D_ATS_GCATS
 #
