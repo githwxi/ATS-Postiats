@@ -16,7 +16,7 @@ git clone https://github.com/githwxi/ATS-Postiats-contrib.git "$PATSHOMERELOC"
 ./travis-ci/install-ats1.sh "$ats_version"
 cd "$ATSHOME"
 ./configure
-make CC=gcc ATS_PROOFCHECK=-Wno-error=implicit-function-declaration all_ngc
+make CC=gcc CCFLAGS='-g -O2 -Wno-error=implicit-function-declaration' ATS_PROOFCHECK=-Wno-error=implicit-function-declaration all_ngc
 
 cd "$PATSHOME"
 make -f Makefile_devl CC=gcc all
