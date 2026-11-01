@@ -275,7 +275,7 @@ packfilesynop(x) = atext_nil()
 
 %{
 //
-implement main() = () where { }
+implement main(argc, argv) = () where { }
 //
 %} // end of [%{]
 
