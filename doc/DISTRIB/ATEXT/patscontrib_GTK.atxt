@@ -184,7 +184,7 @@ packfilesynop (x) = atext_nil ()
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

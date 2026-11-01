@@ -147,7 +147,7 @@ PATSCONTRIB/kernelats\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

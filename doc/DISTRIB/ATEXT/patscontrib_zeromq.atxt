@@ -130,7 +130,7 @@ PATSCONTRIB/zeromq\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

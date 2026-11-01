@@ -146,7 +146,7 @@ PATSCONTRIB/libatscc-0.3.2\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

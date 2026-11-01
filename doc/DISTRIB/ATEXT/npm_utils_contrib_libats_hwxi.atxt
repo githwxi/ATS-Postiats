@@ -173,7 +173,7 @@ PATSHOME/npm-utils/contrib/libats-/hwxi\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

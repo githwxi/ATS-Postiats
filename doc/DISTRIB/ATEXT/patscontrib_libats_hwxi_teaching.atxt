@@ -157,7 +157,7 @@ PATSCONTRIB/libats-/hwxi/teaching\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

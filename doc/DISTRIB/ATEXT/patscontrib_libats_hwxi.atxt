@@ -151,7 +151,7 @@ PATSCONTRIB/libats-/hwxi\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

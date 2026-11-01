@@ -167,7 +167,7 @@ PATSHOME/npm-utils/contrib/atscntrb\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 

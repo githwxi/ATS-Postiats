@@ -131,7 +131,7 @@ PATSCONTRIB/HTML/canvas-2d\
 
 %{
 
-implement main () = ()
+implement main (argc, argv) = ()
 
 %}
 
