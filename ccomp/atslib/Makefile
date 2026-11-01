@@ -21,7 +21,7 @@ PATSRUNTIME=$(PATSHOMEQ)/ccomp/runtime
 ######
 
 CCOMP=gcc
-CCFLAGS=-fPIC -O2 -Wno-error=implicit-function-declaration
+CCFLAGS=-fPIC -O2
 
 ######
 #
