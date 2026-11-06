@@ -25,9 +25,28 @@ staload "libats/libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 %{^
+#if _WIN32
+
+static
+void
+*rawmemchr(const void *s, int c) {
+  if (s == NULL)
+    return NULL ;
+  char* p = (char*)s;
+  while (1) {
+    int c1 = *p;
+    if (c1 == c)
+      return (void*)p ;
+    p++;
+  }
+  return NULL; /* deadcode! */
+}
+
+#else
 extern
 void
 *rawmemchr(const void *s, int c);
+#endif
 #define atslib_rawmemchr rawmemchr
 %}
 extern

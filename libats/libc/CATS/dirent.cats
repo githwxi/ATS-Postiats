@@ -40,8 +40,12 @@
 
 /* ****** ****** */
 
+#if _WIN32
+#include "mingw/dirent.h"
+#else
 #include <sys/types.h>
 #include <dirent.h> // HX: after sys/types
+#endif
 
 /* ****** ****** */
 

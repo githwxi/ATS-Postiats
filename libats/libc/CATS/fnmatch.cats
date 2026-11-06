@@ -40,7 +40,11 @@
 
 /* ****** ****** */
 
+#if _WIN32
+#include "mingw/fnmatch.h"
+#else
 #include <fnmatch.h>
+#endif
 
 /* ****** ****** */
 

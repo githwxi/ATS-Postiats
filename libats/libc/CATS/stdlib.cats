@@ -149,15 +149,29 @@ strtod((char*)(nptr), (char**)(endptr))
 
 /* ****** ****** */
 
+#if _WIN32
+#define atslib_libats_libc_random rand
+#define atslib_libats_libc_srandom srand
+#else
 #define atslib_libats_libc_random random
 #define atslib_libats_libc_srandom srandom
+#endif
 
 /* ****** ****** */
 //
 #define atslib_libats_libc_seed48 seed48
+#if _WIN32
+#define atslib_libats_libc_srand48 srand
+#else
 #define atslib_libats_libc_srand48 srand48
+#endif
+
 //
+#if _WIN32
+#define atslib_libats_libc_drand48() ((double)(rand()) / RAND_MAX)
+#else
 #define atslib_libats_libc_drand48 drand48
+#endif
 #define atslib_libats_libc_erand48 erand48
 #define atslib_libats_libc_lrand48 lrand48
 #define atslib_libats_libc_nrand48 nrand48

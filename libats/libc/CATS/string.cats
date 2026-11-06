@@ -113,7 +113,11 @@
 /* ****** ****** */
 
 #define atslib_libats_libc_strerror strerror
+#if _WIN32
+#define atslib_libats_libc_strerror_r(err_code, buf, buflen) (!strerror_s(buf, buflen, err_code))
+#else
 #define atslib_libats_libc_strerror_r strerror_r
+#endif
 
 /* ****** ****** */
 
